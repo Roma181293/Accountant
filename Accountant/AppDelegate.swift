@@ -6,8 +6,8 @@
 //
 
 import UIKit
-//import Purchases
-//import GoogleMobileAds
+import Purchases
+import GoogleMobileAds
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -17,30 +17,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         //MARK: Subscriprion
-//        Purchases.debugLogsEnabled = true
-//        Purchases.configure(withAPIKey: "AFtVpiZYBcYTLMyehDHNFJFieXyvEqxN")
-//        Purchases.shared.purchaserInfo { (purchaserInfo, error) in
-//            if purchaserInfo?.entitlements.all["pro"]?.isActive == true {
-//                UserProfile.setEntitlement(Entitlement(name: .pro, expirationDate: purchaserInfo?.entitlements.all["pro"]?.expirationDate))
-//            }
-//            else {
-//                UserProfile.setEntitlement(Entitlement(name: .none, expirationDate: purchaserInfo?.entitlements.all["pro"]?.expirationDate))
-//            }
-//            print(UserProfile.getEntitlement())
-//        }
+        Purchases.debugLogsEnabled = true
+        Purchases.configure(withAPIKey: "AFtVpiZYBcYTLMyehDHNFJFieXyvEqxN")
+        Purchases.shared.purchaserInfo { (purchaserInfo, error) in
+            if purchaserInfo?.entitlements.all["pro"]?.isActive == true {
+                UserProfile.setEntitlement(Entitlement(name: .pro, expirationDate: purchaserInfo?.entitlements.all["pro"]?.expirationDate))
+            }
+            else {
+                UserProfile.setEntitlement(Entitlement(name: .none, expirationDate: purchaserInfo?.entitlements.all["pro"]?.expirationDate))
+            }
+            print(UserProfile.getEntitlement())
+        }
         
         //MARK:GOOGLE ADD initializing
-//        GADMobileAds.sharedInstance().start(completionHandler: nil)
+        GADMobileAds.sharedInstance().start(completionHandler: nil)
         
         //MARK: Loading exchange rates
-//        NetworkServices.loadCurrency(date: Date()) { (currencyHistoricalData, error) in
-//            if let currencyHistoricalData = currencyHistoricalData {
-//                DispatchQueue.main.async {
-//                    UserProfile.setExchangeRate(currencyHistoricalData)
-//                    print("Done. Exchange rate loaded")
-//                }
-//            }
-//        }
+        NetworkServices.loadCurrency(date: Date()) { (currencyHistoricalData, error) in
+            if let currencyHistoricalData = currencyHistoricalData {
+                DispatchQueue.main.async {
+                    UserProfile.setExchangeRate(currencyHistoricalData)
+                    print("Done. Exchange rate loaded")
+                }
+            }
+        }
         
         //MARK: Check is app launched before
         if !UserProfile.isAppLaunchedBefore() {
