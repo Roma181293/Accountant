@@ -16,30 +16,59 @@ class TransactionManager {
         let createDate = Date()
         transaction.createDate = createDate
         transaction.createdByUser = createdByUser
-        transaction.createDate = createDate
-        transaction.createdByUser = createdByUser
+        transaction.modifyDate = createDate
+        transaction.modifiedByUser = createdByUser
         
         transaction.date = date
         
         let debitTransactionItem = TransactionItem(context: context)
         debitTransactionItem.account = debit
         debitTransactionItem.amount = debitAmount
+        debitTransactionItem.type = AccounttingMethod.debit.rawValue
         debitTransactionItem.createdByUser = createdByUser
         debitTransactionItem.createDate = createDate
         debitTransactionItem.modifiedByUser = createdByUser
         debitTransactionItem.modifyDate = createDate
         transaction.addToItems(debitTransactionItem)
         
+        
         let creditTransactionItem = TransactionItem(context: context)
         creditTransactionItem.account = credit
         creditTransactionItem.amount = creditAmount
+        creditTransactionItem.type = AccounttingMethod.credit.rawValue
         creditTransactionItem.createdByUser = createdByUser
         creditTransactionItem.createDate = createDate
         creditTransactionItem.modifiedByUser = createdByUser
         creditTransactionItem.modifyDate = createDate
         transaction.addToItems(creditTransactionItem)
+//        transaction.addToItems([creditTransactionItem,debitTransactionItem] as NSSet)
         
         transaction.comment = comment
+    }
+    
+    static func copyTransaction(_ transaction: Transaction, createdByUser : Bool = true, context: NSManagedObjectContext) {
+        let copiedTransaction = Transaction(context: context)
+        
+        let createDate = Date()
+        copiedTransaction.createDate = createDate
+        copiedTransaction.createdByUser = createdByUser
+        copiedTransaction.createDate = createDate
+        copiedTransaction.createdByUser = createdByUser
+        copiedTransaction.date = transaction.date
+        copiedTransaction.comment = transaction.comment
+        
+        let copiedTransactionItems = transaction.items!.allObjects as! [TransactionItem]
+        
+        for item in copiedTransactionItems{
+            let copiedTransactionItem = TransactionItem(context: context)
+            copiedTransactionItem.account = item.account
+            copiedTransactionItem.amount = item.amount
+            copiedTransactionItem.createdByUser = createdByUser
+            copiedTransactionItem.createDate = createDate
+            copiedTransactionItem.modifiedByUser = createdByUser
+            copiedTransactionItem.modifyDate = createDate
+            copiedTransaction.addToItems(copiedTransactionItem)
+        }
     }
     
     

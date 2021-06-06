@@ -263,7 +263,7 @@ class AccountManager {
     }
     
     
- /*
+ 
     // MARK: - BALANCE
     
     static func balance(of accounts: [Account]) -> Double {
@@ -272,14 +272,15 @@ class AccountManager {
         
         if accounts.isEmpty == false {
             for account in accounts {
-                if let debitTransaction = account.debitTransaction {
-                    for tranaction in debitTransaction {
-                        debitTotal += (tranaction as! Transaction).amountInDebitCurrency
+                
+                let transactionItems = account.transactionItems?.allObjects as! [TransactionItem]
+                
+                for item in transactionItems {
+                    if item.type == AccounttingMethod.debit.rawValue{
+                        debitTotal += item.amount
                     }
-                }
-                if let creditTransaction = account.creditTransaction {
-                    for tranaction in creditTransaction {
-                        creditTotal += (tranaction as! Transaction).amountInCreditCurrency
+                    else if item.type == AccounttingMethod.credit.rawValue{
+                        creditTotal += item.amount
                     }
                 }
             }
@@ -295,7 +296,7 @@ class AccountManager {
         }
     }
     
-    
+    /*
     static func balanceForDateInterval(dateInterval: DateInterval ,accounts: [Account], context: NSManagedObjectContext) -> Double {
         var debitTotal : Double = 0
         var creditTotal : Double = 0
@@ -384,27 +385,27 @@ class AccountManager {
      }
      }
      */
-    
+    */
     static func balanceForDateLessThenSelected(date : Date, accounts: [Account]) -> Double{
         var debitSaldo : Double = 0
         var creditSaldo : Double = 0
         
         for account in accounts {
-            if let debitTransaction = account.debitTransaction {
-                for tranaction in debitTransaction {
-                    if  (tranaction as! Transaction).transactionDate! < date{
-                        debitSaldo += (tranaction as! Transaction).amountInDebitCurrency
-                    }
+            
+            let transactionItems = account.transactionItems?.allObjects as! [TransactionItem]
+            
+            for item in transactionItems {
+                if item.type == AccounttingMethod.debit.rawValue && (item.transaction?.date)! < date {
+                    debitSaldo += item.amount
                 }
-            }
-            if let creditTransaction = account.creditTransaction {
-                for tranaction in creditTransaction {
-                    if (tranaction as! Transaction).transactionDate! < date{
-                        creditSaldo += (tranaction as! Transaction).amountInCreditCurrency
-                    }
+                else if item.type == AccounttingMethod.credit.rawValue && (item.transaction?.date)! < date {
+                    creditSaldo += item.amount
                 }
             }
         }
+        
+        
+        
         if accounts[0].type == AccountType.assets.rawValue {
             return debitSaldo - creditSaldo
         }
@@ -413,7 +414,7 @@ class AccountManager {
         }
     }
     
-    
+    /*
     // MARK: - Methods that prepare data for visualisation (Charts)
     
     static func createDateIntervalArray(dateInterval : DateInterval , dateComponent : Calendar.Component) -> [DateInterval] {
@@ -653,6 +654,7 @@ class AccountManager {
     }
     
     
+   */
     static func addBaseAccounts(accountingCurrency: Currency, context: NSManagedObjectContext) {
         AccountsNameLocalisationManager.createAllLocalizedAccountName()
         
@@ -663,5 +665,4 @@ class AccountManager {
         try? createAccount(parent: nil, name: AccountsNameLocalisationManager.getLocalizedAccountName(.expense), type: AccountType.assets.rawValue, currency: accountingCurrency, createdByUser: false, context: context)
         try? createAccount(parent: nil, name: AccountsNameLocalisationManager.getLocalizedAccountName(.income), type: AccountType.liabilities.rawValue, currency: accountingCurrency, createdByUser: false, context: context)
     }
- */
 }

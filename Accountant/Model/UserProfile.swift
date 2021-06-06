@@ -66,20 +66,6 @@ class UserProfile {
         }
     }
     
-    static func setUserName(_ name : String) {
-        let defaults = UserDefaults.standard
-        defaults.set(name, forKey: "userName")
-    }
-    
-    static func getUserName() -> String?{
-        if let userName = UserDefaults.standard.object(forKey: "userName") as? String {
-            return userName
-        }
-        else {
-            return nil
-        }
-    }
-    
     static func setUserAuth(_ authType: AuthType) {
         let defaults = UserDefaults.standard
         defaults.set(authType.rawValue, forKey: "userAuthType")

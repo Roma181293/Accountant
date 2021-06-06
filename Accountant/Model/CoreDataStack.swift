@@ -62,7 +62,7 @@ class CoreDataStack {
 
 class CoreDataStack {
     
-    public static let modelName = "Accounting"
+    public static let modelName = "Accountant"
     
     public static let model: NSManagedObjectModel = {
         // swiftlint:disable force_unwrapping

@@ -28,7 +28,7 @@
         <relationship name="accounts" toMany="YES" deletionRule="Nullify" destinationEntity="Account" inverseName="currency" inverseEntity="Account"/>
     </entity>
     <entity name="Transaction" representedClassName="Transaction" syncable="YES" codeGenerationType="class">
-        <attribute name="comment" attributeType="String"/>
+        <attribute name="comment" optional="YES" attributeType="String"/>
         <attribute name="createDate" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="createdByUser" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES"/>
         <attribute name="date" attributeType="Date" usesScalarValueType="NO"/>

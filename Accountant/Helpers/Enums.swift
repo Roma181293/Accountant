@@ -13,12 +13,12 @@ enum AccountType : Int16 {
     case liabilities = 0
 }
 
-enum AccounttingMethod : Int {
+enum AccounttingMethod : Int16 {
     case debit = 1
     case credit = 0
 }
 
-enum AccountSubType : Int16{
+enum AccountSubType : Int16 {
     case none = 0
     case cash = 1
     case debitCard = 2
@@ -38,7 +38,7 @@ enum BaseAccounts : String, CaseIterable {
 
 enum AccountError : Error {
     case attributeTypeShouldBeInitializeForRootAccount
-    case accountContainAttribureTypeDifferentFromParent
+    case accountHasAnAttribureTypeDifferentFromParent
     case accontWithThisNameAlreadyExists
     case creditAccountAlreadyExist  //for case when creates linked account
     case reservedAccountName
