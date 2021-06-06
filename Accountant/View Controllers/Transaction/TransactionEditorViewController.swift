@@ -7,9 +7,9 @@
 
 import UIKit
 import CoreData
-//import GoogleMobileAds
+import GoogleMobileAds
 
-class TransactionEditorViewController: UIViewController{//}, GADFullScreenContentDelegate {
+class TransactionEditorViewController: UIViewController, GADFullScreenContentDelegate {
     
     @IBOutlet weak var stepLabel: UILabel!
     @IBOutlet weak var datePicker: UIDatePicker!
@@ -30,7 +30,7 @@ class TransactionEditorViewController: UIViewController{//}, GADFullScreenConten
     
     var activeTextField : UITextField!
     
-//    var interstitial: GADInterstitialAd?
+    var interstitial: GADInterstitialAd?
     
     let coreDataStack = CoreDataStack.shared
     let context = CoreDataStack.shared.persistentContainer.viewContext
@@ -60,7 +60,7 @@ class TransactionEditorViewController: UIViewController{//}, GADFullScreenConten
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        interstitial?.fullScreenContentDelegate = self
+        interstitial?.fullScreenContentDelegate = self
         showPreContent()
         initialConfigureUI()
     }
@@ -181,23 +181,23 @@ class TransactionEditorViewController: UIViewController{//}, GADFullScreenConten
     }
     
     func showPreContent() {
-//        if let entitlement = UserProfile.getEntitlement(),
-//           (entitlement.name != .pro || (entitlement.name != .pro && entitlement.expirationDate! < Date())) {
-//            DispatchQueue.main.asyncAfter(deadline: DispatchTime(uptimeNanoseconds: 25), execute:{
-//                switch UserProfile.whatPreContentShowInView(.transactionEditor) {
-//                case .add:
-//                    if let interstitial = self.interstitial {
-//                        interstitial.present(fromRootViewController: self)
-//                    }
-//                case .offer:
-//                    let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-//                    let vc = storyBoard.instantiateViewController(withIdentifier: "PurchaseOfferVC_ID") as! PurchaseOfferViewController
-//                    self.navigationController?.present(vc, animated: true, completion: nil)
-//                default:
-//                    return
-//                }
-//            })
-//        }
+        if let entitlement = UserProfile.getEntitlement(),
+           (entitlement.name != .pro || (entitlement.name != .pro && entitlement.expirationDate! < Date())) {
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime(uptimeNanoseconds: 25), execute:{
+                switch UserProfile.whatPreContentShowInView(.transactionEditor) {
+                case .add:
+                    if let interstitial = self.interstitial {
+                        interstitial.present(fromRootViewController: self)
+                    }
+                case .offer:
+                    let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                    let vc = storyBoard.instantiateViewController(withIdentifier: "PurchaseOfferVC_ID") as! PurchaseOfferViewController
+                    self.navigationController?.present(vc, animated: true, completion: nil)
+                default:
+                    return
+                }
+            })
+        }
     }
     
     func initialConfigureUI() {
@@ -326,13 +326,13 @@ class TransactionEditorViewController: UIViewController{//}, GADFullScreenConten
         }
         else {
             currencyHistoricalData = nil
-//            NetworkServices.loadCurrency(date: datePicker.date) { (currencyHistoricalData, error) in
-//                if let currencyHistoricalData = currencyHistoricalData {
-//                    DispatchQueue.main.async {
-//                        self.currencyHistoricalData = currencyHistoricalData
-//                    }
-//                }
-//            }
+            NetworkServices.loadCurrency(date: datePicker.date) { (currencyHistoricalData, error) in
+                if let currencyHistoricalData = currencyHistoricalData {
+                    DispatchQueue.main.async {
+                        self.currencyHistoricalData = currencyHistoricalData
+                    }
+                }
+            }
         }
     }
     

@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -43,6 +43,8 @@
 		2B1FEAFC266CB61000BF53BD /* CurrencyTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1FEAFB266CB61000BF53BD /* CurrencyTableViewController.swift */; };
 		2B1FEB17266CBA6000BF53BD /* AccountManagerTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1FEB15266CBA6000BF53BD /* AccountManagerTableViewController.swift */; };
 		2B1FEB18266CBA6000BF53BD /* AccountNavigatorTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1FEB16266CBA6000BF53BD /* AccountNavigatorTableViewController.swift */; };
+		2B1FEB41266D257900BF53BD /* NetworkServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1FEB40266D257800BF53BD /* NetworkServices.swift */; };
+		2B1FEB4C266D25EE00BF53BD /* PurchaseOfferViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1FEB4B266D25EE00BF53BD /* PurchaseOfferViewController.swift */; };
 		2B949BAF2665B4040033383A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B949BAE2665B4040033383A /* AppDelegate.swift */; };
 		2B949BB12665B4040033383A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B949BB02665B4040033383A /* SceneDelegate.swift */; };
 		2B949BB62665B4040033383A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2B949BB42665B4040033383A /* Main.storyboard */; };
@@ -51,6 +53,7 @@
 		2B949BBE2665B4080033383A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2B949BBC2665B4080033383A /* LaunchScreen.storyboard */; };
 		2B949BC92665B4090033383A /* AccountantTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B949BC82665B4090033383A /* AccountantTests.swift */; };
 		2B949BD42665B4090033383A /* AccountantUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B949BD32665B4090033383A /* AccountantUITests.swift */; };
+		38318A9FD81C28716622F93F /* Pods_Accountant.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97FD10DCF67B198D7BE0F270 /* Pods_Accountant.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -107,6 +110,8 @@
 		2B1FEAFB266CB61000BF53BD /* CurrencyTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CurrencyTableViewController.swift; path = /Users/romantopchii/Desktop/Developer/Accountant/Accountant/CurrencyTableViewController.swift; sourceTree = "<absolute>"; };
 		2B1FEB15266CBA6000BF53BD /* AccountManagerTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountManagerTableViewController.swift; sourceTree = "<group>"; };
 		2B1FEB16266CBA6000BF53BD /* AccountNavigatorTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountNavigatorTableViewController.swift; sourceTree = "<group>"; };
+		2B1FEB40266D257800BF53BD /* NetworkServices.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkServices.swift; sourceTree = "<group>"; };
+		2B1FEB4B266D25EE00BF53BD /* PurchaseOfferViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PurchaseOfferViewController.swift; sourceTree = "<group>"; };
 		2B949BAB2665B4040033383A /* Accountant.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Accountant.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2B949BAE2665B4040033383A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2B949BB02665B4040033383A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -121,6 +126,9 @@
 		2B949BCF2665B4090033383A /* AccountantUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AccountantUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2B949BD32665B4090033383A /* AccountantUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountantUITests.swift; sourceTree = "<group>"; };
 		2B949BD52665B4090033383A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		97FD10DCF67B198D7BE0F270 /* Pods_Accountant.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Accountant.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A51B83286AAA2CAF601DDC80 /* Pods-Accountant.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Accountant.debug.xcconfig"; path = "Target Support Files/Pods-Accountant/Pods-Accountant.debug.xcconfig"; sourceTree = "<group>"; };
+		B1061A3612DB2489861B1B83 /* Pods-Accountant.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Accountant.release.xcconfig"; path = "Target Support Files/Pods-Accountant/Pods-Accountant.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -128,6 +136,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				38318A9FD81C28716622F93F /* Pods_Accountant.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -184,6 +193,7 @@
 				2B1FEA61266BF03300BF53BD /* CurrencyManager.swift */,
 				2B1FEA69266BF15200BF53BD /* AccountManager.swift */,
 				2B1FEA82266C1D9900BF53BD /* TransactionManager.swift */,
+				2B1FEB40266D257800BF53BD /* NetworkServices.swift */,
 				2B1FEA3E266BEDD400BF53BD /* UserProfile.swift */,
 				2B1FEA58266BEF8500BF53BD /* Entitlement.swift */,
 				2B1FEABB266C41C100BF53BD /* AccountsNameLocalisationManager.swift */,
@@ -195,8 +205,11 @@
 			isa = PBXGroup;
 			children = (
 				2B1FEACA266C433800BF53BD /* Auth */,
+				2B1FEAD8266C48E400BF53BD /* Account */,
+				2B1FEB50266D260100BF53BD /* Currency */,
 				2B1FEAB7266C3D7900BF53BD /* Transaction */,
 				2B1FEAA3266C368100BF53BD /* First Launch */,
+				2B1FEB4B266D25EE00BF53BD /* PurchaseOfferViewController.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -214,8 +227,8 @@
 		2B1FEAA3266C368100BF53BD /* First Launch */ = {
 			isa = PBXGroup;
 			children = (
-				2B1FEA97266C339E00BF53BD /* SetAccountingCurrencyViewController.swift */,
 				2B1FEA96266C339E00BF53BD /* SetAccountingStartDateViewController.swift */,
+				2B1FEA97266C339E00BF53BD /* SetAccountingCurrencyViewController.swift */,
 			);
 			path = "First Launch";
 			sourceTree = "<group>";
@@ -271,6 +284,14 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
+		2B1FEB50266D260100BF53BD /* Currency */ = {
+			isa = PBXGroup;
+			children = (
+				2B1FEAFB266CB61000BF53BD /* CurrencyTableViewController.swift */,
+			);
+			path = Currency;
+			sourceTree = "<group>";
+		};
 		2B949BA22665B4040033383A = {
 			isa = PBXGroup;
 			children = (
@@ -278,6 +299,8 @@
 				2B949BC72665B4090033383A /* AccountantTests */,
 				2B949BD22665B4090033383A /* AccountantUITests */,
 				2B949BAC2665B4040033383A /* Products */,
+				97882870573A3BE0BB7C8047 /* Pods */,
+				77D38D658A3E56B26B79298B /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -300,8 +323,6 @@
 				2B949BB02665B4040033383A /* SceneDelegate.swift */,
 				2B1FEA9D266C347700BF53BD /* Helpers */,
 				2B1FEA8F266C334500BF53BD /* View Controllers */,
-				2B1FEAD8266C48E400BF53BD /* Account */,
-				2B1FEAFB266CB61000BF53BD /* CurrencyTableViewController.swift */,
 				2B1FEAB2266C3ACE00BF53BD /* Cells */,
 				2B949BB42665B4040033383A /* Main.storyboard */,
 				2B949BBA2665B4080033383A /* Assets.xcassets */,
@@ -332,6 +353,23 @@
 			path = AccountantUITests;
 			sourceTree = "<group>";
 		};
+		77D38D658A3E56B26B79298B /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				97FD10DCF67B198D7BE0F270 /* Pods_Accountant.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		97882870573A3BE0BB7C8047 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				A51B83286AAA2CAF601DDC80 /* Pods-Accountant.debug.xcconfig */,
+				B1061A3612DB2489861B1B83 /* Pods-Accountant.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -339,9 +377,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2B949BD82665B4090033383A /* Build configuration list for PBXNativeTarget "Accountant" */;
 			buildPhases = (
+				4206EC2065EB3E0005B5667B /* [CP] Check Pods Manifest.lock */,
 				2B949BA72665B4040033383A /* Sources */,
 				2B949BA82665B4040033383A /* Frameworks */,
 				2B949BA92665B4040033383A /* Resources */,
+				2EA769D64B77CDA8E884DBF1 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -458,6 +498,48 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		2EA769D64B77CDA8E884DBF1 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Accountant/Pods-Accountant-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Accountant/Pods-Accountant-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Accountant/Pods-Accountant-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		4206EC2065EB3E0005B5667B /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Accountant-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		2B949BA72665B4040033383A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -483,11 +565,13 @@
 				2B1FEAFC266CB61000BF53BD /* CurrencyTableViewController.swift in Sources */,
 				2B1FEA3F266BEDD400BF53BD /* UserProfile.swift in Sources */,
 				2B1FEA4F266BEE6700BF53BD /* CurrencyHistoricalDataPB.swift in Sources */,
+				2B1FEB41266D257900BF53BD /* NetworkServices.swift in Sources */,
 				2B1FEAE6266CAF6C00BF53BD /* Extension UIDevice.swift in Sources */,
 				2B1FEAAD266C3AB900BF53BD /* TransactionTableViewCell.swift in Sources */,
 				2B1FEA4E266BEE6700BF53BD /* CurrencyExchangePB.swift in Sources */,
 				2B1FEB18266CBA6000BF53BD /* AccountNavigatorTableViewController.swift in Sources */,
 				2B1FEADC266CAEC200BF53BD /* AccountEditorWithInitialBalanceViewController.swift in Sources */,
+				2B1FEB4C266D25EE00BF53BD /* PurchaseOfferViewController.swift in Sources */,
 				2B949BAF2665B4040033383A /* AppDelegate.swift in Sources */,
 				2B949BB12665B4040033383A /* SceneDelegate.swift in Sources */,
 				2B1FEADB266CAEC200BF53BD /* AddAccountViewController.swift in Sources */,
@@ -674,6 +758,7 @@
 		};
 		2B949BD92665B4090033383A /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = A51B83286AAA2CAF601DDC80 /* Pods-Accountant.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -693,6 +778,7 @@
 		};
 		2B949BDA2665B4090033383A /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B1061A3612DB2489861B1B83 /* Pods-Accountant.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;

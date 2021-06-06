@@ -52,8 +52,8 @@ class TransactionManager {
         let createDate = Date()
         copiedTransaction.createDate = createDate
         copiedTransaction.createdByUser = createdByUser
-        copiedTransaction.createDate = createDate
-        copiedTransaction.createdByUser = createdByUser
+        copiedTransaction.modifyDate = createDate
+        copiedTransaction.modifiedByUser = createdByUser
         copiedTransaction.date = transaction.date
         copiedTransaction.comment = transaction.comment
         
@@ -63,6 +63,7 @@ class TransactionManager {
             let copiedTransactionItem = TransactionItem(context: context)
             copiedTransactionItem.account = item.account
             copiedTransactionItem.amount = item.amount
+            copiedTransactionItem.type = item.type
             copiedTransactionItem.createdByUser = createdByUser
             copiedTransactionItem.createDate = createDate
             copiedTransactionItem.modifiedByUser = createdByUser

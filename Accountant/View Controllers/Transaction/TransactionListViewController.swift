@@ -8,13 +8,13 @@
 
 import UIKit
 import CoreData
-//import GoogleMobileAds
+import GoogleMobileAds
 
 class TransactionListViewController: UIViewController{
     
     @IBOutlet weak var tableView: UITableView!
     
-//    private var interstitial: GADInterstitialAd?
+    private var interstitial: GADInterstitialAd?
     
     let context = CoreDataStack.shared.persistentContainer.viewContext
     
@@ -54,11 +54,11 @@ class TransactionListViewController: UIViewController{
         self.tabBarController?.navigationItem.title = NSLocalizedString("Transactions", comment: "")
         
         fetchData()
-//
-//        if let entitlement = UserProfile.getEntitlement(),
-//           (entitlement.name != .pro || (entitlement.name != .pro && entitlement.expirationDate! < Date())) {
-//            createAd()
-//        }
+
+        if let entitlement = UserProfile.getEntitlement(),
+           (entitlement.name != .pro || (entitlement.name != .pro && entitlement.expirationDate! < Date())) {
+            createAd()
+        }
     }
     
     
@@ -68,16 +68,16 @@ class TransactionListViewController: UIViewController{
     }
     
     func createAd() {
-//        let request = GADRequest()
-//        GADInterstitialAd.load(withAdUnitID:"ca-app-pub-3940256099942544/4411468910",
-//                               request: request,
-//                               completionHandler: { [self] ad, error in
-//                                if let error = error {
-//                                    print("Failed to load interstitial ad with error: \(error.localizedDescription)")
-//                                    return
-//                                }
-//                                interstitial = ad
-//                               })
+        let request = GADRequest()
+        GADInterstitialAd.load(withAdUnitID:"ca-app-pub-3940256099942544/4411468910",
+                               request: request,
+                               completionHandler: { [self] ad, error in
+                                if let error = error {
+                                    print("Failed to load interstitial ad with error: \(error.localizedDescription)")
+                                    return
+                                }
+                                interstitial = ad
+                               })
     }
     
     func fetchData() {
@@ -96,7 +96,7 @@ class TransactionListViewController: UIViewController{
     @objc func addTransaction(_ sender:UIButton!){
         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         let transactionEditorVC = storyBoard.instantiateViewController(withIdentifier: "TransactionEditorVC_ID") as! TransactionEditorViewController
-//        transactionEditorVC.interstitial = interstitial
+        transactionEditorVC.interstitial = interstitial
         self.navigationController?.pushViewController(transactionEditorVC, animated: true)
     }
     
@@ -156,7 +156,7 @@ extension TransactionListViewController: UITableViewDelegate, UITableViewDataSou
         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         let transactioEditorVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.transactionEditorViewController) as! TransactionEditorViewController
         transactioEditorVC.transaction = fetchedResultsController.object(at: indexPath) as Transaction
-//        transactioEditorVC.interstitial = interstitial
+        transactioEditorVC.interstitial = interstitial
         self.navigationController?.pushViewController(transactioEditorVC, animated: true)
         
     }
@@ -217,7 +217,7 @@ extension TransactionListViewController: UITableViewDelegate, UITableViewDataSou
 extension TransactionListViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         if searchController.searchBar.text!.count != 0 {
-            fetchedResultsController.fetchRequest.predicate = NSPredicate(format: "transactionItems.account.path CONTAINS[c] %@ || memo CONTAINS[c] %@", argumentArray: [searchController.searchBar.text!, searchController.searchBar.text!])
+            fetchedResultsController.fetchRequest.predicate = NSPredicate(format: "transactionItems.account.path CONTAINS[c] %@ || comment CONTAINS[c] %@", argumentArray: [searchController.searchBar.text!, searchController.searchBar.text!])
         }
         else {
             fetchedResultsController.fetchRequest.predicate = nil
