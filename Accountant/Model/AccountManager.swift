@@ -456,7 +456,7 @@ class AccountManager {
                     let transactionItems = account.transactionItems?.allObjects as! [TransactionItem]
                     
                     for item in transactionItems {
-                        if dateInterval.contains(item.transaction!.date!) {
+                        if timeInterval.contains(item.transaction!.date!) {
                             if item.type == AccounttingMethod.debit.rawValue{
                                 debitTotal += item.amount
                             }
