@@ -80,7 +80,7 @@ struct DataForPieCharts {
         let calendar = Calendar.current
         if showDate, let dateToShow = calendar.date(byAdding: .day, value: -1, to: dateInterval.end) {
             let dateIntervalString = String("\(dateformatter.string(from: dateInterval.start))-\(dateformatter.string(from: dateToShow))")
-            self.centerText = NSMutableAttributedString(string: "\(dateIntervalString)\n\(sum.formattedWithSeparator)\n\(presentingCurrency.name!)")
+            self.centerText = NSMutableAttributedString(string: "\(dateIntervalString)\n\(sum.formattedWithSeparator)\n\(presentingCurrency.code!)")
             self.centerText.setAttributes([.font : UIFont(name: "HelveticaNeue-Medium", size: 11)!,
                                       .paragraphStyle : paragraphStyle], range: NSRange(location: 0, length: dateIntervalString.count))
             self.centerText.addAttributes([.font : UIFont(name: "HelveticaNeue-Medium", size: 18)!,
@@ -89,7 +89,7 @@ struct DataForPieCharts {
                                       .paragraphStyle : paragraphStyle], range: NSRange(location: centerText.length-3, length: 3))
         }
         else {
-            self.centerText = NSMutableAttributedString(string: "\(sum.formattedWithSeparator)\n\(presentingCurrency.name!)")
+            self.centerText = NSMutableAttributedString(string: "\(sum.formattedWithSeparator)\n\(presentingCurrency.code!)")
             self.centerText.setAttributes([.font : UIFont(name: "HelveticaNeue-Medium", size: 18)!,
                                       .paragraphStyle : paragraphStyle], range: NSRange(location: 0, length: centerText.length))
         }
@@ -145,7 +145,7 @@ struct DataForPieCharts {
         let calendar = Calendar.current
         if showDate, let dateToShow = calendar.date(byAdding: .day, value: -1, to: dateInterval.end) {
             let dateIntervalString = String("\(dateformatter.string(from: dateInterval.start))-\(dateformatter.string(from: dateToShow))")
-            self.centerText = NSMutableAttributedString(string: "\(dateIntervalString)\n\(sum.formattedWithSeparator)\n\(presentingCurrency.name!)")
+            self.centerText = NSMutableAttributedString(string: "\(dateIntervalString)\n\(sum.formattedWithSeparator)\n\(presentingCurrency.code!)")
             self.centerText.setAttributes([.font : UIFont(name: "HelveticaNeue-Medium", size: 11)!,
                                       .paragraphStyle : paragraphStyle], range: NSRange(location: 0, length: dateIntervalString.count))
             self.centerText.addAttributes([.font : UIFont(name: "HelveticaNeue-Medium", size: 18)!,
@@ -154,7 +154,7 @@ struct DataForPieCharts {
                                       .paragraphStyle : paragraphStyle], range: NSRange(location: centerText.length-3, length: 3))
         }
         else {
-            self.centerText = NSMutableAttributedString(string: "\(sum.formattedWithSeparator)\n\(presentingCurrency.name!)")
+            self.centerText = NSMutableAttributedString(string: "\(sum.formattedWithSeparator)\n\(presentingCurrency.code!)")
             self.centerText.setAttributes([.font : UIFont(name: "HelveticaNeue-Medium", size: 18)!,
                                       .paragraphStyle : paragraphStyle], range: NSRange(location: 0, length: centerText.length))
         }
