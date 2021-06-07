@@ -214,14 +214,14 @@
 			children = (
 				2B1FEA43266BEE6700BF53BD /* Exchange Structures */,
 				2B1FEB66266D752200BF53BD /* Visualisation */,
-				2B1FEA39266BEDA400BF53BD /* CoreDataStack.swift */,
-				2B1FEA61266BF03300BF53BD /* CurrencyManager.swift */,
 				2B1FEA69266BF15200BF53BD /* AccountManager.swift */,
+				2B1FEA61266BF03300BF53BD /* CurrencyManager.swift */,
 				2B1FEA82266C1D9900BF53BD /* TransactionManager.swift */,
+				2B1FEABB266C41C100BF53BD /* AccountsNameLocalisationManager.swift */,
+				2B1FEA39266BEDA400BF53BD /* CoreDataStack.swift */,
 				2B1FEB40266D257800BF53BD /* NetworkServices.swift */,
 				2B1FEA3E266BEDD400BF53BD /* UserProfile.swift */,
 				2B1FEA58266BEF8500BF53BD /* Entitlement.swift */,
-				2B1FEABB266C41C100BF53BD /* AccountsNameLocalisationManager.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -229,12 +229,12 @@
 		2B1FEA8F266C334500BF53BD /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				2B1FEAD8266C48E400BF53BD /* Account */,
 				2B1FEB80266EC3A200BF53BD /* Analytics */,
 				2B1FEACA266C433800BF53BD /* Auth */,
-				2B1FEAD8266C48E400BF53BD /* Account */,
 				2B1FEB50266D260100BF53BD /* Currency */,
-				2B1FEAB7266C3D7900BF53BD /* Transaction */,
 				2B1FEAA3266C368100BF53BD /* First Launch */,
+				2B1FEAB7266C3D7900BF53BD /* Transaction */,
 				2B1FEB4B266D25EE00BF53BD /* PurchaseOfferViewController.swift */,
 			);
 			path = "View Controllers";
@@ -325,10 +325,10 @@
 		2B1FEB66266D752200BF53BD /* Visualisation */ = {
 			isa = PBXGroup;
 			children = (
-				2B1FEB67266D752200BF53BD /* ChartData.swift */,
+				2B1FEB6A266D752200BF53BD /* AccountData.swift */,
 				2B1FEB68266D752200BF53BD /* DataForPieCharts.swift */,
 				2B1FEB69266D752200BF53BD /* DataForPresenting.swift */,
-				2B1FEB6A266D752200BF53BD /* AccountData.swift */,
+				2B1FEB67266D752200BF53BD /* ChartData.swift */,
 				2B1FEB6B266D752200BF53BD /* ChartsManager.swift */,
 			);
 			path = Visualisation;
