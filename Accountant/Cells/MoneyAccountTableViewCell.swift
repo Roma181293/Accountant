@@ -58,15 +58,15 @@ class MoneyAccountTableViewCell: UITableViewCell {
         
         
         if dataToShow.amountInAccountCurrency >= 0 {
-            amountLabel.text = "\(dataToShow.amountInAccountCurrency) \(currency.name!)"
+            amountLabel.text = "\(dataToShow.amountInAccountCurrency) \(currency.code!)"
             amountLabel.textColor = .label
             self.accessoryType = .none
             if currency != accountingCurrency && dataToShow.amountInAccountingCurrency != 0 {
-                amountInBaseCurrency.text = "≈\(dataToShow.amountInAccountingCurrency) \(accountingCurrency.name!)"
+                amountInBaseCurrency.text = "≈\(dataToShow.amountInAccountingCurrency) \(accountingCurrency.code!)"
             }
         }
         else {
-            amountLabel.text = "\(dataToShow.amountInAccountCurrency) \(currency.name!)"
+            amountLabel.text = "\(dataToShow.amountInAccountCurrency) \(currency.code!)"
             amountLabel.textColor = .systemRed
             self.accessoryType = .detailButton
         }
@@ -102,15 +102,15 @@ class MoneyAccountTableViewCell: UITableViewCell {
         
         
         if dataToShow.amountInAccountCurrency >= 0 {
-            amountLabel.text = "\(dataToShow.amountInAccountCurrency) \(currency.name!)"
+            amountLabel.text = "\(dataToShow.amountInAccountCurrency) \(currency.code!)"
             amountLabel.textColor = .label
             self.accessoryType = .none
             if currency != accountingCurrency {
-                amountInBaseCurrency.text = "≈\(dataToShow.amountInAccountingCurrency) \(accountingCurrency.name!)"
+                amountInBaseCurrency.text = "≈\(dataToShow.amountInAccountingCurrency) \(accountingCurrency.code!)"
             }
         }
         else {
-            amountLabel.text = "\(dataToShow.amountInAccountCurrency) \(currency.name!)"
+            amountLabel.text = "\(dataToShow.amountInAccountCurrency) \(currency.code!)"
             amountLabel.textColor = .systemRed
             self.accessoryType = .detailButton
         }
