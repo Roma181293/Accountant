@@ -8,7 +8,7 @@
 
 import Foundation
 import CoreData
-//import Charts
+import Charts
 
 class AccountManager {
     static func isReservedAccountName(_ name: String) -> Bool {
@@ -296,7 +296,7 @@ class AccountManager {
         }
     }
     
-    /*
+    
     static func balanceForDateInterval(dateInterval: DateInterval ,accounts: [Account], context: NSManagedObjectContext) -> Double {
         var debitTotal : Double = 0
         var creditTotal : Double = 0
@@ -306,25 +306,22 @@ class AccountManager {
                 AccountManager.getRootAccountFor(accounts[0]).name == AccountsNameLocalisationManager.getLocalizedAccountName(.debtors)
             {
                 for account in accounts {
-                    if let debitTransaction = account.debitTransaction {
-                        for tranaction in debitTransaction {
-                            if  (tranaction as! Transaction).transactionDate! <= dateInterval.end{
-                                debitTotal += (tranaction as! Transaction).amountInDebitCurrency
-                            }
+                    
+                    let transactionItems = account.transactionItems?.allObjects as! [TransactionItem]
+                    
+                    for item in transactionItems {
+                        if item.type == AccounttingMethod.debit.rawValue{
+                            debitTotal += item.amount
                         }
-                    }
-                    if let creditTransaction = account.creditTransaction {
-                        for tranaction in creditTransaction {
-                            if (tranaction as! Transaction).transactionDate! <= dateInterval.end{
-                                creditTotal += (tranaction as! Transaction).amountInCreditCurrency
-                            }
+                        else if item.type == AccounttingMethod.credit.rawValue{
+                            creditTotal += item.amount
                         }
                     }
                 }
             }
             else if accounts[0].name == AccountsNameLocalisationManager.getLocalizedAccountName(.capital) {
-                if let expense = AccountManager.getAccountWithID(AccountsNameLocalisationManager.getLocalizedAccountName(.expense),context: context),
-                   let income = AccountManager.getAccountWithID(AccountsNameLocalisationManager.getLocalizedAccountName(.income), context: context) {
+                if let expense = AccountManager.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.expense),context: context),
+                   let income = AccountManager.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.income), context: context) {
                     
                     let capital = accounts[0]
                     let capitalBalance = balanceForDateLessThenSelected(date: dateInterval.end, accounts: AccountManager.getAllChildrenForAcctount(capital))
@@ -338,17 +335,15 @@ class AccountManager {
             }
             else {
                 for account in accounts {
-                    if let debitTransaction = account.debitTransaction {
-                        for tranaction in debitTransaction {
-                            if (tranaction as! Transaction).transactionDate! >= dateInterval.start && (tranaction as! Transaction).transactionDate! <= dateInterval.end{
-                                debitTotal += (tranaction as! Transaction).amountInDebitCurrency
+                    let transactionItems = account.transactionItems?.allObjects as! [TransactionItem]
+                    
+                    for item in transactionItems {
+                        if dateInterval.contains(item.transaction!.date!) {
+                            if item.type == AccounttingMethod.debit.rawValue{
+                                debitTotal += item.amount
                             }
-                        }
-                    }
-                    if let creditTransaction = account.creditTransaction {
-                        for tranaction in creditTransaction {
-                            if (tranaction as! Transaction).transactionDate! >= dateInterval.start && (tranaction as! Transaction).transactionDate! <= dateInterval.end{
-                                creditTotal += (tranaction as! Transaction).amountInCreditCurrency
+                            else if item.type == AccounttingMethod.credit.rawValue{
+                                creditTotal += item.amount
                             }
                         }
                     }
@@ -366,7 +361,7 @@ class AccountManager {
         }
     }
     
-    
+    /*
     /*   static func totalBalanceInCurrencyForListOfAccounts(onDate : Date, accountList: [Account], currencyHistoricalData: CurrencyHistoricalDataProtocol, currency: Currency) -> Double {
      
      if accountList.isEmpty == false {
@@ -414,7 +409,7 @@ class AccountManager {
         }
     }
     
-    /*
+    
     // MARK: - Methods that prepare data for visualisation (Charts)
     
     static func createDateIntervalArray(dateInterval : DateInterval , dateComponent : Calendar.Component) -> [DateInterval] {
@@ -435,6 +430,7 @@ class AccountManager {
         return intervalArray
         
     }
+    
     
     static func getBalancesForDateIntervals(accounts : [Account], dateInterval : DateInterval , dateComponent : Calendar.Component) -> [(date : Date, value : Double)] {
       
@@ -457,17 +453,15 @@ class AccountManager {
                 var creditTotal : Double = 0
                 
                 for account in accounts {
-                    if let debitTransactions = account.debitTransaction {
-                        for transaction in debitTransactions {
-                            if let transaction = transaction as? Transaction, let date = transaction.transactionDate, timeInterval.contains(date) {
-                                debitTotal += transaction.amountInDebitCurrency
+                    let transactionItems = account.transactionItems?.allObjects as! [TransactionItem]
+                    
+                    for item in transactionItems {
+                        if dateInterval.contains(item.transaction!.date!) {
+                            if item.type == AccounttingMethod.debit.rawValue{
+                                debitTotal += item.amount
                             }
-                        }
-                    }
-                    if let creditTransactions = account.creditTransaction {
-                        for transaction in creditTransactions {
-                            if let transaction = transaction as? Transaction, let date = transaction.transactionDate, timeInterval.contains(date) {
-                                creditTotal += transaction.amountInCreditCurrency
+                            else if item.type == AccounttingMethod.credit.rawValue{
+                                creditTotal += item.amount
                             }
                         }
                     }
@@ -654,7 +648,6 @@ class AccountManager {
     }
     
     
-   */
     static func addBaseAccounts(accountingCurrency: Currency, context: NSManagedObjectContext) {
         AccountsNameLocalisationManager.createAllLocalizedAccountName()
         

@@ -23,6 +23,7 @@ enum AccountSubType : Int16 {
     case cash = 1
     case debitCard = 2
     case creditCard = 3
+    case deposit = 4 //should be depricated
 }
 
 enum BaseAccounts : String, CaseIterable {

@@ -58,7 +58,7 @@ class AccountEditorWithInitialBalanceViewController: UIViewController {
                 if segmentedControl.selectedSegmentIndex == 1 {
                     creditLimitTextField.isHidden = false
                 }
-            case .none:
+            default:
                 break
             }
         }
