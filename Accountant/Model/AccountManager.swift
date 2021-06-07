@@ -97,8 +97,8 @@ class AccountManager {
         if let parent = parent {
             account.parent = parent
             account.addToAncestors(parent)
-            for item in findAllAncestorAccounts(parent){
-                account.addToAncestors(item)
+            if let parentAncestors = parent.ancestors {
+                account.addToAncestors(parentAncestors)
             }
             account.level = parent.level
             account.path = parent.path!+":"+name
@@ -111,16 +111,6 @@ class AccountManager {
         }
         return account
     }
-    
-    static func findAllAncestorAccounts(_ account: Account) -> [Account]{
-        var result: [Account] = []
-        while account.parent != nil {
-            result.append(account.parent!)
-            result = result + findAllAncestorAccounts(account.parent!)
-        }
-        return result
-    }
-    
     
     static func createAccount(parent: Account?, name : String, type : Int16?, currency : Currency?, moneyAccountType : Int16? = nil, createdByUser : Bool = true, context: NSManagedObjectContext) throws {
         try createAndGetAccount(parent: parent, name : name, type : type, currency : currency, subType : moneyAccountType, createdByUser : createdByUser, context: context)

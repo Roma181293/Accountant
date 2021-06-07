@@ -29,7 +29,7 @@ class TransactionManager {
         debitTransactionItem.createDate = createDate
         debitTransactionItem.modifiedByUser = createdByUser
         debitTransactionItem.modifyDate = createDate
-        transaction.addToItems(debitTransactionItem)
+        debitTransactionItem.transaction = transaction
         
         
         let creditTransactionItem = TransactionItem(context: context)
@@ -40,8 +40,7 @@ class TransactionManager {
         creditTransactionItem.createDate = createDate
         creditTransactionItem.modifiedByUser = createdByUser
         creditTransactionItem.modifyDate = createDate
-        transaction.addToItems(creditTransactionItem)
-//        transaction.addToItems([creditTransactionItem,debitTransactionItem] as NSSet)
+        creditTransactionItem.transaction = transaction
         
         transaction.comment = comment
     }
@@ -68,7 +67,7 @@ class TransactionManager {
             copiedTransactionItem.createDate = createDate
             copiedTransactionItem.modifiedByUser = createdByUser
             copiedTransactionItem.modifyDate = createDate
-            copiedTransaction.addToItems(copiedTransactionItem)
+            copiedTransactionItem.transaction = copiedTransaction
         }
     }
     
@@ -95,6 +94,9 @@ class TransactionManager {
     
     static func deleteTransaction(_ transaction : Transaction, context: NSManagedObjectContext){
         do {
+            for item in transaction.items!.allObjects as! [TransactionItem]{
+                context.delete(item)
+            }
             context.delete(transaction)
             try CoreDataStack.shared.saveContext(context)
         }
