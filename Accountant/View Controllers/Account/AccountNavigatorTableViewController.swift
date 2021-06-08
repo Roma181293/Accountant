@@ -16,8 +16,8 @@ class AccountNavigatorTableViewController: UITableViewController {
     
     weak var transactionEditorVC : TransactionEditorViewController?
 //    weak var budgetEditorVC : BudgetEditorViewController?
-//    var preTransactionTableViewCell : PreTransactionTableViewCell?
-//    var importTransactionTableViewController : ImportTransactionViewController?
+    var preTransactionTableViewCell : PreTransactionTableViewCell?
+    var importTransactionTableViewController : ImportTransactionViewController?
     weak var account : Account?
     
     var typeOfAccountingMethod : AccounttingMethod?
@@ -179,8 +179,8 @@ class AccountNavigatorTableViewController: UITableViewController {
             vc.account = selectedAccount
             vc.transactionEditorVC = transactionEditorVC
 //            vc.budgetEditorVC = budgetEditorVC
-//            vc.preTransactionTableViewCell = preTransactionTableViewCell
-//            vc.importTransactionTableViewController = importTransactionTableViewController
+            vc.preTransactionTableViewCell = preTransactionTableViewCell
+            vc.importTransactionTableViewController = importTransactionTableViewController
             vc.typeOfAccountingMethod = typeOfAccountingMethod
             self.navigationController?.pushViewController(vc, animated: true)
         }
@@ -194,16 +194,16 @@ class AccountNavigatorTableViewController: UITableViewController {
                 }
                 self.navigationController?.popToViewController(addTransactionVC, animated: true)
             }
-//            if let preTransactionTableViewCell = preTransactionTableViewCell, let importTransactionTableViewController = importTransactionTableViewController {
-//                if typeOfAccountingMethod == .debit {
-//                    preTransactionTableViewCell.preTransaction?.debitAccount = selectedAccount
-//                    preTransactionTableViewCell.updateButtons()                }
-//                else if typeOfAccountingMethod == .credit {
-//                    preTransactionTableViewCell.preTransaction?.creditAccount = selectedAccount
-//                    preTransactionTableViewCell.updateButtons()
-//                }
-//                self.navigationController?.popToViewController(importTransactionTableViewController, animated: true)
-//            }
+            if let preTransactionTableViewCell = preTransactionTableViewCell, let importTransactionTableViewController = importTransactionTableViewController {
+                if typeOfAccountingMethod == .debit {
+                    preTransactionTableViewCell.preTransaction?.debit = selectedAccount
+                    preTransactionTableViewCell.updateButtons()                }
+                else if typeOfAccountingMethod == .credit {
+                    preTransactionTableViewCell.preTransaction?.credit = selectedAccount
+                    preTransactionTableViewCell.updateButtons()
+                }
+                self.navigationController?.popToViewController(importTransactionTableViewController, animated: true)
+            }
 //            if let budgetEditorViewController = budgetEditorVC {
 //                budgetEditorViewController.account = selectedAccount
 //                self.navigationController?.popToViewController(budgetEditorViewController, animated: true)
