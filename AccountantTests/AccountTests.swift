@@ -42,6 +42,7 @@ class AccountTests: XCTestCase {
             XCTAssertNil(account.parent)
             XCTAssertNil(account.currency)
             XCTAssertTrue(account.createdByUser)
+            XCTAssertTrue(account.modifiedByUser)
             context.rollback()
         }
         catch {
@@ -80,6 +81,7 @@ class AccountTests: XCTestCase {
             XCTAssertNil(account.parent)
             XCTAssertNil(account.currency)
             XCTAssertFalse(account.createdByUser)
+            XCTAssertFalse(account.modifiedByUser)
             context.rollback()
         }
         catch {
@@ -100,6 +102,7 @@ class AccountTests: XCTestCase {
             XCTAssertNil(account.parent)
             XCTAssertNil(account.currency)
             XCTAssertFalse(account.createdByUser)
+            XCTAssertFalse(account.modifiedByUser)
             context.rollback()
         }
         catch {
@@ -120,14 +123,14 @@ class AccountTests: XCTestCase {
             XCTAssertNil(account.parent)
             XCTAssertNil(account.currency)
             XCTAssertFalse(account.createdByUser)
+            XCTAssertFalse(account.modifiedByUser)
             context.rollback()
         }
         catch {
             XCTAssertTrue(false)
         }
     }
-    
-    //тест что нельзя создать пассивный счет денежного типа  ?????????
+
     
     func testAccountWithParent() {
         let name1 = "Name1"
@@ -139,6 +142,9 @@ class AccountTests: XCTestCase {
             let account2 = try AccountManager.createAndGetAccount(parent: account1, name: name2, type: nil, currency: nil, createdByUser: false, context: context)
             XCTAssertTrue(account2.parent == account1) //создание субсчета 2 для счета 1
             XCTAssertTrue(account2.type == account1.type) //субсчет наследуют тип счета от родителя
+            XCTAssertTrue(account1.path == name1)
+            XCTAssertTrue(account2.path == "\(name1):\(name2)")
+            
             context.rollback()
         }
         catch {
@@ -170,24 +176,24 @@ class AccountTests: XCTestCase {
         }
     }
     
-//    func testCreateZeroLvlAccountWithCurrency() { // счет нулевого уровня должен иметь валюту = nil или валюте учета (нужно ли ограничение что это долна быть валюта учета?)
-//        let name = "Capital"
-//        let accType = AccountType.assets.rawValue
-//        do {
-//        let currency = try CurrencyManager.createAndGetCurrency(code: "AUD", name: "Австралійський долар", context: context)
-//        try CurrencyManager.changeAccountingCurrency(old: nil, new: currency, context: context)
-//
-//        let account = try AccountManager.createAndGetAccount(parent: nil, name: name, type: accType, currency: currency, createdByUser:  false, context: context)
-//
-//        XCTAssertTrue(account.name == name)
-//        XCTAssertTrue(account.type == accType)
-//        XCTAssertNil(account.parent)
-//        XCTAssertTrue(account.currency?.isAccounting == true)
-//        XCTAssertFalse(account.createdByUser)
-//        }
-//        catch {
-//            XCTAssertTrue(false)
-//        }
-//        context.rollback()
-//    }
+    func testCreateZeroLvlAccountWithCurrency() { // счет нулевого уровня должен иметь валюту = nil или валюте учета (нужно ли ограничение что это долна быть валюта учета?)
+        let name = "Capital"
+        let accType = AccountType.assets.rawValue
+        do {
+        let currency = try CurrencyManager.createAndGetCurrency(code: "AUD", name: "Австралійський долар", context: context)
+        try CurrencyManager.changeAccountingCurrency(old: nil, new: currency, context: context)
+
+        let account = try AccountManager.createAndGetAccount(parent: nil, name: name, type: accType, currency: currency, createdByUser:  false, context: context)
+
+        XCTAssertTrue(account.name == name)
+        XCTAssertTrue(account.type == accType)
+        XCTAssertNil(account.parent)
+        XCTAssertTrue(account.currency?.isAccounting == true)
+        XCTAssertFalse(account.createdByUser)
+        }
+        catch {
+            XCTAssertTrue(false)
+        }
+        context.rollback()
+    }
 }

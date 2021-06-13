@@ -53,7 +53,7 @@ class CurrencyTests: XCTestCase {
         context.rollback()
     }
     
-    func testCreateAndGetCurrencyForName() throws {
+    func testCreateAndGetCurrencyForCode() throws {
         try CurrencyManager.createCurrency(code: "YYY", name: "YYYY", createdByUser: false, context: context)
         
         
@@ -68,7 +68,6 @@ class CurrencyTests: XCTestCase {
         XCTAssertFalse(currency.isAccounting)
         context.rollback()
     }
-    
     
     
     func testSetAccountingCurrency() throws {
@@ -89,44 +88,16 @@ class CurrencyTests: XCTestCase {
     }
     
     
-//    func testCantRemoveAccountingCurrency() throws {
-//        try CurrencyManager.createCurrency(code: "AUD", name: "Австралійський долар", createdByUser: false, context: context)
-//
-//        guard let currency = try CurrencyManager.getCurrencyForCode("AUD", context: context) else {
-//            print("Currency should not be nil")
-//            XCTAssertTrue(false)
-//            return}
-//
-//        XCTAssertFalse(currency.isAccounting)
-//        try CurrencyManager.changeAccountingCurrency(old: nil, new: currency, context: context)
-//        XCTAssertTrue(currency.isAccounting)
-//
-//        let accCurrency = CurrencyManager.getAccountingCurrency(context: context)
-//
-//        do{
-//            try CurrencyManager.removeCurrency(accCurrency!, context: context)
-//        }
-//        catch let error{
-//            if let error = error as? CurrencyError {
-//                XCTAssertTrue(error == .thisIsAccountingCurrency)
-//            }
-//            else {
-//                XCTAssertTrue(false)
-//            }
-//        }
-//
-//        XCTAssertTrue(currency == accCurrency)
-//        context.rollback()
-//    }
-    
     func testCantRemoveCurrencyWithLinkToAccount() {
         let name = "Capital"
         let accType = AccountType.assets.rawValue
         do {
             let currency = try CurrencyManager.createAndGetCurrency(code: "USD", name: "USD", context: context)
-            //CurrencyManager.changeAccountingCurrency(old: nil, new: currency)
+            try CurrencyManager.changeAccountingCurrency(old: nil, new: currency, context: context)
             
-            let account = try AccountManager.createAndGetAccount(parent: nil, name: name, type: accType, currency: currency, createdByUser:  false, context: context)
+            XCTAssertTrue(currency.isAccounting)
+            
+            try AccountManager.createAccount(parent: nil, name: name, type: accType, currency: currency, createdByUser:  false, context: context)
             
             try CurrencyManager.removeCurrency(currency, context: context)
             XCTAssertNil(currency)
@@ -136,8 +107,6 @@ class CurrencyTests: XCTestCase {
         catch let error{
             if let error = error as? CurrencyError {
                 XCTAssertTrue(error == .thisCurrencyUsedInAccounts)
-                XCTAssertFalse(error == .thisIsAccountingCurrency)
-                
             }
             else {
                 XCTAssertTrue(false)
@@ -145,12 +114,32 @@ class CurrencyTests: XCTestCase {
         }
     }
     
-    //    func testFetchCount() throws {
-    //        let currencyFetchRequest : NSFetchRequest<Currency> = NSFetchRequest<Currency>(entityName: Currency.entity().name!)
-    //        currencyFetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
-    //        let currencies = try coreDataStack.persistentContainer.viewContext.fetch(currencyFetchRequest)
-    //        print(currencies.count)
-    //        currencies.forEach({print($0.name)})
-    //        XCTAssertTrue (currencies.count == 0)
-    //    }
+    func testCantRemoveAccountingCurrency() {
+        do {
+            let currency = try CurrencyManager.createAndGetCurrency(code: "USD", name: "USD", context: context)
+            try CurrencyManager.changeAccountingCurrency(old: nil, new: currency, context: context)
+            
+            try CurrencyManager.removeCurrency(currency, context: context)
+            XCTAssertNotNil(currency)
+            
+            context.rollback()
+        }
+        catch let error{
+            if let error = error as? CurrencyError {
+                XCTAssertTrue(error == .thisIsAccountingCurrency)
+            }
+            else {
+                XCTAssertTrue(false)
+            }
+        }
+    }
+    
+        func testFetchCount() throws {
+            let currencyFetchRequest : NSFetchRequest<Currency> = NSFetchRequest<Currency>(entityName: Currency.entity().name!)
+            currencyFetchRequest.sortDescriptors = [NSSortDescriptor(key: "code", ascending: true),NSSortDescriptor(key: "name", ascending: true)]
+            let currencies = try coreDataStack.persistentContainer.viewContext.fetch(currencyFetchRequest)
+            print(currencies.count)
+            currencies.forEach({print($0.name)})
+            XCTAssertTrue (currencies.count == 0)
+        }
 }
