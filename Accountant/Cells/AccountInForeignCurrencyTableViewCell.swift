@@ -39,15 +39,15 @@ class AccountInForeignCurrencyTableViewCell: UITableViewCell {
         nameLabel.text = dataToShow.title
         
         if dataToShow.amountInAccountCurrency >= 0 {
-            amountInAccountCurrencyLabel.text = "\(dataToShow.amountInAccountCurrency) \(currency.name!)"
+            amountInAccountCurrencyLabel.text = "\(dataToShow.amountInAccountCurrency) \(currency.code!)"
             amountInAccountCurrencyLabel.textColor = .label
             self.accessoryType = .none
             if currency != accountingCurrency {
-                amountInBaseCurrencyLabel.text = "≈\(round(dataToShow.amountInAccountingCurrency * 100) / 100) \(accountingCurrency.name!)"
+                amountInBaseCurrencyLabel.text = "≈\(round(dataToShow.amountInAccountingCurrency * 100) / 100) \(accountingCurrency.code!)"
             }
         }
         else {
-            amountInAccountCurrencyLabel.text = "\(dataToShow.amountInAccountCurrency) \(currency.name!)"
+            amountInAccountCurrencyLabel.text = "\(dataToShow.amountInAccountCurrency) \(currency.code!)"
             amountInAccountCurrencyLabel.textColor = .systemRed
             self.accessoryType = .detailButton
         }
@@ -62,15 +62,15 @@ class AccountInForeignCurrencyTableViewCell: UITableViewCell {
         nameLabel.text = dataToShow.title
         
         if dataToShow.amountInAccountCurrency >= 0 {
-            amountInAccountCurrencyLabel.text = "\(dataToShow.amountInAccountCurrency) \(currency.name!)"
+            amountInAccountCurrencyLabel.text = "\(dataToShow.amountInAccountCurrency) \(currency.code!)"
             amountInAccountCurrencyLabel.textColor = .label
             self.accessoryType = .none
             if currency != accountingCurrency && dataToShow.amountInAccountingCurrency != 0 {
-                amountInBaseCurrencyLabel.text = "≈\(round(dataToShow.amountInAccountingCurrency * 100) / 100) \(accountingCurrency.name!)"
+                amountInBaseCurrencyLabel.text = "≈\(round(dataToShow.amountInAccountingCurrency * 100) / 100) \(accountingCurrency.code!)"
             }
         }
         else {
-            amountInAccountCurrencyLabel.text = "\(dataToShow.amountInAccountCurrency) \(currency.name!)"
+            amountInAccountCurrencyLabel.text = "\(dataToShow.amountInAccountCurrency) \(currency.code!)"
             amountInAccountCurrencyLabel.textColor = .systemRed
             self.accessoryType = .detailButton
         }

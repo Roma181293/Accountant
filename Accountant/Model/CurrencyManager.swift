@@ -14,8 +14,8 @@ class CurrencyManager {
     
     static func isFreeCurrencyName(_ name : String, context: NSManagedObjectContext) -> Bool {
         let currencyFetchRequest : NSFetchRequest<Currency> = NSFetchRequest<Currency>(entityName: "Currency")
-        currencyFetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: false)]
-        currencyFetchRequest.predicate = NSPredicate(format: "name = %@", name)
+        currencyFetchRequest.sortDescriptors = [NSSortDescriptor(key: "code", ascending: false)]
+        currencyFetchRequest.predicate = NSPredicate(format: "code = %@", name)
         do{
             let currencies = try context.fetch(currencyFetchRequest)
             if currencies.isEmpty {

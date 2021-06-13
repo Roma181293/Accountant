@@ -263,7 +263,7 @@ class TransactionEditorViewController: UIViewController, GADFullScreenContentDel
                 useExchangeRateLabel.isHidden = true
             }
             else if credit.currency == debit.currency {
-                amountInDebitCurrencyTextField.placeholder = debit.currency!.name!
+                amountInDebitCurrencyTextField.placeholder = debit.currency!.code!
                 amountInCreditCurrencyTextField.isHidden = true
                 amountStackView.isHidden = false
                 amountInDebitCurrencyTextField.isHidden = false
@@ -273,8 +273,8 @@ class TransactionEditorViewController: UIViewController, GADFullScreenContentDel
                 useExchangeRateLabel.isHidden = true
             }
             else {
-                amountInCreditCurrencyTextField.placeholder = credit.currency!.name!
-                amountInDebitCurrencyTextField.placeholder = debit.currency!.name!
+                amountInCreditCurrencyTextField.placeholder = credit.currency!.code!
+                amountInDebitCurrencyTextField.placeholder = debit.currency!.code!
                 amountStackView.isHidden = false
                 amountInCreditCurrencyTextField.isHidden = false
                 amountInDebitCurrencyTextField.isHidden = false
@@ -410,8 +410,8 @@ class TransactionEditorViewController: UIViewController, GADFullScreenContentDel
             
             selectedRateCreditToDebit = creditAmount/debitAmount
             
-            creditToDebitExchangeRateLabel.text = "\(creditAccount.currency!.name!)/\(debitAccount.currency!.name!): \(round(creditAmount/debitAmount*10000)/10000)"
-            debitToCreditExchangeRateLabel.text = "\(debitAccount.currency!.name!)/\(creditAccount.currency!.name!): \(round(debitAmount/creditAmount*10000)/10000)"
+            creditToDebitExchangeRateLabel.text = "\(creditAccount.currency!.code!)/\(debitAccount.currency!.code!): \(round(creditAmount/debitAmount*10000)/10000)"
+            debitToCreditExchangeRateLabel.text = "\(debitAccount.currency!.code!)/\(creditAccount.currency!.code!): \(round(debitAmount/creditAmount*10000)/10000)"
         }
         else {
             amountInDebitCurrencyTextField.text = "\(debitAmount)"

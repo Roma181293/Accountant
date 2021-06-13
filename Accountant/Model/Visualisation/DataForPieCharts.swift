@@ -60,7 +60,7 @@ struct DataForPieCharts {
             })
             for key in tmpResults.keys {
                 let dataEntry = PieChartDataEntry(value: tmpResults[key]!)
-                dataEntry.label = key.name!
+                dataEntry.label = key.code!
                 self.pieChartDataEntries.append(dataEntry)
             }
         }
@@ -96,9 +96,6 @@ struct DataForPieCharts {
     }
     
     
-    
-    
-    
     init(dataToPresent: [(account: Account, title: String, amountInAccountCurrency: Double, amountInAccountingCurrency: Double)], dateInterval: DateInterval, presentingCurrency: Currency, distributionType: DistributionType, showDate: Bool) {
         var sum : Double = 0
         
@@ -125,7 +122,7 @@ struct DataForPieCharts {
             })
             for key in tmpResults.keys {
                 let dataEntry = PieChartDataEntry(value: tmpResults[key]!)
-                dataEntry.label = key.name!
+                dataEntry.label = key.code!
                 self.pieChartDataEntries.append(dataEntry)
             }
         }

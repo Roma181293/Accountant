@@ -45,7 +45,7 @@ class MoneyAccountTableViewCell: UITableViewCell {
             if let credit = dataToShow.account.linkedAccount {
                 let amount = round(AccountManager.balance(of: [credit])*100)/100
                 if amount != 0 {
-                    creditLimitAmount.text = "Credit limit: \(amount) \(credit.currency!.name!)"
+                    creditLimitAmount.text = "Credit limit: \(amount) \(credit.currency!.code!)"
                 }
             }
         case AccountSubType.deposit.rawValue:
@@ -89,7 +89,7 @@ class MoneyAccountTableViewCell: UITableViewCell {
             if let credit = dataToShow.account.linkedAccount {
                 let amount = round(AccountManager.balance(of: [credit])*100)/100
                 if amount != 0 {
-                    creditLimitAmount.text = "Credit limit: \(amount) \(credit.currency!.name!)"
+                    creditLimitAmount.text = "Credit limit: \(amount) \(credit.currency!.code!)"
                 }
             }
         case AccountSubType.deposit.rawValue:

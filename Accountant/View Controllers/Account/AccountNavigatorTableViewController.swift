@@ -160,7 +160,7 @@ class AccountNavigatorTableViewController: UITableViewController {
         cell.textLabel?.text = account.name
         
         if let parent = account.parent, parent.currency == nil {
-            cell.detailTextLabel?.text = "\(round(AccountManager.balanceForDateLessThenSelected(date: Date(), accounts: [account])*100)/100) \(account.currency!.name!)"
+            cell.detailTextLabel?.text = "\(round(AccountManager.balanceForDateLessThenSelected(date: Date(), accounts: [account])*100)/100) \(account.currency!.code!)"
         }
         else {
             cell.detailTextLabel?.text = ""

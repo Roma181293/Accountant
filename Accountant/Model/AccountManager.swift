@@ -239,7 +239,7 @@ class AccountManager {
                 export +=  "\(account.name!),"
                 export +=  "\(account.isHidden),"
                 export +=  "\(account.type),"
-                export +=  "\(account.currency?.name ?? "MULTICURRENCY"),"
+                export +=  "\(account.currency?.code ?? "MULTICURRENCY"),"
                 export +=  "\(account.subType),"
                 export +=  "\(account.linkedAccount?.path! ?? "nil"),"
                 export +=  "\(account.linkedAccount?.name! ?? "nil")\n"
@@ -389,8 +389,6 @@ class AccountManager {
             }
         }
         
-        
-        
         if accounts[0].type == AccountType.assets.rawValue {
             return debitSaldo - creditSaldo
         }
@@ -485,15 +483,20 @@ class AccountManager {
     }
     
     
-   
-    
-    
     static func prepareDataToShow(parentAccount: Account?, dateInterval: DateInterval, accountingCurrency: Currency, currencyHistoricalData: CurrencyHistoricalDataProtocol? = nil, dateComponent: Calendar.Component, isListForAnalytic: Bool,sortTableDataBy: SortCategoryType, context: NSManagedObjectContext) throws -> PresentingData {
         var accountsToShow : [Account] = []
         
         if let account = parentAccount {
-            if let children = account.children {
-            accountsToShow = children.allObjects as! [Account]
+            if let children = account.directChildren {
+                accountsToShow = children.allObjects as! [Account]
+                if AccountManager.getRootAccountFor(account).name == AccountsNameLocalisationManager.getLocalizedAccountName(.money) ||
+                    AccountManager.getRootAccountFor(account).name == AccountsNameLocalisationManager.getLocalizedAccountName(.credits) ||
+                    AccountManager.getRootAccountFor(account).name == AccountsNameLocalisationManager.getLocalizedAccountName(.debtors) {
+                    print("Nothing need to be added")
+                }
+                else {
+                    accountsToShow.append(account)
+                }
             }
         }
         else {
@@ -615,7 +618,7 @@ class AccountManager {
                     
                     var exchangeRate : Double = 1
                     
-                    if let rate =  currencyHistoricalData.exchangeRate(curr: accountingCurrency.name!, to: accountCurrency.name!) {
+                    if let rate =  currencyHistoricalData.exchangeRate(curr: accountingCurrency.code!, to: accountCurrency.code!) {
                         exchangeRate = rate
                     }
                     return round(amountInAccountCurrency * exchangeRate * 100) / 100

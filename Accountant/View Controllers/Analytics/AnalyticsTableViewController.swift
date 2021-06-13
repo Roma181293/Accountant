@@ -39,15 +39,15 @@ class AnalyticsTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell : UITableViewCell = tableView.dequeueReusableCell(withIdentifier: "AnalyticsCell_ID", for: indexPath)
         
-        if let children = listOfAccountsToShow[indexPath.row].account.children,
+        if listOfAccountsToShow[indexPath.row].amountInAccountingCurrency < 0{
+            cell.accessoryType = .detailButton
+            cell.detailTextLabel?.textColor = .red
+        }
+        else if let children = listOfAccountsToShow[indexPath.row].account.children,
            children.count > 0,
            account != listOfAccountsToShow[indexPath.row].account {
             cell.accessoryType = .disclosureIndicator
             cell.detailTextLabel?.textColor = .label
-        }
-        else if listOfAccountsToShow[indexPath.row].amountInAccountingCurrency < 0{
-            cell.accessoryType = .detailButton
-            cell.detailTextLabel?.textColor = .red
         }
         else {
             cell.accessoryType = .none
