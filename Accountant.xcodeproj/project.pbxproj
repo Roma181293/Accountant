@@ -63,6 +63,7 @@
 		2B1FEBAC266EE19B00BF53BD /* ImportTransactionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1FEBAA266EE19B00BF53BD /* ImportTransactionViewController.swift */; };
 		2B1FEBB1266EE1D500BF53BD /* PreTrasaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1FEBB0266EE1D500BF53BD /* PreTrasaction.swift */; };
 		2B1FEBB6266EE45F00BF53BD /* PreTransactionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1FEBB5266EE45F00BF53BD /* PreTransactionTableViewCell.swift */; };
+		2B67989E26768E3200063A7C /* TransactionTableViewCell1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B67989D26768E3200063A7C /* TransactionTableViewCell1.swift */; };
 		2B949BAF2665B4040033383A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B949BAE2665B4040033383A /* AppDelegate.swift */; };
 		2B949BB12665B4040033383A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B949BB02665B4040033383A /* SceneDelegate.swift */; };
 		2B949BB62665B4040033383A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2B949BB42665B4040033383A /* Main.storyboard */; };
@@ -148,6 +149,7 @@
 		2B1FEBAA266EE19B00BF53BD /* ImportTransactionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImportTransactionViewController.swift; sourceTree = "<group>"; };
 		2B1FEBB0266EE1D500BF53BD /* PreTrasaction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreTrasaction.swift; sourceTree = "<group>"; };
 		2B1FEBB5266EE45F00BF53BD /* PreTransactionTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreTransactionTableViewCell.swift; sourceTree = "<group>"; };
+		2B67989D26768E3200063A7C /* TransactionTableViewCell1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionTableViewCell1.swift; sourceTree = "<group>"; };
 		2B949BAB2665B4040033383A /* Accountant.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Accountant.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2B949BAE2665B4040033383A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2B949BB02665B4040033383A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -285,6 +287,7 @@
 				2B1FEBB5266EE45F00BF53BD /* PreTransactionTableViewCell.swift */,
 				2B1FEB97266EDE5000BF53BD /* SettingWithSwitchTableViewCell.swift */,
 				2B1FEAA9266C3AB800BF53BD /* TransactionTableViewCell.swift */,
+				2B67989D26768E3200063A7C /* TransactionTableViewCell1.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -642,6 +645,7 @@
 				2B1FEABC266C41C100BF53BD /* AccountsNameLocalisationManager.swift in Sources */,
 				2B1FEAFC266CB61000BF53BD /* CurrencyTableViewController.swift in Sources */,
 				2B1FEA3F266BEDD400BF53BD /* UserProfile.swift in Sources */,
+				2B67989E26768E3200063A7C /* TransactionTableViewCell1.swift in Sources */,
 				2B1FEB98266EDE5000BF53BD /* SettingsTableViewController.swift in Sources */,
 				2B1FEA4F266BEE6700BF53BD /* CurrencyHistoricalDataPB.swift in Sources */,
 				2B1FEB5E266D748F00BF53BD /* MoneyAccountTableViewCell.swift in Sources */,

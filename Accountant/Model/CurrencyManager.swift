@@ -12,11 +12,11 @@ import CoreData
 class CurrencyManager {
     // MARK: - Currency
     
-    static func isFreeCurrencyName(_ name : String, context: NSManagedObjectContext) -> Bool {
+    static func isFreeCurrencyCode(_ code : String, context: NSManagedObjectContext) -> Bool {
         let currencyFetchRequest : NSFetchRequest<Currency> = NSFetchRequest<Currency>(entityName: "Currency")
         currencyFetchRequest.sortDescriptors = [NSSortDescriptor(key: "code", ascending: false)]
-        currencyFetchRequest.predicate = NSPredicate(format: "code = %@", name)
-        do{
+        currencyFetchRequest.predicate = NSPredicate(format: "code = %@", code)
+        do {
             let currencies = try context.fetch(currencyFetchRequest)
             if currencies.isEmpty {
                 return true
@@ -32,7 +32,7 @@ class CurrencyManager {
     }
     
     static func createAndGetCurrency(code: String, name: String, createdByUser : Bool = true, context: NSManagedObjectContext) throws -> Currency{
-        guard isFreeCurrencyName(name,context: context) == true else {
+        guard isFreeCurrencyCode(code,context: context) == true else {
             throw CurrencyError.thisCurrencyAlreadyExists
         }
         let currency = Currency(context: context)
@@ -74,17 +74,17 @@ class CurrencyManager {
     
     //FIXME:- need to create new predicate how to check is it awailiable to change accounting currency
     static func accountingCurrencyCanBeChanged(context: NSManagedObjectContext) throws -> Bool {
-        let currencyFetchRequest : NSFetchRequest<Transaction> = NSFetchRequest<Transaction>(entityName: "Transaction")
-        currencyFetchRequest.sortDescriptors = [NSSortDescriptor(key: "date", ascending: true)]
-        currencyFetchRequest.predicate = NSPredicate(format: "(creditAccount.currency.isAccounting = true && debitAccount.currency.isAccounting = false) || (creditAccount.currency.isAccounting == false && debitAccount.currency.isAccounting = true)")
-        currencyFetchRequest.fetchBatchSize = 1
-        currencyFetchRequest.fetchLimit = 1
-        if try context.fetch(currencyFetchRequest).isEmpty {
-            return true
-        }
-        else {
+//        let currencyFetchRequest : NSFetchRequest<Transaction> = NSFetchRequest<Transaction>(entityName: "Transaction")
+//        currencyFetchRequest.sortDescriptors = [NSSortDescriptor(key: "date", ascending: true)]
+//        currencyFetchRequest.predicate = NSPredicate(format: "(creditAccount.currency.isAccounting = true && debitAccount.currency.isAccounting = false) || (creditAccount.currency.isAccounting == false && debitAccount.currency.isAccounting = true)")
+//        currencyFetchRequest.fetchBatchSize = 1
+//        currencyFetchRequest.fetchLimit = 1
+//        if try context.fetch(currencyFetchRequest).isEmpty {
+//            return true
+//        }
+//        else {
             return false
-        }
+//        }
     }
     
     

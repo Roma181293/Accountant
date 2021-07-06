@@ -144,7 +144,7 @@ extension TransactionListViewController: UITableViewDelegate, UITableViewDataSou
     
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "TransactionCell_ID", for: indexPath) as! TransactionTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "TransactionCell1_ID", for: indexPath) as! TransactionTableViewCell1
         let transaction  = fetchedResultsController.object(at: indexPath) as Transaction
         cell.updateCell(transaction: transaction)
         return cell
@@ -217,7 +217,7 @@ extension TransactionListViewController: UITableViewDelegate, UITableViewDataSou
 extension TransactionListViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         if searchController.searchBar.text!.count != 0 {
-            fetchedResultsController.fetchRequest.predicate = NSPredicate(format: "transactionItems.account.path CONTAINS[c] %@ || comment CONTAINS[c] %@", argumentArray: [searchController.searchBar.text!, searchController.searchBar.text!])
+            fetchedResultsController.fetchRequest.predicate = NSPredicate(format: "items.account.path CONTAINS[c] %@ || comment CONTAINS[c] %@", argumentArray: [searchController.searchBar.text!, searchController.searchBar.text!])
         }
         else {
             fetchedResultsController.fetchRequest.predicate = nil
