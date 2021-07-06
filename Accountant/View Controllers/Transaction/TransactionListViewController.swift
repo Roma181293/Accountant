@@ -185,11 +185,11 @@ extension TransactionListViewController: UITableViewDelegate, UITableViewDataSou
         
         let copy = UIContextualAction(style: .normal, title: NSLocalizedString("Copy",comment: "")) { _, _, complete in
             do {
-//                guard let entitlement = UserProfile.getEntitlement(), let expirationDate = entitlement.expirationDate, expirationDate > Date() else {
-//                    let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-//                    let vc = storyBoard.instantiateViewController(withIdentifier: "PurchaseOfferVC_ID") as! PurchaseOfferViewController
-//                    self.navigationController?.pushViewController(vc, animated: true)
-//                    return}
+                guard let entitlement = UserProfile.getEntitlement(), let expirationDate = entitlement.expirationDate, expirationDate > Date() else {
+                    let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                    let vc = storyBoard.instantiateViewController(withIdentifier: "PurchaseOfferVC_ID") as! PurchaseOfferViewController
+                    self.navigationController?.pushViewController(vc, animated: true)
+                    return}
                 
                 let transaction = self.fetchedResultsController.object(at: indexPath) as Transaction
                 TransactionManager.copyTransaction(transaction, context: self.context)
