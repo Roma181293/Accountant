@@ -1,0 +1,159 @@
+/*
+  Localizable.strings
+  Accounting
+
+  Created by Roman Topchii on 29.07.2020.
+  Copyright © 2020 Roman Topchii. All rights reserved.
+*/
+
+//AccountsLocalisationManager
+"Income" = "Доходи";
+"Expense" = "Витрати";
+"Money" = "Гроші";
+"Credits" = "Кредити";
+"Debtors" = "Боржники";
+"Capital" = "Капітал";
+"<Other>" = "<Інше>";
+"Before accounting period" = "До обліковий період";
+
+//SetAccountingStartDateViewController
+"Accounting start date" = "Дата початку обліку";
+
+//SetAccountingCurrencyViewController
+"Current accounting currency already used in transaction where one of accounts has different currency. To avoid this warnings please delete this transaction" = "Поточна валюта обліку використровується в операціях. Для уникнення цього повідомлення будь ласка видаліть ці операції";
+
+//TransactionListViewController
+"From:" = "З:";
+"To:" = "До:";
+
+"Transactions" = "Операції";
+"Delete transaction" = "Видалити операцію";
+"Do you really want delete transaction?" = "Ви дійсно хочете видалити операцію?";
+"Yes" = "Так";
+"No" = "Ні";
+"Copy" = "Копіювати";
+
+//TransactionEditorViewController
+"From: Account" = "З: Рахунку";
+"To: Account" = "До: Рахунку";
+"Save changes" = "Зберегти зміни";
+"Do you really want save changes?" = "Ви дійсно хочете зберегти зміни?";
+
+"Warning" = "Увага";
+"Please select \"From:\" category" = "Оберіть \"З:\" категорію";
+"Please select \"To:\" category" = "Оберіть \"До:\" категорію";
+"Please check the \"To:\" amount value" = "Введіть значення суми \"До:\"";
+"Please check the \"From:\" amount value" = "Введіть значення суми \"З:\"";
+"Please check amount value" = "Введіть значення суми";
+"Please check exchange rate value" = "Перевірте значення курсу валют";
+
+"Done" = "Готово";
+"Edit transaction" = "Редагувати операцію";
+"Add transaction" = "Додати операцію";
+"Save" = "Зберегти";
+
+"Ok" = "Ок";
+
+//MoneyAccountListViewController
+"Accounts" = "Рахунки";
+"Exchange rate updated: %@" = "Останнє оновлення курсу: %@";
+"Money" = "Гроші";
+"Rename" = "Перейменувати";
+"Rename account" = "Перейменувати рахунок";
+"Enter new account name" = "Введіть нове ім'я рахунку";
+"Example: Cash" = "Приклад: Готівка";
+"Cancel" = "Закрити";
+"Hide" = "Приховати";
+"Do you really want hide account?" = "Ви дійсно хочете приховати рахунок?";
+"You cannot hide account with money.\n1. Please transfer all your money to any other account.\n2. Hide account" = "Ви не можете приховати рахунок з грошима.\n1. Будь ласка переведіть всі гроші з даного рахунку на інший.\n2. Приховайте рахунок.";
+"Account with this name already exists. Please try another name." = "Рахунок з цим ім'ям вже існує";
+"Error" = "Помилка";
+"Amount excluded from total amount in pichart.\nAccount amount cannot be less zero.\nPlease check transaction with this account." = "Значення виключено з загальної суми по рахунку.\nСума по рахунку не може приймати значення менше нуля.\nБуль ласка перевірте операції з цим рахунком.";
+
+
+//MoneyAccountEditorViewController
+"Edit money account" = "Редагувати грошовий рахунок";
+"Add money account" = "Додати грошовий рахунок";
+"Loading..." = "Завантаження";
+
+"Please enter correct money account name" = "Будь ласка введіть коректне ім'я";
+"This account name is already exist" = "Рахунок з цим ім'ям вже існує";
+"Please check the balance value" = "Будь ласка перевірте значення балансу";
+"Balance value can't be less than 0" = "Значення балансу не може бути менше 0";
+
+"Please check the credit limit value" = "Будь ласка перевірте значення кредитного ліміту";
+"Credit limit value can't be less than 0" = "Значення кредитного ліміту не може бути менше 0";
+"Please enter correct deposit account name" = "Будь ласка введіть коректне ім'я депозитного рахунку";
+
+"Sorry" = "Вибачте";
+"This is reserved account name. Please use another name." = "Це зарезервоване ім'я. Бадь ласка використайте інше ім'я.";
+"Bad internet connection. Please enter exchange rate %@/%@" = "Погане інтернет зяєднання. Будь ласка введіть обмінний курс %@/%@";
+"With card money account we also create associated credit account and this account Credits:%@ is already exist. Please use another account name." = "Разом з картковим грошовим рахунком ми створюємо пов'язаний кредитний рахунок, і цей рахунок Credits:%@ вже існує. Будь ласка використайте інше ім'я для рахунку.";
+"Exchange rate value can't be less or equal than 0" = "Значення курсу валют не може бути менше 0";
+
+
+//BudgetsListViewController
+"Budgets" = "Бюджети";
+"Delete" = "Видалити";
+"Do you really want delete budget?" = "Ви дійсно хочете видалити бюджет?";
+
+
+//BudgetEditorViewController
+"Edit budget" = "Редагувати бюджет";
+"Add budget" = "Додати бюджет";
+"This budget is alredy exist.\nDo you wanna change amount %@ to %@?" = "Цей бюджет уже існує.\nБажаєте змінити значення суми з %@ до %@?";
+"Do you want to save changes?" = "Бажаєте зберегти зміни?";
+"Please choose category" = "Будь ласка оберіть категорію";
+"Please check the amount value" = "Будь ласка перевірте значення суми";
+"Entered value shouldn`t be negative (>=0)" = "Введене значення має бути невід'ємним (>=0)";
+
+//AnalyticsViewController
+"Analytics" = "Аналітика";
+
+
+//SettingsTableViewController: UITableViewController {
+
+"Settings" = "Налаштування";
+"User Name" = "Ім'я користувача";
+
+"Language" = "Мова";
+"Accounting currency" = "Валюта обліку";
+"Share Account List" = "Поділитися списком рахунків";
+"Share Transaction List" = "Поділитися списком операцій";
+"Import Transaction List" = "Імпортувати операції";
+"Add data for test app" = "Додати даннi для тестування додатку";
+"Account & category editor" = "Редактор рахунків та категорій";
+
+//AccountManagerTableViewController, AccountNavigatorTableViewController
+"Accounts manager" = "Менеджер рахунків";
+
+"Rename" = "Перейменувати";
+"Rename account" = "Перейменувати рахунок";
+"Enter new account name" = "Введіть нове ім'я рахунку";
+"Add subaccount" = "Додати субрахунок";
+"Enter subaccount name" = "Введіть ім'я субрахунку";
+
+"Add account" = "Додати рахунок";
+"Enter account name" = "Введіть ім'я рахунку";
+"Add" = "Додати";
+"Cancel" = "Закрити";
+
+
+//AuthViewController
+"Authentication is required to open the app" = "Для роботи програми необхідна аутентифікація";
+
+
+//AccountEditorWithInitialBalanceViewController
+"Prease enter account name" = "Будь ласка введіть ім'я рахунку";
+
+//CurrencyTableViewController
+"Currency" = "Валюта";
+"Change accounting currency" = "Змінити валюту обліку";
+
+//PurchaseOfferViewController
+"PRO access" = "PRO доступ";
+"per day" = "на день";
+"per week" = "на тиждень";
+"per month" = "на місяць";
+"per year" = "на рік";
+

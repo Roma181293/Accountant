@@ -87,6 +87,7 @@ class TransactionTableViewCell1: UITableViewCell {
         
         let debitRootName = AccountManager.getRootAccountFor(debit).name
         let creditRootName = AccountManager.getRootAccountFor(credit).name
+        print("**********", debitRootName, creditRootName)
         
         if creditRootName == AccountsNameLocalisationManager.getLocalizedAccountName(.income) &&
            debitRootName == AccountsNameLocalisationManager.getLocalizedAccountName(.money) {

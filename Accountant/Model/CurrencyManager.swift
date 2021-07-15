@@ -35,9 +35,12 @@ class CurrencyManager {
         guard isFreeCurrencyCode(code,context: context) == true else {
             throw CurrencyError.thisCurrencyAlreadyExists
         }
+        let date = Date()
         let currency = Currency(context: context)
         currency.createdByUser = createdByUser
-        currency.createDate = Date()
+        currency.createDate = date
+        currency.modifiedByUser = createdByUser
+        currency.modifyDate = date
         currency.code = code  //ISO code
         currency.name = name
         return currency
@@ -74,30 +77,45 @@ class CurrencyManager {
     
     //FIXME:- need to create new predicate how to check is it awailiable to change accounting currency
     static func accountingCurrencyCanBeChanged(context: NSManagedObjectContext) throws -> Bool {
-//        let currencyFetchRequest : NSFetchRequest<Transaction> = NSFetchRequest<Transaction>(entityName: "Transaction")
-//        currencyFetchRequest.sortDescriptors = [NSSortDescriptor(key: "date", ascending: true)]
-//        currencyFetchRequest.predicate = NSPredicate(format: "(creditAccount.currency.isAccounting = true && debitAccount.currency.isAccounting = false) || (creditAccount.currency.isAccounting == false && debitAccount.currency.isAccounting = true)")
-//        currencyFetchRequest.fetchBatchSize = 1
-//        currencyFetchRequest.fetchLimit = 1
-//        if try context.fetch(currencyFetchRequest).isEmpty {
-//            return true
-//        }
-//        else {
-            return false
-//        }
+        let currencyFetchRequest : NSFetchRequest<TransactionItem> = NSFetchRequest<TransactionItem>(entityName: "TransactionItem")
+        currencyFetchRequest.sortDescriptors = [NSSortDescriptor(key: "createDate", ascending: true)]
+        currencyFetchRequest.predicate = NSPredicate(format: "account.currency.isAccounting = false")
+        
+        if try context.fetch(currencyFetchRequest).isEmpty {
+            return true
+        }
+        else {
+            let transactionItems = try context.fetch(currencyFetchRequest)
+            for itemInForeignCurrency in transactionItems {
+                for item in itemInForeignCurrency.transaction?.items?.allObjects as! [TransactionItem] {
+                    if item.account!.currency!.isAccounting == true {
+                        return false
+                    }
+                }
+            }
+            return true
+        }
     }
     
     
-    static func changeAccountingCurrency(old oldCurr: Currency?, new newCurr: Currency, context: NSManagedObjectContext) throws {
-        try AccountManager.changeCurrencyForBaseAccounts(to: newCurr, context: context)
+    static func changeAccountingCurrency(old oldCurr: Currency?, new newCurr: Currency, modifiedByUser: Bool = true, context: NSManagedObjectContext) throws {
         if let oldCurr = oldCurr {
             guard try accountingCurrencyCanBeChanged(context: context) else {throw CurrencyError.thisCurrencyAlreadyUsedInTransaction}
+            let date = Date()
             oldCurr.isAccounting = false
+            oldCurr.modifyDate = date
+            oldCurr.modifiedByUser = modifiedByUser
+            
             newCurr.isAccounting = true
+            newCurr.modifyDate = date
+            newCurr.modifiedByUser = modifiedByUser
         }
         else {
             newCurr.isAccounting = true
+            newCurr.modifyDate = Date()
+            newCurr.modifiedByUser = modifiedByUser
         }
+        try AccountManager.changeCurrencyForBaseAccounts(to: newCurr, context: context)
     }
     
     

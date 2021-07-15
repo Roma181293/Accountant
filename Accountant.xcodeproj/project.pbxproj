@@ -63,6 +63,7 @@
 		2B1FEBAC266EE19B00BF53BD /* ImportTransactionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1FEBAA266EE19B00BF53BD /* ImportTransactionViewController.swift */; };
 		2B1FEBB1266EE1D500BF53BD /* PreTrasaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1FEBB0266EE1D500BF53BD /* PreTrasaction.swift */; };
 		2B1FEBB6266EE45F00BF53BD /* PreTransactionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1FEBB5266EE45F00BF53BD /* PreTransactionTableViewCell.swift */; };
+		2B3F0D0E26A0EFA000AA514B /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2B3F0D1026A0EFA000AA514B /* Localizable.strings */; };
 		2B67989E26768E3200063A7C /* TransactionTableViewCell1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B67989D26768E3200063A7C /* TransactionTableViewCell1.swift */; };
 		2B949BAF2665B4040033383A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B949BAE2665B4040033383A /* AppDelegate.swift */; };
 		2B949BB12665B4040033383A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B949BB02665B4040033383A /* SceneDelegate.swift */; };
@@ -149,14 +150,18 @@
 		2B1FEBAA266EE19B00BF53BD /* ImportTransactionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImportTransactionViewController.swift; sourceTree = "<group>"; };
 		2B1FEBB0266EE1D500BF53BD /* PreTrasaction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreTrasaction.swift; sourceTree = "<group>"; };
 		2B1FEBB5266EE45F00BF53BD /* PreTransactionTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreTransactionTableViewCell.swift; sourceTree = "<group>"; };
+		2B3F0D0A26A0EF0500AA514B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		2B3F0D0B26A0EF0500AA514B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		2B3F0D0F26A0EFA000AA514B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		2B3F0D1126A0EFEC00AA514B /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/Main.strings; sourceTree = "<group>"; };
+		2B3F0D1226A0F01B00AA514B /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		2B3F0D1326A0F01C00AA514B /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/Localizable.strings; sourceTree = "<group>"; };
 		2B67989D26768E3200063A7C /* TransactionTableViewCell1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionTableViewCell1.swift; sourceTree = "<group>"; };
 		2B949BAB2665B4040033383A /* Accountant.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Accountant.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2B949BAE2665B4040033383A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2B949BB02665B4040033383A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		2B949BB52665B4040033383A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		2B949BB82665B4040033383A /* Accountant.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Accountant.xcdatamodel; sourceTree = "<group>"; };
 		2B949BBA2665B4080033383A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		2B949BBD2665B4080033383A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2B949BBF2665B4080033383A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2B949BC42665B4090033383A /* AccountantTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AccountantTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2B949BC82665B4090033383A /* AccountantTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountantTests.swift; sourceTree = "<group>"; };
@@ -398,6 +403,7 @@
 				2B1FEA8F266C334500BF53BD /* View Controllers */,
 				2B1FEAB2266C3ACE00BF53BD /* Cells */,
 				2B949BB42665B4040033383A /* Main.storyboard */,
+				2B3F0D1026A0EFA000AA514B /* Localizable.strings */,
 				2B949BBA2665B4080033383A /* Assets.xcassets */,
 				2B949BBC2665B4080033383A /* LaunchScreen.storyboard */,
 				2B949BBF2665B4080033383A /* Info.plist */,
@@ -550,6 +556,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2B949BBE2665B4080033383A /* LaunchScreen.storyboard in Resources */,
+				2B3F0D0E26A0EFA000AA514B /* Localizable.strings in Resources */,
 				2B949BBB2665B4080033383A /* Assets.xcassets in Resources */,
 				2B949BB62665B4040033383A /* Main.storyboard in Resources */,
 			);
@@ -713,10 +720,20 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		2B3F0D1026A0EFA000AA514B /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2B3F0D0F26A0EFA000AA514B /* en */,
+				2B3F0D1326A0F01C00AA514B /* uk */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
 		2B949BB42665B4040033383A /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				2B949BB52665B4040033383A /* Base */,
+				2B3F0D0A26A0EF0500AA514B /* Base */,
+				2B3F0D1126A0EFEC00AA514B /* uk */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -724,7 +741,8 @@
 		2B949BBC2665B4080033383A /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				2B949BBD2665B4080033383A /* Base */,
+				2B3F0D0B26A0EF0500AA514B /* Base */,
+				2B3F0D1226A0F01B00AA514B /* uk */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -736,6 +754,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -783,7 +802,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -797,6 +816,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -838,7 +858,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;

@@ -100,7 +100,7 @@ class AccountManager {
             if let parentAncestors = parent.ancestors {
                 account.addToAncestors(parentAncestors)
             }
-            account.level = parent.level
+            account.level = parent.level + 1
             account.path = parent.path!+":"+name
             account.type = parent.type
         }
@@ -121,7 +121,6 @@ class AccountManager {
         var acc : [Account] = []
         baseAccounts = baseAccounts.filter({
             if let currency = $0.currency, currency.isAccounting == true {
-                print("currency.isAccounting = ", currency.isAccounting)
                 acc.append(contentsOf: getAllChildrenForAcctount($0))
                 acc.append($0)
                 return true
