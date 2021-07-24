@@ -18,13 +18,12 @@ class SettingsTableViewController: UITableViewController {
         NSLocalizedString("PRO access", comment: ""),
         NSLocalizedString("Accounting currency", comment: ""),
         NSLocalizedString("Accounts manager", comment: ""),
-        "BioAuth",
         NSLocalizedString("Share Account List", comment: ""),
         NSLocalizedString("Share Transaction List", comment: ""),
         
         NSLocalizedString("Import Account List", comment: ""),
         NSLocalizedString("Import Transaction List", comment: ""),
-        //  NSLocalizedString("Add data for test app", comment: "")
+        "BioAuth",
         NSLocalizedString("Subscriptions status", comment: "")
     ]
     
