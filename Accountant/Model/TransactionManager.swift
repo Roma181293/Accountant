@@ -151,7 +151,9 @@ class TransactionManager {
         formatter.dateFormat = "yyyy-MM-dd hh:mm:ss z"
 
         for row in inputMatrix {
-
+            
+            guard row.count > 1 else {break}
+            
             let preTransaction = PreTransaction()
             preTransaction.date = formatter.date(from: row[0])
 

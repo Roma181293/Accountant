@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import UniformTypeIdentifiers
 
 class SettingsTableViewController: UITableViewController {
     
@@ -14,18 +15,21 @@ class SettingsTableViewController: UITableViewController {
     let context = CoreDataStack.shared.persistentContainer.viewContext
     
     var userProfile : [String] = [
-                                  NSLocalizedString("PRO access", comment: ""),
-                                  NSLocalizedString("Accounting currency", comment: ""),
-                                  NSLocalizedString("Accounts manager", comment: ""),
-                                  "BioAuth",
-                                  NSLocalizedString("Share Account List", comment: ""),
-                                  NSLocalizedString("Share Transaction List", comment: ""),
+        NSLocalizedString("PRO access", comment: ""),
+        NSLocalizedString("Accounting currency", comment: ""),
+        NSLocalizedString("Accounts manager", comment: ""),
+        "BioAuth",
+        NSLocalizedString("Share Account List", comment: ""),
+        NSLocalizedString("Share Transaction List", comment: ""),
         
-                                  NSLocalizedString("Import Transaction List", comment: ""),
-                                //  NSLocalizedString("Add data for test app", comment: "")
-                                  NSLocalizedString("Subscriptions status", comment: "")
-                                ]
-
+        NSLocalizedString("Import Account List", comment: ""),
+        NSLocalizedString("Import Transaction List", comment: ""),
+        //  NSLocalizedString("Add data for test app", comment: "")
+        NSLocalizedString("Subscriptions status", comment: "")
+    ]
+    
+    var isImportAccounts: Bool = true
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         self.tabBarController?.navigationItem.title = NSLocalizedString("Settings", comment: "")
@@ -73,15 +77,47 @@ class SettingsTableViewController: UITableViewController {
             self.navigationController?.pushViewController(currencyTableViewController, animated: true)
         }
         else if userProfile[indexPath.row] == NSLocalizedString("Share Account List", comment: "") {
-            shareCSVFile(fileName: "AccountList", scvString: AccountManager.exportAccountsToString(context: context))
+            shareTXTFile(fileName: "AccountList", data: AccountManager.exportAccountsToString(context: context))
+            print(AccountManager.exportAccountsToString(context: context))
         }
         else if userProfile[indexPath.row] == NSLocalizedString("Share Transaction List", comment: ""){
-            shareCSVFile(fileName: "TransactionList", scvString: TransactionManager.exportTransactionsToString(context: context))
+            shareTXTFile(fileName: "TransactionList", data: TransactionManager.exportTransactionsToString(context: context))
+        }
+        else if userProfile[indexPath.row] == NSLocalizedString("Import Account List", comment: ""){
+           
+            isImportAccounts = true
+            
+            if #available(iOS 14.0, *) {
+                let importMenu = UIDocumentPickerViewController(forOpeningContentTypes: [UTType.text], asCopy: true)
+                importMenu.delegate = self
+                importMenu.modalPresentationStyle = .formSheet
+                self.present(importMenu, animated: true, completion: nil)
+            
+            } else {
+                let importMenu = UIDocumentPickerViewController(documentTypes: ["text"], in: .import)
+                importMenu.delegate = self
+                importMenu.modalPresentationStyle = .formSheet
+                self.present(importMenu, animated: true, completion: nil)
+            }
         }
         else if userProfile[indexPath.row] == NSLocalizedString("Import Transaction List", comment: ""){
-            let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-            let vc = storyBoard.instantiateViewController(withIdentifier: "ImportTransactionVC_ID") as! ImportTransactionViewController
-            self.navigationController?.pushViewController(vc, animated: true)
+           
+            isImportAccounts = false
+          
+            if #available(iOS 14.0, *) {
+                let importMenu = UIDocumentPickerViewController(forOpeningContentTypes: [UTType.text], asCopy: true)
+                importMenu.delegate = self
+                importMenu.modalPresentationStyle = .formSheet
+                self.present(importMenu, animated: true, completion: nil)
+            
+            } else {
+                let importMenu = UIDocumentPickerViewController(documentTypes: ["text"], in: .import)
+                importMenu.delegate = self
+                importMenu.modalPresentationStyle = .formSheet
+                self.present(importMenu, animated: true, completion: nil)
+            }
+            
+           
         }
         else if userProfile[indexPath.row] == NSLocalizedString("Accounts manager", comment: "") {
             let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
@@ -98,9 +134,6 @@ class SettingsTableViewController: UITableViewController {
             let vc = storyBoard.instantiateViewController(withIdentifier: "SubscriptionsStatusVC_ID") as! SubsctiptionStatusViewController
             self.navigationController?.pushViewController(vc, animated: true)
         }
-        //        else if userProfile[indexPath.row] == NSLocalizedString("Add data for test app", comment: "") {
-        //            coreDataStack.addDataForTest()
-        //        }
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
@@ -108,16 +141,14 @@ class SettingsTableViewController: UITableViewController {
         print("receive pro access")
     }
     
-    func shareCSVFile (fileName: String, scvString : String) {
+    func shareTXTFile (fileName: String, data : String) {
         let docDirectory = try? FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
-        if let fileURL = docDirectory?.appendingPathComponent(fileName).appendingPathExtension("csv") {
+        if let fileURL = docDirectory?.appendingPathComponent(fileName).appendingPathExtension("txt") {
             do {
-                try scvString.write(to: fileURL, atomically: true, encoding: .utf8)
+                try data.write(to: fileURL, atomically: true, encoding: .utf8)
                 
                 let objectsToShare = [fileURL]
                 let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
-                
-                //                    activityVC.excludedActivityTypes = [UIActivityType.addToReadingList]
                 self.present(activityVC, animated: true, completion: nil)
                 
             } catch let error as NSError {
@@ -125,6 +156,34 @@ class SettingsTableViewController: UITableViewController {
             }
         }
     }
+}
+
+extension SettingsTableViewController: UIDocumentPickerDelegate {
+  
+    public func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
+        guard controller.documentPickerMode == .import, let url = urls.first, let data = try? String(contentsOf: url)
+        else { return }
+        
+        if isImportAccounts {
+            do {
+                try AccountManager.importAccounts( data, context: context)
+                try coreDataStack.saveContext(context)}
+            catch let error {
+                print("ERROR:", error.localizedDescription)
+            }
+        }
+        else {
+            
+            let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+            let vc = storyBoard.instantiateViewController(withIdentifier: "ImportTransactionVC_ID") as! ImportTransactionViewController
+            vc.dataFromFile = data
+            self.navigationController?.pushViewController(vc, animated: true)
+            
+        }
+        controller.dismiss(animated: true)
+    }
     
-    
+    public func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
+        controller.dismiss(animated: true)
+    }
 }

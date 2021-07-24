@@ -229,19 +229,45 @@ class AccountManager {
     static func exportAccountsToString(context: NSManagedObjectContext) -> String {
         
         let accountFetchRequest : NSFetchRequest<Account> = NSFetchRequest<Account>(entityName: Account.entity().name!)
-        accountFetchRequest.sortDescriptors = [NSSortDescriptor(key: "path", ascending: true)]
+        accountFetchRequest.sortDescriptors = [NSSortDescriptor(key: "parent.path", ascending: true),NSSortDescriptor(key: "path", ascending: true)]
         do{
             let storedAccounts = try context.fetch(accountFetchRequest)
-            var export : String = "Account_id,Account_path,Account_name,isHidden,Account_type,Account_currency,Account_SubType,LinkedAccount_path,LinkedAccount_name\n"
+            var export : String = "ParentAccount_path,Account_name,isHidden,Account_type,Account_currency,Account_SubType,LinkedAccount_path\n"
             for account in storedAccounts {
-                export +=  "\(account.path!),"
+                
+                var accountType = ""
+                switch account.type {
+                case AccountType.assets.rawValue:
+                    accountType = "Assets"
+                case AccountType.liabilities.rawValue:
+                    accountType = "Liabilities"
+                default:
+                    accountType = "Out of enumeration"
+                }
+                
+                var accountSubType = ""
+                switch account.subType {
+                case AccountSubType.none.rawValue:
+                    accountSubType = ""
+                case AccountSubType.cash.rawValue:
+                    accountSubType = "Cash"
+                case AccountSubType.debitCard.rawValue:
+                    accountSubType = "DebitCard"
+                case AccountSubType.creditCard.rawValue:
+                    accountSubType = "CreditCard"
+                case AccountSubType.deposit.rawValue:
+                    accountSubType = "Deposit"
+                default:
+                    accountSubType = "Out of enumeration"
+                }
+                
+                export +=  "\(account.parent != nil ? account.parent!.path! : "" ),"
                 export +=  "\(account.name!),"
                 export +=  "\(account.isHidden),"
-                export +=  "\(account.type),"
+                export +=  "\(accountType),"
                 export +=  "\(account.currency?.code ?? "MULTICURRENCY"),"
-                export +=  "\(account.subType),"
-                export +=  "\(account.linkedAccount?.path! ?? "nil"),"
-                export +=  "\(account.linkedAccount?.name! ?? "nil")\n"
+                export +=  "\(accountSubType),"
+                export +=  "\(account.linkedAccount != nil ? account.linkedAccount!.path! : "" )\n"
             }
             return export
         }
@@ -250,6 +276,127 @@ class AccountManager {
             return ""
         }
     }
+    
+    static func getAccountList(context: NSManagedObjectContext) throws -> [Account] {
+        let accountFetchRequest : NSFetchRequest<Account> = NSFetchRequest<Account>(entityName: Account.entity().name!)
+        accountFetchRequest.sortDescriptors = [NSSortDescriptor(key: "path", ascending: true)]
+        return try context.fetch(accountFetchRequest)
+    }
+    
+    static func importAccounts(_ data : String, context: NSManagedObjectContext) throws {
+        
+        var accountToBeAdded : [Account] = []
+        var inputMatrix: [[String]] = []
+        let rows = data.components(separatedBy: "\n")
+        for row in rows {
+            let columns = row.components(separatedBy: ",")
+            inputMatrix.append(columns)
+        }
+        inputMatrix.remove(at: 0)
+     
+        
+        
+        for row in inputMatrix {
+            
+            guard row.count > 1 else {break}
+            
+            let parent = AccountManager.getAccountWithPath(row[0], context: context)
+            
+            let name = String(row[1])
+            
+            var isHidden = false
+            switch row[2] {
+            case "false":
+                isHidden = false
+            case "true":
+                isHidden = true
+            default:
+                break//throw ImportAccountError.invalidIsHiddenValue
+            }
+            
+            var accountType: Int16 = 0
+            switch row[3] {
+            case "Assets":
+                accountType = AccountType.assets.rawValue
+            case "Liabilities":
+                accountType = AccountType.liabilities.rawValue
+            default:
+                break//throw ImportAccountError.invalidAccountTypeValue
+            }
+            
+            let curency = try? CurrencyManager.getCurrencyForCode(row[4], context: context)
+            
+            var accountSubType: Int16 = 0
+            switch row[5] {
+            case "":
+                break
+            case "Cash":
+                accountSubType = 1
+            case "DebitCard":
+                accountSubType = 2
+            case "CreditCard":
+                accountSubType = 3
+            case "Deposit":
+                accountSubType = 4
+            default:
+                break//throw ImportAccountError.invalidAccountSubTypeValue
+            }
+            
+            let linkedAccount = AccountManager.getAccountWithPath(row[6], context: context)
+            
+            
+            let account = try? AccountManager.createAndGetAccount(parent: parent, name: name, type: accountType, currency: curency, context: context)
+            account?.linkedAccount = linkedAccount
+            account?.subType = accountSubType
+            account?.isHidden = isHidden
+            
+            
+            //CHECKING
+            if let account = account {
+                
+                accountToBeAdded.append(account)
+            var accountTypes = ""
+            switch account.type {
+            case AccountType.assets.rawValue:
+                accountTypes = "Assets"
+            case AccountType.liabilities.rawValue:
+                accountTypes = "Liabilities"
+            default:
+                accountTypes = "Out of enumeration"
+            }
+            
+            var accountSubTypes = ""
+            switch account.subType {
+            case AccountSubType.none.rawValue:
+                accountSubTypes = ""
+            case AccountSubType.cash.rawValue:
+                accountSubTypes = "Cash"
+            case AccountSubType.debitCard.rawValue:
+                accountSubTypes = "DebitCard"
+            case AccountSubType.creditCard.rawValue:
+                accountSubTypes = "CreditCard"
+            case AccountSubType.deposit.rawValue:
+                accountSubTypes = "Deposit"
+            default:
+                accountSubTypes = "Out of enumeration"
+            }
+            var export = ""
+            export +=  "\(account.parent != nil ? account.parent!.path! : "" ),"
+            export +=  "\(account.name!),"
+            export +=  "\(account.isHidden),"
+            export +=  "\(accountType),"
+            export +=  "\(account.currency?.code ?? "MULTICURRENCY"),"
+            export +=  "\(accountSubType),"
+            export +=  "\(account.linkedAccount != nil ? account.linkedAccount!.path! : "" )\n"
+            print(export)
+            }
+            else {
+                print("There is no account")
+            }
+        }
+    }
+        
+       
     
     
  

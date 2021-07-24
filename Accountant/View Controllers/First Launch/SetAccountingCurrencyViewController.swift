@@ -98,7 +98,7 @@ class SetAccountingCurrencyViewController: UIViewController, UITableViewDelegate
         }
         catch let error{
             if let error = error as? CurrencyError, error == .thisCurrencyAlreadyUsedInTransaction {
-                let alert = UIAlertController(title: NSLocalizedString("Warning", comment: ""), message: NSLocalizedString("Current accounting currency already used in transaction where one of accounts has different currency. To avoid this warnings please delete this transaction", comment: ""), preferredStyle: .alert)
+                let alert = UIAlertController(title: NSLocalizedString("Warning", comment: ""), message: NSLocalizedString("Current accounting currency already used in transaction where one of accounts has different currency", comment: ""), preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel))
                 self.present(alert, animated: true, completion: nil)
             }

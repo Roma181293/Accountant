@@ -52,6 +52,12 @@ enum AccountError : Error {
     case beforeAccountingPeriodAccountDoesNotExist
 }
 
+enum ImportAccountError : Error{
+    case invalidIsHiddenValue
+    case invalidAccountTypeValue
+    case invalidAccountSubTypeValue
+}
+
 enum BudgetError : Error {
     case thisBadgetAlreadyExists
     case incorrectLeftOrRightBorderDate

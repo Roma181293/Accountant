@@ -20,7 +20,7 @@
 "Accounting start date" = "Дата початку обліку";
 
 //SetAccountingCurrencyViewController
-"Current accounting currency already used in transaction where one of accounts has different currency. To avoid this warnings please delete this transaction" = "Поточна валюта обліку використровується в операціях. Для уникнення цього повідомлення будь ласка видаліть ці операції";
+"Current accounting currency already used in transaction where one of accounts has different currency" = "Поточна валюта обліку використровується в операціях, в яких один з аккаунтів має іншу валюту";
 
 //TransactionListViewController
 "From:" = "З:";
@@ -120,6 +120,7 @@
 "Accounting currency" = "Валюта обліку";
 "Share Account List" = "Поділитися списком рахунків";
 "Share Transaction List" = "Поділитися списком операцій";
+"Import Account List" = "Імпортувати рахунки";
 "Import Transaction List" = "Імпортувати операції";
 "Add data for test app" = "Додати даннi для тестування додатку";
 "Account & category editor" = "Редактор рахунків та категорій";

@@ -19,7 +19,7 @@ class CurrencyTableViewController: UITableViewController {
     var delegate : AccountEditorWithInitialBalanceViewController?
     lazy var fetchedResultsController : NSFetchedResultsController<Currency> = {
         let fetchRequest : NSFetchRequest<Currency> = NSFetchRequest<Currency>(entityName: "Currency")
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "code", ascending: true)]
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "isAccounting", ascending: false), NSSortDescriptor(key: "code", ascending: true)]
         fetchRequest.fetchBatchSize = 20
         let context = CoreDataStack.shared.persistentContainer.viewContext
         let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: "code", cacheName: nil)
@@ -103,7 +103,7 @@ class CurrencyTableViewController: UITableViewController {
             }
             catch let error{
                 if let error = error as? CurrencyError, error == .thisCurrencyAlreadyUsedInTransaction {
-                    let alert = UIAlertController(title: NSLocalizedString("Warning", comment: ""), message: NSLocalizedString("Current accounting currency already used in transaction where one of accounts has different currency. To avoid this warnings please delete this transaction", comment: ""), preferredStyle: .alert)
+                    let alert = UIAlertController(title: NSLocalizedString("Warning", comment: ""), message: NSLocalizedString("Current accounting currency already used in transaction where one of accounts has different currency", comment: ""), preferredStyle: .alert)
                     alert.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel))
                     self.present(alert, animated: true, completion: nil)
                 }
