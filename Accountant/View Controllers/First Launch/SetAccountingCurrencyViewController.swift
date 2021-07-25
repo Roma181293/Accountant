@@ -79,7 +79,14 @@ class SetAccountingCurrencyViewController: UIViewController, UITableViewDelegate
             cell.accessoryType = .none
         }
         cell.codeLabel.text = currency.code!
-        cell.nameLabel.text = currency.name!
+        if let name = currency.name  {
+            cell.nameLabel.text = name
+        }
+        else {
+            cell.nameLabel.text = NSLocalizedString(currency.code!, comment: "")
+        }
+        
+        
         return cell
     }
     

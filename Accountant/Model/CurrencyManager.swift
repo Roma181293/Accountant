@@ -31,7 +31,7 @@ class CurrencyManager {
         }
     }
     
-    static func createAndGetCurrency(code: String, name: String, createdByUser : Bool = true, context: NSManagedObjectContext) throws -> Currency{
+    static func createAndGetCurrency(code: String, name: String?, createdByUser : Bool = true, context: NSManagedObjectContext) throws -> Currency{
         guard isFreeCurrencyCode(code,context: context) == true else {
             throw CurrencyError.thisCurrencyAlreadyExists
         }
@@ -47,7 +47,7 @@ class CurrencyManager {
     }
     
     
-    static func createCurrency(code: String, name: String, createdByUser : Bool = true, context: NSManagedObjectContext) throws {
+    static func createCurrency(code: String, name: String?, createdByUser : Bool = true, context: NSManagedObjectContext) throws {
         try createAndGetCurrency(code: code, name: name, createdByUser : createdByUser, context: context)
     }
     
@@ -140,10 +140,10 @@ class CurrencyManager {
     }
     
     static func addCurrencies(context: NSManagedObjectContext) {
-        let currencies = [("AUD", "Австралійський долар"), ("CAD", "Канадський долар"), ("CNY", "Юань Женьміньбі"), ("HRK", "Куна"), ("CZK", "Чеська крона"), ("DKK", "Данська крона"), ("HKD", "Гонконгівський долар"), ("HUF", "Форинт"), ("INR", "Індійська рупія"), ("IDR", "Рупія"), ("ILS", "Новий ізраїльський шекель"), ("JPY", "Єна"), ("KZT", "Теньге"), ("KRW", "Вона"), ("MXN", "Мексиканське песо"), ("MDL", "Молдовський лей"), ("NZD", "Новозеландський долар"), ("NOK", "Норвезька крона"), ("RUB", "Російський рубль"), ("SAR", "Саудівський ріял"), ("SGD", "Сінгапурський долар"), ("ZAR", "Ренд"), ("SEK", "Шведська крона"), ("CHF", "Швейцарський франк"), ("EGP", "Єгипетський фунт"), ("GBP", "Фунт стерлінгів"), ("UAH", "Гривня"), ("USD", "Долар США"), ("BYN", "Білоруський рубль"), ("AZN", "Азербайджанський манат"), ("RON", "Румунський лей"), ("TRY", "Турецька ліра"), ("BGN", "Болгарський лев"), ("EUR", "Євро"), ("PLN", "Злотий"), ("DZD", "Алжирський динар"), ("BDT", "Така"), ("AMD", "Вірменський драм"), ("IRR", "Іранський ріал"), ("IQD", "Іракський динар"), ("KGS", "Сом"), ("LBP", "Ліванський фунт"), ("LYD", "Лівійський динар"), ("MYR", "Малайзійський ринггіт"), ("MAD", "Марокканський дирхам"), ("VND", "Донг"), ("THB", "Бат"), ("AED", "Дирхам ОАЕ"), ("TND", "Туніський динар"), ("UZS", "Узбецький сум"), ("TWD", "Новий тайванський долар"), ("TMT", "Туркменський новий манат"), ("GHS", "Ганське седі"), ("RSD", "Сербський динар"), ("TJS", "Сомоні"), ("GEL", "Ларі"), ("BRL", "Бразильський реал")]//, ("XAU", "Золото"), ("XAG", "Срібло"), ("XPT", "Платина"), ("XPD", "Паладій")]
-        
+        let currencies = [
+            "AUD", "CAD", "CNY", "HRK", "CZK", "DKK", "HKD", "HUF", "INR", "IDR", "ILS", "JPY", "KZT", "KRW", "MXN", "MDL", "NZD", "NOK", "RUB", "SAR", "SGD", "ZAR", "SEK", "CHF", "EGP", "GBP", "UAH", "USD", "BYN", "AZN", "RON", "TRY", "BGN", "EUR", "PLN", "DZD", "BDT", "AMD", "IRR", "IQD", "KGS", "LBP", "LYD", "MYR", "MAD", "VND", "THB", "AED", "TND", "UZS", "TWD", "TMT", "GHS", "RSD", "TJS", "GEL", "BRL"]
         currencies.forEach({
-            try? createCurrency(code: $0.0, name: $0.1, createdByUser: false, context: context)
+            try? createCurrency(code: $0, name: nil, createdByUser: false, context: context)
         })
     }
 

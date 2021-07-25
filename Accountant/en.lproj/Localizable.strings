@@ -5,3 +5,62 @@
   Created by Roman Topchii on 16.07.2021.
   
 */
+
+//CurrencyList
+"AUD" = "Australian Dollar";
+"CAD" = "Canadian Dollar";
+"CNY" = "Chinese Yuan Renminbi";
+"HRK" = "Croatian Kuna";
+"CZK" = "Czech Koruna";
+"DKK" = "Danish Krone";
+"HKD" = "Hong Kong Dollar";
+"HUF" = "Hungarian For§int";
+"INR" = "Indian Rupee";
+"IDR" = "Indonesian Rupiah";
+"ILS" = "Israeli New Shekel";
+"JPY" = "Japanese Yen";
+"KZT" = "Kazakhstan Tenge";
+"KRW" = "South-Korean Won";
+"MXN" = "Mexican Peso";
+"MDL" = "Moldavan Leu";
+"NZD" = "New Zealand Dollar";
+"NOK" = "Norwegian Kroner";
+"RUB" = "Russian Rouble";
+"SAR" = "Saudi Riyal";
+"SGD" = "Singapore Dollar";
+"ZAR" = "South African Rand";
+"SEK" = "Swedish Krona";
+"CHF" = "Swiss Franc";
+"EGP" = "Egyptian Pound";
+"GBP" = "British Pound";
+"UAH" = "Ukraine Hryvnia";
+"USD" = "US Dollar";
+"BYN" = "Belarusian Ruble";
+"AZN" = "Azerbaijan Manat";
+"RON" = "Romanian Lei";
+"TRY" = "Turkish Lira";
+"BGN" = "Bulgarian Lev";
+"EUR" = "Euro";
+"PLN" = "Polish Zloty";
+"DZD" = "Algerian Binar";
+"BDT" = "Bangladeshi Taka";
+"AMD" = "Armenian Fram";
+"IRR" = "Iranian Rial";
+"IQD" = "Iraqi Dinar";
+"KGS" = "Kyrgyzstanian Som";
+"LBP" = "Lebanese Pound";
+"LYD" = "Libyan Dinar";
+"MYR" = "Malaysian Ringgit";
+"MAD" = "Maroccan Dihrim";
+"VND" = "Vietnamese Dong";
+"THB" = "Thai Baht";
+"AED" = "UAE Dirham";
+"TND" = "Tunisian Dinar";
+"UZS" = "Urbekistan Som";
+"TWD" = "Taiwan Dollar";
+"TMT" = "Turkmenistan Manat";
+"GHS" = "Ghanaian Cedi";
+"RSD" = "Serbian Dinar";
+"TJS" = "Tajikistani Somoni";
+"GEL" = "Georgian Lari";
+"BRL" = "Brazilian Real";
