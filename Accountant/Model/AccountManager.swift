@@ -388,7 +388,7 @@ class AccountManager {
             export +=  "\(account.currency?.code ?? "MULTICURRENCY"),"
             export +=  "\(accountSubType),"
             export +=  "\(account.linkedAccount != nil ? account.linkedAccount!.path! : "" )\n"
-            print(export)
+//            print(export)
             }
             else {
                 print("There is no account")
@@ -559,8 +559,8 @@ class AccountManager {
         if let tmpInterval = interval, tmpInterval.start < dateInterval.end && tmpInterval.end > dateInterval.end{
             intervalArray.append(DateInterval(start: tmpInterval.start, end: dateInterval.end))
         }
-        print("date interval [",dateInterval.start,dateInterval.end,"]")
-        intervalArray.forEach({print($0)})
+//        print("date interval [",dateInterval.start,dateInterval.end,"]")
+//        intervalArray.forEach({print($0)})
         return intervalArray
         
     }
@@ -638,7 +638,7 @@ class AccountManager {
                 if AccountManager.getRootAccountFor(account).name == AccountsNameLocalisationManager.getLocalizedAccountName(.money) ||
                     AccountManager.getRootAccountFor(account).name == AccountsNameLocalisationManager.getLocalizedAccountName(.credits) ||
                     AccountManager.getRootAccountFor(account).name == AccountsNameLocalisationManager.getLocalizedAccountName(.debtors) {
-                    print("Nothing need to be added")
+//                    print("Nothing need to be added")
                 }
                 else {
                     accountsToShow.append(account)

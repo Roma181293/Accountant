@@ -18,7 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         //MARK: Subscriprion
         Purchases.debugLogsEnabled = true
-        Purchases.configure(withAPIKey: "AFtVpiZYBcYTLMyehDHNFJFieXyvEqxN")
+        Purchases.configure(withAPIKey: "kdbkctkUtCoRwtOqEDXtMeRaGxBkxLHG")
         Purchases.shared.purchaserInfo { (purchaserInfo, error) in
             if purchaserInfo?.entitlements.all["pro"]?.isActive == true {
                 UserProfile.setEntitlement(Entitlement(name: .pro, expirationDate: purchaserInfo?.entitlements.all["pro"]?.expirationDate))
