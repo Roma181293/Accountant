@@ -17,10 +17,11 @@ struct Constants {
         static let bioAuthViewController = "BioAuthVC_ID"
         static let authPinAndBioViewController = "AuthPinAndBiometricVC_ID"
         static let transactionEditorViewController = "TransactionEditorVC_ID"
+        static let purchaseOfferViewController = "PurchaseOfferVC_ID"
     }
     
     struct Cell {
-        static let transactionCell = "TransactionCell"
+        static let transactionCell = "TransactionCell_ID"
         static let setAccountingCurrencyCell = "setAccountingCurrencyCell_ID"
     }
 //

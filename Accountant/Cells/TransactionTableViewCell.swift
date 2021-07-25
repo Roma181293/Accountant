@@ -10,7 +10,8 @@ import UIKit
 
 class TransactionTableViewCell: UITableViewCell {
     @IBOutlet weak var view : UIView!
-    @IBOutlet weak var dateLabel: UILabel!
+    @IBOutlet weak var dayLabel: UILabel!
+    @IBOutlet weak var monthLabel: UILabel!
     @IBOutlet weak var creditLabel: UILabel!
     @IBOutlet weak var debitLabel: UILabel!
     @IBOutlet weak var creditAmountLabel: UILabel!
@@ -58,12 +59,18 @@ class TransactionTableViewCell: UITableViewCell {
             }
         }
        
+     
+        let formatter = DateFormatter()
         
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = .short
-        dateFormatter.timeStyle = .none
-        dateFormatter.locale = Locale(identifier: "\(Bundle.main.localizations.first ?? "en")_\(Locale.current.regionCode ?? "US")")
-        dateLabel.text = "\(dateFormatter.string(from: date))"
+        formatter.dateFormat = "dd"
+        dayLabel.text = formatter.string(from: date)
+        dayLabel.textColor = .label
+        dayLabel.alpha = 0.8
+        
+        formatter.dateFormat = "MM"
+        monthLabel.text = formatter.string(from: date)
+        monthLabel.textColor = .label
+        monthLabel.alpha = 0.8
         
         creditLabel.text = "\(NSLocalizedString("From:", comment: "")) \(creditName)"
         debitLabel.text = "\(NSLocalizedString("To:", comment: "")) \(debitName)"

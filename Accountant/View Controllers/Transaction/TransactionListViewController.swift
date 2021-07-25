@@ -95,7 +95,7 @@ class TransactionListViewController: UIViewController{
     
     @objc func addTransaction(_ sender:UIButton!){
         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let transactionEditorVC = storyBoard.instantiateViewController(withIdentifier: "TransactionEditorVC_ID") as! TransactionEditorViewController
+        let transactionEditorVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.transactionEditorViewController) as! TransactionEditorViewController
         transactionEditorVC.interstitial = interstitial
         self.navigationController?.pushViewController(transactionEditorVC, animated: true)
     }
@@ -144,7 +144,7 @@ extension TransactionListViewController: UITableViewDelegate, UITableViewDataSou
     
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "TransactionCell1_ID", for: indexPath) as! TransactionTableViewCell1
+        let cell = tableView.dequeueReusableCell(withIdentifier: Constants.Cell.transactionCell, for: indexPath) as! TransactionTableViewCell
         let transaction  = fetchedResultsController.object(at: indexPath) as Transaction
         cell.updateCell(transaction: transaction)
         return cell
@@ -187,7 +187,7 @@ extension TransactionListViewController: UITableViewDelegate, UITableViewDataSou
             do {
                 guard let entitlement = UserProfile.getEntitlement(), let expirationDate = entitlement.expirationDate, expirationDate > Date() else {
                     let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-                    let vc = storyBoard.instantiateViewController(withIdentifier: "PurchaseOfferVC_ID") as! PurchaseOfferViewController
+                    let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.purchaseOfferViewController) as! PurchaseOfferViewController
                     self.navigationController?.pushViewController(vc, animated: true)
                     return}
                 
