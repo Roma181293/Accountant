@@ -76,8 +76,11 @@ class CurrencyTableViewController: UITableViewController {
             }
         }
         else {
-            if currency == fetchedCurrency {
+            if currency === fetchedCurrency {
                 cell.accessoryType = .checkmark
+            }
+            else {
+                cell.accessoryType = .none
             }
         }
         cell.codeLabel.text = fetchedCurrency.code!
