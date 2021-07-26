@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2B0D1D3326ADF1D1003C6394 /* TransactionItemManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B0D1D3226ADF1D1003C6394 /* TransactionItemManager.swift */; };
 		2B1FEA3A266BEDA400BF53BD /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1FEA39266BEDA400BF53BD /* CoreDataStack.swift */; };
 		2B1FEA3F266BEDD400BF53BD /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1FEA3E266BEDD400BF53BD /* UserProfile.swift */; };
 		2B1FEA4B266BEE6700BF53BD /* CurrencyExhangeNB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1FEA45266BEE6700BF53BD /* CurrencyExhangeNB.swift */; };
@@ -94,6 +95,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2B0D1D3226ADF1D1003C6394 /* TransactionItemManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionItemManager.swift; sourceTree = "<group>"; };
 		2B1FEA39266BEDA400BF53BD /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		2B1FEA3E266BEDD400BF53BD /* UserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
 		2B1FEA45266BEE6700BF53BD /* CurrencyExhangeNB.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrencyExhangeNB.swift; sourceTree = "<group>"; };
@@ -237,6 +239,7 @@
 				2B1FEA69266BF15200BF53BD /* AccountManager.swift */,
 				2B1FEA61266BF03300BF53BD /* CurrencyManager.swift */,
 				2B1FEA82266C1D9900BF53BD /* TransactionManager.swift */,
+				2B0D1D3226ADF1D1003C6394 /* TransactionItemManager.swift */,
 				2B1FEABB266C41C100BF53BD /* AccountsNameLocalisationManager.swift */,
 				2B1FEA39266BEDA400BF53BD /* CoreDataStack.swift */,
 				2B1FEB40266D257800BF53BD /* NetworkServices.swift */,
@@ -627,6 +630,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2B1FEB70266D752200BF53BD /* ChartsManager.swift in Sources */,
+				2B0D1D3326ADF1D1003C6394 /* TransactionItemManager.swift in Sources */,
 				2B1FEBB1266EE1D500BF53BD /* PreTrasaction.swift in Sources */,
 				2B1FEBAB266EE19B00BF53BD /* SubsctiptionStatusViewController.swift in Sources */,
 				2B1FEB17266CBA6000BF53BD /* AccountManagerTableViewController.swift in Sources */,

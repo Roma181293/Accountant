@@ -10,6 +10,7 @@ import Foundation
 import CoreData
 
 class TransactionManager {
+    
     static func addTransaction(date : Date, debit : Account, credit : Account, debitAmount : Double, creditAmount : Double, comment : String? = nil, createdByUser : Bool = true, context: NSManagedObjectContext) {
         let transaction = Transaction(context: context)
         
@@ -21,28 +22,12 @@ class TransactionManager {
         
         transaction.date = date
         
-        let debitTransactionItem = TransactionItem(context: context)
-        debitTransactionItem.account = debit
-        debitTransactionItem.amount = debitAmount
-        debitTransactionItem.type = AccounttingMethod.debit.rawValue
-        debitTransactionItem.createdByUser = createdByUser
-        debitTransactionItem.createDate = createDate
-        debitTransactionItem.modifiedByUser = createdByUser
-        debitTransactionItem.modifyDate = createDate
-        debitTransactionItem.transaction = transaction
-        
-        let creditTransactionItem = TransactionItem(context: context)
-        creditTransactionItem.account = credit
-        creditTransactionItem.amount = creditAmount
-        creditTransactionItem.type = AccounttingMethod.credit.rawValue
-        creditTransactionItem.createdByUser = createdByUser
-        creditTransactionItem.createDate = createDate
-        creditTransactionItem.modifiedByUser = createdByUser
-        creditTransactionItem.modifyDate = createDate
-        creditTransactionItem.transaction = transaction
+        TransactionItemManager.createTransactionItem(transaction: transaction, type: .credit, account: credit, amount: creditAmount, createdByUser:  createdByUser, createDate: createDate, context: context)
+        TransactionItemManager.createTransactionItem(transaction: transaction, type: .debit, account: debit, amount: debitAmount, createdByUser:  createdByUser, createDate: createDate, context: context)
         
         transaction.comment = comment
     }
+    
     
     static func copyTransaction(_ transaction: Transaction, createdByUser : Bool = true, context: NSManagedObjectContext) {
         let copiedTransaction = Transaction(context: context)
@@ -56,21 +41,10 @@ class TransactionManager {
         copiedTransaction.comment = transaction.comment
         
         let copiedTransactionItems = transaction.items!.allObjects as! [TransactionItem]
-        
         for item in copiedTransactionItems{
-            let copiedTransactionItem = TransactionItem(context: context)
-            copiedTransactionItem.account = item.account
-            copiedTransactionItem.amount = item.amount
-            copiedTransactionItem.type = item.type
-            copiedTransactionItem.createdByUser = createdByUser
-            copiedTransactionItem.createDate = createDate
-            copiedTransactionItem.modifiedByUser = createdByUser
-            copiedTransactionItem.modifyDate = createDate
-            copiedTransactionItem.transaction = copiedTransaction
+            TransactionItemManager.createTransactionItem(transaction: copiedTransaction, type: item.type, account: item.account!, amount: item.amount, context: context)
         }
     }
-    
-    
     
     
     static func addTransactionsFromPreTransactionList(_ preTransactionList : [PreTransaction], context: NSManagedObjectContext) {
@@ -89,25 +63,8 @@ class TransactionManager {
         
             transaction.date = preTransaction.date
             
-            let debitTransactionItem = TransactionItem(context: context)
-            debitTransactionItem.account = preTransaction.debit
-            debitTransactionItem.amount = preTransaction.debitAmount!
-            debitTransactionItem.type = AccounttingMethod.debit.rawValue
-            debitTransactionItem.createdByUser = createdByUser
-            debitTransactionItem.createDate = createDate
-            debitTransactionItem.modifiedByUser = createdByUser
-            debitTransactionItem.modifyDate = createDate
-            debitTransactionItem.transaction = transaction
-            
-            let creditTransactionItem = TransactionItem(context: context)
-            creditTransactionItem.account = preTransaction.credit
-            creditTransactionItem.amount = preTransaction.creditAmount!
-            creditTransactionItem.type = AccounttingMethod.credit.rawValue
-            creditTransactionItem.createdByUser = createdByUser
-            creditTransactionItem.createDate = createDate
-            creditTransactionItem.modifiedByUser = createdByUser
-            creditTransactionItem.modifyDate = createDate
-            creditTransactionItem.transaction = transaction
+            TransactionItemManager.createTransactionItem(transaction: transaction, type: .debit, account: preTransaction.debit!, amount: preTransaction.debitAmount!, createdByUser: createdByUser, createDate: createDate, context: context)
+            TransactionItemManager.createTransactionItem(transaction: transaction, type: .credit, account: preTransaction.credit!, amount: preTransaction.creditAmount!, createdByUser: createdByUser, createDate: createDate, context: context)
             
             transaction.comment = preTransaction.memo
             
