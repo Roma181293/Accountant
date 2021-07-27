@@ -14,6 +14,7 @@
 "Debtors" = "Боржники";
 "Capital" = "Капітал";
 "<Other>" = "<Інше>";
+"Other" = "Інше";
 "Before accounting period" = "До обліковий період";
 
 //SetAccountingStartDateViewController

@@ -35,6 +35,7 @@ enum BaseAccounts : String, CaseIterable {
     case capital = "Capital"
     case beforeAccountingPeriod = "Before accounting period"
     case other = "<Other>"
+    case other1 = "Other"
 }
 
 enum AccountError : Error {

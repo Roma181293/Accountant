@@ -259,10 +259,24 @@ class AccountManagerTableViewController: UITableViewController {
             if AccountManager.canBeRenamed(account: selectedAccount) {
                 tmpConfiguration.append(rename)
             }
-            if let parent = selectedAccount.parent, AccountManager.canBeRenamed(account: selectedAccount), (
-                parent.name == AccountsNameLocalisationManager.getLocalizedAccountName(.money) ||
-                    parent.name == AccountsNameLocalisationManager.getLocalizedAccountName(.credits) ||
-                    parent.name == AccountsNameLocalisationManager.getLocalizedAccountName(.debtors)) {
+            if let parent = selectedAccount.parent, (
+                parent.name == AccountsNameLocalisationManager.getLocalizedAccountName(.money) //can have only one lvl of subAccounts
+                    || parent.name == AccountsNameLocalisationManager.getLocalizedAccountName(.credits) //can have only one lvl of subAccounts
+                    || parent.name == AccountsNameLocalisationManager.getLocalizedAccountName(.debtors) //can have only one lvl of subAccounts
+                    || selectedAccount.name == AccountsNameLocalisationManager.getLocalizedAccountName(.other1) //can not have subAccount
+                    || selectedAccount.name == AccountsNameLocalisationManager.getLocalizedAccountName(.beforeAccountingPeriod) //coz it used in system generated transactions, and can not have any subAccount
+            )
+            //FIXME:  remove this line if it is not affect functionality
+            //AccountManager.canBeRenamed(account: selectedAccount),
+            
+            {
+                
+            }
+            else if selectedAccount.parent == nil
+                        && selectedAccount.name == AccountsNameLocalisationManager.getLocalizedAccountName(.capital) {
+                //can not have subAccount, coz it used in system generated transactions
+                //TODO:- create method in AccountManager that can get Account:Other if it exist otherwise Account
+                
             }
             else {
                 tmpConfiguration.append(addSubCategory)

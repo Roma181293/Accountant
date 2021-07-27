@@ -51,4 +51,13 @@ class TransactionItemManager {
     static func createTransactionItem(transaction: Transaction, type: Int16, account: Account, amount: Double, createdByUser: Bool = true, createDate: Date = Date(), context: NSManagedObjectContext) {
        createAndGetTransactionItem(transaction: transaction, type: type, account: account, amount: amount, createdByUser: createdByUser, createDate: createDate, context: context)
     }
+    
+    
+    static func moveTransactionItemsFrom(oldAccount: Account, newAccount: Account, modifiedByUser: Bool = true, modifyDate: Date = Date()){
+        for item in oldAccount.transactionItems?.allObjects as! [TransactionItem] {
+            item.account = newAccount
+            item.modifyDate = modifyDate
+            item.modifiedByUser = modifiedByUser
+        }
+    }
 }

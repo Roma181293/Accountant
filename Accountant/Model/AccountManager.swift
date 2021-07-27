@@ -22,6 +22,7 @@ class AccountManager {
             ,"Creditors"
             ,"Before accounting period"
             ,"<Other>"
+            ,"Other"
             //UA
             ,"Доходи"
             ,"Витрати"
@@ -30,7 +31,8 @@ class AccountManager {
             ,"Боржники"
             ,"Капітал"
             ,"До обліковий період"
-            ,"<Інше>"]
+            ,"<Інше>"
+            ,"Інше"]
        for item in reservedAccountNames {
             if item == name {
                 return true
@@ -70,18 +72,16 @@ class AccountManager {
         }
     }
     
+    private static func isFreeFromTransactionItems(account: Account) -> Bool {
+        if (account.transactionItems?.allObjects as! [TransactionItem]).isEmpty {
+            return true
+        }
+        return false
+    }
     
-    static func createAndGetAccount(parent: Account?, name : String, type : Int16?, currency : Currency?, subType : Int16? = nil, createdByUser : Bool = true, context: NSManagedObjectContext) throws -> Account {
-        
-        if parent == nil && type == nil {throw AccountError.attributeTypeShouldBeInitializeForRootAccount}
-//        guard parent != nil && type != nil && parent?.type != type else {throw AccountError.accountContainAttribureTypeDifferentFromParent}
-        
-        // accounts with reserved names can create only app
-        guard createdByUser == false || isReservedAccountName(name) == false else {throw AccountError.reservedAccountName}
-        guard isFreeAccountName(parent: parent, name : name, context: context) == true else {throw AccountError.accontWithThisNameAlreadyExists}
-        
+    
+    static func fillAccountAttributes(parent: Account?, name : String, type : Int16?, currency : Currency?, subType : Int16? = nil, createdByUser : Bool = true, createDate: Date = Date(), context: NSManagedObjectContext) -> Account {
         let account = Account(context: context)
-        let createDate = Date()
         account.createDate = createDate
         account.createdByUser = createdByUser
         account.modifyDate = createDate
@@ -111,6 +111,25 @@ class AccountManager {
         }
         return account
     }
+    
+    
+    static func createAndGetAccount(parent: Account?, name : String, type : Int16?, currency : Currency?, subType : Int16? = nil, createdByUser : Bool = true, createDate: Date = Date(), context: NSManagedObjectContext) throws -> Account {
+        
+        if parent == nil && type == nil {throw AccountError.attributeTypeShouldBeInitializeForRootAccount}
+//        guard parent != nil && type != nil && parent?.type != type else {throw AccountError.accountContainAttribureTypeDifferentFromParent}
+        
+        // accounts with reserved names can create only app
+        guard createdByUser == false || isReservedAccountName(name) == false else {throw AccountError.reservedAccountName}
+        guard isFreeAccountName(parent: parent, name : name, context: context) == true else {throw AccountError.accontWithThisNameAlreadyExists}
+        
+        if let parent = parent, !AccountManager.isFreeFromTransactionItems(account: parent) {
+           let new = fillAccountAttributes(parent: parent, name: AccountsNameLocalisationManager.getLocalizedAccountName(.other1) , type : type, currency : currency, subType : subType, createdByUser : createdByUser, createDate: createDate, context: context)
+            TransactionItemManager.moveTransactionItemsFrom(oldAccount: parent, newAccount: new, modifiedByUser: createdByUser, modifyDate: createDate)
+        }
+        
+        return fillAccountAttributes(parent: parent, name : name, type : type, currency : currency, subType : subType, createdByUser : createdByUser, createDate: createDate, context: context)
+    }
+    
     
     static func createAccount(parent: Account?, name : String, type : Int16?, currency : Currency?, moneyAccountType : Int16? = nil, createdByUser : Bool = true, context: NSManagedObjectContext) throws {
         try createAndGetAccount(parent: parent, name : name, type : type, currency : currency, subType : moneyAccountType, createdByUser : createdByUser, context: context)
