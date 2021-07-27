@@ -72,7 +72,8 @@ class AccountManager {
         }
     }
     
-    private static func isFreeFromTransactionItems(account: Account) -> Bool {
+    
+    static func isFreeFromTransactionItems(account: Account) -> Bool {
         if (account.transactionItems?.allObjects as! [TransactionItem]).isEmpty {
             return true
         }
@@ -403,9 +404,9 @@ class AccountManager {
             export +=  "\(account.parent != nil ? account.parent!.path! : "" ),"
             export +=  "\(account.name!),"
             export +=  "\(account.isHidden),"
-            export +=  "\(accountType),"
+            export +=  "\(accountTypes),"
             export +=  "\(account.currency?.code ?? "MULTICURRENCY"),"
-            export +=  "\(accountSubType),"
+            export +=  "\(accountSubTypes),"
             export +=  "\(account.linkedAccount != nil ? account.linkedAccount!.path! : "" )\n"
 //            print(export)
             }

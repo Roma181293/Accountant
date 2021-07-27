@@ -72,7 +72,7 @@
 "Amount excluded from total amount in pichart.\nAccount amount cannot be less zero.\nPlease check transaction with this account." = "Значення виключено з загальної суми по рахунку.\nСума по рахунку не може приймати значення менше нуля.\nБуль ласка перевірте операції з цим рахунком.";
 
 
-//MoneyAccountEditorViewController
+//AccountEditorWithInitialBalanceViewController
 "Edit money account" = "Редагувати грошовий рахунок";
 "Add money account" = "Додати грошовий рахунок";
 "Loading..." = "Завантаження";
@@ -134,7 +134,9 @@
 "Enter new account name" = "Введіть нове ім'я рахунку";
 "Add subaccount" = "Додати субрахунок";
 "Enter subaccount name" = "Введіть ім'я субрахунку";
-
+"Account \"%@\" has transactions. All this thansactions will be automatically moved to new child account \"%@\"." = "Рахунок \"%@\" має операції. Всі ці операції будуть автоматично переміщені на дочірній разунок \"%@\".";
+"Attention" = "Увага";
+"Create and Move" = "Створити і Перемістити";
 "Add account" = "Додати рахунок";
 "Enter account name" = "Введіть ім'я рахунку";
 "Add" = "Додати";

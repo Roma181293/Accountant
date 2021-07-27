@@ -231,11 +231,36 @@ class AccountManagerTableViewController: UITableViewController {
                               let textField = textFields.first,
                               AccountManager.isFreeAccountName(parent: selectedAccount, name: textField.text!, context: self.context)
                         else {throw AccountError.accontWithThisNameAlreadyExists}
-                        
-                        try AccountManager.createAccount(parent: selectedAccount, name: textField.text!, type: selectedAccount.type, currency: selectedAccount.currency!, context: self.context)
-                        try self.coreDataStack.saveContext(self.context)
-                        try self.fetchedResultsController.performFetch()
-                        self.tableView.reloadData()
+                        if !AccountManager.isFreeFromTransactionItems(account: selectedAccount) {
+                            
+                            
+                            
+                            let alert1 = UIAlertController(title: NSLocalizedString("Attention",comment: ""), message:  String(format: NSLocalizedString("Account \"%@\" has transactions. All this thansactions will be automatically moved to new child account \"%@\".",comment: ""), selectedAccount.name!,AccountsNameLocalisationManager.getLocalizedAccountName(.other1)), preferredStyle: .alert)
+                            alert1.addAction(UIAlertAction(title: NSLocalizedString("Create and Move",comment: ""), style: .default, handler: { [weak alert1] (_) in
+                                do {
+                                    try AccountManager.createAccount(parent: selectedAccount, name: textField.text!, type: selectedAccount.type, currency: selectedAccount.currency!, context: self.context)
+                                    try self.coreDataStack.saveContext(self.context)
+                                    try self.fetchedResultsController.performFetch()
+                                    self.tableView.reloadData()
+                                }
+                                catch let error{
+                                    print("Error",error)
+                                    self.errorHandlerMethod(error: error)
+                                }
+                                
+                            }))
+                            
+                            alert1.addAction(UIAlertAction(title: NSLocalizedString("Cancel",comment: ""), style: .cancel))
+                            self.present(alert1, animated: true, completion: nil)
+                            
+                        }
+                        else {
+                            
+                            try AccountManager.createAccount(parent: selectedAccount, name: textField.text!, type: selectedAccount.type, currency: selectedAccount.currency!, context: self.context)
+                            try self.coreDataStack.saveContext(self.context)
+                            try self.fetchedResultsController.performFetch()
+                            self.tableView.reloadData()
+                        }
                     }
                     catch let error{
                         print("Error",error)

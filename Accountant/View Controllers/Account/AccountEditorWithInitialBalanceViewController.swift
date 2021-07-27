@@ -366,7 +366,7 @@ class AccountEditorWithInitialBalanceViewController: UIViewController {
                     var expenseBeforeAccountingPeriod : Account? = AccountManager.getSubAccountWith(name: AccountsNameLocalisationManager.getLocalizedAccountName(.beforeAccountingPeriod), in: expenseRootAccount)
 
                     if expenseBeforeAccountingPeriod == nil {
-                        expenseBeforeAccountingPeriod = try? AccountManager.createAndGetAccount(parent: expenseRootAccount, name: AccountsNameLocalisationManager.getLocalizedAccountName(.beforeAccountingPeriod), type: expenseRootAccount.type, currency: currency, context: context)
+                        expenseBeforeAccountingPeriod = try? AccountManager.createAndGetAccount(parent: expenseRootAccount, name: AccountsNameLocalisationManager.getLocalizedAccountName(.beforeAccountingPeriod), type: expenseRootAccount.type, currency: currency, createdByUser: false, context: context)
                     }
                     guard let expenseBeforeAccountingPeriodSafe = expenseBeforeAccountingPeriod else {return}
 
@@ -381,7 +381,7 @@ class AccountEditorWithInitialBalanceViewController: UIViewController {
             TransactionManager.addTransaction(date: datePicker.date, debit: newDebtorsAccount, credit: capitalRootAccount, debitAmount: round(balance*100)/100, creditAmount: round(round(balance*100)/100 * exchangeRate*100)/100, createdByUser : false, context: context)
         }
         else if parentAccount == creditsRootAccount && moneyValidation(moneyAccount: parentAccount) {
-            try? AccountManager.createAccount(parent: expenseRootAccount, name: AccountsNameLocalisationManager.getLocalizedAccountName(.beforeAccountingPeriod), type: AccountType.assets.rawValue, currency: expenseRootAccount.currency, context: context)
+            try? AccountManager.createAccount(parent: expenseRootAccount, name: AccountsNameLocalisationManager.getLocalizedAccountName(.beforeAccountingPeriod), type: AccountType.assets.rawValue, currency: expenseRootAccount.currency, createdByUser: false, context: context)
             let newCreditAccount = try AccountManager.createAndGetAccount(parent: parentAccount, name: accountNameTextField.text!, type: parentAccount.type, currency: currency, context: context)
             guard let expenseBeforeAccountingPeriod : Account = AccountManager.getAccountWithPath("\(AccountsNameLocalisationManager.getLocalizedAccountName(.expense)):\(AccountsNameLocalisationManager.getLocalizedAccountName(.beforeAccountingPeriod))", context: context) else {return}
             TransactionManager.addTransaction(date: datePicker.date, debit: expenseBeforeAccountingPeriod, credit: newCreditAccount, debitAmount: (balance * exchangeRate*100)/100, creditAmount: balance, createdByUser : false, context: context)
