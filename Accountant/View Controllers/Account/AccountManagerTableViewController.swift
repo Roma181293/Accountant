@@ -140,7 +140,7 @@ class AccountManagerTableViewController: UITableViewController {
         }
         else {
             cell = tableView.dequeueReusableCell(withIdentifier: "AccountManagerCell1_ID", for: indexPath)
-            if let children = account.children, (children.allObjects as! [Account]).filter({$0.isHidden == false}).count > 0 {
+            if let children = account.children, children.count > 0 {
                 cell.accessoryType = .disclosureIndicator
             }
             else {
@@ -154,16 +154,7 @@ class AccountManagerTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedAccount = fetchedResultsController.object(at: indexPath) as Account
-        
-        guard let children = selectedAccount.children else {return}
-        
-        
-        var numberOfSubAccountsInAccount = children.count
-        if selectedAccount.isHidden == true {
-            numberOfSubAccountsInAccount = (children.allObjects as! [Account]).filter({$0.isHidden == false}).count
-        }
-        
-        if numberOfSubAccountsInAccount > 0 {
+        if let children = selectedAccount.children, children.count > 0 {
             let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
             let vc = storyBoard.instantiateViewController(withIdentifier: "AccountManagerTVC_ID") as! AccountManagerTableViewController
             vc.account = selectedAccount
@@ -297,10 +288,14 @@ class AccountManagerTableViewController: UITableViewController {
             {
                 
             }
-            else if selectedAccount.parent == nil
-                        && selectedAccount.name == AccountsNameLocalisationManager.getLocalizedAccountName(.capital) {
-                //can not have subAccount, coz it used in system generated transactions
-                //TODO:- create method in AccountManager that can get Account:Other if it exist otherwise Account
+            else if (selectedAccount.parent == nil && selectedAccount.name == AccountsNameLocalisationManager.getLocalizedAccountName(.capital))
+                        //can not have subAccount, coz it used in system generated transactions
+            
+                        //TODO:- create method in AccountManager that can get Account:Other if it exist otherwise Account
+            
+//                        || selectedAccount.isHidden == true //if need to restrict creating subaccount for hidden Account
+            {
+               
                 
             }
             else {

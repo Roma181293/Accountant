@@ -97,6 +97,7 @@ class AccountManager {
         
         if let parent = parent {
             account.parent = parent
+            account.isHidden = parent.isHidden
             account.addToAncestors(parent)
             if let parentAncestors = parent.ancestors {
                 account.addToAncestors(parentAncestors)
@@ -168,6 +169,10 @@ class AccountManager {
         return account.children?.allObjects as! [Account]
     }
     
+    static func getAllAncestorsForAcctount(_ account : Account) -> [Account] {
+        return account.ancestors?.allObjects as! [Account]
+    }
+    
     
     static func canBeRenamed(account:Account) -> Bool {
         if isReservedAccountName(account.name!){
@@ -236,14 +241,25 @@ class AccountManager {
         }
     }
     
-    
+    /**
+     This method change account isHidden status
+        
+     in case when new value = true then IsHidden status sets to the all children accounts and itself
+     in case when new value = false  then this value will be set only for the specified account
+     */
     static func changeAccountIsHiddenStatus(_ account : Account) {
         let isHidden = account.isHidden
         for item in getAllChildrenForAcctount(account){
+            if !isHidden {
             item.isHidden = !isHidden
+            }
         }
-        account.isHidden = !isHidden
+        
+        if (isHidden && getAllAncestorsForAcctount(account).filter({$0.isHidden == true}).isEmpty) || !isHidden  {
+            account.isHidden = !isHidden
+        }
     }
+    
     
     
     static func exportAccountsToString(context: NSManagedObjectContext) -> String {

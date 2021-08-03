@@ -52,16 +52,11 @@ class AccountManagerTableViewCell: UITableViewCell {
     }
     
     private func chooseAccessoryType() {
-        if accountIsHiddenSwitch.isOn == false{
-            self.accessoryType = .none
+        if let children = account.children, children.count > 0{
+            self.accessoryType = .disclosureIndicator
         }
         else {
-            if let children = account.children, children.count > 0{
-                self.accessoryType = .disclosureIndicator
-            }
-            else {
-                self.accessoryType = .none
-            }
+            self.accessoryType = .none
         }
     }
 }
