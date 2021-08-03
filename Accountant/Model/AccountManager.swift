@@ -241,23 +241,27 @@ class AccountManager {
         }
     }
     
-    /**
-     This method change account isHidden status
-        
-     in case when new value = true then IsHidden status sets to the all children accounts and itself
-     in case when new value = false  then this value will be set only for the specified account
-     */
-    static func changeAccountIsHiddenStatus(_ account : Account) {
-        let isHidden = account.isHidden
-        for item in getAllChildrenForAcctount(account){
-            if !isHidden {
-            item.isHidden = !isHidden
+  
+    static func changeAccountIsHiddenStatus(_ account : Account, modifiedByUser : Bool = true, modifyDate: Date = Date()) {
+        let oldIsHidden = account.isHidden
+        if oldIsHidden {  //activation
+            for anc in getAllAncestorsForAcctount(account).filter({$0.isHidden == true}) {
+                anc.isHidden = false
+                anc.modifyDate = modifyDate
+                anc.modifiedByUser = modifiedByUser
             }
         }
-        
-        if (isHidden && getAllAncestorsForAcctount(account).filter({$0.isHidden == true}).isEmpty) || !isHidden  {
-            account.isHidden = !isHidden
+        else {  //deactivation
+            for item in getAllChildrenForAcctount(account).filter({$0.isHidden == false}){
+                item.isHidden = true
+                item.modifyDate = modifyDate
+                item.modifiedByUser = modifiedByUser
+            }
         }
+        account.isHidden = !oldIsHidden
+        account.modifyDate = modifyDate
+        account.modifiedByUser = modifiedByUser
+     
     }
     
     
