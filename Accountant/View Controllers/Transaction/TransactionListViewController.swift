@@ -207,7 +207,9 @@ extension TransactionListViewController: UITableViewDelegate, UITableViewDataSou
         
         let configuration : UISwipeActionsConfiguration? = UISwipeActionsConfiguration(actions: [delete,copy])
         configuration?.actions[0].backgroundColor = .systemRed
-        configuration?.actions[1].backgroundColor = .systemGreen
+        configuration?.actions[0].image = UIImage(systemName: "trash")
+        configuration?.actions[1].backgroundColor = .systemBlue
+        configuration?.actions[1].image = UIImage(systemName: "doc.on.doc")
         return configuration
     }
     

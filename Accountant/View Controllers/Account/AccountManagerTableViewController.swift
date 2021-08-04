@@ -267,8 +267,10 @@ class AccountManagerTableViewController: UITableViewController {
         
         let selectedAccount = fetchedResultsController.object(at: indexPath) as Account
         
-        rename.backgroundColor = .systemOrange
+        rename.backgroundColor = .systemBlue
         addSubCategory.backgroundColor = .systemGreen
+        rename.image = UIImage(systemName: "pencil")
+        addSubCategory.image = UIImage(systemName: "plus")
         
         if isSwipeAvailable {
             var tmpConfiguration: [UIContextualAction] = []

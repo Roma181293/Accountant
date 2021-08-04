@@ -362,9 +362,12 @@ class AccountNavigatorTableViewController: UITableViewController {
         
         let selectedAccount = fetchedResultsController.object(at: indexPath) as Account
         
-        rename.backgroundColor = .systemOrange
+        rename.backgroundColor = .systemBlue
         hideAction.backgroundColor = .systemRed
         addSubCategory.backgroundColor = .systemGreen
+        rename.image = UIImage(systemName: "pencil")
+        hideAction.image = UIImage(systemName: "eye.slash")
+        addSubCategory.image = UIImage(systemName: "plus")
         
         if isSwipeAvailable {
             var tmpConfiguration: [UIContextualAction] = []
