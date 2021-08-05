@@ -11,6 +11,8 @@ import CoreData
 
 class AccountNavigatorTableViewController: UITableViewController {
     
+    let coreDataStack = CoreDataStack.shared
+    let context = CoreDataStack.shared.persistentContainer.viewContext
     var resultSearchController = UISearchController()
     var isSwipeAvailable: Bool = true
     
@@ -18,12 +20,10 @@ class AccountNavigatorTableViewController: UITableViewController {
 //    weak var budgetEditorVC : BudgetEditorViewController?
     var preTransactionTableViewCell : PreTransactionTableViewCell?
     var importTransactionTableViewController : ImportTransactionViewController?
+    
     weak var account : Account?
     
     var typeOfAccountingMethod : AccounttingMethod?
-    
-    let coreDataStack = CoreDataStack.shared
-    let context = CoreDataStack.shared.persistentContainer.viewContext
     
     lazy var fetchedResultsController : NSFetchedResultsController<Account> = {
         let fetchRequest : NSFetchRequest<Account> = NSFetchRequest<Account>(entityName: "Account")
@@ -64,17 +64,6 @@ class AccountNavigatorTableViewController: UITableViewController {
         super.viewWillDisappear(true)
         self.tabBarController?.navigationItem.rightBarButtonItem = nil
         resultSearchController.dismiss(animated: true, completion: nil)
-    }
-    
-    
-    func fetchData() {
-        do {
-            try fetchedResultsController.performFetch()
-            tableView.reloadData()
-        }
-        catch {
-            errorHandlerMethod(error: error)
-        }
     }
     
     
@@ -212,8 +201,117 @@ class AccountNavigatorTableViewController: UITableViewController {
     }
     
     
+
+    
+    
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         
+        let selectedAccount = fetchedResultsController.object(at: indexPath) as Account
+        let addSubAccount = addSubAccount(indexPath: indexPath)
+        let removeAccount = removeAccount(indexPath: indexPath)
+        let hideAccount = hideAccount(indexPath: indexPath)
+        let renameAccount = renameAccount(indexPath: indexPath)
+        
+        if isSwipeAvailable {
+            var tmpConfiguration: [UIContextualAction] = []
+            
+            if let parent = selectedAccount.parent, (
+                parent.name == AccountsNameLocalisationManager.getLocalizedAccountName(.money) //can have only one lvl od subAccounts
+             || parent.name == AccountsNameLocalisationManager.getLocalizedAccountName(.credits) //can have only one lvl od subAccounts
+             || parent.name == AccountsNameLocalisationManager.getLocalizedAccountName(.debtors) //can have only one lvl od subAccounts
+             || selectedAccount.name == AccountsNameLocalisationManager.getLocalizedAccountName(.other1) //can not have subAccount
+             || selectedAccount.name == AccountsNameLocalisationManager.getLocalizedAccountName(.beforeAccountingPeriod) //coz it used in system generated transactions
+            )
+            //FIXME:  remove this line if it is not affect functionality
+            //AccountManager.canBeRenamed(account: selectedAccount),
+            
+            {
+                
+            }
+            else if selectedAccount.parent == nil && selectedAccount.name == AccountsNameLocalisationManager.getLocalizedAccountName(.capital) {
+                //can not have subAccount, coz it used in system generated transactions
+                //TODO:- create method in AccountManager that can get Account:Other if it exist otherwise Account
+                
+            }
+            else {
+                tmpConfiguration.append(addSubAccount)
+            }
+            
+           
+            if AccountManager.canBeRenamed(account: selectedAccount) {
+                tmpConfiguration.append(renameAccount)
+                tmpConfiguration.append(removeAccount)
+            }
+            if selectedAccount.parent != nil {
+                tmpConfiguration.append(hideAccount)
+            }
+            return UISwipeActionsConfiguration(actions: tmpConfiguration)
+        }
+        return nil
+    }
+    
+    
+    
+    func errorHandlerMethod(error : Error) {
+        if let error = error as? AccountError{
+            if error == .accontWithThisNameAlreadyExists {
+                let alert = UIAlertController(title: NSLocalizedString("Warning", comment: ""), message: NSLocalizedString("Account with this name already exists. Please try another name.", comment: ""), preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default))
+                self.present(alert, animated: true, completion: nil)
+            }
+            else if error == .reservedAccountName {
+                let alert = UIAlertController(title: NSLocalizedString("Warning", comment: ""), message: NSLocalizedString("This is reserved account name. Please use another name.",comment: ""), preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default))
+                self.present(alert, animated: true, completion: nil)
+            }
+            else if error == .accountOrChildrenUsedInTransactionItem {
+                let alert = UIAlertController(title: NSLocalizedString("Warning", comment: ""), message: NSLocalizedString("This account or at least one of the children account used in transactions.",comment: ""), preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default))
+                self.present(alert, animated: true, completion: nil)
+            }
+        }
+        else {
+            let alert = UIAlertController(title: "Error", message: "\(error.localizedDescription)", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default))
+            self.present(alert, animated: true, completion: nil)
+        }
+    }
+    
+    
+    func fetchData() {
+        do {
+            try fetchedResultsController.performFetch()
+            tableView.reloadData()
+        }
+        catch {
+            errorHandlerMethod(error: error)
+        }
+    }
+}
+
+
+extension AccountNavigatorTableViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        if searchController.searchBar.text!.count != 0 {
+            if let account = account {
+                fetchedResultsController.fetchRequest.predicate = NSPredicate(format: "path CONTAINS[c] %@ && name CONTAINS[c] %@ && isHidden = false", argumentArray: [account.path!,searchController.searchBar.text!])
+            }
+            else {
+                fetchedResultsController.fetchRequest.predicate = NSPredicate(format: "name CONTAINS[c] %@ && isHidden = false", argumentArray: [searchController.searchBar.text!])
+            }
+            isSwipeAvailable = false
+        }
+        else {
+            fetchedResultsController.fetchRequest.predicate = NSPredicate(format: "parent = %@ && isHidden = false",argumentArray: [account])
+            isSwipeAvailable = true
+        }
+        fetchData()
+    }
+}
+
+
+extension AccountNavigatorTableViewController {
+    private func hideAccount(indexPath: IndexPath) -> UIContextualAction {
         let hideAction = UIContextualAction(style: .destructive, title: NSLocalizedString("Hide",comment: "")) { _, _, complete in
             let selectedAccount = self.fetchedResultsController.object(at: indexPath) as Account
             if selectedAccount.parent?.currency == nil {
@@ -229,7 +327,7 @@ class AccountNavigatorTableViewController: UITableViewController {
                         catch {
                             print(error)
                         }
-                        tableView.deleteRows(at: [indexPath], with: .fade)
+                        self.tableView.deleteRows(at: [indexPath], with: .fade)
                     }))
                     alert.addAction(UIAlertAction(title: NSLocalizedString("No",comment: ""), style: .cancel))
                     self.present(alert, animated: true, completion: nil)
@@ -253,15 +351,20 @@ class AccountNavigatorTableViewController: UITableViewController {
                         print("Error",error)
                         self.errorHandlerMethod(error: error)
                     }
-                    tableView.deleteRows(at: [indexPath], with: .fade)
+                    self.tableView.deleteRows(at: [indexPath], with: .fade)
                 }))
                 alert.addAction(UIAlertAction(title: NSLocalizedString("No",comment: ""), style: .cancel))
                 self.present(alert, animated: true, completion: nil)
             }
             complete(true)
         }
-        
-        
+        hideAction.backgroundColor = .systemGray
+        hideAction.image = UIImage(systemName: "eye.slash")
+        return hideAction
+    }
+    
+    
+    private func removeAccount(indexPath: IndexPath) -> UIContextualAction{
         let removeAction = UIContextualAction(style: .destructive, title: NSLocalizedString("Hide",comment: "")) { _, _, complete in
             let selectedAccount = self.fetchedResultsController.object(at: indexPath) as Account
             
@@ -280,12 +383,10 @@ class AccountNavigatorTableViewController: UITableViewController {
                         print("Error",error)
                         self.errorHandlerMethod(error: error)
                     }
-                    tableView.deleteRows(at: [indexPath], with: .fade)
+                    self.tableView.deleteRows(at: [indexPath], with: .fade)
                 }))
                 alert.addAction(UIAlertAction(title: NSLocalizedString("No",comment: ""), style: .cancel))
                 self.present(alert, animated: true, completion: nil)
-                
-                
             }
             else {
                 
@@ -298,14 +399,17 @@ class AccountNavigatorTableViewController: UITableViewController {
                 alert.addAction(UIAlertAction(title: NSLocalizedString("OK",comment: ""), style: .default))
                 self.present(alert, animated: true, completion: nil)
             }
-            
-            
-            
             complete(true)
         }
-        
-        
-        
+        removeAction.backgroundColor = .systemRed
+        removeAction.image = UIImage(systemName: "trash")
+        return removeAction
+    }
+    
+    
+    
+    
+    private func renameAccount(indexPath: IndexPath) -> UIContextualAction {
         let rename = UIContextualAction(style: .normal, title: NSLocalizedString("Rename",comment: "")) { (contAct, view, complete) in
             let selectedAccount = self.fetchedResultsController.object(at: indexPath) as Account
             
@@ -322,7 +426,7 @@ class AccountNavigatorTableViewController: UITableViewController {
                     try AccountManager.renameAccount(selectedAccount, to: textField.text!, context: self.context)
                     try self.coreDataStack.saveContext(self.context)
                     try self.fetchedResultsController.performFetch()
-                    tableView.reloadData()
+                    self.tableView.reloadData()
                 }
                 catch let error{
                     print("Error",error)
@@ -334,7 +438,12 @@ class AccountNavigatorTableViewController: UITableViewController {
             
             complete(true)
         }
-        
+        rename.backgroundColor = .systemBlue
+        rename.image = UIImage(systemName: "pencil")
+        return rename
+    }
+    
+    private func addSubAccount(indexPath: IndexPath) -> UIContextualAction {
         let addSubCategory = UIContextualAction(style: .normal, title: NSLocalizedString("Add subaccount",comment: "")) { _, _, complete in
             let selectedAccount = self.fetchedResultsController.object(at: indexPath) as Account
             
@@ -366,7 +475,7 @@ class AccountNavigatorTableViewController: UITableViewController {
                             
                             
                             
-                            let alert1 = UIAlertController(title: NSLocalizedString("Attention",comment: ""), message:  String(format: NSLocalizedString("Account \"%@\" has transactions. All this thansactions will be automatically moved to new child account \"%@\".",comment: ""), selectedAccount.name!,AccountsNameLocalisationManager.getLocalizedAccountName(.other1)), preferredStyle: .alert)                            
+                            let alert1 = UIAlertController(title: NSLocalizedString("Attention",comment: ""), message:  String(format: NSLocalizedString("Account \"%@\" has transactions. All this thansactions will be automatically moved to new child account \"%@\".",comment: ""), selectedAccount.name!,AccountsNameLocalisationManager.getLocalizedAccountName(.other1)), preferredStyle: .alert)
                             alert1.addAction(UIAlertAction(title: NSLocalizedString("Create and Move",comment: ""), style: .default, handler: { [weak alert1] (_) in
                                 do {
                                     try AccountManager.createAccount(parent: selectedAccount, name: textField.text!, type: selectedAccount.type, currency: selectedAccount.currency!, context: self.context)
@@ -404,100 +513,8 @@ class AccountNavigatorTableViewController: UITableViewController {
             }
             complete(true)
         }
-        
-        let selectedAccount = fetchedResultsController.object(at: indexPath) as Account
-        
-        rename.backgroundColor = .systemBlue
-        hideAction.backgroundColor = .systemGray
         addSubCategory.backgroundColor = .systemGreen
-        removeAction.image = UIImage(systemName: "trash")
-        rename.image = UIImage(systemName: "pencil")
-        hideAction.image = UIImage(systemName: "eye.slash")
         addSubCategory.image = UIImage(systemName: "plus")
-        
-        if isSwipeAvailable {
-            var tmpConfiguration: [UIContextualAction] = []
-            
-            if let parent = selectedAccount.parent, (
-                parent.name == AccountsNameLocalisationManager.getLocalizedAccountName(.money) //can have only one lvl od subAccounts
-                    || parent.name == AccountsNameLocalisationManager.getLocalizedAccountName(.credits) //can have only one lvl od subAccounts
-                    || parent.name == AccountsNameLocalisationManager.getLocalizedAccountName(.debtors) //can have only one lvl od subAccounts
-                    || selectedAccount.name == AccountsNameLocalisationManager.getLocalizedAccountName(.other1) //can not have subAccount
-                    || selectedAccount.name == AccountsNameLocalisationManager.getLocalizedAccountName(.beforeAccountingPeriod) //coz it used in system generated transactions
-            )
-            //FIXME:  remove this line if it is not affect functionality
-            //AccountManager.canBeRenamed(account: selectedAccount),
-            
-            {
-                
-            }
-            else if selectedAccount.parent == nil
-                        && selectedAccount.name == AccountsNameLocalisationManager.getLocalizedAccountName(.capital) {
-                //can not have subAccount, coz it used in system generated transactions
-                //TODO:- create method in AccountManager that can get Account:Other if it exist otherwise Account
-                
-            }
-            else {
-                tmpConfiguration.append(addSubCategory)
-            }
-            
-           
-            if AccountManager.canBeRenamed(account: selectedAccount) {
-                tmpConfiguration.append(rename)
-                tmpConfiguration.append(removeAction)
-            }
-            if selectedAccount.parent != nil {
-                tmpConfiguration.append(hideAction)
-            }
-            return UISwipeActionsConfiguration(actions: tmpConfiguration)
-        }
-        return nil
-    }
-    
-    
-    func errorHandlerMethod(error : Error) {
-        if let error = error as? AccountError{
-            if error == .accontWithThisNameAlreadyExists {
-                let alert = UIAlertController(title: NSLocalizedString("Warning", comment: ""), message: NSLocalizedString("Account with this name already exists. Please try another name.", comment: ""), preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default))
-                self.present(alert, animated: true, completion: nil)
-            }
-            else if error == .reservedAccountName {
-                let alert = UIAlertController(title: NSLocalizedString("Warning", comment: ""), message: NSLocalizedString("This is reserved account name. Please use another name.",comment: ""), preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default))
-                self.present(alert, animated: true, completion: nil)
-            }
-            else if error == .accountOrChildrenUsedInTransactionItem {
-                let alert = UIAlertController(title: NSLocalizedString("Warning", comment: ""), message: NSLocalizedString("This account or at least one of the children account used in transactions.",comment: ""), preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default))
-                self.present(alert, animated: true, completion: nil)
-            }
-        }
-        else {
-            let alert = UIAlertController(title: "Error", message: "\(error.localizedDescription)", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default))
-            self.present(alert, animated: true, completion: nil)
-        }
+        return addSubCategory
     }
 }
-
-
-extension AccountNavigatorTableViewController: UISearchResultsUpdating {
-    func updateSearchResults(for searchController: UISearchController) {
-        if searchController.searchBar.text!.count != 0 {
-            if let account = account {
-                fetchedResultsController.fetchRequest.predicate = NSPredicate(format: "path CONTAINS[c] %@ && name CONTAINS[c] %@ && isHidden = false", argumentArray: [account.path!,searchController.searchBar.text!])
-            }
-            else {
-                fetchedResultsController.fetchRequest.predicate = NSPredicate(format: "name CONTAINS[c] %@ && isHidden = false", argumentArray: [searchController.searchBar.text!])
-            }
-            isSwipeAvailable = false
-        }
-        else {
-            fetchedResultsController.fetchRequest.predicate = NSPredicate(format: "parent = %@ && isHidden = false",argumentArray: [account])
-            isSwipeAvailable = true
-        }
-        fetchData()
-    }
-}
-
