@@ -313,18 +313,18 @@ class AccountManagerTableViewController: UITableViewController {
         if let error = error as? AccountError{
             if error == .accontWithThisNameAlreadyExists {
                 let alert = UIAlertController(title: NSLocalizedString("Warning", comment: ""), message: NSLocalizedString("Account with this name already exists. Please try another name.", comment: ""), preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: NSLocalizedString("Ok", comment: ""), style: .default))
+                alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default))
                 self.present(alert, animated: true, completion: nil)
             }
             else if error == .reservedAccountName{
                 let alert = UIAlertController(title: NSLocalizedString("Warning", comment: ""), message: NSLocalizedString("This is reserved account name. Please use another name.",comment: ""), preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: NSLocalizedString("Ok", comment: ""), style: .default))
+                alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default))
                 self.present(alert, animated: true, completion: nil)
             }
         }
         else {
             let alert = UIAlertController(title: "Error", message: "\(error.localizedDescription)", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: NSLocalizedString("Ok", comment: ""), style: .default))
+            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default))
             self.present(alert, animated: true, completion: nil)
         }
     }

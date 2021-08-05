@@ -145,7 +145,7 @@ class AccountEditorWithInitialBalanceViewController: UIViewController {
         do{
             if accountNameTextField.text! == "" {
                 let alert = UIAlertController(title: NSLocalizedString("Warning", comment: ""), message: NSLocalizedString("Prease enter account name", comment: ""), preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: NSLocalizedString("Ok", comment: ""), style: .default))
+                alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default))
                 self.present(alert, animated: true, completion: nil)
                 
             }
@@ -393,19 +393,19 @@ class AccountEditorWithInitialBalanceViewController: UIViewController {
     private func moneyValidation(moneyAccount: Account) -> Bool {
         if accountNameTextField.text == nil || accountNameTextField.text == "" {
             let alert = UIAlertController(title: NSLocalizedString("Warning", comment: ""), message: NSLocalizedString("Please enter correct account name", comment: ""), preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: NSLocalizedString("Ok", comment: ""), style: .default))
+            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default))
             self.present(alert, animated: true, completion: nil)
             return false
         }
         else if AccountManager.isFreeAccountName(parent: moneyAccount, name: accountNameTextField.text!, context: context) == false {
             let alert = UIAlertController(title: NSLocalizedString("Warning", comment: ""), message: NSLocalizedString("This account name is already exist", comment: ""), preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: NSLocalizedString("Ok", comment: ""), style: .default))
+            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default))
             self.present(alert, animated: true, completion: nil)
             return false
         }
         else if Double(accountBalanceTextField.text!.replacingOccurrences(of: ",", with: ".")) == nil {
             let alert = UIAlertController(title: NSLocalizedString("Warning", comment: ""), message: NSLocalizedString("Please check the balance value", comment: ""), preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: NSLocalizedString("Ok", comment: ""), style: .default))
+            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default))
             self.present(alert, animated: true, completion: nil)
             return false
         }
@@ -416,13 +416,13 @@ class AccountEditorWithInitialBalanceViewController: UIViewController {
     private func creditValidation(creditAccount: Account) -> Bool {
         if AccountManager.isFreeAccountName(parent: creditAccount, name: accountNameTextField.text!, context: context) == false {
             let alert = UIAlertController(title: NSLocalizedString("Warning", comment: ""), message: String(format: NSLocalizedString("With card money account we also create associated credit account and this account Credits:%@ is already exist. Please use another account name.",comment: ""), accountNameTextField.text!), preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: NSLocalizedString("Ok", comment: ""), style: .default))
+            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default))
             self.present(alert, animated: true, completion: nil)
             return false
         }
         else if Double(creditLimitTextField.text!.replacingOccurrences(of: ",", with: ".")) == nil {
             let alert = UIAlertController(title: NSLocalizedString("Warning", comment: ""), message: NSLocalizedString("Please check the credit limit value", comment: ""), preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: NSLocalizedString("Ok", comment: ""), style: .default))
+            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default))
             self.present(alert, animated: true, completion: nil)
             return false
         }
@@ -433,7 +433,7 @@ class AccountEditorWithInitialBalanceViewController: UIViewController {
     func exchangeRateValidation() -> Bool {
         if currency != accountingCurrency && (exchangeRateTextField.text == "" || Double(exchangeRateTextField.text!.replacingOccurrences(of: ",", with: ".")) == nil){  //case when no internet
             let alert = UIAlertController(title: NSLocalizedString("Sorry", comment: ""), message: String(format: NSLocalizedString("Bad internet connection. Please enter exchange rate %@/%@",comment: ""), accountingCurrency.code!,currency.code!), preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: NSLocalizedString("Ok", comment: ""), style: .default))
+            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default))
             self.present(alert, animated: true, completion: nil)
             return false
         }
@@ -444,13 +444,13 @@ class AccountEditorWithInitialBalanceViewController: UIViewController {
     private func editValidation() -> Bool {
         if Double(creditLimitTextField.text!.replacingOccurrences(of: ",", with: ".")) == nil {
             let alert = UIAlertController(title: NSLocalizedString("Warning", comment: ""), message: NSLocalizedString("Please check the credit limit value", comment: ""), preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: NSLocalizedString("Ok", comment: ""), style: .default))
+            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default))
             self.present(alert, animated: true, completion: nil)
             return false
         }
         else if let creditLimit = Double(creditLimitTextField.text!.replacingOccurrences(of: ",", with: ".")), creditLimit < 0{
             let alert = UIAlertController(title: NSLocalizedString("Warning", comment: ""), message: NSLocalizedString("Credit limit value can't be less than 0", comment: ""), preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: NSLocalizedString("Ok", comment: ""), style: .default))
+            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default))
             self.present(alert, animated: true, completion: nil)
             return false
         }
@@ -485,6 +485,8 @@ class AccountEditorWithInitialBalanceViewController: UIViewController {
                 errorAlert(message: NSLocalizedString("Attribute type should be initialize for root account", comment: ""))
             case .accountHasAnAttribureTypeDifferentFromParent:
                 errorAlert(message: NSLocalizedString("Account has an attribure type different from parent", comment: ""))
+            case .accountOrChildrenUsedInTransactionItem:
+            errorAlert(message: NSLocalizedString("This account or at least one of the children account used in transactions.", comment: ""))
             }
         }
         else {
@@ -494,7 +496,7 @@ class AccountEditorWithInitialBalanceViewController: UIViewController {
     
     func errorAlert(message : String) {
         let alert = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: NSLocalizedString("Ok", comment: ""), style: .default, handler: { [self](_) in
+        alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default, handler: { [self](_) in
             self.navigationController?.popViewController(animated: true)
         }))
         self.present(alert, animated: true, completion: nil)
@@ -502,7 +504,7 @@ class AccountEditorWithInitialBalanceViewController: UIViewController {
     
     func warningAlert(message : String) {
         let alert = UIAlertController(title: NSLocalizedString("Warning", comment: ""), message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: NSLocalizedString("Ok", comment: ""), style: .default))
+        alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default))
         self.present(alert, animated: true, completion: nil)
     }
     

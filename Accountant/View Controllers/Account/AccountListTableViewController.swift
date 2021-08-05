@@ -47,7 +47,7 @@ class AccountListTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
         let alert = UIAlertController(title: NSLocalizedString("Warning",comment: ""), message: NSLocalizedString("Amount excluded from total amount in pichart.\nAccount amount cannot be less zero.\nPlease check transaction with this account.",comment: ""), preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: NSLocalizedString("Ok",comment: ""), style: .default))
+        alert.addAction(UIAlertAction(title: NSLocalizedString("OK",comment: ""), style: .default))
         self.present(alert, animated: true, completion: nil)
     }
     
@@ -105,7 +105,7 @@ class AccountListTableViewController: UITableViewController {
                 }
                 else {
                     let alert = UIAlertController(title: NSLocalizedString("Warning",comment: ""), message: NSLocalizedString("You cannot hide account with money.\n1. Please transfer all your money to any other account.\n2. Hide account",comment: ""), preferredStyle: .alert)
-                    alert.addAction(UIAlertAction(title: NSLocalizedString("Ok",comment: ""), style: .default))
+                    alert.addAction(UIAlertAction(title: NSLocalizedString("OK",comment: ""), style: .default))
                     self.present(alert, animated: true, completion: nil)
                 }
             }
@@ -123,13 +123,13 @@ class AccountListTableViewController: UITableViewController {
         if let error = error as? AccountError{
             if error == .accontWithThisNameAlreadyExists {
                 let alert = UIAlertController(title: NSLocalizedString("Warning",comment: ""), message: NSLocalizedString("Account with this name already exists. Please try another name.",comment: ""), preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: NSLocalizedString("Ok",comment: ""), style: .default))
+                alert.addAction(UIAlertAction(title: NSLocalizedString("OK",comment: ""), style: .default))
                 self.present(alert, animated: true, completion: nil)
             }
         }
         else {
             let alert = UIAlertController(title: NSLocalizedString("Error",comment: ""), message: "\(error.localizedDescription)", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: NSLocalizedString("Ok",comment: ""), style: .default))
+            alert.addAction(UIAlertAction(title: NSLocalizedString("OK",comment: ""), style: .default))
             self.present(alert, animated: true, completion: nil)
         }
     }

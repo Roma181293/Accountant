@@ -18,6 +18,7 @@ struct Constants {
         static let authPinAndBioViewController = "AuthPinAndBiometricVC_ID"
         static let transactionEditorViewController = "TransactionEditorVC_ID"
         static let purchaseOfferViewController = "PurchaseOfferVC_ID"
+        static let accountNavigatorTableViewCContriller = "AccountNavigatorTVC_ID"
     }
     
     struct Cell {

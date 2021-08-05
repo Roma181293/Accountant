@@ -87,7 +87,7 @@ class TransactionListViewController: UIViewController{
         }
         catch {
             let alert = UIAlertController(title: NSLocalizedString("Error",comment: ""), message: "\(error.localizedDescription)", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: NSLocalizedString("Ok",comment: ""), style: .default))
+            alert.addAction(UIAlertAction(title: NSLocalizedString("OK",comment: ""), style: .default))
             self.present(alert, animated: true, completion: nil)
         }
     }
@@ -163,7 +163,7 @@ extension TransactionListViewController: UITableViewDelegate, UITableViewDataSou
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let delete = UIContextualAction(style: .normal, title: NSLocalizedString("Delete",comment: "")) { (contAct, view, complete) in
-            let alert = UIAlertController(title: NSLocalizedString("Delete transaction", comment: ""), message: NSLocalizedString("Do you really want delete transaction?", comment: ""), preferredStyle: .alert)
+            let alert = UIAlertController(title: NSLocalizedString("Remove", comment: ""), message: NSLocalizedString("Do you really want remove transaction?", comment: ""), preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: NSLocalizedString("Yes", comment: ""), style: .destructive, handler: {(_) in
                 
                 TransactionManager.deleteTransaction(self.fetchedResultsController.object(at: indexPath) as Transaction, context: self.context)
@@ -173,7 +173,7 @@ extension TransactionListViewController: UITableViewDelegate, UITableViewDataSou
                 }
                 catch {
                     let alert = UIAlertController(title: NSLocalizedString("Error",comment: ""), message: "\(error.localizedDescription)", preferredStyle: .alert)
-                    alert.addAction(UIAlertAction(title: NSLocalizedString("Ok",comment: ""), style: .default))
+                    alert.addAction(UIAlertAction(title: NSLocalizedString("OK",comment: ""), style: .default))
                     self.present(alert, animated: true, completion: nil)
                 }
             }))
@@ -199,7 +199,7 @@ extension TransactionListViewController: UITableViewDelegate, UITableViewDataSou
             }
             catch {
                 let alert = UIAlertController(title: NSLocalizedString("Error",comment: ""), message: "\(error.localizedDescription)", preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: NSLocalizedString("Ok",comment: ""), style: .default))
+                alert.addAction(UIAlertAction(title: NSLocalizedString("OK",comment: ""), style: .default))
                 self.present(alert, animated: true, completion: nil)
             }
             complete(true)

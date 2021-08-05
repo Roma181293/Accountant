@@ -146,7 +146,7 @@ class AccountListViewController: UIViewController, UIScrollViewDelegate{
         }
         catch let error{
             let alert = UIAlertController(title: NSLocalizedString("Error",comment: ""), message: "\(error.localizedDescription)", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: NSLocalizedString("Ok",comment: ""), style: .default))
+            alert.addAction(UIAlertAction(title: NSLocalizedString("OK",comment: ""), style: .default))
             self.present(alert, animated: true, completion: nil)
         }
         

@@ -261,10 +261,34 @@ class AccountManager {
         account.isHidden = !oldIsHidden
         account.modifyDate = modifyDate
         account.modifiedByUser = modifiedByUser
-     
     }
     
+    static func removeAccount(_ account: Account, context: NSManagedObjectContext) throws {
+        var accounts = getAllChildrenForAcctount(account)
+        accounts.append(account)
+        
+        for acc in accounts{
+            if !isFreeFromTransactionItems(account: acc) {
+                throw AccountError.accountOrChildrenUsedInTransactionItem
+            }
+        }
+        accounts.forEach({
+            context.delete($0)
+        })
+    }
     
+    static func accountListUsingInTransactions(account: Account) -> [Account] {
+        var accounts = getAllChildrenForAcctount(account)
+        accounts.append(account)
+        
+        var results : [Account] = []
+        for acc in accounts{
+            if !isFreeFromTransactionItems(account: acc) {
+                results.append(acc)
+            }
+        }
+        return results
+    }
     
     static func exportAccountsToString(context: NSManagedObjectContext) -> String {
         

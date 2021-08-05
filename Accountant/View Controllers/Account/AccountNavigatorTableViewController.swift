@@ -236,7 +236,7 @@ class AccountNavigatorTableViewController: UITableViewController {
                 }
                 else {
                     let alert = UIAlertController(title: NSLocalizedString("Warning",comment: ""), message: NSLocalizedString("You cannot hide account with money.\n1. Please transfer all your money to any other account.\n2. Hide account",comment: ""), preferredStyle: .alert)
-                    alert.addAction(UIAlertAction(title: NSLocalizedString("Ok",comment: ""), style: .default))
+                    alert.addAction(UIAlertAction(title: NSLocalizedString("OK",comment: ""), style: .default))
                     self.present(alert, animated: true, completion: nil)
                 }
             }
@@ -260,6 +260,51 @@ class AccountNavigatorTableViewController: UITableViewController {
             }
             complete(true)
         }
+        
+        
+        let removeAction = UIContextualAction(style: .destructive, title: NSLocalizedString("Hide",comment: "")) { _, _, complete in
+            let selectedAccount = self.fetchedResultsController.object(at: indexPath) as Account
+            
+            let accountListUsingInTransactions = AccountManager.accountListUsingInTransactions(account: selectedAccount)
+            if accountListUsingInTransactions.isEmpty {
+                
+                let alert = UIAlertController(title: NSLocalizedString("Remove",comment: ""), message: NSLocalizedString("Do you really want remove account and all clidren accounts?",comment: ""), preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: NSLocalizedString("Yes",comment: ""), style: .destructive, handler: {(_) in
+                    
+                    do {
+                        try AccountManager.removeAccount(selectedAccount, context: self.context)
+                        try self.coreDataStack.saveContext(self.context)
+                        try self.fetchedResultsController.performFetch()
+                    }
+                    catch let error{
+                        print("Error",error)
+                        self.errorHandlerMethod(error: error)
+                    }
+                    tableView.deleteRows(at: [indexPath], with: .fade)
+                }))
+                alert.addAction(UIAlertAction(title: NSLocalizedString("No",comment: ""), style: .cancel))
+                self.present(alert, animated: true, completion: nil)
+                
+                
+            }
+            else {
+                
+                var accountListString : String = ""
+                accountListUsingInTransactions.forEach({
+                    accountListString += "\n" + $0.path!
+                })
+                
+                let alert = UIAlertController(title: NSLocalizedString("Warning",comment: ""), message: NSLocalizedString("Please move transactions from accounts below:",comment: "") + accountListString, preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: NSLocalizedString("OK",comment: ""), style: .default))
+                self.present(alert, animated: true, completion: nil)
+            }
+            
+            
+            
+            complete(true)
+        }
+        
+        
         
         let rename = UIContextualAction(style: .normal, title: NSLocalizedString("Rename",comment: "")) { (contAct, view, complete) in
             let selectedAccount = self.fetchedResultsController.object(at: indexPath) as Account
@@ -363,20 +408,16 @@ class AccountNavigatorTableViewController: UITableViewController {
         let selectedAccount = fetchedResultsController.object(at: indexPath) as Account
         
         rename.backgroundColor = .systemBlue
-        hideAction.backgroundColor = .systemRed
+        hideAction.backgroundColor = .systemGray
         addSubCategory.backgroundColor = .systemGreen
+        removeAction.image = UIImage(systemName: "trash")
         rename.image = UIImage(systemName: "pencil")
         hideAction.image = UIImage(systemName: "eye.slash")
         addSubCategory.image = UIImage(systemName: "plus")
         
         if isSwipeAvailable {
             var tmpConfiguration: [UIContextualAction] = []
-            if selectedAccount.parent != nil {
-                tmpConfiguration.append(hideAction)
-            }
-            if AccountManager.canBeRenamed(account: selectedAccount) {
-                tmpConfiguration.append(rename)
-            }
+            
             if let parent = selectedAccount.parent, (
                 parent.name == AccountsNameLocalisationManager.getLocalizedAccountName(.money) //can have only one lvl od subAccounts
                     || parent.name == AccountsNameLocalisationManager.getLocalizedAccountName(.credits) //can have only one lvl od subAccounts
@@ -399,6 +440,15 @@ class AccountNavigatorTableViewController: UITableViewController {
             else {
                 tmpConfiguration.append(addSubCategory)
             }
+            
+           
+            if AccountManager.canBeRenamed(account: selectedAccount) {
+                tmpConfiguration.append(rename)
+                tmpConfiguration.append(removeAction)
+            }
+            if selectedAccount.parent != nil {
+                tmpConfiguration.append(hideAction)
+            }
             return UISwipeActionsConfiguration(actions: tmpConfiguration)
         }
         return nil
@@ -409,18 +459,23 @@ class AccountNavigatorTableViewController: UITableViewController {
         if let error = error as? AccountError{
             if error == .accontWithThisNameAlreadyExists {
                 let alert = UIAlertController(title: NSLocalizedString("Warning", comment: ""), message: NSLocalizedString("Account with this name already exists. Please try another name.", comment: ""), preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: NSLocalizedString("Ok", comment: ""), style: .default))
+                alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default))
                 self.present(alert, animated: true, completion: nil)
             }
-            else if error == .reservedAccountName{
+            else if error == .reservedAccountName {
                 let alert = UIAlertController(title: NSLocalizedString("Warning", comment: ""), message: NSLocalizedString("This is reserved account name. Please use another name.",comment: ""), preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: NSLocalizedString("Ok", comment: ""), style: .default))
+                alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default))
+                self.present(alert, animated: true, completion: nil)
+            }
+            else if error == .accountOrChildrenUsedInTransactionItem {
+                let alert = UIAlertController(title: NSLocalizedString("Warning", comment: ""), message: NSLocalizedString("This account or at least one of the children account used in transactions.",comment: ""), preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default))
                 self.present(alert, animated: true, completion: nil)
             }
         }
         else {
             let alert = UIAlertController(title: "Error", message: "\(error.localizedDescription)", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: NSLocalizedString("Ok", comment: ""), style: .default))
+            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default))
             self.present(alert, animated: true, completion: nil)
         }
     }

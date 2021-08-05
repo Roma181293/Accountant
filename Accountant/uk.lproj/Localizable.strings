@@ -28,8 +28,8 @@
 "To:" = "До:";
 
 "Transactions" = "Операції";
-"Delete transaction" = "Видалити операцію";
-"Do you really want delete transaction?" = "Ви дійсно хочете видалити операцію?";
+"Remove" = "Видалити";
+"Do you really want remove transaction?" = "Ви дійсно хочете видалити операцію?";
 "Yes" = "Так";
 "No" = "Ні";
 "Copy" = "Копіювати";
@@ -141,7 +141,9 @@
 "Enter account name" = "Введіть ім'я рахунку";
 "Add" = "Додати";
 "Cancel" = "Закрити";
-
+"This account or at least one of the children account used in transactions." = "Цей рахунок, або хоча б один з дочірніх разунків використовується в операціях";
+"Do you really want remove account and all clidren accounts?" = "Ви дійсно хочете видалити рахунок і всі дочірні рахунки?";
+"Please move transactions from accounts below." = "Будь ласка перемістіть всі операції в рахунків наведених нижче:";
 
 //AuthViewController
 "Authentication is required to open the app" = "Для роботи програми необхідна аутентифікація";

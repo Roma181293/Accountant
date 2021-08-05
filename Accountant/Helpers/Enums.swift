@@ -42,6 +42,7 @@ enum AccountError : Error {
     case attributeTypeShouldBeInitializeForRootAccount
     case accountHasAnAttribureTypeDifferentFromParent
     case accontWithThisNameAlreadyExists
+    case accountOrChildrenUsedInTransactionItem
     case creditAccountAlreadyExist  //for case when creates linked account
     case reservedAccountName
     case incomeAccountDoesNotExist

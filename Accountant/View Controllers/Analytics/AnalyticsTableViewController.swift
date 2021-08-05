@@ -67,7 +67,7 @@ class AnalyticsTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
         let alert = UIAlertController(title: NSLocalizedString("Warning",comment: ""), message: NSLocalizedString("Amount excluded from total amount in pichart.\nAccount amount cannot be less zero.\nPlease check transaction with this account.",comment: ""), preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: NSLocalizedString("Ok",comment: ""), style: .default))
+        alert.addAction(UIAlertAction(title: NSLocalizedString("OK",comment: ""), style: .default))
         self.present(alert, animated: true, completion: nil)
     }
     
