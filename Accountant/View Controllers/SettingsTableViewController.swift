@@ -49,12 +49,12 @@ class SettingsTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if userProfile[indexPath.row] == "BioAuth" {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "SettingsCellSwitch_ID", for: indexPath) as! SettingWithSwitchTableViewCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: Constants.Cell.settingsCellWithSwitchCell, for: indexPath) as! SettingWithSwitchTableViewCell
             cell.update()
             return cell
         }
         else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "SettingsCell_ID", for: indexPath)
+            let cell = tableView.dequeueReusableCell(withIdentifier: Constants.Cell.settingsCell, for: indexPath)
             
             cell.textLabel?.text = userProfile[indexPath.row]
             cell.detailTextLabel?.text = ""
@@ -72,7 +72,7 @@ class SettingsTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if userProfile[indexPath.row] == NSLocalizedString("Accounting currency", comment: "") {
             let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-            let currencyTableViewController = storyBoard.instantiateViewController(withIdentifier: "CurrencyTVC_ID") as! CurrencyTableViewController
+            let currencyTableViewController = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.currencyTableViewController) as! CurrencyTableViewController
             self.navigationController?.pushViewController(currencyTableViewController, animated: true)
         }
         else if userProfile[indexPath.row] == NSLocalizedString("Share Account List", comment: "") {
@@ -120,17 +120,17 @@ class SettingsTableViewController: UITableViewController {
         }
         else if userProfile[indexPath.row] == NSLocalizedString("Accounts manager", comment: "") {
             let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-            let vc = storyBoard.instantiateViewController(withIdentifier: "AccountManagerTVC_ID") as! AccountManagerTableViewController
+            let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.accountManagerTableViewController) as! AccountManagerTableViewController
             self.navigationController?.pushViewController(vc, animated: true)
         }
         else if userProfile[indexPath.row] == NSLocalizedString("PRO access", comment: ""){
             let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-            let vc = storyBoard.instantiateViewController(withIdentifier: "PurchaseOfferVC_ID") as! PurchaseOfferViewController
+            let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.purchaseOfferViewController) as! PurchaseOfferViewController
             self.navigationController?.pushViewController(vc, animated: true)
         }
         else if userProfile[indexPath.row] == NSLocalizedString("Subscriptions status", comment: "") {
             let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-            let vc = storyBoard.instantiateViewController(withIdentifier: "SubscriptionsStatusVC_ID") as! SubsctiptionStatusViewController
+            let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.subscriptionsStatusViewController) as! SubsctiptionStatusViewController
             self.navigationController?.pushViewController(vc, animated: true)
         }
         tableView.deselectRow(at: indexPath, animated: true)
@@ -174,7 +174,7 @@ extension SettingsTableViewController: UIDocumentPickerDelegate {
         else {
             
             let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-            let vc = storyBoard.instantiateViewController(withIdentifier: "ImportTransactionVC_ID") as! ImportTransactionViewController
+            let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.importTransactionViewController) as! ImportTransactionViewController
             vc.dataFromFile = data
             self.navigationController?.pushViewController(vc, animated: true)
             

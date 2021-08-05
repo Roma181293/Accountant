@@ -50,7 +50,7 @@ class SetAccountingStartDateViewController: UIViewController {
         guard let date = calendar.dateInterval(of: .day, for: datePicker.date)?.start else {return}
         UserProfile.setAccountingStartDate(date)
         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let setNameVC = storyBoard.instantiateViewController(withIdentifier: "SetAccountingCurrencyVC_ID") as! SetAccountingCurrencyViewController
+        let setNameVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.setAccountingCurrencyViewController) as! SetAccountingCurrencyViewController
         self.navigationController?.pushViewController(setNameVC, animated: true)
     }
  

@@ -34,12 +34,12 @@ class AccountListTableViewController: UITableViewController {
         let account: Account! = listOfAccountsToShow[indexPath.row].account
        
         if AccountManager.getRootAccountFor(account).name! == AccountsNameLocalisationManager.getLocalizedAccountName(.money){
-            let cell = tableView.dequeueReusableCell(withIdentifier: "MoneyAccountCell_ID", for: indexPath) as! MoneyAccountTableViewCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: Constants.Cell.moneyAccountCell, for: indexPath) as! MoneyAccountTableViewCell
             cell.updateCell(dataToShow: listOfAccountsToShow[indexPath.row], accountingCurrency : accountingCurrency)
             return cell
         }
         else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "AccountInForeignCurrencyCell_ID", for: indexPath) as! AccountInForeignCurrencyTableViewCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: Constants.Cell.accountInForeignCurrencyCell, for: indexPath) as! AccountInForeignCurrencyTableViewCell
             cell.updateCell(dataToShow: listOfAccountsToShow[indexPath.row], accountingCurrency : accountingCurrency)
             return cell
         }

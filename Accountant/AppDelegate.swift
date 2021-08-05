@@ -18,7 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         //MARK: Subscriprion
         Purchases.debugLogsEnabled = true
-        Purchases.configure(withAPIKey: "kdbkctkUtCoRwtOqEDXtMeRaGxBkxLHG")
+        Purchases.configure(withAPIKey: Constants.APIKey.revenueCat)
         Purchases.shared.purchaserInfo { (purchaserInfo, error) in
             if purchaserInfo?.entitlements.all["pro"]?.isActive == true {
                 UserProfile.setEntitlement(Entitlement(name: .pro, expirationDate: purchaserInfo?.entitlements.all["pro"]?.expirationDate))
@@ -52,7 +52,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         else if UserProfile.getUserAuth() == .bioAuth {
             let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-            let authVC = storyBoard.instantiateViewController(withIdentifier: "BioAuthVC_ID") as! BiometricAuthViewController
+            let authVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.bioAuthViewController) as! BiometricAuthViewController
             window = UIWindow(frame: UIScreen.main.bounds)
             window?.makeKeyAndVisible()
             window?.rootViewController = authVC
@@ -71,7 +71,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let calendar = Calendar.current
         if userAuthType == .bioAuth {
             let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-            let authVC = storyBoard.instantiateViewController(withIdentifier: "BioAuthVC_ID") as! BiometricAuthViewController
+            let authVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.bioAuthViewController) as! BiometricAuthViewController
             authVC.previousNavigationStack = window?.rootViewController
             window = UIWindow(frame: UIScreen.main.bounds)
             

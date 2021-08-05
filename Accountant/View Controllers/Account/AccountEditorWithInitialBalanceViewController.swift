@@ -135,7 +135,7 @@ class AccountEditorWithInitialBalanceViewController: UIViewController {
     
     @IBAction func selectCurrency(_ sender: Any) {
         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let currencyTableViewController = storyBoard.instantiateViewController(withIdentifier: "CurrencyTVC_ID") as! CurrencyTableViewController
+        let currencyTableViewController = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.currencyTableViewController) as! CurrencyTableViewController
         currencyTableViewController.delegate = self
         currencyTableViewController.currency = currency
         self.navigationController?.pushViewController(currencyTableViewController, animated: true)
@@ -297,7 +297,7 @@ class AccountEditorWithInitialBalanceViewController: UIViewController {
     
     func createNewAccount() throws {
         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let transactionEditorVC = storyBoard.instantiateViewController(withIdentifier: "TransactionEditorVC_ID") as! TransactionEditorViewController
+        let transactionEditorVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.transactionEditorViewController) as! TransactionEditorViewController
         
             if let moneyAccountType = moneyAccountType {
                 switch moneyAccountType {

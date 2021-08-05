@@ -191,7 +191,7 @@ class TransactionEditorViewController: UIViewController, GADFullScreenContentDel
                     }
                 case .offer:
                     let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-                    let vc = storyBoard.instantiateViewController(withIdentifier: "PurchaseOfferVC_ID") as! PurchaseOfferViewController
+                    let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.purchaseOfferViewController) as! PurchaseOfferViewController
                     self.navigationController?.present(vc, animated: true, completion: nil)
                 default:
                     return
@@ -539,13 +539,13 @@ class TransactionEditorViewController: UIViewController, GADFullScreenContentDel
     
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "debitToAccountNavigator_ID" {
+        if segue.identifier == Constants.Segue.debitToAccountNavigator {
             let vc = segue.destination as! AccountNavigatorTableViewController
             vc.transactionEditorVC = self
             vc.typeOfAccountingMethod = .debit
             doneButtonAction()
         }
-        if segue.identifier == "creditToAccountNavigator_ID" {
+        if segue.identifier == Constants.Segue.creditToAccountNavigator {
             let vc = segue.destination as! AccountNavigatorTableViewController
             vc.transactionEditorVC = self
             vc.typeOfAccountingMethod = .credit

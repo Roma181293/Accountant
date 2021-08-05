@@ -13,7 +13,7 @@
         <!--Transactions-->
         <scene sceneID="twZ-h3-JCQ">
             <objects>
-                <viewController id="xRa-eE-QKN" customClass="TransactionListViewController" customModule="Accountant" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TransactionListVC_ID" id="xRa-eE-QKN" customClass="TransactionListViewController" customModule="Accountant" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="BJT-QN-IoE">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -742,7 +742,7 @@
         <!--Budget-->
         <scene sceneID="EPa-GU-m0h">
             <objects>
-                <viewController id="QyX-Oc-vFg" customClass="BudgetsListViewController" customModule="Accountant" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="BudgetsListVC_ID" id="QyX-Oc-vFg" customClass="BudgetsListViewController" customModule="Accountant" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="lT6-qh-W8t">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -879,7 +879,7 @@
         <!--Account List Table View Controller-->
         <scene sceneID="Odb-EK-EGR">
             <objects>
-                <tableViewController id="sUx-Aq-9MD" customClass="AccountListTableViewController" customModule="Accountant" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="AccountListTVC_ID" id="sUx-Aq-9MD" customClass="AccountListTableViewController" customModule="Accountant" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="7up-sR-KSS">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="340"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1507,7 +1507,7 @@
         <!--Accounts-->
         <scene sceneID="gOn-GD-tVc">
             <objects>
-                <viewController id="cG4-t1-4hJ" customClass="AccountListViewController" customModule="Accountant" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="AccountListVC_ID" id="cG4-t1-4hJ" customClass="AccountListViewController" customModule="Accountant" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Z76-aL-6fa">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1688,7 +1688,7 @@
         <!--Analytics Table View Controller-->
         <scene sceneID="yds-2g-fNy">
             <objects>
-                <tableViewController id="jL2-au-Yzq" customClass="AnalyticsTableViewController" customModule="Accountant" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="AnalyticsTVC_ID" id="jL2-au-Yzq" customClass="AnalyticsTableViewController" customModule="Accountant" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="lIW-hw-q7G">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="100"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -2230,7 +2230,7 @@
                             <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="pFo-eG-Ba1">
                                 <rect key="frame" x="20" y="94" width="374" height="61.5"/>
                                 <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="U2C-qZ-vVH">
+                                    <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" axis="vertical" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="U2C-qZ-vVH">
                                         <rect key="frame" x="0.0" y="0.0" width="324.5" height="61.5"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Entitlement name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NwU-My-e2g">
@@ -2253,7 +2253,7 @@
                                             </label>
                                         </subviews>
                                     </stackView>
-                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="aIB-OX-mpx">
+                                    <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" axis="vertical" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="aIB-OX-mpx">
                                         <rect key="frame" x="332.5" y="0.0" width="41.5" height="61.5"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GHQ-gT-yHr">

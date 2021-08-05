@@ -16,20 +16,67 @@ struct Constants {
         static let tabBarController = "TabBarController_ID"
         static let bioAuthViewController = "BioAuthVC_ID"
         static let authPinAndBioViewController = "AuthPinAndBiometricVC_ID"
-        static let transactionEditorViewController = "TransactionEditorVC_ID"
         static let purchaseOfferViewController = "PurchaseOfferVC_ID"
+        
+        static let transactionListViewController = "TransactionListVC_ID"
+        static let transactionEditorViewController = "TransactionEditorVC_ID"
+        static let importTransactionViewController = "ImportTransactionVC_ID"
+        
         static let accountNavigatorTableViewCContriller = "AccountNavigatorTVC_ID"
+        static let accountManagerTableViewController = "AccountManagerTVC_ID"
+        static let accountEditorWithInitialBalanceViewController = "AccountEditorWithInitialBalanceVC_ID"
+        static let addAccountViewController = "AddAccountVC_ID"
+        static let accountListViewController = "AccountListVC_ID"
+        static let accountListTableViewController = "AccountListTVC_ID"
+        
+        static let currencyTableViewController = "CurrencyTVC_ID"
+        
+        static let budgetsListViewController = "BudgetsListVC_ID"
+        static let budgetEditorViewController = "BudgetEditorVC_ID"
+        
+        static let analyticsViewController = "AnalyticsVC_ID"
+        static let analyticsTableViewController = "AnalyticsTVC_ID"
+        static let configureAnalyticsViewController = "ConfigureAnalyticsVC_ID"
+        
+        static let settingsTableViewController = "UserProfileTVC_ID"
+        static let subscriptionsStatusViewController = "SubscriptionsStatusVC_ID"
     }
     
     struct Cell {
-        static let transactionCell = "TransactionCell_ID"
+        
         static let setAccountingCurrencyCell = "setAccountingCurrencyCell_ID"
+        
+        static let transactionCell = "TransactionCell_ID"
+        static let preTransactionTableViewCell = "PreTransactionTableViewCell_ID"
+        
+        static let accountNavigatorCell = "AccountNavigatorCell_ID"
+        static let accountManagerCell1 = "AccountManagerCell1_ID"
+        static let accountManagerCell = "AccountManagerCell_ID"
+        
+        static let moneyAccountCell = "MoneyAccountCell_ID"
+        static let accountInForeignCurrencyCell = "AccountInForeignCurrencyCell_ID"
+        
+        static let analyticsCell = "AnalyticsCell_ID"
+        
+        static let currencyCell = "CurrencyCell_ID"
+        
+        static let settingsCellWithSwitchCell = "SettingsCellSwitch_ID"
+        static let settingsCell = "SettingsCell_ID"
     }
-//
-//    struct Segue {
-//
-//        static let SignUpVC = "SegueToSignUpVC"
-//    }
+
+    struct Segue {
+        static let goToMoneyAccountListTVC = "goToMoneyAccountListTVC_ID"
+        static let debitToAccountNavigator = "debitToAccountNavigator_ID"
+        static let creditToAccountNavigator = "creditToAccountNavigator_ID"
+        static let goToConfigurationVC = "goToConfigurationVC_ID"
+        static let goToAnalyticsTVC = "goToAnalyticsTVC_ID"
+    }
+    
+    struct APIKey {
+        static let revenueCat = "kdbkctkUtCoRwtOqEDXtMeRaGxBkxLHG"
+        static let googleAD = "ca-app-pub-3940256099942544/4411468910"
+    }
+    
 //    struct Size {
         
 //        static let cornerButtonRadius = CGFloat(6.0)

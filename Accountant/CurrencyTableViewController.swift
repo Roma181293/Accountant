@@ -62,7 +62,7 @@ class CurrencyTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "CurrencyCell_ID", for: indexPath) as! CurrencyTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: Constants.Cell.currencyCell, for: indexPath) as! CurrencyTableViewCell
         let fetchedCurrency = fetchedResultsController.object(at: indexPath) as Currency
         
         if delegate == nil {

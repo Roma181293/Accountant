@@ -55,7 +55,7 @@ class ImportTransactionViewController: UIViewController, UITableViewDelegate, UI
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "PreTransactionTableViewCell_ID", for: indexPath) as! PreTransactionTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: Constants.Cell.preTransactionTableViewCell, for: indexPath) as! PreTransactionTableViewCell
         cell.configureCell(preTransaction: preTransactionList[indexPath.row], tableView: self)
         return cell
     }

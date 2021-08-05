@@ -83,7 +83,7 @@ class AccountNavigatorTableViewController: UITableViewController {
     @IBAction func addAction() {
         guard let account = self.account else {
             let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-            let vc = storyBoard.instantiateViewController(withIdentifier: "AddAccountVC_ID") as! AddAccountViewController
+            let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.addAccountViewController) as! AddAccountViewController
             self.navigationController?.pushViewController(vc, animated: true)
             return
         }
@@ -122,7 +122,7 @@ class AccountNavigatorTableViewController: UITableViewController {
         }
         else {
             let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-            let transactionEditorVC = storyBoard.instantiateViewController(withIdentifier: "AccountEditorWithInitialBalanceVC_ID") as! AccountEditorWithInitialBalanceViewController
+            let transactionEditorVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.accountEditorWithInitialBalanceViewController) as! AccountEditorWithInitialBalanceViewController
             transactionEditorVC.parentAccount = account
             transactionEditorVC.delegate = self
             self.navigationController?.pushViewController(transactionEditorVC, animated: true)
@@ -147,7 +147,7 @@ class AccountNavigatorTableViewController: UITableViewController {
     
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell : UITableViewCell = tableView.dequeueReusableCell(withIdentifier: "AccountNavigatorCell_ID", for: indexPath)
+        let cell : UITableViewCell = tableView.dequeueReusableCell(withIdentifier: Constants.Cell.accountNavigatorCell, for: indexPath)
         let account  = fetchedResultsController.object(at: indexPath) as Account
         
         if let children = account.children, (children.allObjects as! [Account]).filter({$0.isHidden == false}).count > 0 {
@@ -175,7 +175,7 @@ class AccountNavigatorTableViewController: UITableViewController {
         
         if let children = selectedAccount.children, (children.allObjects as! [Account]).filter({$0.isHidden == false}).count > 0 {
             let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-            let vc = storyBoard.instantiateViewController(withIdentifier: "AccountNavigatorTVC_ID") as! AccountNavigatorTableViewController
+            let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.accountNavigatorTableViewCContriller) as! AccountNavigatorTableViewController
             vc.account = selectedAccount
             vc.transactionEditorVC = transactionEditorVC
 //            vc.budgetEditorVC = budgetEditorVC
@@ -340,7 +340,7 @@ class AccountNavigatorTableViewController: UITableViewController {
             
             if selectedAccount.currency == nil {
                 let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-                let transactionEditorVC = storyBoard.instantiateViewController(withIdentifier: "AccountEditorWithInitialBalanceVC_ID") as! AccountEditorWithInitialBalanceViewController
+                let transactionEditorVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.accountEditorWithInitialBalanceViewController) as! AccountEditorWithInitialBalanceViewController
                 transactionEditorVC.parentAccount = selectedAccount
                 transactionEditorVC.delegate = self
                 self.navigationController?.pushViewController(transactionEditorVC, animated: true)

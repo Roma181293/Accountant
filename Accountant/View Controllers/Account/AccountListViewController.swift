@@ -302,7 +302,7 @@ class AccountListViewController: UIViewController, UIScrollViewDelegate{
     @objc func addAccount(_ sender:UIButton!){
         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         guard let account = account else {return}
-        let entryVC = storyBoard.instantiateViewController(withIdentifier: "AccountEditorWithInitialBalanceVC_ID") as! AccountEditorWithInitialBalanceViewController
+        let entryVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.accountEditorWithInitialBalanceViewController) as! AccountEditorWithInitialBalanceViewController
         entryVC.parentAccount = account
         entryVC.delegate = self.parent //because self isn't in navigationStack
         self.navigationController?.pushViewController(entryVC, animated: true)
@@ -310,7 +310,7 @@ class AccountListViewController: UIViewController, UIScrollViewDelegate{
     
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "goToMoneyAccountListTVC_ID" {
+        if segue.identifier == Constants.Segue.goToMoneyAccountListTVC {
             moneyAccountListTableViewController = segue.destination as? AccountListTableViewController
         }
     }

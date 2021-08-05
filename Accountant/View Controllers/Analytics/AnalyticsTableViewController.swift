@@ -37,7 +37,7 @@ class AnalyticsTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell : UITableViewCell = tableView.dequeueReusableCell(withIdentifier: "AnalyticsCell_ID", for: indexPath)
+        let cell : UITableViewCell = tableView.dequeueReusableCell(withIdentifier: Constants.Cell.analyticsCell, for: indexPath)
         
         if listOfAccountsToShow[indexPath.row].amountInAccountingCurrency < 0{
             cell.accessoryType = .detailButton
@@ -81,7 +81,7 @@ class AnalyticsTableViewController: UITableViewController {
            children.count > 0 {
             
             let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-            let vc = storyBoard.instantiateViewController(withIdentifier: "AnalyticsVC_ID") as! AnalyticsViewController
+            let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.analyticsViewController) as! AnalyticsViewController
             vc.account = selectedAccount
             vc.sortCategoryBy = sortCategoryBy
             vc.dateComponent = dateComponent

@@ -26,7 +26,7 @@ class PreTransactionTableViewCell: UITableViewCell{
     
     @IBAction func selectAccount(_ sender: UIButton) {
         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc = storyBoard.instantiateViewController(withIdentifier: "AccountNavigatorTVC_ID") as! AccountNavigatorTableViewController
+        let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.accountNavigatorTableViewCContriller) as! AccountNavigatorTableViewController
         vc.importTransactionTableViewController = delegate
         vc.preTransactionTableViewCell = self
         if sender.tag == 1 {

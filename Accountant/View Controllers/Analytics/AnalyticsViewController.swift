@@ -254,7 +254,7 @@ class AnalyticsViewController: UIViewController, UIScrollViewDelegate, GADFullSc
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         print(#function)
-        if segue.identifier == "goToConfigurationVC_ID" {
+        if segue.identifier == Constants.Segue.goToConfigurationVC {
             let vc = segue.destination as! ConfigureAnalyticsViewController
             vc.analyticsViewController = self
             vc.transferedDateInterval = dateInterval
@@ -262,7 +262,7 @@ class AnalyticsViewController: UIViewController, UIScrollViewDelegate, GADFullSc
             vc.sortCategoryBy = sortCategoryBy
             vc.interstitial = interstitial
         }
-        else if segue.identifier == "goToAnalyticsTVC_ID" {
+        else if segue.identifier == Constants.Segue.goToAnalyticsTVC {
             analyticsTableViewController = segue.destination as? AnalyticsTableViewController
             analyticsTableViewController.dateInterval = dateInterval
         }
