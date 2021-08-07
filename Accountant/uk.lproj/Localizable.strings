@@ -67,7 +67,6 @@
 "Hide" = "Приховати";
 "Do you really want hide account?" = "Ви дійсно хочете приховати рахунок?";
 "You cannot hide account with money.\n1. Please transfer all your money to any other account.\n2. Hide account" = "Ви не можете приховати рахунок з грошима.\n1. Будь ласка переведіть всі гроші з даного рахунку на інший.\n2. Приховайте рахунок.";
-"Account with this name already exists. Please try another name." = "Рахунок з цим ім'ям вже існує";
 "Error" = "Помилка";
 "Amount excluded from total amount in pichart.\nAccount amount cannot be less zero.\nPlease check transaction with this account." = "Значення виключено з загальної суми по рахунку.\nСума по рахунку не може приймати значення менше нуля.\nБуль ласка перевірте операції з цим рахунком.";
 
@@ -87,9 +86,7 @@
 "Please enter correct deposit account name" = "Будь ласка введіть коректне ім'я депозитного рахунку";
 
 "Sorry" = "Вибачте";
-"This is reserved account name. Please use another name." = "Це зарезервоване ім'я. Бадь ласка використайте інше ім'я.";
 "Bad internet connection. Please enter exchange rate %@/%@" = "Погане інтернет зяєднання. Будь ласка введіть обмінний курс %@/%@";
-"With card money account we also create associated credit account and this account Credits:%@ is already exist. Please use another account name." = "Разом з картковим грошовим рахунком ми створюємо пов'язаний кредитний рахунок, і цей рахунок Credits:%@ вже існує. Будь ласка використайте інше ім'я для рахунку.";
 "Exchange rate value can't be less or equal than 0" = "Значення курсу валют не може бути менше 0";
 
 
@@ -141,12 +138,10 @@
 "Enter account name" = "Введіть ім'я рахунку";
 "Add" = "Додати";
 "Cancel" = "Закрити";
-"This account or at least one of the children account used in transactions." = "Цей рахунок, або хоча б один з дочірніх разунків використовується в операціях";
 "Do you really want remove account and all clidren accounts?" = "Ви дійсно хочете видалити рахунок і всі дочірні рахунки?";
-"Please move transactions from accounts below." = "Будь ласка перемістіть всі операції в рахунків наведених нижче:";
 
 //AuthViewController
-"Authentication is required to open the app" = "Для роботи програми необхідна аутентифікація";
+"Authentication is required to open the app" = "Для роботи додатку необхідна аутентифікація";
 
 
 //AccountEditorWithInitialBalanceViewController
@@ -222,3 +217,16 @@
 "TJS" = "Таджикістанське сомоні";
 "GEL" = "Грузинська ларі";
 "BRL" = "Бразильський реал";
+
+
+
+//AccountError
+"Attribute type should be initialize for root account" = "Атрибут 'тип' має бути заповненим для кореневого рахунку";
+"Account has an attribure type different from parent. Please contact to support" = "Аккаунт має атрибут тип відмінний від кореневого рахунку. Будь ласка зверніться до команди підтримки";
+"Account with name '%@' already exist. Please use another name" = "";
+"You can not remove this account, it should be free from transactions" = "Ви не можете видалити даний рахунок, він не має містити опарацій";
+"This is app-reserved account name. Please use another name" = "Це ім'я зарезервовано додатком. Будь ласка використайте інше ім'я";
+"'%@' account does not exist. Please contact to support" = "Рахунок '%@' не існує. Будь ласка зверніться до команди підтримки";
+
+
+"With card money account we also create associated credit account and this account %@ is already exist. Please use another account name" = "Разом з картковим грошовим рахунком ми створюємо пов'язаний кредитний рахунок, і цей рахунок %@ вже існує. Будь ласка використайте інше ім'я для рахунку.";

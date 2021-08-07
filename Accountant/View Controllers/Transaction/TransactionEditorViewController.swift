@@ -542,12 +542,14 @@ class TransactionEditorViewController: UIViewController, GADFullScreenContentDel
         if segue.identifier == Constants.Segue.debitToAccountNavigator {
             let vc = segue.destination as! AccountNavigatorTableViewController
             vc.transactionEditorVC = self
+            vc.showHiddenAccounts = false
             vc.typeOfAccountingMethod = .debit
             doneButtonAction()
         }
         if segue.identifier == Constants.Segue.creditToAccountNavigator {
             let vc = segue.destination as! AccountNavigatorTableViewController
             vc.transactionEditorVC = self
+            vc.showHiddenAccounts = false
             vc.typeOfAccountingMethod = .credit
             doneButtonAction()
         }

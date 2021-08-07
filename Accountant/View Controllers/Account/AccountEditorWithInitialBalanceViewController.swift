@@ -188,19 +188,19 @@ class AccountEditorWithInitialBalanceViewController: UIViewController {
             }
         })
         if moneyRootAccount == nil {
-            throw AccountError.moneyAccountDoesNotExist
+            throw AccountError.accountDoesNotExist(AccountsNameLocalisationManager.getLocalizedAccountName(.money))
         }
         if creditsRootAccount == nil {
-            throw AccountError.creditsAccountDoesNotExist
+            throw AccountError.accountDoesNotExist(AccountsNameLocalisationManager.getLocalizedAccountName(.credits))
         }
         if debtorsRootAcccount == nil {
-            throw AccountError.debtorsAccountDoesNotExist
+            throw AccountError.accountDoesNotExist(AccountsNameLocalisationManager.getLocalizedAccountName(.debtors))
         }
         if expenseRootAccount == nil {
-            throw AccountError.expenseAccountDoesNotExist
+            throw AccountError.accountDoesNotExist(AccountsNameLocalisationManager.getLocalizedAccountName(.expense))
         }
         if capitalRootAccount == nil {
-            throw AccountError.capitalAccountDoesNotExist
+            throw AccountError.accountDoesNotExist(AccountsNameLocalisationManager.getLocalizedAccountName(.capital))
         }
     }
     
@@ -303,7 +303,7 @@ class AccountEditorWithInitialBalanceViewController: UIViewController {
                 switch moneyAccountType {
                 case .creditCard:
                     if AccountManager.isFreeAccountName(parent: creditsRootAccount, name: accountNameTextField.text!, context: context) == false {
-                        throw AccountError.creditAccountAlreadyExist
+                        throw AccountError.creditAccountAlreadyExist(accountNameTextField.text!)
                     }
                     let newMoneyAccount = try AccountManager.createAndGetAccount(parent: parentAccount, name: accountNameTextField.text!, type: parentAccount.type, currency: currency, subType: moneyAccountType.rawValue, context: context)
                     
@@ -459,54 +459,14 @@ class AccountEditorWithInitialBalanceViewController: UIViewController {
     
     
     func errorHandler(error : Error) {
-        if let error = error as? AccountError{
-            switch error {
-            case .accontWithThisNameAlreadyExists:
-                warningAlert(message : NSLocalizedString("This account name is already exist", comment: ""))
-            case .creditAccountAlreadyExist:
-                warningAlert(message: String(format: NSLocalizedString("With card money account we also create associated credit account and this account Credits:%@ is already exist. Please use another account name.",comment: ""), accountNameTextField.text!))
-            case  .reservedAccountName:
-                warningAlert(message:NSLocalizedString("This is reserved account name. Please use another name.",comment: ""))
-            case .incomeAccountDoesNotExist:
-                errorAlert(message: NSLocalizedString("'Income' account does not exist. Please contact to support", comment: ""))
-            case .expenseAccountDoesNotExist:
-                errorAlert(message: NSLocalizedString("'Expense' account does not exist. Please contact to support", comment: ""))
-            case .moneyAccountDoesNotExist:
-                errorAlert(message: NSLocalizedString("'Money' account does not exist. Please contact to support", comment: ""))
-            case .creditsAccountDoesNotExist:
-                errorAlert(message: NSLocalizedString("'Credits' account does not exist. Please contact to support", comment: ""))
-            case .debtorsAccountDoesNotExist:
-                errorAlert(message: NSLocalizedString("'Debtors' account does not exist. Please contact to support", comment: ""))
-            case .capitalAccountDoesNotExist:
-                errorAlert(message: NSLocalizedString("'Capital' account does not exist. Please contact to support", comment: ""))
-            case .beforeAccountingPeriodAccountDoesNotExist:
-                errorAlert(message: NSLocalizedString("'Before accounting period' account does not exist. Please contact to support", comment: ""))
-            case .attributeTypeShouldBeInitializeForRootAccount:
-                errorAlert(message: NSLocalizedString("Attribute type should be initialize for root account", comment: ""))
-            case .accountHasAnAttribureTypeDifferentFromParent:
-                errorAlert(message: NSLocalizedString("Account has an attribure type different from parent", comment: ""))
-            case .accountOrChildrenUsedInTransactionItem:
-            errorAlert(message: NSLocalizedString("This account or at least one of the children account used in transactions.", comment: ""))
-            }
-        }
-        else {
-            errorAlert(message: "\(error.localizedDescription)")
-        }
+        let alert = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: error.localizedDescription, preferredStyle: .alert)
+              alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default, handler: { [self](_) in
+                  self.navigationController?.popViewController(animated: true)
+              }))
+              self.present(alert, animated: true, completion: nil)
     }
     
-    func errorAlert(message : String) {
-        let alert = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default, handler: { [self](_) in
-            self.navigationController?.popViewController(animated: true)
-        }))
-        self.present(alert, animated: true, completion: nil)
-    }
     
-    func warningAlert(message : String) {
-        let alert = UIAlertController(title: NSLocalizedString("Warning", comment: ""), message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default))
-        self.present(alert, animated: true, completion: nil)
-    }
     
     private func addButtonToViewController() {
         confirmButton = UIButton(frame: CGRect(origin: CGPoint(x: self.view.frame.width - 70 , y: self.view.frame.height - 150), size: CGSize(width: 68, height: 68)))

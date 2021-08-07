@@ -120,7 +120,7 @@ class SettingsTableViewController: UITableViewController {
         }
         else if userProfile[indexPath.row] == NSLocalizedString("Accounts manager", comment: "") {
             let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-            let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.accountManagerTableViewController) as! AccountManagerTableViewController
+            let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.accountNavigatorTableViewCContriller) as! AccountNavigatorTableViewController
             self.navigationController?.pushViewController(vc, animated: true)
         }
         else if userProfile[indexPath.row] == NSLocalizedString("PRO access", comment: ""){

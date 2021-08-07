@@ -38,22 +38,6 @@ enum BaseAccounts : String, CaseIterable {
     case other1 = "Other"
 }
 
-enum AccountError : Error {
-    case attributeTypeShouldBeInitializeForRootAccount
-    case accountHasAnAttribureTypeDifferentFromParent
-    case accontWithThisNameAlreadyExists
-    case accountOrChildrenUsedInTransactionItem
-    case creditAccountAlreadyExist  //for case when creates linked account
-    case reservedAccountName
-    case incomeAccountDoesNotExist
-    case expenseAccountDoesNotExist
-    case moneyAccountDoesNotExist
-    case creditsAccountDoesNotExist
-    case debtorsAccountDoesNotExist
-    case capitalAccountDoesNotExist
-    case beforeAccountingPeriodAccountDoesNotExist
-}
-
 enum ImportAccountError : Error{
     case invalidIsHiddenValue
     case invalidAccountTypeValue

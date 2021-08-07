@@ -122,7 +122,7 @@ class AccountManager {
         
         // accounts with reserved names can create only app
         guard createdByUser == false || isReservedAccountName(name) == false else {throw AccountError.reservedAccountName}
-        guard isFreeAccountName(parent: parent, name : name, context: context) == true else {throw AccountError.accontWithThisNameAlreadyExists}
+        guard isFreeAccountName(parent: parent, name : name, context: context) == true else {throw AccountError.accontAlreadyExists(name: name)}
         
         if let parent = parent, !AccountManager.isFreeFromTransactionItems(account: parent) {
            let new = fillAccountAttributes(parent: parent, name: AccountsNameLocalisationManager.getLocalizedAccountName(.other1) , type : type, currency : currency, subType : subType, createdByUser : createdByUser, createDate: createDate, context: context)
@@ -186,7 +186,7 @@ class AccountManager {
     
     static func renameAccount(_ account : Account, to newName : String, context : NSManagedObjectContext) throws {
         guard isFreeAccountName(parent: account.parent, name: newName, context: context)
-        else {throw AccountError.accontWithThisNameAlreadyExists}
+        else {throw AccountError.accontAlreadyExists(name: newName)}
         
         if let parent = account.parent {
             account.path = parent.path! + ":" + newName
@@ -263,18 +263,45 @@ class AccountManager {
         account.modifiedByUser = modifiedByUser
     }
     
-    static func removeAccount(_ account: Account, context: NSManagedObjectContext) throws {
+    static func removeAccount(_ account: Account, eligibilityChacked: Bool, context: NSManagedObjectContext) throws {
+        var accounts = getAllChildrenForAcctount(account)
+        accounts.append(account)
+        if eligibilityChacked == false {
+            if try canBeRemove(account: account) {
+                accounts.forEach({
+                    context.delete($0)
+                })
+            }
+        }
+        else {
+            accounts.forEach({
+                context.delete($0)
+            })
+        }
+        
+    }
+    
+    
+    
+    static func canBeRemove(account: Account) throws -> Bool {
         var accounts = getAllChildrenForAcctount(account)
         accounts.append(account)
         
+        var accountUsedInTransactionItem : [Account] = []
         for acc in accounts{
             if !isFreeFromTransactionItems(account: acc) {
-                throw AccountError.accountOrChildrenUsedInTransactionItem
+                accountUsedInTransactionItem.append(acc)
             }
         }
-        accounts.forEach({
-            context.delete($0)
-        })
+        
+        if !accountUsedInTransactionItem.isEmpty {
+            var accountListString : String = ""
+            accountUsedInTransactionItem.forEach({
+                accountListString += "\n" + $0.path!
+            })
+            throw AccountError.cantRemoveAccountThatUsedInTransactionItem(accountListString)
+        }
+        return true
     }
     
     static func accountListUsingInTransactions(account: Account) -> [Account] {

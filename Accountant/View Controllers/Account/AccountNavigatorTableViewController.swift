@@ -22,22 +22,28 @@ class AccountNavigatorTableViewController: UITableViewController {
     var importTransactionTableViewController : ImportTransactionViewController?
     
     weak var account : Account?
-    
     var typeOfAccountingMethod : AccounttingMethod?
+    var showHiddenAccounts = true
     
     lazy var fetchedResultsController : NSFetchedResultsController<Account> = {
         let fetchRequest : NSFetchRequest<Account> = NSFetchRequest<Account>(entityName: "Account")
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "path", ascending: true)]
-        
-        guard let account = account else {
-            self.navigationController?.title = NSLocalizedString("Accounts", comment: "")
-            self.navigationItem.title = NSLocalizedString("Accounts", comment: "")
-            fetchRequest.predicate = NSPredicate(format: "parent = nil && isHidden = false")
-            return NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
+        if let account = account {
+            self.navigationItem.title = "\(account.name!)"
         }
-        self.navigationItem.title = "\(account.name!)"
-        fetchRequest.predicate = NSPredicate(format: "parent.path = %@ && isHidden = false", account.path!)
-        return NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
+        else {
+            if showHiddenAccounts {
+                self.navigationController?.title = NSLocalizedString("Accounts manager", comment: "")
+                self.navigationItem.title = NSLocalizedString("Accounts manager", comment: "")
+            }
+            else {
+                self.navigationController?.title = NSLocalizedString("Accounts", comment: "")
+                self.navigationItem.title = NSLocalizedString("Accounts", comment: "")
+            }
+        }
+        
+            fetchRequest.predicate = NSPredicate(format: "parent = %@ && (isHidden = false || isHidden = %@)", argumentArray: [account, showHiddenAccounts])
+            return NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
     }()
     
     
@@ -93,7 +99,7 @@ class AccountNavigatorTableViewController: UITableViewController {
                           let textFields = alert.textFields,
                           let textField = textFields.first,
                           AccountManager.isFreeAccountName(parent: account, name: textField.text!, context: self.context)
-                    else {throw AccountError.accontWithThisNameAlreadyExists}
+                    else {throw AccountError.accontAlreadyExists(name: alert!.textFields!.first!.text!)}
                     
                     try AccountManager.createAccount(parent: account, name: textField.text!, type: accountType, currency: accountCurrency, context: self.context)
                     try self.coreDataStack.saveContext(self.context)
@@ -147,6 +153,12 @@ class AccountNavigatorTableViewController: UITableViewController {
         }
         
         cell.textLabel?.text = account.name
+        if account.isHidden {
+            cell.textLabel?.textColor = .systemGray
+        }
+        else {
+            cell.textLabel?.textColor = .label
+        }
         
         if let parent = account.parent, parent.currency == nil {
             cell.detailTextLabel?.text = "\(round(AccountManager.balanceForDateLessThenSelected(date: Date(), accounts: [account])*100)/100) \(account.currency!.code!)"
@@ -166,6 +178,7 @@ class AccountNavigatorTableViewController: UITableViewController {
             let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
             let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.accountNavigatorTableViewCContriller) as! AccountNavigatorTableViewController
             vc.account = selectedAccount
+            vc.showHiddenAccounts = self.showHiddenAccounts
             vc.transactionEditorVC = transactionEditorVC
 //            vc.budgetEditorVC = budgetEditorVC
             vc.preTransactionTableViewCell = preTransactionTableViewCell
@@ -253,28 +266,9 @@ class AccountNavigatorTableViewController: UITableViewController {
     
     
     func errorHandlerMethod(error : Error) {
-        if let error = error as? AccountError{
-            if error == .accontWithThisNameAlreadyExists {
-                let alert = UIAlertController(title: NSLocalizedString("Warning", comment: ""), message: NSLocalizedString("Account with this name already exists. Please try another name.", comment: ""), preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default))
-                self.present(alert, animated: true, completion: nil)
-            }
-            else if error == .reservedAccountName {
-                let alert = UIAlertController(title: NSLocalizedString("Warning", comment: ""), message: NSLocalizedString("This is reserved account name. Please use another name.",comment: ""), preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default))
-                self.present(alert, animated: true, completion: nil)
-            }
-            else if error == .accountOrChildrenUsedInTransactionItem {
-                let alert = UIAlertController(title: NSLocalizedString("Warning", comment: ""), message: NSLocalizedString("This account or at least one of the children account used in transactions.",comment: ""), preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default))
-                self.present(alert, animated: true, completion: nil)
-            }
-        }
-        else {
-            let alert = UIAlertController(title: "Error", message: "\(error.localizedDescription)", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default))
-            self.present(alert, animated: true, completion: nil)
-        }
+        let alert = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: "\(error.localizedDescription)", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default))
+        self.present(alert, animated: true, completion: nil)
     }
     
     
@@ -294,15 +288,15 @@ extension AccountNavigatorTableViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         if searchController.searchBar.text!.count != 0 {
             if let account = account {
-                fetchedResultsController.fetchRequest.predicate = NSPredicate(format: "path CONTAINS[c] %@ && name CONTAINS[c] %@ && isHidden = false", argumentArray: [account.path!,searchController.searchBar.text!])
+                fetchedResultsController.fetchRequest.predicate = NSPredicate(format: "path CONTAINS[c] %@ && name CONTAINS[c] %@ && (isHidden = false || isHidden = %@)", argumentArray: [account.path!,searchController.searchBar.text!, showHiddenAccounts])
             }
             else {
-                fetchedResultsController.fetchRequest.predicate = NSPredicate(format: "name CONTAINS[c] %@ && isHidden = false", argumentArray: [searchController.searchBar.text!])
+                fetchedResultsController.fetchRequest.predicate = NSPredicate(format: "name CONTAINS[c] %@ && (isHidden = false || isHidden = %@)", argumentArray: [searchController.searchBar.text!,showHiddenAccounts])
             }
             isSwipeAvailable = false
         }
         else {
-            fetchedResultsController.fetchRequest.predicate = NSPredicate(format: "parent = %@ && isHidden = false",argumentArray: [account])
+            fetchedResultsController.fetchRequest.predicate = NSPredicate(format: "parent = %@ && (isHidden = false || isHidden = %@)",argumentArray: [account,showHiddenAccounts])
             isSwipeAvailable = true
         }
         fetchData()
@@ -312,10 +306,11 @@ extension AccountNavigatorTableViewController: UISearchResultsUpdating {
 
 extension AccountNavigatorTableViewController {
     private func hideAccount(indexPath: IndexPath) -> UIContextualAction {
-        let hideAction = UIContextualAction(style: .destructive, title: NSLocalizedString("Hide",comment: "")) { _, _, complete in
+        let hideAction = UIContextualAction(style: .normal, title: NSLocalizedString("Hide",comment: "")) { _, _, complete in
             let selectedAccount = self.fetchedResultsController.object(at: indexPath) as Account
             if selectedAccount.parent?.currency == nil {
                 if AccountManager.balance(of : [selectedAccount]) == 0 {
+                    
                     let alert = UIAlertController(title: NSLocalizedString("Hide",comment: ""), message: NSLocalizedString("Do you really want hide account?",comment: ""), preferredStyle: .alert)
                     alert.addAction(UIAlertAction(title: NSLocalizedString("Yes",comment: ""), style: .destructive, handler: {(_) in
                         
@@ -323,11 +318,19 @@ extension AccountNavigatorTableViewController {
                             AccountManager.changeAccountIsHiddenStatus(selectedAccount)
                             try self.coreDataStack.saveContext(self.context)
                             try self.fetchedResultsController.performFetch()
+                            
+                            if self.showHiddenAccounts == false{
+                                print("delete")
+                                self.tableView.deleteRows(at: [indexPath], with: .fade)
+                            }
+                            else {
+                                print("reload")
+                                self.tableView.reloadData()
+                            }
                         }
-                        catch {
-                            print(error)
+                        catch let error {
+                            self.errorHandlerMethod(error: error)
                         }
-                        self.tableView.deleteRows(at: [indexPath], with: .fade)
                     }))
                     alert.addAction(UIAlertAction(title: NSLocalizedString("No",comment: ""), style: .cancel))
                     self.present(alert, animated: true, completion: nil)
@@ -346,58 +349,62 @@ extension AccountNavigatorTableViewController {
                         AccountManager.changeAccountIsHiddenStatus(selectedAccount)
                         try self.coreDataStack.saveContext(self.context)
                         try self.fetchedResultsController.performFetch()
+                        if self.showHiddenAccounts == false{
+                            print("delete")
+                            self.tableView.deleteRows(at: [indexPath], with: .fade)
+                        }
+                        else {
+                            print("reload")
+                            self.tableView.reloadData()
+                        }
                     }
                     catch let error{
                         print("Error",error)
                         self.errorHandlerMethod(error: error)
                     }
-                    self.tableView.deleteRows(at: [indexPath], with: .fade)
                 }))
                 alert.addAction(UIAlertAction(title: NSLocalizedString("No",comment: ""), style: .cancel))
                 self.present(alert, animated: true, completion: nil)
             }
             complete(true)
         }
+        let selectedAccount = self.fetchedResultsController.object(at: indexPath) as Account
+        if selectedAccount.isHidden == false {
         hideAction.backgroundColor = .systemGray
         hideAction.image = UIImage(systemName: "eye.slash")
+        }
+        else {
+            hideAction.backgroundColor = .systemIndigo
+            hideAction.image = UIImage(systemName: "eye")
+        }
         return hideAction
     }
     
     
     private func removeAccount(indexPath: IndexPath) -> UIContextualAction{
-        let removeAction = UIContextualAction(style: .destructive, title: NSLocalizedString("Hide",comment: "")) { _, _, complete in
+        let removeAction = UIContextualAction(style: .destructive, title: NSLocalizedString("Romov",comment: "")) { _, _, complete in
             let selectedAccount = self.fetchedResultsController.object(at: indexPath) as Account
-            
-            let accountListUsingInTransactions = AccountManager.accountListUsingInTransactions(account: selectedAccount)
-            if accountListUsingInTransactions.isEmpty {
-                
-                let alert = UIAlertController(title: NSLocalizedString("Remove",comment: ""), message: NSLocalizedString("Do you really want remove account and all clidren accounts?",comment: ""), preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: NSLocalizedString("Yes",comment: ""), style: .destructive, handler: {(_) in
+            do {
+                if try AccountManager.canBeRemove(account: selectedAccount) {
                     
-                    do {
-                        try AccountManager.removeAccount(selectedAccount, context: self.context)
-                        try self.coreDataStack.saveContext(self.context)
-                        try self.fetchedResultsController.performFetch()
-                    }
-                    catch let error{
-                        print("Error",error)
-                        self.errorHandlerMethod(error: error)
-                    }
-                    self.tableView.deleteRows(at: [indexPath], with: .fade)
-                }))
-                alert.addAction(UIAlertAction(title: NSLocalizedString("No",comment: ""), style: .cancel))
-                self.present(alert, animated: true, completion: nil)
+                    let alert = UIAlertController(title: NSLocalizedString("Remove",comment: ""), message: NSLocalizedString("Do you really want remove account and all clidren accounts?",comment: ""), preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: NSLocalizedString("Yes",comment: ""), style: .destructive, handler: {(_) in
+                        do {
+                            try AccountManager.removeAccount(selectedAccount, eligibilityChacked: true, context: self.context)
+                            try self.coreDataStack.saveContext(self.context)
+                            try self.fetchedResultsController.performFetch()
+                            self.tableView.deleteRows(at: [indexPath], with: .fade)
+                        }
+                        catch let error{
+                            self.errorHandlerMethod(error: error)
+                        }
+                    }))
+                    alert.addAction(UIAlertAction(title: NSLocalizedString("No",comment: ""), style: .cancel))
+                    self.present(alert, animated: true, completion: nil)
+                }
             }
-            else {
-                
-                var accountListString : String = ""
-                accountListUsingInTransactions.forEach({
-                    accountListString += "\n" + $0.path!
-                })
-                
-                let alert = UIAlertController(title: NSLocalizedString("Warning",comment: ""), message: NSLocalizedString("Please move transactions from accounts below:",comment: "") + accountListString, preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: NSLocalizedString("OK",comment: ""), style: .default))
-                self.present(alert, animated: true, completion: nil)
+            catch let error{
+                self.errorHandlerMethod(error: error)
             }
             complete(true)
         }
@@ -405,9 +412,6 @@ extension AccountNavigatorTableViewController {
         removeAction.image = UIImage(systemName: "trash")
         return removeAction
     }
-    
-    
-    
     
     private func renameAccount(indexPath: IndexPath) -> UIContextualAction {
         let rename = UIContextualAction(style: .normal, title: NSLocalizedString("Rename",comment: "")) { (contAct, view, complete) in
@@ -469,11 +473,9 @@ extension AccountNavigatorTableViewController {
                               let textFields = alert.textFields,
                               let textField = textFields.first,
                               AccountManager.isFreeAccountName(parent: selectedAccount, name: textField.text!, context: self.context)
-                        else {throw AccountError.accontWithThisNameAlreadyExists}
+                        else {throw AccountError.accontAlreadyExists(name: alert!.textFields!.first!.text!)}
                         
                         if !AccountManager.isFreeFromTransactionItems(account: selectedAccount) {
-                            
-                            
                             
                             let alert1 = UIAlertController(title: NSLocalizedString("Attention",comment: ""), message:  String(format: NSLocalizedString("Account \"%@\" has transactions. All this thansactions will be automatically moved to new child account \"%@\".",comment: ""), selectedAccount.name!,AccountsNameLocalisationManager.getLocalizedAccountName(.other1)), preferredStyle: .alert)
                             alert1.addAction(UIAlertAction(title: NSLocalizedString("Create and Move",comment: ""), style: .default, handler: { [weak alert1] (_) in
