@@ -92,7 +92,7 @@ class AccountListTableViewController: UITableViewController {
                     let alert = UIAlertController(title: NSLocalizedString("Hide",comment: ""), message: NSLocalizedString("Do you really want hide account?",comment: ""), preferredStyle: .alert)
                     alert.addAction(UIAlertAction(title: NSLocalizedString("Yes",comment: ""), style: .destructive, handler: { [self](_) in
                         do {
-                            AccountManager.changeAccountIsHiddenStatus(selectedAccount)
+                            try AccountManager.changeAccountIsHiddenStatus(selectedAccount)
                             try self.coreDataStack.saveContext(self.context)
                         self.delegate.updateUI()
                         }

@@ -28,6 +28,14 @@ class AccountNavigatorTableViewController: UITableViewController {
     lazy var fetchedResultsController : NSFetchedResultsController<Account> = {
         let fetchRequest : NSFetchRequest<Account> = NSFetchRequest<Account>(entityName: "Account")
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "path", ascending: true)]
+            fetchRequest.predicate = NSPredicate(format: "parent = %@ && (isHidden = false || isHidden = %@)", argumentArray: [account, showHiddenAccounts])
+            return NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
+    }()
+    
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
         if let account = account {
             self.navigationItem.title = "\(account.name!)"
         }
@@ -42,13 +50,6 @@ class AccountNavigatorTableViewController: UITableViewController {
             }
         }
         
-            fetchRequest.predicate = NSPredicate(format: "parent = %@ && (isHidden = false || isHidden = %@)", argumentArray: [account, showHiddenAccounts])
-            return NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
-    }()
-    
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
         resultSearchController = ({
             let controller = UISearchController(searchResultsController: nil)
             controller.searchResultsUpdater = self
@@ -145,7 +146,7 @@ class AccountNavigatorTableViewController: UITableViewController {
         let cell : UITableViewCell = tableView.dequeueReusableCell(withIdentifier: Constants.Cell.accountNavigatorCell, for: indexPath)
         let account  = fetchedResultsController.object(at: indexPath) as Account
         
-        if let children = account.children, (children.allObjects as! [Account]).filter({$0.isHidden == false}).count > 0 {
+        if let children = account.children, (children.allObjects as! [Account]).filter({$0.isHidden == false || $0.isHidden == showHiddenAccounts}).count > 0 {
             cell.accessoryType = .disclosureIndicator
         }
         else {
@@ -174,7 +175,7 @@ class AccountNavigatorTableViewController: UITableViewController {
         tableView.deselectRow(at: indexPath, animated: true)
         let selectedAccount = fetchedResultsController.object(at: indexPath) as Account
         
-        if let children = selectedAccount.children, (children.allObjects as! [Account]).filter({$0.isHidden == false}).count > 0 {
+        if let children = selectedAccount.children, (children.allObjects as! [Account]).filter({$0.isHidden == false || $0.isHidden == showHiddenAccounts}).count > 0 {
             let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
             let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.accountNavigatorTableViewCContriller) as! AccountNavigatorTableViewController
             vc.account = selectedAccount
@@ -212,9 +213,6 @@ class AccountNavigatorTableViewController: UITableViewController {
 //            }
         }
     }
-    
-    
-
     
     
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
@@ -308,70 +306,45 @@ extension AccountNavigatorTableViewController {
     private func hideAccount(indexPath: IndexPath) -> UIContextualAction {
         let hideAction = UIContextualAction(style: .normal, title: NSLocalizedString("Hide",comment: "")) { _, _, complete in
             let selectedAccount = self.fetchedResultsController.object(at: indexPath) as Account
-            if selectedAccount.parent?.currency == nil {
-                if AccountManager.balance(of : [selectedAccount]) == 0 {
-                    
-                    let alert = UIAlertController(title: NSLocalizedString("Hide",comment: ""), message: NSLocalizedString("Do you really want hide account?",comment: ""), preferredStyle: .alert)
-                    alert.addAction(UIAlertAction(title: NSLocalizedString("Yes",comment: ""), style: .destructive, handler: {(_) in
-                        
-                        do {
-                            AccountManager.changeAccountIsHiddenStatus(selectedAccount)
-                            try self.coreDataStack.saveContext(self.context)
-                            try self.fetchedResultsController.performFetch()
-                            
-                            if self.showHiddenAccounts == false{
-                                print("delete")
-                                self.tableView.deleteRows(at: [indexPath], with: .fade)
-                            }
-                            else {
-                                print("reload")
-                                self.tableView.reloadData()
-                            }
-                        }
-                        catch let error {
-                            self.errorHandlerMethod(error: error)
-                        }
-                    }))
-                    alert.addAction(UIAlertAction(title: NSLocalizedString("No",comment: ""), style: .cancel))
-                    self.present(alert, animated: true, completion: nil)
-                }
-                else {
-                    let alert = UIAlertController(title: NSLocalizedString("Warning",comment: ""), message: NSLocalizedString("You cannot hide account with money.\n1. Please transfer all your money to any other account.\n2. Hide account",comment: ""), preferredStyle: .alert)
-                    alert.addAction(UIAlertAction(title: NSLocalizedString("OK",comment: ""), style: .default))
-                    self.present(alert, animated: true, completion: nil)
-                }
+            var title = ""
+            var message = ""
+            if selectedAccount.isHidden {
+                title = NSLocalizedString("Unhide",comment: "")
+                message = NSLocalizedString("Do you really want unhide account?",comment: "")
             }
             else {
-                let alert = UIAlertController(title: NSLocalizedString("Hide",comment: ""), message: NSLocalizedString("Do you really want hide account?",comment: ""), preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: NSLocalizedString("Yes",comment: ""), style: .destructive, handler: {(_) in
-                    
-                    do {
-                        AccountManager.changeAccountIsHiddenStatus(selectedAccount)
-                        try self.coreDataStack.saveContext(self.context)
-                        try self.fetchedResultsController.performFetch()
-                        if self.showHiddenAccounts == false{
-                            print("delete")
-                            self.tableView.deleteRows(at: [indexPath], with: .fade)
-                        }
-                        else {
-                            print("reload")
-                            self.tableView.reloadData()
-                        }
-                    }
-                    catch let error{
-                        print("Error",error)
-                        self.errorHandlerMethod(error: error)
-                    }
-                }))
-                alert.addAction(UIAlertAction(title: NSLocalizedString("No",comment: ""), style: .cancel))
-                self.present(alert, animated: true, completion: nil)
+                title = NSLocalizedString("Hide",comment: "")
+                message = NSLocalizedString("Do you really want hide account?",comment: "")
             }
+            
+            let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: NSLocalizedString("Yes",comment: ""), style: .destructive, handler: {(_) in
+                
+                do {
+                    try AccountManager.changeAccountIsHiddenStatus(selectedAccount)
+                    try self.coreDataStack.saveContext(self.context)
+                    try self.fetchedResultsController.performFetch()
+                    
+                    if self.showHiddenAccounts == false{
+                        self.tableView.deleteRows(at: [indexPath], with: .fade)
+                    }
+                    else {
+                        self.tableView.reloadData()
+                    }
+                }
+                catch let error {
+                    self.errorHandlerMethod(error: error)
+                }
+            }))
+            alert.addAction(UIAlertAction(title: NSLocalizedString("No",comment: ""), style: .cancel))
+            self.present(alert, animated: true, completion: nil)
+            
             complete(true)
         }
         let selectedAccount = self.fetchedResultsController.object(at: indexPath) as Account
         if selectedAccount.isHidden == false {
-        hideAction.backgroundColor = .systemGray
-        hideAction.image = UIImage(systemName: "eye.slash")
+            hideAction.backgroundColor = .systemGray
+            hideAction.image = UIImage(systemName: "eye.slash")
         }
         else {
             hideAction.backgroundColor = .systemIndigo

@@ -242,7 +242,7 @@ class AccountManager {
     }
     
   
-    static func changeAccountIsHiddenStatus(_ account : Account, modifiedByUser : Bool = true, modifyDate: Date = Date()) {
+    static func changeAccountIsHiddenStatus(_ account : Account, modifiedByUser : Bool = true, modifyDate: Date = Date()) throws {
         let oldIsHidden = account.isHidden
         if oldIsHidden {  //activation
             for anc in getAllAncestorsForAcctount(account).filter({$0.isHidden == true}) {
@@ -257,6 +257,9 @@ class AccountManager {
                 item.modifyDate = modifyDate
                 item.modifiedByUser = modifiedByUser
             }
+        }
+        if let parent = account.parent, parent.parent == nil && AccountManager.balance(of : [account]) != 0 && parent.currency == nil && account.isHidden == false{
+            throw AccountError.accumulativeAccountCannotBeHiddenWithNonZeroAmount(name: parent.name!)
         }
         account.isHidden = !oldIsHidden
         account.modifyDate = modifyDate
@@ -278,7 +281,6 @@ class AccountManager {
                 context.delete($0)
             })
         }
-        
     }
     
     

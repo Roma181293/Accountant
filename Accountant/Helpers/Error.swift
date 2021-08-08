@@ -15,13 +15,14 @@ enum AccountError : Error {
     case creditAccountAlreadyExist(String)  //for cases when creates linked account
     case reservedAccountName
     case accountDoesNotExist(String)
+    case accumulativeAccountCannotBeHiddenWithNonZeroAmount(name: String)
 }
 
 extension AccountError: LocalizedError {
     public var errorDescription: String? {
             switch self {
             case .attributeTypeShouldBeInitializeForRootAccount:
-                return NSLocalizedString("Attribute type should be initialize for root account", comment: "")
+                return NSLocalizedString("Attribute type should be initialize for the root account", comment: "")
                 
             case .accountHasAnAttribureTypeDifferentFromParent:
                 return NSLocalizedString("Account has an attribure type different from parent", comment: "")
@@ -40,6 +41,9 @@ extension AccountError: LocalizedError {
                 
             case let .accountDoesNotExist(name):
                 return String(format: NSLocalizedString("'%@' account does not exist. Please contact to support", comment: ""), name)
+                
+            case let .accumulativeAccountCannotBeHiddenWithNonZeroAmount(name):
+                return String(format: NSLocalizedString("You cannot hide %@ account with non zero amount", comment: ""), name)
             }
         }
     
