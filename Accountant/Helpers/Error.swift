@@ -34,7 +34,7 @@ extension AccountError: LocalizedError {
                 return NSLocalizedString("You can not remove this account, it should be free from transactions", comment: "")
                 
             case let .creditAccountAlreadyExist(name):
-                return String(format: NSLocalizedString("With card money account we also create associated credit account and this account %@ is already exist. Please use another account name",comment: ""), AccountsNameLocalisationManager.getLocalizedAccountName(.credits)+":"+name)
+                return String(format: NSLocalizedString("With credit card we also create associated credit account and this account %@ is already exist",comment: ""), AccountsNameLocalisationManager.getLocalizedAccountName(.credits)+":"+name)
                 
             case .reservedAccountName:
                 return NSLocalizedString("This is app-reserved account name. Please use another name",comment: "")
