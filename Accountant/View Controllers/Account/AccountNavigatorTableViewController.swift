@@ -253,7 +253,7 @@ class AccountNavigatorTableViewController: UITableViewController {
                 tmpConfiguration.append(renameAccount)
                 tmpConfiguration.append(removeAccount)
             }
-            if selectedAccount.parent != nil {
+            if selectedAccount.parent != nil || (selectedAccount.parent == nil && selectedAccount.createdByUser == true) {
                 tmpConfiguration.append(hideAccount)
             }
             return UISwipeActionsConfiguration(actions: tmpConfiguration)

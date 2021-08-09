@@ -72,7 +72,7 @@ class AddAccountViewController: UIViewController {
         }
         do {
             if let name = nameTextField.text, name != "" {
-                try AccountManager.createAccount(parent: nil, name: name, type: typeOfAccount.rawValue, currency: currency, context: context)
+                try AccountManager.createAccount(parent: nil, name: name, type: typeOfAccount.rawValue, currency: currency, createdByUser: true, context: context)
                 try context.save()
                 navigationController?.popViewController(animated: true)
             }
