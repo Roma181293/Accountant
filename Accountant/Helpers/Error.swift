@@ -56,3 +56,28 @@ extension AccountError: LocalizedError {
 //        }
 }
 
+
+
+
+enum CurrencyError : Error {
+    case thisCurrencyAlreadyExists
+    case thisCurrencyUsedInAccounts
+    case thisIsAccountingCurrency
+    case thisCurrencyAlreadyUsedInTransaction
+}
+
+
+extension CurrencyError: LocalizedError {
+    public var errorDescription: String? {
+        switch self {
+        case .thisCurrencyAlreadyExists:
+            return NSLocalizedString("This currency already exists",comment: "")
+        case .thisCurrencyUsedInAccounts:
+            return NSLocalizedString("This currency used in accounts",comment: "")
+        case .thisIsAccountingCurrency:
+            return NSLocalizedString("This is accounting currency",comment: "")
+        case .thisCurrencyAlreadyUsedInTransaction:
+            return NSLocalizedString("Current accounting currency already used in transaction where one of accounts has different currency",comment: "")
+        }
+    }
+}

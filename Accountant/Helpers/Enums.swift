@@ -51,15 +51,6 @@ enum BudgetError : Error {
     case incorrectLeftOrRightBorderDateInAutoCreateBudgetMethod
 }
 
-
-enum CurrencyError : Error {
-    case thisCurrencyAlreadyExists
-    case thisCurrencyUsedInAccounts
-    case thisIsAccountingCurrency
-    case thisCurrencyAlreadyUsedInTransaction
-}
-
-
 enum SortCategoryType : Int {
     case aToz = 0
     case zToa = 1

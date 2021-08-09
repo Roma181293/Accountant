@@ -42,7 +42,7 @@ class CurrencyTableViewController: UITableViewController {
         }
         catch let error{
             let alert = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: error.localizedDescription, preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel))
+            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .cancel))
             self.present(alert, animated: true, completion: nil)
         }
     }
@@ -111,16 +111,10 @@ class CurrencyTableViewController: UITableViewController {
                 tableView.reloadRows(at: [currencyIndexPath,indexPath], with: .automatic)
             }
             catch let error{
-                if let error = error as? CurrencyError, error == .thisCurrencyAlreadyUsedInTransaction {
-                    let alert = UIAlertController(title: NSLocalizedString("Warning", comment: ""), message: NSLocalizedString("Current accounting currency already used in transaction where one of accounts has different currency", comment: ""), preferredStyle: .alert)
-                    alert.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel))
-                    self.present(alert, animated: true, completion: nil)
-                }
-                else {
-                    let alert = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: error.localizedDescription, preferredStyle: .alert)
-                    alert.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel))
-                    self.present(alert, animated: true, completion: nil)
-                }
+                let alert = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: error.localizedDescription, preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .cancel))
+                self.present(alert, animated: true, completion: nil)
+                
             }
         }
         else {

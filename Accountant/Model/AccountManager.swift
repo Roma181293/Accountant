@@ -137,21 +137,19 @@ class AccountManager {
         try createAndGetAccount(parent: parent, name : name, type : type, currency : currency, subType : moneyAccountType, createdByUser : createdByUser, context: context)
     }
     
-    static func changeCurrencyForBaseAccounts(to currency : Currency, context : NSManagedObjectContext) throws {
+    static func changeCurrencyForBaseAccounts(to currency : Currency, modifyDate: Date = Date(), modifiedByUser: Bool = true, context : NSManagedObjectContext) throws {
         var baseAccounts : [Account] = try getRootAccountList(context: context)
         var acc : [Account] = []
-        baseAccounts = baseAccounts.filter({
-            if let currency = $0.currency, currency.isAccounting == true {
-                acc.append(contentsOf: getAllChildrenForAcctount($0))
-                acc.append($0)
-                return true
+        for item in baseAccounts{
+            if let currency = item.currency, currency.isAccounting == true {
+                acc.append(contentsOf: getAllChildrenForAcctount(item))
+                acc.append(item)
             }
-            else {
-                return false
-            }
-        })
+        }
         for account in acc {
             account.currency = currency
+            account.modifiedByUser = modifiedByUser
+            account.modifyDate = modifyDate
         }
     }
     
