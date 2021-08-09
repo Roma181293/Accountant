@@ -56,7 +56,7 @@ class AccountListTableViewController: UITableViewController {
     }
     
     override  func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let rename = UIContextualAction(style: .normal, title: NSLocalizedString("Rename",comment: "")) { (contAct, view, complete) in
+        let renameAccount = UIContextualAction(style: .normal, title: NSLocalizedString("Rename",comment: "")) { (contAct, view, complete) in
             let account : Account! = self.listOfAccountsToShow[indexPath.row].account
 
             let alert = UIAlertController(title: NSLocalizedString("Rename account",comment: ""), message: NSLocalizedString("Enter new account name",comment: ""), preferredStyle: .alert)
@@ -94,7 +94,7 @@ class AccountListTableViewController: UITableViewController {
                         do {
                             try AccountManager.changeAccountIsHiddenStatus(selectedAccount)
                             try self.coreDataStack.saveContext(self.context)
-                        self.delegate.updateUI()
+                            self.delegate.updateUI()
                         }
                         catch let error{
                             errorHandlerMethod(error: error)
@@ -112,10 +112,41 @@ class AccountListTableViewController: UITableViewController {
             complete(true)
         }
         
-        let configuration : UISwipeActionsConfiguration? = UISwipeActionsConfiguration(actions: [hideAccount, rename])
-        configuration?.actions[0].backgroundColor = .systemOrange
-        configuration?.actions[1].backgroundColor = .systemGreen
+        let removeAccount = UIContextualAction(style: .normal, title: NSLocalizedString("Remove",comment: "")) { _, _, complete in
+            let selectedAccount : Account! = self.listOfAccountsToShow[indexPath.row].account
+
+            if selectedAccount.parent != nil {
+                if self.listOfAccountsToShow[indexPath.row].amountInAccountCurrency == 0 {
+                    let alert = UIAlertController(title: NSLocalizedString("Remove",comment: ""), message: NSLocalizedString("Do you really want remove account?",comment: ""), preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: NSLocalizedString("Yes",comment: ""), style: .destructive, handler: { [self](_) in
+                        do {
+                            try AccountManager.removeAccount(selectedAccount, eligibilityChacked: false, context: context)
+                            try self.coreDataStack.saveContext(self.context)
+                            self.delegate.updateUI()
+                        }
+                        catch let error{
+                            errorHandlerMethod(error: error)
+                        }
+                    }))
+                    alert.addAction(UIAlertAction(title: NSLocalizedString("No",comment: ""), style: .cancel))
+                    self.present(alert, animated: true, completion: nil)
+                }
+                else {
+                    let alert = UIAlertController(title: NSLocalizedString("Warning",comment: ""), message: NSLocalizedString("You cannot hide account with money.\n1. Please transfer all your money to any other account.\n2. Hide account",comment: ""), preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: NSLocalizedString("OK",comment: ""), style: .default))
+                    self.present(alert, animated: true, completion: nil)
+                }
+            }
+            complete(true)
+        }
+        removeAccount.backgroundColor = .systemRed
+        removeAccount.image = UIImage(systemName: "trash")
+        hideAccount.backgroundColor = .systemGray
+        hideAccount.image = UIImage(systemName: "eye.slash")
+        renameAccount.backgroundColor = .systemBlue
+        renameAccount.image = UIImage(systemName: "pencil")
         
+        let configuration : UISwipeActionsConfiguration? = UISwipeActionsConfiguration(actions: [renameAccount, removeAccount, hideAccount])
         return configuration
     }
     

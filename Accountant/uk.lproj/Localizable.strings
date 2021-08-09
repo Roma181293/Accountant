@@ -90,6 +90,7 @@
 "Bad internet connection. Please enter exchange rate %@/%@" = "Погане інтернет зяєднання. Будь ласка введіть обмінний курс %@/%@";
 "Exchange rate value can't be less or equal than 0" = "Значення курсу валют не може бути менше 0";
 
+"Do you really want remove account?" = "Ви дійсно хочете видалити рахунок?";
 
 //BudgetsListViewController
 "Budgets" = "Бюджети";
