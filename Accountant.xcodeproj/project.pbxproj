@@ -272,8 +272,8 @@
 			children = (
 				2B1FEA9E266C349B00BF53BD /* Constants.swift */,
 				2B1FEA53266BEEC000BF53BD /* Enums.swift */,
-				2B1FEAE0266CAF6C00BF53BD /* Extensions */,
 				2BE2593226BC8E6D0025301F /* Error.swift */,
+				2B1FEAE0266CAF6C00BF53BD /* Extensions */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
