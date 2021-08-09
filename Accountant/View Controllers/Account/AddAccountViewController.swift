@@ -8,52 +8,23 @@
 
 import UIKit
 
-
-
-
-
-
-
-//FIXME: - fix me
-//FIXME: - fix me
-
-
-
-
-
-
-
-
 class AddAccountViewController: UIViewController {
     
     @IBOutlet weak var segmentedControl: UISegmentedControl!
     @IBOutlet weak var nameTextField: UITextField!
-    @IBOutlet weak var currencyTextField: UITextField!
+    @IBOutlet weak var currencyButton: UIButton!
+    @IBOutlet weak var refreshButton: UIButton!
+    
     
     let coreDataStack : CoreDataStack = CoreDataStack.shared
-    var currency : Currency!
-    var pickerData : [String] = [String]()
+    let context = CoreDataStack.shared.persistentContainer.viewContext
+    var currency : Currency?
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tabBarController?.navigationItem.title = "Create Account"
-        //FIXME: -
-//        guard let curr = coreDataStack.getAccountingCurrency() else {return}
-//        currency = curr
-//        pickerData = CurrencyEnum.MULTICURRENCY.getCurrencyList()
-//        addButtonToViewController()
-//        currencyTextField.text = currency.code
-//        currencyTextField.setInputViewPickerView(target: self, data : pickerData, selector : #selector(done))
-    }
-    
-    @objc func done() {
-//        if self.currencyTextField.inputView as? UIPickerView != nil {
-//            currencyTextField.text = pickerData[currencyTextField.selectedItemIndex]
-//            currency = pickerData[currencyTextField.selectedItemIndex]
-//        }
-        self.currencyTextField.resignFirstResponder()
-        
+        addButtonToViewController()
     }
     
     private func addButtonToViewController() {
@@ -80,43 +51,44 @@ class AddAccountViewController: UIViewController {
         }
         addButton.addTarget(self, action: #selector(AddAccountViewController.save(_:)), for: .touchUpInside)
     }
-    //TODO: - fix this code
-    @objc func save(_ sender:UIButton!){
-//        var typeOfAccount : AccountType = .assets
-//        if segmentedControl.selectedSegmentIndex == 1 {
-//            typeOfAccount = .liabilities
-//        }
-//        do {
-//            if let name = nameTextField.text, name != "" {
-//                try coreDataStack.createAccount(parent: nil, name: name, type: typeOfAccount.rawValue, currency: currency)
-//                navigationController?.popViewController(animated: true)
-//            }
-//        }
-//        catch let error{
-//            print("ERROR", error)
-//
-//            if error as? AccountError != nil {
-//                let alert = UIAlertController(title: "Warning", message: "Account with this name already exists. Please try another name.", preferredStyle: .alert)
-//                alert.addAction(UIAlertAction(title: "OK", style: .default))
-//                self.present(alert, animated: true, completion: nil)
-//            }
-//            else {
-//                let alert = UIAlertController(title: "Error", message: "\(error.localizedDescription)", preferredStyle: .alert)
-//                alert.addAction(UIAlertAction(title: "OK", style: .default))
-//                self.present(alert, animated: true, completion: nil)
-//            }
-//        }
+    
+    @IBAction func selectCurrency(_ sender: UIButton){
+        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let currencyTableViewController = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.currencyTableViewController) as! CurrencyTableViewController
+        currencyTableViewController.delegate = self
+        currencyTableViewController.currency = currency
+        self.navigationController?.pushViewController(currencyTableViewController, animated: true)
     }
     
+    @IBAction func refreshCurrency(_ sender: UIButton){
+        currency = nil
+        currencyButton.setTitle("Multicurrency", for: .normal)
+    }
     
-    
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destination.
-     // Pass the selected object to the new view controller.
-     }
-     */
+    @objc func save(_ sender:UIButton!){
+        var typeOfAccount : AccountType = .assets
+        if segmentedControl.selectedSegmentIndex == 1 {
+            typeOfAccount = .liabilities
+        }
+        do {
+            if let name = nameTextField.text, name != "" {
+                try AccountManager.createAccount(parent: nil, name: name, type: typeOfAccount.rawValue, currency: currency, context: context)
+                try context.save()
+                navigationController?.popViewController(animated: true)
+            }
+        }
+        catch let error{
+                let alert = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: "\(error.localizedDescription)", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .default))
+                self.present(alert, animated: true, completion: nil)
+        }
+    }
+}
+
+
+extension AddAccountViewController: CurrencyReceiverDelegate{
+    func setCurrency(_ selectedCurrency: Currency) {
+        self.currency = selectedCurrency
+        currencyButton.setTitle(selectedCurrency.code!, for: .normal)
+    }
 }

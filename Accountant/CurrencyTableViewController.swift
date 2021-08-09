@@ -9,6 +9,10 @@
 import UIKit
 import CoreData
 
+protocol CurrencyReceiverDelegate {
+    func setCurrency(_ selectedCurrency: Currency)
+}
+
 class CurrencyTableViewController: UITableViewController {
     
     private var context = CoreDataStack.shared.persistentContainer.viewContext
@@ -16,7 +20,7 @@ class CurrencyTableViewController: UITableViewController {
     var currencyIndexPath: IndexPath?
     var currency : Currency?
     
-    var delegate : AccountEditorWithInitialBalanceViewController?
+    var delegate : CurrencyReceiverDelegate?
     lazy var fetchedResultsController : NSFetchedResultsController<Currency> = {
         let fetchRequest : NSFetchRequest<Currency> = NSFetchRequest<Currency>(entityName: "Currency")
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "isAccounting", ascending: false), NSSortDescriptor(key: "code", ascending: true)]
@@ -118,7 +122,7 @@ class CurrencyTableViewController: UITableViewController {
             }
         }
         else {
-            delegate?.currency = fetchedResultsController.object(at: indexPath) as Currency
+            delegate?.setCurrency(fetchedResultsController.object(at: indexPath) as Currency)
             self.navigationController?.popViewController(animated: true)
         }
     }
