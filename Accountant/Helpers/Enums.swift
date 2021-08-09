@@ -38,18 +38,6 @@ enum BaseAccounts : String, CaseIterable {
     case other1 = "Other"
 }
 
-enum ImportAccountError : Error{
-    case invalidIsHiddenValue
-    case invalidAccountTypeValue
-    case invalidAccountSubTypeValue
-}
-
-enum BudgetError : Error {
-    case thisBadgetAlreadyExists
-    case incorrectLeftOrRightBorderDate
-    case incorrectLeftOrRightBorderDateInNeedGenerateBudgetsForCurrentMonthMethod
-    case incorrectLeftOrRightBorderDateInAutoCreateBudgetMethod
-}
 
 enum SortCategoryType : Int {
     case aToz = 0
@@ -70,6 +58,7 @@ enum AuthType : Int{
     case bioAuth = 1
     case none = 2
 }
+
 
 enum AuthenticationState {
     case loggedin

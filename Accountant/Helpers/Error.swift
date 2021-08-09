@@ -81,3 +81,11 @@ extension CurrencyError: LocalizedError {
         }
     }
 }
+
+
+enum BudgetError : Error {
+    case thisBadgetAlreadyExists
+    case incorrectLeftOrRightBorderDate
+    case incorrectLeftOrRightBorderDateInNeedGenerateBudgetsForCurrentMonthMethod
+    case incorrectLeftOrRightBorderDateInAutoCreateBudgetMethod
+}
