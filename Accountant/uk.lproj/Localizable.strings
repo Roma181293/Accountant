@@ -141,6 +141,7 @@
 "Add" = "Додати";
 "Cancel" = "Закрити";
 "Do you really want remove account and all clidren accounts?" = "Ви дійсно хочете видалити рахунок і всі дочірні рахунки?";
+"Do you really want remove account and linked account %@?" = "Ви дійсно хочете видалити рахунок і пов'язаний з ним рахунок %@?";
 
 //AuthViewController
 "Authentication is required to open the app" = "Для роботи додатку необхідна аутентифікація";
@@ -231,3 +232,5 @@
 "This is app-reserved account name. Please use another name" = "Це ім'я зарезервовано додатком. Будь ласка використайте інше ім'я";
 "'%@' account does not exist. Please contact to support" = "Рахунок '%@' не існує. Будь ласка зверніться до команди підтримки";
 "You cannot hide %@ account with non zero amount" = "Ви не можете приховати рахунок %@ з не нульвим балансом";
+"Linked account %@ can not be removed, as it should be free from transactions" = "Пов'язаний рахунок %@ не можна видалити, він не має містити операцій";
+

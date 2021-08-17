@@ -16,6 +16,8 @@ enum AccountError : Error {
     case reservedAccountName
     case accountDoesNotExist(String)
     case accumulativeAccountCannotBeHiddenWithNonZeroAmount(name: String)
+    case linkedAccountHasTransactionItem(name: String)
+    
 }
 
 extension AccountError: LocalizedError {
@@ -44,6 +46,8 @@ extension AccountError: LocalizedError {
                 
             case let .accumulativeAccountCannotBeHiddenWithNonZeroAmount(name):
                 return String(format: NSLocalizedString("You cannot hide %@ account with non zero amount", comment: ""), name)
+            case let .linkedAccountHasTransactionItem(name):
+                return String(format: NSLocalizedString("Linked account %@ can not be removed, as it should be free from transactions", comment: ""), name)
             }
         }
     

@@ -358,23 +358,31 @@ extension AccountNavigatorTableViewController {
         let removeAction = UIContextualAction(style: .destructive, title: NSLocalizedString("Romov",comment: "")) { _, _, complete in
             let selectedAccount = self.fetchedResultsController.object(at: indexPath) as Account
             do {
-                if try AccountManager.canBeRemove(account: selectedAccount) {
-                    
-                    let alert = UIAlertController(title: NSLocalizedString("Remove",comment: ""), message: NSLocalizedString("Do you really want remove account and all clidren accounts?",comment: ""), preferredStyle: .alert)
-                    alert.addAction(UIAlertAction(title: NSLocalizedString("Yes",comment: ""), style: .destructive, handler: {(_) in
-                        do {
-                            try AccountManager.removeAccount(selectedAccount, eligibilityChacked: true, context: self.context)
-                            try self.coreDataStack.saveContext(self.context)
-                            try self.fetchedResultsController.performFetch()
-                            self.tableView.deleteRows(at: [indexPath], with: .fade)
-                        }
-                        catch let error{
-                            self.errorHandlerMethod(error: error)
-                        }
-                    }))
-                    alert.addAction(UIAlertAction(title: NSLocalizedString("No",comment: ""), style: .cancel))
-                    self.present(alert, animated: true, completion: nil)
+                try AccountManager.canBeRemove(account: selectedAccount)
+                
+                var message = ""
+                if let linkedAccount = selectedAccount.linkedAccount {
+                    message =  String(format: NSLocalizedString("Do you really want remove account and linked account %@?",comment: ""), linkedAccount.path!)
                 }
+                else {
+                    message = NSLocalizedString("Do you really want remove account and all clidren accounts?",comment: "")
+                }
+                
+                let alert = UIAlertController(title: NSLocalizedString("Remove",comment: ""), message: message, preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: NSLocalizedString("Yes",comment: ""), style: .destructive, handler: {(_) in
+                    do {
+                        try AccountManager.removeAccount(selectedAccount, eligibilityChacked: true, context: self.context)
+                        try self.coreDataStack.saveContext(self.context)
+                        try self.fetchedResultsController.performFetch()
+                        self.tableView.deleteRows(at: [indexPath], with: .fade)
+                    }
+                    catch let error{
+                        self.errorHandlerMethod(error: error)
+                    }
+                }))
+                alert.addAction(UIAlertAction(title: NSLocalizedString("No",comment: ""), style: .cancel))
+                self.present(alert, animated: true, completion: nil)
+                
             }
             catch let error{
                 self.errorHandlerMethod(error: error)

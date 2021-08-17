@@ -268,13 +268,15 @@ class AccountManager {
         var accounts = getAllChildrenForAcctount(account)
         accounts.append(account)
         if eligibilityChacked == false {
-            if try canBeRemove(account: account) {
-                accounts.forEach({
-                    context.delete($0)
-                })
-            }
+            try canBeRemove(account: account)
+            accounts.forEach({
+                context.delete($0)
+            })
         }
         else {
+            if let linkedAccount = account.linkedAccount {
+                accounts.append(linkedAccount)
+            }
             accounts.forEach({
                 context.delete($0)
             })
@@ -283,7 +285,7 @@ class AccountManager {
     
     
     
-    static func canBeRemove(account: Account) throws -> Bool {
+    static func canBeRemove(account: Account) throws {
         var accounts = getAllChildrenForAcctount(account)
         accounts.append(account)
         
@@ -301,7 +303,10 @@ class AccountManager {
             })
             throw AccountError.cantRemoveAccountThatUsedInTransactionItem(accountListString)
         }
-        return true
+        
+        if let linkedAccount = account.linkedAccount, !isFreeFromTransactionItems(account: linkedAccount) {
+            throw AccountError.linkedAccountHasTransactionItem(name: linkedAccount.path!)
+        }
     }
     
     static func accountListUsingInTransactions(account: Account) -> [Account] {
