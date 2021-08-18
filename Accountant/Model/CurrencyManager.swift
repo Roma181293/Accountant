@@ -10,7 +10,6 @@ import Foundation
 import CoreData
 
 class CurrencyManager {
-    // MARK: - Currency
     
     static func isFreeCurrencyCode(_ code : String, context: NSManagedObjectContext) -> Bool {
         let currencyFetchRequest : NSFetchRequest<Currency> = NSFetchRequest<Currency>(entityName: "Currency")
@@ -146,5 +145,4 @@ class CurrencyManager {
             try? createCurrency(code: $0, name: nil, createdByUser: false, context: context)
         })
     }
-
 }

@@ -138,7 +138,7 @@ class AccountManager {
     }
     
     static func changeCurrencyForBaseAccounts(to currency : Currency, modifyDate: Date = Date(), modifiedByUser: Bool = true, context : NSManagedObjectContext) throws {
-        var baseAccounts : [Account] = try getRootAccountList(context: context)
+        let baseAccounts : [Account] = try getRootAccountList(context: context)
         var acc : [Account] = []
         for item in baseAccounts{
             if let currency = item.currency, currency.isAccounting == true {
@@ -391,9 +391,7 @@ class AccountManager {
         inputMatrix.remove(at: 0)
      
         
-        
         for row in inputMatrix {
-            
             guard row.count > 1 else {break}
             
             let parent = AccountManager.getAccountWithPath(row[0], context: context)
