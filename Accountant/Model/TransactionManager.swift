@@ -27,6 +27,23 @@ class TransactionManager {
         
         transaction.comment = comment
     }
+
+    
+    
+    static func createAndGetEmptyTransaction(date : Date, comment : String? = nil, createdByUser : Bool = true, context: NSManagedObjectContext) -> Transaction {
+            let transaction = Transaction(context: context)
+            
+            let createDate = Date()
+            transaction.createDate = createDate
+            transaction.createdByUser = createdByUser
+            transaction.modifyDate = createDate
+            transaction.modifiedByUser = createdByUser
+            
+            transaction.date = date
+            
+            transaction.comment = comment
+        return transaction
+    }
     
     
     static func copyTransaction(_ transaction: Transaction, createdByUser : Bool = true, context: NSManagedObjectContext) {
@@ -193,4 +210,68 @@ class TransactionManager {
             return nil
         }
     }
+    
+    
+    static func validateTransactionDataBeforeSave(_ transaction: Transaction) throws {
+        
+        func getDataAboutTransactionItems(transaction: Transaction, type: AccounttingMethod, amount: inout Double, currency: inout Currency?, itemsCount: inout Int) throws {
+            for item in (transaction.items?.allObjects as! [TransactionItem]).filter({$0.type == type.rawValue}) {
+                itemsCount += 1
+                
+                if let account = item.account{
+                    
+                    if let cur = account.currency {
+                        if currency != cur {
+                            currency = nil //multicurrency transaction
+                        }
+                    }
+                    else {
+                        throw TransactionError.multicurrencyAccount(name: account.path!)
+                    }
+                }
+                else {
+                    switch type {
+                    case .debit:
+                        throw TransactionError.debitTransactionItemWOAccount
+                    case .credit:
+                        throw TransactionError.creditTransactionItemWOAccount
+                    }
+                }
+                
+                amount += item.amount
+            }
+        }
+        
+        var debitAmount: Double = 0
+        var creditAmount: Double = 0
+        
+        var debitItemsCount: Int = 0
+        var creditItemsCount: Int = 0
+        
+        //MARK:- Prepare data to check ability to save transaction
+        var debitCurrency: Currency? = (transaction.items?.allObjects as! [TransactionItem]).filter({$0.type == 1})[0].account?.currency
+        var creditCurrency: Currency? = (transaction.items?.allObjects as! [TransactionItem]).filter({$0.type == 0})[0].account?.currency
+        
+        try getDataAboutTransactionItems(transaction: transaction, type: .debit, amount: &debitAmount, currency: &debitCurrency, itemsCount: &debitItemsCount)
+        
+        try getDataAboutTransactionItems(transaction: transaction, type: .credit, amount: &creditAmount, currency: &creditCurrency, itemsCount: &creditItemsCount)
+        
+        
+        //MARK:- Check ability to save transaction
+        
+        if debitItemsCount == 0 {
+            throw TransactionError.noDebitTransactionItem
+        }
+        if creditItemsCount == 0 {
+            throw TransactionError.noCreditTransactionItem
+        }
+        
+        if debitCurrency == creditCurrency {
+            if debitAmount != creditAmount {
+                throw TransactionError.differentAmountForSingleCurrecyTransaction
+            }
+        }
+    }
+    
+    
 }

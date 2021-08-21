@@ -22,7 +22,7 @@
                                 <rect key="frame" x="0.0" y="88" width="414" height="725"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="TransactionCell_ID" rowHeight="50" id="Aqv-Mq-C78" customClass="TransactionTableViewCell" customModule="Accountant" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="TransactionCell_ID" rowHeight="50" id="Aqv-Mq-C78" customClass="SimpleTransactionTableViewCell" customModule="Accountant" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="24.5" width="414" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Aqv-Mq-C78" id="gTS-z7-I0a">
@@ -54,7 +54,7 @@
                                                             </constraints>
                                                         </stackView>
                                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="0a7-eh-Wuz">
-                                                            <rect key="frame" x="38" y="0.0" width="257" height="50"/>
+                                                            <rect key="frame" x="38" y="0.0" width="232" height="50"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="From" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VrF-00-guE">
                                                                     <rect key="frame" x="0.0" y="0.0" width="39.5" height="25"/>
@@ -75,16 +75,16 @@
                                                             </constraints>
                                                         </stackView>
                                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="3k3-oq-lGK">
-                                                            <rect key="frame" x="303" y="0.0" width="95" height="50"/>
+                                                            <rect key="frame" x="278" y="0.0" width="120" height="50"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WHu-4u-sCr" userLabel="amount from">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="95" height="25"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="120" height="25"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                     <nil key="textColor"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bRz-3V-p2J" userLabel="amount to">
-                                                                    <rect key="frame" x="0.0" y="25" width="95" height="25"/>
+                                                                    <rect key="frame" x="0.0" y="25" width="120" height="25"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                     <nil key="textColor"/>
                                                                     <nil key="highlightedColor"/>
@@ -145,10 +145,10 @@
             </objects>
             <point key="canvasLocation" x="-1213.0434782608697" y="314.73214285714283"/>
         </scene>
-        <!--Transaction Editor View Controller-->
+        <!--Simple Transaction Editor View Controller-->
         <scene sceneID="LUl-1Y-ske">
             <objects>
-                <viewController storyboardIdentifier="TransactionEditorVC_ID" id="oeU-ui-djC" customClass="TransactionEditorViewController" customModule="Accountant" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SimpleTransactionEditorVC_ID" id="oeU-ui-djC" customClass="SimpleTransactionEditorViewController" customModule="Accountant" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="sVt-dY-m5b">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -473,90 +473,6 @@
             </objects>
             <point key="canvasLocation" x="-1214" y="3522"/>
         </scene>
-        <!--Account Manager Table View Controller-->
-        <scene sceneID="pLn-hy-igT">
-            <objects>
-                <tableViewController storyboardIdentifier="AccountManagerTVC_ID" id="fat-4P-s9K" customClass="AccountManagerTableViewController" customModule="Accountant" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="NDp-ck-x3e">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="AccountManagerCell_ID" id="36f-xS-OLD" customClass="AccountManagerTableViewCell" customModule="Accountant" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="24.5" width="414" height="43.5"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="36f-xS-OLD" id="Tlx-ah-ECK">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ji6-yk-9MN">
-                                            <rect key="frame" x="65" y="11" width="42" height="21.5"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <nil key="textColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MHj-Q0-lxE">
-                                            <rect key="frame" x="8" y="6" width="51" height="31.5"/>
-                                            <connections>
-                                                <action selector="switchAccountIsHiddenStatus:" destination="36f-xS-OLD" eventType="valueChanged" id="Eqr-0C-WJT"/>
-                                            </connections>
-                                        </switch>
-                                    </subviews>
-                                    <constraints>
-                                        <constraint firstAttribute="trailing" relation="lessThanOrEqual" secondItem="ji6-yk-9MN" secondAttribute="trailing" constant="307" id="9P9-V4-Af8"/>
-                                        <constraint firstItem="ji6-yk-9MN" firstAttribute="leading" secondItem="MHj-Q0-lxE" secondAttribute="trailing" constant="8" id="Cbz-5S-AxP"/>
-                                        <constraint firstItem="ji6-yk-9MN" firstAttribute="top" secondItem="Tlx-ah-ECK" secondAttribute="topMargin" id="JZY-dw-Mn5"/>
-                                        <constraint firstAttribute="bottom" secondItem="MHj-Q0-lxE" secondAttribute="bottom" constant="6" id="K9N-EA-1d7"/>
-                                        <constraint firstItem="MHj-Q0-lxE" firstAttribute="leading" secondItem="Tlx-ah-ECK" secondAttribute="leading" constant="8" id="VZQ-kY-Ylg"/>
-                                        <constraint firstAttribute="bottomMargin" secondItem="ji6-yk-9MN" secondAttribute="bottom" id="oQt-Bl-h1L"/>
-                                        <constraint firstItem="MHj-Q0-lxE" firstAttribute="top" secondItem="Tlx-ah-ECK" secondAttribute="top" constant="6" id="tHP-xA-F2x"/>
-                                    </constraints>
-                                </tableViewCellContentView>
-                                <connections>
-                                    <outlet property="accountIsHiddenSwitch" destination="MHj-Q0-lxE" id="zpT-Wm-893"/>
-                                    <outlet property="title" destination="ji6-yk-9MN" id="vGS-Ev-ye3"/>
-                                </connections>
-                            </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="AccountManagerCell1_ID" textLabel="KwG-bz-aeg" style="IBUITableViewCellStyleDefault" id="jMF-YU-e1a" customClass="AccountManagerTableViewCell" customModule="Accountant" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="68" width="414" height="43.5"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="jMF-YU-e1a" id="SKb-Ko-u8j">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="KwG-bz-aeg">
-                                            <rect key="frame" x="20" y="0.0" width="374" height="43.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <nil key="textColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                    </subviews>
-                                </tableViewCellContentView>
-                            </tableViewCell>
-                        </prototypes>
-                        <connections>
-                            <outlet property="dataSource" destination="fat-4P-s9K" id="WrP-UD-EAk"/>
-                            <outlet property="delegate" destination="fat-4P-s9K" id="nOB-XI-cg7"/>
-                        </connections>
-                    </tableView>
-                    <navigationItem key="navigationItem" id="T97-cp-JOJ">
-                        <barButtonItem key="rightBarButtonItem" style="done" id="0eV-CW-9LX">
-                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="trailing" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="2QY-n1-HpA">
-                                <rect key="frame" x="266" y="0.0" width="128" height="44"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" image="plus" catalog="system"/>
-                                <connections>
-                                    <action selector="addAction" destination="fat-4P-s9K" eventType="touchUpInside" id="yFM-he-hUL"/>
-                                </connections>
-                            </button>
-                        </barButtonItem>
-                    </navigationItem>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Z4c-V0-ZLV" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-262" y="3522"/>
-        </scene>
         <!--Import Transaction View Controller-->
         <scene sceneID="zoc-Cq-2Ah">
             <objects>
@@ -715,7 +631,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Vvp-dz-G8f" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="703" y="3488"/>
+            <point key="canvasLocation" x="-264" y="3522"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="gzz-3m-Fdk">
@@ -1321,6 +1237,21 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WXD-yk-9qG" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="703" y="315"/>
+        </scene>
+        <!--Complex Transaction Editor View Controller-->
+        <scene sceneID="PWP-T9-LY7">
+            <objects>
+                <viewController storyboardIdentifier="ComplexTransactionEditorVC_ID" id="KAa-v9-vy8" customClass="ComplexTransactionEditorViewController" customModule="Accountant" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="UFr-Vl-tQA">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="qot-gL-Ujg"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="iEc-jB-dc0" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-257" y="-371"/>
         </scene>
         <!--Add Account View Controller-->
         <scene sceneID="Xha-nC-Oqc">
@@ -2250,10 +2181,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="pFo-eG-Ba1">
-                                <rect key="frame" x="20" y="94" width="182.5" height="61.5"/>
+                                <rect key="frame" x="20" y="94" width="374" height="61.5"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" axis="vertical" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="U2C-qZ-vVH">
-                                        <rect key="frame" x="0.0" y="0.0" width="133" height="61.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="324.5" height="61.5"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Entitlement name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NwU-My-e2g">
                                                 <rect key="frame" x="0.0" y="0.0" width="133" height="20.5"/>
@@ -2276,7 +2207,7 @@
                                         </subviews>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" axis="vertical" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="aIB-OX-mpx">
-                                        <rect key="frame" x="141" y="0.0" width="41.5" height="61.5"/>
+                                        <rect key="frame" x="332.5" y="0.0" width="41.5" height="61.5"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GHQ-gT-yHr">
                                                 <rect key="frame" x="0.0" y="0.0" width="41.5" height="20.5"/>

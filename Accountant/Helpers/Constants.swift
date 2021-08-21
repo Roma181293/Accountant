@@ -19,11 +19,11 @@ struct Constants {
         static let purchaseOfferViewController = "PurchaseOfferVC_ID"
         
         static let transactionListViewController = "TransactionListVC_ID"
-        static let transactionEditorViewController = "TransactionEditorVC_ID"
+        static let simpleTransactionEditorViewController = "SimpleTransactionEditorVC_ID"
+        static let complexTransactionEditorViewController = "ComplexTransactionEditorVC_ID"
         static let importTransactionViewController = "ImportTransactionVC_ID"
         
-        static let accountNavigatorTableViewCContriller = "AccountNavigatorTVC_ID"
-        static let accountManagerTableViewController = "AccountManagerTVC_ID"
+        static let accountNavigatorTableViewController = "AccountNavigatorTVC_ID"
         static let accountEditorWithInitialBalanceViewController = "AccountEditorWithInitialBalanceVC_ID"
         static let addAccountViewController = "AddAccountVC_ID"
         static let accountListViewController = "AccountListVC_ID"
@@ -50,8 +50,6 @@ struct Constants {
         static let preTransactionTableViewCell = "PreTransactionTableViewCell_ID"
         
         static let accountNavigatorCell = "AccountNavigatorCell_ID"
-        static let accountManagerCell1 = "AccountManagerCell1_ID"
-        static let accountManagerCell = "AccountManagerCell_ID"
         
         static let moneyAccountCell = "MoneyAccountCell_ID"
         static let accountInForeignCurrencyCell = "AccountInForeignCurrencyCell_ID"

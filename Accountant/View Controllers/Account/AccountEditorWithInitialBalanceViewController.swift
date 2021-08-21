@@ -297,7 +297,7 @@ class AccountEditorWithInitialBalanceViewController: UIViewController {
     
     func createNewAccount() throws {
         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let transactionEditorVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.transactionEditorViewController) as! TransactionEditorViewController
+        let transactionEditorVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.simpleTransactionEditorViewController) as! SimpleTransactionEditorViewController
         
             if let moneyAccountType = moneyAccountType {
                 switch moneyAccountType {

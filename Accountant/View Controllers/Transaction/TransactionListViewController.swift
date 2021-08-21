@@ -27,7 +27,7 @@ class TransactionListViewController: UIViewController{
         
         fetchRequest.fetchBatchSize = 20
         let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
-        
+
         return frc
     }()
     
@@ -95,7 +95,7 @@ class TransactionListViewController: UIViewController{
     
     @objc func addTransaction(_ sender:UIButton!){
         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let transactionEditorVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.transactionEditorViewController) as! TransactionEditorViewController
+        let transactionEditorVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.simpleTransactionEditorViewController) as! SimpleTransactionEditorViewController
         transactionEditorVC.interstitial = interstitial
         self.navigationController?.pushViewController(transactionEditorVC, animated: true)
     }
@@ -144,7 +144,7 @@ extension TransactionListViewController: UITableViewDelegate, UITableViewDataSou
     
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: Constants.Cell.transactionCell, for: indexPath) as! TransactionTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: Constants.Cell.transactionCell, for: indexPath) as! SimpleTransactionTableViewCell
         let transaction  = fetchedResultsController.object(at: indexPath) as Transaction
         cell.updateCell(transaction: transaction)
         return cell
@@ -153,11 +153,18 @@ extension TransactionListViewController: UITableViewDelegate, UITableViewDataSou
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        
         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let transactioEditorVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.transactionEditorViewController) as! TransactionEditorViewController
+        let transactioEditorVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.complexTransactionEditorViewController) as! ComplexTransactionEditorViewController
         transactioEditorVC.transaction = fetchedResultsController.object(at: indexPath) as Transaction
-        transactioEditorVC.interstitial = interstitial
+        transactioEditorVC.context = context
         self.navigationController?.pushViewController(transactioEditorVC, animated: true)
+        
+//        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+//        let transactioEditorVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.simpleTransactionEditorViewController) as! SimpleTransactionEditorViewController
+//        transactioEditorVC.transaction = fetchedResultsController.object(at: indexPath) as Transaction
+//        transactioEditorVC.interstitial = interstitial
+//        self.navigationController?.pushViewController(transactioEditorVC, animated: true)
         
     }
     

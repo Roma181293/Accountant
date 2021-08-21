@@ -93,3 +93,37 @@ enum BudgetError : Error {
     case incorrectLeftOrRightBorderDateInNeedGenerateBudgetsForCurrentMonthMethod
     case incorrectLeftOrRightBorderDateInAutoCreateBudgetMethod
 }
+
+
+
+enum TransactionError : Error {
+    case differentAmountForSingleCurrecyTransaction
+    case noDebitTransactionItem
+    case noCreditTransactionItem
+    case debitTransactionItemWOAccount
+    case creditTransactionItemWOAccount
+    case multicurrencyAccount(name: String)
+}
+
+extension TransactionError: LocalizedError {
+    public var errorDescription: String? {
+        switch self {
+        case .differentAmountForSingleCurrecyTransaction:
+            return NSLocalizedString("You  have transaction in single currency. But amount in From:Account not equal to amount To:Account",comment: "")
+        case .noDebitTransactionItem:
+            return NSLocalizedString("Please add To:Account",comment: "")
+        case .noCreditTransactionItem:
+            return NSLocalizedString("Please add From:Account",comment: "")
+        case .debitTransactionItemWOAccount:
+            return NSLocalizedString("Please select To:Account",comment: "")
+        case .creditTransactionItemWOAccount:
+            return NSLocalizedString("Please select From:Account",comment: "")
+        case let .multicurrencyAccount(name):
+            return String(format: NSLocalizedString("Please create subaccount to %@ and select them", comment: ""), name)
+        }
+    }
+}
+
+
+
+

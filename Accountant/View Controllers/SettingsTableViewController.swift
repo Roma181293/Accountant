@@ -24,7 +24,8 @@ class SettingsTableViewController: UITableViewController {
         NSLocalizedString("Import Account List", comment: ""),
         NSLocalizedString("Import Transaction List", comment: ""),
         "BioAuth",
-        NSLocalizedString("Subscriptions status", comment: "")
+        NSLocalizedString("Subscriptions status", comment: ""),
+        "TransactionEditor"
     ]
     
     var isImportAccounts: Bool = true
@@ -120,7 +121,7 @@ class SettingsTableViewController: UITableViewController {
         }
         else if userProfile[indexPath.row] == NSLocalizedString("Accounts manager", comment: "") {
             let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-            let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.accountNavigatorTableViewCContriller) as! AccountNavigatorTableViewController
+            let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.accountNavigatorTableViewController) as! AccountNavigatorTableViewController
             self.navigationController?.pushViewController(vc, animated: true)
         }
         else if userProfile[indexPath.row] == NSLocalizedString("PRO access", comment: ""){
@@ -133,6 +134,12 @@ class SettingsTableViewController: UITableViewController {
             let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.subscriptionsStatusViewController) as! SubsctiptionStatusViewController
             self.navigationController?.pushViewController(vc, animated: true)
         }
+        else if userProfile[indexPath.row] == "TransactionEditor" {
+            let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+            let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.complexTransactionEditorViewController) as! ComplexTransactionEditorViewController
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
+        
         tableView.deselectRow(at: indexPath, animated: true)
     }
     

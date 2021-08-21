@@ -12,17 +12,23 @@ import CoreData
 class AccountNavigatorTableViewController: UITableViewController {
     
     let coreDataStack = CoreDataStack.shared
-    let context = CoreDataStack.shared.persistentContainer.viewContext
+    var context: NSManagedObjectContext = CoreDataStack.shared.persistentContainer.viewContext
     var resultSearchController = UISearchController()
     var isSwipeAvailable: Bool = true
     
-    weak var transactionEditorVC : TransactionEditorViewController?
+    //TRANSPORT VARIABLES
+    weak var simpleTransactionEditorVC : SimpleTransactionEditorViewController?
+    var typeOfAccountingMethod : AccounttingMethod?
 //    weak var budgetEditorVC : BudgetEditorViewController?
     var preTransactionTableViewCell : PreTransactionTableViewCell?
     var importTransactionTableViewController : ImportTransactionViewController?
+   
+    weak var complexTransactionEditorVC: ComplexTransactionEditorViewController?
+    weak var transactionItem: TransactionItem?
+    //TRANSPORT VARIABLES
     
     weak var account : Account?
-    var typeOfAccountingMethod : AccounttingMethod?
+   
     var showHiddenAccounts = true
     
     lazy var fetchedResultsController : NSFetchedResultsController<Account> = {
@@ -177,18 +183,21 @@ class AccountNavigatorTableViewController: UITableViewController {
         
         if let children = selectedAccount.children, (children.allObjects as! [Account]).filter({$0.isHidden == false || $0.isHidden == showHiddenAccounts}).count > 0 {
             let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-            let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.accountNavigatorTableViewCContriller) as! AccountNavigatorTableViewController
+            let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.accountNavigatorTableViewController) as! AccountNavigatorTableViewController
             vc.account = selectedAccount
+            vc.context = context
             vc.showHiddenAccounts = self.showHiddenAccounts
-            vc.transactionEditorVC = transactionEditorVC
+            vc.simpleTransactionEditorVC = simpleTransactionEditorVC
 //            vc.budgetEditorVC = budgetEditorVC
             vc.preTransactionTableViewCell = preTransactionTableViewCell
             vc.importTransactionTableViewController = importTransactionTableViewController
             vc.typeOfAccountingMethod = typeOfAccountingMethod
+            vc.transactionItem = self.transactionItem
+            vc.complexTransactionEditorVC = complexTransactionEditorVC
             self.navigationController?.pushViewController(vc, animated: true)
         }
         else {
-            if let addTransactionVC = transactionEditorVC {
+            if let addTransactionVC = simpleTransactionEditorVC {
                 if typeOfAccountingMethod == .debit {
                     addTransactionVC.debit = selectedAccount
                 }
@@ -196,6 +205,14 @@ class AccountNavigatorTableViewController: UITableViewController {
                     addTransactionVC.credit = selectedAccount
                 }
                 self.navigationController?.popToViewController(addTransactionVC, animated: true)
+            }
+            else if let complexTransactionEditorVC = complexTransactionEditorVC, let transactionItem = transactionItem {
+                complexTransactionEditorVC.debitTableView.reloadData()
+                complexTransactionEditorVC.creditTableView.reloadData()
+                transactionItem.account = selectedAccount
+                transactionItem.modifyDate = Date()
+                transactionItem.modifiedByUser = true
+                self.navigationController?.popToViewController(complexTransactionEditorVC, animated: true)
             }
             if let preTransactionTableViewCell = preTransactionTableViewCell, let importTransactionTableViewController = importTransactionTableViewController {
                 if typeOfAccountingMethod == .debit {
