@@ -12,8 +12,8 @@ class TransactionItemTableViewCell: UITableViewCell {
     
     static let cellId = "TransactionItemTableViewCell_ID"
     
-    var transactionItem: TransactionItem!
-    var delegate: ComplexTransactionEditorViewController!
+    weak var transactionItem: TransactionItem!
+    weak var delegate: ComplexTransactionEditorViewController!
     
     let accountButton: UIButton = {
         let button = UIButton()

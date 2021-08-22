@@ -154,8 +154,7 @@ class ComplexTransactionEditorViewController: UIViewController{
         addMainView() 
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(true)
+    deinit {
         context.rollback()
     }
     
@@ -295,6 +294,7 @@ class ComplexTransactionEditorViewController: UIViewController{
     }
     
     private func addEmptyTransactionItem(type: AccounttingMethod){
+        context = transaction!.managedObjectContext!
         let transactionItem = TransactionItem(context: context)
         let date = Date()
         transactionItem.createDate = date
