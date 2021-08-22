@@ -16,6 +16,7 @@ class ComplexTransactionEditorViewController: UIViewController{
     var transaction : Transaction?
     var isNewTransaction: Bool = true
     
+    let mainStackViewSpacing: CGFloat = 5
     
     var activeTextField : UITextField!
     
@@ -37,7 +38,6 @@ class ComplexTransactionEditorViewController: UIViewController{
         stackView.axis = .vertical
         stackView.alignment = .fill
         stackView.distribution = .equalSpacing
-        stackView.spacing = 5.0
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
@@ -243,6 +243,7 @@ class ComplexTransactionEditorViewController: UIViewController{
         
         //MARK:- Main Stack View
         mainView.addSubview(mainStackView)
+        mainStackView.spacing = mainStackViewSpacing
         mainStackView.topAnchor.constraint(equalTo: datePicker.bottomAnchor, constant: 20).isActive = true
         mainStackView.leadingAnchor.constraint(equalTo: mainView.leadingAnchor, constant: 20).isActive = true
         mainStackView.trailingAnchor.constraint(equalTo: mainView.trailingAnchor, constant: -20).isActive = true
@@ -272,7 +273,7 @@ class ComplexTransactionEditorViewController: UIViewController{
         //MARK:- Credit Table View
         creditStackView.addArrangedSubview(creditTableView)
         creditTableView.widthAnchor.constraint(equalToConstant: 200).isActive = true
-        creditTableView.heightAnchor.constraint(equalTo: mainStackView.heightAnchor, multiplier: 0.5, constant: -30).isActive = true
+        creditTableView.heightAnchor.constraint(equalTo: mainStackView.heightAnchor, multiplier: 0.5, constant: -30 - mainStackViewSpacing).isActive = true
         
         
         //MARK:- Debit Stack View -
@@ -298,7 +299,7 @@ class ComplexTransactionEditorViewController: UIViewController{
         //MARK:- Debit Table View
         debitStackView.addArrangedSubview(debitTableView)
         debitTableView.widthAnchor.constraint(equalToConstant: 200).isActive = true
-        debitTableView.heightAnchor.constraint(equalTo: mainStackView.heightAnchor, multiplier: 0.5, constant: -30).isActive = true
+        debitTableView.heightAnchor.constraint(equalTo: mainStackView.heightAnchor, multiplier: 0.5, constant: -30 - mainStackViewSpacing).isActive = true
     }
     
     @objc func changeDate(_ sender: UIDatePicker){
