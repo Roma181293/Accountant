@@ -42,7 +42,7 @@ class TransactionItemTableViewCell: UITableViewCell {
     
     func configureCell(_ transactionItem: TransactionItem) {
         self.transactionItem = transactionItem
-//        amountTextField.delegate = delegate as! UITextFieldDelegate
+        amountTextField.delegate = delegate //as! UITextFieldDelegate
         addDoneButtonOnDecimalKeyboard()
         
         if let account = transactionItem.account {
@@ -109,9 +109,6 @@ class TransactionItemTableViewCell: UITableViewCell {
             transactionItem.amount = amount
             transactionItem.modifyDate = Date()
             transactionItem.modifiedByUser = true
-        }
-        else {
-            
         }
         amountTextField.resignFirstResponder()
     }

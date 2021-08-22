@@ -217,9 +217,8 @@ class TransactionManager {
         func getDataAboutTransactionItems(transaction: Transaction, type: AccounttingMethod, amount: inout Double, currency: inout Currency?, itemsCount: inout Int) throws {
             for item in (transaction.items?.allObjects as! [TransactionItem]).filter({$0.type == type.rawValue}) {
                 itemsCount += 1
-                
+                amount += item.amount
                 if let account = item.account{
-                    
                     if let cur = account.currency {
                         if currency != cur {
                             currency = nil //multicurrency transaction
@@ -237,8 +236,6 @@ class TransactionManager {
                         throw TransactionError.creditTransactionItemWOAccount
                     }
                 }
-                
-                amount += item.amount
             }
         }
         
@@ -272,6 +269,4 @@ class TransactionManager {
             }
         }
     }
-    
-    
 }

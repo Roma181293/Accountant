@@ -16,6 +16,9 @@ class ComplexTransactionEditorViewController: UIViewController{
     var transaction : Transaction?
     var isNewTransaction: Bool = true
     
+    
+    var activeTextField : UITextField!
+    
     let mainView : UIView = {
         let mainView = UIView()
         mainView.translatesAutoresizingMaskIntoConstraints = false
@@ -120,7 +123,11 @@ class ComplexTransactionEditorViewController: UIViewController{
     let commentTextField : UITextField = {
         let textField = UITextField()
         textField.placeholder = NSLocalizedString("Comment", comment: "")
+        textField.autocorrectionType = UITextAutocorrectionType.no
+        textField.font = UIFont.systemFont(ofSize: 13)
+        textField.borderStyle = UITextField.BorderStyle.roundedRect
         textField.translatesAutoresizingMaskIntoConstraints = false
+        textField.tag = 200
         return textField
     }()
     
@@ -141,6 +148,7 @@ class ComplexTransactionEditorViewController: UIViewController{
         
         if let transaction = transaction {
             datePicker.date = transaction.date!
+            commentTextField.text = transaction.comment
             isNewTransaction = false
             self.navigationItem.title = NSLocalizedString("Edit transaction", comment: "")
 //            self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: NSLocalizedString("Save", comment: ""), style: .plain, target: self, action: #selector(self.confirm(_:)))
@@ -150,8 +158,53 @@ class ComplexTransactionEditorViewController: UIViewController{
             addEmptyTransaction()
             self.navigationItem.title = NSLocalizedString("Add transaction", comment: "")
         }
+        
         configureAddTransactionItemButtons()
-        addMainView() 
+        
+        
+        //MARK:- Register cell for TableViews
+        debitTableView.register(TransactionItemTableViewCell.self, forCellReuseIdentifier: TransactionItemTableViewCell.cellId)
+        creditTableView.register(TransactionItemTableViewCell.self, forCellReuseIdentifier: TransactionItemTableViewCell.cellId)
+        
+        //MARK:- TableViews deledate
+        debitTableView.delegate = self
+        creditTableView.delegate = self
+        
+        //MARK:- TableViews dataSource
+        debitTableView.dataSource = self
+        creditTableView.dataSource = self
+        
+        //MARK:- TextField dataSource
+        commentTextField.delegate = self as! UITextFieldDelegate
+        
+        addDoneButtonOnKeyboard()
+        
+        //MARK:- addTarget to UI elements
+        debitAddButton.addTarget(self, action: #selector(self.addDebitTransactionItem(_:)), for: .touchUpInside)
+        creditAddButton.addTarget(self, action: #selector(self.addCreditTransactionItem(_:)), for: .touchUpInside)
+        confirmButton.addTarget(self, action: #selector(self.confirm(_:)), for: .touchUpInside)
+        datePicker.addTarget(self, action: #selector(self.changeDate(_:)), for: .valueChanged)
+        
+        //MARK:- add GestureRecognizer to dismiss keyboard by touch on screen
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
+        view.addGestureRecognizer(tap)
+        
+        //MARK:- addMainView
+        //fdsfsdfsdfdsf
+        addMainView()
+        
+        //MARK:- add keyboard observers
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(true)
+        dismissKeyboard()
+        
+        //MARK:- remove keyboard observers
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
     deinit {
@@ -159,19 +212,6 @@ class ComplexTransactionEditorViewController: UIViewController{
     }
     
     func addMainView() {
-        debitTableView.register(TransactionItemTableViewCell.self, forCellReuseIdentifier: TransactionItemTableViewCell.cellId)
-        debitTableView.delegate = self
-        debitTableView.dataSource = self
-        
-        creditTableView.register(TransactionItemTableViewCell.self, forCellReuseIdentifier: TransactionItemTableViewCell.cellId)
-        creditTableView.delegate = self
-        creditTableView.dataSource = self
-        
-        debitAddButton.addTarget(self, action: #selector(self.addDebitTransactionItem(_:)), for: .touchUpInside)
-        creditAddButton.addTarget(self, action: #selector(self.addCreditTransactionItem(_:)), for: .touchUpInside)
-        confirmButton.addTarget(self, action: #selector(self.confirm(_:)), for: .touchUpInside)
-        
-        
         //MARK:- Main View
         view.addSubview(mainView)
         mainView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
@@ -259,6 +299,10 @@ class ComplexTransactionEditorViewController: UIViewController{
         debitStackView.addArrangedSubview(debitTableView)
         debitTableView.widthAnchor.constraint(equalToConstant: 200).isActive = true
         debitTableView.heightAnchor.constraint(equalTo: mainStackView.heightAnchor, multiplier: 0.5, constant: -30).isActive = true
+    }
+    
+    @objc func changeDate(_ sender: UIDatePicker){
+        transaction?.date = sender.date
     }
     
     @objc func addDebitTransactionItem(_ sender: UIButton) {
@@ -445,5 +489,79 @@ extension ComplexTransactionEditorViewController: UITableViewDelegate, UITableVi
         
         let configuration : UISwipeActionsConfiguration? = UISwipeActionsConfiguration(actions: [delete])
         return configuration
+    }
+}
+
+
+// MARK:- Keyboard methods
+extension ComplexTransactionEditorViewController{
+    
+    @objc func keyboardWillShow(notification: Notification) {
+        let saveDistance: CGFloat = 80
+        
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue, let activeTextField = activeTextField {
+            let keyboardY = self.view.frame.size.height - keyboardSize.height - saveDistance
+            
+            var editingTextFieldY : CGFloat! = 0
+            
+            if  activeTextField.tag == 200 {  //comment
+                editingTextFieldY = activeTextField.frame.origin.y 
+            }
+//            else { //amounts
+//                editingTextFieldY = self.outertStackView.frame.origin.y + self.accountStackView.frame.origin.y + self.amountStackView.frame.origin.y + activeTextField.frame.origin.y
+//            }
+            
+            if editingTextFieldY > keyboardY - saveDistance {
+                UIView.animate(withDuration: 0.25, delay: 0.00, options: UIView.AnimationOptions.curveEaseIn, animations: {
+                    self.view.frame = CGRect(x: 0, y: -(editingTextFieldY! - (keyboardY - saveDistance)), width: self.view.bounds.width, height: self.view.bounds.height)
+                }, completion: nil)
+            }
+        }
+    }
+    
+    
+    @objc func keyboardWillHide(notification: Notification) {
+        UIView.animate(withDuration: 0.25, delay: 0.00, options: UIView.AnimationOptions.curveEaseIn, animations: {
+            self.view.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: self.view.bounds.height)
+        }, completion: nil)
+    }
+    
+    
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
+    
+    func textFieldDidBeginEditing(_ textField : UITextField) {
+        activeTextField = textField
+    }
+    
+    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
+        if textField.tag == 200 {
+            transaction?.comment = textField.text
+        }
+        return true
+    }
+    
+    func textFieldShouldReturn(_ textField : UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
+    func addDoneButtonOnKeyboard(){
+        let doneToolbar: UIToolbar = UIToolbar(frame: CGRect.init(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 50))
+        doneToolbar.barStyle = .default
+        
+        let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let done: UIBarButtonItem = UIBarButtonItem(title: NSLocalizedString("Done", comment: ""), style: .done, target: self, action: #selector(self.doneButtonAction))
+        
+        let items = [flexSpace, done]
+        doneToolbar.items = items
+        doneToolbar.sizeToFit()
+        
+//        commentTextField.inputAccessoryView = doneToolbar
+    }
+    
+    @objc func doneButtonAction(){
+        commentTextField.resignFirstResponder()
     }
 }
