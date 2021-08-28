@@ -151,7 +151,8 @@ class ComplexTransactionEditorViewController: UIViewController{
             commentTextField.text = transaction.comment
             isNewTransaction = false
             self.navigationItem.title = NSLocalizedString("Edit transaction", comment: "")
-//            self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: NSLocalizedString("Save", comment: ""), style: .plain, target: self, action: #selector(self.confirm(_:)))
+            self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: NSLocalizedString("Save", comment: ""), style: .done, target: self, action: #selector(self.confirm(_:)))
+            confirmButton.isHidden = true
         }
         else {
             datePicker.date = Date()
@@ -190,9 +191,11 @@ class ComplexTransactionEditorViewController: UIViewController{
         view.addGestureRecognizer(tap)
         
         //MARK:- addMainView
-        //fdsfsdfsdfdsf
         addMainView()
-        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
         //MARK:- add keyboard observers
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
@@ -205,6 +208,15 @@ class ComplexTransactionEditorViewController: UIViewController{
         //MARK:- remove keyboard observers
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    override func willMove(toParent parent: UIViewController?) {
+        super.willMove(toParent: parent)
+        if parent == nil {
+            if transaction != nil && context.hasChanges { //to avoid transactionItems with no account
+            context.rollback()
+            }
+        }
     }
     
     deinit {
@@ -339,7 +351,6 @@ class ComplexTransactionEditorViewController: UIViewController{
     }
     
     private func addEmptyTransactionItem(type: AccounttingMethod){
-        context = transaction!.managedObjectContext!
         let transactionItem = TransactionItem(context: context)
         let date = Date()
         transactionItem.createDate = date
@@ -348,8 +359,7 @@ class ComplexTransactionEditorViewController: UIViewController{
         transactionItem.modifiedByUser = true
         transactionItem.amount = 0
         transactionItem.type = type.rawValue
-        transactionItem.transaction = transaction
-//        transaction?.addToItems(transactionItem)
+        transaction?.addToItems(transactionItem)
     }
     
     private func addEmptyTransaction() {
