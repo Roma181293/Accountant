@@ -13,8 +13,22 @@ class AccountNavigatorTableViewController: UITableViewController {
     
     let coreDataStack = CoreDataStack.shared
     var context: NSManagedObjectContext = CoreDataStack.shared.persistentContainer.viewContext
+    
     var resultSearchController = UISearchController()
-    var isSwipeAvailable: Bool = true
+    
+    var canModifyAccountStructure: Bool = true
+    var isSwipeAvailable: Bool = true {
+        didSet {
+            if isSwipeAvailable  && canModifyAccountStructure{
+                let newBackButton = UIBarButtonItem(title: "+", style: .plain, target: self, action: #selector(self.addAccount(sender:)))
+                newBackButton.image = UIImage(systemName: "plus")
+                self.navigationItem.rightBarButtonItem = newBackButton
+            }
+            else {
+                self.navigationItem.rightBarButtonItem = nil
+            }
+        }
+    }
     
     //TRANSPORT VARIABLES
     weak var simpleTransactionEditorVC : SimpleTransactionEditorViewController?
@@ -40,6 +54,8 @@ class AccountNavigatorTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        isSwipeAvailable = true //need assign to show add button
         
         if let account = account {
             self.navigationItem.title = "\(account.name!)"
@@ -79,9 +95,7 @@ class AccountNavigatorTableViewController: UITableViewController {
     }
     
     
-    //MARK: - @IBActions
-    
-    @IBAction func addAction() {
+    @objc func addAccount(sender: UIBarButtonItem) {
         guard let account = self.account else {
             let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
             let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.addAccountViewController) as! AddAccountViewController
@@ -234,7 +248,7 @@ class AccountNavigatorTableViewController: UITableViewController {
         let hideAccount = hideAccount(indexPath: indexPath)
         let renameAccount = renameAccount(indexPath: indexPath)
         
-        if isSwipeAvailable {
+        if isSwipeAvailable && canModifyAccountStructure {
             var tmpConfiguration: [UIContextualAction] = []
             
             if let parent = selectedAccount.parent, (

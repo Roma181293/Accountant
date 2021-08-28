@@ -597,6 +597,7 @@ extension ComplexTransactionEditorViewController {
         let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.accountNavigatorTableViewController) as! AccountNavigatorTableViewController
         vc.context = self.context
         vc.showHiddenAccounts = false
+        vc.canModifyAccountStructure = false
         vc.complexTransactionEditorVC = self
         vc.account = rootAccount
         self.navigationController?.pushViewController(vc, animated: true)

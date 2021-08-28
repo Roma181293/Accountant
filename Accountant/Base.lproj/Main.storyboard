@@ -1220,18 +1220,7 @@
                             <outlet property="delegate" destination="9qy-sO-3yv" id="HiU-dh-pJt"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="Dbj-ch-OA8">
-                        <barButtonItem key="rightBarButtonItem" style="done" id="WY9-GO-dfz">
-                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="pbE-yZ-jpW">
-                                <rect key="frame" x="322" y="11" width="72" height="22"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" image="plus" catalog="system"/>
-                                <connections>
-                                    <action selector="addAction" destination="9qy-sO-3yv" eventType="touchUpInside" id="Mmi-IN-M5f"/>
-                                </connections>
-                            </button>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" id="Dbj-ch-OA8"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WXD-yk-9qG" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -2269,7 +2258,6 @@
         <image name="delete.left.fill" catalog="system" width="128" height="104"/>
         <image name="gear" catalog="system" width="128" height="119"/>
         <image name="list.dash" catalog="system" width="128" height="85"/>
-        <image name="plus" catalog="system" width="128" height="113"/>
         <image name="questionmark" catalog="system" width="96" height="128"/>
         <image name="touchid" catalog="system" width="128" height="122"/>
         <systemColor name="linkColor">
