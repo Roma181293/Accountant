@@ -577,7 +577,7 @@ extension ComplexTransactionEditorViewController{
 
 
 //MARK:- Manage transactionItem
-extension ComplexTransactionEditorViewController {
+extension ComplexTransactionEditorViewController: AccountRequestor {
     func accountRequestingForTransactionItem(_ transactionItem: TransactionItem) {
 
         transactionItemForAccountSpecifying = transactionItem
@@ -598,7 +598,7 @@ extension ComplexTransactionEditorViewController {
         vc.context = self.context
         vc.showHiddenAccounts = false
         vc.canModifyAccountStructure = false
-        vc.complexTransactionEditorVC = self
+        vc.accountRequestorViewController = self
         vc.account = rootAccount
         self.navigationController?.pushViewController(vc, animated: true)
     }

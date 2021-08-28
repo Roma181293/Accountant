@@ -75,6 +75,7 @@
 		2BC058B926CD7A9400FE896C /* ComplexTransactionEditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BC058B826CD7A9400FE896C /* ComplexTransactionEditorViewController.swift */; };
 		2BC058BD26CDB63E00FE896C /* TransactionItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BC058BC26CDB63E00FE896C /* TransactionItemTableViewCell.swift */; };
 		2BCC0BDA26ACD79C00E8680E /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BCC0BD926ACD79C00E8680E /* StoreKit.framework */; };
+		2BDB10A126DACD9200D8FE08 /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BDB10A026DACD9200D8FE08 /* Protocols.swift */; };
 		2BE2593326BC8E6D0025301F /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE2593226BC8E6D0025301F /* Error.swift */; };
 		38318A9FD81C28716622F93F /* Pods_Accountant.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97FD10DCF67B198D7BE0F270 /* Pods_Accountant.framework */; };
 /* End PBXBuildFile section */
@@ -174,6 +175,7 @@
 		2BC058B826CD7A9400FE896C /* ComplexTransactionEditorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComplexTransactionEditorViewController.swift; sourceTree = "<group>"; };
 		2BC058BC26CDB63E00FE896C /* TransactionItemTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionItemTableViewCell.swift; sourceTree = "<group>"; };
 		2BCC0BD926ACD79C00E8680E /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		2BDB10A026DACD9200D8FE08 /* Protocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocols.swift; sourceTree = "<group>"; };
 		2BE2593226BC8E6D0025301F /* Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
 		97FD10DCF67B198D7BE0F270 /* Pods_Accountant.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Accountant.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A51B83286AAA2CAF601DDC80 /* Pods-Accountant.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Accountant.debug.xcconfig"; path = "Target Support Files/Pods-Accountant/Pods-Accountant.debug.xcconfig"; sourceTree = "<group>"; };
@@ -278,6 +280,7 @@
 				2B1FEA53266BEEC000BF53BD /* Enums.swift */,
 				2BE2593226BC8E6D0025301F /* Error.swift */,
 				2B1FEAE0266CAF6C00BF53BD /* Extensions */,
+				2BDB10A026DACD9200D8FE08 /* Protocols.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -650,6 +653,7 @@
 				2B1FEB58266D73DC00BF53BD /* AccountListTableViewController.swift in Sources */,
 				2B1FEAEA266CAF6C00BF53BD /* Extension Double.swift in Sources */,
 				2B1FEA59266BEF8500BF53BD /* Entitlement.swift in Sources */,
+				2BDB10A126DACD9200D8FE08 /* Protocols.swift in Sources */,
 				2B1FEA99266C339E00BF53BD /* SetAccountingCurrencyViewController.swift in Sources */,
 				2B1FEA83266C1D9A00BF53BD /* TransactionManager.swift in Sources */,
 				2B1FEB5F266D748F00BF53BD /* AccountInForeignCurrencyTableViewCell.swift in Sources */,
