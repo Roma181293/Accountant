@@ -12,8 +12,8 @@ class TransactionItemTableViewCell: UITableViewCell {
     
     static let cellId = "TransactionItemTableViewCell_ID"
     
-    weak var transactionItem: TransactionItem!
-    weak var delegate: ComplexTransactionEditorViewController!
+    unowned var transactionItem: TransactionItem!
+    unowned var delegate: ComplexTransactionEditorViewController!
     
     let accountButton: UIButton = {
         let button = UIButton()
@@ -40,8 +40,9 @@ class TransactionItemTableViewCell: UITableViewCell {
     }()
     
     
-    func configureCell(_ transactionItem: TransactionItem) {
+    func configureCell(for transactionItem: TransactionItem, with delegate: ComplexTransactionEditorViewController) {
         self.transactionItem = transactionItem
+        self.delegate = delegate
         amountTextField.delegate = delegate //as! UITextFieldDelegate
         addDoneButtonOnDecimalKeyboard()
         
@@ -80,13 +81,7 @@ class TransactionItemTableViewCell: UITableViewCell {
     
     
     @objc func selectAccount(_ sender: UIButton) {
-        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.accountNavigatorTableViewController) as! AccountNavigatorTableViewController
-        vc.context = delegate.context
-        vc.showHiddenAccounts = false
-        vc.complexTransactionEditorVC = delegate
-        vc.transactionItem = transactionItem
-        delegate.navigationController?.pushViewController(vc, animated: true)
+        delegate.accountRequestingForTransactionItem(transactionItem)
     }
     
     
@@ -106,9 +101,7 @@ class TransactionItemTableViewCell: UITableViewCell {
     
     @objc func doneButtonAction(){
         if let amount = Double(amountTextField.text!.replacingOccurrences(of: ",", with: ".")) {
-            transactionItem.amount = amount
-            transactionItem.modifyDate = Date()
-            transactionItem.modifiedByUser = true
+            delegate.setAmount(transactionItem: transactionItem, amount: amount)
         }
         amountTextField.resignFirstResponder()
     }

@@ -24,7 +24,6 @@ class AccountNavigatorTableViewController: UITableViewController {
     var importTransactionTableViewController : ImportTransactionViewController?
    
     weak var complexTransactionEditorVC: ComplexTransactionEditorViewController?
-    weak var transactionItem: TransactionItem?
     //TRANSPORT VARIABLES
     
     weak var account : Account?
@@ -192,7 +191,6 @@ class AccountNavigatorTableViewController: UITableViewController {
             vc.preTransactionTableViewCell = preTransactionTableViewCell
             vc.importTransactionTableViewController = importTransactionTableViewController
             vc.typeOfAccountingMethod = typeOfAccountingMethod
-            vc.transactionItem = self.transactionItem
             vc.complexTransactionEditorVC = complexTransactionEditorVC
             self.navigationController?.pushViewController(vc, animated: true)
         }
@@ -206,12 +204,8 @@ class AccountNavigatorTableViewController: UITableViewController {
                 }
                 self.navigationController?.popToViewController(addTransactionVC, animated: true)
             }
-            else if let complexTransactionEditorVC = complexTransactionEditorVC, let transactionItem = transactionItem {
-                complexTransactionEditorVC.debitTableView.reloadData()
-                complexTransactionEditorVC.creditTableView.reloadData()
-                transactionItem.account = selectedAccount
-                transactionItem.modifyDate = Date()
-                transactionItem.modifiedByUser = true
+            else if let complexTransactionEditorVC = complexTransactionEditorVC{
+                complexTransactionEditorVC.setAccount(selectedAccount)
                 self.navigationController?.popToViewController(complexTransactionEditorVC, animated: true)
             }
             if let preTransactionTableViewCell = preTransactionTableViewCell, let importTransactionTableViewController = importTransactionTableViewController {

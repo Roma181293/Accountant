@@ -14,12 +14,12 @@ class ComplexTransactionEditorViewController: UIViewController{
     var context: NSManagedObjectContext = CoreDataStack.shared.persistentContainer.viewContext
     
     var transaction : Transaction?
-    var isNewTransaction: Bool = true
+    private weak var transactionItemForAccountSpecifying: TransactionItem?
+    private var isNewTransaction: Bool = true
     
+    //UI element declaration
     let mainStackViewSpacing: CGFloat = 5
-    
     var activeTextField : UITextField!
-    
     let mainView : UIView = {
         let mainView = UIView()
         mainView.translatesAutoresizingMaskIntoConstraints = false
@@ -450,12 +450,10 @@ extension ComplexTransactionEditorViewController: UITableViewDelegate, UITableVi
         switch tableView {
         case debitTableView:
             cell = tableView.dequeueReusableCell(withIdentifier: TransactionItemTableViewCell.cellId, for: indexPath) as! TransactionItemTableViewCell
-            cell.delegate = self
-            cell.configureCell(items.filter({$0.type == AccounttingMethod.debit.rawValue})[indexPath.row])
+            cell.configureCell(for: items.filter({$0.type == AccounttingMethod.debit.rawValue})[indexPath.row], with: self)
         case creditTableView:
             cell = tableView.dequeueReusableCell(withIdentifier: TransactionItemTableViewCell.cellId, for: indexPath) as! TransactionItemTableViewCell
-            cell.delegate = self
-            cell.configureCell(items.filter({$0.type == AccounttingMethod.credit.rawValue})[indexPath.row])
+            cell.configureCell(for: items.filter({$0.type == AccounttingMethod.credit.rawValue})[indexPath.row], with: self)
         default:
             let alert = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("Please contact to support. Can not find external table view to add cells", comment: ""), preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default))
@@ -516,7 +514,7 @@ extension ComplexTransactionEditorViewController{
             var editingTextFieldY : CGFloat! = 0
             
             if  activeTextField.tag == 200 {  //comment
-                editingTextFieldY = activeTextField.frame.origin.y 
+                editingTextFieldY = activeTextField.frame.origin.y
             }
 //            else { //amounts
 //                editingTextFieldY = self.outertStackView.frame.origin.y + self.accountStackView.frame.origin.y + self.amountStackView.frame.origin.y + activeTextField.frame.origin.y
@@ -574,5 +572,55 @@ extension ComplexTransactionEditorViewController{
     
     @objc func doneButtonAction(){
         commentTextField.resignFirstResponder()
+    }
+}
+
+
+//MARK:- Manage transactionItem
+extension ComplexTransactionEditorViewController {
+    func accountRequestingForTransactionItem(_ transactionItem: TransactionItem) {
+
+        transactionItemForAccountSpecifying = transactionItem
+
+        guard let transaction = transaction,
+              let transactionItems = transaction.items?.allObjects as? [TransactionItem] else {return}
+
+        weak var rootAccount: Account?
+
+        let filledTransactionItems = transactionItems.filter({$0.type == transactionItem.type && $0.account != nil})
+        if (filledTransactionItems.count == 1 && filledTransactionItems[0] != transactionItem)
+        || filledTransactionItems.count > 1 {
+            rootAccount = AccountManager.getRootAccountFor(filledTransactionItems[0].account!)
+        }
+
+        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.accountNavigatorTableViewController) as! AccountNavigatorTableViewController
+        vc.context = self.context
+        vc.showHiddenAccounts = false
+        vc.complexTransactionEditorVC = self
+        vc.account = rootAccount
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    
+    func setAccount(_ account:Account) {
+        transactionItemForAccountSpecifying?.account = account
+        transactionItemForAccountSpecifying?.modifyDate = Date()
+        transactionItemForAccountSpecifying?.modifiedByUser = true
+
+        switch transactionItemForAccountSpecifying?.type {
+        case AccounttingMethod.debit.rawValue:
+            debitTableView.reloadData()
+        case AccounttingMethod.credit.rawValue:
+            creditTableView.reloadData()
+        default:
+            return
+        }
+    }
+    
+    func setAmount(transactionItem: TransactionItem, amount: Double) {
+            transactionItem.amount = amount
+            transactionItem.modifyDate = Date()
+            transactionItem.modifiedByUser = true
     }
 }
