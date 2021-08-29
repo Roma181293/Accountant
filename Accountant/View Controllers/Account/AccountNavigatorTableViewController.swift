@@ -41,13 +41,14 @@ class AccountNavigatorTableViewController: UITableViewController {
     //TRANSPORT VARIABLES
     
     weak var account : Account?
+    var excludeAccountList: [Account] = []
    
     var showHiddenAccounts = true
     
     lazy var fetchedResultsController : NSFetchedResultsController<Account> = {
         let fetchRequest : NSFetchRequest<Account> = NSFetchRequest<Account>(entityName: "Account")
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "path", ascending: true)]
-            fetchRequest.predicate = NSPredicate(format: "parent = %@ && (isHidden = false || isHidden = %@)", argumentArray: [account, showHiddenAccounts])
+            fetchRequest.predicate = NSPredicate(format: "parent = %@ && (isHidden = false || isHidden = %@) && NOT (SELF IN %@)", argumentArray: [account, showHiddenAccounts, excludeAccountList])
             return NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
     }()
     

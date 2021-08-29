@@ -593,6 +593,13 @@ extension ComplexTransactionEditorViewController: AccountRequestor {
             rootAccount = AccountManager.getRootAccountFor(filledTransactionItems[0].account!)
         }
 
+        var usedAccountList :[Account] = []
+        for item in transactionItems{
+            if let account = item.account {
+                usedAccountList.append(account)
+            }
+        }
+        
         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.accountNavigatorTableViewController) as! AccountNavigatorTableViewController
         vc.context = self.context
@@ -600,6 +607,7 @@ extension ComplexTransactionEditorViewController: AccountRequestor {
         vc.canModifyAccountStructure = false
         vc.accountRequestorViewController = self
         vc.account = rootAccount
+        vc.excludeAccountList = usedAccountList
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
