@@ -164,8 +164,8 @@ class ComplexTransactionEditorViewController: UIViewController{
         
         
         //MARK:- Register cell for TableViews
-        debitTableView.register(TransactionItemTableViewCell.self, forCellReuseIdentifier: TransactionItemTableViewCell.cellId)
-        creditTableView.register(TransactionItemTableViewCell.self, forCellReuseIdentifier: TransactionItemTableViewCell.cellId)
+        debitTableView.register(TransactionItemTableViewCell.self, forCellReuseIdentifier: Constants.Cell.transactionItemTableViewCell)
+        creditTableView.register(TransactionItemTableViewCell.self, forCellReuseIdentifier: Constants.Cell.transactionItemTableViewCell)
         
         //MARK:- TableViews deledate
         debitTableView.delegate = self
@@ -449,10 +449,10 @@ extension ComplexTransactionEditorViewController: UITableViewDelegate, UITableVi
         
         switch tableView {
         case debitTableView:
-            cell = tableView.dequeueReusableCell(withIdentifier: TransactionItemTableViewCell.cellId, for: indexPath) as! TransactionItemTableViewCell
+            cell = tableView.dequeueReusableCell(withIdentifier: Constants.Cell.transactionItemTableViewCell, for: indexPath) as! TransactionItemTableViewCell
             cell.configureCell(for: items.filter({$0.type == AccounttingMethod.debit.rawValue})[indexPath.row], with: self)
         case creditTableView:
-            cell = tableView.dequeueReusableCell(withIdentifier: TransactionItemTableViewCell.cellId, for: indexPath) as! TransactionItemTableViewCell
+            cell = tableView.dequeueReusableCell(withIdentifier: Constants.Cell.transactionItemTableViewCell, for: indexPath) as! TransactionItemTableViewCell
             cell.configureCell(for: items.filter({$0.type == AccounttingMethod.credit.rawValue})[indexPath.row], with: self)
         default:
             let alert = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("Please contact to support. Can not find external table view to add cells", comment: ""), preferredStyle: .alert)

@@ -43,6 +43,7 @@ struct Constants {
     }
     
     struct Cell {
+        static let transactionItemTableViewCell = "TransactionItemTableViewCell_ID"
         
         static let setAccountingCurrencyCell = "setAccountingCurrencyCell_ID"
         

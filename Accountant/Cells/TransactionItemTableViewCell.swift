@@ -10,8 +10,6 @@ import CoreData
 
 class TransactionItemTableViewCell: UITableViewCell {
     
-    static let cellId = "TransactionItemTableViewCell_ID"
-    
     unowned var transactionItem: TransactionItem!
     unowned var delegate: ComplexTransactionEditorViewController!
     
