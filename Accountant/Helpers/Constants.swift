@@ -48,6 +48,7 @@ struct Constants {
         static let setAccountingCurrencyCell = "setAccountingCurrencyCell_ID"
         
         static let transactionCell = "TransactionCell_ID"
+        static let complexTransactionCell = "ComplexTransactionCell_ID"
         static let preTransactionTableViewCell = "PreTransactionTableViewCell_ID"
         
         static let accountNavigatorCell = "AccountNavigatorCell_ID"

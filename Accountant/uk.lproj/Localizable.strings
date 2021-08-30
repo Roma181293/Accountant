@@ -133,7 +133,7 @@
 "Enter new account name" = "Введіть нове ім'я рахунку";
 "Add subaccount" = "Додати субрахунок";
 "Enter subaccount name" = "Введіть ім'я субрахунку";
-"Account \"%@\" has transactions. All this thansactions will be automatically moved to new child account \"%@\"." = "Рахунок \"%@\" має операції. Всі ці операції будуть автоматично переміщені на дочірній разунок \"%@\".";
+"Account \"%@\" has transactions. All this thansactions will be automatically moved to new child account \"%@\"." = "Рахунок \"%@\" має операції. Всі ці операції будуть автоматично переміщені на дочірній рахунок \"%@\".";
 "Attention" = "Увага";
 "Create and Move" = "Створити і Перемістити";
 "Add account" = "Додати рахунок";

@@ -63,6 +63,7 @@
 		2B1FEBB1266EE1D500BF53BD /* PreTrasaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1FEBB0266EE1D500BF53BD /* PreTrasaction.swift */; };
 		2B1FEBB6266EE45F00BF53BD /* PreTransactionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1FEBB5266EE45F00BF53BD /* PreTransactionTableViewCell.swift */; };
 		2B3F0D0E26A0EFA000AA514B /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2B3F0D1026A0EFA000AA514B /* Localizable.strings */; };
+		2B4976FC26DBE90B00147EAA /* ComplexTransactionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B4976FB26DBE90B00147EAA /* ComplexTransactionTableViewCell.swift */; };
 		2B67989E26768E3200063A7C /* SimpleTransactionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B67989D26768E3200063A7C /* SimpleTransactionTableViewCell.swift */; };
 		2B949BAF2665B4040033383A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B949BAE2665B4040033383A /* AppDelegate.swift */; };
 		2B949BB12665B4040033383A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B949BB02665B4040033383A /* SceneDelegate.swift */; };
@@ -159,6 +160,7 @@
 		2B3F0D1126A0EFEC00AA514B /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/Main.strings; sourceTree = "<group>"; };
 		2B3F0D1226A0F01B00AA514B /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		2B3F0D1326A0F01C00AA514B /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/Localizable.strings; sourceTree = "<group>"; };
+		2B4976FB26DBE90B00147EAA /* ComplexTransactionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComplexTransactionTableViewCell.swift; sourceTree = "<group>"; };
 		2B67989D26768E3200063A7C /* SimpleTransactionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleTransactionTableViewCell.swift; sourceTree = "<group>"; };
 		2B949BAB2665B4040033383A /* Accountant.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Accountant.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2B949BAE2665B4040033383A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -305,6 +307,7 @@
 				2B1FEBB5266EE45F00BF53BD /* PreTransactionTableViewCell.swift */,
 				2B1FEB97266EDE5000BF53BD /* SettingWithSwitchTableViewCell.swift */,
 				2B67989D26768E3200063A7C /* SimpleTransactionTableViewCell.swift */,
+				2B4976FB26DBE90B00147EAA /* ComplexTransactionTableViewCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -689,6 +692,7 @@
 				2B1FEAF2266CAFE600BF53BD /* AccountManagerTableViewCell.swift in Sources */,
 				2B1FEAF7266CB2C200BF53BD /* CurrencyTableViewCell.swift in Sources */,
 				2B1FEB7B266EC39800BF53BD /* AnalyticsTableViewController.swift in Sources */,
+				2B4976FC26DBE90B00147EAA /* ComplexTransactionTableViewCell.swift in Sources */,
 				2B1FEB8E266EC44600BF53BD /* ConfigureAnalyticsViewController.swift in Sources */,
 				2BE2593326BC8E6D0025301F /* Error.swift in Sources */,
 				2B1FEAAB266C3AB900BF53BD /* SimpleTransactionEditorViewController.swift in Sources */,

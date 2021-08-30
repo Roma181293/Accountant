@@ -35,6 +35,7 @@ class TransactionListViewController: UIViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         addButtonToViewController()
+        tableView.register(ComplexTransactionTableViewCell.self, forCellReuseIdentifier: Constants.Cell.complexTransactionCell)
         
         resultSearchController = ({
             let controller = UISearchController(searchResultsController: nil)
@@ -144,9 +145,9 @@ extension TransactionListViewController: UITableViewDelegate, UITableViewDataSou
     
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: Constants.Cell.transactionCell, for: indexPath) as! SimpleTransactionTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: Constants.Cell.complexTransactionCell, for: indexPath) as! ComplexTransactionTableViewCell
         let transaction  = fetchedResultsController.object(at: indexPath) as Transaction
-        cell.updateCell(transaction: transaction)
+        cell.setTransaction(transaction)
         return cell
     }
     
@@ -192,12 +193,12 @@ extension TransactionListViewController: UITableViewDelegate, UITableViewDataSou
         
         let copy = UIContextualAction(style: .normal, title: NSLocalizedString("Copy",comment: "")) { _, _, complete in
             do {
-                guard let entitlement = UserProfile.getEntitlement(), let expirationDate = entitlement.expirationDate, expirationDate > Date() else {
-                    let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-                    let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.purchaseOfferViewController) as! PurchaseOfferViewController
-                    self.navigationController?.pushViewController(vc, animated: true)
-                    return}
-                
+//                guard let entitlement = UserProfile.getEntitlement(), let expirationDate = entitlement.expirationDate, expirationDate > Date() else {
+//                    let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+//                    let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.purchaseOfferViewController) as! PurchaseOfferViewController
+//                    self.navigationController?.pushViewController(vc, animated: true)
+//                    return}
+//                
                 let transaction = self.fetchedResultsController.object(at: indexPath) as Transaction
                 TransactionManager.copyTransaction(transaction, context: self.context)
                 try self.coreDataStack.saveContext(self.context)
