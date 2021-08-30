@@ -18,13 +18,7 @@ class ComplexTransactionTableViewCell: UITableViewCell {
         let mainView = UIView()
         mainView.layer.cornerRadius = 10
         mainView.layer.borderWidth = 0.5
-        mainView.layer.borderColor = UIColor.systemGray.cgColor//UIColor.systemBlue.cgColor.copy(alpha: 0.3)
-        
-//        mainView.layer.shadowColor = UIColor.lightGray.cgColor
-//        mainView.layer.shadowOffset = CGSize(width: 2.0, height: 2.0)
-//        mainView.layer.shadowRadius = 4.0
-//        mainView.layer.shadowOpacity = 4.0
-        
+        mainView.layer.borderColor = UIColor.systemGray.cgColor
         mainView.translatesAutoresizingMaskIntoConstraints = false
         return mainView
     }()
