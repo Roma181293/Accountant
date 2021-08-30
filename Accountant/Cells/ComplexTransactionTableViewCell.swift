@@ -37,7 +37,6 @@ class ComplexTransactionTableViewCell: UITableViewCell {
         let label = UILabel()
         label.textColor = .label
         label.alpha = 1
-//        label.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -89,8 +88,8 @@ class ComplexTransactionTableViewCell: UITableViewCell {
         label.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
         label.layer.cornerRadius = 8
         label.layer.borderWidth = 0.5
-        label.layer.borderColor = UIColor.systemGray.cgColor//UIColor.systemBlue.cgColor.copy(alpha: 0.3)
-        label.layer.backgroundColor = UIColor.systemGray.cgColor//UIColor.systemBlue.cgColor.copy(alpha: 0.3)
+        label.layer.borderColor = UIColor.systemGray.cgColor
+        label.layer.backgroundColor = UIColor.systemGray.cgColor
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -102,8 +101,8 @@ class ComplexTransactionTableViewCell: UITableViewCell {
         label.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
         label.layer.cornerRadius = 8
         label.layer.borderWidth = 0.5
-        label.layer.borderColor = UIColor.systemGray.cgColor//UIColor.systemBlue.cgColor.copy(alpha: 0.3)
-        label.layer.backgroundColor = UIColor.systemGray.cgColor//UIColor.systemBlue.cgColor.copy(alpha: 0.3)
+        label.layer.borderColor = UIColor.systemGray.cgColor
+        label.layer.backgroundColor = UIColor.systemGray.cgColor
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -214,14 +213,7 @@ class ComplexTransactionTableViewCell: UITableViewCell {
             itemViewArray.append(itemView)
         }
         
-       
         setMainView()
-        
-     
-        
-        
-        
-        
 
         let debitRootName = AccountManager.getRootAccountFor(items.filter({$0.type == AccounttingMethod.debit.rawValue})[0].account!).name
         let creditRootName = AccountManager.getRootAccountFor(items.filter({$0.type == AccounttingMethod.credit.rawValue})[0].account!).name
@@ -242,8 +234,6 @@ class ComplexTransactionTableViewCell: UITableViewCell {
             mainView.backgroundColor = UIColor(cgColor: UIColor.systemGray2.cgColor.copy(alpha: 0.3)!)
         }
     }
-    
-    
     
     private func cutNumber(_ number : Double) -> String {
         var amount : String
