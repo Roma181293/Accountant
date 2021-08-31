@@ -23,8 +23,8 @@ class TransactionItemTableViewCell: UITableViewCell {
     }()
     
     
-    let amountTextField : UITextField = {
-        let textField = UITextField()
+    let amountTextField : TransactionItemTextField = {
+        let textField = TransactionItemTextField()
         textField.placeholder = NSLocalizedString("Amount", comment: "")
         textField.keyboardType = .decimalPad
         textField.returnKeyType = UIReturnKeyType.done
@@ -43,6 +43,7 @@ class TransactionItemTableViewCell: UITableViewCell {
         self.delegate = delegate
         amountTextField.delegate = delegate //as! UITextFieldDelegate
         addDoneButtonOnDecimalKeyboard()
+        amountTextField.transactionItem = transactionItem
         
         if let account = transactionItem.account {
             accountButton.setTitle(account.path!, for: .normal)
@@ -98,9 +99,9 @@ class TransactionItemTableViewCell: UITableViewCell {
     }
     
     @objc func doneButtonAction(){
-        if let amount = Double(amountTextField.text!.replacingOccurrences(of: ",", with: ".")) {
-            delegate.setAmount(transactionItem: transactionItem, amount: amount)
-        }
+//        if let amount = Double(amountTextField.text!.replacingOccurrences(of: ",", with: ".")) {
+//            delegate.setAmount(transactionItem: transactionItem, amount: amount)
+//        }
         amountTextField.resignFirstResponder()
     }
 }

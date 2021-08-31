@@ -19,7 +19,7 @@ class ComplexTransactionEditorViewController: UIViewController{
     
     //UI element declaration
     let mainStackViewSpacing: CGFloat = 5
-    var activeTextField : UITextField!
+    var activeTextField : UITextField?
     let mainView : UIView = {
         let mainView = UIView()
         mainView.translatesAutoresizingMaskIntoConstraints = false
@@ -547,6 +547,11 @@ extension ComplexTransactionEditorViewController{
     func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
         if textField.tag == 200 {
             transaction?.comment = textField.text
+        }
+        else if textField.tag == 1, let transactionItemTextField = textField as? TransactionItemTextField {
+            if let amount = Double(transactionItemTextField.text!.replacingOccurrences(of: ",", with: ".")) {
+                setAmount(transactionItem: transactionItemTextField.transactionItem!, amount: amount)
+            }
         }
         return true
     }
