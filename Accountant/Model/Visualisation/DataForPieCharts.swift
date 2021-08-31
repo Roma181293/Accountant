@@ -82,16 +82,16 @@ struct DataForPieCharts {
             let dateIntervalString = String("\(dateformatter.string(from: dateInterval.start))-\(dateformatter.string(from: dateToShow))")
             self.centerText = NSMutableAttributedString(string: "\(dateIntervalString)\n\(sum.formattedWithSeparator)\n\(presentingCurrency.code!)")
             self.centerText.setAttributes([.font : UIFont(name: "HelveticaNeue-Medium", size: 11)!,
-                                      .paragraphStyle : paragraphStyle], range: NSRange(location: 0, length: dateIntervalString.count))
+                                      .paragraphStyle : paragraphStyle, .foregroundColor: UIColor.label], range: NSRange(location: 0, length: dateIntervalString.count))
             self.centerText.addAttributes([.font : UIFont(name: "HelveticaNeue-Medium", size: 18)!,
-                                      .paragraphStyle : paragraphStyle], range: NSRange(location: dateIntervalString.count+1, length: centerText.length-dateIntervalString.count-3))
+                                      .paragraphStyle : paragraphStyle, .foregroundColor: UIColor.label], range: NSRange(location: dateIntervalString.count+1, length: centerText.length-dateIntervalString.count-3))
             self.centerText.addAttributes([.font : UIFont(name: "HelveticaNeue-Medium", size: 14)!,
-                                      .paragraphStyle : paragraphStyle], range: NSRange(location: centerText.length-3, length: 3))
+                                      .paragraphStyle : paragraphStyle, .foregroundColor: UIColor.label], range: NSRange(location: centerText.length-3, length: 3))
         }
         else {
             self.centerText = NSMutableAttributedString(string: "\(sum.formattedWithSeparator)\n\(presentingCurrency.code!)")
             self.centerText.setAttributes([.font : UIFont(name: "HelveticaNeue-Medium", size: 18)!,
-                                      .paragraphStyle : paragraphStyle], range: NSRange(location: 0, length: centerText.length))
+                                           .paragraphStyle : paragraphStyle, .foregroundColor: UIColor.label], range: NSRange(location: 0, length: centerText.length))
         }
     }
     
@@ -144,16 +144,16 @@ struct DataForPieCharts {
             let dateIntervalString = String("\(dateformatter.string(from: dateInterval.start))-\(dateformatter.string(from: dateToShow))")
             self.centerText = NSMutableAttributedString(string: "\(dateIntervalString)\n\(sum.formattedWithSeparator)\n\(presentingCurrency.code!)")
             self.centerText.setAttributes([.font : UIFont(name: "HelveticaNeue-Medium", size: 11)!,
-                                      .paragraphStyle : paragraphStyle], range: NSRange(location: 0, length: dateIntervalString.count))
+                                      .paragraphStyle : paragraphStyle, .foregroundColor: UIColor.label], range: NSRange(location: 0, length: dateIntervalString.count))
             self.centerText.addAttributes([.font : UIFont(name: "HelveticaNeue-Medium", size: 18)!,
-                                      .paragraphStyle : paragraphStyle], range: NSRange(location: dateIntervalString.count+1, length: centerText.length-dateIntervalString.count-3))
+                                      .paragraphStyle : paragraphStyle, .foregroundColor: UIColor.label], range: NSRange(location: dateIntervalString.count+1, length: centerText.length-dateIntervalString.count-3))
             self.centerText.addAttributes([.font : UIFont(name: "HelveticaNeue-Medium", size: 14)!,
-                                      .paragraphStyle : paragraphStyle], range: NSRange(location: centerText.length-3, length: 3))
+                                      .paragraphStyle : paragraphStyle, .foregroundColor: UIColor.label], range: NSRange(location: centerText.length-3, length: 3))
         }
         else {
             self.centerText = NSMutableAttributedString(string: "\(sum.formattedWithSeparator)\n\(presentingCurrency.code!)")
             self.centerText.setAttributes([.font : UIFont(name: "HelveticaNeue-Medium", size: 18)!,
-                                      .paragraphStyle : paragraphStyle], range: NSRange(location: 0, length: centerText.length))
+                                      .paragraphStyle : paragraphStyle, .foregroundColor: UIColor.label], range: NSRange(location: 0, length: centerText.length))
         }
     }
 }
