@@ -33,7 +33,7 @@ class AccountManager {
             ,"До обліковий період"
             ,"<Інше>"
             ,"Інше"]
-       for item in reservedAccountNames {
+        for item in reservedAccountNames {
             if item == name {
                 return true
             }
@@ -125,7 +125,7 @@ class AccountManager {
         guard isFreeAccountName(parent: parent, name : name, context: context) == true else {throw AccountError.accontAlreadyExists(name: name)}
         
         if let parent = parent, !AccountManager.isFreeFromTransactionItems(account: parent) {
-           let new = fillAccountAttributes(parent: parent, name: AccountsNameLocalisationManager.getLocalizedAccountName(.other1) , type : type, currency : currency, subType : subType, createdByUser : createdByUser, createDate: createDate, context: context)
+            let new = fillAccountAttributes(parent: parent, name: AccountsNameLocalisationManager.getLocalizedAccountName(.other1) , type : type, currency : currency, subType : subType, createdByUser : createdByUser, createDate: createDate, context: context)
             TransactionItemManager.moveTransactionItemsFrom(oldAccount: parent, newAccount: new, modifiedByUser: createdByUser, modifyDate: createDate)
         }
         
@@ -239,7 +239,7 @@ class AccountManager {
         }
     }
     
-  
+    
     static func changeAccountIsHiddenStatus(_ account : Account, modifiedByUser : Bool = true, modifyDate: Date = Date()) throws {
         let oldIsHidden = account.isHidden
         if oldIsHidden {  //activation
@@ -389,7 +389,7 @@ class AccountManager {
             inputMatrix.append(columns)
         }
         inputMatrix.remove(at: 0)
-     
+        
         
         for row in inputMatrix {
             guard row.count > 1 else {break}
@@ -449,51 +449,51 @@ class AccountManager {
             if let account = account {
                 
                 accountToBeAdded.append(account)
-            var accountTypes = ""
-            switch account.type {
-            case AccountType.assets.rawValue:
-                accountTypes = "Assets"
-            case AccountType.liabilities.rawValue:
-                accountTypes = "Liabilities"
-            default:
-                accountTypes = "Out of enumeration"
-            }
-            
-            var accountSubTypes = ""
-            switch account.subType {
-            case AccountSubType.none.rawValue:
-                accountSubTypes = ""
-            case AccountSubType.cash.rawValue:
-                accountSubTypes = "Cash"
-            case AccountSubType.debitCard.rawValue:
-                accountSubTypes = "DebitCard"
-            case AccountSubType.creditCard.rawValue:
-                accountSubTypes = "CreditCard"
-            case AccountSubType.deposit.rawValue:
-                accountSubTypes = "Deposit"
-            default:
-                accountSubTypes = "Out of enumeration"
-            }
-            var export = ""
-            export +=  "\(account.parent != nil ? account.parent!.path! : "" ),"
-            export +=  "\(account.name!),"
-            export +=  "\(account.isHidden),"
-            export +=  "\(accountTypes),"
-            export +=  "\(account.currency?.code ?? "MULTICURRENCY"),"
-            export +=  "\(accountSubTypes),"
-            export +=  "\(account.linkedAccount != nil ? account.linkedAccount!.path! : "" )\n"
-//            print(export)
+                var accountTypes = ""
+                switch account.type {
+                case AccountType.assets.rawValue:
+                    accountTypes = "Assets"
+                case AccountType.liabilities.rawValue:
+                    accountTypes = "Liabilities"
+                default:
+                    accountTypes = "Out of enumeration"
+                }
+                
+                var accountSubTypes = ""
+                switch account.subType {
+                case AccountSubType.none.rawValue:
+                    accountSubTypes = ""
+                case AccountSubType.cash.rawValue:
+                    accountSubTypes = "Cash"
+                case AccountSubType.debitCard.rawValue:
+                    accountSubTypes = "DebitCard"
+                case AccountSubType.creditCard.rawValue:
+                    accountSubTypes = "CreditCard"
+                case AccountSubType.deposit.rawValue:
+                    accountSubTypes = "Deposit"
+                default:
+                    accountSubTypes = "Out of enumeration"
+                }
+                var export = ""
+                export +=  "\(account.parent != nil ? account.parent!.path! : "" ),"
+                export +=  "\(account.name!),"
+                export +=  "\(account.isHidden),"
+                export +=  "\(accountTypes),"
+                export +=  "\(account.currency?.code ?? "MULTICURRENCY"),"
+                export +=  "\(accountSubTypes),"
+                export +=  "\(account.linkedAccount != nil ? account.linkedAccount!.path! : "" )\n"
+                //            print(export)
             }
             else {
                 print("There is no account")
             }
         }
     }
-        
-       
     
     
- 
+    
+    
+    
     // MARK: - BALANCE
     
     static func balance(of accounts: [Account]) -> Double {
@@ -592,7 +592,7 @@ class AccountManager {
     }
     
     /*
-    /*   static func totalBalanceInCurrencyForListOfAccounts(onDate : Date, accountList: [Account], currencyHistoricalData: CurrencyHistoricalDataProtocol, currency: Currency) -> Double {
+     /*   static func totalBalanceInCurrencyForListOfAccounts(onDate : Date, accountList: [Account], currencyHistoricalData: CurrencyHistoricalDataProtocol, currency: Currency) -> Double {
      
      if accountList.isEmpty == false {
      var amount : Double = 0
@@ -610,7 +610,7 @@ class AccountManager {
      }
      }
      */
-    */
+     */
     static func balanceForDateLessThenSelected(date : Date, accounts: [Account]) -> Double{
         var debitSaldo : Double = 0
         var creditSaldo : Double = 0
@@ -653,18 +653,18 @@ class AccountManager {
         if let tmpInterval = interval, tmpInterval.start < dateInterval.end && tmpInterval.end > dateInterval.end{
             intervalArray.append(DateInterval(start: tmpInterval.start, end: dateInterval.end))
         }
-//        print("date interval [",dateInterval.start,dateInterval.end,"]")
-//        intervalArray.forEach({print($0)})
+        //        print("date interval [",dateInterval.start,dateInterval.end,"]")
+        //        intervalArray.forEach({print($0)})
         return intervalArray
         
     }
     
     
     static func getBalancesForDateIntervals(accounts : [Account], dateInterval : DateInterval , dateComponent : Calendar.Component) -> [(date : Date, value : Double)] {
-      
+        
         //creates date interval
         let intervalArray : [DateInterval] = createDateIntervalArray(dateInterval: dateInterval, dateComponent: dateComponent)
-       
+        
         //calculate accountSaldoToLeftBorderDate
         var accountSaldoToLeftBorderDate : Double = 0
         var result : [(date : Date, value : Double)] = [(date : dateInterval.start, value : accountSaldoToLeftBorderDate)]
@@ -732,7 +732,7 @@ class AccountManager {
                 if AccountManager.getRootAccountFor(account).name == AccountsNameLocalisationManager.getLocalizedAccountName(.money) ||
                     AccountManager.getRootAccountFor(account).name == AccountsNameLocalisationManager.getLocalizedAccountName(.credits) ||
                     AccountManager.getRootAccountFor(account).name == AccountsNameLocalisationManager.getLocalizedAccountName(.debtors) {
-//                    print("Nothing need to be added")
+                    //                    print("Nothing need to be added")
                 }
                 else {
                     accountsToShow.append(account)
@@ -759,7 +759,15 @@ class AccountManager {
         
         var accountsData : [AccountData] = []
         var lineChartDataSet : [LineChartDataSet] = []
-               
+        
+        var tempData: [(
+            lineChartDataSet: LineChartDataSet,
+            account: Account,
+            title: String,
+            amountInAccountCurrency: Double,
+            amountInAccountingCurrency: Double,
+            checkSum: Double)] = []
+        
         var maxValue : Double = 0
         var minValue : Double = 0
         
@@ -791,49 +799,9 @@ class AccountManager {
                 entries.append(ChartDataEntry(x: item.date.timeIntervalSince1970, y: item.value))
             }
             
+            
             let set  = LineChartDataSet(entries: entries, label: account.name)
             set.axisDependency = .left
-            
-            //colored line
-            let colorSet = [NSUIColor(red: 192/255.0, green: 255/255.0, blue: 140/255.0, alpha: 1.0),
-                            NSUIColor(red: 140/255.0, green: 234/255.0, blue: 255/255.0, alpha: 1.0),
-                            NSUIColor(red: 255/255.0, green: 140/255.0, blue: 157/255.0, alpha: 1.0),
-                            NSUIColor(red: 207/255.0, green: 248/255.0, blue: 246/255.0, alpha: 1.0),
-                            NSUIColor(red: 148/255.0, green: 212/255.0, blue: 212/255.0, alpha: 1.0),
-                            NSUIColor(red: 136/255.0, green: 180/255.0, blue: 187/255.0, alpha: 1.0),
-                            NSUIColor(red: 118/255.0, green: 174/255.0, blue: 175/255.0, alpha: 1.0),
-                            NSUIColor(red: 42/255.0, green: 109/255.0, blue: 130/255.0, alpha: 1.0),
-                            NSUIColor(red: 217/255.0, green: 80/255.0, blue: 138/255.0, alpha: 1.0),
-                            NSUIColor(red: 254/255.0, green: 149/255.0, blue: 7/255.0, alpha: 1.0),
-                            NSUIColor(red: 255/255.0, green: 247/255.0, blue: 140/255.0, alpha: 1.0),
-                            NSUIColor(red: 254/255.0, green: 247/255.0, blue: 120/255.0, alpha: 1.0),
-                            NSUIColor(red: 106/255.0, green: 167/255.0, blue: 134/255.0, alpha: 1.0),
-                            NSUIColor(red: 53/255.0, green: 194/255.0, blue: 209/255.0, alpha: 1.0),
-                            NSUIColor(red: 64/255.0, green: 89/255.0, blue: 128/255.0, alpha: 1.0),
-                            NSUIColor(red: 149/255.0, green: 165/255.0, blue: 124/255.0, alpha: 1.0),
-                            NSUIColor(red: 217/255.0, green: 184/255.0, blue: 162/255.0, alpha: 1.0),
-                            NSUIColor(red: 191/255.0, green: 134/255.0, blue: 134/255.0, alpha: 1.0),
-                            NSUIColor(red: 179/255.0, green: 48/255.0, blue: 80/255.0, alpha: 1.0),
-                            NSUIColor(red: 193/255.0, green: 37/255.0, blue: 82/255.0, alpha: 1.0),
-                            NSUIColor(red: 255/255.0, green: 102/255.0, blue: 0/255.0, alpha: 1.0),
-                            NSUIColor(red: 255/255.0, green: 208/255.0, blue: 140/255.0, alpha: 1.0),
-                            NSUIColor(red: 245/255.0, green: 199/255.0, blue: 0/255.0, alpha: 1.0),
-                            NSUIColor(red: 106/255.0, green: 150/255.0, blue: 31/255.0, alpha: 1.0),
-                            NSUIColor(red: 179/255.0, green: 100/255.0, blue: 53/255.0, alpha: 1.0),
-                            NSUIColor(red: 46/255.0, green: 204/255.0, blue: 113/255.0, alpha: 1.0),
-                            NSUIColor(red: 241/255.0, green: 196/255.0, blue: 15/255.0, alpha: 1.0),
-                            NSUIColor(red: 231/255.0, green: 76/255.0, blue: 60/255.0, alpha: 1.0),
-                            NSUIColor(red: 52/255.0, green: 152/255.0, blue: 219/255.0, alpha: 1.0)
-            ]
-            var color : NSUIColor!
-            if index < colorSet.count {
-                color = colorSet[index]
-                set.setColor(colorSet[index])
-            }
-            else {
-                color = UIColor(red: CGFloat.random(in: 0...255) / 255, green: CGFloat.random(in: 0...255) / 255, blue: CGFloat.random(in: 0...255) / 255, alpha: 1)
-            }
-            set.setColor(color)
             set.lineWidth = 3
             set.drawCirclesEnabled = false
             set.drawValuesEnabled = false
@@ -866,17 +834,33 @@ class AccountManager {
                 return 0
             }
             
-            if isListForAnalytic{
-                if checkSum != 0{
-                    lineChartDataSet.append(set)
-                    accountsData.append(AccountData(account: account, title: title, color: color, amountInAccountCurrency: amountInAccountCurrency, amountInAccountingCurrency: amountInAccountingCurrency))
-                }
+            tempData.append((lineChartDataSet: set, account: account, title: title, amountInAccountCurrency: amountInAccountCurrency, amountInAccountingCurrency: amountInAccountingCurrency, checkSum: checkSum))
+        }
+        
+        
+        //filtered and ordered items
+        if isListForAnalytic {
+            tempData = tempData.filter({$0.checkSum != 0})
+        }
+        tempData.sort(by: {$0.amountInAccountCurrency >= $1.amountInAccountCurrency})
+        
+        // Coloring
+        for (index,item) in tempData.enumerated() {
+            let colorSet = Constants.ColorSetForCharts.set1
+            var color : NSUIColor!
+            if index < colorSet.count {
+                color = colorSet[index]
+                item.lineChartDataSet.setColor(colorSet[index])
             }
             else {
-                lineChartDataSet.append(set)
-                accountsData.append(AccountData(account: account, title: title, color: color, amountInAccountCurrency: amountInAccountCurrency, amountInAccountingCurrency: amountInAccountingCurrency))
+                color = UIColor(red: CGFloat.random(in: 0...255) / 255, green: CGFloat.random(in: 0...255) / 255, blue: CGFloat.random(in: 0...255) / 255, alpha: 1)
             }
+            item.lineChartDataSet.setColor(color)
+            lineChartDataSet.append(item.lineChartDataSet)
+            accountsData.append(AccountData(account: item.account, title: item.title, color: color, amountInAccountCurrency: item.amountInAccountCurrency, amountInAccountingCurrency: item.amountInAccountingCurrency))
         }
+        
+        
         return PresentingData(dateInterval:dateInterval, presentingCurrency: accountingCurrency,lineChartData: ChartData(minValue: minValue, maxValue: maxValue, lineChartDataSet: lineChartDataSet), tableData: accountsData, sortTableDataBy: sortTableDataBy)
     }
     

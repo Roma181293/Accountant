@@ -23,6 +23,13 @@ class AnalyticsTableViewController: UITableViewController {
     var listOfAccountsToShow : [AccountData] = []
     
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        accountingCurrency = CurrencyManager.getAccountingCurrency(context: CoreDataStack.shared.persistentContainer.viewContext)!
+        
+        tableView.register(AnalyticTableViewCell.self, forCellReuseIdentifier: Constants.Cell.analyticsCell1)
+    }
+    
     
     //MARK: - TableView Data Source
     
@@ -37,31 +44,8 @@ class AnalyticsTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell : UITableViewCell = tableView.dequeueReusableCell(withIdentifier: Constants.Cell.analyticsCell, for: indexPath)
-        
-        if listOfAccountsToShow[indexPath.row].amountInAccountingCurrency < 0{
-            cell.accessoryType = .detailButton
-            cell.detailTextLabel?.textColor = .red
-        }
-        else if let children = listOfAccountsToShow[indexPath.row].account.children,
-           children.count > 0,
-           account != listOfAccountsToShow[indexPath.row].account {
-            cell.accessoryType = .disclosureIndicator
-            cell.detailTextLabel?.textColor = .label
-        }
-        else {
-            cell.accessoryType = .none
-            cell.detailTextLabel?.textColor = .label
-        }
-        
-        cell.textLabel?.text = listOfAccountsToShow[indexPath.row].title
-        
-        if let currency = listOfAccountsToShow[indexPath.row].account.currency {
-            cell.detailTextLabel?.text = "\(round(listOfAccountsToShow[indexPath.row].amountInAccountCurrency*100)/100) \(currency.code!)"
-        }
-        else {
-            cell.detailTextLabel?.text = "\(round(listOfAccountsToShow[indexPath.row].amountInAccountingCurrency*100)/100) \(accountingCurrency.code!)"
-        }
+        let cell : AnalyticTableViewCell = tableView.dequeueReusableCell(withIdentifier: Constants.Cell.analyticsCell1, for: indexPath) as! AnalyticTableViewCell
+        cell.configureCell(for: listOfAccountsToShow[indexPath.row], account: account!, accountingCurrency: accountingCurrency)
         return cell
     }
     

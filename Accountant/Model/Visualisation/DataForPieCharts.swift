@@ -12,6 +12,7 @@ import Charts
 struct DataForPieCharts {
     var pieChartDataEntries: [PieChartDataEntry] = []
     var centerText = NSMutableAttributedString(string:"")
+    var pieChartColorSet : [NSUIColor] = []
     
     
 //    struct DataForPresenting{
@@ -39,7 +40,8 @@ struct DataForPieCharts {
                 if item.amountInAccountingCurrency >= 0 {
                     sum += item.amountInAccountingCurrency
                     let dataEntry = PieChartDataEntry(value: item.amountInAccountingCurrency)
-                    dataEntry.label = item.title
+//                    dataEntry.label = item.title
+                    pieChartColorSet.append(item.color)
                     self.pieChartDataEntries.append(dataEntry)
                 }
             })
@@ -104,7 +106,7 @@ struct DataForPieCharts {
             dataToPresent.forEach({ item in
                 sum += item.amountInAccountingCurrency
                 let dataEntry = PieChartDataEntry(value: item.amountInAccountingCurrency)
-                dataEntry.label = item.title
+//                dataEntry.label = item.title
                 self.pieChartDataEntries.append(dataEntry)
             })
         case .currecy:

@@ -10,21 +10,30 @@ import Foundation
 import Charts
 
 class ChartsManager {
- 
+    
     static func setPieChartView(dataForPieCharts : DataForPieCharts) -> PieChartView {
         
-        let chartView : PieChartView = PieChartView()
+        //MARK:- PieChartDataSet
         let chartDataSet = PieChartDataSet(entries: dataForPieCharts.pieChartDataEntries, label: "")
-        let chartData = PieChartData(dataSet: chartDataSet)
         chartDataSet.valueLineColor = .label
+        //draw % out of circle
+//                chartDataSet.valueLinePart1OffsetPercentage = 0.8
+//                chartDataSet.valueLinePart1Length = 0.2
+//                chartDataSet.valueLinePart2Length = 0.4
+//                chartDataSet.xValuePosition = .outsideSlice
+//                chartDataSet.yValuePosition = .outsideSlice
         
-        chartDataSet.colors = ChartColorTemplates.vordiplom()
-            + ChartColorTemplates.joyful()
-            + ChartColorTemplates.colorful()
-            + ChartColorTemplates.liberty()
-            + ChartColorTemplates.pastel()
-            + [UIColor(red: 51/255, green: 181/255, blue: 229/255, alpha: 1)]
+        //configure colors for dataSet
+        if dataForPieCharts.pieChartColorSet.isEmpty == false {
+            chartDataSet.colors = dataForPieCharts.pieChartColorSet
+        }
+        else {
+            chartDataSet.colors = Constants.ColorSetForCharts.set + Constants.ColorSetForCharts.set1
+        }
         
+        
+        //MARK:- PieChartData
+        let chartData = PieChartData(dataSet: chartDataSet)
         // value formater
         let pFormatter = NumberFormatter()
         pFormatter.numberStyle = .percent
@@ -32,29 +41,36 @@ class ChartsManager {
         pFormatter.multiplier = 1
         pFormatter.percentSymbol = " %"
         chartData.setValueFormatter(DefaultValueFormatter(formatter: pFormatter))
-        
         chartData.setValueFont(.systemFont(ofSize: 14, weight: .light))
-        chartData.setValueTextColor(.label)
+        chartData.setValueTextColor(.black)
         
-        let l = chartView.legend
-        l.horizontalAlignment = .right
-        l.verticalAlignment = .top
-        l.orientation = .vertical
-        l.xEntrySpace = 7
-        l.yEntrySpace = 0
-        l.xOffset = -700 //уводит легенду за экран телефона
+        
+        
+        //MARK:- PieChartView
+        let chartView : PieChartView = PieChartView()
+
+        //avoid legend drawing
+        chartView.legend.enabled = false
         
         // entry label styling
         chartView.entryLabelColor = .label
         chartView.entryLabelFont = .systemFont(ofSize: 12, weight: .light)
         
+        //hole configure
         chartView.holeColor = .systemBackground
+        chartView.holeRadiusPercent = 0.58
+        chartView.transparentCircleRadiusPercent = 0.61
+        chartView.drawHoleEnabled = true
+        
+        //configure hole content
+        chartView.drawCenterTextEnabled = true
+        chartView.centerAttributedText = dataForPieCharts.centerText
+
         chartView.drawEntryLabelsEnabled = true
         chartView.usePercentValuesEnabled = true
-        chartView.drawHoleEnabled = true
-        chartView.drawCenterTextEnabled = true
+        
         chartView.isUserInteractionEnabled = false
-        chartView.centerAttributedText = dataForPieCharts.centerText
+        
         chartView.maxAngle = 360 // Full chart
         chartView.rotationAngle = 270 // Rotate to make the half on the upper side
         
@@ -73,7 +89,7 @@ class ChartsManager {
     static func setLineChartView(chartData: ChartData) -> LineChartView {
         let chartView : LineChartView = LineChartView()
         
-      
+        
         let data = LineChartData(dataSets: chartData.lineChartDataSet)
         data.setValueTextColor(.label)
         data.setValueFont(.systemFont(ofSize: 9, weight: .light))
