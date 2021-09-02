@@ -74,6 +74,7 @@ class MoneyAccountTableViewCell: UITableViewCell {
     
     
     func updateCell(dataToShow: AccountData, accountingCurrency : Currency) {
+        accountIcon.tintColor = dataToShow.color
         amountInBaseCurrency.text = " "
         creditLimitAmount.text = " "
         
@@ -81,7 +82,10 @@ class MoneyAccountTableViewCell: UITableViewCell {
         
         switch account.subType {
         case AccountSubType.cash.rawValue:
-            accountIcon.image = UIImage(systemName: "bitcoinsign.circle")
+            if let myImage = UIImage(named: "wallet") {
+                let tintableImage = myImage.withRenderingMode(.alwaysTemplate)
+                accountIcon.image = tintableImage
+            }
         case AccountSubType.debitCard.rawValue:
             accountIcon.image = UIImage(systemName: "creditcard")
         case AccountSubType.creditCard.rawValue:

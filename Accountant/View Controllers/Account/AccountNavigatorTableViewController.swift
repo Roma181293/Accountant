@@ -176,9 +176,11 @@ class AccountNavigatorTableViewController: UITableViewController {
         cell.textLabel?.text = account.name
         if account.isHidden {
             cell.textLabel?.textColor = .systemGray
+            cell.detailTextLabel?.textColor = .systemGray
         }
         else {
             cell.textLabel?.textColor = .label
+            cell.detailTextLabel?.textColor = .label
         }
         
         if let parent = account.parent, parent.currency == nil {
