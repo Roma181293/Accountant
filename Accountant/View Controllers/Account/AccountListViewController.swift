@@ -280,7 +280,7 @@ class AccountListViewController: UIViewController, UIScrollViewDelegate{
     
     private func addButtonToViewController() {
         let addButton = UIButton(frame: CGRect(origin: CGPoint(x: self.view.frame.width - 70 , y: self.view.frame.height - 150), size: CGSize(width: 68, height: 68)))
-        addButton.backgroundColor = UIColor(displayP3Red: 242/255, green: 242/255, blue: 243/255, alpha: 1)
+        addButton.backgroundColor = .systemGray5
         view.addSubview(addButton)
         
         addButton.translatesAutoresizingMaskIntoConstraints = false

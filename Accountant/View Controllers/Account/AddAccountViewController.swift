@@ -29,7 +29,7 @@ class AddAccountViewController: UIViewController {
     
     private func addButtonToViewController() {
         let addButton = UIButton(frame: CGRect(origin: CGPoint(x: self.view.frame.width - 70 , y: self.view.frame.height - 150), size: CGSize(width: 50, height: 50)))
-        addButton.backgroundColor = .lightGray
+        addButton.backgroundColor = .systemGray5
         view.addSubview(addButton)
         
         addButton.translatesAutoresizingMaskIntoConstraints = false

@@ -205,6 +205,8 @@ class AccountEditorWithInitialBalanceViewController: UIViewController {
     }
     
     func preConfigureUI() {
+        currencyButton.backgroundColor = .systemGray5
+        moneyAccountTypeButton.backgroundColor = .systemGray5
         datePicker.preferredDatePickerStyle = .compact
         exchangeRateLabel.isHidden = true
         exchangeRateTextField.isHidden = true
@@ -470,7 +472,7 @@ class AccountEditorWithInitialBalanceViewController: UIViewController {
     
     private func addButtonToViewController() {
         confirmButton = UIButton(frame: CGRect(origin: CGPoint(x: self.view.frame.width - 70 , y: self.view.frame.height - 150), size: CGSize(width: 68, height: 68)))
-        confirmButton.backgroundColor = UIColor(displayP3Red: 242/255, green: 242/255, blue: 243/255, alpha: 1)
+        confirmButton.backgroundColor = .systemGray5
         view.addSubview(confirmButton)
         confirmButton.translatesAutoresizingMaskIntoConstraints = false
           NSLayoutConstraint.activate([

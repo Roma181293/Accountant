@@ -84,12 +84,12 @@ class ComplexTransactionTableViewCell: UITableViewCell {
     let debitLabel: UILabel = {
         let label = UILabel()
         label.text = "  " + NSLocalizedString("To:", comment: "") + "  "
-        label.textColor = .white
+        label.textColor = .label
         label.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
         label.layer.cornerRadius = 8
         label.layer.borderWidth = 0.5
-        label.layer.borderColor = UIColor.systemGray.cgColor
-        label.layer.backgroundColor = UIColor.systemGray.cgColor
+        label.layer.borderColor = UIColor.systemGray4.cgColor
+        label.layer.backgroundColor = UIColor.systemGray4.cgColor
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -97,18 +97,26 @@ class ComplexTransactionTableViewCell: UITableViewCell {
     let creditLabel: UILabel = {
         let label = UILabel()
         label.text = "  " + NSLocalizedString("From:", comment: "") + "  "
-        label.textColor = .white
+        label.textColor = .label
         label.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
         label.layer.cornerRadius = 8
         label.layer.borderWidth = 0.5
-        label.layer.borderColor = UIColor.systemGray.cgColor
-        label.layer.backgroundColor = UIColor.systemGray.cgColor
+        label.layer.borderColor = UIColor.systemGray4.cgColor
+        label.layer.backgroundColor = UIColor.systemGray4.cgColor
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
 
-    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        debitLabel.layer.borderColor = UIColor.systemGray4.cgColor
+        debitLabel.layer.backgroundColor = UIColor.systemGray4.cgColor
+        creditLabel.layer.borderColor = UIColor.systemGray4.cgColor
+        creditLabel.layer.backgroundColor = UIColor.systemGray4.cgColor
+        
+    }
+
     
     func setMainView(){
         guard firstLaunch else {return}
@@ -231,7 +239,7 @@ class ComplexTransactionTableViewCell: UITableViewCell {
             mainView.backgroundColor = UIColor(cgColor: UIColor.systemTeal.cgColor.copy(alpha: 0.3)!)
         }
         else {
-            mainView.backgroundColor = UIColor(cgColor: UIColor.systemGray2.cgColor.copy(alpha: 0.3)!)
+            mainView.backgroundColor = UIColor(cgColor: UIColor.systemGray.cgColor.copy(alpha: 0.3)!)
         }
     }
     

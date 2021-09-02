@@ -201,6 +201,9 @@ class SimpleTransactionEditorViewController: UIViewController, GADFullScreenCont
     }
     
     func initialConfigureUI() {
+        debitButton.backgroundColor = .systemGray5
+        creditButton.backgroundColor = .systemGray5
+        
         if let startyAccountingDate = UserProfile.getAccountingStartDate() {
             datePicker.minimumDate = startyAccountingDate
         }
@@ -453,7 +456,7 @@ class SimpleTransactionEditorViewController: UIViewController, GADFullScreenCont
     
     private func addDoneButtonToViewController() {
         addButton = UIButton(frame: CGRect(origin: CGPoint(x: self.view.frame.width - 70 , y: self.view.frame.height - 150), size: CGSize(width: 68, height: 68)))
-        addButton.backgroundColor = UIColor(displayP3Red: 242/255, green: 242/255, blue: 243/255, alpha: 1)
+        addButton.backgroundColor = .systemGray5
         view.addSubview(addButton)
         addButton.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([

@@ -18,6 +18,7 @@ class TransactionItemTableViewCell: UITableViewCell {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.backgroundColor = UIColor(displayP3Red: 242/255, green: 242/255, blue: 243/255, alpha: 1)
         button.layer.cornerRadius = 5
+        button.backgroundColor = .systemGray5
         button.setTitleColor(.systemBlue, for: .normal)
         return button
     }()

@@ -136,6 +136,7 @@ class ComplexTransactionEditorViewController: UIViewController{
         button.backgroundColor = UIColor(displayP3Red: 242/255, green: 242/255, blue: 243/255, alpha: 1)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.layer.cornerRadius = 34
+        button.backgroundColor = .systemGray5
         if let image = UIImage(systemName: "checkmark") {
             button.setImage(image, for: .normal)
         }

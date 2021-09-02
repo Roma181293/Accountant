@@ -227,7 +227,7 @@
 "Attribute type should be initialize for the root account" = "Атрибут 'тип' має бути заповненим для кореневого рахунку";
 "Account has an attribure type different from parent. Please contact to support" = "Аккаунт має атрибут тип відмінний від кореневого рахунку. Будь ласка зверніться до команди підтримки";
 "Account with name '%@' already exist. Please use another name" = "";
-"You can not remove this account, it should be free from transactions" = "Ви не можете видалити даний рахунок, він не має містити опарацій";
+"You can not remove this account, it should be free from transactions" = "Ви не можете видалити даний рахунок, він не має містити операцій";
 "With credit card we also create associated credit account and this account %@ is already exist Please use another account name" = "Разом з кредитною картою ми створюємо пов'язаний кредитний рахунок, і цей рахунок %@ вже існує. Будь ласка використайте інше ім'я для рахунку.";
 "This is app-reserved account name. Please use another name" = "Це ім'я зарезервовано додатком. Будь ласка використайте інше ім'я";
 "'%@' account does not exist. Please contact to support" = "Рахунок '%@' не існує. Будь ласка зверніться до команди підтримки";
