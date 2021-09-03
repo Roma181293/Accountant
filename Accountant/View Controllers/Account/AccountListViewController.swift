@@ -20,7 +20,7 @@ class AccountListViewController: UIViewController, UIScrollViewDelegate{
     private var slides: [UIView] = []
     
     let coreDataStack = CoreDataStack.shared
-    let context = CoreDataStack.shared.persistentContainer.viewContext
+    var context = CoreDataStack.shared.persistentContainer.viewContext
     
     private let calendar = Calendar.current
     private var dateOfLastChangesInDB : Date?
@@ -78,6 +78,10 @@ class AccountListViewController: UIViewController, UIScrollViewDelegate{
     
     override func viewDidLoad() {
         super.viewDidLoad()
+  
+        //MARK:- adding NotificationCenter observers
+        NotificationCenter.default.addObserver(self, selector: #selector(self.environmentDidChange), name: .environmentDidChange, object: nil)
+  
         accountingCurrency = CurrencyManager.getAccountingCurrency(context: context)!
         scrollView.delegate = self
         moneyAccountListTableViewController.context = context
@@ -110,6 +114,10 @@ class AccountListViewController: UIViewController, UIScrollViewDelegate{
             currencyHistoricalData = UserProfile.getLastExchangeRate()
             self.updateUI()
         }
+    }
+    
+    deinit{
+        NotificationCenter.default.removeObserver(self, name: .environmentDidChange, object: nil)
     }
     
     @IBAction func changeAccount(_ sender: UISegmentedControl) {
@@ -312,6 +320,21 @@ class AccountListViewController: UIViewController, UIScrollViewDelegate{
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == Constants.Segue.goToMoneyAccountListTVC {
             moneyAccountListTableViewController = segue.destination as? AccountListTableViewController
+        }
+    }
+    
+    
+    @objc func environmentDidChange(){
+        context = CoreDataStack.shared.persistentContainer.viewContext
+        
+        accountingCurrency = CurrencyManager.getAccountingCurrency(context: context)!
+            account = AccountManager.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.money), context: context)
+        segmentedControl.selectedSegmentIndex = 0
+        
+        if isNeedUpdateAll() {
+            dateOfLastChangesInDB = UserProfile.getDateOfLastChangesInDB()
+            scrollView.scrollToLeft(animated: false)
+            updateUI()
         }
     }
 }

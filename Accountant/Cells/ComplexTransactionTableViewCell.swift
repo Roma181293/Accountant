@@ -230,8 +230,9 @@ class ComplexTransactionTableViewCell: UITableViewCell {
            debitRootName == AccountsNameLocalisationManager.getLocalizedAccountName(.money) {
             mainView.backgroundColor = UIColor(cgColor: UIColor.systemGreen.cgColor.copy(alpha: 0.3)!)
         }
-        else  if creditRootName == AccountsNameLocalisationManager.getLocalizedAccountName(.money) &&
-                 debitRootName == AccountsNameLocalisationManager.getLocalizedAccountName(.expense) {
+        else  if (creditRootName == AccountsNameLocalisationManager.getLocalizedAccountName(.money) ||
+                  creditRootName == AccountsNameLocalisationManager.getLocalizedAccountName(.credits)) &&
+                  debitRootName == AccountsNameLocalisationManager.getLocalizedAccountName(.expense) {
             mainView.backgroundColor = UIColor(cgColor: UIColor.systemPink.cgColor.copy(alpha: 0.3)!)
         }
         else  if creditRootName == AccountsNameLocalisationManager.getLocalizedAccountName(.money) &&

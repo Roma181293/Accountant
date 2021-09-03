@@ -110,21 +110,6 @@
 //AnalyticsViewController
 "Analytics" = "Аналітика";
 
-
-//SettingsTableViewController: UITableViewController {
-
-"Settings" = "Налаштування";
-"User Name" = "Ім'я користувача";
-
-"Language" = "Мова";
-"Accounting currency" = "Валюта обліку";
-"Share Account List" = "Поділитися списком рахунків";
-"Share Transaction List" = "Поділитися списком операцій";
-"Import Account List" = "Імпортувати рахунки";
-"Import Transaction List" = "Імпортувати операції";
-"Add data for test app" = "Додати даннi для тестування додатку";
-"Account & category editor" = "Редактор рахунків та категорій";
-
 //AccountManagerTableViewController, AccountNavigatorTableViewController
 "Accounts manager" = "Менеджер рахунків";
 
@@ -160,6 +145,24 @@
 "per week" = "на тиждень";
 "per month" = "на місяць";
 "per year" = "на рік";
+
+//SettingsTableViewController
+
+"Settings" = "Налаштування";
+"User Name" = "Ім'я користувача";
+
+"Language" = "Мова";
+"Accounting currency" = "Валюта обліку";
+"Share Account List" = "Поділитися списком рахунків";
+"Share Transaction List" = "Поділитися списком операцій";
+"Import Account List" = "Імпортувати рахунки";
+"Import Transaction List" = "Імпортувати операції";
+"Add data for test app" = "Додати даннi для тестування додатку";
+"Account & category editor" = "Редактор рахунків та категорій";
+
+//SettingWithSwitchTableViewCell
+"Test mode" = "Тестовий режим";
+"Secure code" = "Пароль";
 
 
 //CurrencyList

@@ -8,118 +8,78 @@
 import Foundation
 import CoreData
 
-/*
-class CoreDataStack {
-    
-    static let shared = CoreDataStack()
-    private init(){}
-    
-    lazy var persistentContainer: NSPersistentContainer = {
-        /*
-         The persistent container for the application. This implementation
-         creates and returns a container, having loaded the store for the
-         application to it. This property is optional since there are legitimate
-         error conditions that could cause the creation of the store to fail.
-         */
-        let container = NSPersistentContainer(name: "Accounting")
-        container.loadPersistentStores(completionHandler: { (storeDescription, error) in
-            if let error = error as NSError? {
-                // Replace this implementation with code to handle the error appropriately.
-                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                
-                /*
-                 Typical reasons for an error here include:
-                 * The parent directory does not exist, cannot be created, or disallows writing.
-                 * The persistent store is not accessible, due to permissions or data protection when the device is locked.
-                 * The device is out of space.
-                 * The store could not be migrated to the current model version.
-                 Check the error message to determine what the actual problem was.
-                 */
-                fatalError("Unresolved error \(error), \(error.userInfo)")
-            }
-        })
-        return container
-    }()
-    
-    // MARK: - Core Data Saving support
-    
-    func saveContext(_ context: NSManagedObjectContext) throws {
-        if context.hasChanges {
-            do {
-                try context.save()
-                UserProfile.setDateOfLastChangesInDB(Date())
-            } catch {
-                // Replace this implementation with code to handle the error appropriately.
-                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                let nserror = error as NSError
-                fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
-            }
-        }
-    }
-}
-*/
-
-
 class CoreDataStack {
     
     public static let modelName = "Accountant"
     
     public static let model: NSManagedObjectModel = {
-        // swiftlint:disable force_unwrapping
         let modelURL = Bundle.main.url(forResource: modelName, withExtension: "momd")!
         return NSManagedObjectModel(contentsOf: modelURL)!
     }()
-    // swiftlint:enable force_unwrapping
     
     static let shared = CoreDataStack()
     private init(){}
     
     public lazy var persistentContainer: NSPersistentContainer = {
-        /*
-         The persistent container for the application. This implementation
-         creates and returns a container, having loaded the store for the
-         application to it. This property is optional since there are legitimate
-         error conditions that could cause the creation of the store to fail.
-         */
         let container = NSPersistentContainer(name: CoreDataStack.modelName, managedObjectModel: CoreDataStack.model)
-        container.loadPersistentStores { _, error in
-            if let error = error as NSError? {
-                // Replace this implementation with code to handle the error appropriately.
-                //                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                //
-                //                /*
-                //                 Typical reasons for an error here include:
-                //                 * The parent directory does not exist, cannot be created, or disallows writing.
-                //                 * The persistent store is not accessible, due to permissions or data protection when the device is locked.
-                //                 * The device is out of space.
-                //                 * The store could not be migrated to the current model version.
-                //                 Check the error message to determine what the actual problem was.
-                //                 */
-                fatalError("Unresolved error \(error), \(error.userInfo)")
-            }
-        }
-        
-        //        let container = NSPersistentContainer(name: "Accounting")
-        //        container.loadPersistentStores(completionHandler: { (storeDescription, error) in
-        //            if let error = error as NSError? {
-        //                // Replace this implementation with code to handle the error appropriately.
-        //                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-        //
-        //                /*
-        //                 Typical reasons for an error here include:
-        //                 * The parent directory does not exist, cannot be created, or disallows writing.
-        //                 * The persistent store is not accessible, due to permissions or data protection when the device is locked.
-        //                 * The device is out of space.
-        //                 * The store could not be migrated to the current model version.
-        //                 Check the error message to determine what the actual problem was.
-        //                 */
-        //                fatalError("Unresolved error \(error), \(error.userInfo)")
-        //            }
-        //        })
-        
-        
+        let defaultDirectoryURL = NSPersistentContainer.defaultDirectoryURL()
+
+//        let testStoreURL = defaultDirectoryURL.appendingPathComponent("Test.sqlite")
+//        let testStoreDescription = NSPersistentStoreDescription(url: testStoreURL)
+//        testStoreDescription.configuration = "Test"
+
+        let productionStoreURL = defaultDirectoryURL.appendingPathComponent("Production.sqlite")
+        let productionStoreDescription = NSPersistentStoreDescription(url: productionStoreURL)
+        productionStoreDescription.configuration = "Production"
+
+        container.persistentStoreDescriptions = [productionStoreDescription]
+        container.loadPersistentStores(completionHandler: { (_, error) in
+            guard let error = error as NSError? else { return }
+            fatalError("###\(#function): Failed to load persistent stores:\(error)")
+        })
+        container.viewContext.automaticallyMergesChangesFromParent = true
+       
         return container
     }()
+    
+   
+    func switchToDB(_ db: Environment) {
+        
+        persistentContainer = {
+            let container = NSPersistentContainer(name: CoreDataStack.modelName, managedObjectModel: CoreDataStack.model)
+            let defaultDirectoryURL = NSPersistentContainer.defaultDirectoryURL()
+
+            let storeURL = defaultDirectoryURL.appendingPathComponent("\(db.rawValue).sqlite")
+            let storeDescription = NSPersistentStoreDescription(url: storeURL)
+            storeDescription.configuration = db.rawValue
+
+            container.persistentStoreDescriptions = [storeDescription]
+            container.loadPersistentStores(completionHandler: { (_, error) in
+                guard let error = error as NSError? else { return }
+                fatalError("###\(#function): Failed to load persistent stores:\(error)")
+            })
+            container.viewContext.automaticallyMergesChangesFromParent = true
+           
+            return container
+        }()
+        
+        UserProfile.setDateOfLastChangesInDB(Date())
+    }
+    
+    
+    func activeEnviroment() -> Environment? {
+        if persistentContainer.persistentStoreDescriptions.count == 0 {
+            return nil
+        }
+        
+        if persistentContainer.persistentStoreDescriptions[0].configuration == Environment.test.rawValue {
+            return Environment.test
+        }
+        else {
+            return Environment.prod
+        }
+    }
+    
     
 //    public lazy var viewContext: NSManagedObjectContext = {
 //        return persistentContainer.viewContext

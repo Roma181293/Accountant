@@ -12,23 +12,32 @@ import UniformTypeIdentifiers
 class SettingsTableViewController: UITableViewController {
     
     let coreDataStack = CoreDataStack.shared
-    let context = CoreDataStack.shared.persistentContainer.viewContext
+    var context = CoreDataStack.shared.persistentContainer.viewContext
     
-    var userProfile : [String] = [
+    var dataSource : [String] = [
         NSLocalizedString("PRO access", comment: ""),
+        "Auth",
+        "Envirement",
         NSLocalizedString("Accounting currency", comment: ""),
         NSLocalizedString("Accounts manager", comment: ""),
-        NSLocalizedString("Share Account List", comment: ""),
-        NSLocalizedString("Share Transaction List", comment: ""),
-        
+    
         NSLocalizedString("Import Account List", comment: ""),
         NSLocalizedString("Import Transaction List", comment: ""),
-        "BioAuth",
-        NSLocalizedString("Subscriptions status", comment: ""),
-        "TransactionEditor"
+        NSLocalizedString("Share Account List", comment: ""),
+        NSLocalizedString("Share Transaction List", comment: "")
+//        NSLocalizedString("Subscriptions status", comment: ""),
+//        "TransactionEditor"
     ]
     
     var isImportAccounts: Bool = true
+    
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        //MARK:- adding NotificationCenter observers
+        NotificationCenter.default.addObserver(self, selector: #selector(self.environmentDidChange), name: .environmentDidChange, object: nil)
+    }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
@@ -36,8 +45,12 @@ class SettingsTableViewController: UITableViewController {
         tableView.reloadData()
     }
     
-    // MARK: - Table view data source
+    deinit{
+        NotificationCenter.default.removeObserver(self, name: .environmentDidChange, object: nil)
+    }
     
+    
+    // MARK: - Table view data source
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
@@ -45,25 +58,37 @@ class SettingsTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return userProfile.count
+        return dataSource.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if userProfile[indexPath.row] == "BioAuth" {
+        if dataSource[indexPath.row] == "Auth" {
             let cell = tableView.dequeueReusableCell(withIdentifier: Constants.Cell.settingsCellWithSwitchCell, for: indexPath) as! SettingWithSwitchTableViewCell
-            cell.update()
+            cell.updateForAuthConfigure()
             return cell
         }
+        
+        else if dataSource[indexPath.row] == "Envirement"{
+            let cell = tableView.dequeueReusableCell(withIdentifier: Constants.Cell.settingsCellWithSwitchCell, for: indexPath) as! SettingWithSwitchTableViewCell
+            cell.updateForEnviromentConfigure()
+            return cell
+        }
+        
         else {
             let cell = tableView.dequeueReusableCell(withIdentifier: Constants.Cell.settingsCell, for: indexPath)
             
-            cell.textLabel?.text = userProfile[indexPath.row]
+            cell.textLabel?.text = dataSource[indexPath.row]
             cell.detailTextLabel?.text = ""
             
-            if userProfile[indexPath.row] == NSLocalizedString("Accounting currency", comment: "") {
-                cell.detailTextLabel?.text = CurrencyManager.getAccountingCurrency(context: context)!.code!
+            if dataSource[indexPath.row] == NSLocalizedString("Accounting currency", comment: "") {
+                if let currency = CurrencyManager.getAccountingCurrency(context: context) {
+                    cell.detailTextLabel?.text = currency.code!
+                }
+                else {
+                    cell.detailTextLabel?.text = "No currency"
+                }
             }
-            else if userProfile[indexPath.row] == NSLocalizedString("Account & category editor", comment: "") {
+            else if dataSource[indexPath.row] == NSLocalizedString("Account & category editor", comment: "") {
                 cell.accessoryType = .disclosureIndicator
             }
             return cell
@@ -71,19 +96,20 @@ class SettingsTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if userProfile[indexPath.row] == NSLocalizedString("Accounting currency", comment: "") {
-            let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        
+        if dataSource[indexPath.row] == NSLocalizedString("Accounting currency", comment: "") {
             let currencyTableViewController = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.currencyTableViewController) as! CurrencyTableViewController
             self.navigationController?.pushViewController(currencyTableViewController, animated: true)
         }
-        else if userProfile[indexPath.row] == NSLocalizedString("Share Account List", comment: "") {
+        else if dataSource[indexPath.row] == NSLocalizedString("Share Account List", comment: "") {
             shareTXTFile(fileName: "AccountList", data: AccountManager.exportAccountsToString(context: context))
             print(AccountManager.exportAccountsToString(context: context))
         }
-        else if userProfile[indexPath.row] == NSLocalizedString("Share Transaction List", comment: ""){
+        else if dataSource[indexPath.row] == NSLocalizedString("Share Transaction List", comment: ""){
             shareTXTFile(fileName: "TransactionList", data: TransactionManager.exportTransactionsToString(context: context))
         }
-        else if userProfile[indexPath.row] == NSLocalizedString("Import Account List", comment: ""){
+        else if dataSource[indexPath.row] == NSLocalizedString("Import Account List", comment: ""){
            
             isImportAccounts = true
             
@@ -100,7 +126,7 @@ class SettingsTableViewController: UITableViewController {
                 self.present(importMenu, animated: true, completion: nil)
             }
         }
-        else if userProfile[indexPath.row] == NSLocalizedString("Import Transaction List", comment: ""){
+        else if dataSource[indexPath.row] == NSLocalizedString("Import Transaction List", comment: ""){
            
             isImportAccounts = false
           
@@ -119,23 +145,19 @@ class SettingsTableViewController: UITableViewController {
             
            
         }
-        else if userProfile[indexPath.row] == NSLocalizedString("Accounts manager", comment: "") {
-            let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        else if dataSource[indexPath.row] == NSLocalizedString("Accounts manager", comment: "") {
             let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.accountNavigatorTableViewController) as! AccountNavigatorTableViewController
             self.navigationController?.pushViewController(vc, animated: true)
         }
-        else if userProfile[indexPath.row] == NSLocalizedString("PRO access", comment: ""){
-            let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        else if dataSource[indexPath.row] == NSLocalizedString("PRO access", comment: ""){
             let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.purchaseOfferViewController) as! PurchaseOfferViewController
             self.navigationController?.pushViewController(vc, animated: true)
         }
-        else if userProfile[indexPath.row] == NSLocalizedString("Subscriptions status", comment: "") {
-            let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        else if dataSource[indexPath.row] == NSLocalizedString("Subscriptions status", comment: "") {
             let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.subscriptionsStatusViewController) as! SubsctiptionStatusViewController
             self.navigationController?.pushViewController(vc, animated: true)
         }
-        else if userProfile[indexPath.row] == "TransactionEditor" {
-            let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        else if dataSource[indexPath.row] == "TransactionEditor" {
             let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.complexTransactionEditorViewController) as! ComplexTransactionEditorViewController
             self.navigationController?.pushViewController(vc, animated: true)
         }
@@ -143,10 +165,13 @@ class SettingsTableViewController: UITableViewController {
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
-    @objc func proSubscriprion() {
-        print("receive pro access")
+    @objc func environmentDidChange(){
+        context = CoreDataStack.shared.persistentContainer.viewContext
+        tableView.reloadData()
     }
-    
+}
+
+extension SettingsTableViewController {
     func shareTXTFile (fileName: String, data : String) {
         let docDirectory = try? FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
         if let fileURL = docDirectory?.appendingPathComponent(fileName).appendingPathExtension("txt") {

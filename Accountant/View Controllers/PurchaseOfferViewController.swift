@@ -13,6 +13,7 @@ class PurchaseOfferViewController: UIViewController {
     
     let mainView : UIView = {
         let mainView = UIView()
+        mainView.backgroundColor = .systemBackground
         mainView.translatesAutoresizingMaskIntoConstraints = false
         return mainView
     }()
@@ -20,7 +21,7 @@ class PurchaseOfferViewController: UIViewController {
         let offerDatailLabel = UILabel()
         offerDatailLabel.textAlignment = .center
         offerDatailLabel.text = "Відсутність реклами\n Можливість створювати необмежену кількість рахунків та категорій\nМожливість копіювати операції\nПерегляд аналітики за всі періоди\nЕкспорт операцій в форматі .csv\nБезпека"
-        offerDatailLabel.textColor = .black
+        offerDatailLabel.textColor = .label
         offerDatailLabel.font = .systemFont(ofSize: 12.0)
         offerDatailLabel.lineBreakMode = .byWordWrapping
         offerDatailLabel.numberOfLines = 0
@@ -31,7 +32,7 @@ class PurchaseOfferViewController: UIViewController {
         let paymentDetailLabel = UILabel()
         paymentDetailLabel.textAlignment = .center
         paymentDetailLabel.text = "Оплату за підписку буде стягнуто з вашого рахунку iTunes під час підтвердження покупки. Підписка подовжується автоматично, якщо ви не скасували її принаймі за 24 години до завершення поточного періоду. Оплата за подовження буде списано протягом доби, що передує даті завершення поточного періоду. Керувати підпискою та скасувани її можно в налаштуваннях облікового запису iTunes"
-        paymentDetailLabel.textColor = .black
+        paymentDetailLabel.textColor = .label
         paymentDetailLabel.font = .systemFont(ofSize: 12.0)
         paymentDetailLabel.lineBreakMode = .byWordWrapping
         paymentDetailLabel.numberOfLines = 0

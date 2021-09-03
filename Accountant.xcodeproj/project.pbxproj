@@ -65,6 +65,7 @@
 		2B2E2E8B26E0054400A6CFDD /* AnalyticTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B2E2E8A26E0054400A6CFDD /* AnalyticTableViewCell.swift */; };
 		2B2E6D1D26DD960D004A9680 /* TransactionItemTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B2E6D1C26DD960D004A9680 /* TransactionItemTextField.swift */; };
 		2B3F0D0E26A0EFA000AA514B /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2B3F0D1026A0EFA000AA514B /* Localizable.strings */; };
+		2B490DD726E2911C00967E11 /* Extension Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B490DD626E2911C00967E11 /* Extension Notification.swift */; };
 		2B4976FC26DBE90B00147EAA /* ComplexTransactionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B4976FB26DBE90B00147EAA /* ComplexTransactionTableViewCell.swift */; };
 		2B67989E26768E3200063A7C /* SimpleTransactionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B67989D26768E3200063A7C /* SimpleTransactionTableViewCell.swift */; };
 		2B949BAF2665B4040033383A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B949BAE2665B4040033383A /* AppDelegate.swift */; };
@@ -164,6 +165,7 @@
 		2B3F0D1126A0EFEC00AA514B /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/Main.strings; sourceTree = "<group>"; };
 		2B3F0D1226A0F01B00AA514B /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		2B3F0D1326A0F01C00AA514B /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/Localizable.strings; sourceTree = "<group>"; };
+		2B490DD626E2911C00967E11 /* Extension Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension Notification.swift"; sourceTree = "<group>"; };
 		2B4976FB26DBE90B00147EAA /* ComplexTransactionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComplexTransactionTableViewCell.swift; sourceTree = "<group>"; };
 		2B67989D26768E3200063A7C /* SimpleTransactionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleTransactionTableViewCell.swift; sourceTree = "<group>"; };
 		2B949BAB2665B4040033383A /* Accountant.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Accountant.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -357,6 +359,7 @@
 				2B1FEAE4266CAF6C00BF53BD /* Extension UIResponder.swift */,
 				2B1FEAE5266CAF6C00BF53BD /* Extension Double.swift */,
 				2B2E6D1C26DD960D004A9680 /* TransactionItemTextField.swift */,
+				2B490DD626E2911C00967E11 /* Extension Notification.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -706,6 +709,7 @@
 				2B1FEAAB266C3AB900BF53BD /* SimpleTransactionEditorViewController.swift in Sources */,
 				2B1FEAC5266C433200BF53BD /* AuthPinAndBiometricViewController.swift in Sources */,
 				2B1FEB6E266D752200BF53BD /* PresentingData.swift in Sources */,
+				2B490DD726E2911C00967E11 /* Extension Notification.swift in Sources */,
 				2B1FEA4B266BEE6700BF53BD /* CurrencyExhangeNB.swift in Sources */,
 				2B1FEA54266BEEC000BF53BD /* Enums.swift in Sources */,
 				2B949BB92665B4040033383A /* Accountant.xcdatamodeld in Sources */,

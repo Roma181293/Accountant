@@ -38,7 +38,6 @@ enum BaseAccounts : String, CaseIterable {
     case other1 = "Other"
 }
 
-
 enum SortCategoryType : Int {
     case aToz = 0
     case zToa = 1
@@ -46,12 +45,10 @@ enum SortCategoryType : Int {
     case nineToZero = 3
 }
 
-
 enum DistributionType : Int {
     case amount = 0
     case currecy = 1
 }
-
 
 enum AuthType : Int{
     case appAuth = 0
@@ -59,8 +56,12 @@ enum AuthType : Int{
     case none = 2
 }
 
-
 enum AuthenticationState {
     case loggedin
     case loggedout
+}
+
+enum Environment: String {
+    case prod = "Production"
+    case test = "Test"
 }

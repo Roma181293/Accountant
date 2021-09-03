@@ -49,7 +49,11 @@ class AccountEditorWithInitialBalanceViewController: UIViewController {
                 moneyAccountTypeButton.setTitle("Debit", for: .normal)
                 creditLimitTextField.isHidden = true
             case .cash:
-                moneyAccountTypeButton.setImage(UIImage(systemName: "bitcoinsign.circle"), for: .normal)
+                if let wallet = UIImage(named: "wallet") {
+                    let tintableImage = wallet.withRenderingMode(.alwaysTemplate)
+                    moneyAccountTypeButton.setImage(tintableImage, for: .normal)
+                }
+                moneyAccountTypeButton.imageEdgeInsets = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 45)
                 moneyAccountTypeButton.setTitle("Cash", for: .normal)
                 creditLimitTextField.isHidden = true
             case .creditCard:

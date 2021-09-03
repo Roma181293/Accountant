@@ -441,7 +441,7 @@
                                         <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="zTD-nT-i2p">
                                             <rect key="frame" x="343" y="6" width="51" height="31.5"/>
                                             <connections>
-                                                <action selector="setBioAuthWithSender:" destination="vAx-6d-nYh" eventType="valueChanged" id="hUs-wS-WXf"/>
+                                                <action selector="switchingWithSender:" destination="vAx-6d-nYh" eventType="valueChanged" id="iLF-qC-DnI"/>
                                             </connections>
                                         </switch>
                                     </subviews>
@@ -2170,10 +2170,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="pFo-eG-Ba1">
-                                <rect key="frame" x="20" y="94" width="374" height="61.5"/>
+                                <rect key="frame" x="20" y="94" width="182.5" height="61.5"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" axis="vertical" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="U2C-qZ-vVH">
-                                        <rect key="frame" x="0.0" y="0.0" width="324.5" height="61.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="133" height="61.5"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Entitlement name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NwU-My-e2g">
                                                 <rect key="frame" x="0.0" y="0.0" width="133" height="20.5"/>
@@ -2196,7 +2196,7 @@
                                         </subviews>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" axis="vertical" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="aIB-OX-mpx">
-                                        <rect key="frame" x="332.5" y="0.0" width="41.5" height="61.5"/>
+                                        <rect key="frame" x="141" y="0.0" width="41.5" height="61.5"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GHQ-gT-yHr">
                                                 <rect key="frame" x="0.0" y="0.0" width="41.5" height="20.5"/>

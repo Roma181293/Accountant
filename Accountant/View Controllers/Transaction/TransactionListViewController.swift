@@ -16,7 +16,7 @@ class TransactionListViewController: UIViewController{
     
     private var interstitial: GADInterstitialAd?
     
-    let context = CoreDataStack.shared.persistentContainer.viewContext
+    var context = CoreDataStack.shared.persistentContainer.viewContext
     
     let coreDataStack = CoreDataStack.shared
     var resultSearchController = UISearchController()
@@ -34,6 +34,10 @@ class TransactionListViewController: UIViewController{
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        //MARK:- adding NotificationCenter observers
+        NotificationCenter.default.addObserver(self, selector: #selector(self.envirometDidChange), name: .environmentDidChange, object: nil)
+        
         addButtonToViewController()
         tableView.register(ComplexTransactionTableViewCell.self, forCellReuseIdentifier: Constants.Cell.complexTransactionCell)
         
@@ -47,7 +51,14 @@ class TransactionListViewController: UIViewController{
             
             return controller
         })()
+        
+        
     }
+    
+    deinit{
+        NotificationCenter.default.removeObserver(self, name: .environmentDidChange, object: nil)
+    }
+    
     
     
     override func viewWillAppear(_ animated: Bool) {
@@ -99,6 +110,20 @@ class TransactionListViewController: UIViewController{
         let transactionEditorVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.simpleTransactionEditorViewController) as! SimpleTransactionEditorViewController
         transactionEditorVC.interstitial = interstitial
         self.navigationController?.pushViewController(transactionEditorVC, animated: true)
+    }
+    
+    
+    @objc func envirometDidChange(){
+        context = CoreDataStack.shared.persistentContainer.viewContext
+        fetchedResultsController = {
+            let fetchRequest : NSFetchRequest<Transaction> = NSFetchRequest<Transaction>(entityName: "Transaction")
+            fetchRequest.sortDescriptors = [NSSortDescriptor(key: "date", ascending: false)]
+            
+            fetchRequest.fetchBatchSize = 20
+            let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: coreDataStack.persistentContainer.viewContext, sectionNameKeyPath: nil, cacheName: nil)
+
+            return frc
+        }()
     }
     
     
