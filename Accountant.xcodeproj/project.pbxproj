@@ -38,7 +38,6 @@
 		2B1FEAE8266CAF6C00BF53BD /* Extension Formatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1FEAE3266CAF6C00BF53BD /* Extension Formatter.swift */; };
 		2B1FEAE9266CAF6C00BF53BD /* Extension UIResponder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1FEAE4266CAF6C00BF53BD /* Extension UIResponder.swift */; };
 		2B1FEAEA266CAF6C00BF53BD /* Extension Double.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1FEAE5266CAF6C00BF53BD /* Extension Double.swift */; };
-		2B1FEAF2266CAFE600BF53BD /* AccountManagerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1FEAF1266CAFE600BF53BD /* AccountManagerTableViewCell.swift */; };
 		2B1FEAF7266CB2C200BF53BD /* CurrencyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1FEAF6266CB2C200BF53BD /* CurrencyTableViewCell.swift */; };
 		2B1FEAFC266CB61000BF53BD /* CurrencyTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1FEAFB266CB61000BF53BD /* CurrencyTableViewController.swift */; };
 		2B1FEB18266CBA6000BF53BD /* AccountNavigatorTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1FEB16266CBA6000BF53BD /* AccountNavigatorTableViewController.swift */; };
@@ -133,7 +132,6 @@
 		2B1FEAE3266CAF6C00BF53BD /* Extension Formatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Extension Formatter.swift"; sourceTree = "<group>"; };
 		2B1FEAE4266CAF6C00BF53BD /* Extension UIResponder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Extension UIResponder.swift"; sourceTree = "<group>"; };
 		2B1FEAE5266CAF6C00BF53BD /* Extension Double.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Extension Double.swift"; sourceTree = "<group>"; };
-		2B1FEAF1266CAFE600BF53BD /* AccountManagerTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountManagerTableViewCell.swift; sourceTree = "<group>"; };
 		2B1FEAF6266CB2C200BF53BD /* CurrencyTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrencyTableViewCell.swift; sourceTree = "<group>"; };
 		2B1FEAFB266CB61000BF53BD /* CurrencyTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CurrencyTableViewController.swift; path = /Users/romantopchii/Desktop/Developer/Accountant/Accountant/CurrencyTableViewController.swift; sourceTree = "<absolute>"; };
 		2B1FEB16266CBA6000BF53BD /* AccountNavigatorTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountNavigatorTableViewController.swift; sourceTree = "<group>"; };
@@ -305,16 +303,15 @@
 		2B1FEAB2266C3ACE00BF53BD /* Cells */ = {
 			isa = PBXGroup;
 			children = (
+				2B67989D26768E3200063A7C /* SimpleTransactionTableViewCell.swift */,
+				2B4976FB26DBE90B00147EAA /* ComplexTransactionTableViewCell.swift */,
+				2BC058BC26CDB63E00FE896C /* TransactionItemTableViewCell.swift */,
 				2B1FEB5D266D748F00BF53BD /* AccountInForeignCurrencyTableViewCell.swift */,
 				2B2E2E8A26E0054400A6CFDD /* AnalyticTableViewCell.swift */,
-				2BC058BC26CDB63E00FE896C /* TransactionItemTableViewCell.swift */,
-				2B1FEAF1266CAFE600BF53BD /* AccountManagerTableViewCell.swift */,
 				2B1FEAF6266CB2C200BF53BD /* CurrencyTableViewCell.swift */,
 				2B1FEB5C266D748E00BF53BD /* MoneyAccountTableViewCell.swift */,
 				2B1FEBB5266EE45F00BF53BD /* PreTransactionTableViewCell.swift */,
 				2B1FEB97266EDE5000BF53BD /* SettingWithSwitchTableViewCell.swift */,
-				2B67989D26768E3200063A7C /* SimpleTransactionTableViewCell.swift */,
-				2B4976FB26DBE90B00147EAA /* ComplexTransactionTableViewCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -700,7 +697,6 @@
 				2B949BAF2665B4040033383A /* AppDelegate.swift in Sources */,
 				2B949BB12665B4040033383A /* SceneDelegate.swift in Sources */,
 				2B1FEADB266CAEC200BF53BD /* AddAccountViewController.swift in Sources */,
-				2B1FEAF2266CAFE600BF53BD /* AccountManagerTableViewCell.swift in Sources */,
 				2B1FEAF7266CB2C200BF53BD /* CurrencyTableViewCell.swift in Sources */,
 				2B1FEB7B266EC39800BF53BD /* AnalyticsTableViewController.swift in Sources */,
 				2B4976FC26DBE90B00147EAA /* ComplexTransactionTableViewCell.swift in Sources */,
