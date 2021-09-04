@@ -9,7 +9,7 @@
 import Foundation
 
 protocol CurrencyHistoricalDataProtocol {
-    func exchangeDate() -> String?  //dd.MM.yyyy
+    func exchangeDateStringFormat() -> String?  //dd.MM.yyyy
     func ecxhangeDate() -> Date?
     func exchangeRate(curr: String, to curr1 : String) -> Double?
     func listOfCurrencies() -> [String]

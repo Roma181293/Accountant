@@ -16,7 +16,7 @@ struct CurrencyHistoricalDataNB : Codable, CurrencyHistoricalDataProtocol {
     }
    
     
-    func exchangeDate() -> String? {
+    func exchangeDateStringFormat() -> String? {
         return exchangeRatesList.first?.exchangedate
     }
     

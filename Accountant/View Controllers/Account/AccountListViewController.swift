@@ -47,16 +47,22 @@ class AccountListViewController: UIViewController, UIScrollViewDelegate{
     
     private var currencyHistoricalData : CurrencyHistoricalDataProtocol?{
         didSet {
-            if let currencyHistoricalData = currencyHistoricalData, let exchangeDate = currencyHistoricalData.exchangeDate() {
+            if let currencyHistoricalData = currencyHistoricalData,
+               let exchangeDateString = currencyHistoricalData.exchangeDateStringFormat(),
+               let exchangeDate = currencyHistoricalData.ecxhangeDate() {
+                
                 let dateFormatter = DateFormatter()
                 dateFormatter.dateFormat = "dd.MM.yyyy"
-                let today = dateFormatter.string(from:Date())
-                if today == exchangeDate{
+                
+                if dateFormatter.string(from:Date()) == exchangeDateString{
                     currencyDateLable.text = ""
                 }
                 else {
-                    //FIXME:-  "Exchange rate updated: %@" указывает дату в неверном формате, так как курс валют хранит дату в формате строки
-                    currencyDateLable.text = String(format: NSLocalizedString("Exchange rate updated: %@",comment: ""), exchangeDate)
+                    let localeDateFormatter = DateFormatter()
+                    localeDateFormatter.dateStyle = .short
+                    localeDateFormatter.timeStyle = .none
+                    localeDateFormatter.locale = Locale(identifier: "\(Bundle.main.localizations.first ?? "en")_\(Locale.current.regionCode ?? "US")")
+                    currencyDateLable.text = String(format: NSLocalizedString("Exchange rate updated: %@",comment: ""), localeDateFormatter.string(from: exchangeDate))
                 }
             }
         }

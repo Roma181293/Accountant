@@ -23,7 +23,7 @@ struct CurrencyHistoricalDataPB: Codable, CurrencyHistoricalDataProtocol {
         case exchangeRatesList = "exchangeRate"
     }
     
-    func exchangeDate() -> String? {
+    func exchangeDateStringFormat() -> String? {
         return date
     }
     

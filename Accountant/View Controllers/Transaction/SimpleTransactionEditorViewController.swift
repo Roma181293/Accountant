@@ -324,7 +324,7 @@ class SimpleTransactionEditorViewController: UIViewController, GADFullScreenCont
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd.MM.yyyy"
         
-        if let storedCurrencyHistoricalData = UserProfile.getLastExchangeRate(), storedCurrencyHistoricalData.exchangeDate() == dateFormatter.string(from:datePicker.date) {
+        if let storedCurrencyHistoricalData = UserProfile.getLastExchangeRate(), storedCurrencyHistoricalData.exchangeDateStringFormat() == dateFormatter.string(from:datePicker.date) {
             currencyHistoricalData = storedCurrencyHistoricalData
         }
         else {
