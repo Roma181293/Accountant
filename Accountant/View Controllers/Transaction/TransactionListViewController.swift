@@ -9,16 +9,17 @@
 import UIKit
 import CoreData
 import GoogleMobileAds
+import Purchases
 
 class TransactionListViewController: UIViewController{
     
     @IBOutlet weak var tableView: UITableView!
     
-    private var interstitial: GADInterstitialAd?
-    
-    var context = CoreDataStack.shared.persistentContainer.viewContext
+    var isUserHasPaidAccess: Bool = false
     
     let coreDataStack = CoreDataStack.shared
+    var context = CoreDataStack.shared.persistentContainer.viewContext
+    
     var resultSearchController = UISearchController()
     
     lazy var fetchedResultsController : NSFetchedResultsController<Transaction> = {
@@ -31,12 +32,20 @@ class TransactionListViewController: UIViewController{
         return frc
     }()
     
+    private var interstitial: GADInterstitialAd?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        //Set black color under cells in dark mode
+        let backView = UIView(frame: self.tableView.bounds)
+        backView.backgroundColor = .systemBackground
+         self.tableView.backgroundView = backView
         
         //MARK:- adding NotificationCenter observers
-        NotificationCenter.default.addObserver(self, selector: #selector(self.envirometDidChange), name: .environmentDidChange, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.environmentDidChange), name: .environmentDidChange, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.reloadProAccessData), name: .receivedProAccessData, object: nil)
+        
+        reloadProAccessData()
         
         addButtonToViewController()
         tableView.register(ComplexTransactionTableViewCell.self, forCellReuseIdentifier: Constants.Cell.complexTransactionCell)
@@ -51,32 +60,32 @@ class TransactionListViewController: UIViewController{
             
             return controller
         })()
-        
-        
     }
-    
-    deinit{
-        NotificationCenter.default.removeObserver(self, name: .environmentDidChange, object: nil)
-    }
-    
-    
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
+        
         self.tabBarController?.navigationItem.title = NSLocalizedString("Transactions", comment: "")
+        if isUserHasPaidAccess == false {
+            self.tabBarController?.navigationItem.rightBarButtonItem = UIBarButtonItem(title: NSLocalizedString("Get PRO", comment: ""), style: .plain, target: self, action: #selector(self.showPurchaseOfferVC))
+        }
         
         fetchData()
 
-        if let entitlement = UserProfile.getEntitlement(),
-           (entitlement.name != .pro || (entitlement.name != .pro && entitlement.expirationDate! < Date())) {
+        if isUserHasPaidAccess == false {
             createAd()
         }
     }
     
-    
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(true)
+        self.tabBarController?.navigationItem.rightBarButtonItem = nil
         resultSearchController.dismiss(animated: true, completion: nil)
+    }
+    
+    deinit{
+        NotificationCenter.default.removeObserver(self, name: .environmentDidChange, object: nil)
+        NotificationCenter.default.removeObserver(self, name: .receivedProAccessData, object: nil)
     }
     
     func createAd() {
@@ -90,6 +99,12 @@ class TransactionListViewController: UIViewController{
                                 }
                                 interstitial = ad
                                })
+    }
+    
+    @objc func showPurchaseOfferVC() {
+        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.purchaseOfferViewController) as! PurchaseOfferViewController
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     func fetchData() {
@@ -113,7 +128,7 @@ class TransactionListViewController: UIViewController{
     }
     
     
-    @objc func envirometDidChange(){
+    @objc func environmentDidChange(){
         context = CoreDataStack.shared.persistentContainer.viewContext
         fetchedResultsController = {
             let fetchRequest : NSFetchRequest<Transaction> = NSFetchRequest<Transaction>(entityName: "Transaction")
@@ -124,6 +139,19 @@ class TransactionListViewController: UIViewController{
 
             return frc
         }()
+    }
+    
+    @objc func reloadProAccessData() {
+        Purchases.shared.purchaserInfo { (purchaserInfo, error) in
+            if purchaserInfo?.entitlements.all["pro"]?.isActive == true {
+                self.isUserHasPaidAccess = true
+                self.tabBarController?.navigationItem.rightBarButtonItem = nil
+            }
+            else if purchaserInfo?.entitlements.all["pro"]?.isActive == false {
+                self.isUserHasPaidAccess = false
+                self.tabBarController?.navigationItem.rightBarButtonItem = UIBarButtonItem(title: NSLocalizedString("Get PRO", comment: ""), style: .bordered, target: self, action: #selector(self.showPurchaseOfferVC))
+            }
+        }
     }
     
     
@@ -180,17 +208,17 @@ extension TransactionListViewController: UITableViewDelegate, UITableViewDataSou
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
-        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let transactioEditorVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.complexTransactionEditorViewController) as! ComplexTransactionEditorViewController
-        transactioEditorVC.transaction = fetchedResultsController.object(at: indexPath) as Transaction
-        transactioEditorVC.context = context
-        self.navigationController?.pushViewController(transactioEditorVC, animated: true)
-        
 //        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-//        let transactioEditorVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.simpleTransactionEditorViewController) as! SimpleTransactionEditorViewController
+//        let transactioEditorVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.complexTransactionEditorViewController) as! ComplexTransactionEditorViewController
 //        transactioEditorVC.transaction = fetchedResultsController.object(at: indexPath) as Transaction
-//        transactioEditorVC.interstitial = interstitial
+//        transactioEditorVC.context = context
 //        self.navigationController?.pushViewController(transactioEditorVC, animated: true)
+//
+        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let transactioEditorVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.simpleTransactionEditorViewController) as! SimpleTransactionEditorViewController
+        transactioEditorVC.transaction = fetchedResultsController.object(at: indexPath) as Transaction
+        transactioEditorVC.interstitial = interstitial
+        self.navigationController?.pushViewController(transactioEditorVC, animated: true)
         
     }
     
@@ -218,17 +246,16 @@ extension TransactionListViewController: UITableViewDelegate, UITableViewDataSou
         
         let copy = UIContextualAction(style: .normal, title: NSLocalizedString("Copy",comment: "")) { _, _, complete in
             do {
-//                guard let entitlement = UserProfile.getEntitlement(), let expirationDate = entitlement.expirationDate, expirationDate > Date() else {
-//                    let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-//                    let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.purchaseOfferViewController) as! PurchaseOfferViewController
-//                    self.navigationController?.pushViewController(vc, animated: true)
-//                    return}
-//                
-                let transaction = self.fetchedResultsController.object(at: indexPath) as Transaction
-                TransactionManager.copyTransaction(transaction, context: self.context)
-                try self.coreDataStack.saveContext(self.context)
-                try self.fetchedResultsController.performFetch()
-                self.tableView.reloadData()
+                if self.isUserHasPaidAccess {
+                    let transaction = self.fetchedResultsController.object(at: indexPath) as Transaction
+                    TransactionManager.copyTransaction(transaction, context: self.context)
+                    try self.coreDataStack.saveContext(self.context)
+                    try self.fetchedResultsController.performFetch()
+                    self.tableView.reloadData()
+                }
+                else  {
+                    self.showPurchaseOfferVC()
+                }
             }
             catch {
                 let alert = UIAlertController(title: NSLocalizedString("Error",comment: ""), message: "\(error.localizedDescription)", preferredStyle: .alert)

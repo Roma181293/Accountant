@@ -132,6 +132,22 @@ class AccountManager {
         return fillAccountAttributes(parent: parent, name : name, type : type, currency : currency, subType : subType, createdByUser : createdByUser, createDate: createDate, context: context)
     }
     
+    static func createAndGetAccountForImport(parent: Account?, name : String, type : Int16?, currency : Currency?, subType : Int16? = nil, createdByUser : Bool = true, createDate: Date = Date(), context: NSManagedObjectContext) throws -> Account {
+        
+        if parent == nil && type == nil {throw AccountError.attributeTypeShouldBeInitializeForRootAccount}
+        
+        // accounts with reserved names can create only app
+        //guard createdByUser == false || isReservedAccountName(name) == false else {throw AccountError.reservedAccountName}
+        guard isFreeAccountName(parent: parent, name : name, context: context) == true else {throw AccountError.accontAlreadyExists(name: name)}
+        
+        if let parent = parent, !AccountManager.isFreeFromTransactionItems(account: parent) {
+            let new = fillAccountAttributes(parent: parent, name: AccountsNameLocalisationManager.getLocalizedAccountName(.other1) , type : type, currency : currency, subType : subType, createdByUser : createdByUser, createDate: createDate, context: context)
+            TransactionItemManager.moveTransactionItemsFrom(oldAccount: parent, newAccount: new, modifiedByUser: createdByUser, modifyDate: createDate)
+        }
+        
+        return fillAccountAttributes(parent: parent, name : name, type : type, currency : currency, subType : subType, createdByUser : createdByUser, createDate: createDate, context: context)
+    }
+    
     
     static func createAccount(parent: Account?, name : String, type : Int16?, currency : Currency?, moneyAccountType : Int16? = nil, createdByUser : Bool = true, context: NSManagedObjectContext) throws {
         try createAndGetAccount(parent: parent, name : name, type : type, currency : currency, subType : moneyAccountType, createdByUser : createdByUser, context: context)
@@ -439,7 +455,7 @@ class AccountManager {
             let linkedAccount = AccountManager.getAccountWithPath(row[6], context: context)
             
             
-            let account = try? AccountManager.createAndGetAccount(parent: parent, name: name, type: accountType, currency: curency, context: context)
+            let account = try? AccountManager.createAndGetAccountForImport(parent: parent, name: name, type: accountType, currency: curency, context: context)
             account?.linkedAccount = linkedAccount
             account?.subType = accountSubType
             account?.isHidden = isHidden

@@ -8,6 +8,7 @@
 
 import UIKit
 import GoogleMobileAds
+import Purchases
 
 class ConfigureAnalyticsViewController: UIViewController {
     
@@ -16,6 +17,8 @@ class ConfigureAnalyticsViewController: UIViewController {
     @IBOutlet weak var sortedBySegmentedControl: UISegmentedControl!
     @IBOutlet weak var dateComponentSegmentedControl: UISegmentedControl!
     @IBOutlet weak var myView: UIView!
+    
+    var isUserHasPaidAccess = false
     
     //Transfered data
     var analyticsViewController : AnalyticsViewController!
@@ -36,6 +39,12 @@ class ConfigureAnalyticsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        //MARK:- adding NotificationCenter observers
+        NotificationCenter.default.addObserver(self, selector: #selector(self.reloadProAccessData), name: .receivedProAccessData, object: nil)
+        
+        reloadProAccessData()
+        
         //MARK: - Content for user that doesnt pay
         interstitial?.fullScreenContentDelegate = analyticsViewController
 //        showContentForNonPaidUser()
@@ -56,6 +65,7 @@ class ConfigureAnalyticsViewController: UIViewController {
     
     deinit {
         print("ConfigureAnalyticsVC",#function)
+        NotificationCenter.default.removeObserver(self, name: .receivedProAccessData, object: nil)
     }
     
     
@@ -90,7 +100,7 @@ class ConfigureAnalyticsViewController: UIViewController {
         if analyticsViewController.transferedDateInterval == dateInterval &&
             analyticsViewController.sortCategoryBy != sortCategoryBy &&
             analyticsViewController.dateComponent == dateComponent {
-            guard let entitlement = UserProfile.getEntitlement(), let expirationDate = entitlement.expirationDate, expirationDate > Date() || isPurchaseOfferDidShow
+            guard isUserHasPaidAccess || isPurchaseOfferDidShow
             else {
                 let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
                 let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.purchaseOfferViewController) as! PurchaseOfferViewController
@@ -109,7 +119,7 @@ class ConfigureAnalyticsViewController: UIViewController {
         else  if analyticsViewController.transferedDateInterval != dateInterval ||
                     analyticsViewController.sortCategoryBy != sortCategoryBy ||
                     analyticsViewController.dateComponent != dateComponent {
-            guard let entitlement = UserProfile.getEntitlement(), let expirationDate = entitlement.expirationDate, expirationDate > Date() || isPurchaseOfferDidShow
+            guard isUserHasPaidAccess || isPurchaseOfferDidShow
             else {
                 let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
                 let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.purchaseOfferViewController) as! PurchaseOfferViewController
@@ -136,8 +146,7 @@ class ConfigureAnalyticsViewController: UIViewController {
     }
     
     func showContentForNonPaidUser() {
-        if let entitlement = UserProfile.getEntitlement(),
-           (entitlement.name != .pro || (entitlement.name != .pro && entitlement.expirationDate! < Date())) {
+        guard isUserHasPaidAccess == false else  {return}
             DispatchQueue.main.asyncAfter(deadline: DispatchTime(uptimeNanoseconds: 25), execute:{
                 switch UserProfile.whatPreContentShowInView(.configureAnalytics) {
                 case .add:
@@ -153,7 +162,7 @@ class ConfigureAnalyticsViewController: UIViewController {
                     return
                 }
             })
-        }
+        
     }
     
     private func configureDatePickers() {
@@ -199,6 +208,17 @@ class ConfigureAnalyticsViewController: UIViewController {
     @IBAction func setEndDate() {
         if let pickedDate = calendar.date(byAdding: .day, value: +1, to: endDatePicker.date){
             self.dateInterval = DateInterval(start: dateInterval.start, end: pickedDate)
+        }
+    }
+    
+    @objc func reloadProAccessData() {
+        Purchases.shared.purchaserInfo { (purchaserInfo, error) in
+            if purchaserInfo?.entitlements.all["pro"]?.isActive == true {
+                self.isUserHasPaidAccess = true
+            }
+            else if purchaserInfo?.entitlements.all["pro"]?.isActive == false {
+                self.isUserHasPaidAccess = false
+            }
         }
     }
 }

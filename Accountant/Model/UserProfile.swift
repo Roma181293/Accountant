@@ -52,6 +52,8 @@ class UserProfile {
             return nil
         }
     }
+    
+    
     static func firstAppLaunch() {
         let defaults = UserDefaults.standard
         defaults.set(true, forKey: "appLaunchedBefore")
@@ -65,6 +67,7 @@ class UserProfile {
             return false
         }
     }
+    
     
     static func setUserAuth(_ authType: AuthType) {
         let defaults = UserDefaults.standard
@@ -83,6 +86,7 @@ class UserProfile {
         return AuthType.none
     }
     
+    
     static func setAppBecomeBackgroundDate(_ date: Date?) {
         if getAppBecomeBackgroundDate() == nil {
             let defaults = UserDefaults.standard
@@ -99,6 +103,7 @@ class UserProfile {
         return date
     }
     
+    
     static func setAccountingStartDate(_ date: Date) {
         if getAppBecomeBackgroundDate() == nil {
             let defaults = UserDefaults.standard
@@ -111,6 +116,20 @@ class UserProfile {
         return date
     }
     
+    
+    static func setLastAccessCheckDate() {
+        if getAppBecomeBackgroundDate() == nil {
+            let defaults = UserDefaults.standard
+            defaults.set(Date(), forKey: "lastAccessCheckDate")
+        }
+    }
+    
+    static func getLastAccessCheckDate() -> Date? {
+        guard let date = UserDefaults.standard.object(forKey: "lastAccessCheckDate") as? Date else {return nil}
+        return date
+    }
+    
+    
     static func autoCreateBudgetsMethodDidWorked() {
         UserDefaults.standard.set(Date(), forKey: "autoCreateBudgetsMethodDidWorked")
     }
@@ -118,41 +137,6 @@ class UserProfile {
     static func lastGereratedBudgetsDate() -> Date? {
         guard let date = UserDefaults.standard.object(forKey: "autoCreateBudgetsMethodDidWorked") as? Date else {return nil}
         return date
-    }
-    
-    
-    static func setEntitlement(_ entitlement: Entitlement) {
-            let defaults = UserDefaults.standard
-        defaults.set(entitlement.name.rawValue, forKey: "Subscriprion.entitlement")
-        defaults.set(entitlement.expirationDate, forKey: "Subscriprion.expirationDate")
-        defaults.set(entitlement.lastUpdate, forKey: "Subscriprion.lastUpdate")
-    }
-    
-    static func getEntitlement() -> Entitlement? {
-        guard let entitlementString = UserDefaults.standard.object(forKey: "Subscriprion.entitlement") as? String,
-              let lastUpdate = UserDefaults.standard.object(forKey: "Subscriprion.lastUpdate") as? Date else {return nil}
-        
-        guard let expirationDate = UserDefaults.standard.object(forKey: "Subscriprion.expirationDate") as? Date else {
-            let name: EntitlementPacketName
-            switch entitlementString {
-            case "pro":
-                name = .pro
-            default:
-                name = .none
-            }
-            
-            return Entitlement(name: name, expirationDate: nil, lastUpdate: lastUpdate)
-        }
-        
-        
-        let name: EntitlementPacketName
-        switch entitlementString {
-        case "pro":
-            name = .pro
-        default:
-            name = .none
-        }
-        return Entitlement(name: name, expirationDate: expirationDate, lastUpdate: lastUpdate)
     }
     
     //MARK:- ADD AND OFFER COUNTERS

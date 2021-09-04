@@ -427,9 +427,9 @@
 				2B1FEA8F266C334500BF53BD /* View Controllers */,
 				2B1FEAB2266C3ACE00BF53BD /* Cells */,
 				2B949BB42665B4040033383A /* Main.storyboard */,
+				2B949BBC2665B4080033383A /* LaunchScreen.storyboard */,
 				2B3F0D1026A0EFA000AA514B /* Localizable.strings */,
 				2B949BBA2665B4080033383A /* Assets.xcassets */,
-				2B949BBC2665B4080033383A /* LaunchScreen.storyboard */,
 				2B949BBF2665B4080033383A /* Info.plist */,
 			);
 			path = Accountant;

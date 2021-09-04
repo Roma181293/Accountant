@@ -16,18 +16,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-        //MARK: Subscriprion
+        //MARK: REVENUECAT initializing
         Purchases.debugLogsEnabled = true
         Purchases.configure(withAPIKey: Constants.APIKey.revenueCat)
-        Purchases.shared.purchaserInfo { (purchaserInfo, error) in
-            if purchaserInfo?.entitlements.all["pro"]?.isActive == true {
-                UserProfile.setEntitlement(Entitlement(name: .pro, expirationDate: purchaserInfo?.entitlements.all["pro"]?.expirationDate))
-            }
-            else {
-                UserProfile.setEntitlement(Entitlement(name: .none, expirationDate: purchaserInfo?.entitlements.all["pro"]?.expirationDate))
-            }
-            print(UserProfile.getEntitlement())
-        }
         
         //MARK:GOOGLE ADD initializing
         GADMobileAds.sharedInstance().start(completionHandler: nil)
@@ -42,16 +33,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
         
+        
         //MARK: Check is app launched before
+        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         if !UserProfile.isAppLaunchedBefore() {
-            let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
             let setNameVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.setAccountingStartDateViewController) as! SetAccountingStartDateViewController
             window = UIWindow(frame: UIScreen.main.bounds)
             window?.makeKeyAndVisible()
             window?.rootViewController = UINavigationController(rootViewController: setNameVC)
         }
         else if UserProfile.getUserAuth() == .bioAuth {
-            let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
             let authVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.bioAuthViewController) as! BiometricAuthViewController
             window = UIWindow(frame: UIScreen.main.bounds)
             window?.makeKeyAndVisible()
@@ -67,8 +58,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func applicationWillEnterForeground(_ application: UIApplication) {
-        let userAuthType = UserProfile.getUserAuth()
         let calendar = Calendar.current
+        print("UserProfile.setLastAccessCheckDate()", UserProfile.setLastAccessCheckDate())
+        //MARK: - GET PURCHASER INFO
+        if let lastAccessCheckDate = UserProfile.getLastAccessCheckDate(),
+           let secureDate = calendar.date(byAdding: .hour, value: 6, to: lastAccessCheckDate),
+               secureDate > Date() {
+            Purchases.shared.purchaserInfo { (purchaserInfo, error) in
+                NotificationCenter.default.post(name: .receivedProAccessData, object: nil)
+                UserProfile.setLastAccessCheckDate()
+            }
+        }
+        
+        //MARK: - AUTH BLOCK
+        let userAuthType = UserProfile.getUserAuth()
         if userAuthType == .bioAuth {
             let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
             let authVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.bioAuthViewController) as! BiometricAuthViewController

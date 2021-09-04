@@ -16,19 +16,19 @@ class SubsctiptionStatusViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        guard let entitlement = UserProfile.getEntitlement() else {return}
-        
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = .short
-        dateFormatter.timeStyle = .medium
-        dateFormatter.locale = Locale(identifier: "\(Bundle.main.localizations.first ?? "en")_\(Locale.current.regionCode ?? "US")")
-        
-        
-        entitlementName.text = String(entitlement.name.rawValue)
-        if let expDate = entitlement.expirationDate {
-            expirationDate.text = dateFormatter.string(from: expDate)
-        }
-        lastUpdate.text = dateFormatter.string(from: entitlement.lastUpdate)
+//        guard let entitlement = UserProfile.getEntitlement() else {return}
+//        
+//        let dateFormatter = DateFormatter()
+//        dateFormatter.dateStyle = .short
+//        dateFormatter.timeStyle = .medium
+//        dateFormatter.locale = Locale(identifier: "\(Bundle.main.localizations.first ?? "en")_\(Locale.current.regionCode ?? "US")")
+//        
+//        
+//        entitlementName.text = String(entitlement.name.rawValue)
+//        if let expDate = entitlement.expirationDate {
+//            expirationDate.text = dateFormatter.string(from: expDate)
+//        }
+//        lastUpdate.text = dateFormatter.string(from: entitlement.lastUpdate)
     }
     
 

@@ -12,13 +12,10 @@ import LocalAuthentication
 class SettingWithSwitchTableViewCell: UITableViewCell {
     
     @IBOutlet weak var title : UILabel!
-    
     @IBOutlet weak var switcher : UISwitch!
-    
     
     private var isAuthConfigure: Bool = false
     private var isEnviromentConfigure: Bool = false
-    
     
     func updateForAuthConfigure() {
         isAuthConfigure = true
@@ -74,7 +71,7 @@ class SettingWithSwitchTableViewCell: UITableViewCell {
         }
         
         
-        if isEnviromentConfigure {
+        else if isEnviromentConfigure {
             UserProfile.setDateOfLastChangesInDB(Date())
             
             if sender.isOn {
@@ -102,15 +99,9 @@ class SettingWithSwitchTableViewCell: UITableViewCell {
     }
     
     
-    
-    
-    
- 
-    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         
         // Configure the view for the selected state
     }
-    
 }

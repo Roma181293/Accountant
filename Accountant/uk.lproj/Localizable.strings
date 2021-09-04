@@ -28,6 +28,7 @@
 "To:" = "До:";
 
 "Transactions" = "Операції";
+"Get PRO" = " PRO";
 "Remove" = "Видалити";
 "Do you really want remove transaction?" = "Ви дійсно хочете видалити операцію?";
 "Yes" = "Так";
@@ -159,6 +160,11 @@
 "Import Transaction List" = "Імпортувати операції";
 "Add data for test app" = "Додати даннi для тестування додатку";
 "Account & category editor" = "Редактор рахунків та категорій";
+"Terms of use" = "Умови використання";
+"Privacy policy" = "Політика конфіденційності";
+"PRO access" = "PRO доступ";
+"till" = "до";
+"Get PRO access" = "Отримати PRO доступ";
 
 //SettingWithSwitchTableViewCell
 "Test mode" = "Тестовий режим";

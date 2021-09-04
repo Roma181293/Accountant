@@ -31,7 +31,7 @@ class PurchaseOfferViewController: UIViewController {
     let paymentDetailLabel: UILabel = {
         let paymentDetailLabel = UILabel()
         paymentDetailLabel.textAlignment = .center
-        paymentDetailLabel.text = "Оплату за підписку буде стягнуто з вашого рахунку iTunes під час підтвердження покупки. Підписка подовжується автоматично, якщо ви не скасували її принаймі за 24 години до завершення поточного періоду. Оплата за подовження буде списано протягом доби, що передує даті завершення поточного періоду. Керувати підпискою та скасувани її можно в налаштуваннях облікового запису iTunes"
+        paymentDetailLabel.text = "Оплату за підписку буде стягнуто з вашого рахунку iTunes під час підтвердження покупки. Підписка подовжується автоматично, якщо ви не скасували її принаймі за 24 години до завершення поточного періоду. Оплата за подовження буде списано протягом доби, що передує даті завершення поточного періоду. Керувати підпискою та скасувати її можно в налаштуваннях облікового запису iTunes"
         paymentDetailLabel.textColor = .label
         paymentDetailLabel.font = .systemFont(ofSize: 12.0)
         paymentDetailLabel.lineBreakMode = .byWordWrapping
@@ -53,7 +53,6 @@ class PurchaseOfferViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         self.navigationItem.title = NSLocalizedString("PRO access", comment: "")
         
         self.view.addSubview(mainView)
@@ -149,12 +148,11 @@ class PurchaseOfferViewController: UIViewController {
             }
             else {
                 if purchaserInfo?.entitlements.all["pro"]?.isActive == true {
-                    UserProfile.setEntitlement(Entitlement(name: .pro, expirationDate: purchaserInfo?.entitlements.all["pro"]?.expirationDate))
-                }
-                else {
-                    UserProfile.setEntitlement(Entitlement(name: .none, expirationDate: purchaserInfo?.entitlements.all["pro"]?.expirationDate))
-                }
-                self.dismiss(animated: true, completion: nil)
+                    NotificationCenter.default.post(name: .receivedProAccessData, object: nil)
+                    UserProfile.setLastAccessCheckDate()
+                    
+                    self.dismiss(animated: true, completion: nil)
+                    self.navigationController?.popToRootViewController(animated: true)}
             }
         }
     }

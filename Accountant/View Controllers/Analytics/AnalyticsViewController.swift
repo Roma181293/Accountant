@@ -11,20 +11,24 @@ import UIKit
 import Charts
 import CoreData
 import GoogleMobileAds
+import Purchases
 
 class AnalyticsViewController: UIViewController, UIScrollViewDelegate, GADFullScreenContentDelegate{
     
     @IBOutlet weak var segmentedControl: UISegmentedControl!
     @IBOutlet weak var pageControl: UIPageControl!
     @IBOutlet weak var scrollView: UIScrollView!
+    
+    var isUserHasPaidAccess = false
+    
+    private let coreDataStack = CoreDataStack.shared
+    var context = CoreDataStack.shared.persistentContainer.viewContext
+    
     unowned var analyticsTableViewController: AnalyticsTableViewController!
     
     private var interstitial: GADInterstitialAd?
     
     private var slides:[UIView] = []
-    
-    private let coreDataStack = CoreDataStack.shared
-    var context = CoreDataStack.shared.persistentContainer.viewContext
     
     private let calendar = Calendar.current
     private var dateOfLastChangesInDB : Date?
@@ -52,6 +56,9 @@ class AnalyticsViewController: UIViewController, UIScrollViewDelegate, GADFullSc
         
         //MARK:- adding NotificationCenter observers
         NotificationCenter.default.addObserver(self, selector: #selector(self.environmentDidChange), name: .environmentDidChange, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.reloadProAccessData), name: .receivedProAccessData, object: nil)
+        
+        reloadProAccessData()
         
         accountingCurrency = CurrencyManager.getAccountingCurrency(context: context)!
         scrollView.delegate = self
@@ -81,14 +88,14 @@ class AnalyticsViewController: UIViewController, UIScrollViewDelegate, GADFullSc
             setValueToDateInterval()
             updateUI()
         }
-        if let entitlement = UserProfile.getEntitlement(),
-           (entitlement.name != .pro || (entitlement.name != .pro && entitlement.expirationDate! < Date())) {
+        if isUserHasPaidAccess == false {
             createAd()
         }
     }
     
     deinit{
         NotificationCenter.default.removeObserver(self, name: .environmentDidChange, object: nil)
+        NotificationCenter.default.removeObserver(self, name: .receivedProAccessData, object: nil)
     }
     
     @IBAction func chooseAccount(_ sender: UISegmentedControl) {
@@ -287,6 +294,17 @@ class AnalyticsViewController: UIViewController, UIScrollViewDelegate, GADFullSc
             scrollView.scrollToLeft(animated: false)
             setValueToDateInterval()
             updateUI()
+        }
+    }
+    
+    @objc func reloadProAccessData() {
+        Purchases.shared.purchaserInfo { (purchaserInfo, error) in
+            if purchaserInfo?.entitlements.all["pro"]?.isActive == true {
+                self.isUserHasPaidAccess = true
+            }
+            else if purchaserInfo?.entitlements.all["pro"]?.isActive == false {
+                self.isUserHasPaidAccess = false
+            }
         }
     }
 }
