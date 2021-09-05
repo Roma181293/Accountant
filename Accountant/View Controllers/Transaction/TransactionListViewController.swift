@@ -145,11 +145,11 @@ class TransactionListViewController: UIViewController{
         Purchases.shared.purchaserInfo { (purchaserInfo, error) in
             if purchaserInfo?.entitlements.all["pro"]?.isActive == true {
                 self.isUserHasPaidAccess = true
-                self.tabBarController?.navigationItem.rightBarButtonItem = nil
+//                self.tabBarController?.navigationItem.rightBarButtonItem = nil
             }
             else if purchaserInfo?.entitlements.all["pro"]?.isActive == false {
                 self.isUserHasPaidAccess = false
-                self.tabBarController?.navigationItem.rightBarButtonItem = UIBarButtonItem(title: NSLocalizedString("Get PRO", comment: ""), style: .bordered, target: self, action: #selector(self.showPurchaseOfferVC))
+//                self.tabBarController?.navigationItem.rightBarButtonItem = UIBarButtonItem(title: NSLocalizedString("Get PRO", comment: ""), style: .bordered, target: self, action: #selector(self.showPurchaseOfferVC))
             }
         }
     }
