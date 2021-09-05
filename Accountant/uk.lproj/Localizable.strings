@@ -6,6 +6,8 @@
   Copyright © 2020 Roman Topchii. All rights reserved.
 */
 
+"AppName" = "Accountant"; //must be added to any language dictionary!!!!!
+
 //AccountsLocalisationManager
 "Income" = "Доходи";
 "Expense" = "Витрати";
@@ -140,12 +142,39 @@
 "Currency" = "Валюта";
 "Change accounting currency" = "Змінити валюту обліку";
 
+
 //PurchaseOfferViewController
 "PRO access" = "PRO доступ";
-"per day" = "на день";
-"per week" = "на тиждень";
-"per month" = "на місяць";
-"per year" = "на рік";
+"Try for free" = "Спробувати безкоштовно";
+"Subscribe" = "Оформити підписку";
+"Thanks, later" = "Дякую, пізніше";
+
+
+"Unlimited number of accounts" = "Необмежена кількість рахунків";
+"Copy transaction" = "Копіювання операцій";
+"Export accounts and transactions to the file" = "Експорт рахунків і операцій";
+"Import accounts and transactions from the file" = "Імпорт рахунків і операцій";
+"Hide account" = "Приховування рахунків";
+"Security" = "Безпека";
+"Create account in currencies different from accounting currency" = "Створення рахунків у валютах відмінних від валюти обліку";
+"No advertising" = "Відсутність реклами";
+
+
+//OfferUIView
+"per 3 days"="за 3 дня";
+"per 7 days" = "за 7 днів";
+"per week" = "за тиждень";
+"per 14 days" = "за 14 днів";
+"per month" = "за місяць";
+"per 2 months" = "за 2 місяці";
+"per 3 months" = "за 3 місяців";
+"per 6 months" = "за 6 місяців";
+"per year" = "за рік";
+
+"for free" = "безкоштовно";
+"after" = "після";
+"Discount" = "Знижка";
+
 
 //SettingsTableViewController
 

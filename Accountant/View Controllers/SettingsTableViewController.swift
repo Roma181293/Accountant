@@ -125,7 +125,7 @@ class SettingsTableViewController: UITableViewController {
             //accessoryType
             if dataSource[indexPath.row] == NSLocalizedString("Accounting currency", comment: "") ||
                 dataSource[indexPath.row] == NSLocalizedString("Account & category editor", comment: "") ||
-                dataSource[indexPath.row] == NSLocalizedString("Purchase offer", comment: "") ||
+//                dataSource[indexPath.row] == NSLocalizedString("Purchase offer", comment: "") ||
                 dataSource[indexPath.row] == NSLocalizedString("Accounts manager", comment: "") ||
                 dataSource[indexPath.row] == NSLocalizedString("Terms of use", comment: "") ||
                 dataSource[indexPath.row] == NSLocalizedString("Privacy policy", comment: "")
@@ -158,8 +158,7 @@ class SettingsTableViewController: UITableViewController {
             self.navigationController?.pushViewController(vc, animated: true)
         }
         else if dataSource[indexPath.row] == "Purchase offer"{
-            let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.purchaseOfferViewController) as! PurchaseOfferViewController
-            self.navigationController?.pushViewController(vc, animated: true)
+           showPurchaseOfferVC()
         }
         else if dataSource[indexPath.row] == NSLocalizedString("Subscriptions status", comment: "") {
             let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.subscriptionsStatusViewController) as! SubsctiptionStatusViewController
@@ -224,6 +223,12 @@ class SettingsTableViewController: UITableViewController {
             }
             self.tableView.reloadData()
         }
+    }
+    
+    func showPurchaseOfferVC() {
+        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.purchaseOfferViewController) as! PurchaseOfferViewController
+        self.navigationController?.present(vc, animated: true, completion: nil)
     }
 }
 

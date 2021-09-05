@@ -79,15 +79,15 @@ struct Constants {
         static let googleAD = "ca-app-pub-3940256099942544/4411468910"
     }
     
-    //    struct Size {
-    
-    //        static let cornerButtonRadius = CGFloat(6.0)
-    //        static let cornerMainRadius = CGFloat(12.0)
-    //        static let minimumCellSpacing = CGFloat(13.0)
-    //        static let backgroundMoving = CGFloat(-100.0)
-    //    }
-    
-    
+    struct Size {
+        
+        static let cornerButtonRadius = CGFloat(6.0)
+        static let cornerMainRadius = CGFloat(12.0)
+        static let cornerCardRadius = CGFloat(15.0)
+        static let minimumCellSpacing = CGFloat(13.0)
+        static let backgroundMoving = CGFloat(-100.0)
+        
+    }
     struct ColorSetForCharts {
         static let set: [NSUIColor] = [NSUIColor(red: 192/255.0, green: 255/255.0, blue: 140/255.0, alpha: 1.0),
                                        NSUIColor(red: 140/255.0, green: 234/255.0, blue: 255/255.0, alpha: 1.0),
@@ -126,5 +126,30 @@ struct Constants {
             + ChartColorTemplates.colorful()
             + ChartColorTemplates.liberty()
             + ChartColorTemplates.pastel()
+    }
+}
+
+
+struct Colors {
+    
+    struct Main {
+        
+        static let darkBlue = UIColor(red: 27/255, green: 35/255, blue: 47/255, alpha: 1)
+        static let lightBlue = UIColor(red: 104/255, green: 150/255, blue: 218/255, alpha: 1)
+        static let darkOrange = UIColor(red: 217/255, green: 104/255, blue: 38/255, alpha: 1)
+        static let lightOrange = UIColor(red: 220/255, green: 160/255, blue: 29/255, alpha: 1)
+        
+    }
+    
+    struct Additional {
+        
+        static let lightGreen = UIColor(red: 101/255, green: 200/255, blue: 122/255, alpha: 1)
+        static let lightGrey = UIColor(red: 248/255, green: 248/255, blue: 248/255, alpha: 1)
+        static let darkBlue = UIColor(red: 5/255, green: 23/255, blue: 38/255, alpha: 1)
+        static let darkBlackTransparent = UIColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 0.5)
+        static let lightRed = UIColor(red: 251/255, green: 95/255, blue: 95/255, alpha: 1)
+        
+        static let darkRed = UIColor(red: 240/255, green: 48/255, blue: 6/255, alpha: 1)
+        
     }
 }

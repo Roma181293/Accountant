@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		2B0D1D3326ADF1D1003C6394 /* TransactionItemManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B0D1D3226ADF1D1003C6394 /* TransactionItemManager.swift */; };
+		2B104E5026E52DD600E67F6A /* StatusBarAnimationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B104E4F26E52DD600E67F6A /* StatusBarAnimationViewController.swift */; };
+		2B104E5226E558F300E67F6A /* SalesBadgeUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B104E5126E558F300E67F6A /* SalesBadgeUIView.swift */; };
 		2B1FEA3A266BEDA400BF53BD /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1FEA39266BEDA400BF53BD /* CoreDataStack.swift */; };
 		2B1FEA3F266BEDD400BF53BD /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1FEA3E266BEDD400BF53BD /* UserProfile.swift */; };
 		2B1FEA4B266BEE6700BF53BD /* CurrencyExhangeNB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1FEA45266BEE6700BF53BD /* CurrencyExhangeNB.swift */; };
@@ -65,6 +67,10 @@
 		2B2E6D1D26DD960D004A9680 /* TransactionItemTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B2E6D1C26DD960D004A9680 /* TransactionItemTextField.swift */; };
 		2B3F0D0E26A0EFA000AA514B /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2B3F0D1026A0EFA000AA514B /* Localizable.strings */; };
 		2B490DD726E2911C00967E11 /* Extension Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B490DD626E2911C00967E11 /* Extension Notification.swift */; };
+		2B490DD926E4B8CE00967E11 /* OfferUITapGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B490DD826E4B8CE00967E11 /* OfferUITapGestureRecognizer.swift */; };
+		2B490DDB26E4B92600967E11 /* OfferUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B490DDA26E4B92600967E11 /* OfferUIView.swift */; };
+		2B490DDE26E4BA6000967E11 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B490DDD26E4BA6000967E11 /* GradientView.swift */; };
+		2B490DE026E4BB1800967E11 /* ProBadgeUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B490DDF26E4BB1800967E11 /* ProBadgeUIView.swift */; };
 		2B4976FC26DBE90B00147EAA /* ComplexTransactionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B4976FB26DBE90B00147EAA /* ComplexTransactionTableViewCell.swift */; };
 		2B67989E26768E3200063A7C /* SimpleTransactionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B67989D26768E3200063A7C /* SimpleTransactionTableViewCell.swift */; };
 		2B949BAF2665B4040033383A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B949BAE2665B4040033383A /* AppDelegate.swift */; };
@@ -102,6 +108,8 @@
 
 /* Begin PBXFileReference section */
 		2B0D1D3226ADF1D1003C6394 /* TransactionItemManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionItemManager.swift; sourceTree = "<group>"; };
+		2B104E4F26E52DD600E67F6A /* StatusBarAnimationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusBarAnimationViewController.swift; sourceTree = "<group>"; };
+		2B104E5126E558F300E67F6A /* SalesBadgeUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SalesBadgeUIView.swift; sourceTree = "<group>"; };
 		2B1FEA39266BEDA400BF53BD /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		2B1FEA3E266BEDD400BF53BD /* UserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
 		2B1FEA45266BEE6700BF53BD /* CurrencyExhangeNB.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrencyExhangeNB.swift; sourceTree = "<group>"; };
@@ -164,6 +172,10 @@
 		2B3F0D1226A0F01B00AA514B /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		2B3F0D1326A0F01C00AA514B /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/Localizable.strings; sourceTree = "<group>"; };
 		2B490DD626E2911C00967E11 /* Extension Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension Notification.swift"; sourceTree = "<group>"; };
+		2B490DD826E4B8CE00967E11 /* OfferUITapGestureRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfferUITapGestureRecognizer.swift; sourceTree = "<group>"; };
+		2B490DDA26E4B92600967E11 /* OfferUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfferUIView.swift; sourceTree = "<group>"; };
+		2B490DDD26E4BA6000967E11 /* GradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
+		2B490DDF26E4BB1800967E11 /* ProBadgeUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProBadgeUIView.swift; sourceTree = "<group>"; };
 		2B4976FB26DBE90B00147EAA /* ComplexTransactionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComplexTransactionTableViewCell.swift; sourceTree = "<group>"; };
 		2B67989D26768E3200063A7C /* SimpleTransactionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleTransactionTableViewCell.swift; sourceTree = "<group>"; };
 		2B949BAB2665B4040033383A /* Accountant.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Accountant.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -275,6 +287,7 @@
 				2B1FEBAA266EE19B00BF53BD /* ImportTransactionViewController.swift */,
 				2B1FEBA9266EE19B00BF53BD /* SubsctiptionStatusViewController.swift */,
 				2B1FEB4B266D25EE00BF53BD /* PurchaseOfferViewController.swift */,
+				2B104E4F26E52DD600E67F6A /* StatusBarAnimationViewController.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -287,6 +300,7 @@
 				2BE2593226BC8E6D0025301F /* Error.swift */,
 				2B1FEAE0266CAF6C00BF53BD /* Extensions */,
 				2BDB10A026DACD9200D8FE08 /* Protocols.swift */,
+				2B490DD826E4B8CE00967E11 /* OfferUITapGestureRecognizer.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -391,6 +405,17 @@
 			path = Analytics;
 			sourceTree = "<group>";
 		};
+		2B490DDC26E4B94000967E11 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				2B490DDA26E4B92600967E11 /* OfferUIView.swift */,
+				2B490DDD26E4BA6000967E11 /* GradientView.swift */,
+				2B490DDF26E4BB1800967E11 /* ProBadgeUIView.swift */,
+				2B104E5126E558F300E67F6A /* SalesBadgeUIView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		2B949BA22665B4040033383A = {
 			isa = PBXGroup;
 			children = (
@@ -421,6 +446,7 @@
 				2B1FEA5D266BEFA500BF53BD /* Model */,
 				2B949BB02665B4040033383A /* SceneDelegate.swift */,
 				2B1FEA9D266C347700BF53BD /* Helpers */,
+				2B490DDC26E4B94000967E11 /* Views */,
 				2B1FEA8F266C334500BF53BD /* View Controllers */,
 				2B1FEAB2266C3ACE00BF53BD /* Cells */,
 				2B949BB42665B4040033383A /* Main.storyboard */,
@@ -649,6 +675,7 @@
 			files = (
 				2B1FEB70266D752200BF53BD /* ChartsManager.swift in Sources */,
 				2B0D1D3326ADF1D1003C6394 /* TransactionItemManager.swift in Sources */,
+				2B490DDE26E4BA6000967E11 /* GradientView.swift in Sources */,
 				2B1FEBB1266EE1D500BF53BD /* PreTrasaction.swift in Sources */,
 				2B1FEBAB266EE19B00BF53BD /* SubsctiptionStatusViewController.swift in Sources */,
 				2B1FEA4C266BEE6700BF53BD /* CurrencyHistoricalDataNB.swift in Sources */,
@@ -665,6 +692,7 @@
 				2BDB10A126DACD9200D8FE08 /* Protocols.swift in Sources */,
 				2B1FEA99266C339E00BF53BD /* SetAccountingCurrencyViewController.swift in Sources */,
 				2B1FEA83266C1D9A00BF53BD /* TransactionManager.swift in Sources */,
+				2B490DE026E4BB1800967E11 /* ProBadgeUIView.swift in Sources */,
 				2B1FEB5F266D748F00BF53BD /* AccountInForeignCurrencyTableViewCell.swift in Sources */,
 				2B1FEBAC266EE19B00BF53BD /* ImportTransactionViewController.swift in Sources */,
 				2BC058BD26CDB63E00FE896C /* TransactionItemTableViewCell.swift in Sources */,
@@ -681,6 +709,7 @@
 				2B1FEB98266EDE5000BF53BD /* SettingsTableViewController.swift in Sources */,
 				2B1FEA4F266BEE6700BF53BD /* CurrencyHistoricalDataPB.swift in Sources */,
 				2B2E6D1D26DD960D004A9680 /* TransactionItemTextField.swift in Sources */,
+				2B490DDB26E4B92600967E11 /* OfferUIView.swift in Sources */,
 				2B2E2E8B26E0054400A6CFDD /* AnalyticTableViewCell.swift in Sources */,
 				2B1FEB5E266D748F00BF53BD /* MoneyAccountTableViewCell.swift in Sources */,
 				2B1FEB57266D73DC00BF53BD /* AccountListViewController.swift in Sources */,
@@ -703,12 +732,15 @@
 				2B1FEB8E266EC44600BF53BD /* ConfigureAnalyticsViewController.swift in Sources */,
 				2BE2593326BC8E6D0025301F /* Error.swift in Sources */,
 				2B1FEAAB266C3AB900BF53BD /* SimpleTransactionEditorViewController.swift in Sources */,
+				2B490DD926E4B8CE00967E11 /* OfferUITapGestureRecognizer.swift in Sources */,
 				2B1FEAC5266C433200BF53BD /* AuthPinAndBiometricViewController.swift in Sources */,
+				2B104E5026E52DD600E67F6A /* StatusBarAnimationViewController.swift in Sources */,
 				2B1FEB6E266D752200BF53BD /* PresentingData.swift in Sources */,
 				2B490DD726E2911C00967E11 /* Extension Notification.swift in Sources */,
 				2B1FEA4B266BEE6700BF53BD /* CurrencyExhangeNB.swift in Sources */,
 				2B1FEA54266BEEC000BF53BD /* Enums.swift in Sources */,
 				2B949BB92665B4040033383A /* Accountant.xcdatamodeld in Sources */,
+				2B104E5226E558F300E67F6A /* SalesBadgeUIView.swift in Sources */,
 				2B1FEA9F266C349B00BF53BD /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

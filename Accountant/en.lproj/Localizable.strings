@@ -6,6 +6,8 @@
   
 */
 
+"AppName" = "Accountant"; //must be added to any language dictionary!!!!!
+
 //CurrencyList
 "AUD" = "Australian Dollar";
 "CAD" = "Canadian Dollar";
