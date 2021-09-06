@@ -184,33 +184,27 @@ class ComplexTransactionTableViewCell: UITableViewCell {
             
             let accountPathLabel = UILabel()
             accountPathLabel.text = item.account!.path
+            accountPathLabel.numberOfLines = 0
+            accountPathLabel.lineBreakMode = .byWordWrapping
             accountPathLabel.translatesAutoresizingMaskIntoConstraints = false
             
             let amountAndCurrencyLabel = UILabel()
             amountAndCurrencyLabel.text = cutNumber(item.amount) + item.account!.currency!.code!
+            amountAndCurrencyLabel.textAlignment = .right
             amountAndCurrencyLabel.translatesAutoresizingMaskIntoConstraints = false
-            
-            
-            itemView.heightAnchor.constraint(equalToConstant: 20).isActive = true
             
             itemView.addSubview(accountPathLabel)
             accountPathLabel.leadingAnchor.constraint(equalTo: itemView.leadingAnchor).isActive = true
-            accountPathLabel.centerYAnchor.constraint(equalTo: itemView.centerYAnchor).isActive = true
+            accountPathLabel.topAnchor.constraint(equalTo: itemView.topAnchor).isActive = true
+            accountPathLabel.bottomAnchor.constraint(equalTo: itemView.bottomAnchor).isActive = true
             
-       
             itemView.addSubview(amountAndCurrencyLabel)
-//            amountLabel.leadingAnchor.constraint(equalTo: accountPathLabel.trailingAnchor, constant: 8).isActive = true
-            let widthMax = amountAndCurrencyLabel.widthAnchor.constraint(lessThanOrEqualToConstant: 100)
-            widthMax.priority = UILayoutPriority(1)
-            widthMax.isActive = true
-            
-            let widthMin = amountAndCurrencyLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: 30)
-            widthMin.priority = UILayoutPriority(2)
-            widthMin.isActive = true
-            
+            amountAndCurrencyLabel.leadingAnchor.constraint(equalTo: accountPathLabel.trailingAnchor, constant: 8).isActive = true
             amountAndCurrencyLabel.trailingAnchor.constraint(equalTo: itemView.trailingAnchor).isActive = true
-            amountAndCurrencyLabel.centerYAnchor.constraint(equalTo: itemView.centerYAnchor).isActive = true
+            amountAndCurrencyLabel.topAnchor.constraint(equalTo: itemView.topAnchor).isActive = true
             
+            accountPathLabel.setContentCompressionResistancePriority(UILayoutPriority.defaultLow, for:.horizontal)
+            amountAndCurrencyLabel.setContentHuggingPriority(UILayoutPriority.defaultHigh, for:.horizontal)
             
             if item.type == AccounttingMethod.debit.rawValue {
                 debitItemsStackView.addArrangedSubview(itemView)
