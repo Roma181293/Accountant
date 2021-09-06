@@ -83,8 +83,9 @@ class ComplexTransactionTableViewCell: UITableViewCell {
     
     let debitLabel: UILabel = {
         let label = UILabel()
-        label.text = "  " + NSLocalizedString("To:", comment: "") + "  "
+        label.text = "  " + NSLocalizedString("To:", comment: "")
         label.textColor = .label
+        label.textAlignment = .left
         label.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
         label.layer.cornerRadius = 8
         label.layer.borderWidth = 0.5
@@ -96,8 +97,9 @@ class ComplexTransactionTableViewCell: UITableViewCell {
     
     let creditLabel: UILabel = {
         let label = UILabel()
-        label.text = "  " + NSLocalizedString("From:", comment: "") + "  "
+        label.text = "  " + NSLocalizedString("From:", comment: "")
         label.textColor = .label
+        label.textAlignment = .left
         label.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
         label.layer.cornerRadius = 8
         label.layer.borderWidth = 0.5
@@ -142,11 +144,12 @@ class ComplexTransactionTableViewCell: UITableViewCell {
         dateLabel.widthAnchor.constraint(equalToConstant: 30).isActive = true
         
         
+        let labelWidth = CGFloat(max(creditLabel.text!.count, debitLabel.text!.count)) * 7.5
+       
         //MARK:- Credit content
         mainStackView.addArrangedSubview(creditStackView)
-        
         creditStackView.addArrangedSubview(creditLabel)
-        creditLabel.widthAnchor.constraint(equalToConstant: 50).isActive = true
+        creditLabel.widthAnchor.constraint(equalToConstant: labelWidth).isActive = true
         creditLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
         
         creditStackView.addArrangedSubview(creditItemsStackView)
@@ -155,11 +158,10 @@ class ComplexTransactionTableViewCell: UITableViewCell {
         //MARK:- Debit content
         mainStackView.addArrangedSubview(debitStackView)
         debitStackView.addArrangedSubview(debitLabel)
-        debitLabel.widthAnchor.constraint(equalToConstant: 50).isActive = true
+        debitLabel.widthAnchor.constraint(equalToConstant: labelWidth).isActive = true
         debitLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
         
         debitStackView.addArrangedSubview(debitItemsStackView)
-
     }
     
     
