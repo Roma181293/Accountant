@@ -139,6 +139,16 @@ class TransactionListViewController: UIViewController{
 
             return frc
         }()
+        
+        for (index,item) in (tabBarController?.tabBar.items as! [UITabBarItem]).enumerated() {
+            guard index != (tabBarController?.tabBar.items as! [UITabBarItem]).count - 1 else {return}
+            if coreDataStack.activeEnviroment() == .test {
+                item.badgeValue = "Test"
+            }
+            else {
+                item.badgeValue = nil
+            }
+        }
     }
     
     @objc func reloadProAccessData() {
