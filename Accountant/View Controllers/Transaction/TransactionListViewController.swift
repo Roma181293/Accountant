@@ -129,6 +129,8 @@ class TransactionListViewController: UIViewController{
     
     
     @objc func environmentDidChange(){
+        
+        //MARK:- reset context and fetchedResultsController
         context = CoreDataStack.shared.persistentContainer.viewContext
         fetchedResultsController = {
             let fetchRequest : NSFetchRequest<Transaction> = NSFetchRequest<Transaction>(entityName: "Transaction")
@@ -140,6 +142,10 @@ class TransactionListViewController: UIViewController{
             return frc
         }()
         
+        //MARK:- clear resultSearchController
+        resultSearchController.searchBar.text = ""
+        
+        //MARK:- TabBarController badge manage
         for (index,item) in (tabBarController?.tabBar.items as! [UITabBarItem]).enumerated() {
             guard index != (tabBarController?.tabBar.items as! [UITabBarItem]).count - 1 else {return}
             if coreDataStack.activeEnviroment() == .test {
