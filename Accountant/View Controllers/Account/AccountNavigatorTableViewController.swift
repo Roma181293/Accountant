@@ -565,7 +565,7 @@ extension AccountNavigatorTableViewController {
         return false
     }
     
-    func çcheckUserAccessToHideAccount() -> Bool {
+    func checkUserAccessToHideAccount() -> Bool {
         if self.environment == .test {
             return true
         }
