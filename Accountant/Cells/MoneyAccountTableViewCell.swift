@@ -68,7 +68,12 @@ class MoneyAccountTableViewCell: UITableViewCell {
             amountLabel.textColor = .label
             self.accessoryType = .none
             if currency != accountingCurrency {
-                amountInBaseCurrency.text = "≈\(dataToShow.amountInAccountingCurrency) \(accountingCurrency.code!)"
+                if let accountingCurrencyCode = accountingCurrency.code {
+                    amountInBaseCurrency.text = "≈\(dataToShow.amountInAccountingCurrency) \(accountingCurrencyCode)"
+                }
+                else {
+                    amountInBaseCurrency.text = "Error"
+                }
             }
         }
         else {

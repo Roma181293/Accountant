@@ -339,6 +339,7 @@ class AccountListViewController: UIViewController, UIScrollViewDelegate{
             account = AccountManager.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.money), context: context)
         segmentedControl.selectedSegmentIndex = 0
         moneyAccountListTableViewController.context = context
+        moneyAccountListTableViewController.accountingCurrency = accountingCurrency
         
         if isNeedUpdateAll() {
             dateOfLastChangesInDB = UserProfile.getDateOfLastChangesInDB()
