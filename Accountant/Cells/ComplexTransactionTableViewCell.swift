@@ -89,8 +89,8 @@ class ComplexTransactionTableViewCell: UITableViewCell {
         label.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
         label.layer.cornerRadius = 8
         label.layer.borderWidth = 0.5
-        label.layer.borderColor = UIColor.systemGray4.cgColor
-        label.layer.backgroundColor = UIColor.systemGray4.cgColor
+        label.layer.borderColor = UIColor.systemGray.cgColor
+        label.layer.backgroundColor = UIColor.systemGray4.cgColor.copy(alpha: 0.4)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -103,8 +103,8 @@ class ComplexTransactionTableViewCell: UITableViewCell {
         label.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
         label.layer.cornerRadius = 8
         label.layer.borderWidth = 0.5
-        label.layer.borderColor = UIColor.systemGray4.cgColor
-        label.layer.backgroundColor = UIColor.systemGray4.cgColor
+        label.layer.borderColor = UIColor.systemGray.cgColor
+        label.layer.backgroundColor = UIColor.systemGray4.cgColor.copy(alpha: 0.4)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -112,10 +112,10 @@ class ComplexTransactionTableViewCell: UITableViewCell {
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
-        debitLabel.layer.borderColor = UIColor.systemGray4.cgColor
-        debitLabel.layer.backgroundColor = UIColor.systemGray4.cgColor
-        creditLabel.layer.borderColor = UIColor.systemGray4.cgColor
-        creditLabel.layer.backgroundColor = UIColor.systemGray4.cgColor
+        debitLabel.layer.borderColor = UIColor.systemGray.cgColor
+        debitLabel.layer.backgroundColor = UIColor.systemGray4.cgColor.copy(alpha: 0.4)
+        creditLabel.layer.borderColor = UIColor.systemGray.cgColor
+        creditLabel.layer.backgroundColor = UIColor.systemGray4.cgColor.copy(alpha: 0.4)
         
     }
 

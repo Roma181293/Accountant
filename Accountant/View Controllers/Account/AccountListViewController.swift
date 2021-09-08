@@ -84,6 +84,8 @@ class AccountListViewController: UIViewController, UIScrollViewDelegate{
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        context = CoreDataStack.shared.persistentContainer.viewContext
   
         //MARK:- adding NotificationCenter observers
         NotificationCenter.default.addObserver(self, selector: #selector(self.environmentDidChange), name: .environmentDidChange, object: nil)
@@ -336,6 +338,7 @@ class AccountListViewController: UIViewController, UIScrollViewDelegate{
         accountingCurrency = CurrencyManager.getAccountingCurrency(context: context)!
             account = AccountManager.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.money), context: context)
         segmentedControl.selectedSegmentIndex = 0
+        moneyAccountListTableViewController.context = context
         
         if isNeedUpdateAll() {
             dateOfLastChangesInDB = UserProfile.getDateOfLastChangesInDB()

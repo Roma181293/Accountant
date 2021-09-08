@@ -54,6 +54,8 @@ class AnalyticsViewController: UIViewController, UIScrollViewDelegate, GADFullSc
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        context = CoreDataStack.shared.persistentContainer.viewContext
+        
         //MARK:- adding NotificationCenter observers
         NotificationCenter.default.addObserver(self, selector: #selector(self.environmentDidChange), name: .environmentDidChange, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.reloadProAccessData), name: .receivedProAccessData, object: nil)
