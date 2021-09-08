@@ -858,7 +858,7 @@ class AccountManager {
         if isListForAnalytic {
             tempData = tempData.filter({$0.checkSum != 0})
         }
-        tempData.sort(by: {$0.amountInAccountCurrency >= $1.amountInAccountCurrency})
+        tempData.sort(by: {$0.amountInAccountingCurrency >= $1.amountInAccountingCurrency})
         
         // Coloring
         for (index,item) in tempData.enumerated() {
