@@ -32,6 +32,8 @@ class SimpleTransactionEditorViewController: UIViewController, GADFullScreenCont
     
     var interstitial: GADInterstitialAd?
     
+    var isUserHasPaidAccess = false
+    
     let coreDataStack = CoreDataStack.shared
     let context = CoreDataStack.shared.persistentContainer.viewContext
     
@@ -547,6 +549,7 @@ class SimpleTransactionEditorViewController: UIViewController, GADFullScreenCont
             vc.simpleTransactionEditorVC = self
             vc.showHiddenAccounts = false
             vc.typeOfAccountingMethod = .debit
+            vc.isUserHasPaidAccess = isUserHasPaidAccess
             doneButtonAction()
         }
         if segue.identifier == Constants.Segue.creditToAccountNavigator {
@@ -554,6 +557,7 @@ class SimpleTransactionEditorViewController: UIViewController, GADFullScreenCont
             vc.simpleTransactionEditorVC = self
             vc.showHiddenAccounts = false
             vc.typeOfAccountingMethod = .credit
+            vc.isUserHasPaidAccess = isUserHasPaidAccess
             doneButtonAction()
         }
     }

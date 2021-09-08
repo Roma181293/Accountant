@@ -124,6 +124,7 @@ class TransactionListViewController: UIViewController{
         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         let transactionEditorVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.simpleTransactionEditorViewController) as! SimpleTransactionEditorViewController
         transactionEditorVC.interstitial = interstitial
+        transactionEditorVC.isUserHasPaidAccess = isUserHasPaidAccess
         self.navigationController?.pushViewController(transactionEditorVC, animated: true)
     }
     
@@ -228,12 +229,14 @@ extension TransactionListViewController: UITableViewDelegate, UITableViewDataSou
 //        let transactioEditorVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.complexTransactionEditorViewController) as! ComplexTransactionEditorViewController
 //        transactioEditorVC.transaction = fetchedResultsController.object(at: indexPath) as Transaction
 //        transactioEditorVC.context = context
+//        vc.isUserHasPaidAccess = isUserHasPaidAccess
 //        self.navigationController?.pushViewController(transactioEditorVC, animated: true)
 //
         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         let transactioEditorVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.simpleTransactionEditorViewController) as! SimpleTransactionEditorViewController
         transactioEditorVC.transaction = fetchedResultsController.object(at: indexPath) as Transaction
         transactioEditorVC.interstitial = interstitial
+        transactioEditorVC.isUserHasPaidAccess = isUserHasPaidAccess
         self.navigationController?.pushViewController(transactioEditorVC, animated: true)
         
     }

@@ -14,6 +14,9 @@ class AccountNavigatorTableViewController: UITableViewController {
     let coreDataStack = CoreDataStack.shared
     var context: NSManagedObjectContext = CoreDataStack.shared.persistentContainer.viewContext
     
+    var isUserHasPaidAccess = false
+    var environment: Environment = .prod
+    
     var resultSearchController = UISearchController()
     
     var canModifyAccountStructure: Bool = true
@@ -33,7 +36,7 @@ class AccountNavigatorTableViewController: UITableViewController {
     //TRANSPORT VARIABLES
     weak var simpleTransactionEditorVC : SimpleTransactionEditorViewController?
     var typeOfAccountingMethod : AccounttingMethod?
-//    weak var budgetEditorVC : BudgetEditorViewController?
+    //    weak var budgetEditorVC : BudgetEditorViewController?
     var preTransactionTableViewCell : PreTransactionTableViewCell?
     var importTransactionTableViewController : ImportTransactionViewController?
    
@@ -55,6 +58,9 @@ class AccountNavigatorTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        if let  environment = CoreDataStack.shared.activeEnviroment() {
+            self.environment = environment
+        }
         
         isSwipeAvailable = true //need assign to show add button
         
@@ -95,53 +101,57 @@ class AccountNavigatorTableViewController: UITableViewController {
         resultSearchController.dismiss(animated: true, completion: nil)
     }
     
-    
     @objc func addAccount(sender: UIBarButtonItem) {
-        guard let account = self.account else {
-            let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-            let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.addAccountViewController) as! AddAccountViewController
-            self.navigationController?.pushViewController(vc, animated: true)
-            return
-        }
-        
-        let accountType = account.type
-
-        if let accountCurrency = account.currency {
-            let alert = UIAlertController(title: NSLocalizedString("Add account",comment: ""), message: NSLocalizedString("Enter account name",comment: ""), preferredStyle: .alert)
-            
-            alert.addTextField { (textField) in
-                textField.tag = 100
-                textField.delegate = alert as! UITextFieldDelegate
+        if self.checkUserAccessToCreateSubAccountForSelected(account: account) {
+            guard let account = self.account else {
+                let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.addAccountViewController) as! AddAccountViewController
+                self.navigationController?.pushViewController(vc, animated: true)
+                return
             }
-            alert.addAction(UIAlertAction(title: NSLocalizedString("Add",comment: ""), style: .default, handler: { [weak alert] (_) in
-                
-                do {
-                    guard let alert = alert,
-                          let textFields = alert.textFields,
-                          let textField = textFields.first,
-                          AccountManager.isFreeAccountName(parent: account, name: textField.text!, context: self.context)
-                    else {throw AccountError.accontAlreadyExists(name: alert!.textFields!.first!.text!)}
-                    
-                    try AccountManager.createAccount(parent: account, name: textField.text!, type: accountType, currency: accountCurrency, context: self.context)
-                    try self.coreDataStack.saveContext(self.context)
-                    try self.fetchedResultsController.performFetch()
-                    self.tableView.reloadData()
-                }
-                catch let error{
-                    print("Error",error)
-                    self.errorHandlerMethod(error: error)
-                }
-            }))
             
-            alert.addAction(UIAlertAction(title: NSLocalizedString("Cancel",comment: ""), style: .cancel))
-            self.present(alert, animated: true, completion: nil)
+            let accountType = account.type
+            
+            if let accountCurrency = account.currency {
+                let alert = UIAlertController(title: NSLocalizedString("Add account",comment: ""), message: NSLocalizedString("Enter account name",comment: ""), preferredStyle: .alert)
+                
+                alert.addTextField { (textField) in
+                    textField.tag = 100
+                    textField.delegate = alert as! UITextFieldDelegate
+                }
+                alert.addAction(UIAlertAction(title: NSLocalizedString("Add",comment: ""), style: .default, handler: { [weak alert] (_) in
+                    
+                    do {
+                        guard let alert = alert,
+                              let textFields = alert.textFields,
+                              let textField = textFields.first,
+                              AccountManager.isFreeAccountName(parent: account, name: textField.text!, context: self.context)
+                        else {throw AccountError.accontAlreadyExists(name: alert!.textFields!.first!.text!)}
+                        
+                        try AccountManager.createAccount(parent: account, name: textField.text!, type: accountType, currency: accountCurrency, context: self.context)
+                        try self.coreDataStack.saveContext(self.context)
+                        try self.fetchedResultsController.performFetch()
+                        self.tableView.reloadData()
+                    }
+                    catch let error{
+                        print("Error",error)
+                        self.errorHandlerMethod(error: error)
+                    }
+                }))
+                
+                alert.addAction(UIAlertAction(title: NSLocalizedString("Cancel",comment: ""), style: .cancel))
+                self.present(alert, animated: true, completion: nil)
+            }
+            else {
+                let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                let transactionEditorVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.accountEditorWithInitialBalanceViewController) as! AccountEditorWithInitialBalanceViewController
+                transactionEditorVC.parentAccount = account
+                transactionEditorVC.delegate = self
+                self.navigationController?.pushViewController(transactionEditorVC, animated: true)
+            }
         }
         else {
-            let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-            let transactionEditorVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.accountEditorWithInitialBalanceViewController) as! AccountEditorWithInitialBalanceViewController
-            transactionEditorVC.parentAccount = account
-            transactionEditorVC.delegate = self
-            self.navigationController?.pushViewController(transactionEditorVC, animated: true)
+            self.showPurchaseOfferVC()
         }
     }
     
@@ -201,6 +211,7 @@ class AccountNavigatorTableViewController: UITableViewController {
             let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
             let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.accountNavigatorTableViewController) as! AccountNavigatorTableViewController
             vc.account = selectedAccount
+            vc.isUserHasPaidAccess = isUserHasPaidAccess
             vc.context = context
             vc.showHiddenAccounts = self.showHiddenAccounts
             vc.simpleTransactionEditorVC = simpleTransactionEditorVC
@@ -334,39 +345,43 @@ extension AccountNavigatorTableViewController {
     private func hideAccount(indexPath: IndexPath) -> UIContextualAction {
         let hideAction = UIContextualAction(style: .normal, title: NSLocalizedString("Hide",comment: "")) { _, _, complete in
             let selectedAccount = self.fetchedResultsController.object(at: indexPath) as Account
-            var title = ""
-            var message = ""
-            if selectedAccount.isHidden {
-                title = NSLocalizedString("Unhide",comment: "")
-                message = NSLocalizedString("Do you really want unhide account?",comment: "")
+            if self.checkUserAccessToHideAccount() {
+                var title = ""
+                var message = ""
+                if selectedAccount.isHidden {
+                    title = NSLocalizedString("Unhide",comment: "")
+                    message = NSLocalizedString("Do you really want unhide account?",comment: "")
+                }
+                else {
+                    title = NSLocalizedString("Hide",comment: "")
+                    message = NSLocalizedString("Do you really want hide account?",comment: "")
+                }
+                
+                let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: NSLocalizedString("Yes",comment: ""), style: .destructive, handler: {(_) in
+                    
+                    do {
+                        try AccountManager.changeAccountIsHiddenStatus(selectedAccount)
+                        try self.coreDataStack.saveContext(self.context)
+                        try self.fetchedResultsController.performFetch()
+                        
+                        if self.showHiddenAccounts == false{
+                            self.tableView.deleteRows(at: [indexPath], with: .fade)
+                        }
+                        else {
+                            self.tableView.reloadData()
+                        }
+                    }
+                    catch let error {
+                        self.errorHandlerMethod(error: error)
+                    }
+                }))
+                alert.addAction(UIAlertAction(title: NSLocalizedString("No",comment: ""), style: .cancel))
+                self.present(alert, animated: true, completion: nil)
             }
             else {
-                title = NSLocalizedString("Hide",comment: "")
-                message = NSLocalizedString("Do you really want hide account?",comment: "")
+                self.showPurchaseOfferVC()
             }
-            
-            let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: NSLocalizedString("Yes",comment: ""), style: .destructive, handler: {(_) in
-                
-                do {
-                    try AccountManager.changeAccountIsHiddenStatus(selectedAccount)
-                    try self.coreDataStack.saveContext(self.context)
-                    try self.fetchedResultsController.performFetch()
-                    
-                    if self.showHiddenAccounts == false{
-                        self.tableView.deleteRows(at: [indexPath], with: .fade)
-                    }
-                    else {
-                        self.tableView.reloadData()
-                    }
-                }
-                catch let error {
-                    self.errorHandlerMethod(error: error)
-                }
-            }))
-            alert.addAction(UIAlertAction(title: NSLocalizedString("No",comment: ""), style: .cancel))
-            self.present(alert, animated: true, completion: nil)
-            
             complete(true)
         }
         let selectedAccount = self.fetchedResultsController.object(at: indexPath) as Account
@@ -460,67 +475,72 @@ extension AccountNavigatorTableViewController {
         let addSubCategory = UIContextualAction(style: .normal, title: NSLocalizedString("Add subaccount",comment: "")) { _, _, complete in
             let selectedAccount = self.fetchedResultsController.object(at: indexPath) as Account
             
-            if selectedAccount.currency == nil {
-                let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-                let transactionEditorVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.accountEditorWithInitialBalanceViewController) as! AccountEditorWithInitialBalanceViewController
-                transactionEditorVC.parentAccount = selectedAccount
-                transactionEditorVC.delegate = self
-                self.navigationController?.pushViewController(transactionEditorVC, animated: true)
+            if self.checkUserAccessToCreateSubAccountForSelected(account: selectedAccount) {
+                if selectedAccount.currency == nil {
+                    let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                    let transactionEditorVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.accountEditorWithInitialBalanceViewController) as! AccountEditorWithInitialBalanceViewController
+                    transactionEditorVC.parentAccount = selectedAccount
+                    transactionEditorVC.delegate = self
+                    self.navigationController?.pushViewController(transactionEditorVC, animated: true)
+                }
+                else {
+                    
+                    let alert = UIAlertController(title: NSLocalizedString("Add subaccount",comment: ""), message: NSLocalizedString("Enter subaccount name",comment: ""), preferredStyle: .alert)
+                    
+                    alert.addTextField { (textField) in
+                        textField.tag = 100
+                        textField.delegate = alert as! UITextFieldDelegate
+                    }
+                    alert.addAction(UIAlertAction(title: NSLocalizedString("Add",comment: ""), style: .default, handler: { [weak alert] (_) in
+                        
+                        do {
+                            guard let alert = alert,
+                                  let textFields = alert.textFields,
+                                  let textField = textFields.first,
+                                  AccountManager.isFreeAccountName(parent: selectedAccount, name: textField.text!, context: self.context)
+                            else {throw AccountError.accontAlreadyExists(name: alert!.textFields!.first!.text!)}
+                            
+                            if !AccountManager.isFreeFromTransactionItems(account: selectedAccount) {
+                                
+                                let alert1 = UIAlertController(title: NSLocalizedString("Attention",comment: ""), message:  String(format: NSLocalizedString("Account \"%@\" has transactions. All this thansactions will be automatically moved to new child account \"%@\".",comment: ""), selectedAccount.name!,AccountsNameLocalisationManager.getLocalizedAccountName(.other1)), preferredStyle: .alert)
+                                alert1.addAction(UIAlertAction(title: NSLocalizedString("Create and Move",comment: ""), style: .default, handler: { [weak alert1] (_) in
+                                    do {
+                                        try AccountManager.createAccount(parent: selectedAccount, name: textField.text!, type: selectedAccount.type, currency: selectedAccount.currency!, context: self.context)
+                                        try self.coreDataStack.saveContext(self.context)
+                                        try self.fetchedResultsController.performFetch()
+                                        self.tableView.reloadData()
+                                    }
+                                    catch let error{
+                                        print("Error",error)
+                                        self.errorHandlerMethod(error: error)
+                                    }
+                                    
+                                }))
+                                
+                                alert1.addAction(UIAlertAction(title: NSLocalizedString("Cancel",comment: ""), style: .cancel))
+                                self.present(alert1, animated: true, completion: nil)
+                                
+                            }
+                            else {
+                                
+                                try AccountManager.createAccount(parent: selectedAccount, name: textField.text!, type: selectedAccount.type, currency: selectedAccount.currency!, context: self.context)
+                                try self.coreDataStack.saveContext(self.context)
+                                try self.fetchedResultsController.performFetch()
+                                self.tableView.reloadData()
+                            }
+                        }
+                        catch let error{
+                            print("Error",error)
+                            self.errorHandlerMethod(error: error)
+                        }
+                    }))
+                    
+                    alert.addAction(UIAlertAction(title: NSLocalizedString("Cancel",comment: ""), style: .cancel))
+                    self.present(alert, animated: true, completion: nil)
+                }
             }
             else {
-                
-                let alert = UIAlertController(title: NSLocalizedString("Add subaccount",comment: ""), message: NSLocalizedString("Enter subaccount name",comment: ""), preferredStyle: .alert)
-                
-                alert.addTextField { (textField) in
-                    textField.tag = 100
-                    textField.delegate = alert as! UITextFieldDelegate
-                }
-                alert.addAction(UIAlertAction(title: NSLocalizedString("Add",comment: ""), style: .default, handler: { [weak alert] (_) in
-                    
-                    do {
-                        guard let alert = alert,
-                              let textFields = alert.textFields,
-                              let textField = textFields.first,
-                              AccountManager.isFreeAccountName(parent: selectedAccount, name: textField.text!, context: self.context)
-                        else {throw AccountError.accontAlreadyExists(name: alert!.textFields!.first!.text!)}
-                        
-                        if !AccountManager.isFreeFromTransactionItems(account: selectedAccount) {
-                            
-                            let alert1 = UIAlertController(title: NSLocalizedString("Attention",comment: ""), message:  String(format: NSLocalizedString("Account \"%@\" has transactions. All this thansactions will be automatically moved to new child account \"%@\".",comment: ""), selectedAccount.name!,AccountsNameLocalisationManager.getLocalizedAccountName(.other1)), preferredStyle: .alert)
-                            alert1.addAction(UIAlertAction(title: NSLocalizedString("Create and Move",comment: ""), style: .default, handler: { [weak alert1] (_) in
-                                do {
-                                    try AccountManager.createAccount(parent: selectedAccount, name: textField.text!, type: selectedAccount.type, currency: selectedAccount.currency!, context: self.context)
-                                    try self.coreDataStack.saveContext(self.context)
-                                    try self.fetchedResultsController.performFetch()
-                                    self.tableView.reloadData()
-                                }
-                                catch let error{
-                                    print("Error",error)
-                                    self.errorHandlerMethod(error: error)
-                                }
-                                
-                            }))
-                            
-                            alert1.addAction(UIAlertAction(title: NSLocalizedString("Cancel",comment: ""), style: .cancel))
-                            self.present(alert1, animated: true, completion: nil)
-                            
-                        }
-                        else {
-                            
-                            try AccountManager.createAccount(parent: selectedAccount, name: textField.text!, type: selectedAccount.type, currency: selectedAccount.currency!, context: self.context)
-                            try self.coreDataStack.saveContext(self.context)
-                            try self.fetchedResultsController.performFetch()
-                            self.tableView.reloadData()
-                        }
-                    }
-                    catch let error{
-                        print("Error",error)
-                        self.errorHandlerMethod(error: error)
-                    }
-                }))
-                
-                alert.addAction(UIAlertAction(title: NSLocalizedString("Cancel",comment: ""), style: .cancel))
-                self.present(alert, animated: true, completion: nil)
+                self.showPurchaseOfferVC()
             }
             complete(true)
         }
@@ -528,4 +548,28 @@ extension AccountNavigatorTableViewController {
         addSubCategory.image = UIImage(systemName: "plus")
         return addSubCategory
     }
+    
+    @objc func showPurchaseOfferVC() {
+        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.purchaseOfferViewController) as! PurchaseOfferViewController
+        self.present(vc, animated: true, completion: nil)
+    }
+    
+    
+    func checkUserAccessToCreateSubAccountForSelected(account : Account?) -> Bool {
+        print(environment)
+        if self.environment == .test ||
+            (self.environment == .prod && (self.isUserHasPaidAccess || (self.isUserHasPaidAccess == false && (account == nil || account?.level == 0)))) {
+            return true
+        }
+        return false
+    }
+    
+    func çcheckUserAccessToHideAccount() -> Bool {
+        if self.environment == .test {
+            return true
+        }
+        return false
+    }
+
 }

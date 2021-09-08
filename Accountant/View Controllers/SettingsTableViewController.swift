@@ -14,6 +14,7 @@ class SettingsTableViewController: UITableViewController {
     
     var isUserHasPaidAccess = false
     private var proAccessExpirationDate: Date?
+    var environment: Environment = .prod
     
     let coreDataStack = CoreDataStack.shared
     var context = CoreDataStack.shared.persistentContainer.viewContext
@@ -42,6 +43,9 @@ class SettingsTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        if let  environment = CoreDataStack.shared.activeEnviroment() {
+            self.environment = environment
+        }
         //MARK:- adding NotificationCenter observers
         NotificationCenter.default.addObserver(self, selector: #selector(self.environmentDidChange), name: .environmentDidChange, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.reloadProAccessData), name: .receivedProAccessData, object: nil)
@@ -154,7 +158,9 @@ class SettingsTableViewController: UITableViewController {
             shareTXTFile(fileName: "TransactionList", data: TransactionManager.exportTransactionsToString(context: context))
         }
         else if dataSource[indexPath.row] == NSLocalizedString("Accounts manager", comment: "") {
-            let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.accountNavigatorTableViewController) as! AccountNavigatorTableViewController
+            let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.accountNavigatorTableViewController) as!
+                AccountNavigatorTableViewController
+            vc.isUserHasPaidAccess = isUserHasPaidAccess
             self.navigationController?.pushViewController(vc, animated: true)
         }
         else if dataSource[indexPath.row] == "Purchase offer"{
@@ -207,6 +213,10 @@ class SettingsTableViewController: UITableViewController {
     }
     
     @objc func environmentDidChange(){
+        if let  environment = CoreDataStack.shared.activeEnviroment() {
+            self.environment = environment
+            print(environment.rawValue)
+        }
         context = CoreDataStack.shared.persistentContainer.viewContext
         tableView.reloadData()
     }
