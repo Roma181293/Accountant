@@ -273,7 +273,7 @@ class AccountManager {
             }
         }
         if let parent = account.parent, parent.parent == nil && AccountManager.balance(of : [account]) != 0 && parent.currency == nil && account.isHidden == false{
-            throw AccountError.accumulativeAccountCannotBeHiddenWithNonZeroAmount(name: parent.name!)
+            throw AccountError.accumulativeAccountCannotBeHiddenWithNonZeroAmount(name: account.path!)
         }
         account.isHidden = !oldIsHidden
         account.modifyDate = modifyDate

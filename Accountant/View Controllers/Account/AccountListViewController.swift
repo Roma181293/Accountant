@@ -21,6 +21,7 @@ class AccountListViewController: UIViewController, UIScrollViewDelegate{
     private var slides: [UIView] = []
     
     var isUserHasPaidAccess: Bool = false
+    var environment: Environment = .prod
     
     let coreDataStack = CoreDataStack.shared
     var context = CoreDataStack.shared.persistentContainer.viewContext
@@ -176,7 +177,7 @@ class AccountListViewController: UIViewController, UIScrollViewDelegate{
         setupSlideScrollView(slides: slides)
         
         moneyAccountListTableViewController.listOfAccountsToShow = presentingData.tableData
-        moneyAccountListTableViewController.updateUI()
+        moneyAccountListTableViewController.tableView.reloadData()
         
         pageControl.numberOfPages = slides.count
         pageControl.hidesForSinglePage = true
@@ -346,6 +347,11 @@ class AccountListViewController: UIViewController, UIScrollViewDelegate{
         segmentedControl.selectedSegmentIndex = 0
         moneyAccountListTableViewController.context = context
         moneyAccountListTableViewController.accountingCurrency = accountingCurrency
+        
+        if let environment = coreDataStack.activeEnviroment() {
+            self.environment = environment
+            moneyAccountListTableViewController.environment = self.environment
+        }
         
         if isNeedUpdateAll() {
             dateOfLastChangesInDB = UserProfile.getDateOfLastChangesInDB()
