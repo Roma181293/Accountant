@@ -357,12 +357,12 @@
 		2B1FEAD8266C48E400BF53BD /* Account */ = {
 			isa = PBXGroup;
 			children = (
+				2B3A260526EA6DD90033E746 /* AccountManagerController.swift */,
 				2B1FEB16266CBA6000BF53BD /* AccountNavigatorTableViewController.swift */,
 				2B1FEADA266CAEC200BF53BD /* AccountEditorWithInitialBalanceViewController.swift */,
 				2B1FEAD9266CAEC100BF53BD /* AddAccountViewController.swift */,
 				2B1FEB56266D73DC00BF53BD /* AccountListTableViewController.swift */,
 				2B1FEB55266D73DC00BF53BD /* AccountListViewController.swift */,
-				2B3A260526EA6DD90033E746 /* AccountManagerController.swift */,
 			);
 			path = Account;
 			sourceTree = "<group>";

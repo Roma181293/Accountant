@@ -14,15 +14,70 @@ protocol AccountManagerTableViewControllerDelegate: UITableViewController{
     var environment: Environment {get set}
     var context: NSManagedObjectContext! {get set}
     var coreDataStack: CoreDataStack {get set}
+    var account: Account? {get set}
     var showHiddenAccounts: Bool {get set}
     
     func updateSourceTable() throws
     func errorHandlerMethod(error: Error)
-    func showPurchaseOfferVC()
+    func getVCUsedForPop() -> UIViewController?  // method requires for popToVC after creating trancastion
 }
 
 class AccountManagerController {
     var delegate: AccountManagerTableViewControllerDelegate!
+    
+    
+    func addSubAccountTo(account: Account?) {
+        if AccessCheckManager.checkUserAccessToCreateSubAccountForSelected(account: account, isUserHasPaidAccess: delegate.isUserHasPaidAccess, environment: delegate.environment) {
+            guard let account = self.delegate.account else {
+                let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.addAccountViewController) as! AddAccountViewController
+                self.delegate.navigationController?.pushViewController(vc, animated: true)
+                return
+            }
+            
+            if let accountCurrency = account.currency {
+                let alert = UIAlertController(title: NSLocalizedString("Add account",comment: ""), message: NSLocalizedString("Enter account name",comment: ""), preferredStyle: .alert)
+                
+                alert.addTextField { (textField) in
+                    textField.tag = 100
+                    textField.delegate = alert as! UITextFieldDelegate
+                }
+                alert.addAction(UIAlertAction(title: NSLocalizedString("Add",comment: ""), style: .default, handler: { [weak alert] (_) in
+                    
+                    do {
+                        guard let alert = alert,
+                              let textFields = alert.textFields,
+                              let textField = textFields.first,
+                              AccountManager.isFreeAccountName(parent: account, name: textField.text!, context: self.delegate.context)
+                        else {throw AccountError.accontAlreadyExists(name: alert!.textFields!.first!.text!)}
+                        
+                        try AccountManager.createAccount(parent: account, name: textField.text!, type: account.type, currency: accountCurrency, context: self.delegate.context)
+                        try self.delegate.coreDataStack.saveContext(self.delegate.context)
+                        try self.delegate.updateSourceTable()
+                        self.delegate.tableView.reloadData()
+                    }
+                    catch let error{
+                        print("Error",error)
+                        self.delegate.errorHandlerMethod(error: error)
+                    }
+                }))
+                
+                alert.addAction(UIAlertAction(title: NSLocalizedString("Cancel",comment: ""), style: .cancel))
+                self.delegate.present(alert, animated: true, completion: nil)
+            }
+            else {
+                let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                let transactionEditorVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.accountEditorWithInitialBalanceViewController) as! AccountEditorWithInitialBalanceViewController
+                transactionEditorVC.parentAccount = account
+                transactionEditorVC.delegate = self.delegate.getVCUsedForPop()
+                self.delegate.navigationController?.pushViewController(transactionEditorVC, animated: true)
+            }
+        }
+        else {
+            self.showPurchaseOfferVC()
+        }
+    }
+    
     
     func hideAccount(indexPath: IndexPath, selectedAccount: Account) -> UIContextualAction {
         let hideAction = UIContextualAction(style: .normal, title: NSLocalizedString("Hide",comment: "")) { _, _, complete in
@@ -45,7 +100,7 @@ class AccountManagerController {
                     do {
                         try AccountManager.changeAccountIsHiddenStatus(selectedAccount)
                         try self.delegate.coreDataStack.saveContext(self.delegate.context)
-                        try self.delegate.updateSourceTable()//fetchedResultsController.performFetch()
+                        try self.delegate.updateSourceTable()
                         
                         if self.delegate.showHiddenAccounts == false{
                             self.delegate.tableView.deleteRows(at: [indexPath], with: .fade)
@@ -62,7 +117,7 @@ class AccountManagerController {
                 self.delegate.present(alert, animated: true, completion: nil)
             }
             else {
-                self.delegate.showPurchaseOfferVC()
+                self.showPurchaseOfferVC()
             }
             complete(true)
         }
@@ -97,8 +152,9 @@ class AccountManagerController {
                     do {
                         try AccountManager.removeAccount(selectedAccount, eligibilityChacked: true, context: self.delegate.context)
                         try self.delegate.coreDataStack.saveContext(self.delegate.context)
-                        try self.delegate.updateSourceTable()//fetchedResultsController.performFetch()
-                        self.delegate.tableView.deleteRows(at: [indexPath], with: .fade)
+                        
+                        self.delegate.tableView.reloadData()//deleteRows(at: [indexPath], with: .fade)
+                        try self.delegate.updateSourceTable()
                     }
                     catch let error{
                         self.delegate.errorHandlerMethod(error: error)
@@ -133,7 +189,7 @@ class AccountManagerController {
                 do {
                     try AccountManager.renameAccount(selectedAccount, to: textField.text!, context: self.delegate.context)
                     try self.delegate.coreDataStack.saveContext(self.delegate.context)
-                    try self.delegate.updateSourceTable()//fetchedResultsController.performFetch()
+                    try self.delegate.updateSourceTable()
                     self.delegate.tableView.reloadData()
                 }
                 catch let error{
@@ -186,7 +242,7 @@ class AccountManagerController {
                                     do {
                                         try AccountManager.createAccount(parent: selectedAccount, name: textField.text!, type: selectedAccount.type, currency: selectedAccount.currency!, context: self.delegate.context)
                                         try self.delegate.coreDataStack.saveContext(self.delegate.context)
-                                        try self.delegate.updateSourceTable()//.fetchedResultsController.performFetch()
+                                        try self.delegate.updateSourceTable()
                                         self.delegate.tableView.reloadData()
                                     }
                                     catch let error{
@@ -204,7 +260,7 @@ class AccountManagerController {
                                 
                                 try AccountManager.createAccount(parent: selectedAccount, name: textField.text!, type: selectedAccount.type, currency: selectedAccount.currency!, context: self.delegate.context)
                                 try self.delegate.coreDataStack.saveContext(self.delegate.context)
-                                try self.delegate.updateSourceTable()//.fetchedResultsController.performFetch()
+                                try self.delegate.updateSourceTable()
                                 self.delegate.tableView.reloadData()
                             }
                         }
@@ -219,12 +275,18 @@ class AccountManagerController {
                 }
             }
             else {
-                self.delegate.showPurchaseOfferVC()
+                self.showPurchaseOfferVC()
             }
             complete(true)
         }
         addSubCategory.backgroundColor = .systemGreen
         addSubCategory.image = UIImage(systemName: "plus")
         return addSubCategory
+    }
+    
+    func showPurchaseOfferVC() {
+        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.purchaseOfferViewController) as! PurchaseOfferViewController
+        self.delegate.present(vc, animated: true, completion: nil)
     }
 }

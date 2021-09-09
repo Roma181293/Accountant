@@ -93,14 +93,9 @@ class AccountListViewController: UIViewController, UIScrollViewDelegate{
         NotificationCenter.default.addObserver(self, selector: #selector(self.reloadProAccessData), name: .receivedProAccessData, object: nil)
         context = CoreDataStack.shared.persistentContainer.viewContext
   
-       
-  
         accountingCurrency = CurrencyManager.getAccountingCurrency(context: context)!
         scrollView.delegate = self
-        moneyAccountListTableViewController.context = context
-        moneyAccountListTableViewController.delegate = self
-        moneyAccountListTableViewController.accountingCurrency = accountingCurrency
-        moneyAccountListTableViewController.isUserHasPaidAccess = isUserHasPaidAccess
+        
         switch segmentedControl.selectedSegmentIndex {
         case 0:
             account = AccountManager.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.money), context: context)
@@ -109,6 +104,12 @@ class AccountListViewController: UIViewController, UIScrollViewDelegate{
         default:
             account = AccountManager.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.credits), context: context)
         }
+        
+        moneyAccountListTableViewController.context = context
+        moneyAccountListTableViewController.delegate = self
+        moneyAccountListTableViewController.accountingCurrency = accountingCurrency
+        moneyAccountListTableViewController.isUserHasPaidAccess = isUserHasPaidAccess
+        moneyAccountListTableViewController.account = account
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -176,6 +177,7 @@ class AccountListViewController: UIViewController, UIScrollViewDelegate{
         slides = createSlides()
         setupSlideScrollView(slides: slides)
         
+        moneyAccountListTableViewController.account = account
         moneyAccountListTableViewController.listOfAccountsToShow = presentingData.tableData
         moneyAccountListTableViewController.tableView.reloadData()
         
@@ -323,12 +325,7 @@ class AccountListViewController: UIViewController, UIScrollViewDelegate{
     }
     
     @objc func addAccount(_ sender:UIButton!){
-        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        guard let account = account else {return}
-        let entryVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.accountEditorWithInitialBalanceViewController) as! AccountEditorWithInitialBalanceViewController
-        entryVC.parentAccount = account
-        entryVC.delegate = self.parent //because self isn't in navigationStack
-        self.navigationController?.pushViewController(entryVC, animated: true)
+        moneyAccountListTableViewController.accountManagerController.addSubAccountTo(account: account)
     }
     
     
@@ -342,10 +339,13 @@ class AccountListViewController: UIViewController, UIScrollViewDelegate{
     @objc func environmentDidChange(){
         context = CoreDataStack.shared.persistentContainer.viewContext
         
-        accountingCurrency = CurrencyManager.getAccountingCurrency(context: context)!
-            account = AccountManager.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.money), context: context)
         segmentedControl.selectedSegmentIndex = 0
+        
+        accountingCurrency = CurrencyManager.getAccountingCurrency(context: context)!
+        account = AccountManager.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.money), context: context)
+        
         moneyAccountListTableViewController.context = context
+        moneyAccountListTableViewController.account = account
         moneyAccountListTableViewController.accountingCurrency = accountingCurrency
         
         if let environment = coreDataStack.activeEnviroment() {

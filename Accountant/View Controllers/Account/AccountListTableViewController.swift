@@ -18,6 +18,8 @@ class AccountListTableViewController: UITableViewController, AccountManagerTable
     var context : NSManagedObjectContext!
     
     var delegate : AccountListViewController!
+    
+    var account: Account?
     var accountingCurrency : Currency!
     var showHiddenAccounts: Bool = false
     var listOfAccountsToShow : [AccountData] = []
@@ -34,10 +36,8 @@ class AccountListTableViewController: UITableViewController, AccountManagerTable
         delegate.updateUI()
     }
     
-    func showPurchaseOfferVC() {
-        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.purchaseOfferViewController) as! PurchaseOfferViewController
-        self.present(vc, animated: true, completion: nil)
+    func getVCUsedForPop() -> UIViewController? {
+        return self.delegate.parent //because self.delegate isn't in navigationStack
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
