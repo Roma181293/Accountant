@@ -11,6 +11,7 @@ import CoreData
 
 class AccountListTableViewController: UITableViewController {
     
+    var isUserHasPaidAccess: Bool = false
     let coreDataStack = CoreDataStack.shared
     var context : NSManagedObjectContext!
     

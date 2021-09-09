@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Purchases
 
 class AccountEditorWithInitialBalanceViewController: UIViewController {
 
@@ -26,6 +27,8 @@ class AccountEditorWithInitialBalanceViewController: UIViewController {
     var confirmButton: UIButton!
     weak var delegate : UIViewController?
     weak var activeTextField: UITextField!
+    
+    var isUserHasPaidAccess: Bool = false
     
     let coreDataStack = CoreDataStack.shared
     let context = CoreDataStack.shared.persistentContainer.viewContext
@@ -88,6 +91,10 @@ class AccountEditorWithInitialBalanceViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        //MARK:- adding NotificationCenter observers
+        NotificationCenter.default.addObserver(self, selector: #selector(self.reloadProAccessData), name: .receivedProAccessData, object: nil)
+        
         do {
             try getRootAccounts()
             
@@ -113,9 +120,8 @@ class AccountEditorWithInitialBalanceViewController: UIViewController {
         }
     }
     
-    
     deinit{
-        print(#function)
+        NotificationCenter.default.removeObserver(self, name: .receivedProAccessData, object: nil)
         context.rollback()
     }
     
@@ -138,11 +144,34 @@ class AccountEditorWithInitialBalanceViewController: UIViewController {
     }
     
     @IBAction func selectCurrency(_ sender: Any) {
+        guard AccessCheckManager.checkUserAccessToCreateAccountInNotAccountingCurrency(environment: coreDataStack.activeEnviroment()!, isUserHasPaidAccess: isUserHasPaidAccess)
+        else {
+            self.showPurchaseOfferVC()
+            return
+        }
+        
         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         let currencyTableViewController = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.currencyTableViewController) as! CurrencyTableViewController
         currencyTableViewController.delegate = self
         currencyTableViewController.currency = currency
         self.navigationController?.pushViewController(currencyTableViewController, animated: true)
+    }
+    
+    @objc func reloadProAccessData() {
+        Purchases.shared.purchaserInfo { (purchaserInfo, error) in
+            if purchaserInfo?.entitlements.all["pro"]?.isActive == true {
+                self.isUserHasPaidAccess = true
+            }
+            else if purchaserInfo?.entitlements.all["pro"]?.isActive == false {
+                self.isUserHasPaidAccess = false
+            }
+        }
+    }
+    
+    func showPurchaseOfferVC() {
+        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.purchaseOfferViewController) as! PurchaseOfferViewController
+        self.present(vc, animated: true, completion: nil)
     }
     
     @objc func confirmCreation(_ sender: UIButton) {

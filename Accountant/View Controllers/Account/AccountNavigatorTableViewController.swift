@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import Purchases
 
 class AccountNavigatorTableViewController: UITableViewController {
     
@@ -58,6 +59,9 @@ class AccountNavigatorTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        //MARK:- adding NotificationCenter observers
+        NotificationCenter.default.addObserver(self, selector: #selector(self.reloadProAccessData), name: .receivedProAccessData, object: nil)
+        
         if let  environment = CoreDataStack.shared.activeEnviroment() {
             self.environment = environment
         }
@@ -101,8 +105,23 @@ class AccountNavigatorTableViewController: UITableViewController {
         resultSearchController.dismiss(animated: true, completion: nil)
     }
     
+    deinit{
+        NotificationCenter.default.removeObserver(self, name: .receivedProAccessData, object: nil)
+    }
+    
+    @objc func reloadProAccessData() {
+        Purchases.shared.purchaserInfo { (purchaserInfo, error) in
+            if purchaserInfo?.entitlements.all["pro"]?.isActive == true {
+                self.isUserHasPaidAccess = true
+            }
+            else if purchaserInfo?.entitlements.all["pro"]?.isActive == false {
+                self.isUserHasPaidAccess = false
+            }
+        }
+    }
+    
     @objc func addAccount(sender: UIBarButtonItem) {
-        if self.checkUserAccessToCreateSubAccountForSelected(account: account) {
+        if AccessCheckManager.checkUserAccessToCreateSubAccountForSelected(account: account, isUserHasPaidAccess: isUserHasPaidAccess, environment: environment) {
             guard let account = self.account else {
                 let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
                 let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.addAccountViewController) as! AddAccountViewController
@@ -345,7 +364,7 @@ extension AccountNavigatorTableViewController {
     private func hideAccount(indexPath: IndexPath) -> UIContextualAction {
         let hideAction = UIContextualAction(style: .normal, title: NSLocalizedString("Hide",comment: "")) { _, _, complete in
             let selectedAccount = self.fetchedResultsController.object(at: indexPath) as Account
-            if self.checkUserAccessToHideAccount() {
+            if AccessCheckManager.checkUserAccessToHideAccount(environment: self.environment, isUserHasPaidAccess: self.isUserHasPaidAccess) {
                 var title = ""
                 var message = ""
                 if selectedAccount.isHidden {
@@ -475,7 +494,7 @@ extension AccountNavigatorTableViewController {
         let addSubCategory = UIContextualAction(style: .normal, title: NSLocalizedString("Add subaccount",comment: "")) { _, _, complete in
             let selectedAccount = self.fetchedResultsController.object(at: indexPath) as Account
             
-            if self.checkUserAccessToCreateSubAccountForSelected(account: selectedAccount) {
+            if AccessCheckManager.checkUserAccessToCreateSubAccountForSelected(account: selectedAccount, isUserHasPaidAccess: self.isUserHasPaidAccess, environment: self.environment) {
                 if selectedAccount.currency == nil {
                     let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
                     let transactionEditorVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.accountEditorWithInitialBalanceViewController) as! AccountEditorWithInitialBalanceViewController
@@ -549,27 +568,9 @@ extension AccountNavigatorTableViewController {
         return addSubCategory
     }
     
-    @objc func showPurchaseOfferVC() {
+    func showPurchaseOfferVC() {
         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.purchaseOfferViewController) as! PurchaseOfferViewController
         self.present(vc, animated: true, completion: nil)
     }
-    
-    
-    func checkUserAccessToCreateSubAccountForSelected(account : Account?) -> Bool {
-        print(environment)
-        if self.environment == .test ||
-            (self.environment == .prod && (self.isUserHasPaidAccess || (self.isUserHasPaidAccess == false && (account == nil || account?.level == 0)))) {
-            return true
-        }
-        return false
-    }
-    
-    func checkUserAccessToHideAccount() -> Bool {
-        if self.environment == .test {
-            return true
-        }
-        return false
-    }
-
 }

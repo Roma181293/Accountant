@@ -8,6 +8,7 @@
 import UIKit
 import CoreData
 import GoogleMobileAds
+import Purchases
 
 class SimpleTransactionEditorViewController: UIViewController, GADFullScreenContentDelegate {
     
@@ -62,6 +63,10 @@ class SimpleTransactionEditorViewController: UIViewController, GADFullScreenCont
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        //MARK:- adding NotificationCenter observers
+        NotificationCenter.default.addObserver(self, selector: #selector(self.reloadProAccessData), name: .receivedProAccessData, object: nil)
+        
         interstitial?.fullScreenContentDelegate = self
         showPreContent()
         initialConfigureUI()
@@ -96,6 +101,21 @@ class SimpleTransactionEditorViewController: UIViewController, GADFullScreenCont
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
+    deinit{
+        NotificationCenter.default.removeObserver(self, name: .receivedProAccessData, object: nil)
+        context.rollback()
+    }
+    
+    @objc func reloadProAccessData() {
+        Purchases.shared.purchaserInfo { (purchaserInfo, error) in
+            if purchaserInfo?.entitlements.all["pro"]?.isActive == true {
+                self.isUserHasPaidAccess = true
+            }
+            else if purchaserInfo?.entitlements.all["pro"]?.isActive == false {
+                self.isUserHasPaidAccess = false
+            }
+        }
+    }
     
     @IBAction func changeDate(_ sender: UIDatePicker) {
         getExhangeRate()

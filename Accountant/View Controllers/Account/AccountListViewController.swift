@@ -8,6 +8,7 @@
 
 import UIKit
 import Charts
+import Purchases
 
 class AccountListViewController: UIViewController, UIScrollViewDelegate{
     
@@ -18,6 +19,8 @@ class AccountListViewController: UIViewController, UIScrollViewDelegate{
     private unowned var moneyAccountListTableViewController: AccountListTableViewController!
     
     private var slides: [UIView] = []
+    
+    var isUserHasPaidAccess: Bool = false
     
     let coreDataStack = CoreDataStack.shared
     var context = CoreDataStack.shared.persistentContainer.viewContext
@@ -84,17 +87,19 @@ class AccountListViewController: UIViewController, UIScrollViewDelegate{
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        context = CoreDataStack.shared.persistentContainer.viewContext
-  
         //MARK:- adding NotificationCenter observers
         NotificationCenter.default.addObserver(self, selector: #selector(self.environmentDidChange), name: .environmentDidChange, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.reloadProAccessData), name: .receivedProAccessData, object: nil)
+        context = CoreDataStack.shared.persistentContainer.viewContext
+  
+       
   
         accountingCurrency = CurrencyManager.getAccountingCurrency(context: context)!
         scrollView.delegate = self
         moneyAccountListTableViewController.context = context
         moneyAccountListTableViewController.delegate = self
         moneyAccountListTableViewController.accountingCurrency = accountingCurrency
+        moneyAccountListTableViewController.isUserHasPaidAccess = isUserHasPaidAccess
         switch segmentedControl.selectedSegmentIndex {
         case 0:
             account = AccountManager.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.money), context: context)
@@ -126,6 +131,7 @@ class AccountListViewController: UIViewController, UIScrollViewDelegate{
     
     deinit{
         NotificationCenter.default.removeObserver(self, name: .environmentDidChange, object: nil)
+        NotificationCenter.default.removeObserver(self, name: .receivedProAccessData, object: nil)
     }
     
     @IBAction func changeAccount(_ sender: UISegmentedControl) {
@@ -345,6 +351,19 @@ class AccountListViewController: UIViewController, UIScrollViewDelegate{
             dateOfLastChangesInDB = UserProfile.getDateOfLastChangesInDB()
             scrollView.scrollToLeft(animated: false)
             updateUI()
+        }
+    }
+    
+    @objc func reloadProAccessData() {
+        Purchases.shared.purchaserInfo { (purchaserInfo, error) in
+            if purchaserInfo?.entitlements.all["pro"]?.isActive == true {
+                self.isUserHasPaidAccess = true
+                self.moneyAccountListTableViewController.isUserHasPaidAccess = self.isUserHasPaidAccess
+            }
+            else if purchaserInfo?.entitlements.all["pro"]?.isActive == false {
+                self.isUserHasPaidAccess = false
+                self.moneyAccountListTableViewController.isUserHasPaidAccess = self.isUserHasPaidAccess
+            }
         }
     }
 }
