@@ -1298,7 +1298,7 @@
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9d3-vf-M3w">
                                                         <rect key="frame" x="0.0" y="0.0" width="255" height="30"/>
-                                                        <state key="normal" title="Multicurency"/>
+                                                        <state key="normal" title="Multicurrency"/>
                                                         <connections>
                                                             <action selector="selectCurrency:" destination="I4t-Wg-0bb" eventType="touchUpInside" id="Q15-Q0-qHS"/>
                                                         </connections>

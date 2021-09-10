@@ -77,6 +77,15 @@
 /* Class = "UILabel"; text = "Type:"; ObjectID = "BYJ-cO-tgF"; */
 "BYJ-cO-tgF.text" = "Тип:";
 
+
+/* Class = "UILabel"; text = "Type:"; ObjectID = "Kat-ya-3Cr"; */
+"Kat-ya-3Cr.text" = "Тип";
+
+
+/* Class = "UIButton"; normalTitle = "Multicurrency"; ObjectID = "9d3-vf-M3w"; */
+"9d3-vf-M3w.normalTitle" = "Багатовалютний";
+
+
 /* Class = "UILabel"; text = "Label"; ObjectID = "D79-gx-SHd"; */
 "D79-gx-SHd.text" = "Label";
 
@@ -207,7 +216,7 @@
 "dPH-mm-hft.segmentTitles[3]" = "9-0";
 
 /* Class = "UILabel"; text = "Currency:"; ObjectID = "dnN-hd-CVb"; */
-"dnN-hd-CVb.text" = "Валюта:";
+"dnN-hd-CVb.text" = "Валюта";
 
 /* Class = "UILabel"; text = "Label"; ObjectID = "eln-OW-Q4O"; */
 "eln-OW-Q4O.text" = "Label";
@@ -300,7 +309,7 @@
 "ybR-iW-36u.text" = "Постійний бюджет";
 
 /* Class = "UILabel"; text = "Name:"; ObjectID = "yxx-gJ-zNA"; */
-"yxx-gJ-zNA.text" = "Ім'я:";
+"yxx-gJ-zNA.text" = "Ім'я";
 
 /* Class = "UIButton"; normalTitle = "To: Account"; ObjectID = "zgl-DL-PEL"; */
 "zgl-DL-PEL.normalTitle" = "До: Рахунку";

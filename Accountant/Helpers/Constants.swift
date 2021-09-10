@@ -81,7 +81,7 @@ struct Constants {
     
     struct Size {
         
-        static let cornerButtonRadius = CGFloat(6.0)
+        static let cornerButtonRadius = CGFloat(8.0)
         static let cornerMainRadius = CGFloat(12.0)
         static let cornerCardRadius = CGFloat(15.0)
         static let minimumCellSpacing = CGFloat(13.0)
@@ -133,7 +133,8 @@ struct Constants {
 struct Colors {
     
     struct Main {
-        
+        static let defaultButton = UIColor.systemGray4
+        static let confirmButton = UIColor.systemGray5
         static let darkBlue = UIColor(red: 27/255, green: 35/255, blue: 47/255, alpha: 1)
         static let lightBlue = UIColor(red: 104/255, green: 150/255, blue: 218/255, alpha: 1)
         static let darkOrange = UIColor(red: 217/255, green: 104/255, blue: 38/255, alpha: 1)

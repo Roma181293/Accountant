@@ -31,6 +31,8 @@ class AccountManagerController {
             guard let account = self.delegate.account else {
                 let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
                 let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.addAccountViewController) as! AddAccountViewController
+                vc.environment = delegate.environment
+                vc.isUserHasPaidAccess = delegate.isUserHasPaidAccess
                 self.delegate.navigationController?.pushViewController(vc, animated: true)
                 return
             }
@@ -152,9 +154,10 @@ class AccountManagerController {
                     do {
                         try AccountManager.removeAccount(selectedAccount, eligibilityChacked: true, context: self.delegate.context)
                         try self.delegate.coreDataStack.saveContext(self.delegate.context)
-                        
-                        self.delegate.tableView.reloadData()//deleteRows(at: [indexPath], with: .fade)
                         try self.delegate.updateSourceTable()
+                        
+                        //FIXME:- self.delegate.tableView.deleteRows(at: [indexPath], with: .fade)
+                        self.delegate.tableView.reloadData()//deleteRows(at: [indexPath], with: .fade)
                     }
                     catch let error{
                         self.delegate.errorHandlerMethod(error: error)

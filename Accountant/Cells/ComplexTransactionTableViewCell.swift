@@ -46,7 +46,7 @@ class ComplexTransactionTableViewCell: UITableViewCell {
         stackView.axis = .horizontal
         stackView.alignment = .leading
         stackView.distribution = .fill
-        stackView.spacing = 3.0
+        stackView.spacing = 5.0
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()

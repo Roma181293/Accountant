@@ -15,6 +15,8 @@ class AddAccountViewController: UIViewController {
     @IBOutlet weak var currencyButton: UIButton!
     @IBOutlet weak var refreshButton: UIButton!
     
+    var isUserHasPaidAccess: Bool = false
+    var environment: Environment = .prod
     
     let coreDataStack : CoreDataStack = CoreDataStack.shared
     let context = CoreDataStack.shared.persistentContainer.viewContext
@@ -23,13 +25,24 @@ class AddAccountViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.tabBarController?.navigationItem.title = "Create Account"
-        addButtonToViewController()
+        self.navigationItem.title = NSLocalizedString("Create account", comment: "")
+        configureUI()
+    
+        nameTextField.delegate = self as! UITextFieldDelegate
+        nameTextField.tag = 100
+        
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
+        view.addGestureRecognizer(tap)
     }
     
-    private func addButtonToViewController() {
+    private func configureUI() {
+        currencyButton.backgroundColor = Colors.Main.defaultButton
+        currencyButton.layer.cornerRadius = Constants.Size.cornerButtonRadius
+        refreshButton.backgroundColor = Colors.Main.defaultButton
+        refreshButton.layer.cornerRadius = Constants.Size.cornerButtonRadius
+        
         let addButton = UIButton(frame: CGRect(origin: CGPoint(x: self.view.frame.width - 70 , y: self.view.frame.height - 150), size: CGSize(width: 50, height: 50)))
-        addButton.backgroundColor = .systemGray5
+        addButton.backgroundColor = Colors.Main.confirmButton
         view.addSubview(addButton)
         
         addButton.translatesAutoresizingMaskIntoConstraints = false
@@ -62,7 +75,7 @@ class AddAccountViewController: UIViewController {
     
     @IBAction func refreshCurrency(_ sender: UIButton){
         currency = nil
-        currencyButton.setTitle("Multicurrency", for: .normal)
+        currencyButton.setTitle(NSLocalizedString("Multicurrency", comment: ""), for: .normal)
     }
     
     @objc func save(_ sender:UIButton!){
@@ -78,10 +91,19 @@ class AddAccountViewController: UIViewController {
             }
         }
         catch let error{
-                let alert = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: "\(error.localizedDescription)", preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "OK", style: .default))
-                self.present(alert, animated: true, completion: nil)
+            let alert = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: "\(error.localizedDescription)", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default))
+            self.present(alert, animated: true, completion: nil)
         }
+    }
+    
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
+    
+    func textFieldShouldReturn(_ textField : UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
     }
 }
 

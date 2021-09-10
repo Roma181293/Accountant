@@ -113,7 +113,7 @@
 //AnalyticsViewController
 "Analytics" = "Аналітика";
 
-//AccountManagerTableViewController, AccountNavigatorTableViewController
+//AccountNavigatorTableViewController
 "Accounts manager" = "Менеджер рахунків";
 
 "Rename" = "Перейменувати";
@@ -142,6 +142,9 @@
 "Currency" = "Валюта";
 "Change accounting currency" = "Змінити валюту обліку";
 
+//AddAccountViewController
+"Create account" = "Створити рахунок";
+"Multicurrency" = "Багатовалютний";
 
 //PurchaseOfferViewController
 "PRO access" = "PRO доступ";
