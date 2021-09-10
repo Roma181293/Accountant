@@ -338,6 +338,17 @@ class AccountManager {
         return results
     }
     
+    //USE ONLY TO CLEAR DATA IN TEST ENVIRONMENT
+    static func deleteAllAccounts(context: NSManagedObjectContext) throws {
+        let accountsFetchRequest : NSFetchRequest<Account> = NSFetchRequest<Account>(entityName: Account.entity().name!)
+        accountsFetchRequest.sortDescriptors = [NSSortDescriptor(key: "createDate", ascending: true)]
+        
+        let accounts = try context.fetch(accountsFetchRequest)
+        accounts.forEach({
+            context.delete($0)
+        })
+    }
+    
     static func exportAccountsToString(context: NSManagedObjectContext) -> String {
         
         let accountFetchRequest : NSFetchRequest<Account> = NSFetchRequest<Account>(entityName: Account.entity().name!)

@@ -138,6 +138,18 @@ class CurrencyManager {
         }
     }
     
+    //USE ONLY TO CLEAR DATA IN TEST ENVIRONMENT
+    static func deleteAllCurrencies(context: NSManagedObjectContext) throws {
+        let currencyFetchRequest : NSFetchRequest<Currency> = NSFetchRequest<Currency>(entityName: Currency.entity().name!)
+        currencyFetchRequest.sortDescriptors = [NSSortDescriptor(key: "code", ascending: true)]
+        
+        let currencies = try context.fetch(currencyFetchRequest)
+        currencies.forEach({
+            context.delete($0)
+        })
+        
+    }
+    
     static func addCurrencies(context: NSManagedObjectContext) {
         let currencies = [
             "AUD", "CAD", "CNY", "HRK", "CZK", "DKK", "HKD", "HUF", "INR", "IDR", "ILS", "JPY", "KZT", "KRW", "MXN", "MDL", "NZD", "NOK", "RUB", "SAR", "SGD", "ZAR", "SEK", "CHF", "EGP", "GBP", "UAH", "USD", "BYN", "AZN", "RON", "TRY", "BGN", "EUR", "PLN", "DZD", "BDT", "AMD", "IRR", "IQD", "KGS", "LBP", "LYD", "MYR", "MAD", "VND", "THB", "AED", "TND", "UZS", "TWD", "TMT", "GHS", "RSD", "TJS", "GEL", "BRL"]

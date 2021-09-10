@@ -73,27 +73,31 @@ class SettingWithSwitchTableViewCell: UITableViewCell {
         
         else if isEnviromentConfigure {
             UserProfile.setDateOfLastChangesInDB(Date())
-            
-            if sender.isOn {
-                CoreDataStack.shared.switchToDB(.test)
-                NotificationCenter.default.post(name: .environmentDidChange, object: nil)
-                let context = CoreDataStack.shared.persistentContainer.viewContext
-                
-                do {
+            do {
+                if sender.isOn {
+                    CoreDataStack.shared.switchToDB(.test)
+                    
+                    let context = CoreDataStack.shared.persistentContainer.viewContext
                     
                     CurrencyManager.addCurrencies(context: context)
-                    
                     guard let currency = try CurrencyManager.getCurrencyForCode("UAH", context: context) else {return}
                     try CurrencyManager.changeAccountingCurrency(old: nil, new: currency, context: context)
                     AccountManager.addBaseAccounts(accountingCurrency: currency, context: context)
                     try CoreDataStack.shared.saveContext(context)
-                }catch {
-                    print(error)
                 }
-            }
-            else {
-                CoreDataStack.shared.switchToDB(.prod)
+                else {
+                    let context = CoreDataStack.shared.persistentContainer.viewContext
+                    
+                    try TransactionManager.deleteAllTransactions(context: context)
+                    try AccountManager.deleteAllAccounts(context: context)
+                    try CurrencyManager.deleteAllCurrencies(context: context)
+                    try CoreDataStack.shared.saveContext(context)
+                    
+                    CoreDataStack.shared.switchToDB(.prod)
+                }
                 NotificationCenter.default.post(name: .environmentDidChange, object: nil)
+            } catch let error {
+                print(error)
             }
         }
     }

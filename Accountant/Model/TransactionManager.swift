@@ -103,6 +103,25 @@ class TransactionManager {
         }
     }
     
+    //USE ONLY TO CLEAR DATA IN TEST ENVIRONMENT
+    static func deleteAllTransactions(context: NSManagedObjectContext){
+        let transactionFetchRequest : NSFetchRequest<Transaction> = NSFetchRequest<Transaction>(entityName: Transaction.entity().name!)
+        transactionFetchRequest.sortDescriptors = [NSSortDescriptor(key: "createDate", ascending: true)]
+        
+        do {
+            let transactions = try context.fetch(transactionFetchRequest)
+            for transaction in transactions {
+                for item in transaction.items!.allObjects as! [TransactionItem]{
+                    context.delete(item)
+                }
+                context.delete(transaction)
+            }
+        }
+        catch let error {
+            print("ERROR", error)
+        }
+    }
+    
     
     static func importTransactionList(from data : String, context: NSManagedObjectContext) throws -> [PreTransaction] {
         var inputMatrix: [[String]] = []
