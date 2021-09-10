@@ -12,9 +12,13 @@ import Foundation
 class AccountsNameLocalisationManager {
     
     class func createLocalizedAccountName(_ accountName : BaseAccounts) {
-        let defaults = UserDefaults.standard
-        defaults.set(String(NSLocalizedString(accountName.rawValue, comment: "")), forKey: accountName.rawValue)
+        var environment = Environment.prod
+        if let environmentValue = CoreDataStack.shared.activeEnviroment() {
+            environment = environmentValue
+        }
         
+        let defaults = UserDefaults.standard
+        defaults.set(String(NSLocalizedString(accountName.rawValue, comment: "")), forKey: accountName.rawValue+environment.rawValue)
     }
     
     static func createAllLocalizedAccountName(){
@@ -25,7 +29,12 @@ class AccountsNameLocalisationManager {
     
    
     static func getLocalizedAccountName(_ accountName : BaseAccounts) -> String {
-        if let localizedAccountName = UserDefaults.standard.object(forKey: accountName.rawValue) as? String {
+        var environment = Environment.prod
+        if let environmentValue = CoreDataStack.shared.activeEnviroment() {
+            environment = environmentValue
+        }
+        
+        if let localizedAccountName = UserDefaults.standard.object(forKey: accountName.rawValue+environment.rawValue) as? String {
             return localizedAccountName
         }
         else {
