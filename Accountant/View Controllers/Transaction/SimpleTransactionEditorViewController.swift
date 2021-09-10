@@ -203,23 +203,22 @@ class SimpleTransactionEditorViewController: UIViewController, GADFullScreenCont
     }
     
     func showPreContent() {
-//        if let entitlement = UserProfile.getEntitlement(),
-//           (entitlement.name != .pro || (entitlement.name != .pro && entitlement.expirationDate! < Date())) {
-//            DispatchQueue.main.asyncAfter(deadline: DispatchTime(uptimeNanoseconds: 25), execute:{
-//                switch UserProfile.whatPreContentShowInView(.transactionEditor) {
-//                case .add:
-//                    if let interstitial = self.interstitial {
-//                        interstitial.present(fromRootViewController: self)
-//                    }
-//                case .offer:
-//                    let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-//                    let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.purchaseOfferViewController) as! PurchaseOfferViewController
-//                    self.navigationController?.present(vc, animated: true, completion: nil)
-//                default:
-//                    return
-//                }
-//            })
-//        }
+        if isUserHasPaidAccess == false {
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime(uptimeNanoseconds: 25), execute:{
+                switch UserProfile.whatPreContentShowInView(.transactionEditor) {
+                case .add:
+                    if let interstitial = self.interstitial {
+                        interstitial.present(fromRootViewController: self)
+                    }
+                case .offer:
+                    let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                    let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.purchaseOfferViewController) as! PurchaseOfferViewController
+                    self.navigationController?.present(vc, animated: true, completion: nil)
+                default:
+                    return
+                }
+            })
+        }
     }
     
     func initialConfigureUI() {

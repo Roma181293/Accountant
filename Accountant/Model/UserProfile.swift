@@ -139,6 +139,8 @@ class UserProfile {
         return date
     }
     
+    
+    
     //MARK:- ADD AND OFFER COUNTERS
     enum AppViews: String{
         case transactionEditor
@@ -160,42 +162,7 @@ class UserProfile {
         }
         UserDefaults.standard.set(count+1, forKey: "\(view.rawValue)ViewOpenCount")
     }
-    
-    static func needShowAddForView(_ view: AppViews)->Bool {
-        guard let count = UserDefaults.standard.object(forKey: "\(view.rawValue)ViewOpenCount") as? Int else {return false}
-        
-//        switch view {
-//        case .transaction:
-//            if count % 2 == 0 {
-//                return true
-//            }
-//            return false
-//        case .analytics:
-//            if count % 2 == 0 {
-//                return true
-//            }
-//            return false
-//        case .moneyAccounts:
-//            if count % 2 == 0 {
-//                return true
-//            }
-//            return false
-//        }
-        
-        
-        if count % 2 == 0 {
-            return true
-        }
-        return false
-    }
-    
-    static func needShowOfferForView(_ view: AppViews)->Bool {
-        guard let count = UserDefaults.standard.object(forKey: "\(view.rawValue)ViewOpenCount") as? Int else {return false}
-        if count % 3 == 0 {
-            return true
-        }
-        return false
-    }
+  
     
     static func whatPreContentShowInView(_ view: AppViews) -> PreContentForUserWOSubscription {
         viewDidOpen(view: view)
