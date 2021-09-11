@@ -60,6 +60,12 @@ class AccountNavigatorTableViewController: UITableViewController, AccountManager
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        //Set black color under cells in dark mode
+        let backView = UIView(frame: self.tableView.bounds)
+        backView.backgroundColor = .systemBackground
+        self.tableView.backgroundView = backView
+        
         //MARK:- adding NotificationCenter observers
         NotificationCenter.default.addObserver(self, selector: #selector(self.reloadProAccessData), name: .receivedProAccessData, object: nil)
         
