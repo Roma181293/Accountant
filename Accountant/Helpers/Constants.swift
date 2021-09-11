@@ -61,8 +61,7 @@ struct Constants {
         static let analyticsCell1 = "AnalyticsCell1_ID"
         
         static let currencyCell = "CurrencyCell_ID"
-        
-        static let settingsCellWithSwitchCell = "SettingsCellSwitch_ID"
+
         static let settingsCell = "SettingsCell_ID"
     }
     

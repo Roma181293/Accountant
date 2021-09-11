@@ -400,66 +400,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="SettingsCell_ID" textLabel="rDq-H4-nqC" detailTextLabel="4cl-Bc-pBu" style="IBUITableViewCellStyleValue1" id="8bE-4L-S1W">
-                                <rect key="frame" x="0.0" y="24.5" width="414" height="43.5"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="8bE-4L-S1W" id="vrV-t2-bQM">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="rDq-H4-nqC">
-                                            <rect key="frame" x="20" y="12" width="33" height="20.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <nil key="textColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Detail" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="4cl-Bc-pBu">
-                                            <rect key="frame" x="350" y="12" width="44" height="20.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <nil key="textColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                    </subviews>
-                                </tableViewCellContentView>
-                            </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="SettingsCellSwitch_ID" id="vAx-6d-nYh" customClass="SettingWithSwitchTableViewCell" customModule="Accountant" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="68" width="414" height="44"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="vAx-6d-nYh" id="G2C-DJ-RpG">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="D79-gx-SHd">
-                                            <rect key="frame" x="20" y="11" width="42" height="21.5"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <nil key="textColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="zTD-nT-i2p">
-                                            <rect key="frame" x="343" y="6" width="51" height="31.5"/>
-                                            <connections>
-                                                <action selector="switchingWithSender:" destination="vAx-6d-nYh" eventType="valueChanged" id="iLF-qC-DnI"/>
-                                            </connections>
-                                        </switch>
-                                    </subviews>
-                                    <constraints>
-                                        <constraint firstItem="zTD-nT-i2p" firstAttribute="top" secondItem="G2C-DJ-RpG" secondAttribute="top" constant="6" id="0ph-x0-aga"/>
-                                        <constraint firstAttribute="bottom" secondItem="zTD-nT-i2p" secondAttribute="bottom" constant="6.3300000000000001" id="1Wa-3H-Ycb"/>
-                                        <constraint firstItem="D79-gx-SHd" firstAttribute="leading" secondItem="G2C-DJ-RpG" secondAttribute="leadingMargin" id="6Rh-YZ-sYf"/>
-                                        <constraint firstAttribute="bottomMargin" secondItem="D79-gx-SHd" secondAttribute="bottom" constant="0.67000000000000004" id="ijD-wl-oHt"/>
-                                        <constraint firstAttribute="trailing" secondItem="zTD-nT-i2p" secondAttribute="trailing" constant="22" id="n5B-wj-RPM"/>
-                                        <constraint firstItem="D79-gx-SHd" firstAttribute="top" secondItem="G2C-DJ-RpG" secondAttribute="topMargin" id="oCM-rg-WNb"/>
-                                    </constraints>
-                                </tableViewCellContentView>
-                                <connections>
-                                    <outlet property="switcher" destination="zTD-nT-i2p" id="CMe-wp-z5t"/>
-                                    <outlet property="title" destination="D79-gx-SHd" id="s7m-qY-bMm"/>
-                                </connections>
-                            </tableViewCell>
-                        </prototypes>
                         <connections>
                             <outlet property="dataSource" destination="Otk-76-Fkk" id="OnG-we-z3H"/>
                             <outlet property="delegate" destination="Otk-76-Fkk" id="IXa-mP-NZm"/>
@@ -471,7 +411,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7qH-xG-3L3" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1214" y="3522"/>
+            <point key="canvasLocation" x="-1214.4927536231885" y="3521.6517857142858"/>
         </scene>
         <!--Import Transaction View Controller-->
         <scene sceneID="zoc-Cq-2Ah">

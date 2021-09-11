@@ -10,42 +10,41 @@ import UIKit
 import UniformTypeIdentifiers
 import Purchases
 
+enum SettingsDataSource: String, CaseIterable{
+    case offer = "Purchase offer"
+    case auth = "Auth"
+    case envirement = "Envirement"
+    case accountingCurrency = "Accounting currency"
+    case accountsManager = "Accounts manager"
+    case importAccounts = "Import Account List"
+    case importTransactions = "Import Transaction List"
+    case exportAccounts = "Share Account List"
+    case exportTransactions = "Share Transaction List"
+    case termsOfUse = "Terms of use"
+    case privacyPolicy = "Privacy policy"
+}
+
 class SettingsTableViewController: UITableViewController {
     
     var isUserHasPaidAccess = false
-    private var proAccessExpirationDate: Date?
+    var proAccessExpirationDate: Date?
     var environment: Environment = .prod
     
     let coreDataStack = CoreDataStack.shared
     var context = CoreDataStack.shared.persistentContainer.viewContext
-    
-    var dataSource : [String] = [
-        "Purchase offer",
-        "Auth",
-        "Envirement",
-        NSLocalizedString("Accounting currency", comment: ""),
-        NSLocalizedString("Accounts manager", comment: ""),
-        
-        NSLocalizedString("Import Account List", comment: ""),
-        NSLocalizedString("Import Transaction List", comment: ""),
-        NSLocalizedString("Share Account List", comment: ""),
-        NSLocalizedString("Share Transaction List", comment: ""),
-        
-        NSLocalizedString("Terms of use", comment: ""),
-        NSLocalizedString("Privacy policy", comment: "")
-        
-        //        NSLocalizedString("Subscriptions status", comment: ""),
-        //        "TransactionEditor"
-    ]
     
     var isImportAccounts: Bool = true
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        tableView.tableFooterView = UIView(frame: .zero)
         if let  environment = CoreDataStack.shared.activeEnviroment() {
             self.environment = environment
         }
+        
+        tableView.register(SettingsTableViewCell.self, forCellReuseIdentifier: Constants.Cell.settingsCell)
+        
         //MARK:- adding NotificationCenter observers
         NotificationCenter.default.addObserver(self, selector: #selector(self.environmentDidChange), name: .environmentDidChange, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.reloadProAccessData), name: .receivedProAccessData, object: nil)
@@ -71,144 +70,98 @@ class SettingsTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return dataSource.count
+        return SettingsDataSource.allCases.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if dataSource[indexPath.row] == "Auth" {
-            let cell = tableView.dequeueReusableCell(withIdentifier: Constants.Cell.settingsCellWithSwitchCell, for: indexPath) as! SettingWithSwitchTableViewCell
-            cell.updateForAuthConfigure()
-            cell.accessoryType = .none
-            return cell
-        }
-        else if dataSource[indexPath.row] == "Envirement"{
-            let cell = tableView.dequeueReusableCell(withIdentifier: Constants.Cell.settingsCellWithSwitchCell, for: indexPath) as! SettingWithSwitchTableViewCell
-            cell.updateForEnviromentConfigure()
-            cell.accessoryType = .none
-            return cell
-            
-        }
+        let cell = tableView.dequeueReusableCell(withIdentifier: Constants.Cell.settingsCell, for: indexPath) as! SettingsTableViewCell
+        cell.configureCell(for: SettingsDataSource.allCases[indexPath.row] , with: self)
         
-        else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: Constants.Cell.settingsCell, for: indexPath)
-            
-            //textLabel
-            if dataSource[indexPath.row] == "Purchase offer" {
-                if isUserHasPaidAccess {
-                    cell.textLabel?.text = NSLocalizedString("PRO access", comment: "")
-                }
-                else {
-                    cell.textLabel?.text = NSLocalizedString("Get PRO access", comment: "")
-                }
-            }
-            else {
-                cell.textLabel?.text = dataSource[indexPath.row]
-            }
-            
-            
-            //detailTextLabel
-            if dataSource[indexPath.row] == NSLocalizedString("Accounting currency", comment: "") {
-                if let currency = CurrencyManager.getAccountingCurrency(context: context) {
-                    cell.detailTextLabel?.text = currency.code!
-                }
-                else {
-                    cell.detailTextLabel?.text = "No currency"
-                }
-            }
-            else if dataSource[indexPath.row] == "Purchase offer" && isUserHasPaidAccess && proAccessExpirationDate != nil {
-                let formatter = DateFormatter()
-                formatter.dateStyle = .short
-                formatter.timeStyle = .none
-                formatter.locale = Locale(identifier: "\(Bundle.main.localizations.first ?? "en")_\(Locale.current.regionCode ?? "US")")
-                cell.detailTextLabel?.text = NSLocalizedString("till", comment: "") + " " + formatter.string(from: proAccessExpirationDate!)
-            }
-            else {
-                cell.detailTextLabel?.text = ""
-            }
-            
-            //accessoryType
-            if dataSource[indexPath.row] == NSLocalizedString("Accounting currency", comment: "") ||
-                dataSource[indexPath.row] == NSLocalizedString("Account & category editor", comment: "") ||
-//                dataSource[indexPath.row] == NSLocalizedString("Purchase offer", comment: "") ||
-                dataSource[indexPath.row] == NSLocalizedString("Accounts manager", comment: "") ||
-                dataSource[indexPath.row] == NSLocalizedString("Terms of use", comment: "") ||
-                dataSource[indexPath.row] == NSLocalizedString("Privacy policy", comment: "")
-            {
-                cell.accessoryType = .disclosureIndicator
-            }
-            else {
-                cell.accessoryType = .none
-            }
-            return cell
-        }
+        return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 44
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         
-        if dataSource[indexPath.row] == NSLocalizedString("Accounting currency", comment: "") {
-            let currencyTableViewController = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.currencyTableViewController) as! CurrencyTableViewController
-            self.navigationController?.pushViewController(currencyTableViewController, animated: true)
-        }
-        else if dataSource[indexPath.row] == NSLocalizedString("Share Account List", comment: "") {
-            shareTXTFile(fileName: "AccountList", data: AccountManager.exportAccountsToString(context: context))
-            print(AccountManager.exportAccountsToString(context: context))
-        }
-        else if dataSource[indexPath.row] == NSLocalizedString("Share Transaction List", comment: ""){
-            shareTXTFile(fileName: "TransactionList", data: TransactionManager.exportTransactionsToString(context: context))
-        }
-        else if dataSource[indexPath.row] == NSLocalizedString("Accounts manager", comment: "") {
+        switch SettingsDataSource.allCases[indexPath.row] {
+        
+        case .offer:
+            showPurchaseOfferVC()
+        case .auth:
+            break
+        case .envirement:
+            break
+        case .accountingCurrency:
+            let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.currencyTableViewController) as! CurrencyTableViewController
+            self.navigationController?.pushViewController(vc, animated: true)
+        case .accountsManager:
             let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.accountNavigatorTableViewController) as!
                 AccountNavigatorTableViewController
             vc.isUserHasPaidAccess = isUserHasPaidAccess
             self.navigationController?.pushViewController(vc, animated: true)
-        }
-        else if dataSource[indexPath.row] == "Purchase offer"{
-           showPurchaseOfferVC()
-        }
-        else if dataSource[indexPath.row] == NSLocalizedString("Subscriptions status", comment: "") {
-            let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.subscriptionsStatusViewController) as! SubsctiptionStatusViewController
-            self.navigationController?.pushViewController(vc, animated: true)
-        }
-        else if dataSource[indexPath.row] == "TransactionEditor" {
-            let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.complexTransactionEditorViewController) as! ComplexTransactionEditorViewController
-            self.navigationController?.pushViewController(vc, animated: true)
-        }
-        else if dataSource[indexPath.row] == NSLocalizedString("Import Account List", comment: ""){
-            
-            isImportAccounts = true
-            
-            if #available(iOS 14.0, *) {
-                let importMenu = UIDocumentPickerViewController(forOpeningContentTypes: [UTType.text], asCopy: true)
-                importMenu.delegate = self
-                importMenu.modalPresentationStyle = .formSheet
-                self.present(importMenu, animated: true, completion: nil)
+        case .importAccounts:
+            if AccessCheckManager.checkUserAccessToImportExportEntities(environment: environment, isUserHasPaidAccess: isUserHasPaidAccess) {
+                isImportAccounts = true
                 
-            } else {
-                let importMenu = UIDocumentPickerViewController(documentTypes: ["text"], in: .import)
-                importMenu.delegate = self
-                importMenu.modalPresentationStyle = .formSheet
-                self.present(importMenu, animated: true, completion: nil)
+                if #available(iOS 14.0, *) {
+                    let importMenu = UIDocumentPickerViewController(forOpeningContentTypes: [UTType.text], asCopy: true)
+                    importMenu.delegate = self
+                    importMenu.modalPresentationStyle = .formSheet
+                    self.present(importMenu, animated: true, completion: nil)
+                    
+                } else {
+                    let importMenu = UIDocumentPickerViewController(documentTypes: ["text"], in: .import)
+                    importMenu.delegate = self
+                    importMenu.modalPresentationStyle = .formSheet
+                    self.present(importMenu, animated: true, completion: nil)
+                }
             }
-        }
-        else if dataSource[indexPath.row] == NSLocalizedString("Import Transaction List", comment: ""){
-            
-            isImportAccounts = false
-            
-            if #available(iOS 14.0, *) {
-                let importMenu = UIDocumentPickerViewController(forOpeningContentTypes: [UTType.text], asCopy: true)
-                importMenu.delegate = self
-                importMenu.modalPresentationStyle = .formSheet
-                self.present(importMenu, animated: true, completion: nil)
+            else{
+                showPurchaseOfferVC()
+            }
+        case .importTransactions:
+            if AccessCheckManager.checkUserAccessToImportExportEntities(environment: environment, isUserHasPaidAccess: isUserHasPaidAccess) {
+                isImportAccounts = false
                 
-            } else {
-                let importMenu = UIDocumentPickerViewController(documentTypes: ["text"], in: .import)
-                importMenu.delegate = self
-                importMenu.modalPresentationStyle = .formSheet
-                self.present(importMenu, animated: true, completion: nil)
+                if #available(iOS 14.0, *) {
+                    let importMenu = UIDocumentPickerViewController(forOpeningContentTypes: [UTType.text], asCopy: true)
+                    importMenu.delegate = self
+                    importMenu.modalPresentationStyle = .formSheet
+                    self.present(importMenu, animated: true, completion: nil)
+                    
+                } else {
+                    let importMenu = UIDocumentPickerViewController(documentTypes: ["text"], in: .import)
+                    importMenu.delegate = self
+                    importMenu.modalPresentationStyle = .formSheet
+                    self.present(importMenu, animated: true, completion: nil)
+                }
             }
+            else{
+                showPurchaseOfferVC()
+            }
+        case .exportAccounts:
+            if AccessCheckManager.checkUserAccessToImportExportEntities(environment: environment, isUserHasPaidAccess: isUserHasPaidAccess) {
+                shareTXTFile(fileName: "AccountList", data: AccountManager.exportAccountsToString(context: context))
+            }
+            else{
+                showPurchaseOfferVC()
+            }
+        case .exportTransactions:
+            if AccessCheckManager.checkUserAccessToImportExportEntities(environment: environment, isUserHasPaidAccess: isUserHasPaidAccess) {
+                shareTXTFile(fileName: "TransactionList", data: TransactionManager.exportTransactionsToString(context: context))
+            }
+            else{
+                showPurchaseOfferVC()
+            }
+        case .termsOfUse:
+            break
+        case .privacyPolicy:
+            break
         }
-        
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
@@ -223,13 +176,18 @@ class SettingsTableViewController: UITableViewController {
     
     @objc func reloadProAccessData() {
         Purchases.shared.purchaserInfo { (purchaserInfo, error) in
-            if purchaserInfo?.entitlements.all["pro"]?.isActive == true {
-                self.isUserHasPaidAccess = true
-                self.proAccessExpirationDate = purchaserInfo?.expirationDate(forEntitlement: "pro")
+            if let error = error {
+                self.errorHandler(error: error)
             }
-            else if purchaserInfo?.entitlements.all["pro"]?.isActive == false {
-                self.isUserHasPaidAccess = false
-                self.proAccessExpirationDate = nil
+            else {
+                if purchaserInfo?.entitlements.all["pro"]?.isActive == true {
+                    self.isUserHasPaidAccess = true
+                    self.proAccessExpirationDate = purchaserInfo?.expirationDate(forEntitlement: "pro")
+                }
+                else if purchaserInfo?.entitlements.all["pro"]?.isActive == false {
+                    self.isUserHasPaidAccess = false
+                    self.proAccessExpirationDate = nil
+                }
             }
             self.tableView.reloadData()
         }
@@ -239,6 +197,13 @@ class SettingsTableViewController: UITableViewController {
         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.purchaseOfferViewController) as! PurchaseOfferViewController
         self.navigationController?.present(vc, animated: true, completion: nil)
+    }
+    
+    func errorHandler(error: Error) {
+        var title = NSLocalizedString("Error", comment: "")
+        let alert = UIAlertController(title: title, message: error.localizedDescription, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default))
+        self.present(alert, animated: true, completion: nil)
     }
 }
 
@@ -253,8 +218,8 @@ extension SettingsTableViewController {
                 let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
                 self.present(activityVC, animated: true, completion: nil)
                 
-            } catch let error as NSError {
-                print("Failed writing to URL: \(fileURL), Error: " + error.localizedDescription)
+            } catch let error {
+                errorHandler(error: error)
             }
         }
     }
@@ -269,9 +234,9 @@ extension SettingsTableViewController: UIDocumentPickerDelegate {
         if isImportAccounts {
             do {
                 try AccountManager.importAccounts( data, context: context)
-                try coreDataStack.saveContext(context)}
-            catch let error {
-                print("ERROR:", error.localizedDescription)
+                try coreDataStack.saveContext(context)
+            } catch let error {
+                errorHandler(error: error)
             }
         }
         else {

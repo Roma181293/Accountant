@@ -58,7 +58,6 @@
 		2B1FEB7C266EC39800BF53BD /* AnalyticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1FEB79266EC39800BF53BD /* AnalyticsViewController.swift */; };
 		2B1FEB8E266EC44600BF53BD /* ConfigureAnalyticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1FEB8D266EC44600BF53BD /* ConfigureAnalyticsViewController.swift */; };
 		2B1FEB98266EDE5000BF53BD /* SettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1FEB96266EDE5000BF53BD /* SettingsTableViewController.swift */; };
-		2B1FEB99266EDE5000BF53BD /* SettingWithSwitchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1FEB97266EDE5000BF53BD /* SettingWithSwitchTableViewCell.swift */; };
 		2B1FEBAB266EE19B00BF53BD /* SubsctiptionStatusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1FEBA9266EE19B00BF53BD /* SubsctiptionStatusViewController.swift */; };
 		2B1FEBAC266EE19B00BF53BD /* ImportTransactionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1FEBAA266EE19B00BF53BD /* ImportTransactionViewController.swift */; };
 		2B1FEBB1266EE1D500BF53BD /* PreTrasaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1FEBB0266EE1D500BF53BD /* PreTrasaction.swift */; };
@@ -67,6 +66,7 @@
 		2B2E6D1D26DD960D004A9680 /* TransactionItemTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B2E6D1C26DD960D004A9680 /* TransactionItemTextField.swift */; };
 		2B3A260426E95C780033E746 /* AccessCheckManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B3A260326E95C780033E746 /* AccessCheckManager.swift */; };
 		2B3A260626EA6DD90033E746 /* AccountManagerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B3A260526EA6DD90033E746 /* AccountManagerController.swift */; };
+		2B3BD61A26EBE85D0056A9F7 /* SettingsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B3BD61926EBE85D0056A9F7 /* SettingsTableViewCell.swift */; };
 		2B3F0D0E26A0EFA000AA514B /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2B3F0D1026A0EFA000AA514B /* Localizable.strings */; };
 		2B490DD726E2911C00967E11 /* Extension Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B490DD626E2911C00967E11 /* Extension Notification.swift */; };
 		2B490DD926E4B8CE00967E11 /* OfferUITapGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B490DD826E4B8CE00967E11 /* OfferUITapGestureRecognizer.swift */; };
@@ -160,7 +160,6 @@
 		2B1FEB79266EC39800BF53BD /* AnalyticsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnalyticsViewController.swift; sourceTree = "<group>"; };
 		2B1FEB8D266EC44600BF53BD /* ConfigureAnalyticsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfigureAnalyticsViewController.swift; sourceTree = "<group>"; };
 		2B1FEB96266EDE5000BF53BD /* SettingsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsTableViewController.swift; sourceTree = "<group>"; };
-		2B1FEB97266EDE5000BF53BD /* SettingWithSwitchTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingWithSwitchTableViewCell.swift; sourceTree = "<group>"; };
 		2B1FEBA9266EE19B00BF53BD /* SubsctiptionStatusViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubsctiptionStatusViewController.swift; sourceTree = "<group>"; };
 		2B1FEBAA266EE19B00BF53BD /* ImportTransactionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImportTransactionViewController.swift; sourceTree = "<group>"; };
 		2B1FEBB0266EE1D500BF53BD /* PreTrasaction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreTrasaction.swift; sourceTree = "<group>"; };
@@ -169,6 +168,7 @@
 		2B2E6D1C26DD960D004A9680 /* TransactionItemTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionItemTextField.swift; sourceTree = "<group>"; };
 		2B3A260326E95C780033E746 /* AccessCheckManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessCheckManager.swift; sourceTree = "<group>"; };
 		2B3A260526EA6DD90033E746 /* AccountManagerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountManagerController.swift; sourceTree = "<group>"; };
+		2B3BD61926EBE85D0056A9F7 /* SettingsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTableViewCell.swift; sourceTree = "<group>"; };
 		2B3F0D0A26A0EF0500AA514B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		2B3F0D0B26A0EF0500AA514B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2B3F0D0F26A0EFA000AA514B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -330,7 +330,7 @@
 				2B1FEAF6266CB2C200BF53BD /* CurrencyTableViewCell.swift */,
 				2B1FEB5C266D748E00BF53BD /* MoneyAccountTableViewCell.swift */,
 				2B1FEBB5266EE45F00BF53BD /* PreTransactionTableViewCell.swift */,
-				2B1FEB97266EDE5000BF53BD /* SettingWithSwitchTableViewCell.swift */,
+				2B3BD61926EBE85D0056A9F7 /* SettingsTableViewCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -681,6 +681,7 @@
 			files = (
 				2B1FEB70266D752200BF53BD /* ChartsManager.swift in Sources */,
 				2B0D1D3326ADF1D1003C6394 /* TransactionItemManager.swift in Sources */,
+				2B3BD61A26EBE85D0056A9F7 /* SettingsTableViewCell.swift in Sources */,
 				2B490DDE26E4BA6000967E11 /* GradientView.swift in Sources */,
 				2B1FEBB1266EE1D500BF53BD /* PreTrasaction.swift in Sources */,
 				2B1FEBAB266EE19B00BF53BD /* SubsctiptionStatusViewController.swift in Sources */,
@@ -689,7 +690,6 @@
 				2B1FEA4D266BEE6700BF53BD /* CurrencyHistoricalDataProtocol.swift in Sources */,
 				2B1FEA62266BF03300BF53BD /* CurrencyManager.swift in Sources */,
 				2B1FEAE9266CAF6C00BF53BD /* Extension UIResponder.swift in Sources */,
-				2B1FEB99266EDE5000BF53BD /* SettingWithSwitchTableViewCell.swift in Sources */,
 				2B1FEAAE266C3AB900BF53BD /* TransactionListViewController.swift in Sources */,
 				2B1FEAE8266CAF6C00BF53BD /* Extension Formatter.swift in Sources */,
 				2B1FEB58266D73DC00BF53BD /* AccountListTableViewController.swift in Sources */,
