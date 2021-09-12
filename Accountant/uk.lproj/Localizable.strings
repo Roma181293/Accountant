@@ -182,9 +182,7 @@
 //SettingsTableViewController
 
 "Settings" = "Налаштування";
-"User Name" = "Ім'я користувача";
-
-"Language" = "Мова";
+"Start accounting" = "Почати облік";
 "Accounting currency" = "Валюта обліку";
 "Share Account List" = "Поділитися списком рахунків";
 "Share Transaction List" = "Поділитися списком операцій";
@@ -202,6 +200,10 @@
 "Test mode" = "Тестовий режим";
 "Secure code" = "Пароль";
 
+//FIRST LAUNCH
+"Welcome" = "Привіт";
+"Try functionality" = "Спробувати функціонал";
+"Lets create accounts that you will be use in future" = "Давайте створимо рахунки які будуть використовуватися у майбутньому";
 
 //CurrencyList
 "AUD" = "Австралійський долар";

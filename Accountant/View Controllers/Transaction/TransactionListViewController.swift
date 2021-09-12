@@ -28,7 +28,7 @@ class TransactionListViewController: UIViewController{
         
         fetchRequest.fetchBatchSize = 20
         let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
-
+        
         return frc
     }()
     
@@ -36,18 +36,16 @@ class TransactionListViewController: UIViewController{
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //Set black color under cells in dark mode
-        let backView = UIView(frame: self.tableView.bounds)
-        backView.backgroundColor = .systemBackground
-         self.tableView.backgroundView = backView
-        
-        //MARK:- adding NotificationCenter observers
-        NotificationCenter.default.addObserver(self, selector: #selector(self.environmentDidChange), name: .environmentDidChange, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(self.reloadProAccessData), name: .receivedProAccessData, object: nil)
-        
-        reloadProAccessData()
         
         addButtonToViewController()
+        
+        //MARK:-Set black color under cells in dark mode
+        let backView = UIView(frame: self.tableView.bounds)
+        backView.backgroundColor = .systemBackground
+        self.tableView.backgroundView = backView
+
+        reloadProAccessData()
+        
         tableView.register(ComplexTransactionTableViewCell.self, forCellReuseIdentifier: Constants.Cell.complexTransactionCell)
         
         resultSearchController = ({
@@ -60,6 +58,21 @@ class TransactionListViewController: UIViewController{
             
             return controller
         })()
+        
+        //MARK:- adding NotificationCenter observers
+        NotificationCenter.default.addObserver(self, selector: #selector(self.environmentDidChange), name: .environmentDidChange, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.reloadProAccessData), name: .receivedProAccessData, object: nil)
+        
+        //MARK:- TabBarController badge manage
+        for (index,item) in (tabBarController?.tabBar.items as! [UITabBarItem]).enumerated() {
+            guard index != (tabBarController?.tabBar.items as! [UITabBarItem]).count - 1 else {return}
+            if coreDataStack.activeEnviroment() == .test {
+                item.badgeValue = "Test"
+            }
+            else {
+                item.badgeValue = nil
+            }
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -71,7 +84,7 @@ class TransactionListViewController: UIViewController{
         }
         
         fetchData()
-
+        
         if isUserHasPaidAccess == false {
             createAd()
         }
@@ -139,7 +152,7 @@ class TransactionListViewController: UIViewController{
             
             fetchRequest.fetchBatchSize = 20
             let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: coreDataStack.persistentContainer.viewContext, sectionNameKeyPath: nil, cacheName: nil)
-
+            
             return frc
         }()
         
@@ -162,11 +175,11 @@ class TransactionListViewController: UIViewController{
         Purchases.shared.purchaserInfo { (purchaserInfo, error) in
             if purchaserInfo?.entitlements.all["pro"]?.isActive == true {
                 self.isUserHasPaidAccess = true
-//                self.tabBarController?.navigationItem.rightBarButtonItem = nil
+                //                self.tabBarController?.navigationItem.rightBarButtonItem = nil
             }
             else if purchaserInfo?.entitlements.all["pro"]?.isActive == false {
                 self.isUserHasPaidAccess = false
-//                self.tabBarController?.navigationItem.rightBarButtonItem = UIBarButtonItem(title: NSLocalizedString("Get PRO", comment: ""), style: .bordered, target: self, action: #selector(self.showPurchaseOfferVC))
+                //                self.tabBarController?.navigationItem.rightBarButtonItem = UIBarButtonItem(title: NSLocalizedString("Get PRO", comment: ""), style: .bordered, target: self, action: #selector(self.showPurchaseOfferVC))
             }
         }
     }
@@ -225,13 +238,13 @@ extension TransactionListViewController: UITableViewDelegate, UITableViewDataSou
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
-//        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-//        let transactioEditorVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.complexTransactionEditorViewController) as! ComplexTransactionEditorViewController
-//        transactioEditorVC.transaction = fetchedResultsController.object(at: indexPath) as Transaction
-//        transactioEditorVC.context = context
-//        vc.isUserHasPaidAccess = isUserHasPaidAccess
-//        self.navigationController?.pushViewController(transactioEditorVC, animated: true)
-//
+        //        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        //        let transactioEditorVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.complexTransactionEditorViewController) as! ComplexTransactionEditorViewController
+        //        transactioEditorVC.transaction = fetchedResultsController.object(at: indexPath) as Transaction
+        //        transactioEditorVC.context = context
+        //        vc.isUserHasPaidAccess = isUserHasPaidAccess
+        //        self.navigationController?.pushViewController(transactioEditorVC, animated: true)
+        //
         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         let transactioEditorVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.simpleTransactionEditorViewController) as! SimpleTransactionEditorViewController
         transactioEditorVC.transaction = fetchedResultsController.object(at: indexPath) as Transaction

@@ -37,10 +37,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //MARK: Check is app launched before
         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         if !UserProfile.isAppLaunchedBefore() {
-            let setNameVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.setAccountingStartDateViewController) as! SetAccountingStartDateViewController
+            let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.welcomeViewController) as! WelcomeViewController
             window = UIWindow(frame: UIScreen.main.bounds)
             window?.makeKeyAndVisible()
-            window?.rootViewController = UINavigationController(rootViewController: setNameVC)
+            window?.rootViewController = UINavigationController(rootViewController: vc)
         }
         else if UserProfile.getUserAuth() == .bioAuth {
             let authVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.bioAuthViewController) as! BiometricAuthViewController
@@ -65,6 +65,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
            let secureDate = calendar.date(byAdding: .hour, value: 6, to: lastAccessCheckDate),
                secureDate > Date() {
             Purchases.shared.purchaserInfo { (purchaserInfo, error) in
+                if purchaserInfo?.entitlements.all["pro"]?.isActive == false,
+                   let expirationDate = purchaserInfo?.expirationDate(forEntitlement: "pro"),
+                   let secureDate = calendar.date(byAdding: .day, value: 3, to: expirationDate),
+                   secureDate < Date() {
+                    UserProfile.setUserAuth(.none)
+                }
                 NotificationCenter.default.post(name: .receivedProAccessData, object: nil)
                 UserProfile.setLastAccessCheckDate()
             }

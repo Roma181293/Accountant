@@ -333,6 +333,21 @@
             </objects>
             <point key="canvasLocation" x="-3393" y="1892"/>
         </scene>
+        <!--Welcome View Controller-->
+        <scene sceneID="fJa-jH-d6f">
+            <objects>
+                <viewController storyboardIdentifier="WelcomeVC_ID" id="r02-Sd-Wwh" customClass="WelcomeViewController" customModule="Accountant" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="4ut-hc-UGO">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="B8H-eF-kEg"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="5ei-z3-wko" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-6907" y="1892"/>
+        </scene>
         <!--Set Accounting Start Date View Controller-->
         <scene sceneID="rfe-hk-RKP">
             <objects>
@@ -1761,19 +1776,19 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="justified" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hGT-U9-8EG">
-                                <rect key="frame" x="20" y="94" width="374" height="203"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hGT-U9-8EG">
+                                <rect key="frame" x="20" y="94" width="374" height="183"/>
                                 <constraints>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="20" id="NHa-gA-gRm"/>
                                     <constraint firstAttribute="height" relation="lessThanOrEqual" priority="999" constant="250" id="Ys1-bj-6Ty"/>
                                 </constraints>
-                                <string key="text">Accounting currency is the monetary unit used when recording transactions in a company's books. It is also called the reporting currency. The accounting/reporting currency is not necessarily the same as the functional or transactional currency, which is what customers see when conducting a transaction, such as a sale. Often, the accounting currency is in the same currency denomination as the local currency where the company operates.</string>
+                                <string key="text">The accounting currency is the currency used to account for transactions. The accounting currency is not necessarily the same as the local or transactional currency. Often the accounting currency has the same denomination as the local currency where you are located. If the accounting currency is different from transaction currency, it is necessary to enter amounts in both currencies in this transaction</string>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="aBm-LR-kG2">
-                                <rect key="frame" x="0.0" y="347" width="414" height="515"/>
+                                <rect key="frame" x="0.0" y="327" width="414" height="535"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="setAccountingCurrencyCell_ID" id="614-FK-C86" customClass="CurrencyTableViewCell" customModule="Accountant" customModuleProvider="target">
@@ -1843,6 +1858,21 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="S34-Rd-AY0" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-5204" y="1892"/>
+        </scene>
+        <!--Start Accounting Steps View Controller-->
+        <scene sceneID="yYM-PF-0v1">
+            <objects>
+                <viewController storyboardIdentifier="StartAccountingStepsVC_ID" id="ywF-gD-zke" customClass="StartAccountingStepsViewController" customModule="Accountant" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="og6-da-C3m">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="lhI-Kr-55o"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="d3l-Ys-HNE" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-4397" y="1892"/>
         </scene>
         <!--Auth Pin And Biometric View Controller-->
         <scene sceneID="Km1-pz-Mup">

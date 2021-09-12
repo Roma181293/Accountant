@@ -172,6 +172,11 @@ class SettingsTableViewCell: UITableViewCell {
             iconImangeView.image = UIImage(systemName: "lock.shield.fill")
             iconImangeView.tintColor = .systemBlue
             accessoryType = .disclosureIndicator
+        case .startAccounting:
+            titleLabel.text = NSLocalizedString(dataItem.rawValue, comment: "")
+            iconImangeView.image = UIImage(systemName: "paperplane.fill")
+            iconImangeView.tintColor = .systemYellow
+            accessoryType = .disclosureIndicator
         }
         
         
@@ -223,6 +228,13 @@ class SettingsTableViewCell: UITableViewCell {
                     
                     let context = CoreDataStack.shared.persistentContainer.viewContext
                     
+                    //remove oldData
+                    try TransactionManager.deleteAllTransactions(context: context)
+                    try AccountManager.deleteAllAccounts(context: context)
+                    try CurrencyManager.deleteAllCurrencies(context: context)
+                    try CoreDataStack.shared.saveContext(context)
+                    
+                    //add testData
                     CurrencyManager.addCurrencies(context: context)
                     guard let currency = try CurrencyManager.getCurrencyForCode("UAH", context: context) else {return}
                     try CurrencyManager.changeAccountingCurrency(old: nil, new: currency, context: context)

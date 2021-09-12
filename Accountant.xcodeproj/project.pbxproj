@@ -68,6 +68,7 @@
 		2B3A260626EA6DD90033E746 /* AccountManagerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B3A260526EA6DD90033E746 /* AccountManagerController.swift */; };
 		2B3BD61A26EBE85D0056A9F7 /* SettingsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B3BD61926EBE85D0056A9F7 /* SettingsTableViewCell.swift */; };
 		2B3F0D0E26A0EFA000AA514B /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2B3F0D1026A0EFA000AA514B /* Localizable.strings */; };
+		2B44C9F426EDFC6E0009976A /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B44C9F326EDFC6E0009976A /* WelcomeViewController.swift */; };
 		2B490DD726E2911C00967E11 /* Extension Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B490DD626E2911C00967E11 /* Extension Notification.swift */; };
 		2B490DD926E4B8CE00967E11 /* OfferUITapGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B490DD826E4B8CE00967E11 /* OfferUITapGestureRecognizer.swift */; };
 		2B490DDB26E4B92600967E11 /* OfferUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B490DDA26E4B92600967E11 /* OfferUIView.swift */; };
@@ -87,6 +88,8 @@
 		2BC058BD26CDB63E00FE896C /* TransactionItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BC058BC26CDB63E00FE896C /* TransactionItemTableViewCell.swift */; };
 		2BCC0BDA26ACD79C00E8680E /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BCC0BD926ACD79C00E8680E /* StoreKit.framework */; };
 		2BDB10A126DACD9200D8FE08 /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BDB10A026DACD9200D8FE08 /* Protocols.swift */; };
+		2BDB216E26ED20DB0080A6FC /* StartAccountingStepsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BDB216D26ED20DB0080A6FC /* StartAccountingStepsViewController.swift */; };
+		2BDB217026ED30DD0080A6FC /* StepTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BDB216F26ED30DD0080A6FC /* StepTableViewCell.swift */; };
 		2BE2593326BC8E6D0025301F /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE2593226BC8E6D0025301F /* Error.swift */; };
 		38318A9FD81C28716622F93F /* Pods_Accountant.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97FD10DCF67B198D7BE0F270 /* Pods_Accountant.framework */; };
 /* End PBXBuildFile section */
@@ -175,6 +178,7 @@
 		2B3F0D1126A0EFEC00AA514B /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/Main.strings; sourceTree = "<group>"; };
 		2B3F0D1226A0F01B00AA514B /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		2B3F0D1326A0F01C00AA514B /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/Localizable.strings; sourceTree = "<group>"; };
+		2B44C9F326EDFC6E0009976A /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
 		2B490DD626E2911C00967E11 /* Extension Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension Notification.swift"; sourceTree = "<group>"; };
 		2B490DD826E4B8CE00967E11 /* OfferUITapGestureRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfferUITapGestureRecognizer.swift; sourceTree = "<group>"; };
 		2B490DDA26E4B92600967E11 /* OfferUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfferUIView.swift; sourceTree = "<group>"; };
@@ -198,6 +202,8 @@
 		2BC058BC26CDB63E00FE896C /* TransactionItemTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionItemTableViewCell.swift; sourceTree = "<group>"; };
 		2BCC0BD926ACD79C00E8680E /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		2BDB10A026DACD9200D8FE08 /* Protocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocols.swift; sourceTree = "<group>"; };
+		2BDB216D26ED20DB0080A6FC /* StartAccountingStepsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartAccountingStepsViewController.swift; sourceTree = "<group>"; };
+		2BDB216F26ED30DD0080A6FC /* StepTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepTableViewCell.swift; sourceTree = "<group>"; };
 		2BE2593226BC8E6D0025301F /* Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
 		97FD10DCF67B198D7BE0F270 /* Pods_Accountant.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Accountant.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A51B83286AAA2CAF601DDC80 /* Pods-Accountant.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Accountant.debug.xcconfig"; path = "Target Support Files/Pods-Accountant/Pods-Accountant.debug.xcconfig"; sourceTree = "<group>"; };
@@ -313,8 +319,10 @@
 		2B1FEAA3266C368100BF53BD /* First Launch */ = {
 			isa = PBXGroup;
 			children = (
+				2B44C9F326EDFC6E0009976A /* WelcomeViewController.swift */,
 				2B1FEA96266C339E00BF53BD /* SetAccountingStartDateViewController.swift */,
 				2B1FEA97266C339E00BF53BD /* SetAccountingCurrencyViewController.swift */,
+				2BDB216D26ED20DB0080A6FC /* StartAccountingStepsViewController.swift */,
 			);
 			path = "First Launch";
 			sourceTree = "<group>";
@@ -331,6 +339,7 @@
 				2B1FEB5C266D748E00BF53BD /* MoneyAccountTableViewCell.swift */,
 				2B1FEBB5266EE45F00BF53BD /* PreTransactionTableViewCell.swift */,
 				2B3BD61926EBE85D0056A9F7 /* SettingsTableViewCell.swift */,
+				2BDB216F26ED30DD0080A6FC /* StepTableViewCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -689,8 +698,10 @@
 				2BC058B926CD7A9400FE896C /* ComplexTransactionEditorViewController.swift in Sources */,
 				2B1FEA4D266BEE6700BF53BD /* CurrencyHistoricalDataProtocol.swift in Sources */,
 				2B1FEA62266BF03300BF53BD /* CurrencyManager.swift in Sources */,
+				2BDB216E26ED20DB0080A6FC /* StartAccountingStepsViewController.swift in Sources */,
 				2B1FEAE9266CAF6C00BF53BD /* Extension UIResponder.swift in Sources */,
 				2B1FEAAE266C3AB900BF53BD /* TransactionListViewController.swift in Sources */,
+				2B44C9F426EDFC6E0009976A /* WelcomeViewController.swift in Sources */,
 				2B1FEAE8266CAF6C00BF53BD /* Extension Formatter.swift in Sources */,
 				2B1FEB58266D73DC00BF53BD /* AccountListTableViewController.swift in Sources */,
 				2B1FEAEA266CAF6C00BF53BD /* Extension Double.swift in Sources */,
@@ -741,6 +752,7 @@
 				2BE2593326BC8E6D0025301F /* Error.swift in Sources */,
 				2B1FEAAB266C3AB900BF53BD /* SimpleTransactionEditorViewController.swift in Sources */,
 				2B490DD926E4B8CE00967E11 /* OfferUITapGestureRecognizer.swift in Sources */,
+				2BDB217026ED30DD0080A6FC /* StepTableViewCell.swift in Sources */,
 				2B1FEAC5266C433200BF53BD /* AuthPinAndBiometricViewController.swift in Sources */,
 				2B104E5026E52DD600E67F6A /* StatusBarAnimationViewController.swift in Sources */,
 				2B1FEB6E266D752200BF53BD /* PresentingData.swift in Sources */,

@@ -14,7 +14,9 @@ class SetAccountingCurrencyViewController: UIViewController, UITableViewDelegate
     @IBOutlet weak var tableView: UITableView!
     
     let coreDataStack = CoreDataStack.shared
-    let context = CoreDataStack.shared.persistentContainer.viewContext
+    var context = CoreDataStack.shared.persistentContainer.viewContext
+    
+    var vc: UIViewController?
     
     var accountingCurrency: Currency?{
         didSet{
@@ -33,13 +35,13 @@ class SetAccountingCurrencyViewController: UIViewController, UITableViewDelegate
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        CoreDataStack.shared.switchToDB(.prod)
+        context = CoreDataStack.shared.persistentContainer.viewContext
         CurrencyManager.addCurrencies(context: context)
-        do {
-            try coreDataStack.saveContext(context)
-        }
-        catch let error {
-            print("Error",error.localizedDescription)
-        }
+    }
+    override func willMove(toParent parent: UIViewController?) {
+        super.willMove(toParent: parent)
+        context.rollback()
     }
     
     override func viewWillAppear(_ animated: Bool){
@@ -92,16 +94,16 @@ class SetAccountingCurrencyViewController: UIViewController, UITableViewDelegate
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)  {
         do {
-        let currency = fetchedResultsController.object(at: indexPath) as Currency
-        guard let accountingCurrencyIndexPath = accountingCurrencyIndexPath else {
-            try CurrencyManager.changeAccountingCurrency(old: nil, new: currency, context: context)
-            tableView.reloadRows(at: [indexPath], with: .automatic)
-            return
-        }
-        if indexPath != accountingCurrencyIndexPath {
-            try CurrencyManager.changeAccountingCurrency(old: accountingCurrency, new: currency, context: context)
-        }
-        tableView.reloadRows(at: [accountingCurrencyIndexPath,indexPath], with: .automatic)
+            let currency = fetchedResultsController.object(at: indexPath) as Currency
+            guard let accountingCurrencyIndexPath = accountingCurrencyIndexPath else {
+                try CurrencyManager.changeAccountingCurrency(old: nil, new: currency, context: context)
+                tableView.reloadRows(at: [indexPath], with: .automatic)
+                return
+            }
+            if indexPath != accountingCurrencyIndexPath {
+                try CurrencyManager.changeAccountingCurrency(old: accountingCurrency, new: currency, context: context)
+            }
+            tableView.reloadRows(at: [accountingCurrencyIndexPath,indexPath], with: .automatic)
         }
         catch let error{
             let alert = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: error.localizedDescription, preferredStyle: .alert)
@@ -115,12 +117,12 @@ class SetAccountingCurrencyViewController: UIViewController, UITableViewDelegate
         addButton.backgroundColor = .systemGray5
         view.addSubview(addButton)
         addButton.translatesAutoresizingMaskIntoConstraints = false
-          NSLayoutConstraint.activate([
+        NSLayoutConstraint.activate([
             addButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -89),
             addButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -40),
             addButton.heightAnchor.constraint(equalToConstant: 68),
             addButton.widthAnchor.constraint(equalToConstant: 68),
-          ])
+        ])
         
         addButton.layer.cornerRadius = 34
         if let image = UIImage(systemName: "arrow.right") {
@@ -130,24 +132,17 @@ class SetAccountingCurrencyViewController: UIViewController, UITableViewDelegate
     }
     
     @objc func next(_ sender:UIButton!) {
-        do{
+        do {
             guard let accountingCurrency = accountingCurrency else {return}
-            
             AccountManager.addBaseAccounts(accountingCurrency: accountingCurrency, context: context)
-            try coreDataStack.saveContext(context)
-            UserProfile.firstAppLaunch()
-            
             let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-            let tabBar = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.tabBarController)
-            self.navigationController?.popToRootViewController(animated: false)
-            
-            let appDelegate = UIApplication.shared.delegate as! AppDelegate
-            appDelegate.window?.rootViewController = UINavigationController(rootViewController: tabBar)
+            let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.startAccountingStepsViewController) as! StartAccountingStepsViewController
+            vc.vc = self.vc
+            self.navigationController?.pushViewController(vc, animated: true)
+            try coreDataStack.saveContext(context)
         }
-        catch let error{
-            let alert = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: error.localizedDescription, preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .cancel))
-            self.present(alert, animated: true, completion: nil)
+        catch let error {
+            print("Error",error.localizedDescription)
         }
     }
 }

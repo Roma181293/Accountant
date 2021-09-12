@@ -12,8 +12,10 @@ import Charts
 struct Constants {
     
     struct Storyboard {
+        static let welcomeViewController = "WelcomeVC_ID"
         static let setAccountingCurrencyViewController = "SetAccountingCurrencyVC_ID"
         static let setAccountingStartDateViewController = "SetAccountingStartDateVC_ID"
+        static let startAccountingStepsViewController = "StartAccountingStepsVC_ID"
         static let tabBarController = "TabBarController_ID"
         static let bioAuthViewController = "BioAuthVC_ID"
         static let authPinAndBioViewController = "AuthPinAndBiometricVC_ID"
@@ -45,7 +47,7 @@ struct Constants {
     
     struct Cell {
         static let transactionItemTableViewCell = "TransactionItemTableViewCell_ID"
-        
+        static let stepItemCell = "StepItemCell_ID"
         static let setAccountingCurrencyCell = "setAccountingCurrencyCell_ID"
         
         static let transactionCell = "TransactionCell_ID"

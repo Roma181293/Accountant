@@ -12,6 +12,7 @@ import Purchases
 
 enum SettingsDataSource: String, CaseIterable{
     case offer = "Purchase offer"
+    case startAccounting = "Start accounting"
     case auth = "Auth"
     case envirement = "Envirement"
     case accountingCurrency = "Accounting currency"
@@ -22,6 +23,7 @@ enum SettingsDataSource: String, CaseIterable{
     case exportTransactions = "Share Transaction List"
     case termsOfUse = "Terms of use"
     case privacyPolicy = "Privacy policy"
+    
 }
 
 class SettingsTableViewController: UITableViewController {
@@ -33,6 +35,7 @@ class SettingsTableViewController: UITableViewController {
     let coreDataStack = CoreDataStack.shared
     var context = CoreDataStack.shared.persistentContainer.viewContext
     
+    var dataSource: [SettingsDataSource] = []
     var isImportAccounts: Bool = true
     
     
@@ -52,6 +55,8 @@ class SettingsTableViewController: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
+        refreshDataSet()
+     
         self.tabBarController?.navigationItem.title = NSLocalizedString("Settings", comment: "")
         reloadProAccessData()
     }
@@ -70,12 +75,12 @@ class SettingsTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return SettingsDataSource.allCases.count
+        return dataSource.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: Constants.Cell.settingsCell, for: indexPath) as! SettingsTableViewCell
-        cell.configureCell(for: SettingsDataSource.allCases[indexPath.row] , with: self)
+        cell.configureCell(for: dataSource[indexPath.row] , with: self)
         
         return cell
     }
@@ -87,7 +92,7 @@ class SettingsTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         
-        switch SettingsDataSource.allCases[indexPath.row] {
+        switch dataSource[indexPath.row] {
         
         case .offer:
             showPurchaseOfferVC()
@@ -161,6 +166,10 @@ class SettingsTableViewController: UITableViewController {
             break
         case .privacyPolicy:
             break
+        case .startAccounting:
+            let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.setAccountingStartDateViewController) as! SetAccountingStartDateViewController
+            vc.vc = self.parent
+            self.navigationController?.pushViewController(vc, animated: true)
         }
         tableView.deselectRow(at: indexPath, animated: true)
     }
@@ -171,6 +180,7 @@ class SettingsTableViewController: UITableViewController {
             print(environment.rawValue)
         }
         context = CoreDataStack.shared.persistentContainer.viewContext
+        refreshDataSet()
         tableView.reloadData()
     }
     
@@ -189,7 +199,21 @@ class SettingsTableViewController: UITableViewController {
                     self.proAccessExpirationDate = nil
                 }
             }
+            self.refreshDataSet()
             self.tableView.reloadData()
+        }
+    }
+    
+    
+    func refreshDataSet() {
+        dataSource.removeAll()
+        for item in SettingsDataSource.allCases {
+            if (item == .envirement && UserProfile.isAppLaunchedBefore() == false)
+                || (item == .startAccounting && UserProfile.isAppLaunchedBefore() == true)
+                || (item == .auth && isUserHasPaidAccess == false) {}
+            else {
+                dataSource.append(item)
+            }
         }
     }
     

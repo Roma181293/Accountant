@@ -227,8 +227,8 @@
 /* Class = "UILabel"; text = "Label"; ObjectID = "ghM-d1-3lX"; */
 "ghM-d1-3lX.text" = "Label";
 
-/* Class = "UILabel"; text = "Accounting currency is the monetary unit used when recording transactions in a company's books. It is also called the reporting currency. The accounting/reporting currency is not necessarily the same as the functional or transactional currency, which is what customers see when conducting a transaction, such as a sale. Often, the accounting currency is in the same currency denomination as the local currency where the company operates."; ObjectID = "hGT-U9-8EG"; */
-"hGT-U9-8EG.text" = "Облікова валюта - це грошова одиниця, яка використовується при обліку операцій у книгах компанії. Його ще називають звітною валютою. Валюта бухгалтерського обліку / звітності не обов’язково збігається з функціональною валютою або валютою операцій, що бачать клієнти при здійсненні операції, наприклад, продажу. Часто облікова валюта має той самий номінал, що і місцева валюта, де працює компанія.";
+/* Class = "UILabel"; text = "The accounting currency is the currency used to account for transactions. The accounting currency is not necessarily the same as the local or transactional currency. Often the accounting currency has the same denomination as the local currency where you are located. If the accounting currency is different from transaction currency, it is necessary to enter amounts in both currencies in this transaction"; ObjectID = "hGT-U9-8EG"; */
+"hGT-U9-8EG.text" = "Валюта обліку - це валюта, що використовується для обліку операцій. Облікова валюта не обов’язково збігається з місцевою або валютою операції. Часто валюта обліку співпадає з місцевою валютою, де ви знаходитесь. Якщо валюта бухгалтерського обліку відрізняється від валюти операції, у цій операції необхідно ввести суми в обох валютах";
 
 /* Class = "UILabel"; text = "Label"; ObjectID = "ji6-yk-9MN"; */
 "ji6-yk-9MN.text" = "Label";

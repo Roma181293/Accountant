@@ -13,6 +13,8 @@ class SetAccountingStartDateViewController: UIViewController {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var datePicker: UIDatePicker!
     
+    var vc : UIViewController?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         addButtonToViewController()
@@ -24,6 +26,11 @@ class SetAccountingStartDateViewController: UIViewController {
             return
         }
         datePicker.date = startAccountingDate
+        
+        if CoreDataStack.shared.activeEnviroment() == .prod {
+            CoreDataStack.shared.switchToDB(.test)
+            NotificationCenter.default.post(name: .environmentDidChange, object: nil)
+        }
     }
     
     private func addButtonToViewController() {
@@ -46,12 +53,15 @@ class SetAccountingStartDateViewController: UIViewController {
     }
     
     @objc func next(_ sender:UIButton!) {
+        
         let calendar = Calendar.current
         guard let date = calendar.dateInterval(of: .day, for: datePicker.date)?.start else {return}
         UserProfile.setAccountingStartDate(date)
+        
         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let setNameVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.setAccountingCurrencyViewController) as! SetAccountingCurrencyViewController
-        self.navigationController?.pushViewController(setNameVC, animated: true)
+        let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.setAccountingCurrencyViewController) as! SetAccountingCurrencyViewController
+        vc.vc = self.vc
+        self.navigationController?.pushViewController(vc, animated: true)
     }
  
 }
