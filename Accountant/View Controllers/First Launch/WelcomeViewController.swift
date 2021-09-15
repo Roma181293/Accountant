@@ -77,7 +77,6 @@ class WelcomeViewController: UIViewController {
         
         mainStackView.addArrangedSubview(titleLabel)
         
-        
         titleLabel.heightAnchor.constraint(equalToConstant: 50).isActive = true
         
         
@@ -114,26 +113,37 @@ class WelcomeViewController: UIViewController {
         
     }
     
-    @objc func startAccounting(_ sender: UIButton) {
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        startAccountingButton.isUserInteractionEnabled = true
+        testButton.isUserInteractionEnabled = true
+    }
+    
+    @objc private func startAccounting(_ sender: UIButton) {
+        startAccountingButton.isUserInteractionEnabled = false
+        testButton.isUserInteractionEnabled = false
+        
         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.setAccountingStartDateViewController) as! SetAccountingStartDateViewController
+        let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.startAccountingViewController) as! StartAccountingViewController
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
-    @objc func tryFunctionality(_ sender: UIButton) {
+    @objc private func tryFunctionality(_ sender: UIButton) {
+        startAccountingButton.isUserInteractionEnabled = false
+        testButton.isUserInteractionEnabled = false
         
         CoreDataStack.shared.switchToDB(.test)
         
         do {
             let context = CoreDataStack.shared.persistentContainer.viewContext
             
-            //remove oldData
+            //remove old test Data
             try TransactionManager.deleteAllTransactions(context: context)
             try AccountManager.deleteAllAccounts(context: context)
             try CurrencyManager.deleteAllCurrencies(context: context)
             try CoreDataStack.shared.saveContext(context)
             
-            //add testData
+            //add test Data
             CurrencyManager.addCurrencies(context: context)
             guard let currency = try CurrencyManager.getCurrencyForCode("UAH", context: context) else {return}
             try CurrencyManager.changeAccountingCurrency(old: nil, new: currency, context: context)
@@ -153,14 +163,8 @@ class WelcomeViewController: UIViewController {
     }
     
     func errorHandler(error: Error) {
-        var title = NSLocalizedString("Error", comment: "")
-        if error is TransactionError{
-            title = NSLocalizedString("Warning", comment: "")
-        }
-        
-        let alert = UIAlertController(title: title, message: error.localizedDescription, preferredStyle: .alert)
+        let alert = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: error.localizedDescription, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default))
         self.present(alert, animated: true, completion: nil)
     }
-    
 }

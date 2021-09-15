@@ -24,7 +24,7 @@ class AccountNavigatorTableViewController: UITableViewController, AccountManager
     var isSwipeAvailable: Bool = true {
         didSet {
             if isSwipeAvailable  && canModifyAccountStructure{
-                let newBackButton = UIBarButtonItem(title: "+", style: .plain, target: self, action: #selector(self.addAccount(sender:)))
+                let newBackButton = UIBarButtonItem(title: "+", style: .plain, target: self, action: #selector(self.addAccount))
                 newBackButton.image = UIImage(systemName: "plus")
                 self.navigationItem.rightBarButtonItem = newBackButton
             }
@@ -33,6 +33,7 @@ class AccountNavigatorTableViewController: UITableViewController, AccountManager
             }
         }
     }
+    var searchBarIsHidden = false
     
     //TRANSPORT VARIABLES
     weak var simpleTransactionEditorVC : SimpleTransactionEditorViewController?
@@ -91,16 +92,10 @@ class AccountNavigatorTableViewController: UITableViewController, AccountManager
             }
         }
         
-        resultSearchController = ({
-            let controller = UISearchController(searchResultsController: nil)
-            controller.searchResultsUpdater = self
-            controller.searchBar.sizeToFit()
-            controller.obscuresBackgroundDuringPresentation = false
-            controller.hidesNavigationBarDuringPresentation = false
-            tableView.tableHeaderView = controller.searchBar
-            
-            return controller
-        })()
+        if searchBarIsHidden {
+            resultSearchController.isActive = false
+            tableView.tableFooterView = UIView(frame: .zero)
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -137,7 +132,7 @@ class AccountNavigatorTableViewController: UITableViewController, AccountManager
         }
     }
     
-    @objc func addAccount(sender: UIBarButtonItem) {
+    @objc func addAccount() {
         accountManagerController.addSubAccountTo(account: account)
     }
     
@@ -300,6 +295,10 @@ class AccountNavigatorTableViewController: UITableViewController, AccountManager
             errorHandlerMethod(error: error)
         }
     }
+    
+    func resetPredicate() {
+        fetchedResultsController.fetchRequest.predicate = NSPredicate(format: "parent = %@ && (isHidden = false || isHidden = %@) && NOT (SELF IN %@)", argumentArray: [account, showHiddenAccounts, excludeAccountList])
+    }
 }
 
 
@@ -307,15 +306,15 @@ extension AccountNavigatorTableViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         if searchController.searchBar.text!.count != 0 {
             if let account = account {
-                fetchedResultsController.fetchRequest.predicate = NSPredicate(format: "path CONTAINS[c] %@ && name CONTAINS[c] %@ && (isHidden = false || isHidden = %@)", argumentArray: [account.path!,searchController.searchBar.text!, showHiddenAccounts])
+                fetchedResultsController.fetchRequest.predicate = NSPredicate(format: "path CONTAINS[c] %@ && name CONTAINS[c] %@ && (isHidden = false || isHidden = %@) && NOT (SELF IN %@)", argumentArray: [account.path!,searchController.searchBar.text!, showHiddenAccounts, excludeAccountList])
             }
             else {
-                fetchedResultsController.fetchRequest.predicate = NSPredicate(format: "name CONTAINS[c] %@ && (isHidden = false || isHidden = %@)", argumentArray: [searchController.searchBar.text!,showHiddenAccounts])
+                fetchedResultsController.fetchRequest.predicate = NSPredicate(format: "name CONTAINS[c] %@ && (isHidden = false || isHidden = %@) && NOT (SELF IN %@)", argumentArray: [searchController.searchBar.text!,showHiddenAccounts, excludeAccountList])
             }
             isSwipeAvailable = false
         }
         else {
-            fetchedResultsController.fetchRequest.predicate = NSPredicate(format: "parent = %@ && (isHidden = false || isHidden = %@)",argumentArray: [account,showHiddenAccounts])
+            resetPredicate()
             isSwipeAvailable = true
         }
         fetchData()

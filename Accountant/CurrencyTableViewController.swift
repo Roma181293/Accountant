@@ -12,13 +12,17 @@ import CoreData
 protocol CurrencyReceiverDelegate {
     func setCurrency(_ selectedCurrency: Currency)
 }
-
+enum CurrencyTVCMode {
+    case setAccountingCurrency
+    case setCurrency
+}
 class CurrencyTableViewController: UITableViewController {
     
-    private var context = CoreDataStack.shared.persistentContainer.viewContext
+    var context: NSManagedObjectContext = CoreDataStack.shared.persistentContainer.viewContext
     
     var currencyIndexPath: IndexPath?
     var currency : Currency?
+    var mode: CurrencyTVCMode = .setCurrency
     
     var delegate : CurrencyReceiverDelegate?
     lazy var fetchedResultsController : NSFetchedResultsController<Currency> = {
@@ -26,7 +30,7 @@ class CurrencyTableViewController: UITableViewController {
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "isAccounting", ascending: false), NSSortDescriptor(key: "code", ascending: true)]
         fetchRequest.fetchBatchSize = 20
         let context = CoreDataStack.shared.persistentContainer.viewContext
-        let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: "code", cacheName: nil)
+        let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
         return frc
     }()
     
@@ -69,48 +73,56 @@ class CurrencyTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: Constants.Cell.currencyCell, for: indexPath) as! CurrencyTableViewCell
         let fetchedCurrency = fetchedResultsController.object(at: indexPath) as Currency
         
-        if delegate == nil {
-            if fetchedCurrency.isAccounting {
-                currency = fetchedCurrency
-                currencyIndexPath = indexPath
-                cell.accessoryType = .checkmark
+        if let delegate = delegate {
+            if mode == .setAccountingCurrency {
+                if fetchedCurrency.isAccounting {
+                    currency = fetchedCurrency
+                    currencyIndexPath = indexPath
+                    delegate.setCurrency(fetchedCurrency)
+                    cell.accessoryType = .checkmark
+                }
+                else {
+                    cell.accessoryType = .none
+                }
+            }
+            else if mode == .setCurrency {
+                if currency === fetchedCurrency {
+                    cell.accessoryType = .checkmark
+                }
+                else {
+                    cell.accessoryType = .none
+                }
+            }
+        }
+            cell.codeLabel.text = fetchedCurrency.code!
+            if let name = fetchedCurrency.name  {
+                cell.nameLabel.text = name
             }
             else {
-                cell.accessoryType = .none
+                cell.nameLabel.text = NSLocalizedString(fetchedCurrency.code!, comment: "")
             }
-        }
-        else {
-            if currency === fetchedCurrency {
-                cell.accessoryType = .checkmark
-            }
-            else {
-                cell.accessoryType = .none
-            }
-        }
-        cell.codeLabel.text = fetchedCurrency.code!
-        if let name = fetchedCurrency.name  {
-            cell.nameLabel.text = name
-        }
-        else {
-            cell.nameLabel.text = NSLocalizedString(fetchedCurrency.code!, comment: "")
-        }
-        
         return cell
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if delegate == nil {
+        guard let delegate = delegate else {return}
+        if mode == .setAccountingCurrency {
+
             do {
                 let fetchedCurrency = fetchedResultsController.object(at: indexPath) as Currency
                 guard let currencyIndexPath = currencyIndexPath else {
                     try CurrencyManager.changeAccountingCurrency(old: nil, new: fetchedCurrency, context: context)
                     try CoreDataStack.shared.saveContext(context)
                     tableView.reloadRows(at: [indexPath], with: .automatic)
+                    delegate.setCurrency(fetchedCurrency)
                     return
                 }
                 if indexPath != currencyIndexPath {
                     try CurrencyManager.changeAccountingCurrency(old: currency, new: fetchedCurrency, context: context)
                     try CoreDataStack.shared.saveContext(context)
+                }
+                else {
+                    delegate.setCurrency(fetchedCurrency)
                 }
                 tableView.reloadRows(at: [currencyIndexPath,indexPath], with: .automatic)
             }
@@ -120,9 +132,10 @@ class CurrencyTableViewController: UITableViewController {
                 self.present(alert, animated: true, completion: nil)
                 
             }
+         
         }
-        else {
-            delegate?.setCurrency(fetchedResultsController.object(at: indexPath) as Currency)
+        else if mode == .setCurrency {
+            delegate.setCurrency(fetchedResultsController.object(at: indexPath) as Currency)
             self.navigationController?.popViewController(animated: true)
         }
     }

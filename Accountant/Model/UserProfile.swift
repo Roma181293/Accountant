@@ -56,7 +56,7 @@ class UserProfile {
     
     static func firstAppLaunch() {
         let defaults = UserDefaults.standard
-        defaults.set(true, forKey: "appLaunchedBefore")
+        defaults.set(true, forKey: "appLaunchedBefore")  //appLaunchedBefore = true if user configured an app for using
     }
     
     static func isAppLaunchedBefore() -> Bool{

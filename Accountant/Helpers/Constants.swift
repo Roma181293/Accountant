@@ -13,12 +13,13 @@ struct Constants {
     
     struct Storyboard {
         static let welcomeViewController = "WelcomeVC_ID"
-        static let setAccountingCurrencyViewController = "SetAccountingCurrencyVC_ID"
-        static let setAccountingStartDateViewController = "SetAccountingStartDateVC_ID"
-        static let startAccountingStepsViewController = "StartAccountingStepsVC_ID"
+        static let startAccountingViewController = "StartAccountingVC_ID"
+        
         static let tabBarController = "TabBarController_ID"
+        
         static let bioAuthViewController = "BioAuthVC_ID"
         static let authPinAndBioViewController = "AuthPinAndBiometricVC_ID"
+        
         static let purchaseOfferViewController = "PurchaseOfferVC_ID"
         
         static let transactionListViewController = "TransactionListVC_ID"

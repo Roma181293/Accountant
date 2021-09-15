@@ -19,25 +19,94 @@
 "Other" = "Інше";
 "Before accounting period" = "До обліковий період";
 
-//SetAccountingStartDateViewController
-"Accounting start date" = "Дата початку обліку";
+//Currency List
+"AUD" = "Австралійський долар";
+"CAD" = "Канадський долар";
+"CNY" = "Китайський Юань Женьміньбі";
+"HRK" = "Хорватська куна";
+"CZK" = "Чеська крона";
+"DKK" = "Данська крона";
+"HKD" = "Гонконгівський долар";
+"HUF" = "Вернгерський форинт";
+"INR" = "Індійська рупія";
+"IDR" = "Індонезійська рупія";
+"ILS" = "Ізраїльський шекель";
+"JPY" = "Японська єна";
+"KZT" = "Казахстанське теньге";
+"KRW" = "Південно Корейська вона";
+"MXN" = "Мексиканське песо";
+"MDL" = "Молдовський лей";
+"NZD" = "Новозеландський долар";
+"NOK" = "Норвезька крона";
+"RUB" = "Російський рубль";
+"SAR" = "Саудівський ріял";
+"SGD" = "Сінгапурський долар";
+"ZAR" = "Південно Афпіканський ренд";
+"SEK" = "Шведська крона";
+"CHF" = "Швейцарський франк";
+"EGP" = "Єгипетський фунт";
+"GBP" = "Британський фунт стерлінгів";
+"UAH" = "Українська гривня";
+"USD" = "Долар США";
+"BYN" = "Білоруський рубль";
+"AZN" = "Азербайджанський манат";
+"RON" = "Румунський лей";
+"TRY" = "Турецька ліра";
+"BGN" = "Болгарський лев";
+"EUR" = "Євро";
+"PLN" = "Польський злотий";
+"DZD" = "Алжирський динар";
+"BDT" = "Бангладешська така";
+"AMD" = "Вірменський драм";
+"IRR" = "Іранський ріал";
+"IQD" = "Іракський динар";
+"KGS" = "Киргистанський сом";
+"LBP" = "Ліванський фунт";
+"LYD" = "Лівійський динар";
+"MYR" = "Малайзійський ринггіт";
+"MAD" = "Марокканський дирхам";
+"VND" = "В'єтнамський донг";
+"THB" = "Тайський бат";
+"AED" = "Дирхам ОАЕ";
+"TND" = "Туніський динар";
+"UZS" = "Узбецький сум";
+"TWD" = "Тайванський долар";
+"TMT" = "Туркменський манат";
+"GHS" = "Ганське седі";
+"RSD" = "Сербський динар";
+"TJS" = "Таджикістанське сомоні";
+"GEL" = "Грузинська ларі";
+"BRL" = "Бразильський реал";
 
-//SetAccountingCurrencyViewController
-"Current accounting currency already used in transaction where one of accounts has different currency" = "Поточна валюта обліку використровується в операціях, в яких один з аккаунтів має іншу валюту";
+//WelcomeViewController
+"Welcome" = "Привіт";
+"Try functionality" = "Спробувати функціонал";
+"Lets create accounts that you will be use in future" = "Давайте створимо рахунки які будуть використовуватися у майбутньому";
+
+//StartAccountingViewController
+"Accounting start" = "Початок обліку";
+"Please choose accounting start date. When you adding existing account, this date will be using automatically" = "Будь ласка оберіть дату початку обліку. Ця дата будет викоистовуватися коли ви будете створювати рахунки";
+"Choose currecy for Income and Expense categories(accounts). This currency cannot be changed in the future" = "Оберіть валюту для обліку Доходів та Витрат. Ця валюта не може бути змінена у майбутньому";
+"Please add Income categories(accounts)" = "Додайте рахунки(категорії) Доходів";
+"Please add Expense categories(accounts)" = "Додайте рахунки(категорії) Витрат";
+"Please add Money accounts (Cash and bank cards)" = "Додайте грошові рахунки (Готівку та банківські картки)";
+"Please add debtors. Debtors also include deposits" = "Додайте боржників. До боржників також відносяться вклади та депозити в банках";
+"Please add credits. Credit limit on card credit are automatically added to the credits" = "Додайте кредити. В кредити автоматично дадаються кредитні ліміти по кредитним карткам";
+
 
 //TransactionListViewController
 "From:" = "З:";
 "To:" = "До:";
 
 "Transactions" = "Операції";
-"Get PRO" = " PRO";
+"Get PRO" = "PRO";
 "Remove" = "Видалити";
 "Do you really want remove transaction?" = "Ви дійсно хочете видалити операцію?";
 "Yes" = "Так";
 "No" = "Ні";
 "Copy" = "Копіювати";
 
-//TransactionEditorViewController
+//SimpleTransactionEditorViewController
 "From: Account" = "З: Рахунку";
 "To: Account" = "До: Рахунку";
 "Save changes" = "Зберегти зміни";
@@ -95,20 +164,20 @@
 
 "Do you really want remove account?" = "Ви дійсно хочете видалити рахунок?";
 
-//BudgetsListViewController
-"Budgets" = "Бюджети";
-"Delete" = "Видалити";
-"Do you really want delete budget?" = "Ви дійсно хочете видалити бюджет?";
-
-
-//BudgetEditorViewController
-"Edit budget" = "Редагувати бюджет";
-"Add budget" = "Додати бюджет";
-"This budget is alredy exist.\nDo you wanna change amount %@ to %@?" = "Цей бюджет уже існує.\nБажаєте змінити значення суми з %@ до %@?";
-"Do you want to save changes?" = "Бажаєте зберегти зміни?";
-"Please choose category" = "Будь ласка оберіть категорію";
-"Please check the amount value" = "Будь ласка перевірте значення суми";
-"Entered value shouldn`t be negative (>=0)" = "Введене значення має бути невід'ємним (>=0)";
+////BudgetsListViewController
+//"Budgets" = "Бюджети";
+//"Delete" = "Видалити";
+//"Do you really want delete budget?" = "Ви дійсно хочете видалити бюджет?";
+//
+//
+////BudgetEditorViewController
+//"Edit budget" = "Редагувати бюджет";
+//"Add budget" = "Додати бюджет";
+//"This budget is alredy exist.\nDo you wanna change amount %@ to %@?" = "Цей бюджет уже існує.\nБажаєте змінити значення суми з %@ до %@?";
+//"Do you want to save changes?" = "Бажаєте зберегти зміни?";
+//"Please choose category" = "Будь ласка оберіть категорію";
+//"Please check the amount value" = "Будь ласка перевірте значення суми";
+//"Entered value shouldn`t be negative (>=0)" = "Введене значення має бути невід'ємним (>=0)";
 
 //AnalyticsViewController
 "Analytics" = "Аналітика";
@@ -189,81 +258,15 @@
 "Import Account List" = "Імпортувати рахунки";
 "Import Transaction List" = "Імпортувати операції";
 "Add data for test app" = "Додати даннi для тестування додатку";
-"Account & category editor" = "Редактор рахунків та категорій";
 "Terms of use" = "Умови використання";
 "Privacy policy" = "Політика конфіденційності";
 "PRO access" = "PRO доступ";
 "till" = "до";
 "Get PRO access" = "Отримати PRO доступ";
 
-//SettingWithSwitchTableViewCell
+//SettingTableViewCell
 "Test mode" = "Тестовий режим";
 "Secure code" = "Пароль";
-
-//FIRST LAUNCH
-"Welcome" = "Привіт";
-"Try functionality" = "Спробувати функціонал";
-"Lets create accounts that you will be use in future" = "Давайте створимо рахунки які будуть використовуватися у майбутньому";
-
-//CurrencyList
-"AUD" = "Австралійський долар";
-"CAD" = "Канадський долар";
-"CNY" = "Китайський Юань Женьміньбі";
-"HRK" = "Хорватська куна";
-"CZK" = "Чеська крона";
-"DKK" = "Данська крона";
-"HKD" = "Гонконгівський долар";
-"HUF" = "Вернгерський форинт";
-"INR" = "Індійська рупія";
-"IDR" = "Індонезійська рупія";
-"ILS" = "Ізраїльський шекель";
-"JPY" = "Японська єна";
-"KZT" = "Казахстанське теньге";
-"KRW" = "Південно Корейська вона";
-"MXN" = "Мексиканське песо";
-"MDL" = "Молдовський лей";
-"NZD" = "Новозеландський долар";
-"NOK" = "Норвезька крона";
-"RUB" = "Російський рубль";
-"SAR" = "Саудівський ріял";
-"SGD" = "Сінгапурський долар";
-"ZAR" = "Південно Афпіканський ренд";
-"SEK" = "Шведська крона";
-"CHF" = "Швейцарський франк";
-"EGP" = "Єгипетський фунт";
-"GBP" = "Британський фунт стерлінгів";
-"UAH" = "Українська гривня";
-"USD" = "Долар США";
-"BYN" = "Білоруський рубль";
-"AZN" = "Азербайджанський манат";
-"RON" = "Румунський лей";
-"TRY" = "Турецька ліра";
-"BGN" = "Болгарський лев";
-"EUR" = "Євро";
-"PLN" = "Польський злотий";
-"DZD" = "Алжирський динар";
-"BDT" = "Бангладешська така";
-"AMD" = "Вірменський драм";
-"IRR" = "Іранський ріал";
-"IQD" = "Іракський динар";
-"KGS" = "Киргистанський сом";
-"LBP" = "Ліванський фунт";
-"LYD" = "Лівійський динар";
-"MYR" = "Малайзійський ринггіт";
-"MAD" = "Марокканський дирхам";
-"VND" = "В'єтнамський донг";
-"THB" = "Тайський бат";
-"AED" = "Дирхам ОАЕ";
-"TND" = "Туніський динар";
-"UZS" = "Узбецький сум";
-"TWD" = "Тайванський долар";
-"TMT" = "Туркменський манат";
-"GHS" = "Ганське седі";
-"RSD" = "Сербський динар";
-"TJS" = "Таджикістанське сомоні";
-"GEL" = "Грузинська ларі";
-"BRL" = "Бразильський реал";
-
 
 
 //AccountError

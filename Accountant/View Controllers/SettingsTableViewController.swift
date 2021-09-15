@@ -101,8 +101,9 @@ class SettingsTableViewController: UITableViewController {
         case .envirement:
             break
         case .accountingCurrency:
-            let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.currencyTableViewController) as! CurrencyTableViewController
-            self.navigationController?.pushViewController(vc, animated: true)
+//            let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.currencyTableViewController) as! CurrencyTableViewController
+//            self.navigationController?.pushViewController(vc, animated: true)
+            break
         case .accountsManager:
             let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.accountNavigatorTableViewController) as!
                 AccountNavigatorTableViewController
@@ -167,7 +168,7 @@ class SettingsTableViewController: UITableViewController {
         case .privacyPolicy:
             break
         case .startAccounting:
-            let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.setAccountingStartDateViewController) as! SetAccountingStartDateViewController
+            let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.startAccountingViewController) as! StartAccountingViewController
             vc.vc = self.parent
             self.navigationController?.pushViewController(vc, animated: true)
         }

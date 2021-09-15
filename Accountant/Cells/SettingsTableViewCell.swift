@@ -140,7 +140,7 @@ class SettingsTableViewCell: UITableViewCell {
             }
             iconImangeView.image = UIImage(systemName: "dollarsign.circle")
             iconImangeView.tintColor = .systemGreen
-            accessoryType = .disclosureIndicator
+//            accessoryType = .disclosureIndicator
         case .accountsManager:
             titleLabel.text = NSLocalizedString(dataItem.rawValue, comment: "")
             iconImangeView.image = UIImage(systemName: "list.bullet.indent")
@@ -197,7 +197,7 @@ class SettingsTableViewCell: UITableViewCell {
         titleLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
         
         contentView.addSubview(detailLabel)
-        detailLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8).isActive = true
+        detailLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20).isActive = true
         detailLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
         
         contentView.addSubview(switcher)
