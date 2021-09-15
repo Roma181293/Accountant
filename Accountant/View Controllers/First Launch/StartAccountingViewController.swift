@@ -253,7 +253,7 @@ class StartAccountingViewController: UIViewController, CurrencyReceiverDelegate 
                 }
             }
             else {
-                let alert = UIAlertController(title: NSLocalizedString("Warning", comment: ""), message: "Please choose currency", preferredStyle: .alert)
+                let alert = UIAlertController(title: NSLocalizedString("Warning", comment: ""), message:  NSLocalizedString("Please choose currency", comment: ""), preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default))
                 self.present(alert, animated: true, completion: nil)
             }

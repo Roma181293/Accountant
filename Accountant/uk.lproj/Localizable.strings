@@ -92,7 +92,7 @@
 "Please add Money accounts (Cash and bank cards)" = "Додайте грошові рахунки (Готівку та банківські картки)";
 "Please add debtors. Debtors also include deposits" = "Додайте боржників. До боржників також відносяться вклади та депозити в банках";
 "Please add credits. Credit limit on card credit are automatically added to the credits" = "Додайте кредити. В кредити автоматично дадаються кредитні ліміти по кредитним карткам";
-
+"Please choose currency" = "Будь ласка оберіть валюту";
 
 //TransactionListViewController
 "From:" = "З:";
