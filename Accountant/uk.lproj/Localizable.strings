@@ -145,39 +145,26 @@
 
 
 //AccountEditorWithInitialBalanceViewController
-"Edit money account" = "Редагувати грошовий рахунок";
-"Add money account" = "Додати грошовий рахунок";
-"Loading..." = "Завантаження";
+"New" = "Новий";
+"Existing" = "Існуючий";
+"Step: 1" = "Крок: 1";
+"Type:" = "Тип:";
+"Currency:" = "Валюта:";
+"Balance on:" = "Баланс на";
+"Name" = "Iм'я";
+"Balance" = "Баланс";
+"Credit limit" = "Кредитний ліміт";
 
-"Please enter correct money account name" = "Будь ласка введіть коректне ім'я";
+
 "This account name is already exist" = "Рахунок з цим ім'ям вже існує";
 "Please check the balance value" = "Будь ласка перевірте значення балансу";
-"Balance value can't be less than 0" = "Значення балансу не може бути менше 0";
-
 "Please check the credit limit value" = "Будь ласка перевірте значення кредитного ліміту";
 "Credit limit value can't be less than 0" = "Значення кредитного ліміту не може бути менше 0";
-"Please enter correct deposit account name" = "Будь ласка введіть коректне ім'я депозитного рахунку";
 
-"Sorry" = "Вибачте";
 "Bad internet connection. Please enter exchange rate %@/%@" = "Погане інтернет зяєднання. Будь ласка введіть обмінний курс %@/%@";
 "Exchange rate value can't be less or equal than 0" = "Значення курсу валют не може бути менше 0";
 
-"Do you really want remove account?" = "Ви дійсно хочете видалити рахунок?";
 
-////BudgetsListViewController
-//"Budgets" = "Бюджети";
-//"Delete" = "Видалити";
-//"Do you really want delete budget?" = "Ви дійсно хочете видалити бюджет?";
-//
-//
-////BudgetEditorViewController
-//"Edit budget" = "Редагувати бюджет";
-//"Add budget" = "Додати бюджет";
-//"This budget is alredy exist.\nDo you wanna change amount %@ to %@?" = "Цей бюджет уже існує.\nБажаєте змінити значення суми з %@ до %@?";
-//"Do you want to save changes?" = "Бажаєте зберегти зміни?";
-//"Please choose category" = "Будь ласка оберіть категорію";
-//"Please check the amount value" = "Будь ласка перевірте значення суми";
-//"Entered value shouldn`t be negative (>=0)" = "Введене значення має бути невід'ємним (>=0)";
 
 //AnalyticsViewController
 "Analytics" = "Аналітика";

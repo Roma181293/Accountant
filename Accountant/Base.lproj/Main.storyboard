@@ -909,6 +909,21 @@
             </objects>
             <point key="canvasLocation" x="703" y="1892"/>
         </scene>
+        <!--Account Editor With Initial Balance View Controller1-->
+        <scene sceneID="jhC-HP-sKb">
+            <objects>
+                <viewController storyboardIdentifier="AccountEditorWithInitialBalanceVC1_ID" id="BwD-g0-eMO" customClass="AccountEditorWithInitialBalanceViewController1" customModule="Accountant" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="4bl-Aj-8zr">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="Ebj-1V-6ab"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="GJF-Kb-5RZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1658" y="1892"/>
+        </scene>
         <!--Currency Table View Controller-->
         <scene sceneID="S0M-d0-w0Y">
             <objects>
@@ -925,17 +940,18 @@
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ksu-iC-sxR">
-                                            <rect key="frame" x="20" y="11" width="42" height="21.5"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="MMM" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ksu-iC-sxR">
+                                            <rect key="frame" x="20" y="11" width="45" height="21.5"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="21" id="c1f-kZ-sWH"/>
+                                                <constraint firstAttribute="width" constant="45" id="xK6-Dc-VKG"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ufp-l5-G1J">
-                                            <rect key="frame" x="77" y="11" width="42" height="21"/>
+                                            <rect key="frame" x="80" y="11" width="42" height="21"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="21" id="Soe-2X-uDc"/>
                                             </constraints>
@@ -967,7 +983,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Itk-WX-kju" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1661" y="1892"/>
+            <point key="canvasLocation" x="2509" y="1892"/>
         </scene>
         <!--Account Navigator Table View Controller-->
         <scene sceneID="xx4-Jc-L6V">
