@@ -109,8 +109,7 @@ class StartAccountingViewController: UIViewController, CurrencyReceiverDelegate 
         nextButton.addTarget(self, action: #selector(self.nextStep), for: .touchUpInside)
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
+    deinit {
         if vc != nil && UserProfile.isAppLaunchedBefore() == false {
             CoreDataStack.shared.switchToDB(.test)
             NotificationCenter.default.post(name: .environmentDidChange, object: nil)

@@ -8,7 +8,8 @@
 import UIKit
 import Purchases
 
-class AccountEditorWithInitialBalanceViewController1: UIViewController {
+class AccountEditorWithInitialBalanceViewController1: UIViewController, UIScrollViewDelegate {
+    
     var isUserHasPaidAccess: Bool = false
     
     let coreDataStack = CoreDataStack.shared
@@ -74,7 +75,15 @@ class AccountEditorWithInitialBalanceViewController1: UIViewController {
     }
     
     
-    
+    let mainScrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.alwaysBounceVertical = true
+        scrollView.bounces = false
+        scrollView.showsVerticalScrollIndicator = false
+        scrollView.showsHorizontalScrollIndicator = false
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        return scrollView
+    }()
     
     
     let mainView : UIView = {
@@ -274,10 +283,12 @@ class AccountEditorWithInitialBalanceViewController1: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        mainScrollView.delegate = self
         addMainView()
         
         //MARK:- adding NotificationCenter observers
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.reloadProAccessData), name: .receivedProAccessData, object: nil)
         
         do {
@@ -288,16 +299,16 @@ class AccountEditorWithInitialBalanceViewController1: UIViewController {
             
             addDoneButtonOnDecimalKeyboard()
             
-            accountNameTextField.delegate = self as! UITextFieldDelegate
-            accountBalanceTextField.delegate = self as! UITextFieldDelegate
-            creditLimitTextField.delegate = self as! UITextFieldDelegate
-            exchangeRateTextField.delegate = self as! UITextFieldDelegate
+            accountNameTextField.delegate = self as UITextFieldDelegate
+            accountBalanceTextField.delegate = self as UITextFieldDelegate
+            creditLimitTextField.delegate = self as UITextFieldDelegate
+            exchangeRateTextField.delegate = self as UITextFieldDelegate
             
             let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
             view.addGestureRecognizer(tap)
             
             preConfigureUI()
-            if UserProfile.isAppLaunchedBefore() {
+            if UserProfile.isAppLaunchedBefore() || coreDataStack.activeEnviroment() == .test {
                 configureUIForNewAccount()
             }
             else {
@@ -312,18 +323,31 @@ class AccountEditorWithInitialBalanceViewController1: UIViewController {
     }
     
     deinit{
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
         NotificationCenter.default.removeObserver(self, name: .receivedProAccessData, object: nil)
         context.rollback()
     }
     
     func addMainView() {
         
+        //MARK:- Main Scroll View
+        view.addSubview(mainScrollView)
+        
+//        mainScrollView.contentSize = CGSize(width: mainScrollView.frame.width, height: mainScrollView.frame.height)
+        mainScrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        mainScrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        mainScrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+        mainScrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
+        
         //MARK:- Main View
-        view.addSubview(mainView)
-        mainView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 8).isActive = true
-        mainView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -8).isActive = true
-        mainView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
-        mainView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
+        mainScrollView.addSubview(mainView)
+        mainView.leadingAnchor.constraint(equalTo: mainScrollView.leadingAnchor, constant: 8).isActive = true
+        mainView.trailingAnchor.constraint(equalTo: mainScrollView.trailingAnchor, constant: -8).isActive = true
+        mainView.topAnchor.constraint(equalTo: mainScrollView.topAnchor).isActive = true
+        mainView.bottomAnchor.constraint(equalTo: mainScrollView.bottomAnchor).isActive = true
+        mainView.widthAnchor.constraint(equalTo: mainScrollView.widthAnchor, constant: -16).isActive = true
+        mainView.heightAnchor.constraint(equalTo: mainScrollView.heightAnchor).isActive = true
         
         //MARK:- Segmented Control
         mainView.addSubview(segmentedControl)
@@ -408,8 +432,8 @@ class AccountEditorWithInitialBalanceViewController1: UIViewController {
         
         //MARK:- Confirm Button
         view.addSubview(confirmButton)
-        confirmButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -89).isActive = true //49- tabbar heigth
-        confirmButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -40).isActive = true
+        confirmButton.bottomAnchor.constraint(equalTo: mainView.bottomAnchor, constant: -89).isActive = true //49- tabbar heigth
+        confirmButton.trailingAnchor.constraint(equalTo: mainView.trailingAnchor, constant: -40).isActive = true
         confirmButton.heightAnchor.constraint(equalToConstant: 68).isActive = true
         confirmButton.widthAnchor.constraint(equalToConstant: 68).isActive = true
         
@@ -805,25 +829,33 @@ class AccountEditorWithInitialBalanceViewController1: UIViewController {
     // MARK: - Keyboard methods
     
     @objc func keyboardWillShow(notification: Notification) {
-        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-            let keyboardY = self.view.frame.size.height - keyboardSize.height - 60
-            
-            //FIXME: - is it correct stackView below?
-            let editingTextFieldY : CGFloat = self.stackView.frame.origin.y + self.activeTextField!.frame.origin.y
-            
-            if editingTextFieldY > keyboardY - 60 {
-                UIView.animate(withDuration: 0.25, delay: 0.00, options: UIView.AnimationOptions.curveEaseIn, animations: {
-                    self.view.frame = CGRect(x: 0, y: -(editingTextFieldY - (keyboardY - 60)), width: self.view.bounds.width, height: self.view.bounds.height)
-                }, completion: nil)
-            }
-        }
+        var userInfo        = notification.userInfo!
+        let keyboardSize    = (userInfo[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue
+        let contentInsets   = UIEdgeInsets(top: 0.0, left: 0.0, bottom: (keyboardSize!.height + 40), right: 0.0)
+        self.mainScrollView.contentInset            = contentInsets
+        self.mainScrollView.scrollIndicatorInsets   = contentInsets
+        
+        
+        
+        // **-- Scroll when keyboard shows up
+        let aRect           = self.view.frame
+        self.mainScrollView.contentSize = aRect.size
+        
+        /* if((self.activeTextField) != nil)
+         {
+         self.scrollView.scrollRectToVisible(self.activeTextField!.frame, animated: true)
+         }*/
+
     }
     
     
     @objc func keyboardWillHide(notification: Notification) {
-        UIView.animate(withDuration: 0.25, delay: 0.00, options: UIView.AnimationOptions.curveEaseIn, animations: {
-            self.view.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: self.view.bounds.height)
-        }, completion: nil)
+        let contentInsets   = UIEdgeInsets.zero
+         self.mainScrollView.contentInset            = contentInsets
+         self.mainScrollView.scrollIndicatorInsets   = contentInsets
+
+         // **-- Scroll when keyboard shows up
+         self.mainScrollView.contentSize = self.mainView.frame.size
     }
     
     
