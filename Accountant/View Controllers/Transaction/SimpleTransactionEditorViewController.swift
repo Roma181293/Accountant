@@ -194,7 +194,8 @@ class SimpleTransactionEditorViewController: UIViewController, GADFullScreenCont
         if sender.isOn {
             debitToCreditExchangeRateLabel.isHidden = false
             creditToDebitExchangeRateLabel.isHidden = false
-            setExchangeRateToLabel()
+            getExhangeRate()
+//            setExchangeRateToLabel()
         }
         else {
             debitToCreditExchangeRateLabel.isHidden = true
@@ -225,9 +226,9 @@ class SimpleTransactionEditorViewController: UIViewController, GADFullScreenCont
         debitButton.backgroundColor = .systemGray5
         creditButton.backgroundColor = .systemGray5
         
-        if let startyAccountingDate = UserProfile.getAccountingStartDate() {
-            datePicker.minimumDate = startyAccountingDate
-        }
+//        if let startyAccountingDate = UserProfile.getAccountingStartDate() {
+//            datePicker.minimumDate = startyAccountingDate
+//        }
         addDoneButtonToViewController()
         if transaction == nil && tmpDebit == nil && tmpCredit == nil{
             getExhangeRate()
@@ -326,11 +327,23 @@ class SimpleTransactionEditorViewController: UIViewController, GADFullScreenCont
     
     
     private func setExchangeRateToLabel() {
-        guard let currencyHistoricalData = currencyHistoricalData, let debit = debit, let debitCurrency = debit.currency, let credit = credit, let creditCurrency = credit.currency, debitCurrency != creditCurrency, let rate = currencyHistoricalData.exchangeRate(curr: creditCurrency.code!, to: debitCurrency.code!) else {return}
+        guard let debit = debit, let debitCurrency = debit.currency, let credit = credit, let creditCurrency = credit.currency, debitCurrency != creditCurrency
+        else {return}
+        
+        if useExchangeRateSwich.isOn {
+        guard let currencyHistoricalData = currencyHistoricalData, let rate = currencyHistoricalData.exchangeRate(curr: creditCurrency.code!, to: debitCurrency.code!) else {return}
         print(rate)
         selectedRateCreditToDebit = rate
         creditToDebitExchangeRateLabel.text = "\(creditCurrency.code!)/\(debitCurrency.code!): \(round(rate*10000)/10000)"
         debitToCreditExchangeRateLabel.text = "\(debitCurrency.code!)/\(creditCurrency.code!): \(round(1.0/rate*10000)/10000)"
+        }
+        else if let amountInCreditCurrency = Double(amountInCreditCurrencyTextField.text!.replacingOccurrences(of: ",", with: ".")),
+                let amountInDebitCurrency = Double(amountInDebitCurrencyTextField.text!.replacingOccurrences(of: ",", with: ".")) {
+            selectedRateCreditToDebit = amountInCreditCurrency/amountInDebitCurrency
+            creditToDebitExchangeRateLabel.text = "\(creditCurrency.code!)/\(debitCurrency.code!): \(round(selectedRateCreditToDebit!*10000)/10000)"
+            debitToCreditExchangeRateLabel.text = "\(debitCurrency.code!)/\(creditCurrency.code!): \(round(1.0/selectedRateCreditToDebit!*10000)/10000)"
+        }
+        
     }
     
     
@@ -338,9 +351,11 @@ class SimpleTransactionEditorViewController: UIViewController, GADFullScreenCont
      This method load currencyHistoricalData from the internet
      */
     private func getExhangeRate() {
-        creditToDebitExchangeRateLabel.text = ""
-        debitToCreditExchangeRateLabel.text = ""
-        selectedRateCreditToDebit = nil
+        if useExchangeRateSwich.isOn {
+            creditToDebitExchangeRateLabel.text = ""
+            debitToCreditExchangeRateLabel.text = ""
+            selectedRateCreditToDebit = nil
+        }
         
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd.MM.yyyy"
