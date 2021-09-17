@@ -104,12 +104,13 @@ class AccountManagerController {
                         try self.delegate.coreDataStack.saveContext(self.delegate.context)
                         try self.delegate.updateSourceTable()
                         
-                        if self.delegate.showHiddenAccounts == false{
-                            self.delegate.tableView.deleteRows(at: [indexPath], with: .fade)
-                        }
-                        else {
+                        //FIXME:- try to uncomment somehow
+//                        if self.delegate.showHiddenAccounts == false{
+//                            self.delegate.tableView.deleteRows(at: [indexPath], with: .fade)
+//                        }
+//                        else {
                             self.delegate.tableView.reloadData()
-                        }
+//                        }
                     }
                     catch let error {
                         self.delegate.errorHandlerMethod(error: error)
