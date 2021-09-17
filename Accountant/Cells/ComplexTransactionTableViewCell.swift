@@ -9,16 +9,18 @@ import UIKit
 
 class ComplexTransactionTableViewCell: UITableViewCell {
 
-    unowned var transaction: Transaction!
+    private unowned var transaction: Transaction!
     
     private var itemViewArray: [UIView] = []
     private var firstLaunch: Bool = true
+    private var cellMainColor : UIColor = .systemGray
+    
+    private let labelsAlpha: CGFloat = 0.15
+    private let backGroundAlpha: CGFloat = 0.2
     
     let mainView : UIView = {
         let mainView = UIView()
         mainView.layer.cornerRadius = 10
-        mainView.layer.borderWidth = 0.5
-        mainView.layer.borderColor = UIColor.systemGray.cgColor
         mainView.translatesAutoresizingMaskIntoConstraints = false
         return mainView
     }()
@@ -88,9 +90,6 @@ class ComplexTransactionTableViewCell: UITableViewCell {
         label.textAlignment = .left
         label.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
         label.layer.cornerRadius = 8
-        label.layer.borderWidth = 0.5
-        label.layer.borderColor = UIColor.systemGray.cgColor
-        label.layer.backgroundColor = UIColor.systemGray4.cgColor.copy(alpha: 0.4)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -102,9 +101,6 @@ class ComplexTransactionTableViewCell: UITableViewCell {
         label.textAlignment = .left
         label.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
         label.layer.cornerRadius = 8
-        label.layer.borderWidth = 0.5
-        label.layer.borderColor = UIColor.systemGray.cgColor
-        label.layer.backgroundColor = UIColor.systemGray4.cgColor.copy(alpha: 0.4)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -112,11 +108,8 @@ class ComplexTransactionTableViewCell: UITableViewCell {
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
-        debitLabel.layer.borderColor = UIColor.systemGray.cgColor
-        debitLabel.layer.backgroundColor = UIColor.systemGray4.cgColor.copy(alpha: 0.4)
-        creditLabel.layer.borderColor = UIColor.systemGray.cgColor
-        creditLabel.layer.backgroundColor = UIColor.systemGray4.cgColor.copy(alpha: 0.4)
-        
+        debitLabel.layer.backgroundColor = cellMainColor.cgColor.copy(alpha: labelsAlpha)
+        creditLabel.layer.backgroundColor = cellMainColor.cgColor.copy(alpha: labelsAlpha)
     }
 
     
@@ -186,12 +179,14 @@ class ComplexTransactionTableViewCell: UITableViewCell {
             
             let accountPathLabel = UILabel()
             accountPathLabel.text = item.account!.path
+//            accountPathLabel.font = UIFont.systemFont(ofSize: 16)
             accountPathLabel.numberOfLines = 0
             accountPathLabel.lineBreakMode = .byWordWrapping
             accountPathLabel.translatesAutoresizingMaskIntoConstraints = false
             
             let amountAndCurrencyLabel = UILabel()
             amountAndCurrencyLabel.text = cutNumber(item.amount) + item.account!.currency!.code!
+//            amouçntAndCurrencyLabel.font = UIFont.systemFont(ofSize: 16)
             amountAndCurrencyLabel.textAlignment = .right
             amountAndCurrencyLabel.translatesAutoresizingMaskIntoConstraints = false
             
@@ -224,20 +219,23 @@ class ComplexTransactionTableViewCell: UITableViewCell {
 
         if creditRootName == AccountsNameLocalisationManager.getLocalizedAccountName(.income) &&
            debitRootName == AccountsNameLocalisationManager.getLocalizedAccountName(.money) {
-            mainView.backgroundColor = UIColor(cgColor: UIColor.systemGreen.cgColor.copy(alpha: 0.3)!)
+            cellMainColor = .systemGreen
         }
         else  if (creditRootName == AccountsNameLocalisationManager.getLocalizedAccountName(.money) ||
                   creditRootName == AccountsNameLocalisationManager.getLocalizedAccountName(.credits)) &&
                   debitRootName == AccountsNameLocalisationManager.getLocalizedAccountName(.expense) {
-            mainView.backgroundColor = UIColor(cgColor: UIColor.systemPink.cgColor.copy(alpha: 0.3)!)
+            cellMainColor = .systemPink
         }
         else  if creditRootName == AccountsNameLocalisationManager.getLocalizedAccountName(.money) &&
                  debitRootName == AccountsNameLocalisationManager.getLocalizedAccountName(.money) {
-            mainView.backgroundColor = UIColor(cgColor: UIColor.systemTeal.cgColor.copy(alpha: 0.3)!)
+            cellMainColor = .systemTeal
         }
         else {
-            mainView.backgroundColor = UIColor(cgColor: UIColor.systemGray.cgColor.copy(alpha: 0.3)!)
+            cellMainColor = .systemGray
         }
+        debitLabel.layer.backgroundColor = cellMainColor.cgColor.copy(alpha: labelsAlpha)
+        creditLabel.layer.backgroundColor = cellMainColor.cgColor.copy(alpha: labelsAlpha)
+        mainView.backgroundColor = UIColor(cgColor: cellMainColor.cgColor.copy(alpha: backGroundAlpha)!)
     }
     
     private func cutNumber(_ number : Double) -> String {
