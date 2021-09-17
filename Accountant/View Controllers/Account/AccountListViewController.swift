@@ -93,6 +93,8 @@ class AccountListViewController: UIViewController, UIScrollViewDelegate{
         NotificationCenter.default.addObserver(self, selector: #selector(self.reloadProAccessData), name: .receivedProAccessData, object: nil)
         context = CoreDataStack.shared.persistentContainer.viewContext
   
+        reloadProAccessData()
+        
         accountingCurrency = CurrencyManager.getAccountingCurrency(context: context)!
         scrollView.delegate = self
         

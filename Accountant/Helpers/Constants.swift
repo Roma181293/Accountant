@@ -29,7 +29,6 @@ struct Constants {
         
         static let accountNavigatorTableViewController = "AccountNavigatorTVC_ID"
         static let accountEditorWithInitialBalanceViewController = "AccountEditorWithInitialBalanceVC_ID"
-        static let accountEditorWithInitialBalanceViewController1 = "AccountEditorWithInitialBalanceVC1_ID"
         static let addAccountViewController = "AddAccountVC_ID"
         static let accountListViewController = "AccountListVC_ID"
         static let accountListTableViewController = "AccountListTVC_ID"

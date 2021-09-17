@@ -153,7 +153,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Step: 2" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NwN-p0-5AZ">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Step: 2" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NwN-p0-5AZ">
                                 <rect key="frame" x="344" y="69" width="60" height="25"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="25" id="8b5-Nx-OCt"/>
@@ -725,204 +725,17 @@
         <!--Account Editor With Initial Balance View Controller-->
         <scene sceneID="ZtP-fx-vuw">
             <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="PTg-6L-dhJ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <viewController storyboardIdentifier="AccountEditorWithInitialBalanceVC_ID" id="AJ9-Jc-FMH" customClass="AccountEditorWithInitialBalanceViewController" customModule="Accountant" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="nYK-6O-MRd">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="oZO-SF-MSS">
-                                <rect key="frame" x="139.5" y="64" width="135" height="32"/>
-                                <segments>
-                                    <segment title="New"/>
-                                    <segment title="Existing"/>
-                                </segments>
-                                <connections>
-                                    <action selector="selectNewOrExistingAccount:" destination="AJ9-Jc-FMH" eventType="valueChanged" id="bQO-Cs-w7q"/>
-                                </connections>
-                            </segmentedControl>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="qsg-nU-gba">
-                                <rect key="frame" x="8" y="125" width="398" height="304"/>
-                                <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="zTo-HH-WtM">
-                                        <rect key="frame" x="0.0" y="0.0" width="398" height="34"/>
-                                        <subviews>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sCB-1b-47l">
-                                                <rect key="frame" x="0.0" y="0.0" width="199" height="34"/>
-                                                <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Currency:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7zs-jc-86W">
-                                                        <rect key="frame" x="0.0" y="7" width="74.5" height="20.5"/>
-                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                        <nil key="textColor"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kcs-Wp-Az1">
-                                                        <rect key="frame" x="82.5" y="0.0" width="80" height="34"/>
-                                                        <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.94117647059999998" alpha="1" colorSpace="calibratedRGB"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="height" constant="34" id="X8j-Xh-IaQ"/>
-                                                            <constraint firstAttribute="width" constant="80" id="oJT-bB-eTE"/>
-                                                        </constraints>
-                                                        <state key="normal" title="USD"/>
-                                                        <userDefinedRuntimeAttributes>
-                                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                                                <integer key="value" value="5"/>
-                                                            </userDefinedRuntimeAttribute>
-                                                        </userDefinedRuntimeAttributes>
-                                                        <connections>
-                                                            <action selector="selectCurrency:" destination="AJ9-Jc-FMH" eventType="touchUpInside" id="qY6-Ew-jxF"/>
-                                                        </connections>
-                                                    </button>
-                                                </subviews>
-                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                                <constraints>
-                                                    <constraint firstItem="kcs-Wp-Az1" firstAttribute="centerY" secondItem="sCB-1b-47l" secondAttribute="centerY" id="FFV-TP-B1j"/>
-                                                    <constraint firstItem="kcs-Wp-Az1" firstAttribute="leading" secondItem="7zs-jc-86W" secondAttribute="trailing" constant="8" id="Zr2-QB-1qo"/>
-                                                    <constraint firstItem="7zs-jc-86W" firstAttribute="centerY" secondItem="sCB-1b-47l" secondAttribute="centerY" id="dAV-9e-fav"/>
-                                                    <constraint firstItem="7zs-jc-86W" firstAttribute="leading" secondItem="sCB-1b-47l" secondAttribute="leading" id="ggo-nA-hje"/>
-                                                </constraints>
-                                            </view>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="emG-Gs-Q1G">
-                                                <rect key="frame" x="199" y="0.0" width="199" height="34"/>
-                                                <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Type:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BYJ-cO-tgF">
-                                                        <rect key="frame" x="0.0" y="7" width="42" height="20.5"/>
-                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                        <nil key="textColor"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zog-L2-6wM">
-                                                        <rect key="frame" x="50" y="0.0" width="80" height="34"/>
-                                                        <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.94117647059999998" alpha="1" colorSpace="calibratedRGB"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="width" constant="80" id="15l-kN-hxK"/>
-                                                            <constraint firstAttribute="height" constant="34" id="htp-Vb-nr0"/>
-                                                        </constraints>
-                                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                        <state key="normal" title="Credit" image="creditcard" catalog="system">
-                                                            <color key="titleColor" systemColor="linkColor"/>
-                                                        </state>
-                                                        <userDefinedRuntimeAttributes>
-                                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                                                <integer key="value" value="5"/>
-                                                            </userDefinedRuntimeAttribute>
-                                                        </userDefinedRuntimeAttributes>
-                                                        <connections>
-                                                            <action selector="changeMoneyAccountType:" destination="AJ9-Jc-FMH" eventType="touchUpInside" id="d3j-ZT-Tl5"/>
-                                                        </connections>
-                                                    </button>
-                                                </subviews>
-                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                                <constraints>
-                                                    <constraint firstItem="BYJ-cO-tgF" firstAttribute="leading" secondItem="emG-Gs-Q1G" secondAttribute="leading" id="71I-y0-6qZ"/>
-                                                    <constraint firstItem="zog-L2-6wM" firstAttribute="leading" secondItem="BYJ-cO-tgF" secondAttribute="trailing" constant="8" id="Mi7-Mf-P40"/>
-                                                    <constraint firstItem="zog-L2-6wM" firstAttribute="centerY" secondItem="emG-Gs-Q1G" secondAttribute="centerY" id="S8G-BC-gW9"/>
-                                                    <constraint firstItem="BYJ-cO-tgF" firstAttribute="centerY" secondItem="emG-Gs-Q1G" secondAttribute="centerY" id="voI-82-LWU"/>
-                                                </constraints>
-                                            </view>
-                                        </subviews>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="34" id="g03-yk-bGN"/>
-                                        </constraints>
-                                    </stackView>
-                                    <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="uRm-QE-jnL">
-                                        <rect key="frame" x="0.0" y="54" width="398" height="34"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="34" id="2ui-ln-dlF"/>
-                                        </constraints>
-                                    </datePicker>
-                                    <textField opaque="NO" tag="100" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="6rG-eZ-dxc">
-                                        <rect key="frame" x="0.0" y="108" width="398" height="34"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits"/>
-                                        <connections>
-                                            <action selector="checkName:" destination="AJ9-Jc-FMH" eventType="editingChanged" id="WY1-sz-DJN"/>
-                                        </connections>
-                                    </textField>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Balance" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ccW-kg-W2G">
-                                        <rect key="frame" x="0.0" y="162" width="398" height="34"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
-                                    </textField>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Credit Limit" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="uzU-PL-ufV">
-                                        <rect key="frame" x="0.0" y="216" width="398" height="34"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
-                                    </textField>
-                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="17" translatesAutoresizingMaskIntoConstraints="NO" id="buI-gJ-PL3">
-                                        <rect key="frame" x="0.0" y="270" width="398" height="34"/>
-                                        <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="base/selected ExcRate" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lZg-pb-VgO">
-                                                <rect key="frame" x="0.0" y="0.0" width="172.5" height="34"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <nil key="textColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="bPq-Xt-Cl8">
-                                                <rect key="frame" x="189.5" y="0.0" width="208.5" height="34"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
-                                            </textField>
-                                        </subviews>
-                                    </stackView>
-                                </subviews>
-                            </stackView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Step: 1" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qzp-ys-EUO">
-                                <rect key="frame" x="344" y="69" width="60" height="20.5"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="20.329999999999998" id="eVa-8k-dpA"/>
-                                    <constraint firstAttribute="width" constant="60" id="yiv-5W-LRG"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
                         <viewLayoutGuide key="safeArea" id="HYe-ak-7Ck"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <constraints>
-                            <constraint firstItem="HYe-ak-7Ck" firstAttribute="trailing" secondItem="qzp-ys-EUO" secondAttribute="trailing" constant="10" id="5sG-Hj-NOl"/>
-                            <constraint firstItem="oZO-SF-MSS" firstAttribute="top" secondItem="HYe-ak-7Ck" secondAttribute="top" constant="20" id="7oD-zt-huz"/>
-                            <constraint firstItem="qsg-nU-gba" firstAttribute="top" secondItem="oZO-SF-MSS" secondAttribute="bottom" constant="30" id="HiE-SQ-qDd"/>
-                            <constraint firstItem="qsg-nU-gba" firstAttribute="leading" secondItem="HYe-ak-7Ck" secondAttribute="leading" constant="8" id="I6E-zs-vkT"/>
-                            <constraint firstItem="qzp-ys-EUO" firstAttribute="top" secondItem="HYe-ak-7Ck" secondAttribute="top" constant="25" id="Zw1-Ku-Twm"/>
-                            <constraint firstItem="oZO-SF-MSS" firstAttribute="centerX" secondItem="nYK-6O-MRd" secondAttribute="centerX" id="c9t-zv-0Ez"/>
-                            <constraint firstItem="HYe-ak-7Ck" firstAttribute="trailing" secondItem="qsg-nU-gba" secondAttribute="trailing" constant="8" id="mmm-Sy-mws"/>
-                        </constraints>
                     </view>
-                    <connections>
-                        <outlet property="accountBalanceTextField" destination="ccW-kg-W2G" id="C0H-cY-nYq"/>
-                        <outlet property="accountNameTextField" destination="6rG-eZ-dxc" id="Ig3-0g-hvr"/>
-                        <outlet property="creditLimitTextField" destination="uzU-PL-ufV" id="tKz-C0-wVN"/>
-                        <outlet property="currencyButton" destination="kcs-Wp-Az1" id="vse-JA-saw"/>
-                        <outlet property="currencyLabel" destination="7zs-jc-86W" id="CDf-Kx-uie"/>
-                        <outlet property="datePicker" destination="uRm-QE-jnL" id="Z54-eA-Gox"/>
-                        <outlet property="exchangeRateLabel" destination="lZg-pb-VgO" id="Df3-Cz-Enc"/>
-                        <outlet property="exchangeRateTextField" destination="bPq-Xt-Cl8" id="psi-WC-vyg"/>
-                        <outlet property="moneyAccountTypeButton" destination="zog-L2-6wM" id="Zxw-Uf-6zh"/>
-                        <outlet property="moneyAccountTypeLabel" destination="BYJ-cO-tgF" id="IbW-Ds-vDH"/>
-                        <outlet property="segmentedControl" destination="oZO-SF-MSS" id="Pkb-U2-F2k"/>
-                        <outlet property="stackView" destination="zTo-HH-WtM" id="flL-Lj-mKg"/>
-                        <outlet property="stepLabel" destination="qzp-ys-EUO" id="UYj-kj-mJr"/>
-                    </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="PTg-6L-dhJ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="703" y="1892"/>
-        </scene>
-        <!--Account Editor With Initial Balance View Controller1-->
-        <scene sceneID="jhC-HP-sKb">
-            <objects>
-                <viewController storyboardIdentifier="AccountEditorWithInitialBalanceVC1_ID" id="BwD-g0-eMO" customClass="AccountEditorWithInitialBalanceViewController1" customModule="Accountant" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="4bl-Aj-8zr">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <viewLayoutGuide key="safeArea" id="Ebj-1V-6ab"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="GJF-Kb-5RZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1658" y="1892"/>
         </scene>
         <!--Currency Table View Controller-->
         <scene sceneID="S0M-d0-w0Y">
@@ -983,7 +796,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Itk-WX-kju" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2509" y="1892"/>
+            <point key="canvasLocation" x="1658" y="1892"/>
         </scene>
         <!--Account Navigator Table View Controller-->
         <scene sceneID="xx4-Jc-L6V">
@@ -1787,9 +1600,6 @@
         <image name="list.dash" catalog="system" width="128" height="85"/>
         <image name="questionmark" catalog="system" width="96" height="128"/>
         <image name="touchid" catalog="system" width="128" height="122"/>
-        <systemColor name="linkColor">
-            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
         <systemColor name="opaqueSeparatorColor">
             <color red="0.77647058823529413" green="0.77647058823529413" blue="0.78431372549019607" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>

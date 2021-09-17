@@ -66,7 +66,7 @@ class SimpleTransactionEditorViewController: UIViewController, GADFullScreenCont
         
         //MARK:- adding NotificationCenter observers
         NotificationCenter.default.addObserver(self, selector: #selector(self.reloadProAccessData), name: .receivedProAccessData, object: nil)
-        
+        reloadProAccessData()
         interstitial?.fullScreenContentDelegate = self
         showPreContent()
         initialConfigureUI()
