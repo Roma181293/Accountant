@@ -185,7 +185,7 @@ final class PurchaseOfferViewController: UIViewController {
         //MARK: - Scroll View
         view.addSubview(scrollView)
         scrollView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0).isActive = true
-        scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -10).isActive = true
+        scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0).isActive = true
         scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0).isActive = true
         scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0).isActive = true
         scrollView.isScrollEnabled = true
@@ -206,14 +206,15 @@ final class PurchaseOfferViewController: UIViewController {
         contentView.widthAnchor.constraint(equalTo: view.widthAnchor, constant: 0).isActive = true
         contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 0).isActive = true
         contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: 0).isActive = true
-        contentView.centerYAnchor.constraint(equalTo: scrollView.centerYAnchor).isActive = true
-        let heightConstraint = NSLayoutConstraint(item: contentView, attribute: NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.greaterThanOrEqual, toItem: view, attribute: NSLayoutConstraint.Attribute.height, multiplier: 1, constant: 0)
-        NSLayoutConstraint.activate([heightConstraint])
-        
+        contentView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
+      
         //MARK: - Main Stack View
         contentView.addSubview(mainStackView)
         mainStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20).isActive = true
         mainStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20).isActive = true
+        mainStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20).isActive = true
+        mainStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20).isActive = true
+        mainStackView.heightAnchor.constraint(equalTo: contentView.heightAnchor, constant: -40).isActive = true
         
         //MARK: - Main Title
         mainStackView.addArrangedSubview(titleView)
@@ -291,19 +292,7 @@ final class PurchaseOfferViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         //Update scrollView content size for height based on nested content
-        scrollView.layoutIfNeeded()
-        scrollView.isScrollEnabled = true
-        let mainHeight = UIScreen.main.bounds.height
-        let mainStackHeight = mainStackView.frame.size.height
-        
-        if (mainHeight > mainStackHeight) {
-            mainStackView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor, constant: topStackConstant).isActive = true
-        } else {
-            topStackConstant = 50
-            mainStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: topStackConstant).isActive = true
-        }
-        
-        scrollView.contentSize = CGSize(width: self.view.frame.width, height: mainStackView.frame.size.height + topStackConstant)
+        scrollView.contentSize = CGSize(width: self.view.frame.width, height: contentView.frame.size.height)
     }
     
     func fetchPurchaseProudcts() {

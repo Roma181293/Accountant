@@ -64,7 +64,6 @@ struct Constants {
         static let analyticsCell1 = "AnalyticsCell1_ID"
         
         static let currencyCell = "CurrencyCell_ID"
-
         static let settingsCell = "SettingsCell_ID"
     }
     
@@ -83,7 +82,7 @@ struct Constants {
     
     struct URL {
         static let privacyPolicy = "https://www.apple.com"
-        static let termsOfUse = "https://www.apple.com"
+        static let termsOfUse = "https://www.tsn.ua"
     }
     
     struct Size {
