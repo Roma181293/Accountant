@@ -113,7 +113,7 @@ class ComplexTransactionTableViewCell: UITableViewCell {
     }
 
     
-    func setMainView(){
+    private func setMainView(){
         guard firstLaunch else {return}
         firstLaunch = !firstLaunch
         
@@ -131,8 +131,8 @@ class ComplexTransactionTableViewCell: UITableViewCell {
         mainStackView.topAnchor.constraint(equalTo: mainView.topAnchor, constant: 8).isActive = true
         mainStackView.bottomAnchor.constraint(equalTo: mainView.bottomAnchor, constant: -8).isActive = true
         
+        //MARK:- Date Label
         mainStackView.addArrangedSubview(dateLabel)
-        
         dateLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
         dateLabel.widthAnchor.constraint(equalToConstant: 30).isActive = true
         

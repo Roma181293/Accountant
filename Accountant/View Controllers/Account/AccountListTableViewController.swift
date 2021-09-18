@@ -30,6 +30,7 @@ class AccountListTableViewController: UITableViewController, AccountManagerTable
     override func viewDidLoad() {
         super.viewDidLoad()
         accountManagerController.delegate = self
+        tableView.register(AccountTableViewCell.self, forCellReuseIdentifier: Constants.Cell.accountTableViewCell)
     }
     
     func updateSourceTable() throws {
@@ -49,18 +50,10 @@ class AccountListTableViewController: UITableViewController, AccountManagerTable
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let account: Account! = listOfAccountsToShow[indexPath.row].account
         
-        if AccountManager.getRootAccountFor(account).name! == AccountsNameLocalisationManager.getLocalizedAccountName(.money){
-            let cell = tableView.dequeueReusableCell(withIdentifier: Constants.Cell.moneyAccountCell, for: indexPath) as! MoneyAccountTableViewCell
-            cell.updateCell(dataToShow: listOfAccountsToShow[indexPath.row], accountingCurrency : accountingCurrency)
-            return cell
-        }
-        else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: Constants.Cell.accountInForeignCurrencyCell, for: indexPath) as! AccountInForeignCurrencyTableViewCell
-            cell.updateCell(dataToShow: listOfAccountsToShow[indexPath.row], accountingCurrency : accountingCurrency)
-            return cell
-        }
+        let cell = tableView.dequeueReusableCell(withIdentifier: Constants.Cell.accountTableViewCell, for: indexPath) as! AccountTableViewCell
+        cell.updateCellForData(listOfAccountsToShow[indexPath.row], accountingCurrency: accountingCurrency)
+        return cell
     }
     
     override func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {

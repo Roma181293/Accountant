@@ -14,23 +14,6 @@ struct DataForPieCharts {
     var centerText = NSMutableAttributedString(string:"")
     var pieChartColorSet : [NSUIColor] = []
     
-    
-//    struct DataForPresenting{
-//        var minValue: Double = 0
-//        var maxValue: Double = 0
-//        var accountsData : [AccountData] = []
-//    }
-//    struct AccountData {
-//        var account: Account!
-//        var title: String = ""
-//        var lineChartDataSet: LineChartDataSet!
-//        var amountInAccountCurrency: Double = 0
-//        var amountInAccountingCurrency: Double = 0
-//    }
-    
-    
-    
-    
     init(accountsData: [AccountData], dateInterval: DateInterval, presentingCurrency: Currency, distributionType: DistributionType, showDate: Bool) {
         var sum : Double = 0
         

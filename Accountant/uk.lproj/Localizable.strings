@@ -143,6 +143,8 @@
 "Error" = "Помилка";
 "Amount excluded from total amount in pichart.\nAccount amount cannot be less zero.\nPlease check transaction with this account." = "Значення виключено з загальної суми по рахунку.\nСума по рахунку не може приймати значення менше нуля.\nБуль ласка перевірте операції з цим рахунком.";
 
+//AccountTableViewCell
+"Credit limit:" = "Кредитний ліміт:";
 
 //AccountEditorWithInitialBalanceViewController
 "New" = "Новий";

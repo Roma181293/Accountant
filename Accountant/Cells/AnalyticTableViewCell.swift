@@ -19,14 +19,12 @@ class AnalyticTableViewCell: UITableViewCell {
     let titleLabel : UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        
         return label
     }()
     
     let amountLabel : UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        
         return label
     }()
     

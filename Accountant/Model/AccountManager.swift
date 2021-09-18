@@ -378,8 +378,6 @@ class AccountManager {
                     accountSubType = "DebitCard"
                 case AccountSubType.creditCard.rawValue:
                     accountSubType = "CreditCard"
-                case AccountSubType.deposit.rawValue:
-                    accountSubType = "Deposit"
                 default:
                     accountSubType = "Out of enumeration"
                 }
@@ -496,8 +494,6 @@ class AccountManager {
                     accountSubTypes = "DebitCard"
                 case AccountSubType.creditCard.rawValue:
                     accountSubTypes = "CreditCard"
-                case AccountSubType.deposit.rawValue:
-                    accountSubTypes = "Deposit"
                 default:
                     accountSubTypes = "Out of enumeration"
                 }
