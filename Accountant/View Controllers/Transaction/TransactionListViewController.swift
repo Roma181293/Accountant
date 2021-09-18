@@ -24,7 +24,7 @@ class TransactionListViewController: UIViewController{
     
     lazy var fetchedResultsController : NSFetchedResultsController<Transaction> = {
         let fetchRequest : NSFetchRequest<Transaction> = NSFetchRequest<Transaction>(entityName: "Transaction")
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "date", ascending: false)]
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "date", ascending: false), NSSortDescriptor(key: "createDate", ascending: false)]
         
         fetchRequest.fetchBatchSize = 20
         let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
