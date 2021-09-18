@@ -9,6 +9,7 @@
 import UIKit
 import UniformTypeIdentifiers
 import Purchases
+import SafariServices
 
 enum SettingsDataSource: String, CaseIterable{
     case offer = "Purchase offer"
@@ -23,7 +24,6 @@ enum SettingsDataSource: String, CaseIterable{
     case exportTransactions = "Share Transaction List"
     case termsOfUse = "Terms of use"
     case privacyPolicy = "Privacy policy"
-    
 }
 
 class SettingsTableViewController: UITableViewController {
@@ -164,9 +164,17 @@ class SettingsTableViewController: UITableViewController {
                 showPurchaseOfferVC()
             }
         case .termsOfUse:
-            break
+            let config = SFSafariViewController.Configuration()
+            config.entersReaderIfAvailable = true
+            let url = URL(string: Constants.URL.termsOfUse)
+            let webVC = WebViewController(url: url!, configuration: config)
+            self.present(webVC, animated: true, completion: nil)
         case .privacyPolicy:
-            break
+            let config = SFSafariViewController.Configuration()
+            config.entersReaderIfAvailable = true
+            let url = URL(string: Constants.URL.privacyPolicy)
+            let webVC = WebViewController(url: url!, configuration: config)
+            self.present(webVC, animated: true, completion: nil)
         case .startAccounting:
             let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.startAccountingViewController) as! StartAccountingViewController
             vc.vc = self.parent

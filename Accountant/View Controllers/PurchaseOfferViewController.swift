@@ -10,7 +10,16 @@ import UIKit
 import Purchases
 import SafariServices
 
-final class PurchaseOfferViewController: UIViewController, StatusBarAnimationViewController {
+final class PurchaseOfferViewController: UIViewController {
+    
+    let descriptionArray = [ ("♾", "Unlimited number of accounts"),
+                             ("₴＄€", "Create account in currencies different from accounting currency"),
+                             ("🙈", "Hide account"),
+                             ("🧾🧾", "Copy transaction"),
+                             ("🔒", "Security"),
+                             ("📤", "Export accounts and transactions to the file"),
+                             ("📥", "Import accounts and transactions from the file"),
+                             ("⚠️", "No advertising")]
     
     let titleLabel: UILabel = {
         let titleLabel = UILabel()
@@ -21,31 +30,16 @@ final class PurchaseOfferViewController: UIViewController, StatusBarAnimationVie
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         return titleLabel
     }()
-    
-    
-    
-    let descriptionLabel: UILabel = {
-        let titleLabel = UILabel()
-        titleLabel.textAlignment = .center
-        let arr = [ ("♾", "Unlimited number of accounts"),
-                    ("₴＄€", "Create account in currencies different from accounting currency"),
-                    ("🙈", "Hide account"),
-                    ("💼 💼", "Copy transaction"),
-                    ("🔒", "Security"),
-                    ("📤", "Export accounts and transactions to the file"),
-                    ("📥", "Import accounts and transactions from the file"),
-                    ("⚠️", "No advertising")]
-        var string = "\n"
-        arr.forEach({
-            string += $0.0 + "   " + NSLocalizedString($0.1, comment: "") + "\n\n"
-        })
-        titleLabel.text = string
-        titleLabel.textColor = .label
-        titleLabel.font = UIFont.boldSystemFont(ofSize: 16.0)
-        titleLabel.lineBreakMode = .byWordWrapping
-        titleLabel.numberOfLines = 0
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        return titleLabel
+
+    let descriptionStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.alignment = .center
+        stackView.distribution = .fill
+        stackView.spacing = 5.0
+        stackView.backgroundColor = UIColor(white: 1, alpha: 0)
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
     }()
     
     let subscriptionLabel: UILabel = {
@@ -121,23 +115,6 @@ final class PurchaseOfferViewController: UIViewController, StatusBarAnimationVie
         return button
     }()
     
-    let cancelButon: UIButton = {
-        let button = UIButton()
-        button.setTitle(NSLocalizedString("Thanks, later", comment: "").uppercased(), for: .normal)
-        button.backgroundColor = UIColor.gray
-        button.setTitleColor(UIColor.white, for: .normal)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 15.0)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
-    
-    let mainView: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = UIColor(white: 1, alpha: 0)
-        return view
-    }()
-    
     let titleView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -204,24 +181,21 @@ final class PurchaseOfferViewController: UIViewController, StatusBarAnimationVie
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        updateStatusBarAppearance(hidden: true)
-        
-        
         
         //MARK: - Scroll View
         view.addSubview(scrollView)
         scrollView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0).isActive = true
-        scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -5).isActive = true
+        scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -10).isActive = true
         scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0).isActive = true
         scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0).isActive = true
         scrollView.isScrollEnabled = true
         
         //MARK: - Close Image View subview
         self.view.addSubview(self.closeImageView)
-        closeImageView.heightAnchor.constraint(equalToConstant: 24).isActive = true
-        closeImageView.widthAnchor.constraint(equalToConstant: 24).isActive = true
-        closeImageView.topAnchor.constraint(equalTo: self.view.layoutMarginsGuide.topAnchor, constant: 10).isActive = true
-        closeImageView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 5).isActive = true
+        closeImageView.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        closeImageView.widthAnchor.constraint(equalToConstant: 30).isActive = true
+        closeImageView.topAnchor.constraint(equalTo: self.view.layoutMarginsGuide.topAnchor, constant: 20).isActive = true
+        closeImageView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 10).isActive = true
         
         let gestureClose = UITapGestureRecognizer(target: self, action: #selector(self.closeViewTapped(_:)))
         closeImageView.isUserInteractionEnabled = true
@@ -253,13 +227,59 @@ final class PurchaseOfferViewController: UIViewController, StatusBarAnimationVie
         titleView.addSubview(proBadgeView)
         proBadgeView.leadingAnchor.constraint(equalTo: titleLabel.trailingAnchor, constant: titleSpacing).isActive = true
         
-        //MARK: - Description Labels
-        mainStackView.addArrangedSubview(descriptionLabel)
-        mainStackView.setCustomSpacing(0, after: descriptionLabel)
+        //MARK: - Description Stack View
+        descriptionArray.forEach({item in
+            let descriptionItemStackView: UIStackView = {
+                let stackView = UIStackView()
+                stackView.axis = .horizontal
+                stackView.alignment = .fill
+                stackView.distribution = .fill
+                stackView.spacing = 8.0
+                stackView.backgroundColor = UIColor(white: 1, alpha: 0)
+                stackView.translatesAutoresizingMaskIntoConstraints = false
+                return stackView
+            }()
+            
+            let emojiLabel: UILabel = {
+                let label = UILabel()
+                label.textAlignment = .center
+                label.text = item.0
+                label.textColor = .label
+                label.font = UIFont.boldSystemFont(ofSize: 30.0)
+                label.lineBreakMode = .byWordWrapping
+                label.numberOfLines = 0
+                label.translatesAutoresizingMaskIntoConstraints = false
+                return label
+            }()
+            
+            let descriptionLabel: UILabel = {
+                let label = UILabel()
+                label.textAlignment = .left
+                label.text = NSLocalizedString(item.1, comment: "")
+                label.textColor = .label
+                label.font = UIFont.boldSystemFont(ofSize: 16.0)
+                label.lineBreakMode = .byWordWrapping
+                label.numberOfLines = 0
+                label.translatesAutoresizingMaskIntoConstraints = false
+                return label
+            }()
+            
+            emojiLabel.widthAnchor.constraint(equalToConstant: 90).isActive = true
+            descriptionLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: 360).isActive = true
+            descriptionItemStackView.addArrangedSubview(emojiLabel)
+            descriptionItemStackView.addArrangedSubview(descriptionLabel)
+            descriptionStackView.addArrangedSubview(descriptionItemStackView)
+
+        })
         
+        mainStackView.addArrangedSubview(descriptionStackView)
+        mainStackView.setCustomSpacing(30, after: descriptionStackView)
+        
+        //MARK:- Loader View
         mainStackView.addArrangedSubview(loaderView)
         loaderView.heightAnchor.constraint(equalToConstant:386).isActive = true
         
+        //MARK:- Activity Indicator Image View
         loaderView.addSubview(activityIndicatorImageView)
         activityIndicatorImageView.centerXAnchor.constraint(equalTo: loaderView.centerXAnchor).isActive = true
         activityIndicatorImageView.centerYAnchor.constraint(equalTo: loaderView.centerYAnchor,constant: -386/4).isActive = true
@@ -438,21 +458,11 @@ final class PurchaseOfferViewController: UIViewController, StatusBarAnimationVie
         guard sender != nil else {
             return
         }
-        //        Analytics.logEvent("dismiss_purchase_button_tapped", parameters: [
-        //          "name": "dismiss_purchase_button_tapped" as NSObject,
-        //          ])
         self.dismiss(animated: true, completion: nil)
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        //        if let parentVC = parentVC {
-        //            parentVC.dismiss(animated: true, completion: nil)
-        //        }
-    }
     
     @objc func cancelButtonTapped(_ sender: UIButton) {
-        //        UICustomization.animateScaleButtonTouchUpInside(button: sender)
         presentingViewController?.dismiss(animated: true, completion: nil)
     }
     
@@ -461,14 +471,7 @@ final class PurchaseOfferViewController: UIViewController, StatusBarAnimationVie
     }
     
     @objc func purchaseButtonTapped(_ sender: UIButton) {
-        
-        //        Analytics.logEvent("purchase_button_tapped", parameters: [
-        //          "name": "purchase_button_tapped" as NSObject,
-        //          ])
-        
         self.disablePurchaseButton()
-        //        UICustomization.animateScaleButtonTouchUpInside(button: purchaseButon)
-        
         
         if let tag = activeOfferTag {
             if let package = self.offerViews[tag].packageForPurchase {
@@ -508,44 +511,19 @@ final class PurchaseOfferViewController: UIViewController, StatusBarAnimationVie
     
     //MARK: - Showing up The Terms Web Controller
     @objc func termsLabelTapped(_ sender: UITapGestureRecognizer? = nil) {
-        //        let config = SFSafariViewController.Configuration()
-        //        config.entersReaderIfAvailable = true
-        //        let url = URL(string: "https://www.guitar-gym.org/terms-of-use/")
-        //        let webVC = WebViewController(url: url!, configuration: config)
-        //        self.present(webVC, animated: true, completion: nil)
+        let config = SFSafariViewController.Configuration()
+        config.entersReaderIfAvailable = true
+        let url = URL(string: Constants.URL.termsOfUse)
+        let webVC = WebViewController(url: url!, configuration: config)
+        self.present(webVC, animated: true, completion: nil)
     }
     
     //MARK: - Showing up The Policy Web Controller
     @objc func policyLabelTapped(_ sender: UITapGestureRecognizer? = nil) {
-        //        let config = SFSafariViewController.Configuration()
-        //        config.entersReaderIfAvailable = true
-        //        let url = URL(string: "https://www.guitar-gym.org/privacy-policy/")
-        //        let webVC = WebViewController(url: url!, configuration: config)
-        //        self.present(webVC, animated: true, completion: nil)
-    }
-    
-    
-    
-    
-    @objc func setStatuBarColor() {
-        if #available(iOS 13.0, *) {
-            let app = UIApplication.shared
-            let height = app.windows.first?.windowScene?.statusBarManager?.statusBarFrame.height ?? 0
-            let statusBarHeight: CGFloat = height
-            
-            let statusbarView = UIView()
-            statusbarView.tag = 123
-            statusbarView.backgroundColor = UIColor.black
-            self.view.addSubview(statusbarView)
-            
-            statusbarView.translatesAutoresizingMaskIntoConstraints = false
-            statusbarView.heightAnchor.constraint(equalToConstant: statusBarHeight).isActive = true
-            statusbarView.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 1.0).isActive = true
-            statusbarView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
-            statusbarView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-        } else {
-            let statusBar = UIApplication.shared.value(forKeyPath: "statusBarWindow.statusBar") as? UIView
-            statusBar?.backgroundColor = UIColor.clear
-        }
+        let config = SFSafariViewController.Configuration()
+        config.entersReaderIfAvailable = true
+        let url = URL(string: Constants.URL.privacyPolicy)
+        let webVC = WebViewController(url: url!, configuration: config)
+        self.present(webVC, animated: true, completion: nil)
     }
 }

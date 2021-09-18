@@ -81,6 +81,11 @@ struct Constants {
         static let googleAD = "ca-app-pub-3940256099942544/4411468910"
     }
     
+    struct URL {
+        static let privacyPolicy = "https://www.apple.com"
+        static let termsOfUse = "https://www.apple.com"
+    }
+    
     struct Size {
         
         static let cornerButtonRadius = CGFloat(8.0)

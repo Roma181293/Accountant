@@ -8,8 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		2B0D1D3326ADF1D1003C6394 /* TransactionItemManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B0D1D3226ADF1D1003C6394 /* TransactionItemManager.swift */; };
-		2B104E5026E52DD600E67F6A /* StatusBarAnimationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B104E4F26E52DD600E67F6A /* StatusBarAnimationViewController.swift */; };
 		2B104E5226E558F300E67F6A /* SalesBadgeUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B104E5126E558F300E67F6A /* SalesBadgeUIView.swift */; };
+		2B1407A826F5D49B00114B95 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1407A726F5D49B00114B95 /* WebViewController.swift */; };
 		2B1FEA3A266BEDA400BF53BD /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1FEA39266BEDA400BF53BD /* CoreDataStack.swift */; };
 		2B1FEA3F266BEDD400BF53BD /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1FEA3E266BEDD400BF53BD /* UserProfile.swift */; };
 		2B1FEA4B266BEE6700BF53BD /* CurrencyExhangeNB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1FEA45266BEE6700BF53BD /* CurrencyExhangeNB.swift */; };
@@ -111,8 +111,8 @@
 
 /* Begin PBXFileReference section */
 		2B0D1D3226ADF1D1003C6394 /* TransactionItemManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionItemManager.swift; sourceTree = "<group>"; };
-		2B104E4F26E52DD600E67F6A /* StatusBarAnimationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusBarAnimationViewController.swift; sourceTree = "<group>"; };
 		2B104E5126E558F300E67F6A /* SalesBadgeUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SalesBadgeUIView.swift; sourceTree = "<group>"; };
+		2B1407A726F5D49B00114B95 /* WebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
 		2B1FEA39266BEDA400BF53BD /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		2B1FEA3E266BEDD400BF53BD /* UserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
 		2B1FEA45266BEE6700BF53BD /* CurrencyExhangeNB.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrencyExhangeNB.swift; sourceTree = "<group>"; };
@@ -294,7 +294,7 @@
 				2B1FEBAA266EE19B00BF53BD /* ImportTransactionViewController.swift */,
 				2B1FEBA9266EE19B00BF53BD /* SubsctiptionStatusViewController.swift */,
 				2B1FEB4B266D25EE00BF53BD /* PurchaseOfferViewController.swift */,
-				2B104E4F26E52DD600E67F6A /* StatusBarAnimationViewController.swift */,
+				2B1407A726F5D49B00114B95 /* WebViewController.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -737,6 +737,7 @@
 				2B949BAF2665B4040033383A /* AppDelegate.swift in Sources */,
 				2B949BB12665B4040033383A /* SceneDelegate.swift in Sources */,
 				2B1FEADB266CAEC200BF53BD /* AddAccountViewController.swift in Sources */,
+				2B1407A826F5D49B00114B95 /* WebViewController.swift in Sources */,
 				2B1FEAF7266CB2C200BF53BD /* CurrencyTableViewCell.swift in Sources */,
 				2B1FEB7B266EC39800BF53BD /* AnalyticsTableViewController.swift in Sources */,
 				2B4976FC26DBE90B00147EAA /* ComplexTransactionTableViewCell.swift in Sources */,
@@ -746,7 +747,6 @@
 				2B490DD926E4B8CE00967E11 /* OfferUITapGestureRecognizer.swift in Sources */,
 				2BDB217026ED30DD0080A6FC /* StepTableViewCell.swift in Sources */,
 				2B1FEAC5266C433200BF53BD /* AuthPinAndBiometricViewController.swift in Sources */,
-				2B104E5026E52DD600E67F6A /* StatusBarAnimationViewController.swift in Sources */,
 				2B1FEB6E266D752200BF53BD /* PresentingData.swift in Sources */,
 				2B490DD726E2911C00967E11 /* Extension Notification.swift in Sources */,
 				2B1FEA4B266BEE6700BF53BD /* CurrencyExhangeNB.swift in Sources */,

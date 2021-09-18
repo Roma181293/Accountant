@@ -56,8 +56,6 @@ class OfferUIView: UIView {
     let additionalSaleLabel: UILabel = {
         let titleLabel = UILabel()
         titleLabel.textAlignment = .center
-//        titleLabel.textColor = Colors.Main.darkOrange
-        titleLabel.text = "скидка 21%"
         titleLabel.font = UIFont.boldSystemFont(ofSize: 12.0)
         titleLabel.lineBreakMode = .byWordWrapping
         titleLabel.numberOfLines = 0
@@ -87,12 +85,12 @@ class OfferUIView: UIView {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.layer.cornerRadius = Constants.Size.cornerMainRadius
-        view.backgroundColor = UIColor.systemGray
+        view.backgroundColor = UIColor.systemGray3
         return view
     }()
     
     let activeBorderColor = UIColor.red
-    let inactiveBorderColor = UIColor.systemGray
+    let inactiveBorderColor = UIColor.systemGray3
     var packageForPurchase: Purchases.Package?
     private var isEligible = false
     private var minMonthPrice: NSDecimalNumber = 0
@@ -172,7 +170,7 @@ class OfferUIView: UIView {
         addSalesViewBadge(discount: discount)
         }
         
-        self.offerDisclaimerLabel = "Підписка подовжується автоматично, якщо ви не скасували її принаймі за 24 години до завершення поточного періоду. Оплата за подовження буде списано протягом доби, що передує даті завершення поточного періоду. Керувати підпискою та скасувати її можна в налаштуваннях облікового запису iTunes."
+        self.offerDisclaimerLabel = NSLocalizedString("A subscription is automatically renewed unless you cancel it at least 24 hours before the end of the current period. The renewal fee will be deducted during the day before the end of the current period. You can manage and unsubscribe in your iTunes account settings.", comment: "")
         
         self.purchaseButonTitle = NSLocalizedString("Subscribe", comment: "")
         
