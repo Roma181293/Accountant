@@ -188,6 +188,7 @@ class AccountEditorWithInitialBalanceViewController: UIViewController, UIScrollV
     
     let datePicker: UIDatePicker = {
         let datePicker = UIDatePicker()
+        datePicker.preferredDatePickerStyle = .compact
         datePicker.translatesAutoresizingMaskIntoConstraints = false
         return datePicker
     }()
@@ -832,9 +833,9 @@ class AccountEditorWithInitialBalanceViewController: UIViewController, UIScrollV
     // MARK: - Keyboard methods
     
     @objc func keyboardWillShow(notification: Notification) {
-        var userInfo        = notification.userInfo!
-        let keyboardSize    = (userInfo[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue
-        let contentInsets   = UIEdgeInsets(top: 0.0, left: 0.0, bottom: (keyboardSize!.height + 40), right: 0.0)
+        let userInfo = notification.userInfo!
+        let keyboardSize = (userInfo[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue
+        let contentInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: (keyboardSize!.height + 40), right: 0.0)
         self.mainScrollView.contentInset            = contentInsets
         self.mainScrollView.scrollIndicatorInsets   = contentInsets
         
@@ -853,9 +854,9 @@ class AccountEditorWithInitialBalanceViewController: UIViewController, UIScrollV
     
     
     @objc func keyboardWillHide(notification: Notification) {
-        let contentInsets   = UIEdgeInsets.zero
-         self.mainScrollView.contentInset            = contentInsets
-         self.mainScrollView.scrollIndicatorInsets   = contentInsets
+        let contentInsets = UIEdgeInsets.zero
+         self.mainScrollView.contentInset = contentInsets
+         self.mainScrollView.scrollIndicatorInsets = contentInsets
 
          // **-- Scroll when keyboard shows up
          self.mainScrollView.contentSize = self.mainView.frame.size

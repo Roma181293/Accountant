@@ -171,6 +171,21 @@
 //AnalyticsViewController
 "Analytics" = "Аналітика";
 
+//ConfigureAnalyticsViewController
+"Date interval" = "Інтервал часу";
+"Sorted by" = "Сортування";
+"A-Z" = "А-Я";
+"Z-A" = "Я-А";
+"0-9" = "0-9";
+"9-0" = "9-0";
+"Time distribution" = "Розподіл часу";
+"Day" = "День";
+"Week" = "Тиждень";
+"Month" = "Місяць";
+"Cancel" = "Закрити";
+"Apply" = "Застосувати";
+
+
 //AccountNavigatorTableViewController
 "Accounts manager" = "Менеджер рахунків";
 

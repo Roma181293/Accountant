@@ -12,12 +12,6 @@ import Purchases
 
 class ConfigureAnalyticsViewController: UIViewController {
     
-    @IBOutlet weak var startDatePicker: UIDatePicker!
-    @IBOutlet weak var endDatePicker: UIDatePicker!
-    @IBOutlet weak var sortedBySegmentedControl: UISegmentedControl!
-    @IBOutlet weak var dateComponentSegmentedControl: UISegmentedControl!
-    @IBOutlet weak var myView: UIView!
-    
     var isUserHasPaidAccess = false
     
     //Transfered data
@@ -37,39 +31,242 @@ class ConfigureAnalyticsViewController: UIViewController {
     private let calendar = Calendar.current
     
     
+    
+    let bluredView: UIView = {
+        let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.dark)
+        let blurEffectView = UIVisualEffectView(effect: blurEffect)
+        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        blurEffectView.translatesAutoresizingMaskIntoConstraints = false
+        return blurEffectView
+    }()
+    
+    let mainView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .systemBackground
+        view.layer.cornerRadius = 10
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    let mainStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.alignment = .fill
+        stackView.distribution = .fill
+        stackView.spacing = 20
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
+    }()
+    
+    let dateIntervalLabel: UILabel = {
+        let label = UILabel()
+        label.text = NSLocalizedString("Date interval", comment: "")
+        label.textAlignment = .center
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    let dateView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    let startDatePicker: UIDatePicker = {
+        let datePicker = UIDatePicker()
+        datePicker.preferredDatePickerStyle = .compact
+        datePicker.datePickerMode = .date
+        datePicker.translatesAutoresizingMaskIntoConstraints = false
+        return datePicker
+    }()
+    
+    let dashLabel: UILabel = {
+        let label = UILabel()
+        label.text = "-"
+        label.textAlignment = .center
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    let endDatePicker: UIDatePicker = {
+        let datePicker = UIDatePicker()
+        datePicker.preferredDatePickerStyle = .compact
+        datePicker.datePickerMode = .date
+        datePicker.translatesAutoresizingMaskIntoConstraints = false
+        return datePicker
+    }()
+    
+    let sortedByLabel: UILabel = {
+        let label = UILabel()
+        label.text = NSLocalizedString("Sorted by", comment: "")
+        label.textAlignment = .center
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    let sortedBySegmentedControl: UISegmentedControl = {
+        let segmentedControl = UISegmentedControl(items: [NSLocalizedString("A-Z",comment: ""),
+                                                          NSLocalizedString("Z-A",comment: ""),
+                                                          NSLocalizedString("0-9",comment: ""),
+                                                          NSLocalizedString("9-0",comment: "")])
+        segmentedControl.selectedSegmentIndex = 3
+        segmentedControl.translatesAutoresizingMaskIntoConstraints = false
+        return segmentedControl
+    }()
+        
+    let dateComponentLabel: UILabel = {
+        let label = UILabel()
+        label.text = NSLocalizedString("Time distribution", comment: "")
+        label.textAlignment = .center
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    let dateComponentSegmentedControl: UISegmentedControl = {
+        let segmentedControl = UISegmentedControl(items: [NSLocalizedString("Day",comment: ""),
+                                                          NSLocalizedString("Week",comment: ""),
+                                                          NSLocalizedString("Month",comment: "")])
+        segmentedControl.selectedSegmentIndex = 0
+        segmentedControl.translatesAutoresizingMaskIntoConstraints = false
+        return segmentedControl
+    }()
+    
+    let buttonsStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.alignment = .fill
+        stackView.distribution = .fillEqually
+        stackView.spacing = 10
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
+    }()
+    
+    let discardButton: UIButton = {
+        let button = UIButton()
+        button.layer.cornerRadius = Constants.Size.cornerButtonRadius
+        button.setTitle(NSLocalizedString("Cancel", comment: ""), for: .normal)
+        button.backgroundColor = Colors.Main.defaultButton
+        button.setTitleColor(.systemBlue, for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    let applyButton: UIButton = {
+        let button = UIButton()
+        button.layer.cornerRadius = Constants.Size.cornerButtonRadius
+        button.setTitle(NSLocalizedString("Apply", comment: ""), for: .normal)
+        button.backgroundColor = Colors.Main.defaultButton
+        button.setTitleColor(.systemBlue, for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         //MARK:- adding NotificationCenter observers
         NotificationCenter.default.addObserver(self, selector: #selector(self.reloadProAccessData), name: .receivedProAccessData, object: nil)
         
         reloadProAccessData()
         
-        //MARK: - Content for user that doesnt pay
         interstitial?.fullScreenContentDelegate = analyticsViewController
-//        showContentForNonPaidUser()
-        
-        startDatePicker.preferredDatePickerStyle = .compact
-        startDatePicker.datePickerMode = .date
-        endDatePicker.preferredDatePickerStyle = .compact
-        endDatePicker.datePickerMode = .date
-        
-        myView.layer.borderWidth = 0.5
-        myView.layer.borderColor = UIColor.black.cgColor
+      
+        addMainView()
         configureSegmentedControls()
         
         if let transferedDateInterval = transferedDateInterval {
             dateInterval = transferedDateInterval
         }
+        
+        let dismissTap = UITapGestureRecognizer(target: self, action: #selector(self.dismissAction(_:)))
+        bluredView.isUserInteractionEnabled = true
+        bluredView.addGestureRecognizer(dismissTap)
+        
+        startDatePicker.addTarget(self, action: #selector(self.setStartDate), for: .editingDidEnd)
+        endDatePicker.addTarget(self, action: #selector(self.setEndDate), for: .editingDidEnd)
+        
+        sortedBySegmentedControl.addTarget(self, action: #selector(sortBy(_:)), for: .valueChanged)
+        dateComponentSegmentedControl.addTarget(self, action: #selector(selectDateComponent(_:)), for: .valueChanged)
+        
+        discardButton.addTarget(self, action: #selector(self.dismissAction(_:)), for: .touchUpInside)
+        applyButton.addTarget(self, action: #selector(self.doneAction(_:)), for: .touchUpInside)
     }
     
     deinit {
-        print("ConfigureAnalyticsVC",#function)
         NotificationCenter.default.removeObserver(self, name: .receivedProAccessData, object: nil)
     }
     
+    private func addMainView() {
+        let minSpace: CGFloat = 5
+        let maxSpace: CGFloat = 20
+        
+        
+        view.backgroundColor = .clear
+        
+        //MARK:- Blured View
+        view.addSubview(bluredView)
+        bluredView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        bluredView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        bluredView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        bluredView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        
+        //MARK:- Main View
+        view.addSubview(mainView)
+        mainView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.8).isActive = true
+        mainView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 50).isActive = true
+        mainView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        
+        //MARK:- Main Stack View
+        mainView.addSubview(mainStackView)
+        mainStackView.leadingAnchor.constraint(equalTo: mainView.leadingAnchor, constant: 10).isActive = true
+        mainStackView.trailingAnchor.constraint(equalTo: mainView.trailingAnchor, constant: -10).isActive = true
+        mainStackView.topAnchor.constraint(equalTo: mainView.topAnchor, constant: 10).isActive = true
+        mainStackView.bottomAnchor.constraint(equalTo: mainView.bottomAnchor, constant: -10).isActive = true
+        
+        //MARK:- Date Interval Label
+        mainStackView.addArrangedSubview(dateIntervalLabel)
+        mainStackView.setCustomSpacing(minSpace, after: dateIntervalLabel)
+        
+        //MARK:- Date View
+        mainStackView.addArrangedSubview(dateView)
+       
+        //MARK:- Dash Label
+        dateView.addSubview(dashLabel)
+        dashLabel.widthAnchor.constraint(equalToConstant: 5).isActive = true
+        dashLabel.centerXAnchor.constraint(equalTo: dateView.centerXAnchor).isActive = true
+        dashLabel.centerYAnchor.constraint(equalTo: dateView.centerYAnchor).isActive = true
+        
+        //MARK:- Start Date Picker
+        dateView.addSubview(startDatePicker)
+//        startDatePicker.leadingAnchor.constraint(equalTo: dateView.leadingAnchor).isActive = true
+        startDatePicker.trailingAnchor.constraint(equalTo: dashLabel.leadingAnchor, constant: -5).isActive = true
+        startDatePicker.topAnchor.constraint(equalTo: dateView.topAnchor).isActive = true
+        startDatePicker.bottomAnchor.constraint(equalTo: dateView.bottomAnchor).isActive = true
+        
+        //MARK:- End Date Picker
+        dateView.addSubview(endDatePicker)
+        endDatePicker.leadingAnchor.constraint(equalTo: dashLabel.trailingAnchor, constant: 5).isActive = true
+//        endDatePicker.trailingAnchor.constraint(equalTo: dateView.trailingAnchor).isActive = true
+        endDatePicker.topAnchor.constraint(equalTo: dateView.topAnchor).isActive = true
+        endDatePicker.bottomAnchor.constraint(equalTo: dateView.bottomAnchor).isActive = true
+        
+        mainStackView.setCustomSpacing(maxSpace, after: dateView)
+        mainStackView.addArrangedSubview(sortedByLabel)
+        mainStackView.setCustomSpacing(minSpace, after: sortedByLabel)
+        mainStackView.addArrangedSubview(sortedBySegmentedControl)
+        mainStackView.setCustomSpacing(maxSpace, after: sortedBySegmentedControl)
+        mainStackView.addArrangedSubview(dateComponentLabel)
+        mainStackView.setCustomSpacing(minSpace, after: dateComponentLabel)
+        mainStackView.addArrangedSubview(dateComponentSegmentedControl)
+        mainStackView.setCustomSpacing(30, after: dateComponentSegmentedControl)
+        
+        //MARK:- Buttons Stack View
+        mainStackView.addArrangedSubview(buttonsStackView)
+        buttonsStackView.addArrangedSubview(discardButton)
+        buttonsStackView.addArrangedSubview(applyButton)
+    }
     
-    @IBAction func sortBy(_ sender: UISegmentedControl) {
+    @objc private func sortBy(_ sender: UISegmentedControl) {
         switch sender.selectedSegmentIndex {
         case 0:
             sortCategoryBy = .aToz
@@ -83,7 +280,7 @@ class ConfigureAnalyticsViewController: UIViewController {
     }
     
     
-    @IBAction func selectDateComponent(_ sender: UISegmentedControl) {
+    @objc private func selectDateComponent(_ sender: UISegmentedControl) {
         switch sender.selectedSegmentIndex {
         case 0:
             dateComponent = .day
@@ -96,7 +293,7 @@ class ConfigureAnalyticsViewController: UIViewController {
     
     var isPurchaseOfferDidShow : Bool = false
     
-    @IBAction func doneAction(_ sender: Any) {
+    @objc private func doneAction(_ sender: Any) {
         if analyticsViewController.transferedDateInterval == dateInterval &&
             analyticsViewController.sortCategoryBy != sortCategoryBy &&
             analyticsViewController.dateComponent == dateComponent {
@@ -141,28 +338,28 @@ class ConfigureAnalyticsViewController: UIViewController {
     }
     
     
-    @IBAction func dismissAction(_ sender: Any) {
+    @objc private func dismissAction(_ sender: Any) {
         dismiss(animated: true, completion: nil)
     }
     
-    func showContentForNonPaidUser() {
+    //MARK: NOT USED
+    private func showContentForNonPaidUser() {
         guard isUserHasPaidAccess == false else  {return}
-            DispatchQueue.main.asyncAfter(deadline: DispatchTime(uptimeNanoseconds: 25), execute:{
-                switch UserProfile.whatPreContentShowInView(.configureAnalytics) {
-                case .add:
-                    if let interstitial = self.interstitial {
-                        interstitial.present(fromRootViewController: self)
-                        self.dismiss(animated: true, completion: nil)
-                    }
-                case .offer:
-                    let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-                    let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.purchaseOfferViewController) as! PurchaseOfferViewController
-                    self.analyticsViewController.navigationController?.present(vc, animated: true, completion: nil)
-                default:
-                    return
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime(uptimeNanoseconds: 25), execute:{
+            switch UserProfile.whatPreContentShowInView(.configureAnalytics) {
+            case .add:
+                if let interstitial = self.interstitial {
+                    interstitial.present(fromRootViewController: self)
+                    self.dismiss(animated: true, completion: nil)
                 }
-            })
-        
+            case .offer:
+                let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.purchaseOfferViewController) as! PurchaseOfferViewController
+                self.analyticsViewController.navigationController?.present(vc, animated: true, completion: nil)
+            default:
+                return
+            }
+        })
     }
     
     private func configureDatePickers() {
@@ -174,8 +371,7 @@ class ConfigureAnalyticsViewController: UIViewController {
         endDatePicker.minimumDate = startDatePicker.date
     }
     
-    
-    func configureSegmentedControls() {
+    private func configureSegmentedControls() {
         switch sortCategoryBy {
         case .aToz:
             sortedBySegmentedControl.selectedSegmentIndex = 0
@@ -200,18 +396,18 @@ class ConfigureAnalyticsViewController: UIViewController {
     }
     
     
-    @IBAction func setStartDate() {
+    @objc private func setStartDate() {
         self.dateInterval = DateInterval(start: startDatePicker.date, end: dateInterval.end)
     }
     
     
-    @IBAction func setEndDate() {
+    @objc private func setEndDate() {
         if let pickedDate = calendar.date(byAdding: .day, value: +1, to: endDatePicker.date){
             self.dateInterval = DateInterval(start: dateInterval.start, end: pickedDate)
         }
     }
     
-    @objc func reloadProAccessData() {
+    @objc private func reloadProAccessData() {
         Purchases.shared.purchaserInfo { (purchaserInfo, error) in
             if purchaserInfo?.entitlements.all["pro"]?.isActive == true {
                 self.isUserHasPaidAccess = true

@@ -861,9 +861,9 @@
                                 </connections>
                             </segmentedControl>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="W51-r5-jlS">
-                                <rect key="frame" x="350" y="105" width="44" height="22"/>
+                                <rect key="frame" x="368" y="105" width="46" height="22"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="44" id="0mn-aH-ifw"/>
+                                    <constraint firstAttribute="width" constant="46" id="0mn-aH-ifw"/>
                                     <constraint firstAttribute="height" constant="22" id="jiu-TH-JMT"/>
                                 </constraints>
                                 <state key="normal" image="gear" catalog="system"/>
@@ -895,7 +895,7 @@
                         <constraints>
                             <constraint firstItem="Xvl-gp-9RB" firstAttribute="bottom" secondItem="RgN-ca-hXf" secondAttribute="bottom" id="3R4-zZ-p2p"/>
                             <constraint firstItem="9Qx-ZA-Ve2" firstAttribute="leading" secondItem="RgN-ca-hXf" secondAttribute="leading" id="55W-rv-oTd"/>
-                            <constraint firstItem="RgN-ca-hXf" firstAttribute="trailing" secondItem="W51-r5-jlS" secondAttribute="trailing" constant="20" id="Eug-f7-dom"/>
+                            <constraint firstItem="RgN-ca-hXf" firstAttribute="trailing" secondItem="W51-r5-jlS" secondAttribute="trailing" id="Eug-f7-dom"/>
                             <constraint firstItem="9Qx-ZA-Ve2" firstAttribute="top" secondItem="RgN-ca-hXf" secondAttribute="top" id="Eyw-wn-QgR"/>
                             <constraint firstItem="W51-r5-jlS" firstAttribute="top" secondItem="RgN-ca-hXf" secondAttribute="top" constant="17" id="QkA-v0-X33"/>
                             <constraint firstItem="waj-9n-cEF" firstAttribute="centerX" secondItem="0VD-KM-e01" secondAttribute="centerX" id="Wpn-zS-Wjd"/>
@@ -945,137 +945,9 @@
                     <view key="view" contentMode="scaleToFill" id="zYe-Wv-IaC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BF6-Z5-6RI">
-                                <rect key="frame" x="0.0" y="44" width="414" height="852"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <connections>
-                                    <action selector="dismissAction:" destination="Ifm-65-ZPx" eventType="touchUpInside" id="bmJ-Le-OnO"/>
-                                </connections>
-                            </button>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2eY-Wm-slo">
-                                <rect key="frame" x="-298" y="83" width="670" height="273.5"/>
-                                <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="13" translatesAutoresizingMaskIntoConstraints="NO" id="Smd-I5-lUw">
-                                        <rect key="frame" x="8" y="8" width="654" height="257.5"/>
-                                        <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Date interval" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AbF-e7-PoL">
-                                                <rect key="frame" x="0.0" y="0.0" width="654" height="20.5"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <nil key="textColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <stackView opaque="NO" contentMode="scaleToFill" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="t6H-Tn-VJS">
-                                                <rect key="frame" x="0.0" y="33.5" width="654" height="34"/>
-                                                <subviews>
-                                                    <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="qRS-De-Ezi">
-                                                        <rect key="frame" x="0.0" y="0.0" width="320" height="34"/>
-                                                        <connections>
-                                                            <action selector="setStartDate" destination="Ifm-65-ZPx" eventType="valueChanged" id="QBG-vS-5Po"/>
-                                                        </connections>
-                                                    </datePicker>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="-" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mLu-aZ-spJ">
-                                                        <rect key="frame" x="323" y="0.0" width="8" height="34"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="height" constant="34" id="BHU-cr-mHu"/>
-                                                        </constraints>
-                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                        <nil key="textColor"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                    <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" translatesAutoresizingMaskIntoConstraints="NO" id="fbg-KW-5rP">
-                                                        <rect key="frame" x="334" y="0.0" width="320" height="34"/>
-                                                        <connections>
-                                                            <action selector="setEndDate" destination="Ifm-65-ZPx" eventType="valueChanged" id="at2-OT-dLz"/>
-                                                        </connections>
-                                                    </datePicker>
-                                                </subviews>
-                                            </stackView>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sorted category by:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="894-wx-n2t">
-                                                <rect key="frame" x="0.0" y="80.5" width="654" height="20.5"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <nil key="textColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="dPH-mm-hft">
-                                                <rect key="frame" x="0.0" y="114" width="654" height="32"/>
-                                                <segments>
-                                                    <segment title="A-Z"/>
-                                                    <segment title="Z-A"/>
-                                                    <segment title="0-9"/>
-                                                    <segment title="9-0"/>
-                                                </segments>
-                                                <connections>
-                                                    <action selector="sortBy:" destination="Ifm-65-ZPx" eventType="valueChanged" id="eVd-aW-5bk"/>
-                                                </connections>
-                                            </segmentedControl>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Time distribution:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="R3h-TS-blX">
-                                                <rect key="frame" x="0.0" y="158" width="654" height="20.5"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <nil key="textColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="IVo-9M-yow">
-                                                <rect key="frame" x="0.0" y="191.5" width="654" height="32"/>
-                                                <segments>
-                                                    <segment title="Day"/>
-                                                    <segment title="Week"/>
-                                                    <segment title="Month"/>
-                                                </segments>
-                                                <connections>
-                                                    <action selector="selectDateComponent:" destination="Ifm-65-ZPx" eventType="valueChanged" id="7zB-0n-HmQ"/>
-                                                </connections>
-                                            </segmentedControl>
-                                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="2Ab-yE-Zse">
-                                                <rect key="frame" x="0.0" y="235.5" width="654" height="22"/>
-                                                <subviews>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RQx-sf-Yrc">
-                                                        <rect key="frame" x="0.0" y="0.0" width="323" height="22"/>
-                                                        <state key="normal" image="clear" catalog="system"/>
-                                                        <connections>
-                                                            <action selector="dismissAction:" destination="Ifm-65-ZPx" eventType="touchUpInside" id="adf-ci-F3T"/>
-                                                        </connections>
-                                                    </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aFw-H1-7hl">
-                                                        <rect key="frame" x="331" y="0.0" width="323" height="22"/>
-                                                        <state key="normal" image="checkmark" catalog="system"/>
-                                                        <connections>
-                                                            <action selector="doneAction:" destination="Ifm-65-ZPx" eventType="touchUpInside" id="oYo-dh-a39"/>
-                                                        </connections>
-                                                    </button>
-                                                </subviews>
-                                            </stackView>
-                                        </subviews>
-                                    </stackView>
-                                </subviews>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <constraints>
-                                    <constraint firstAttribute="bottom" secondItem="Smd-I5-lUw" secondAttribute="bottom" constant="8" id="GXK-gq-sai"/>
-                                    <constraint firstAttribute="trailing" secondItem="Smd-I5-lUw" secondAttribute="trailing" constant="8" id="dc9-tR-xl4"/>
-                                    <constraint firstItem="Smd-I5-lUw" firstAttribute="leading" secondItem="2eY-Wm-slo" secondAttribute="leading" constant="8" id="l6j-8W-x8K"/>
-                                    <constraint firstItem="Smd-I5-lUw" firstAttribute="top" secondItem="2eY-Wm-slo" secondAttribute="top" constant="8" id="uKB-pd-RCS"/>
-                                </constraints>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                        <integer key="value" value="10"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
-                            </view>
-                        </subviews>
                         <viewLayoutGuide key="safeArea" id="sh4-nD-uIe"/>
                         <color key="backgroundColor" white="1" alpha="0.72964348590000006" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <constraints>
-                            <constraint firstItem="sh4-nD-uIe" firstAttribute="trailing" secondItem="2eY-Wm-slo" secondAttribute="trailing" constant="42" id="kVL-7g-lcD"/>
-                            <constraint firstItem="2eY-Wm-slo" firstAttribute="top" secondItem="sh4-nD-uIe" secondAttribute="top" constant="39" id="xfI-gE-Sgi"/>
-                        </constraints>
                     </view>
-                    <connections>
-                        <outlet property="dateComponentSegmentedControl" destination="IVo-9M-yow" id="tEf-q6-ZKf"/>
-                        <outlet property="endDatePicker" destination="fbg-KW-5rP" id="Oo9-99-rKD"/>
-                        <outlet property="myView" destination="2eY-Wm-slo" id="8HD-zF-COZ"/>
-                        <outlet property="sortedBySegmentedControl" destination="dPH-mm-hft" id="veP-Q6-nMH"/>
-                        <outlet property="startDatePicker" destination="qRS-De-Ezi" id="HAa-EA-22g"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FAR-SE-4zL" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1344,8 +1216,6 @@
     <resources>
         <image name="arrow.clockwise" catalog="system" width="115" height="128"/>
         <image name="chart.pie" catalog="system" width="128" height="121"/>
-        <image name="checkmark" catalog="system" width="128" height="114"/>
-        <image name="clear" catalog="system" width="128" height="114"/>
         <image name="creditcard" catalog="system" width="128" height="88"/>
         <image name="delete.left.fill" catalog="system" width="128" height="104"/>
         <image name="gear" catalog="system" width="128" height="119"/>
