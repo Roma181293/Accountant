@@ -667,7 +667,7 @@ class AccountEditorWithInitialBalanceViewController: UIViewController, UIScrollV
                 }
                 let newMoneyAccount = try AccountManager.createAndGetAccount(parent: parentAccount, name: accountNameTextField.text!, type: parentAccount.type, currency: currency, subType: moneyAccountType.rawValue, context: context)
                 
-                let newCreditAccount = try AccountManager.createAndGetAccount(parent: creditsRootAccount, name: accountNameTextField.text!, type: creditsRootAccount.type, currency: currency, subType: moneyAccountType.rawValue, context: context)
+                let newCreditAccount = try AccountManager.createAndGetAccount(parent: creditsRootAccount, name: accountNameTextField.text!, type: creditsRootAccount.type, currency: currency, context: context)
                 newMoneyAccount.linkedAccount = newCreditAccount
                 transactionEditorVC.tmpDebit = newMoneyAccount
                 transactionEditorVC.tmpCredit = newCreditAccount
