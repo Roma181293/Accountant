@@ -50,7 +50,6 @@ class AccountListTableViewController: UITableViewController, AccountManagerTable
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         let cell = tableView.dequeueReusableCell(withIdentifier: Constants.Cell.accountTableViewCell, for: indexPath) as! AccountTableViewCell
         cell.updateCellForData(listOfAccountsToShow[indexPath.row], accountingCurrency: accountingCurrency)
         return cell

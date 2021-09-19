@@ -28,21 +28,35 @@ class AnalyticTableViewCell: UITableViewCell {
         return label
     }()
     
+    let emptySpaceStackView : UIStackView = {
+        let view = UIStackView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    let emptySpaceView : UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
     
     
-    func configureCell(for accountData: AccountData, account: Account,accountingCurrency: Currency) {
+    func configureCell(for accountData: AccountData, account: Account, accountingCurrency: Currency) {
         indicatorColorView.backgroundColor = accountData.color
         if accountData.amountInAccountingCurrency < 0 {
             self.accessoryType = .detailButton
             amountLabel.textColor = .red
+            emptySpaceView.isHidden = true
         }
         else if let children = accountData.account.children, children.count > 0, account != accountData.account {
             self.accessoryType = .disclosureIndicator
             amountLabel.textColor = .label
+            emptySpaceView.isHidden = true
         }
         else {
             self.accessoryType = .none
             amountLabel.textColor = .label
+            emptySpaceView.isHidden = false
         }
         
         titleLabel.text = accountData.title
@@ -54,11 +68,6 @@ class AnalyticTableViewCell: UITableViewCell {
             amountLabel.text = "\(round(accountData.amountInAccountingCurrency*100)/100) \(accountingCurrency.code!)"
         }
         
-        addMainView()
-    }
-    
-    
-    private func addMainView() {
         //MARK:- Adding constraints
         contentView.addSubview(indicatorColorView)
         indicatorColorView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8).isActive = true
@@ -71,7 +80,16 @@ class AnalyticTableViewCell: UITableViewCell {
         titleLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
         
         contentView.addSubview(amountLabel)
-        amountLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8).isActive = true
         amountLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
+        
+        contentView.addSubview(emptySpaceStackView)
+        emptySpaceStackView.leadingAnchor.constraint(equalTo: amountLabel.trailingAnchor, constant: 8).isActive = true
+        emptySpaceStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
+        
+        emptySpaceStackView.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
+        emptySpaceStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
+        
+        emptySpaceStackView.addArrangedSubview(emptySpaceView)
+        emptySpaceView.widthAnchor.constraint(equalToConstant: 30.5).isActive = true
     }
 }
