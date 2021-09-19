@@ -39,7 +39,7 @@ class ChartsManager {
         pFormatter.numberStyle = .percent
         pFormatter.maximumFractionDigits = 1
         pFormatter.multiplier = 1
-        pFormatter.percentSymbol = " %"
+        pFormatter.percentSymbol = "%"
         chartData.setValueFormatter(DefaultValueFormatter(formatter: pFormatter))
         chartData.setValueFont(.systemFont(ofSize: 14, weight: .light))
         chartData.setValueTextColor(.black)
