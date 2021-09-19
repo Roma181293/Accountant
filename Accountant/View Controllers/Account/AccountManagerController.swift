@@ -23,7 +23,7 @@ protocol AccountManagerTableViewControllerDelegate: UITableViewController{
 }
 
 class AccountManagerController {
-    var delegate: AccountManagerTableViewControllerDelegate!
+    weak var delegate: AccountManagerTableViewControllerDelegate!
     
     
     func addSubAccountTo(account: Account?) {

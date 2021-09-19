@@ -21,7 +21,7 @@ class ConfigureAnalyticsViewController: UIViewController {
     var isUserHasPaidAccess = false
     
     //Transfered data
-    var analyticsViewController : AnalyticsViewController!
+    weak var analyticsViewController : AnalyticsViewController!
     var transferedDateInterval : DateInterval!
     var sortCategoryBy : SortCategoryType = .aToz
     var dateComponent : Calendar.Component = .day
