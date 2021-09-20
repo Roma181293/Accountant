@@ -55,7 +55,6 @@
 		2B1FEB7C266EC39800BF53BD /* AnalyticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1FEB79266EC39800BF53BD /* AnalyticsViewController.swift */; };
 		2B1FEB8E266EC44600BF53BD /* ConfigureAnalyticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1FEB8D266EC44600BF53BD /* ConfigureAnalyticsViewController.swift */; };
 		2B1FEB98266EDE5000BF53BD /* SettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1FEB96266EDE5000BF53BD /* SettingsTableViewController.swift */; };
-		2B1FEBAB266EE19B00BF53BD /* SubsctiptionStatusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1FEBA9266EE19B00BF53BD /* SubsctiptionStatusViewController.swift */; };
 		2B1FEBAC266EE19B00BF53BD /* ImportTransactionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1FEBAA266EE19B00BF53BD /* ImportTransactionViewController.swift */; };
 		2B1FEBB1266EE1D500BF53BD /* PreTrasaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1FEBB0266EE1D500BF53BD /* PreTrasaction.swift */; };
 		2B1FEBB6266EE45F00BF53BD /* PreTransactionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1FEBB5266EE45F00BF53BD /* PreTransactionTableViewCell.swift */; };
@@ -155,7 +154,6 @@
 		2B1FEB79266EC39800BF53BD /* AnalyticsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnalyticsViewController.swift; sourceTree = "<group>"; };
 		2B1FEB8D266EC44600BF53BD /* ConfigureAnalyticsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfigureAnalyticsViewController.swift; sourceTree = "<group>"; };
 		2B1FEB96266EDE5000BF53BD /* SettingsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsTableViewController.swift; sourceTree = "<group>"; };
-		2B1FEBA9266EE19B00BF53BD /* SubsctiptionStatusViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubsctiptionStatusViewController.swift; sourceTree = "<group>"; };
 		2B1FEBAA266EE19B00BF53BD /* ImportTransactionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImportTransactionViewController.swift; sourceTree = "<group>"; };
 		2B1FEBB0266EE1D500BF53BD /* PreTrasaction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreTrasaction.swift; sourceTree = "<group>"; };
 		2B1FEBB5266EE45F00BF53BD /* PreTransactionTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreTransactionTableViewCell.swift; sourceTree = "<group>"; };
@@ -286,7 +284,6 @@
 				2B1FEAB7266C3D7900BF53BD /* Transaction */,
 				2B1FEB96266EDE5000BF53BD /* SettingsTableViewController.swift */,
 				2B1FEBAA266EE19B00BF53BD /* ImportTransactionViewController.swift */,
-				2B1FEBA9266EE19B00BF53BD /* SubsctiptionStatusViewController.swift */,
 				2B1FEB4B266D25EE00BF53BD /* PurchaseOfferViewController.swift */,
 				2B1407A726F5D49B00114B95 /* WebViewController.swift */,
 			);
@@ -678,7 +675,6 @@
 				2B3BD61A26EBE85D0056A9F7 /* SettingsTableViewCell.swift in Sources */,
 				2B490DDE26E4BA6000967E11 /* GradientView.swift in Sources */,
 				2B1FEBB1266EE1D500BF53BD /* PreTrasaction.swift in Sources */,
-				2B1FEBAB266EE19B00BF53BD /* SubsctiptionStatusViewController.swift in Sources */,
 				2B1FEA4C266BEE6700BF53BD /* CurrencyHistoricalDataNB.swift in Sources */,
 				2BC058B926CD7A9400FE896C /* ComplexTransactionEditorViewController.swift in Sources */,
 				2B1FEA4D266BEE6700BF53BD /* CurrencyHistoricalDataProtocol.swift in Sources */,
