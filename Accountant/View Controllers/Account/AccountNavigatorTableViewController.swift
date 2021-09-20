@@ -33,7 +33,7 @@ class AccountNavigatorTableViewController: UITableViewController, AccountManager
             }
         }
     }
-    var searchBarIsHidden = false
+    var searchBarIsHidden = true
     
     //TRANSPORT VARIABLES
     weak var simpleTransactionEditorVC : SimpleTransactionEditorViewController?
@@ -61,6 +61,8 @@ class AccountNavigatorTableViewController: UITableViewController, AccountManager
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        tableView.register(AccountNavigationTableViewCell.self, forCellReuseIdentifier: Constants.Cell.accountNavigationTableViewCell)
         
         //Set black color under cells in dark mode
         let backView = UIView(frame: self.tableView.bounds)
@@ -94,8 +96,21 @@ class AccountNavigatorTableViewController: UITableViewController, AccountManager
         
         if searchBarIsHidden {
             resultSearchController.isActive = false
-            tableView.tableFooterView = UIView(frame: .zero)
         }
+        else {
+            resultSearchController.isActive = true
+            resultSearchController = ({
+                let controller = UISearchController(searchResultsController: nil)
+                controller.searchResultsUpdater = self
+                controller.searchBar.sizeToFit()
+                controller.obscuresBackgroundDuringPresentation = false
+                controller.hidesNavigationBarDuringPresentation = false
+                tableView.tableHeaderView = controller.searchBar
+                
+                return controller
+            })()
+        }
+        tableView.tableFooterView = UIView(frame: .zero)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -154,32 +169,9 @@ class AccountNavigatorTableViewController: UITableViewController, AccountManager
     
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell : UITableViewCell = tableView.dequeueReusableCell(withIdentifier: Constants.Cell.accountNavigatorCell, for: indexPath)
+        let cell : AccountNavigationTableViewCell = tableView.dequeueReusableCell(withIdentifier: Constants.Cell.accountNavigationTableViewCell, for: indexPath) as! AccountNavigationTableViewCell
         let account  = fetchedResultsController.object(at: indexPath) as Account
-        
-        if let children = account.children, (children.allObjects as! [Account]).filter({$0.isHidden == false || $0.isHidden == showHiddenAccounts}).count > 0 {
-            cell.accessoryType = .disclosureIndicator
-        }
-        else {
-            cell.accessoryType = .none
-        }
-        
-        cell.textLabel?.text = account.name
-        if account.isHidden {
-            cell.textLabel?.textColor = .systemGray
-            cell.detailTextLabel?.textColor = .systemGray
-        }
-        else {
-            cell.textLabel?.textColor = .label
-            cell.detailTextLabel?.textColor = .label
-        }
-        
-        if let parent = account.parent, parent.currency == nil {
-            cell.detailTextLabel?.text = "\(round(AccountManager.balanceForDateLessThenSelected(date: Date(), accounts: [account])*100)/100) \(account.currency!.code!)"
-        }
-        else {
-            cell.detailTextLabel?.text = ""
-        }
+        cell.configureCellForAccount(account, showPath: !isSwipeAvailable, showHiddenAccounts: showHiddenAccounts)
         return cell
     }
     
@@ -195,6 +187,7 @@ class AccountNavigatorTableViewController: UITableViewController, AccountManager
             vc.isUserHasPaidAccess = isUserHasPaidAccess
             vc.context = context
             vc.showHiddenAccounts = self.showHiddenAccounts
+            vc.searchBarIsHidden = self.searchBarIsHidden
             vc.simpleTransactionEditorVC = simpleTransactionEditorVC
 //            vc.budgetEditorVC = budgetEditorVC
             vc.preTransactionTableViewCell = preTransactionTableViewCell

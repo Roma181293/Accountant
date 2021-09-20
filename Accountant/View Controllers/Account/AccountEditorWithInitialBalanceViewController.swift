@@ -35,11 +35,7 @@ class AccountEditorWithInitialBalanceViewController: UIViewController, UIScrollV
                 accountSubTypeButton.setTitle("Debit", for: .normal)
                 creditLimitTextField.isHidden = true
             case .cash:
-                if let wallet = UIImage(named: "wallet") {
-                    let tintableImage = wallet.withRenderingMode(.alwaysTemplate)
-                    accountSubTypeButton.setImage(tintableImage, for: .normal)
-                }
-                accountSubTypeButton.imageEdgeInsets = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 45)
+                accountSubTypeButton.setImage(UIImage(systemName: "banknote"), for: .normal)
                 accountSubTypeButton.setTitle("Cash", for: .normal)
                 creditLimitTextField.isHidden = true
             case .creditCard:

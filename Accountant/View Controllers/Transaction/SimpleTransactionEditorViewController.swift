@@ -582,6 +582,7 @@ class SimpleTransactionEditorViewController: UIViewController, GADFullScreenCont
             let vc = segue.destination as! AccountNavigatorTableViewController
             vc.simpleTransactionEditorVC = self
             vc.showHiddenAccounts = false
+            vc.searchBarIsHidden = false
             vc.typeOfAccountingMethod = .debit
             vc.isUserHasPaidAccess = isUserHasPaidAccess
             doneButtonAction()
@@ -590,6 +591,7 @@ class SimpleTransactionEditorViewController: UIViewController, GADFullScreenCont
             let vc = segue.destination as! AccountNavigatorTableViewController
             vc.simpleTransactionEditorVC = self
             vc.showHiddenAccounts = false
+            vc.searchBarIsHidden = false
             vc.typeOfAccountingMethod = .credit
             vc.isUserHasPaidAccess = isUserHasPaidAccess
             doneButtonAction()

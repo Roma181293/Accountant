@@ -189,13 +189,10 @@ class AccountTableViewCell: UITableViewCell {
         
         switch account.subType {
         case AccountSubType.cash.rawValue:
-            if let myImage = UIImage(named: "wallet") {
-                let tintableImage = myImage.withRenderingMode(.alwaysTemplate)
-                customIconImageView.image = tintableImage
-                customIconContainerView.isHidden = false
-                systemIconImageView.isHidden = true
-                iconView.isHidden = true
-            }
+            systemIconImageView.image = UIImage(systemName: "banknote")
+            systemIconImageView.isHidden = false
+            customIconContainerView.isHidden = true
+            iconView.isHidden = true
         case AccountSubType.debitCard.rawValue:
             systemIconImageView.image = UIImage(systemName: "creditcard")
             systemIconImageView.isHidden = false
@@ -208,7 +205,7 @@ class AccountTableViewCell: UITableViewCell {
             iconView.isHidden = true
             if dataToShow.account.parent?.name == AccountsNameLocalisationManager.getLocalizedAccountName(.money), let credit = dataToShow.account.linkedAccount {
                 let amount = round(AccountManager.balance(of: [credit])*100)/100
-                if amount != 0 {
+                if amount >= 0 {
                     creditLimitInAccountCurrencyLabel.text = "\(NSLocalizedString("Credit limit:",comment: "")) \(amount) \(credit.currency!.code!)"
                 }
             }

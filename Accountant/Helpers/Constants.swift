@@ -53,6 +53,7 @@ struct Constants {
         static let preTransactionTableViewCell = "PreTransactionTableViewCell_ID"
         
         static let accountNavigatorCell = "AccountNavigatorCell_ID"
+        static let accountNavigationTableViewCell = "AccountNavigationTableViewCell_ID"
         
         static let accountTableViewCell = "AccountTableViewCell_ID"
       
