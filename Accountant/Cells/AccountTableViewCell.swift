@@ -40,7 +40,21 @@ class AccountTableViewCell: UITableViewCell {
         return view
     }()
     
-    let iconImageView : UIImageView = {
+    let systemIconImageView : UIImageView = {
+        let view = UIImageView()
+        view.contentMode = .scaleAspectFit
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    let customIconContainerView : UIView = {
+        let view = UIImageView()
+        view.contentMode = .scaleAspectFit
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    let customIconImageView : UIImageView = {
         let view = UIImageView()
         view.contentMode = .scaleAspectFit
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -111,10 +125,22 @@ class AccountTableViewCell: UITableViewCell {
         iconStackView.bottomAnchor.constraint(equalTo: mainView.bottomAnchor).isActive = true
         iconStackView.widthAnchor.constraint(lessThanOrEqualToConstant: 36).isActive = true
         
-        //MARK:- Icon Image View
-        iconStackView.addArrangedSubview(iconImageView)
-        iconImageView.widthAnchor.constraint(equalToConstant: 36).isActive = true
-        iconImageView.heightAnchor.constraint(equalTo: iconImageView.widthAnchor).isActive = true
+        //MARK:- System Icon Image View
+        iconStackView.addArrangedSubview(systemIconImageView)
+        systemIconImageView.widthAnchor.constraint(equalToConstant: 36).isActive = true
+        systemIconImageView.heightAnchor.constraint(equalTo: systemIconImageView.widthAnchor).isActive = true
+        
+        //MARK:- Custom Icon Container View
+        iconStackView.addArrangedSubview(customIconContainerView)
+        customIconContainerView.widthAnchor.constraint(equalToConstant: 36).isActive = true
+        customIconContainerView.heightAnchor.constraint(equalTo: customIconContainerView.widthAnchor).isActive = true
+        
+        //MARK:- Custom Icon Image View
+        customIconContainerView.addSubview(customIconImageView)
+        customIconImageView.widthAnchor.constraint(equalToConstant: 30).isActive = true
+        customIconImageView.heightAnchor.constraint(equalTo: customIconImageView.widthAnchor).isActive = true
+        customIconImageView.centerYAnchor.constraint(equalTo: customIconContainerView.centerYAnchor).isActive = true
+        customIconImageView.centerXAnchor.constraint(equalTo: customIconContainerView.centerXAnchor).isActive = true
         
         //MARK:- Icon View
         iconStackView.addArrangedSubview(iconView)
@@ -152,7 +178,8 @@ class AccountTableViewCell: UITableViewCell {
     func updateCellForData(_ dataToShow: AccountData, accountingCurrency : Currency) {
         setMainView()
         indicatorView.backgroundColor = dataToShow.color
-        iconImageView.tintColor = dataToShow.color
+        systemIconImageView.tintColor = dataToShow.color
+        customIconImageView.tintColor = dataToShow.color
         
         nameLabel.text = dataToShow.title
         amountInAccountingCurrencyLabel.text = " "
@@ -164,17 +191,20 @@ class AccountTableViewCell: UITableViewCell {
         case AccountSubType.cash.rawValue:
             if let myImage = UIImage(named: "wallet") {
                 let tintableImage = myImage.withRenderingMode(.alwaysTemplate)
-                iconImageView.image = tintableImage
-                iconImageView.isHidden = false
+                customIconImageView.image = tintableImage
+                customIconContainerView.isHidden = false
+                systemIconImageView.isHidden = true
                 iconView.isHidden = true
             }
         case AccountSubType.debitCard.rawValue:
-            iconImageView.image = UIImage(systemName: "creditcard")
-            iconImageView.isHidden = false
+            systemIconImageView.image = UIImage(systemName: "creditcard")
+            systemIconImageView.isHidden = false
+            customIconContainerView.isHidden = true
             iconView.isHidden = true
         case AccountSubType.creditCard.rawValue:
-            iconImageView.image = UIImage(systemName: "creditcard.fill")
-            iconImageView.isHidden = false
+            systemIconImageView.image = UIImage(systemName: "creditcard.fill")
+            systemIconImageView.isHidden = false
+            customIconContainerView.isHidden = true
             iconView.isHidden = true
             if dataToShow.account.parent?.name == AccountsNameLocalisationManager.getLocalizedAccountName(.money), let credit = dataToShow.account.linkedAccount {
                 let amount = round(AccountManager.balance(of: [credit])*100)/100
@@ -183,7 +213,8 @@ class AccountTableViewCell: UITableViewCell {
                 }
             }
         default:
-            iconImageView.isHidden = true
+            systemIconImageView.isHidden = true
+            customIconContainerView.isHidden = true
             iconView.isHidden = false
         }
         
