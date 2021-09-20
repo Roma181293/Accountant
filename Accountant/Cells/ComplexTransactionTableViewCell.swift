@@ -37,7 +37,7 @@ class ComplexTransactionTableViewCell: UITableViewCell {
 
     let dateLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .label
+        label.textColor = UIColor(named: "blackGrayColor")
         label.alpha = 1
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -86,7 +86,7 @@ class ComplexTransactionTableViewCell: UITableViewCell {
     let debitLabel: UILabel = {
         let label = UILabel()
         label.text = "  " + NSLocalizedString("To:", comment: "")
-        label.textColor = .label
+        label.textColor = UIColor(named: "blackGrayColor")
         label.textAlignment = .left
         label.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
         label.layer.cornerRadius = 8
@@ -97,7 +97,7 @@ class ComplexTransactionTableViewCell: UITableViewCell {
     let creditLabel: UILabel = {
         let label = UILabel()
         label.text = "  " + NSLocalizedString("From:", comment: "")
-        label.textColor = .label
+        label.textColor = UIColor(named: "blackGrayColor")
         label.textAlignment = .left
         label.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
         label.layer.cornerRadius = 8
@@ -179,6 +179,7 @@ class ComplexTransactionTableViewCell: UITableViewCell {
             
             let accountPathLabel = UILabel()
             accountPathLabel.text = item.account!.path
+            accountPathLabel.textColor = UIColor(named: "blackGrayColor")
 //            accountPathLabel.font = UIFont.systemFont(ofSize: 16)
             accountPathLabel.numberOfLines = 0
             accountPathLabel.lineBreakMode = .byWordWrapping
@@ -186,6 +187,7 @@ class ComplexTransactionTableViewCell: UITableViewCell {
             
             let amountAndCurrencyLabel = UILabel()
             amountAndCurrencyLabel.text = cutNumber(item.amount) + item.account!.currency!.code!
+            amountAndCurrencyLabel.textColor = UIColor(named: "blackGrayColor")
 //            amouçntAndCurrencyLabel.font = UIFont.systemFont(ofSize: 16)
             amountAndCurrencyLabel.textAlignment = .right
             amountAndCurrencyLabel.translatesAutoresizingMaskIntoConstraints = false
