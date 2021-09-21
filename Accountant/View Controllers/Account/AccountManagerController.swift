@@ -138,7 +138,7 @@ class AccountManagerController {
     
     
     func removeAccount(indexPath: IndexPath, selectedAccount: Account) -> UIContextualAction{
-        let removeAction = UIContextualAction(style: .destructive, title: NSLocalizedString("Romov",comment: "")) { _, _, complete in
+        let removeAction = UIContextualAction(style: .destructive, title: NSLocalizedString("Romove",comment: "")) { _, _, complete in
             do {
                 try AccountManager.canBeRemove(account: selectedAccount)
                 

@@ -18,7 +18,7 @@ final class PurchaseOfferViewController: UIViewController {
                              ("🧾🧾", "Copy transaction"),
                              ("🔒", "Security"),
                              ("📤", "Export accounts and transactions to the file"),
-                             ("📥", "Import accounts and transactions from the file"),
+                             //("📥", "Import accounts and transactions from the file"),
                              ("⚠️", "No advertising")]
     
     let titleLabel: UILabel = {

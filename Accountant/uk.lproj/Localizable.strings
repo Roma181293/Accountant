@@ -125,9 +125,9 @@
 "Add transaction" = "Додати операцію";
 "Save" = "Зберегти";
 
-"Ok" = "Ок";
 
-//MoneyAccountListViewController
+
+//AccountListTableViewController
 "Accounts" = "Рахунки";
 "Exchange rate updated: %@" = "Останнє оновлення курсу: %@";
 "Money" = "Гроші";
@@ -141,12 +141,13 @@
 "Do you really want unhide account?" = "Ви дійсно хочете показати рахунок?";
 "Do you really want hide account?" = "Ви дійсно хочете приховати рахунок?";
 "Error" = "Помилка";
-"Amount excluded from total amount in pichart.\nAccount amount cannot be less zero.\nPlease check transaction with this account." = "Значення виключено з загальної суми по рахунку.\nСума по рахунку не може приймати значення менше нуля.\nБуль ласка перевірте операції з цим рахунком.";
+"Amount excluded from total amount in pichart.\nAccount amount cannot be less zero.\nPlease check transactions with this account." = "Значення виключено з загальної суми по рахунку.\nСума по рахунку не може приймати значення менше нуля.\nБудь ласка перевірте операції з цим рахунком.";
 
 //AccountTableViewCell
 "Credit limit:" = "Кредитний ліміт:";
 
 //AccountEditorWithInitialBalanceViewController
+"Prease enter account name" = "Будь ласка введіть ім'я рахунку";
 "New" = "Новий";
 "Existing" = "Існуючий";
 "Step: 1" = "Крок: 1";
@@ -207,10 +208,6 @@
 //AuthViewController
 "Authentication is required to open the app" = "Для роботи додатку необхідна аутентифікація";
 
-
-//AccountEditorWithInitialBalanceViewController
-"Prease enter account name" = "Будь ласка введіть ім'я рахунку";
-
 //CurrencyTableViewController
 "Currency" = "Валюта";
 "Change accounting currency" = "Змінити валюту обліку";
@@ -238,7 +235,7 @@
 
 
 //OfferUIView
-"per 3 days"="за 3 дня";
+"per 3 days" = "за 3 дня";
 "per 7 days" = "за 7 днів";
 "per week" = "за тиждень";
 "per 14 days" = "за 14 днів";
@@ -254,7 +251,6 @@
 
 
 //SettingsTableViewController
-
 "Settings" = "Налаштування";
 "Start accounting" = "Почати облік";
 "Accounting currency" = "Валюта обліку";
@@ -276,8 +272,8 @@
 
 //AccountError
 "Attribute type should be initialize for the root account" = "Атрибут 'тип' має бути заповненим для кореневого рахунку";
-"Account has an attribure type different from parent. Please contact to support" = "Аккаунт має атрибут тип відмінний від кореневого рахунку. Будь ласка зверніться до команди підтримки";
-"Account with name '%@' already exist. Please use another name" = "";
+"Account has an attribure type different from parent. Please contact to support" = "Рахунок має атрибут тип відмінний від кореневого рахунку. Будь ласка зверніться до команди підтримки";
+"Account with name '%@' already exist. Please use another name" = "Рахунок '%@' вже існує. Будь ласка використайте інше ім'я";
 "You can not remove this account, it should be free from transactions" = "Ви не можете видалити даний рахунок, він не має містити операцій";
 "With credit card we also create associated credit account and this account %@ is already exist Please use another account name" = "Разом з кредитною картою ми створюємо пов'язаний кредитний рахунок, і цей рахунок %@ вже існує. Будь ласка використайте інше ім'я для рахунку.";
 "This is app-reserved account name. Please use another name" = "Це ім'я зарезервовано додатком. Будь ласка використайте інше ім'я";
