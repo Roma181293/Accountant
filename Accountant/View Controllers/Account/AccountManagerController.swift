@@ -89,11 +89,11 @@ class AccountManagerController {
                 var message = ""
                 if selectedAccount.isHidden {
                     title = NSLocalizedString("Unhide",comment: "")
-                    message = NSLocalizedString("Do you really want unhide account?",comment: "")
+                    message = NSLocalizedString("Do you want to unhide account?",comment: "")
                 }
                 else {
                     title = NSLocalizedString("Hide",comment: "")
-                    message = NSLocalizedString("Do you really want hide account?",comment: "")
+                    message = NSLocalizedString("Do you want to hide account?",comment: "")
                 }
                 
                 let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
@@ -138,16 +138,16 @@ class AccountManagerController {
     
     
     func removeAccount(indexPath: IndexPath, selectedAccount: Account) -> UIContextualAction{
-        let removeAction = UIContextualAction(style: .destructive, title: NSLocalizedString("Romove",comment: "")) { _, _, complete in
+        let removeAction = UIContextualAction(style: .destructive, title: NSLocalizedString("Remove",comment: "")) { _, _, complete in
             do {
                 try AccountManager.canBeRemove(account: selectedAccount)
                 
                 var message = ""
                 if let linkedAccount = selectedAccount.linkedAccount {
-                    message =  String(format: NSLocalizedString("Do you really want remove account and linked account %@?",comment: ""), linkedAccount.path!)
+                    message =  String(format: NSLocalizedString("Do you want to remove account and linked account \"%@\"?",comment: ""), linkedAccount.path!)
                 }
                 else {
-                    message = NSLocalizedString("Do you really want remove account and all clidren accounts?",comment: "")
+                    message = NSLocalizedString("Do you want to remove account and all clidren accounts?",comment: "")
                 }
                 
                 let alert = UIAlertController(title: NSLocalizedString("Remove",comment: ""), message: message, preferredStyle: .alert)
@@ -242,7 +242,7 @@ class AccountManagerController {
                             
                             if !AccountManager.isFreeFromTransactionItems(account: selectedAccount) {
                                 
-                                let alert1 = UIAlertController(title: NSLocalizedString("Attention",comment: ""), message:  String(format: NSLocalizedString("Account \"%@\" has transactions. All this thansactions will be automatically moved to new child account \"%@\".",comment: ""), selectedAccount.name!,AccountsNameLocalisationManager.getLocalizedAccountName(.other1)), preferredStyle: .alert)
+                                let alert1 = UIAlertController(title: NSLocalizedString("Warning",comment: ""), message:  String(format: NSLocalizedString("Account \"%@\" has transactions. All this thansactions will be automatically moved to new child account \"%@\".",comment: ""), selectedAccount.name!,AccountsNameLocalisationManager.getLocalizedAccountName(.other1)), preferredStyle: .alert)
                                 alert1.addAction(UIAlertAction(title: NSLocalizedString("Create and Move",comment: ""), style: .default, handler: { [weak alert1] (_) in
                                     do {
                                         try AccountManager.createAccount(parent: selectedAccount, name: textField.text!, type: selectedAccount.type, currency: selectedAccount.currency!, context: self.delegate.context)

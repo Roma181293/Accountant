@@ -6,278 +6,163 @@
   Copyright © 2020 Roman Topchii. All rights reserved.
 */
 
-"AppName" = "Accountant"; //must be added to any language dictionary!!!!!
 
-//AccountsLocalisationManager
-"Income" = "Доходи";
-"Expense" = "Витрати";
-"Money" = "Гроші";
-"Credits" = "Кредити";
-"Debtors" = "Боржники";
-"Capital" = "Капітал";
+"\"%@\" account does not exist. Please contact to support" = "Рахунок \"%@\" не існує. Будь ласка зверніться до команди підтримки";
 "<Other>" = "<Інше>";
-"Other" = "Інше";
-"Before accounting period" = "До обліковий період";
-
-//Currency List
-"AUD" = "Австралійський долар";
-"CAD" = "Канадський долар";
-"CNY" = "Китайський Юань Женьміньбі";
-"HRK" = "Хорватська куна";
-"CZK" = "Чеська крона";
-"DKK" = "Данська крона";
-"HKD" = "Гонконгівський долар";
-"HUF" = "Вернгерський форинт";
-"INR" = "Індійська рупія";
-"IDR" = "Індонезійська рупія";
-"ILS" = "Ізраїльський шекель";
-"JPY" = "Японська єна";
-"KZT" = "Казахстанське теньге";
-"KRW" = "Південно Корейська вона";
-"MXN" = "Мексиканське песо";
-"MDL" = "Молдовський лей";
-"NZD" = "Новозеландський долар";
-"NOK" = "Норвезька крона";
-"RUB" = "Російський рубль";
-"SAR" = "Саудівський ріял";
-"SGD" = "Сінгапурський долар";
-"ZAR" = "Південно Афпіканський ренд";
-"SEK" = "Шведська крона";
-"CHF" = "Швейцарський франк";
-"EGP" = "Єгипетський фунт";
-"GBP" = "Британський фунт стерлінгів";
-"UAH" = "Українська гривня";
-"USD" = "Долар США";
-"BYN" = "Білоруський рубль";
-"AZN" = "Азербайджанський манат";
-"RON" = "Румунський лей";
-"TRY" = "Турецька ліра";
-"BGN" = "Болгарський лев";
-"EUR" = "Євро";
-"PLN" = "Польський злотий";
-"DZD" = "Алжирський динар";
-"BDT" = "Бангладешська така";
-"AMD" = "Вірменський драм";
-"IRR" = "Іранський ріал";
-"IQD" = "Іракський динар";
-"KGS" = "Киргистанський сом";
-"LBP" = "Ліванський фунт";
-"LYD" = "Лівійський динар";
-"MYR" = "Малайзійський ринггіт";
-"MAD" = "Марокканський дирхам";
-"VND" = "В'єтнамський донг";
-"THB" = "Тайський бат";
-"AED" = "Дирхам ОАЕ";
-"TND" = "Туніський динар";
-"UZS" = "Узбецький сум";
-"TWD" = "Тайванський долар";
-"TMT" = "Туркменський манат";
-"GHS" = "Ганське седі";
-"RSD" = "Сербський динар";
-"TJS" = "Таджикістанське сомоні";
-"GEL" = "Грузинська ларі";
-"BRL" = "Бразильський реал";
-
-//WelcomeViewController
-"Welcome" = "Привіт";
-"Try functionality" = "Спробувати функціонал";
-"Lets create accounts that you will be use in future" = "Давайте створимо рахунки які будуть використовуватися у майбутньому";
-
-//StartAccountingViewController
-"Accounting start" = "Початок обліку";
-"Please choose accounting start date. When you adding existing account, this date will be using automatically" = "Будь ласка оберіть дату початку обліку. Ця дата будет викоистовуватися коли ви будете створювати рахунки";
-"Choose currecy for Income and Expense categories(accounts). This currency cannot be changed in the future" = "Оберіть валюту для обліку Доходів та Витрат. Ця валюта не може бути змінена у майбутньому";
-"Please add Income categories(accounts)" = "Додайте рахунки(категорії) Доходів";
-"Please add Expense categories(accounts)" = "Додайте рахунки(категорії) Витрат";
-"Please add Money accounts (Cash and bank cards)" = "Додайте грошові рахунки (Готівку та банківські картки)";
-"Please add debtors. Debtors also include deposits" = "Додайте боржників. До боржників також відносяться вклади та депозити в банках";
-"Please add credits. Credit limit on card credit are automatically added to the credits" = "Додайте кредити. В кредити автоматично дадаються кредитні ліміти по кредитним карткам";
-"Please choose currency" = "Будь ласка оберіть валюту";
-
-//TransactionListViewController
-"From:" = "З:";
-"To:" = "До:";
-
-"Transactions" = "Операції";
-"Get PRO" = "PRO";
-"Remove" = "Видалити";
-"Do you really want remove transaction?" = "Ви дійсно хочете видалити операцію?";
-"Yes" = "Так";
-"No" = "Ні";
-"Copy" = "Копіювати";
-
-//SimpleTransactionEditorViewController
-"From: Account" = "З: Рахунку";
-"To: Account" = "До: Рахунку";
-"Save changes" = "Зберегти зміни";
-"Do you really want save changes?" = "Ви дійсно хочете зберегти зміни?";
-
-"Warning" = "Увага";
-"Please select \"From:\" category" = "Оберіть \"З:\" категорію";
-"Please select \"To:\" category" = "Оберіть \"До:\" категорію";
-"Please check the \"To:\" amount value" = "Введіть значення суми \"До:\"";
-"Please check the \"From:\" amount value" = "Введіть значення суми \"З:\"";
-"Please check amount value" = "Введіть значення суми";
-"Please check exchange rate value" = "Перевірте значення курсу валют";
-
-"Done" = "Готово";
-"Edit transaction" = "Редагувати операцію";
-"Add transaction" = "Додати операцію";
-"Save" = "Зберегти";
-
-
-
-//AccountListTableViewController
-"Accounts" = "Рахунки";
-"Exchange rate updated: %@" = "Останнє оновлення курсу: %@";
-"Money" = "Гроші";
-"Rename" = "Перейменувати";
-"Rename account" = "Перейменувати рахунок";
-"Enter new account name" = "Введіть нове ім'я рахунку";
-"Example: Cash" = "Приклад: Готівка";
-"Cancel" = "Закрити";
-"Hide" = "Приховати";
-"Unhide" = "Показати";
-"Do you really want unhide account?" = "Ви дійсно хочете показати рахунок?";
-"Do you really want hide account?" = "Ви дійсно хочете приховати рахунок?";
-"Error" = "Помилка";
-"Amount excluded from total amount in pichart.\nAccount amount cannot be less zero.\nPlease check transactions with this account." = "Значення виключено з загальної суми по рахунку.\nСума по рахунку не може приймати значення менше нуля.\nБудь ласка перевірте операції з цим рахунком.";
-
-//AccountTableViewCell
-"Credit limit:" = "Кредитний ліміт:";
-
-//AccountEditorWithInitialBalanceViewController
-"Prease enter account name" = "Будь ласка введіть ім'я рахунку";
-"New" = "Новий";
-"Existing" = "Існуючий";
-"Step: 1" = "Крок: 1";
-"Type:" = "Тип:";
-"Currency:" = "Валюта:";
-"Balance on:" = "Баланс на";
-"Name" = "Iм'я";
-"Balance" = "Баланс";
-"Credit limit" = "Кредитний ліміт";
-
-
-"This account name is already exist" = "Рахунок з цим ім'ям вже існує";
-"Please check the balance value" = "Будь ласка перевірте значення балансу";
-"Please check the credit limit value" = "Будь ласка перевірте значення кредитного ліміту";
-"Credit limit value can't be less than 0" = "Значення кредитного ліміту не може бути менше 0";
-
-"Bad internet connection. Please enter exchange rate %@/%@" = "Погане інтернет зяєднання. Будь ласка введіть обмінний курс %@/%@";
-"Exchange rate value can't be less or equal than 0" = "Значення курсу валют не може бути менше 0";
-
-
-
-//AnalyticsViewController
-"Analytics" = "Аналітика";
-
-//ConfigureAnalyticsViewController
-"Date interval" = "Інтервал часу";
-"Sorted by" = "Сортування";
-"A-Z" = "А-Я";
-"Z-A" = "Я-А";
 "0-9" = "0-9";
 "9-0" = "9-0";
-"Time distribution" = "Розподіл часу";
-"Day" = "День";
-"Week" = "Тиждень";
-"Month" = "Місяць";
-"Cancel" = "Закрити";
-"Apply" = "Застосувати";
-
-
-//AccountNavigatorTableViewController
-"Accounts manager" = "Менеджер рахунків";
-
-"Rename" = "Перейменувати";
-"Rename account" = "Перейменувати рахунок";
-"Enter new account name" = "Введіть нове ім'я рахунку";
-"Add subaccount" = "Додати субрахунок";
-"Enter subaccount name" = "Введіть ім'я субрахунку";
-"Account \"%@\" has transactions. All this thansactions will be automatically moved to new child account \"%@\"." = "Рахунок \"%@\" має операції. Всі ці операції будуть автоматично переміщені на дочірній рахунок \"%@\".";
-"Attention" = "Увага";
-"Create and Move" = "Створити і Перемістити";
-"Add account" = "Додати рахунок";
-"Enter account name" = "Введіть ім'я рахунку";
-"Add" = "Додати";
-"Cancel" = "Закрити";
-"Do you really want remove account and all clidren accounts?" = "Ви дійсно хочете видалити рахунок і всі дочірні рахунки?";
-"Do you really want remove account and linked account %@?" = "Ви дійсно хочете видалити рахунок і пов'язаний з ним рахунок %@?";
-
-//AuthViewController
-"Authentication is required to open the app" = "Для роботи додатку необхідна аутентифікація";
-
-//CurrencyTableViewController
-"Currency" = "Валюта";
-"Change accounting currency" = "Змінити валюту обліку";
-
-//AddAccountViewController
-"Create account" = "Створити рахунок";
-"Multicurrency" = "Багатовалютний";
-
-//PurchaseOfferViewController
-"PRO access" = "PRO доступ";
-"Try for free" = "Спробувати безкоштовно";
-"Subscribe" = "Оформити підписку";
-"Thanks, later" = "Дякую, пізніше";
 "A subscription is automatically renewed unless you cancel it at least 24 hours before the end of the current period. The renewal fee will be deducted during the day before the end of the current period. You can manage and unsubscribe in your iTunes account settings." = "Підписка подовжується автоматично, якщо ви не скасували її принаймі за 24 години до завершення поточного періоду. Оплата за подовження буде списано протягом доби, що передує даті завершення поточного періоду. Керувати підпискою та скасувати її можна в налаштуваннях облікового запису iTunes.";
-
-
-"Unlimited number of accounts" = "Необмежена кількість рахунків";
+"A-Z" = "А-Я";
+"Account" = "Рахунок";
+"Account \"%@\" has transactions. All this thansactions will be automatically moved to new child account \"%@\"." = "Рахунок \"%@\" має операції. Всі ці операції будуть автоматично переміщені на дочірній рахунок \"%@\".";
+"Account has an attribure type different from parent" = "Рахунок має атрибут тип відмінний від кореневого рахунку";
+"Account with name \"%@\" already exist. Please use another name" = "Рахунок \"%@\" вже існує. Будь ласка використайте інше ім'я";
+"Accounting currency" = "Валюта обліку";
+"Accounting start" = "Початок обліку";
+"Accounts" = "Рахунки";
+"Accounts manager" = "Менеджер рахунків";
+"Add" = "Додати";
+"Add account" = "Додати рахунок";
+"Add subaccount" = "Додати дочірній рахунок";
+"Add transaction" = "Додати операцію";
+"after" = "після";
+"Amount" = "Сума";
+"Amount excluded from total amount in pichart.\nAccount amount cannot be less zero.\nPlease check transactions with this account." = "Значення виключено з загальної суми по рахунку.\nСума по рахунку не може приймати значення менше нуля.\nБудь ласка перевірте операції з цим рахунком.";
+"Analytics" = "Аналітика";
+"Apply" = "Застосувати";
+"Attribute \"Type\" should be initialize for the root account" = "Атрибут \"Тип\" має бути заповненим для кореневого рахунку";
+"Authentication is required to open the app" = "Для роботи додатку необхідна аутентифікація";
+"Bad internet connection. Please enter exchange rate %@/%@" = "Погане інтернет з'єднання. Будь ласка введіть обмінний курс %@/%@";
+"Balance" = "Баланс";
+"Balance on:" = "Баланс на";
+"Before accounting period" = "До обліковий період";
+"Cancel" = "Закрити";
+"Capital" = "Капітал";
+"Change accounting currency" = "Змінити валюту обліку";
+"Choose currecy for Income and Expense categories(accounts). This currency cannot be changed in the future" = "Оберіть валюту для обліку Доходів та Витрат. Ця валюта не може бути змінена у майбутньому";
+"Comment" = "Коментар";
+"Copy" = "Копіювати";
 "Copy transaction" = "Копіювання операцій";
-"Export accounts and transactions to the file" = "Експорт рахунків і операцій";
-"Import accounts and transactions from the file" = "Імпорт рахунків і операцій";
-"Hide account" = "Приховування рахунків";
-"Security" = "Безпека";
+"Create account" = "Створити рахунок";
 "Create account in currencies different from accounting currency" = "Створення рахунків у валютах відмінних від валюти обліку";
+"Create and Move" = "Створити і Перемістити";
+"Credit limit" = "Кредитний ліміт";
+"Credit limit value can't be less than 0" = "Значення кредитного ліміту не може бути менше нуля";
+"Credit limit:" = "Кредитний ліміт:";
+"Credits" = "Кредити";
+"Currency" = "Валюта";
+"Currency:" = "Валюта:";
+"Current accounting currency already used in transaction where one of accounts has different currency" = "Поточна валюта обліку уже використовується в транзакціях де один з рахунків має іншу валюту";
+"Date interval" = "Інтервал часу";
+"Day" = "День";
+"Debtors" = "Боржники";
+"Discount" = "Знижка";
+"Do you want to hide account?" = "Ви дійсно хочете приховати рахунок?";
+"Do you want to remove account and all clidren accounts?" = "Ви дійсно хочете видалити рахунок і всі дочірні рахунки?";
+"Do you want to remove account and linked account \"%@\"?" = "Ви дійсно хочете видалити рахунок і пов'язаний з ним рахунок \"%@\"?";
+"Do you want to remove transaction?" = "Ви дійсно хочете видалити операцію?";
+"Do you want to save changes?" = "Ви дійсно хочете зберегти зміни?";
+"Do you want to unhide account?" = "Ви дійсно хочете показати рахунок?";
+"Done" = "Готово";
+"Edit transaction" = "Редагувати операцію";
+"Enter account name" = "Введіть ім'я рахунку";
+"Enter new account name" = "Введіть нове ім'я рахунку";
+"Enter subaccount name" = "Введіть ім'я субрахунку";
+"Error" = "Помилка";
+"Exchange rate updated: %@" = "Останнє оновлення курсу: %@";
+"Existing" = "Існуючий";
+"Expense" = "Витрати";
+"Export accounts and transactions to the file" = "Експорт рахунків і операцій";
+"for free" = "безкоштовно";
+"From:" = "З:";
+"From: Account" = "З: Рахунку";
+"Get PRO" = "PRO";
+"Get PRO access" = "Отримати PRO доступ";
+"Hide" = "Приховати";
+"Hide account" = "Приховування рахунків";
+"Import Account List" = "Імпортувати рахунки";
+"Import accounts and transactions from the file" = "Імпорт рахунків і операцій";
+"Import Transaction List" = "Імпортувати операції";
+"Income" = "Доходи";
+"Linked account \"%@\" can not be removed, as it should be free from transactions" = "Пов'язаний рахунок \"%@\" не можна видалити, він не має містити операцій";
+"Money" = "Гроші";
+"Month" = "Місяць";
+"Multicurrency" = "Багатовалютний";
+"Name" = "Iм'я";
+"New" = "Новий";
+"No" = "Ні";
 "No advertising" = "Відсутність реклами";
-
-
-//OfferUIView
-"per 3 days" = "за 3 дня";
-"per 7 days" = "за 7 днів";
-"per week" = "за тиждень";
+"OK" = "ОК";
+"Other" = "Інше";
 "per 14 days" = "за 14 днів";
-"per month" = "за місяць";
 "per 2 months" = "за 2 місяці";
+"per 3 days" = "за 3 дня";
 "per 3 months" = "за 3 місяців";
 "per 6 months" = "за 6 місяців";
+"per 7 days" = "за 7 днів";
+"per month" = "за місяць";
+"per week" = "за тиждень";
 "per year" = "за рік";
-
-"for free" = "безкоштовно";
-"after" = "після";
-"Discount" = "Знижка";
-
-
-//SettingsTableViewController
-"Settings" = "Налаштування";
-"Start accounting" = "Почати облік";
-"Accounting currency" = "Валюта обліку";
-"Share Account List" = "Поділитися списком рахунків";
-"Share Transaction List" = "Поділитися списком операцій";
-"Import Account List" = "Імпортувати рахунки";
-"Import Transaction List" = "Імпортувати операції";
-"Add data for test app" = "Додати даннi для тестування додатку";
-"Terms of use" = "Умови використання";
+"Please add credits. Credit limit on card credit are automatically added to the credits" = "Додайте кредити. В кредити автоматично дадаються кредитні ліміти по кредитним карткам";
+"Please add debtors. Debtors also include deposits" = "Додайте боржників. До боржників також відносяться вклади та депозити в банках";
+"Please add Expense categories(accounts)" = "Додайте рахунки(категорії) Витрат";
+"Please add From:Account" = "Будь ласка додайте З:Раунок";
+"Please add Income categories(accounts)" = "Додайте рахунки(категорії) Доходів";
+"Please add Money accounts (Cash and bank cards)" = "Додайте грошові рахунки (Готівку та банківські картки)";
+"Please add To:Account" = "Будь ласка додайте До:Раунок";
+"Please check the \"From:\" amount value" = "Введіть значення суми \"З:\"";
+"Please check the \"To:\" amount value" = "Введіть значення суми \"До:\"";
+"Please check the balance value" = "Будь ласка перевірте значення балансу";
+"Please check the credit limit value" = "Будь ласка перевірте значення кредитного ліміту";
+"Please choose accounting start date. When you adding existing account, this date will be using automatically" = "Будь ласка, оберіть дату початку обліку. Ця дата будет використовуватися коли ви будете створювати рахунки";
+"Please choose currency" = "Будь ласка оберіть валюту";
+"Please contact to support. Can not find external table view to add cells" = "Please contact to support. Can not find external table view to add cells";
+"Please contact to support. Can not find external table view to count number of rows" = "Please contact to support. Can not find external table view to count number of rows";
+"Please contact to support. Can not find external table view to remove transaction item" = "Please contact to support. Can not find external table view to remove transaction item";
+"Please create subaccount to \"%@\" and select them" = "Будь ласка створіть дочірній разунок до \"%@\" і оберіть його";
+"Please enter correct account name" = "Будь ласка введіть коректне ім'я рахунку";
+"Please select \"From:\" category" = "Оберіть \"З:\" категорію";
+"Please select \"To:\" category" = "Оберіть \"До:\" категорію";
+"Please select From:Account" = "Будь ласка оберіть З:Раунок";
+"Please select To:Account" = "Будь ласка оберіть До:Раунок";
+"Prease enter account name" = "Будь ласка введіть ім'я рахунку";
 "Privacy policy" = "Політика конфіденційності";
 "PRO access" = "PRO доступ";
-"till" = "до";
-"Get PRO access" = "Отримати PRO доступ";
-
-//SettingTableViewCell
+"Remove" = "Видалити";
+"Rename" = "Перейменувати";
+"Rename account" = "Перейменувати рахунок";
+"Save" = "Зберегти";
+"Security" = "Безпека";
+"Settings" = "Налаштування";
+"Share Account List" = "Поділитися списком рахунків";
+"Share Transaction List" = "Поділитися списком операцій";
+"Sorted by" = "Сортування";
+"Start accounting" = "Почати облік";
+"Step: 1" = "Крок: 1";
+"Subscribe" = "Оформити підписку";
+"Terms of use" = "Умови використання";
 "Test mode" = "Тестовий режим";
-"Secure code" = "Пароль";
-
-
-//AccountError
-"Attribute type should be initialize for the root account" = "Атрибут 'тип' має бути заповненим для кореневого рахунку";
-"Account has an attribure type different from parent. Please contact to support" = "Рахунок має атрибут тип відмінний від кореневого рахунку. Будь ласка зверніться до команди підтримки";
-"Account with name '%@' already exist. Please use another name" = "Рахунок '%@' вже існує. Будь ласка використайте інше ім'я";
-"You can not remove this account, it should be free from transactions" = "Ви не можете видалити даний рахунок, він не має містити операцій";
-"With credit card we also create associated credit account and this account %@ is already exist Please use another account name" = "Разом з кредитною картою ми створюємо пов'язаний кредитний рахунок, і цей рахунок %@ вже існує. Будь ласка використайте інше ім'я для рахунку.";
+"This account name is already exist" = "Рахунок з цим ім'ям вже існує";
+"This currency already exists" = "Валюта вже існує";
+"This currency used in accounts" = "Валюта використовується в разхунках";
+"This is accounting currency" = "Це валюта обліку";
 "This is app-reserved account name. Please use another name" = "Це ім'я зарезервовано додатком. Будь ласка використайте інше ім'я";
-"'%@' account does not exist. Please contact to support" = "Рахунок '%@' не існує. Будь ласка зверніться до команди підтримки";
-"You cannot hide %@ account with non zero amount" = "Ви не можете приховати рахунок %@ з не нульвим балансом";
-"Linked account %@ can not be removed, as it should be free from transactions" = "Пов'язаний рахунок %@ не можна видалити, він не має містити операцій";
-
+"till" = "до";
+"Time distribution" = "Розподіл часу";
+"To:" = "До:";
+"To: Account" = "До: Рахунку";
+"Transactions" = "Операції";
+"Try for free" = "Спробувати безкоштовно";
+"Try functionality" = "Спробувати функціонал";
+"Type:" = "Тип:";
+"Unhide" = "Показати";
+"Unlimited number of accounts" = "Необмежена кількість рахунків";
+"Warning" = "Увага";
+"Week" = "Тиждень";
+"Welcome" = "Привіт";
+"With credit card we also create associated credit account and this account \"%@\" is already exist" = "Разом з кредитною картою ми створюємо пов'язаний кредитний рахунок, і цей рахунок \"%@\" вже існує";
+"Yes" = "Так";
+"You can not remove this account, it should be free from transactions" = "Ви не можете видалити даний рахунок, він не має містити операцій";
+"You cannot hide \"%@\"account with non zero amount" = "Ви не можете приховати рахунок \"%@\" з не нульвим балансом";
+"You have transaction in single currency. But amount in From:Account not equal to amount To:Account" = "Ви маєте транзакцію в одній валюті. Але сума З:Рахуку не співпадає з сумою До:Рахунку";
+"Z-A" = "Я-А";

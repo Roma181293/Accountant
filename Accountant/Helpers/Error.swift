@@ -24,30 +24,30 @@ extension AccountError: LocalizedError {
     public var errorDescription: String? {
             switch self {
             case .attributeTypeShouldBeInitializeForRootAccount:
-                return NSLocalizedString("Attribute type should be initialize for the root account", comment: "")
+                return NSLocalizedString("Attribute \"Type\" should be initialize for the root account", comment: "")
                 
             case .accountHasAnAttribureTypeDifferentFromParent:
                 return NSLocalizedString("Account has an attribure type different from parent", comment: "")
                 
             case let .accontAlreadyExists(name):
-               return String(format: NSLocalizedString("Account with name '%@' already exist. Please use another name", comment: ""),name)
+               return String(format: NSLocalizedString("Account with name \"%@\" already exist. Please use another name", comment: ""),name)
                 
             case let .cantRemoveAccountThatUsedInTransactionItem(list):
                 return NSLocalizedString("You can not remove this account, it should be free from transactions", comment: "")
                 
             case let .creditAccountAlreadyExist(name):
-                return String(format: NSLocalizedString("With credit card we also create associated credit account and this account %@ is already exist",comment: ""), AccountsNameLocalisationManager.getLocalizedAccountName(.credits)+":"+name)
+                return String(format: NSLocalizedString("With credit card we also create associated credit account and this account \"%@\" is already exist",comment: ""), AccountsNameLocalisationManager.getLocalizedAccountName(.credits)+":"+name)
                 
             case .reservedAccountName:
                 return NSLocalizedString("This is app-reserved account name. Please use another name",comment: "")
                 
             case let .accountDoesNotExist(name):
-                return String(format: NSLocalizedString("'%@' account does not exist. Please contact to support", comment: ""), name)
+                return String(format: NSLocalizedString("\"%@\" account does not exist. Please contact to support", comment: ""), name)
                 
             case let .accumulativeAccountCannotBeHiddenWithNonZeroAmount(name):
-                return String(format: NSLocalizedString("You cannot hide %@ account with non zero amount", comment: ""), name)
+                return String(format: NSLocalizedString("You cannot hide \"%@\" account with non zero amount", comment: ""), name)
             case let .linkedAccountHasTransactionItem(name):
-                return String(format: NSLocalizedString("Linked account %@ can not be removed, as it should be free from transactions", comment: ""), name)
+                return String(format: NSLocalizedString("Linked account \"%@\" can not be removed, as it should be free from transactions", comment: ""), name)
             }
         }
     
@@ -119,7 +119,7 @@ extension TransactionError: LocalizedError {
         case .creditTransactionItemWOAccount:
             return NSLocalizedString("Please select From:Account",comment: "")
         case let .multicurrencyAccount(name):
-            return String(format: NSLocalizedString("Please create subaccount to %@ and select them", comment: ""), name)
+            return String(format: NSLocalizedString("Please create subaccount to \"%@\" and select them", comment: ""), name)
         }
     }
 }

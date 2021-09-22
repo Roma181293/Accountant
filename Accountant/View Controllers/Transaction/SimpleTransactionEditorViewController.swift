@@ -127,7 +127,7 @@ class SimpleTransactionEditorViewController: UIViewController, GADFullScreenCont
         if let transaction = transaction{
             //, (datePicker.date != transaction.date || Double(amountInDebitCurrencyTextField.text!) != transaction.amountInDebitCurrency || Double(amountInCreditCurrencyTextField.text!) != transaction.amountInCreditCurrency || debit != transaction.debitAccount || credit != transaction.creditAccount){ //check for changing
             
-            let alert = UIAlertController(title: NSLocalizedString("Save changes", comment: ""), message: NSLocalizedString("Do you really want save changes?", comment: ""), preferredStyle: .alert)
+            let alert = UIAlertController(title: NSLocalizedString("Save", comment: ""), message: NSLocalizedString("Do you want to save changes?", comment: ""), preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: NSLocalizedString("Yes", comment: ""), style: .default, handler: { [] (_) in
                 TransactionManager.deleteTransaction(transaction, context: self.context)
                 self.addNewTransaction()

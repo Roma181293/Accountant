@@ -771,7 +771,7 @@ class AccountEditorWithInitialBalanceViewController: UIViewController, UIScrollV
     
     private func creditValidation(creditAccount: Account) -> Bool {
         if AccountManager.isFreeAccountName(parent: creditAccount, name: accountNameTextField.text!, context: context) == false {
-            let alert = UIAlertController(title: NSLocalizedString("Warning", comment: ""), message: String(format: NSLocalizedString("With credit card we also create associated credit account and this account %@ is already exist",comment: ""), creditAccount.name! + accountNameTextField.text!), preferredStyle: .alert)
+            let alert = UIAlertController(title: NSLocalizedString("Warning", comment: ""), message: String(format: NSLocalizedString("With credit card we also create associated credit account and this account \"%@\" is already exist",comment: ""), creditAccount.name! + accountNameTextField.text!), preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default))
             self.present(alert, animated: true, completion: nil)
             return false

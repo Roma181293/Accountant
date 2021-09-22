@@ -804,7 +804,7 @@ class AccountManager {
                 arrayOfResultsForTmpAccount = getBalancesForDateIntervals(accounts: accoluAndAllChildren, dateInterval: dateInterval, dateComponent: dateComponent)
             }
             else {
-                title = NSLocalizedString("<Other>", comment: "")
+                title = AccountsNameLocalisationManager.getLocalizedAccountName(.other1)//NSLocalizedString("<Other>", comment: "")
                 arrayOfResultsForTmpAccount = getBalancesForDateIntervals(accounts: [account], dateInterval: dateInterval, dateComponent: dateComponent)
             }
             

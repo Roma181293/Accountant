@@ -386,7 +386,7 @@ class ComplexTransactionEditorViewController: UIViewController{
             }
             else if context.hasChanges {
                 try TransactionManager.validateTransactionDataBeforeSave(transaction)
-                let alert = UIAlertController(title: NSLocalizedString("Save changes",comment: ""), message: NSLocalizedString("Do you really want to save changes?", comment: ""), preferredStyle: .alert)
+                let alert = UIAlertController(title: NSLocalizedString("Save",comment: ""), message: NSLocalizedString("Do you want to save changes?", comment: ""), preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: NSLocalizedString("Yes",comment: ""), style: .default, handler: {(_) in
                     do {
                         try self.coreDataStack.saveContext(self.context)
