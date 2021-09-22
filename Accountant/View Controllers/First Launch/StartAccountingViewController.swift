@@ -21,9 +21,9 @@ class StartAccountingViewController: UIViewController, CurrencyReceiverDelegate 
     
     var workFlowTitleArray = [
         NSLocalizedString("Please choose accounting start date. When you adding existing account, this date will be using automatically", comment: ""),
-        NSLocalizedString("Choose currecy for Income and Expense categories(accounts). This currency cannot be changed in the future", comment: ""),
-        NSLocalizedString("Please add Income categories(accounts)", comment: ""),
-        NSLocalizedString("Please add Expense categories(accounts)", comment: ""),
+        NSLocalizedString("Choose currecy for Income and Expense categories. This currency cannot be changed in the future", comment: ""),
+        NSLocalizedString("Please add income categories", comment: ""),
+        NSLocalizedString("Please add expense categories", comment: ""),
         NSLocalizedString("Please add Money accounts (Cash and bank cards)", comment: ""),
         NSLocalizedString("Please add debtors. Debtors also include deposits", comment: ""),
         NSLocalizedString("Please add credits. Credit limit on card credit are automatically added to the credits", comment: "")]

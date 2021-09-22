@@ -121,8 +121,15 @@ class AccountManager {
 //        guard parent != nil && type != nil && parent?.type != type else {throw AccountError.accountContainAttribureTypeDifferentFromParent}
         
         // accounts with reserved names can create only app
-        guard createdByUser == false || isReservedAccountName(name) == false else {throw AccountError.reservedAccountName}
-        guard isFreeAccountName(parent: parent, name : name, context: context) == true else {throw AccountError.accontAlreadyExists(name: name)}
+        guard createdByUser == false || isReservedAccountName(name) == false else {throw AccountError.reservedName}
+        guard isFreeAccountName(parent: parent, name : name, context: context) == true else {
+            if parent?.currency == nil {
+                throw AccountError.accontAlreadyExists(name: name)
+            }
+            else {
+                throw AccountError.categoryAlreadyExists(name: name)
+            }
+        }
         
         if let parent = parent, !AccountManager.isFreeFromTransactionItems(account: parent) {
             let new = fillAccountAttributes(parent: parent, name: AccountsNameLocalisationManager.getLocalizedAccountName(.other1) , type : type, currency : currency, subType : subType, createdByUser : createdByUser, createDate: createDate, context: context)
@@ -138,7 +145,14 @@ class AccountManager {
         
         // accounts with reserved names can create only app
         //guard createdByUser == false || isReservedAccountName(name) == false else {throw AccountError.reservedAccountName}
-        guard isFreeAccountName(parent: parent, name : name, context: context) == true else {throw AccountError.accontAlreadyExists(name: name)}
+        guard isFreeAccountName(parent: parent, name : name, context: context) == true else {
+            if parent?.currency == nil {
+                throw AccountError.accontAlreadyExists(name: name)
+            }
+            else {
+                throw AccountError.categoryAlreadyExists(name: name)
+            }
+        }
         
         if let parent = parent, !AccountManager.isFreeFromTransactionItems(account: parent) {
             let new = fillAccountAttributes(parent: parent, name: AccountsNameLocalisationManager.getLocalizedAccountName(.other1) , type : type, currency : currency, subType : subType, createdByUser : createdByUser, createDate: createDate, context: context)
@@ -200,7 +214,14 @@ class AccountManager {
     
     static func renameAccount(_ account : Account, to newName : String, context : NSManagedObjectContext) throws {
         guard isFreeAccountName(parent: account.parent, name: newName, context: context)
-        else {throw AccountError.accontAlreadyExists(name: newName)}
+        else {
+            if account.parent?.currency == nil {
+                throw AccountError.accontAlreadyExists(name: newName)
+            }
+            else {
+                throw AccountError.categoryAlreadyExists(name: newName)
+            }
+        }
         
         if let parent = account.parent {
             account.path = parent.path! + ":" + newName
@@ -317,7 +338,13 @@ class AccountManager {
             accountUsedInTransactionItem.forEach({
                 accountListString += "\n" + $0.path!
             })
-            throw AccountError.cantRemoveAccountThatUsedInTransactionItem(accountListString)
+            
+            if account.parent?.currency == nil {
+                throw AccountError.cantRemoveAccountThatUsedInTransactionItem(accountListString)
+            }
+            else {
+                throw AccountError.cantRemoveCategoryThatUsedInTransactionItem(accountListString)
+            }
         }
         
         if let linkedAccount = account.linkedAccount, !isFreeFromTransactionItems(account: linkedAccount) {

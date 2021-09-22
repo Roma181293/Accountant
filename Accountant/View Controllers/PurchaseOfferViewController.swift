@@ -12,19 +12,20 @@ import SafariServices
 
 final class PurchaseOfferViewController: UIViewController {
     
-    let descriptionArray = [ ("♾", "Unlimited number of accounts"),
+    let descriptionArray = [ ("♾", "Unlimited number of accounts and categories"),
+                             ("✔", "Subcategories. Create income and expense strucrure"),
                              ("₴＄€", "Create account in currencies different from accounting currency"),
-                             ("🙈", "Hide account"),
+                             ("🙈", "Hide accounts and categories"),
                              ("🧾🧾", "Copy transaction"),
                              ("🔒", "Security"),
-                             ("📤", "Export accounts and transactions to the file"),
-                             //("📥", "Import accounts and transactions from the file"),
+                             ("📤", "Export accounts/categories and transactions to the file"),
+                             //("📥", "Import accounts/categories and transactions from the file"),
                              ("⚠️", "No advertising")]
     
     let titleLabel: UILabel = {
         let titleLabel = UILabel()
         titleLabel.textAlignment = .center
-        titleLabel.text = NSLocalizedString("AppName", comment: "").uppercased()
+        titleLabel.text = "Accountant".uppercased()
         titleLabel.textColor = UIColor.label
         titleLabel.font = UIFont.boldSystemFont(ofSize: 20.0)
         titleLabel.translatesAutoresizingMaskIntoConstraints = false

@@ -498,7 +498,7 @@ class AccountEditorWithInitialBalanceViewController: UIViewController, UIScrollV
     @objc func confirmCreation(_ sender: UIButton) {
         do{
             if accountNameTextField.text! == "" {
-                let alert = UIAlertController(title: NSLocalizedString("Warning", comment: ""), message: NSLocalizedString("Prease enter account name", comment: ""), preferredStyle: .alert)
+                let alert = UIAlertController(title: NSLocalizedString("Warning", comment: ""), message: NSLocalizedString("Please enter account name", comment: ""), preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default))
                 self.present(alert, animated: true, completion: nil)
                 

@@ -38,10 +38,11 @@ class AccountManagerController {
             }
             
             if let accountCurrency = account.currency {
-                let alert = UIAlertController(title: NSLocalizedString("Add account",comment: ""), message: NSLocalizedString("Enter account name",comment: ""), preferredStyle: .alert)
+                let alert = UIAlertController(title: NSLocalizedString("Add category",comment: ""), message: nil, preferredStyle: .alert)
                 
                 alert.addTextField { (textField) in
                     textField.tag = 100
+                    textField.placeholder = NSLocalizedString("Name",comment: "")
                     textField.delegate = alert as! UITextFieldDelegate
                 }
                 alert.addAction(UIAlertAction(title: NSLocalizedString("Add",comment: ""), style: .default, handler: { [weak alert] (_) in
@@ -87,13 +88,25 @@ class AccountManagerController {
             if AccessCheckManager.checkUserAccessToHideAccount(environment: self.delegate.environment, isUserHasPaidAccess: self.delegate.isUserHasPaidAccess) {
                 var title = ""
                 var message = ""
-                if selectedAccount.isHidden {
-                    title = NSLocalizedString("Unhide",comment: "")
-                    message = NSLocalizedString("Do you want to unhide account?",comment: "")
+                if selectedAccount.parent?.currency == nil {
+                    if selectedAccount.isHidden {
+                        title = NSLocalizedString("Unhide",comment: "")
+                        message = NSLocalizedString("Do you want to unhide account?",comment: "")
+                    }
+                    else {
+                        title = NSLocalizedString("Hide",comment: "")
+                        message = NSLocalizedString("Do you want to hide account?",comment: "")
+                    }
                 }
                 else {
-                    title = NSLocalizedString("Hide",comment: "")
-                    message = NSLocalizedString("Do you want to hide account?",comment: "")
+                    if selectedAccount.isHidden {
+                        title = NSLocalizedString("Unhide",comment: "")
+                        message = NSLocalizedString("Do you want to unhide category?",comment: "")
+                    }
+                    else {
+                        title = NSLocalizedString("Hide",comment: "")
+                        message = NSLocalizedString("Do you want to hide category?",comment: "")
+                    }
                 }
                 
                 let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
@@ -143,11 +156,16 @@ class AccountManagerController {
                 try AccountManager.canBeRemove(account: selectedAccount)
                 
                 var message = ""
-                if let linkedAccount = selectedAccount.linkedAccount {
-                    message =  String(format: NSLocalizedString("Do you want to remove account and linked account \"%@\"?",comment: ""), linkedAccount.path!)
+                if selectedAccount.parent?.currency == nil {
+                    if let linkedAccount = selectedAccount.linkedAccount {
+                        message =  String(format: NSLocalizedString("Do you want to remove account and linked account \"%@\"?",comment: ""), linkedAccount.path!)
+                    }
+                    else {
+                        message = NSLocalizedString("Do you want to remove account?",comment: "")
+                    }
                 }
                 else {
-                    message = NSLocalizedString("Do you want to remove account and all clidren accounts?",comment: "")
+                    message = NSLocalizedString("Do you want to remove category and all subcategories?",comment: "")
                 }
                 
                 let alert = UIAlertController(title: NSLocalizedString("Remove",comment: ""), message: message, preferredStyle: .alert)
@@ -181,8 +199,9 @@ class AccountManagerController {
     func renameAccount(indexPath: IndexPath, selectedAccount: Account) -> UIContextualAction {
         let rename = UIContextualAction(style: .normal, title: NSLocalizedString("Rename",comment: "")) { (contAct, view, complete) in
             
-            let alert = UIAlertController(title: NSLocalizedString("Rename account",comment: ""), message: NSLocalizedString("Enter new account name", comment: ""), preferredStyle: .alert)
+            let alert = UIAlertController(title: NSLocalizedString("Rename",comment: ""), message: nil, preferredStyle: .alert)
             alert.addTextField { (textField) in
+                textField.placeholder = NSLocalizedString("New name",comment: "")
                 textField.text = selectedAccount.name
                 textField.tag = 100
                 textField.delegate = alert as! UITextFieldDelegate
@@ -212,7 +231,7 @@ class AccountManagerController {
     }
     
     func addSubAccount(indexPath: IndexPath, selectedAccount: Account) -> UIContextualAction {
-        let addSubCategory = UIContextualAction(style: .normal, title: NSLocalizedString("Add subaccount",comment: "")) { _, _, complete in
+        let addSubCategory = UIContextualAction(style: .normal, title: nil) { _, _, complete in
             
             if AccessCheckManager.checkUserAccessToCreateSubAccountForSelected(account: selectedAccount, isUserHasPaidAccess: self.delegate.isUserHasPaidAccess, environment: self.delegate.environment) {
                 if selectedAccount.currency == nil {
@@ -225,10 +244,11 @@ class AccountManagerController {
                 }
                 else {
                     
-                    let alert = UIAlertController(title: NSLocalizedString("Add subaccount",comment: ""), message: NSLocalizedString("Enter subaccount name",comment: ""), preferredStyle: .alert)
+                    let alert = UIAlertController(title: NSLocalizedString("Add subcategory",comment: ""), message: nil, preferredStyle: .alert)
                     
                     alert.addTextField { (textField) in
                         textField.tag = 100
+                        textField.placeholder = NSLocalizedString("Name", comment: "")
                         textField.delegate = alert as! UITextFieldDelegate
                     }
                     alert.addAction(UIAlertAction(title: NSLocalizedString("Add",comment: ""), style: .default, handler: { [weak alert] (_) in
@@ -242,7 +262,7 @@ class AccountManagerController {
                             
                             if !AccountManager.isFreeFromTransactionItems(account: selectedAccount) {
                                 
-                                let alert1 = UIAlertController(title: NSLocalizedString("Warning",comment: ""), message:  String(format: NSLocalizedString("Account \"%@\" has transactions. All this thansactions will be automatically moved to new child account \"%@\".",comment: ""), selectedAccount.name!,AccountsNameLocalisationManager.getLocalizedAccountName(.other1)), preferredStyle: .alert)
+                                let alert1 = UIAlertController(title: NSLocalizedString("Warning",comment: ""), message:  String(format: NSLocalizedString("Category \"%@\" has transactions. All this thansactions will be automatically moved to new subcategory \"%@\"",comment: ""), selectedAccount.name!,AccountsNameLocalisationManager.getLocalizedAccountName(.other1)), preferredStyle: .alert)
                                 alert1.addAction(UIAlertAction(title: NSLocalizedString("Create and Move",comment: ""), style: .default, handler: { [weak alert1] (_) in
                                     do {
                                         try AccountManager.createAccount(parent: selectedAccount, name: textField.text!, type: selectedAccount.type, currency: selectedAccount.currency!, context: self.delegate.context)

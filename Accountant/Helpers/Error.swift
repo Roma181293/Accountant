@@ -9,15 +9,16 @@ import Foundation
 
 enum AccountError : Error {
     case attributeTypeShouldBeInitializeForRootAccount
-    case accountHasAnAttribureTypeDifferentFromParent
+//    case accountHasAnAttribureTypeDifferentFromParent  //deprecated
     case accontAlreadyExists(name: String)
+    case categoryAlreadyExists(name: String)
     case cantRemoveAccountThatUsedInTransactionItem(String)
+    case cantRemoveCategoryThatUsedInTransactionItem(String)
     case creditAccountAlreadyExist(String)  //for cases when creates linked account
-    case reservedAccountName
+    case reservedName
     case accountDoesNotExist(String)
     case accumulativeAccountCannotBeHiddenWithNonZeroAmount(name: String)
     case linkedAccountHasTransactionItem(name: String)
-    
 }
 
 extension AccountError: LocalizedError {
@@ -26,26 +27,35 @@ extension AccountError: LocalizedError {
             case .attributeTypeShouldBeInitializeForRootAccount:
                 return NSLocalizedString("Attribute \"Type\" should be initialize for the root account", comment: "")
                 
-            case .accountHasAnAttribureTypeDifferentFromParent:
-                return NSLocalizedString("Account has an attribure type different from parent", comment: "")
+                
+//            case .accountHasAnAttribureTypeDifferentFromParent: //deprecated
+//                return NSLocalizedString("Account has an attribure type different from parent", comment: "")
+                
                 
             case let .accontAlreadyExists(name):
                return String(format: NSLocalizedString("Account with name \"%@\" already exist. Please use another name", comment: ""),name)
                 
+            case let .categoryAlreadyExists(name):
+               return String(format: NSLocalizedString("Category with name \"%@\" already exist. Please use another name", comment: ""),name)
+                
             case let .cantRemoveAccountThatUsedInTransactionItem(list):
                 return NSLocalizedString("You can not remove this account, it should be free from transactions", comment: "")
+                
+            case let .cantRemoveCategoryThatUsedInTransactionItem(list):
+                return NSLocalizedString("You can not remove this category, it should be free from transactions", comment: "")
                 
             case let .creditAccountAlreadyExist(name):
                 return String(format: NSLocalizedString("With credit card we also create associated credit account and this account \"%@\" is already exist",comment: ""), AccountsNameLocalisationManager.getLocalizedAccountName(.credits)+":"+name)
                 
-            case .reservedAccountName:
-                return NSLocalizedString("This is app-reserved account name. Please use another name",comment: "")
+            case .reservedName:
+                return NSLocalizedString("This is an app-reserved name. Please use another one",comment: "")
                 
             case let .accountDoesNotExist(name):
                 return String(format: NSLocalizedString("\"%@\" account does not exist. Please contact to support", comment: ""), name)
                 
             case let .accumulativeAccountCannotBeHiddenWithNonZeroAmount(name):
                 return String(format: NSLocalizedString("You cannot hide \"%@\" account with non zero amount", comment: ""), name)
+                
             case let .linkedAccountHasTransactionItem(name):
                 return String(format: NSLocalizedString("Linked account \"%@\" can not be removed, as it should be free from transactions", comment: ""), name)
             }
