@@ -54,166 +54,10 @@
                     <view key="view" contentMode="scaleToFill" id="sVt-dY-m5b">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Step: 2" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NwN-p0-5AZ">
-                                <rect key="frame" x="344" y="69" width="60" height="25"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="25" id="8b5-Nx-OCt"/>
-                                    <constraint firstAttribute="width" constant="60" id="qIR-ug-jNt"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="0h7-wa-TDA">
-                                <rect key="frame" x="20" y="94" width="374" height="479"/>
-                                <subviews>
-                                    <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" style="wheels" translatesAutoresizingMaskIntoConstraints="NO" id="Q1j-Tu-cpg">
-                                        <rect key="frame" x="0.0" y="0.0" width="374" height="216"/>
-                                        <connections>
-                                            <action selector="changeDate:" destination="oeU-ui-djC" eventType="valueChanged" id="tDa-2h-mTL"/>
-                                        </connections>
-                                    </datePicker>
-                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Zcs-Mc-18l" userLabel="Account Stack View">
-                                        <rect key="frame" x="0.0" y="232" width="374" height="84"/>
-                                        <subviews>
-                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="aU4-Ba-do0">
-                                                <rect key="frame" x="0.0" y="0.0" width="266" height="84"/>
-                                                <subviews>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="93s-LU-hxr">
-                                                        <rect key="frame" x="0.0" y="0.0" width="266" height="34"/>
-                                                        <color key="backgroundColor" red="0.94901960780000005" green="0.94901960780000005" blue="0.95294117649999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="height" constant="34" id="9oj-3O-0wl"/>
-                                                        </constraints>
-                                                        <state key="normal" title="From: Account">
-                                                            <color key="titleColor" systemColor="systemBlueColor"/>
-                                                        </state>
-                                                        <userDefinedRuntimeAttributes>
-                                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                                                <integer key="value" value="5"/>
-                                                            </userDefinedRuntimeAttribute>
-                                                        </userDefinedRuntimeAttributes>
-                                                        <connections>
-                                                            <segue destination="9qy-sO-3yv" kind="show" identifier="creditToAccountNavigator_ID" id="dfF-X1-N4c"/>
-                                                        </connections>
-                                                    </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zgl-DL-PEL">
-                                                        <rect key="frame" x="0.0" y="50" width="266" height="34"/>
-                                                        <color key="backgroundColor" red="0.94901960780000005" green="0.94901960780000005" blue="0.95294117649999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="height" constant="34" id="ROa-Cr-3Je"/>
-                                                        </constraints>
-                                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                        <state key="normal" title="To: Account">
-                                                            <color key="titleColor" systemColor="systemBlueColor"/>
-                                                        </state>
-                                                        <userDefinedRuntimeAttributes>
-                                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                                                <integer key="value" value="5"/>
-                                                            </userDefinedRuntimeAttribute>
-                                                        </userDefinedRuntimeAttributes>
-                                                        <connections>
-                                                            <segue destination="9qy-sO-3yv" kind="show" identifier="debitToAccountNavigator_ID" id="as2-j3-taq"/>
-                                                        </connections>
-                                                    </button>
-                                                </subviews>
-                                            </stackView>
-                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="ykH-Qw-EKf">
-                                                <rect key="frame" x="274" y="0.0" width="100" height="84"/>
-                                                <subviews>
-                                                    <textField opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Amount" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="q9R-P2-g2e">
-                                                        <rect key="frame" x="0.0" y="0.0" width="100" height="34"/>
-                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                        <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
-                                                        <connections>
-                                                            <action selector="editingChangedAmountValue:" destination="oeU-ui-djC" eventType="editingChanged" id="d4p-o3-fSo"/>
-                                                        </connections>
-                                                    </textField>
-                                                    <textField opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Amount" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="YFK-C5-AYQ">
-                                                        <rect key="frame" x="0.0" y="50" width="100" height="34"/>
-                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                        <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
-                                                        <connections>
-                                                            <action selector="editingChangedAmountValue:" destination="oeU-ui-djC" eventType="editingChanged" id="9Zv-Ne-Ruq"/>
-                                                        </connections>
-                                                    </textField>
-                                                </subviews>
-                                                <constraints>
-                                                    <constraint firstAttribute="width" constant="100" id="fAC-1g-cXg"/>
-                                                </constraints>
-                                            </stackView>
-                                        </subviews>
-                                    </stackView>
-                                    <textField opaque="NO" tag="200" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Comment" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Jm9-JM-r3h">
-                                        <rect key="frame" x="0.0" y="332" width="374" height="34"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits"/>
-                                    </textField>
-                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="g4C-Ot-YaI">
-                                        <rect key="frame" x="0.0" y="382" width="374" height="31"/>
-                                        <subviews>
-                                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Zyz-ee-iLA">
-                                                <rect key="frame" x="0.0" y="0.0" width="51" height="31"/>
-                                                <connections>
-                                                    <action selector="isUseExchangeRate:" destination="oeU-ui-djC" eventType="valueChanged" id="wfM-YI-uLp"/>
-                                                </connections>
-                                            </switch>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Use Exhange Rate" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uyC-Rg-04p">
-                                                <rect key="frame" x="57" y="0.0" width="317" height="31"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <nil key="textColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                        </subviews>
-                                    </stackView>
-                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="equalCentering" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="jaR-1S-Av3">
-                                        <rect key="frame" x="0.0" y="429" width="374" height="50"/>
-                                        <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="usc-eC-E4K">
-                                                <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <nil key="textColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dSw-WE-VjA">
-                                                <rect key="frame" x="324" y="0.0" width="50" height="50"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <nil key="textColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                        </subviews>
-                                    </stackView>
-                                </subviews>
-                            </stackView>
-                        </subviews>
                         <viewLayoutGuide key="safeArea" id="CPy-x5-NiD"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <constraints>
-                            <constraint firstItem="0h7-wa-TDA" firstAttribute="top" secondItem="NwN-p0-5AZ" secondAttribute="bottom" id="1is-xO-nTV"/>
-                            <constraint firstItem="0h7-wa-TDA" firstAttribute="leading" secondItem="CPy-x5-NiD" secondAttribute="leading" constant="20" id="5sy-kz-v6N"/>
-                            <constraint firstItem="NwN-p0-5AZ" firstAttribute="top" secondItem="CPy-x5-NiD" secondAttribute="top" constant="25" id="8hM-y7-9Mj"/>
-                            <constraint firstItem="CPy-x5-NiD" firstAttribute="trailing" secondItem="0h7-wa-TDA" secondAttribute="trailing" constant="20" id="bUu-id-ay9"/>
-                            <constraint firstItem="CPy-x5-NiD" firstAttribute="trailing" secondItem="NwN-p0-5AZ" secondAttribute="trailing" constant="10" id="sWD-uG-psB"/>
-                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Aul-xM-A91"/>
-                    <connections>
-                        <outlet property="accountStackView" destination="Zcs-Mc-18l" id="UWE-72-r4S"/>
-                        <outlet property="amountInCreditCurrencyTextField" destination="q9R-P2-g2e" id="WM4-90-mGz"/>
-                        <outlet property="amountInDebitCurrencyTextField" destination="YFK-C5-AYQ" id="wo3-PO-Mfl"/>
-                        <outlet property="amountStackView" destination="ykH-Qw-EKf" id="PwT-gu-PBy"/>
-                        <outlet property="creditButton" destination="93s-LU-hxr" id="PJh-Mg-jbu"/>
-                        <outlet property="creditToDebitExchangeRateLabel" destination="usc-eC-E4K" id="Nqb-Ep-tdW"/>
-                        <outlet property="datePicker" destination="Q1j-Tu-cpg" id="rya-Dc-sqO"/>
-                        <outlet property="debitButton" destination="zgl-DL-PEL" id="Hh0-o9-ZzJ"/>
-                        <outlet property="debitToCreditExchangeRateLabel" destination="dSw-WE-VjA" id="jrF-bo-qzB"/>
-                        <outlet property="memoTextField" destination="Jm9-JM-r3h" id="khw-Zk-6UH"/>
-                        <outlet property="outertStackView" destination="0h7-wa-TDA" id="MHj-av-L7A"/>
-                        <outlet property="stepLabel" destination="NwN-p0-5AZ" id="91n-Bc-z61"/>
-                        <outlet property="useExchangeRateLabel" destination="uyC-Rg-04p" id="gbx-cD-u9A"/>
-                        <outlet property="useExchangeRateSwich" destination="Zyz-ee-iLA" id="on8-qy-ZkP"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QRd-Ps-buu" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -581,7 +425,7 @@
             <objects>
                 <tableViewController storyboardIdentifier="AccountNavigatorTVC_ID" id="9qy-sO-3yv" customClass="AccountNavigatorTableViewController" customModule="Accountant" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="VTR-wR-4g8">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <prototypes>
@@ -1210,9 +1054,6 @@
             <point key="canvasLocation" x="-5204" y="1092"/>
         </scene>
     </scenes>
-    <inferredMetricsTieBreakers>
-        <segue reference="as2-j3-taq"/>
-    </inferredMetricsTieBreakers>
     <resources>
         <image name="arrow.clockwise" catalog="system" width="115" height="128"/>
         <image name="chart.pie" catalog="system" width="128" height="121"/>
@@ -1230,9 +1071,6 @@
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
-        <systemColor name="systemBlueColor">
-            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

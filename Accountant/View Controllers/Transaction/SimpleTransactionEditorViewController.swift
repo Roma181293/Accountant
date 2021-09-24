@@ -12,24 +12,7 @@ import Purchases
 
 class SimpleTransactionEditorViewController: UIViewController, GADFullScreenContentDelegate {
     
-    @IBOutlet weak var stepLabel: UILabel!
-    @IBOutlet weak var datePicker: UIDatePicker!
-    @IBOutlet weak var creditButton: UIButton!
-    @IBOutlet weak var amountInCreditCurrencyTextField: UITextField!
-    @IBOutlet weak var debitButton: UIButton!
-    @IBOutlet weak var amountInDebitCurrencyTextField: UITextField!
-    @IBOutlet weak var memoTextField: UITextField!
-    @IBOutlet weak var creditToDebitExchangeRateLabel: UILabel!
-    @IBOutlet weak var debitToCreditExchangeRateLabel: UILabel!
-    @IBOutlet weak var useExchangeRateSwich: UISwitch!
-    @IBOutlet weak var useExchangeRateLabel: UILabel!
-    @IBOutlet weak var outertStackView: UIStackView!
-    @IBOutlet weak var accountStackView: UIStackView!
-    @IBOutlet weak var amountStackView: UIStackView!
-    var addButton: UIButton!
     weak var delegate : UIViewController?
-    
-    var activeTextField : UITextField!
     
     var interstitial: GADInterstitialAd?
     
@@ -61,15 +44,225 @@ class SimpleTransactionEditorViewController: UIViewController, GADFullScreenCont
     }
     var selectedRateCreditToDebit : Double?
     
+    
+    
+    
+    
+    let mainScrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.alwaysBounceVertical = true
+        scrollView.bounces = false
+        scrollView.showsVerticalScrollIndicator = false
+        scrollView.showsHorizontalScrollIndicator = false
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        return scrollView
+    }()
+    
+    let mainView : UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    let stepLabel: UILabel = {
+        let label = UILabel()
+        label.text = NSLocalizedString("Step: 2", comment: "")
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    let datePicker: UIDatePicker = {
+        let datePicker = UIDatePicker()
+        datePicker.preferredDatePickerStyle = .wheels
+        datePicker.translatesAutoresizingMaskIntoConstraints = false
+        return datePicker
+    }()
+    
+    let creditButton: UIButton = {
+        let button = UIButton()
+        button.layer.cornerRadius = 5
+        button.setTitleColor(.systemBlue, for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    let amountInCreditCurrencyTextField: UITextField = {
+        let textField = UITextField()
+        textField.tag = 1
+        textField.keyboardType = .decimalPad
+        textField.layer.cornerRadius = 5
+        textField.layer.borderColor = UIColor.lightGray.cgColor
+        textField.layer.borderWidth = 0.5
+        textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: textField.frame.height))
+        textField.leftViewMode = .always
+        textField.rightView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: textField.frame.height))
+        textField.rightViewMode = .always
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        return textField
+    }()
+    
+    let debitButton: UIButton = {
+        let button = UIButton()
+        button.layer.cornerRadius = 5
+        button.setTitleColor(.systemBlue, for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    let amountInDebitCurrencyTextField: UITextField = {
+        let textField = UITextField()
+        textField.tag = 2
+        textField.keyboardType = .decimalPad
+        textField.layer.cornerRadius = 5
+        textField.layer.borderColor = UIColor.lightGray.cgColor
+        textField.layer.borderWidth = 0.5
+        textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: textField.frame.height))
+        textField.leftViewMode = .always
+        textField.rightView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: textField.frame.height))
+        textField.rightViewMode = .always
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        return textField
+    }()
+    
+    let commentTextField: UITextField = {
+        let textField = UITextField()
+        textField.tag = 100
+        textField.placeholder = NSLocalizedString("Comment", comment: "")
+        textField.layer.cornerRadius = 5
+        textField.layer.borderColor = UIColor.lightGray.cgColor
+        textField.layer.borderWidth = 0.5
+        textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: textField.frame.height))
+        textField.leftViewMode = .always
+        textField.rightView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: textField.frame.height))
+        textField.rightViewMode = .always
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        return textField
+    }()
+    
+    let creditToDebitExchangeRateLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    let debitToCreditExchangeRateLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    let useExchangeRateSwich: UISwitch = {
+        let switcher = UISwitch()
+        switcher.translatesAutoresizingMaskIntoConstraints = false
+        return switcher
+    }()
+    
+    let useExchangeRateLabel: UILabel = {
+        let label = UILabel()
+        label.text = NSLocalizedString("Use exchange rate", comment: "")
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    let mainStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.alignment = .fill
+        stackView.distribution = .fill
+        stackView.spacing = 16
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
+    }()
+    
+    let accountStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.alignment = .fill
+        stackView.distribution = .fill
+        stackView.spacing = 8
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
+    }()
+    
+    let buttonStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.alignment = .fill
+        stackView.distribution = .fill
+        stackView.spacing = 16
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
+    }()
+    
+    let amountStackView: UIStackView! = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.alignment = .fill
+        stackView.distribution = .fillEqually
+        stackView.spacing = 16
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
+    }()
+    
+    let exchangeRateControlStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.alignment = .fill
+        stackView.distribution = .fill
+        stackView.spacing = 8
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
+    }()
+    
+    let exchangeRateLabelsStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.alignment = .fill
+        stackView.distribution = .fill
+        stackView.spacing = 8
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
+    }()
+    
+    let addButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "checkmark"), for: .normal)
+        button.layer.cornerRadius = 34
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.backgroundColor = Colors.Main.confirmButton
+        return button
+    }()
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        addMainView()
         
-        //MARK:- adding NotificationCenter observers
-        NotificationCenter.default.addObserver(self, selector: #selector(self.reloadProAccessData), name: .receivedProAccessData, object: nil)
+        addButton.addTarget(self, action: #selector(self.done(_:)), for: .touchUpInside)
+        datePicker.addTarget(self, action: #selector(self.changeDate(_:)), for: .valueChanged)
+        debitButton.addTarget(self, action: #selector(self.selectDebitAccount), for: .touchUpInside)
+        creditButton.addTarget(self, action: #selector(self.selectCreditAccount), for: .touchUpInside)
+        useExchangeRateSwich.addTarget(self, action: #selector(self.isUseExchangeRate(_:)), for: .valueChanged)
+        amountInDebitCurrencyTextField.addTarget(self, action: #selector(self.editingChangedAmountValue(_:)), for: .editingChanged)
+        amountInCreditCurrencyTextField.addTarget(self, action: #selector(self.editingChangedAmountValue(_:)), for: .editingChanged)
+        
+        
+        amountInDebitCurrencyTextField.delegate = self
+        amountInCreditCurrencyTextField.delegate = self
+        commentTextField.delegate = self
+        
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
+        view.addGestureRecognizer(tap)
+        
+        
+        
         reloadProAccessData()
         interstitial?.fullScreenContentDelegate = self
         showPreContent()
         initialConfigureUI()
+        
+        //MARK:- adding NotificationCenter observers
+        NotificationCenter.default.addObserver(self, selector: #selector(self.reloadProAccessData), name: .receivedProAccessData, object: nil)
     }
     
     
@@ -106,6 +299,77 @@ class SimpleTransactionEditorViewController: UIViewController, GADFullScreenCont
         context.rollback()
     }
     
+    private func addMainView() {
+        
+        //MARK:- Main Scroll View
+        view.addSubview(mainScrollView)
+        //        mainScrollView.contentSize = CGSize(width: mainScrollView.frame.width, height: mainScrollView.frame.height)
+        mainScrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        mainScrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        mainScrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+        mainScrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
+        
+        //MARK:- Main View
+        mainScrollView.addSubview(mainView)
+        mainView.leadingAnchor.constraint(equalTo: mainScrollView.leadingAnchor, constant: 10).isActive = true
+        mainView.trailingAnchor.constraint(equalTo: mainScrollView.trailingAnchor, constant: -10).isActive = true
+        mainView.topAnchor.constraint(equalTo: mainScrollView.topAnchor).isActive = true
+        mainView.bottomAnchor.constraint(equalTo: mainScrollView.bottomAnchor).isActive = true
+        mainView.widthAnchor.constraint(equalTo: mainScrollView.widthAnchor, constant: -20).isActive = true
+        mainView.heightAnchor.constraint(equalTo: mainScrollView.heightAnchor).isActive = true
+        
+        //MARK:- Step Label
+        mainView.addSubview(stepLabel)
+        stepLabel.trailingAnchor.constraint(equalTo: mainView.trailingAnchor).isActive = true
+        stepLabel.topAnchor.constraint(equalTo: mainView.topAnchor, constant: 25).isActive = true
+        stepLabel.widthAnchor.constraint(equalToConstant: 60).isActive = true
+        
+        //MARK:- Outert Stack View
+        mainView.addSubview(mainStackView)
+        mainStackView.leadingAnchor.constraint(equalTo: mainView.leadingAnchor).isActive = true
+        mainStackView.trailingAnchor.constraint(equalTo: mainView.trailingAnchor).isActive = true
+        mainStackView.topAnchor.constraint(equalTo: stepLabel.bottomAnchor).isActive = true
+        
+        //MARK:- Date Picker
+        mainStackView.addArrangedSubview(datePicker)
+        
+        //MARK:- Account Stack View
+        mainStackView.addArrangedSubview(accountStackView)
+        
+        //MARK:- Button Stack View
+        accountStackView.addArrangedSubview(buttonStackView)
+        
+        //MARK:- Credit Button
+        buttonStackView.addArrangedSubview(creditButton)
+        
+        //MARK:- Debit Button
+        buttonStackView.addArrangedSubview(debitButton)
+        
+        
+        //MARK:- Amount Stack View
+        accountStackView.addArrangedSubview(amountStackView)
+        amountStackView.widthAnchor.constraint(equalToConstant: 100).isActive = true
+        amountStackView.addArrangedSubview(amountInCreditCurrencyTextField)
+        amountStackView.addArrangedSubview(amountInDebitCurrencyTextField)
+        
+        mainStackView.addArrangedSubview(commentTextField)
+        commentTextField.heightAnchor.constraint(equalToConstant: 34).isActive = true
+        
+        mainStackView.addArrangedSubview(exchangeRateControlStackView)
+        exchangeRateControlStackView.addArrangedSubview(useExchangeRateSwich)
+        exchangeRateControlStackView.addArrangedSubview(useExchangeRateLabel)
+        
+        mainStackView.addArrangedSubview(exchangeRateLabelsStackView)
+        exchangeRateLabelsStackView.addArrangedSubview(creditToDebitExchangeRateLabel)
+        exchangeRateLabelsStackView.addArrangedSubview(debitToCreditExchangeRateLabel)
+        
+        //MARK:- Confirm Button
+        mainView.addSubview(addButton)
+        addButton.bottomAnchor.constraint(equalTo: mainView.bottomAnchor, constant: -89).isActive = true //49- tabbar heigth
+        addButton.trailingAnchor.constraint(equalTo: mainView.trailingAnchor, constant: -40).isActive = true
+        addButton.heightAnchor.constraint(equalToConstant: 68).isActive = true
+        addButton.widthAnchor.constraint(equalToConstant: 68).isActive = true
+    }
     @objc func reloadProAccessData() {
         Purchases.shared.purchaserInfo { (purchaserInfo, error) in
             if purchaserInfo?.entitlements.all["pro"]?.isActive == true {
@@ -117,7 +381,7 @@ class SimpleTransactionEditorViewController: UIViewController, GADFullScreenCont
         }
     }
     
-    @IBAction func changeDate(_ sender: UIDatePicker) {
+    @objc func changeDate(_ sender: UIDatePicker) {
         getExhangeRate()
     }
     
@@ -148,7 +412,7 @@ class SimpleTransactionEditorViewController: UIViewController, GADFullScreenCont
     }
     
     
-    @IBAction func editingChangedAmountValue(_ sender: UITextField) {
+    @objc func editingChangedAmountValue(_ sender: UITextField) {
         guard let credit = credit,
               let debit = debit,
               let creditCurrency = credit.currency,
@@ -190,12 +454,12 @@ class SimpleTransactionEditorViewController: UIViewController, GADFullScreenCont
     }
     
     
-    @IBAction func isUseExchangeRate(_ sender: UISwitch) {
+    @objc func isUseExchangeRate(_ sender: UISwitch) {
         if sender.isOn {
             debitToCreditExchangeRateLabel.isHidden = false
             creditToDebitExchangeRateLabel.isHidden = false
             getExhangeRate()
-//            setExchangeRateToLabel()
+            //            setExchangeRateToLabel()
         }
         else {
             debitToCreditExchangeRateLabel.isHidden = true
@@ -223,13 +487,10 @@ class SimpleTransactionEditorViewController: UIViewController, GADFullScreenCont
     }
     
     func initialConfigureUI() {
-        debitButton.backgroundColor = .systemGray5
-        creditButton.backgroundColor = .systemGray5
+        debitButton.backgroundColor = Colors.Main.defaultButton
+        creditButton.backgroundColor = Colors.Main.defaultButton
         
-//        if let startyAccountingDate = UserProfile.getAccountingStartDate() {
-//            datePicker.minimumDate = startyAccountingDate
-//        }
-        addDoneButtonToViewController()
+        
         if transaction == nil && tmpDebit == nil && tmpCredit == nil{
             getExhangeRate()
             self.navigationItem.title = NSLocalizedString("Add transaction", comment: "")
@@ -259,12 +520,8 @@ class SimpleTransactionEditorViewController: UIViewController, GADFullScreenCont
         // keyboard
         addDoneButtonOnDecimalKeyboard()
         
-        amountInDebitCurrencyTextField.delegate = self as! UITextFieldDelegate
-        amountInCreditCurrencyTextField.delegate = self as! UITextFieldDelegate
-        memoTextField.delegate = self as! UITextFieldDelegate
         
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
-        view.addGestureRecognizer(tap)
+        
     }
     
     
@@ -305,7 +562,7 @@ class SimpleTransactionEditorViewController: UIViewController, GADFullScreenCont
                 amountInDebitCurrencyTextField.isHidden = false
                 creditToDebitExchangeRateLabel.isHidden = false
                 debitToCreditExchangeRateLabel.isHidden = false
-//                amountInDebitCurrencyTextField.placeholder = ""
+                //                amountInDebitCurrencyTextField.placeholder = ""
                 amountInDebitCurrencyTextField.text = ""
                 useExchangeRateSwich.isHidden = false
                 useExchangeRateLabel.isHidden = false
@@ -331,11 +588,11 @@ class SimpleTransactionEditorViewController: UIViewController, GADFullScreenCont
         else {return}
         
         if useExchangeRateSwich.isOn {
-        guard let currencyHistoricalData = currencyHistoricalData, let rate = currencyHistoricalData.exchangeRate(curr: creditCurrency.code!, to: debitCurrency.code!) else {return}
-        print(rate)
-        selectedRateCreditToDebit = rate
-        creditToDebitExchangeRateLabel.text = "\(creditCurrency.code!)/\(debitCurrency.code!): \(round(rate*10000)/10000)"
-        debitToCreditExchangeRateLabel.text = "\(debitCurrency.code!)/\(creditCurrency.code!): \(round(1.0/rate*10000)/10000)"
+            guard let currencyHistoricalData = currencyHistoricalData, let rate = currencyHistoricalData.exchangeRate(curr: creditCurrency.code!, to: debitCurrency.code!) else {return}
+            print(rate)
+            selectedRateCreditToDebit = rate
+            creditToDebitExchangeRateLabel.text = "\(creditCurrency.code!)/\(debitCurrency.code!): \(round(rate*10000)/10000)"
+            debitToCreditExchangeRateLabel.text = "\(debitCurrency.code!)/\(creditCurrency.code!): \(round(1.0/rate*10000)/10000)"
         }
         else if let amountInCreditCurrency = Double(amountInCreditCurrencyTextField.text!.replacingOccurrences(of: ",", with: ".")),
                 let amountInDebitCurrency = Double(amountInDebitCurrencyTextField.text!.replacingOccurrences(of: ",", with: ".")) {
@@ -381,13 +638,13 @@ class SimpleTransactionEditorViewController: UIViewController, GADFullScreenCont
         
         if debit.currency == credit.currency {
             if let amountInDebitCurrency = Double(amountInDebitCurrencyTextField.text!.replacingOccurrences(of: ",", with: ".")) {
-                TransactionManager.addTransaction(date: datePicker.date, debit: debit, credit: credit, debitAmount: amountInDebitCurrency, creditAmount: amountInDebitCurrency, comment: memoTextField.text, context: context)
+                TransactionManager.addTransaction(date: datePicker.date, debit: debit, credit: credit, debitAmount: amountInDebitCurrency, creditAmount: amountInDebitCurrency, comment: commentTextField.text, context: context)
             }
         }
         else {
             if let amountInDebitCurrency = Double(amountInDebitCurrencyTextField.text!.replacingOccurrences(of: ",", with: ".")),
                let amountInCreditCurrency = Double(amountInCreditCurrencyTextField.text!.replacingOccurrences(of: ",", with: ".")) {
-                TransactionManager.addTransaction(date: datePicker.date, debit: debit, credit: credit, debitAmount: amountInDebitCurrency, creditAmount: amountInCreditCurrency, comment: memoTextField.text, context: context)
+                TransactionManager.addTransaction(date: datePicker.date, debit: debit, credit: credit, debitAmount: amountInDebitCurrency, creditAmount: amountInCreditCurrency, comment: commentTextField.text, context: context)
             }
         }
         
@@ -402,6 +659,30 @@ class SimpleTransactionEditorViewController: UIViewController, GADFullScreenCont
         }
     }
     
+    
+    @objc func selectDebitAccount() {
+        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.accountNavigatorTableViewController) as! AccountNavigatorTableViewController
+        vc.simpleTransactionEditorVC = self
+        vc.showHiddenAccounts = false
+        vc.searchBarIsHidden = false
+        vc.typeOfAccountingMethod = .debit
+        vc.isUserHasPaidAccess = isUserHasPaidAccess
+        doneButtonAction()
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    @objc func selectCreditAccount() {
+        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.accountNavigatorTableViewController) as! AccountNavigatorTableViewController
+        vc.simpleTransactionEditorVC = self
+        vc.showHiddenAccounts = false
+        vc.searchBarIsHidden = false
+        vc.typeOfAccountingMethod = .credit
+        vc.isUserHasPaidAccess = isUserHasPaidAccess
+        doneButtonAction()
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
     
     private func fillUIForExistingTransaction() {
         guard let transaction = transaction,
@@ -457,20 +738,20 @@ class SimpleTransactionEditorViewController: UIViewController, GADFullScreenCont
         }
         
         if let comment = transaction.comment {
-            self.memoTextField.text = comment
+            self.commentTextField.text = comment
         }
     }
     
     
     private func validation() -> Bool {
         if credit?.parent == nil && credit?.name != AccountsNameLocalisationManager.getLocalizedAccountName(.capital) {
-            let alert = UIAlertController(title: NSLocalizedString("Warning", comment: ""), message: NSLocalizedString("Please select \"From:\" category", comment: ""), preferredStyle: .alert)
+            let alert = UIAlertController(title: NSLocalizedString("Warning", comment: ""), message: NSLocalizedString("Please select \"From:\"", comment: ""), preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default))
             self.present(alert, animated: true, completion: nil)
             return false
         }
         else if debit?.parent == nil  && debit?.name != AccountsNameLocalisationManager.getLocalizedAccountName(.capital) {
-            let alert = UIAlertController(title: NSLocalizedString("Warning", comment: ""), message: NSLocalizedString("Please select \"To:\" category", comment: ""), preferredStyle: .alert)
+            let alert = UIAlertController(title: NSLocalizedString("Warning", comment: ""), message: NSLocalizedString("Please select \"To:\"", comment: ""), preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default))
             self.present(alert, animated: true, completion: nil)
             return false
@@ -490,61 +771,38 @@ class SimpleTransactionEditorViewController: UIViewController, GADFullScreenCont
         return true
     }
     
-    private func addDoneButtonToViewController() {
-        addButton = UIButton(frame: CGRect(origin: CGPoint(x: self.view.frame.width - 70 , y: self.view.frame.height - 150), size: CGSize(width: 68, height: 68)))
-        addButton.backgroundColor = .systemGray5
-        view.addSubview(addButton)
-        addButton.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            addButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -89),
-            addButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -40),
-            addButton.heightAnchor.constraint(equalToConstant: 68),
-            addButton.widthAnchor.constraint(equalToConstant: 68),
-        ])
-        
-        addButton.layer.cornerRadius = 34
-        if let image = UIImage(systemName: "checkmark") {
-            addButton.setImage(image, for: .normal)
-        }
-        addButton.addTarget(self, action: #selector(SimpleTransactionEditorViewController.done(_:)), for: .touchUpInside)
-    }
     
-    // MARK:- Keyboard methods
+    // MARK: - Keyboard methods
     
     @objc func keyboardWillShow(notification: Notification) {
-        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue, let activeTextField = activeTextField {
-            let keyboardY = self.view.frame.size.height - keyboardSize.height - 60
-            
-            var editingTextFieldY : CGFloat! = 0
-            if  activeTextField.tag == 200 {  //memo
-                editingTextFieldY = self.outertStackView.frame.origin.y + activeTextField.frame.origin.y
-            }
-            else { //amounts
-                editingTextFieldY = self.outertStackView.frame.origin.y + self.accountStackView.frame.origin.y + self.amountStackView.frame.origin.y + activeTextField.frame.origin.y
-            }
-            
-            if editingTextFieldY > keyboardY - 60 {
-                UIView.animate(withDuration: 0.25, delay: 0.00, options: UIView.AnimationOptions.curveEaseIn, animations: {
-                    self.view.frame = CGRect(x: 0, y: -(editingTextFieldY! - (keyboardY - 60)), width: self.view.bounds.width, height: self.view.bounds.height)
-                }, completion: nil)
-            }
-        }
+        let userInfo = notification.userInfo!
+        let keyboardSize = (userInfo[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue
+        let contentInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: (keyboardSize!.height + 40), right: 0.0)
+        self.mainScrollView.contentInset = contentInsets
+        self.mainScrollView.scrollIndicatorInsets = contentInsets
+        
+        
+        // **-- Scroll when keyboard shows up
+        let aRect           = self.view.frame
+        self.mainScrollView.contentSize = aRect.size
+        
+        /* if((self.activeTextField) != nil)
+         {
+         self.scrollView.scrollRectToVisible(self.activeTextField!.frame, animated: true)
+         }*/
     }
-    
     
     @objc func keyboardWillHide(notification: Notification) {
-        UIView.animate(withDuration: 0.25, delay: 0.00, options: UIView.AnimationOptions.curveEaseIn, animations: {
-            self.view.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: self.view.bounds.height)
-        }, completion: nil)
+        let contentInsets = UIEdgeInsets.zero
+        self.mainScrollView.contentInset = contentInsets
+        self.mainScrollView.scrollIndicatorInsets = contentInsets
+        
+        // **-- Scroll when keyboard shows up
+        self.mainScrollView.contentSize = self.mainView.frame.size
     }
-    
     
     @objc func dismissKeyboard() {
         view.endEditing(true)
-    }
-    
-    func textFieldDidBeginEditing(_ textField : UITextField) {
-        activeTextField = textField
     }
     
     func textFieldShouldReturn(_ textField : UITextField) -> Bool {
@@ -552,7 +810,7 @@ class SimpleTransactionEditorViewController: UIViewController, GADFullScreenCont
         return true
     }
     
-    func addDoneButtonOnDecimalKeyboard(){
+    private func addDoneButtonOnDecimalKeyboard(){
         let doneToolbar: UIToolbar = UIToolbar(frame: CGRect.init(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 50))
         doneToolbar.barStyle = .default
         
@@ -570,31 +828,6 @@ class SimpleTransactionEditorViewController: UIViewController, GADFullScreenCont
     @objc func doneButtonAction(){
         amountInDebitCurrencyTextField.resignFirstResponder()
         amountInCreditCurrencyTextField.resignFirstResponder()
-        memoTextField.resignFirstResponder()
-    }
-    
-    
-    // MARK: - Navigation
-    
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == Constants.Segue.debitToAccountNavigator {
-            let vc = segue.destination as! AccountNavigatorTableViewController
-            vc.simpleTransactionEditorVC = self
-            vc.showHiddenAccounts = false
-            vc.searchBarIsHidden = false
-            vc.typeOfAccountingMethod = .debit
-            vc.isUserHasPaidAccess = isUserHasPaidAccess
-            doneButtonAction()
-        }
-        if segue.identifier == Constants.Segue.creditToAccountNavigator {
-            let vc = segue.destination as! AccountNavigatorTableViewController
-            vc.simpleTransactionEditorVC = self
-            vc.showHiddenAccounts = false
-            vc.searchBarIsHidden = false
-            vc.typeOfAccountingMethod = .credit
-            vc.isUserHasPaidAccess = isUserHasPaidAccess
-            doneButtonAction()
-        }
+        commentTextField.resignFirstResponder()
     }
 }

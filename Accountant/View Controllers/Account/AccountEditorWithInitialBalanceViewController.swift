@@ -51,7 +51,6 @@ class AccountEditorWithInitialBalanceViewController: UIViewController, UIScrollV
     }
     
     weak var delegate : UIViewController?
-    weak var activeTextField: UITextField!
     
     var accountingCurrency : Currency!
     var currency : Currency! {
@@ -333,7 +332,6 @@ class AccountEditorWithInitialBalanceViewController: UIViewController, UIScrollV
         
         //MARK:- Main Scroll View
         view.addSubview(mainScrollView)
-        
 //        mainScrollView.contentSize = CGSize(width: mainScrollView.frame.width, height: mainScrollView.frame.height)
         mainScrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         mainScrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
@@ -692,6 +690,10 @@ class AccountEditorWithInitialBalanceViewController: UIViewController, UIScrollV
         if currency != accountingCurrency, let rate : Double = Double(exchangeRateTextField.text!.replacingOccurrences(of: ",", with: ".")) {
             exchangeRate = rate
         }
+        else {
+            throw AccountWithBalanceError.emptyExchangeRate
+        }
+        
         guard let balance : Double = Double(accountBalanceTextField.text!.replacingOccurrences(of: ",", with: ".")) else {return}
         
         if parentAccount == moneyRootAccount, let moneyAccountType = moneyAccountType {
@@ -786,17 +788,6 @@ class AccountEditorWithInitialBalanceViewController: UIViewController, UIScrollV
     }
     
     
-    func exchangeRateValidation() -> Bool {
-        if currency != accountingCurrency && (exchangeRateTextField.text == "" || Double(exchangeRateTextField.text!.replacingOccurrences(of: ",", with: ".")) == nil){  //case when no internet
-            let alert = UIAlertController(title: NSLocalizedString("Warning", comment: ""), message: String(format: NSLocalizedString("Bad internet connection. Please enter exchange rate %@/%@",comment: ""), accountingCurrency.code!,currency.code!), preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default))
-            self.present(alert, animated: true, completion: nil)
-            return false
-        }
-        return true
-    }
-    
-    
     private func editValidation() -> Bool {
         if Double(creditLimitTextField.text!.replacingOccurrences(of: ",", with: ".")) == nil {
             let alert = UIAlertController(title: NSLocalizedString("Warning", comment: ""), message: NSLocalizedString("Please check the credit limit value", comment: ""), preferredStyle: .alert)
@@ -816,29 +807,34 @@ class AccountEditorWithInitialBalanceViewController: UIViewController, UIScrollV
     
     
     func errorHandler(error : Error) {
-        let alert = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: error.localizedDescription, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default, handler: { [self](_) in
-            self.navigationController?.popViewController(animated: true)
-        }))
-        self.present(alert, animated: true, completion: nil)
+        if error is AppError {
+            let alert = UIAlertController(title: NSLocalizedString("Warning", comment: ""), message: error.localizedDescription, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        }
+        else {
+            let alert = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: error.localizedDescription, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default, handler: { [self](_) in
+                self.navigationController?.popViewController(animated: true)
+            }))
+            self.present(alert, animated: true, completion: nil)
+        }
     }
     
     
     
     
     // MARK: - Keyboard methods
-    
     @objc func keyboardWillShow(notification: Notification) {
         let userInfo = notification.userInfo!
         let keyboardSize = (userInfo[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue
         let contentInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: (keyboardSize!.height + 40), right: 0.0)
-        self.mainScrollView.contentInset            = contentInsets
-        self.mainScrollView.scrollIndicatorInsets   = contentInsets
-        
+        self.mainScrollView.contentInset = contentInsets
+        self.mainScrollView.scrollIndicatorInsets = contentInsets
         
         
         // **-- Scroll when keyboard shows up
-        let aRect           = self.view.frame
+        let aRect = self.view.frame
         self.mainScrollView.contentSize = aRect.size
         
         /* if((self.activeTextField) != nil)
@@ -861,10 +857,6 @@ class AccountEditorWithInitialBalanceViewController: UIViewController, UIScrollV
     
     @objc func dismissKeyboard() {
         view.endEditing(true)
-    }
-    
-    func textFieldDidBeginEditing(_ textField : UITextField) {
-        activeTextField = textField
     }
     
     func textFieldShouldReturn(_ textField : UITextField) -> Bool {
@@ -904,3 +896,7 @@ extension AccountEditorWithInitialBalanceViewController: CurrencyReceiverDelegat
         self.currency = selectedCurrency
     }
 }
+
+
+
+

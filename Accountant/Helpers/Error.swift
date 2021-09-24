@@ -7,9 +7,14 @@
 
 import Foundation
 
-enum AccountError : Error {
+protocol AppError: Error {}
+
+
+
+
+enum AccountError : AppError {
     case attributeTypeShouldBeInitializeForRootAccount
-//    case accountHasAnAttribureTypeDifferentFromParent  //deprecated
+    //    case accountHasAnAttribureTypeDifferentFromParent  //deprecated
     case accontAlreadyExists(name: String)
     case categoryAlreadyExists(name: String)
     case cantRemoveAccountThatUsedInTransactionItem(String)
@@ -23,57 +28,58 @@ enum AccountError : Error {
 
 extension AccountError: LocalizedError {
     public var errorDescription: String? {
-            switch self {
-            case .attributeTypeShouldBeInitializeForRootAccount:
-                return NSLocalizedString("Attribute \"Type\" should be initialize for the root account", comment: "")
-                
-                
-//            case .accountHasAnAttribureTypeDifferentFromParent: //deprecated
-//                return NSLocalizedString("Account has an attribure type different from parent", comment: "")
-                
-                
-            case let .accontAlreadyExists(name):
-               return String(format: NSLocalizedString("Account with name \"%@\" already exist. Please use another name", comment: ""),name)
-                
-            case let .categoryAlreadyExists(name):
-               return String(format: NSLocalizedString("Category with name \"%@\" already exist. Please use another name", comment: ""),name)
-                
-            case let .cantRemoveAccountThatUsedInTransactionItem(list):
-                return NSLocalizedString("You can not remove this account, it should be free from transactions", comment: "")
-                
-            case let .cantRemoveCategoryThatUsedInTransactionItem(list):
-                return NSLocalizedString("You can not remove this category, it should be free from transactions", comment: "")
-                
-            case let .creditAccountAlreadyExist(name):
-                return String(format: NSLocalizedString("With credit card we also create associated credit account and this account \"%@\" is already exist",comment: ""), AccountsNameLocalisationManager.getLocalizedAccountName(.credits)+":"+name)
-                
-            case .reservedName:
-                return NSLocalizedString("This is an app-reserved name. Please use another one",comment: "")
-                
-            case let .accountDoesNotExist(name):
-                return String(format: NSLocalizedString("\"%@\" account does not exist. Please contact to support", comment: ""), name)
-                
-            case let .accumulativeAccountCannotBeHiddenWithNonZeroAmount(name):
-                return String(format: NSLocalizedString("You cannot hide \"%@\" account with non zero amount", comment: ""), name)
-                
-            case let .linkedAccountHasTransactionItem(name):
-                return String(format: NSLocalizedString("Linked account \"%@\" can not be removed, as it should be free from transactions", comment: ""), name)
-            }
+        switch self {
+        case .attributeTypeShouldBeInitializeForRootAccount:
+            return NSLocalizedString("Attribute \"Type\" should be initialize for the root account", comment: "")
+            
+            
+        //            case .accountHasAnAttribureTypeDifferentFromParent: //deprecated
+        //                return NSLocalizedString("Account has an attribure type different from parent", comment: "")
+        
+        
+        case let .accontAlreadyExists(name):
+            return String(format: NSLocalizedString("Account with name \"%@\" already exist. Please use another name", comment: ""),name)
+            
+        case let .categoryAlreadyExists(name):
+            return String(format: NSLocalizedString("Category with name \"%@\" already exist. Please use another name", comment: ""),name)
+            
+        case let .cantRemoveAccountThatUsedInTransactionItem(list):
+            return NSLocalizedString("You can not remove this account, it should be free from transactions", comment: "")
+            
+        case let .cantRemoveCategoryThatUsedInTransactionItem(list):
+            return NSLocalizedString("You can not remove this category, it should be free from transactions", comment: "")
+            
+        case let .creditAccountAlreadyExist(name):
+            return String(format: NSLocalizedString("With credit card we also create associated credit account and this account \"%@\" is already exist",comment: ""), AccountsNameLocalisationManager.getLocalizedAccountName(.credits)+":"+name)
+            
+        case .reservedName:
+            return NSLocalizedString("This is an app-reserved name. Please use another one",comment: "")
+            
+        case let .accountDoesNotExist(name):
+            return String(format: NSLocalizedString("\"%@\" account does not exist. Please contact to support", comment: ""), name)
+            
+        case let .accumulativeAccountCannotBeHiddenWithNonZeroAmount(name):
+            return String(format: NSLocalizedString("You cannot hide \"%@\" account with non zero amount", comment: ""), name)
+            
+        case let .linkedAccountHasTransactionItem(name):
+            return String(format: NSLocalizedString("Linked account \"%@\" can not be removed, as it should be free from transactions", comment: ""), name)
         }
+    }
     
     
-//        public var failureReason: String? {
-//
-//        }
-//        public var recoverySuggestion: String? {
-//        
-//        }
+    //        public var failureReason: String? {
+    //
+    //        }
+    //        public var recoverySuggestion: String? {
+    //
+    //        }
 }
 
 
 
 
-enum CurrencyError : Error {
+
+enum CurrencyError : AppError {
     case thisCurrencyAlreadyExists
     case thisCurrencyUsedInAccounts
     case thisIsAccountingCurrency
@@ -97,7 +103,10 @@ extension CurrencyError: LocalizedError {
 }
 
 
-enum BudgetError : Error {
+
+
+
+enum BudgetError : AppError {
     case thisBadgetAlreadyExists
     case incorrectLeftOrRightBorderDate
     case incorrectLeftOrRightBorderDateInNeedGenerateBudgetsForCurrentMonthMethod
@@ -106,7 +115,11 @@ enum BudgetError : Error {
 
 
 
-enum TransactionError : Error {
+
+
+
+
+enum TransactionError : AppError {
     case differentAmountForSingleCurrecyTransaction
     case noDebitTransactionItem
     case noCreditTransactionItem
@@ -136,4 +149,19 @@ extension TransactionError: LocalizedError {
 
 
 
+
+
+
+enum AccountWithBalanceError: AppError {
+    case emptyExchangeRate
+}
+
+extension AccountWithBalanceError: LocalizedError {
+    public var errorDescription: String? {
+        switch self {
+        case .emptyExchangeRate:
+            return NSLocalizedString("Please enter exchange rate",comment: "")
+        }
+    }
+}
 
