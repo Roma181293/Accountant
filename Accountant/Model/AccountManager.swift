@@ -124,7 +124,7 @@ class AccountManager {
         guard createdByUser == false || isReservedAccountName(name) == false else {throw AccountError.reservedName}
         guard isFreeAccountName(parent: parent, name : name, context: context) == true else {
             if parent?.currency == nil {
-                throw AccountError.accontAlreadyExists(name: name)
+                throw AccountError.accountAlreadyExists(name: name)
             }
             else {
                 throw AccountError.categoryAlreadyExists(name: name)
@@ -147,7 +147,7 @@ class AccountManager {
         //guard createdByUser == false || isReservedAccountName(name) == false else {throw AccountError.reservedAccountName}
         guard isFreeAccountName(parent: parent, name : name, context: context) == true else {
             if parent?.currency == nil {
-                throw AccountError.accontAlreadyExists(name: name)
+                throw AccountError.accountAlreadyExists(name: name)
             }
             else {
                 throw AccountError.categoryAlreadyExists(name: name)
@@ -216,7 +216,7 @@ class AccountManager {
         guard isFreeAccountName(parent: account.parent, name: newName, context: context)
         else {
             if account.parent?.currency == nil {
-                throw AccountError.accontAlreadyExists(name: newName)
+                throw AccountError.accountAlreadyExists(name: newName)
             }
             else {
                 throw AccountError.categoryAlreadyExists(name: newName)

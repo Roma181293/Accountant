@@ -306,15 +306,14 @@ class AccountEditorWithInitialBalanceViewController: UIViewController, UIScrollV
             let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
             view.addGestureRecognizer(tap)
             
-            preConfigureUI()
-            if UserProfile.isAppLaunchedBefore() || coreDataStack.activeEnviroment() == .test {
-                configureUIForNewAccount()
-            }
-            else {
+            if !(UserProfile.isAppLaunchedBefore() || coreDataStack.activeEnviroment() == .test) {
                 segmentedControl.selectedSegmentIndex = 1
                 segmentedControl.isHidden = true
-                configureUIForExistingAccount()
             }
+            
+            preConfigureUI()
+            
+            selectNewOrExistingAccount(segmentedControl)
         }
         catch let error{
             errorHandler(error: error)
@@ -328,11 +327,11 @@ class AccountEditorWithInitialBalanceViewController: UIViewController, UIScrollV
         context.rollback()
     }
     
-    func addMainView() {
+    private func addMainView() {
         
         //MARK:- Main Scroll View
         view.addSubview(mainScrollView)
-//        mainScrollView.contentSize = CGSize(width: mainScrollView.frame.width, height: mainScrollView.frame.height)
+        //        mainScrollView.contentSize = CGSize(width: mainScrollView.frame.width, height: mainScrollView.frame.height)
         mainScrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         mainScrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         mainScrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
@@ -444,12 +443,18 @@ class AccountEditorWithInitialBalanceViewController: UIViewController, UIScrollV
         
     }
     
-    @objc func selectNewOrExistingAccount(_ sender: UISegmentedControl) {
-        configureUIForNewAccount()
-        configureUIForExistingAccount()
+    @objc private func selectNewOrExistingAccount(_ sender: UISegmentedControl) {
+        switch  sender.selectedSegmentIndex {
+        case 0:
+            configureUIForNewAccount()
+        case 1:
+            configureUIForExistingAccount()
+        default:
+            break
+        }
     }
     
-    @objc func changeAccountSubType(_ sender: Any) {
+    @objc private func changeAccountSubType(_ sender: Any) {
         switch moneyAccountType {
         case .debitCard:
             moneyAccountType = .cash
@@ -462,7 +467,7 @@ class AccountEditorWithInitialBalanceViewController: UIViewController, UIScrollV
         }
     }
     
-    @objc func selectCurrency(_ sender: Any) {
+    @objc private func selectCurrency(_ sender: Any) {
         guard AccessCheckManager.checkUserAccessToCreateAccountInNotAccountingCurrency(environment: coreDataStack.activeEnviroment()!, isUserHasPaidAccess: isUserHasPaidAccess)
         else {
             self.showPurchaseOfferVC()
@@ -476,7 +481,7 @@ class AccountEditorWithInitialBalanceViewController: UIViewController, UIScrollV
         self.navigationController?.pushViewController(currencyTableViewController, animated: true)
     }
     
-    @objc func reloadProAccessData() {
+    @objc private func reloadProAccessData() {
         Purchases.shared.purchaserInfo { (purchaserInfo, error) in
             if purchaserInfo?.entitlements.all["pro"]?.isActive == true {
                 self.isUserHasPaidAccess = true
@@ -487,22 +492,21 @@ class AccountEditorWithInitialBalanceViewController: UIViewController, UIScrollV
         }
     }
     
-    func showPurchaseOfferVC() {
+    private func showPurchaseOfferVC() {
         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.purchaseOfferViewController) as! PurchaseOfferViewController
         self.present(vc, animated: true, completion: nil)
     }
     
-    @objc func confirmCreation(_ sender: UIButton) {
+    @objc private func confirmCreation(_ sender: UIButton) {
         do{
             if accountNameTextField.text! == "" {
-                let alert = UIAlertController(title: NSLocalizedString("Warning", comment: ""), message: NSLocalizedString("Please enter account name", comment: ""), preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default))
-                self.present(alert, animated: true, completion: nil)
-                
+                throw AccountWithBalanceError.emptyAccountName
             }
             else {
-                guard isFreeNewAccountName else {return}
+                guard isFreeNewAccountName else {
+                    throw AccountError.accountAlreadyExists(name: accountNameTextField.text!)
+                }
                 if segmentedControl.selectedSegmentIndex == 0 { //new
                     context.rollback()
                     try createNewAccount()
@@ -520,7 +524,7 @@ class AccountEditorWithInitialBalanceViewController: UIViewController, UIScrollV
         }
     }
     
-    func getRootAccounts() throws {
+    private func getRootAccounts() throws {
         let rootAccountList = try AccountManager.getRootAccountList(context: context)
         rootAccountList.forEach({
             
@@ -556,7 +560,7 @@ class AccountEditorWithInitialBalanceViewController: UIViewController, UIScrollV
         }
     }
     
-    func preConfigureUI() {
+    private func preConfigureUI() {
         currencyButton.backgroundColor = .systemGray5
         accountSubTypeButton.backgroundColor = .systemGray5
         datePicker.preferredDatePickerStyle = .compact
@@ -578,8 +582,7 @@ class AccountEditorWithInitialBalanceViewController: UIViewController, UIScrollV
         }
     }
     
-    func configureUIForNewAccount() {
-        guard segmentedControl.selectedSegmentIndex == 0 else {return}
+    private func configureUIForNewAccount() {
         datePicker.date = Date()
         datePicker.isUserInteractionEnabled = true
         stepLabel.isHidden = false
@@ -591,9 +594,10 @@ class AccountEditorWithInitialBalanceViewController: UIViewController, UIScrollV
         confirmButton.setImage(UIImage(systemName: "arrow.right"), for: .normal)
     }
     
-    func configureUIForExistingAccount() {
-        guard segmentedControl.selectedSegmentIndex == 1, let accountingStartDate = UserProfile.getAccountingStartDate() else {return}
+    private func configureUIForExistingAccount() {
+        if let accountingStartDate = UserProfile.getAccountingStartDate() {
         datePicker.date = accountingStartDate
+        }
         datePicker.isUserInteractionEnabled = true
         stepLabel.isHidden = true
         dateStackView.isHidden = false
@@ -620,7 +624,7 @@ class AccountEditorWithInitialBalanceViewController: UIViewController, UIScrollV
     }
     
     
-    @objc func checkName(_ sender: UITextField){
+    @objc private func checkName(_ sender: UITextField){
         if sender.text! == "" {
             isFreeNewAccountName = false
         }
@@ -649,9 +653,9 @@ class AccountEditorWithInitialBalanceViewController: UIViewController, UIScrollV
         }
     }
     
-    func createNewAccount() throws {
+    private func createNewAccount() throws {
         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let transactionEditorVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.simpleTransactionEditorViewController) as! SimpleTransactionEditorViewController
+        let simpleTransactionEditorVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.simpleTransactionEditorViewController) as! SimpleTransactionEditorViewController
         
         if let moneyAccountType = moneyAccountType {
             switch moneyAccountType {
@@ -662,51 +666,72 @@ class AccountEditorWithInitialBalanceViewController: UIViewController, UIScrollV
                 let newMoneyAccount = try AccountManager.createAndGetAccount(parent: parentAccount, name: accountNameTextField.text!, type: parentAccount.type, currency: currency, subType: moneyAccountType.rawValue, context: context)
                 
                 let newCreditAccount = try AccountManager.createAndGetAccount(parent: creditsRootAccount, name: accountNameTextField.text!, type: creditsRootAccount.type, currency: currency, context: context)
+                
                 newMoneyAccount.linkedAccount = newCreditAccount
-                transactionEditorVC.tmpDebit = newMoneyAccount
-                transactionEditorVC.tmpCredit = newCreditAccount
+                simpleTransactionEditorVC.tmpDebit = newMoneyAccount
+                simpleTransactionEditorVC.tmpCredit = newCreditAccount
             default:
                 let newAccount = try AccountManager.createAndGetAccount(parent: parentAccount, name: accountNameTextField.text!, type: parentAccount.type, currency: currency, subType: moneyAccountType.rawValue, context: context)
-                transactionEditorVC.tmpDebit = newAccount
+                simpleTransactionEditorVC.tmpDebit = newAccount
             }
         }
         else {
             let newAccount = try AccountManager.createAndGetAccount(parent: parentAccount, name: accountNameTextField.text!, type: parentAccount.type, currency: currency,context: context)
             if newAccount.type == AccountType.assets.rawValue {
-                transactionEditorVC.tmpDebit = newAccount
+                simpleTransactionEditorVC.tmpDebit = newAccount
             }
             else {
-                transactionEditorVC.tmpCredit = newAccount
+                simpleTransactionEditorVC.tmpCredit = newAccount
             }
         }
-        transactionEditorVC.delegate = delegate
-        self.navigationController?.pushViewController(transactionEditorVC, animated: true)
+        simpleTransactionEditorVC.delegate = delegate
+        self.navigationController?.pushViewController(simpleTransactionEditorVC, animated: true)
     }
     
     
     
-    func createExistingAccountsAndTransactions() throws {
+    private func createExistingAccountsAndTransactions() throws {
         var exchangeRate : Double = 1
-        if currency != accountingCurrency, let rate : Double = Double(exchangeRateTextField.text!.replacingOccurrences(of: ",", with: ".")) {
-            exchangeRate = rate
-        }
-        else {
-            throw AccountWithBalanceError.emptyExchangeRate
-        }
         
-        guard let balance : Double = Double(accountBalanceTextField.text!.replacingOccurrences(of: ",", with: ".")) else {return}
+        //Check balance value
+        guard let balance : Double = Double(accountBalanceTextField.text!.replacingOccurrences(of: ",", with: ".")) else {
+            throw AccountWithBalanceError.emptyBalance
+        }
         
         if parentAccount == moneyRootAccount, let moneyAccountType = moneyAccountType {
             if moneyAccountType == .cash || moneyAccountType == .debitCard {
-                guard moneyValidation(moneyAccount: parentAccount) else {return}
+                //Check exchange rate value
+                if currency != accountingCurrency {
+                    if let rate : Double = Double(exchangeRateTextField.text!.replacingOccurrences(of: ",", with: ".")) {
+                        exchangeRate = rate
+                    }
+                    else {
+                        throw AccountWithBalanceError.emptyExchangeRate
+                    }
+                }
                 let moneyAccount = try AccountManager.createAndGetAccount(parent: parentAccount, name: accountNameTextField.text!, type: parentAccount.type, currency: currency, subType: moneyAccountType.rawValue, context: context)
                 TransactionManager.addTransaction(date: datePicker.date, debit: moneyAccount, credit: capitalRootAccount, debitAmount: round(balance*100)/100, creditAmount: round(round(balance*100)/100 * exchangeRate*100)/100, createdByUser : false, context: context)
             }
             else if moneyAccountType == .creditCard {
-                guard moneyValidation(moneyAccount: parentAccount),
-                      creditValidation(creditAccount: creditsRootAccount),
-                      let creditLimit : Double = Double(creditLimitTextField.text!.replacingOccurrences(of: ",", with: "."))
-                else {return}
+                //Check credit account name is free
+                guard AccountManager.isFreeAccountName(parent: creditsRootAccount, name: accountNameTextField.text!, context: context) else {
+                    throw AccountError.creditAccountAlreadyExist(creditsRootAccount.name! + accountNameTextField.text!)
+                }
+                
+                //Check credit limit value
+                guard let creditLimit : Double = Double(creditLimitTextField.text!.replacingOccurrences(of: ",", with: ".")) else {
+                    throw AccountWithBalanceError.emptyCreditLimit
+                }
+                
+                //Check exchange rate value
+                if currency != accountingCurrency {
+                    if let rate : Double = Double(exchangeRateTextField.text!.replacingOccurrences(of: ",", with: ".")) {
+                        exchangeRate = rate
+                    }
+                    else {
+                        throw AccountWithBalanceError.emptyExchangeRate
+                    }
+                }
                 
                 let newMoneyAccount = try AccountManager.createAndGetAccount(parent: parentAccount, name: accountNameTextField.text!, type: parentAccount.type, currency: currency, subType: moneyAccountType.rawValue, context: context)
                 let newCreditAccount = try AccountManager.createAndGetAccount(parent: creditsRootAccount, name: accountNameTextField.text!, type: creditsRootAccount.type, currency: currency, context: context)
@@ -726,83 +751,54 @@ class AccountEditorWithInitialBalanceViewController: UIViewController, UIScrollV
                     if expenseBeforeAccountingPeriod == nil {
                         expenseBeforeAccountingPeriod = try? AccountManager.createAndGetAccount(parent: expenseRootAccount, name: AccountsNameLocalisationManager.getLocalizedAccountName(.beforeAccountingPeriod), type: expenseRootAccount.type, currency: expenseRootAccount.currency, createdByUser: false, context: context)
                     }
-                    guard let expenseBeforeAccountingPeriodSafe = expenseBeforeAccountingPeriod else {return}
+                    guard let expenseBeforeAccountingPeriodSafe = expenseBeforeAccountingPeriod else {
+                        throw AccountWithBalanceError.canNotFindBeboreAccountingPeriodAccount
+                    }
                     
                     TransactionManager.addTransaction(date: datePicker.date,debit: expenseBeforeAccountingPeriodSafe, credit: newMoneyAccount, debitAmount: round(round((creditLimit - balance)*100)/100 * exchangeRate*100)/100, creditAmount: round((creditLimit - balance)*100)/100, createdByUser : false, context: context)
                     TransactionManager.addTransaction(date: datePicker.date, debit: newMoneyAccount, credit: newCreditAccount, debitAmount: round(creditLimit*100)/100, creditAmount: round(creditLimit*100)/100, createdByUser : false, context: context)
                 }
             }
         }
-        else if parentAccount == debtorsRootAcccount && moneyValidation(moneyAccount: parentAccount) {
+        else if parentAccount == debtorsRootAcccount {
+            //Check exchange rate value
+            if currency != accountingCurrency {
+                if let rate : Double = Double(exchangeRateTextField.text!.replacingOccurrences(of: ",", with: ".")) {
+                    exchangeRate = rate
+                }
+                else {
+                    throw AccountWithBalanceError.emptyExchangeRate
+                }
+            }
+            
             let newDebtorsAccount = try AccountManager.createAndGetAccount(parent: parentAccount, name: accountNameTextField.text!, type: parentAccount.type, currency: currency, context: context)
             
             TransactionManager.addTransaction(date: datePicker.date, debit: newDebtorsAccount, credit: capitalRootAccount, debitAmount: round(balance*100)/100, creditAmount: round(round(balance*100)/100 * exchangeRate*100)/100, createdByUser : false, context: context)
         }
-        else if parentAccount == creditsRootAccount && moneyValidation(moneyAccount: parentAccount) {
+        else if parentAccount == creditsRootAccount {
+            //Check exchange rate value
+            if currency != accountingCurrency {
+                if let rate : Double = Double(exchangeRateTextField.text!.replacingOccurrences(of: ",", with: ".")) {
+                    exchangeRate = rate
+                }
+                else {
+                    throw AccountWithBalanceError.emptyExchangeRate
+                }
+            }
+            
             try? AccountManager.createAccount(parent: expenseRootAccount, name: AccountsNameLocalisationManager.getLocalizedAccountName(.beforeAccountingPeriod), type: AccountType.assets.rawValue, currency: expenseRootAccount.currency, createdByUser: false, context: context)
+            
             let newCreditAccount = try AccountManager.createAndGetAccount(parent: parentAccount, name: accountNameTextField.text!, type: parentAccount.type, currency: currency, context: context)
-            guard let expenseBeforeAccountingPeriod : Account = AccountManager.getAccountWithPath("\(AccountsNameLocalisationManager.getLocalizedAccountName(.expense)):\(AccountsNameLocalisationManager.getLocalizedAccountName(.beforeAccountingPeriod))", context: context) else {return}
+            
+            guard let expenseBeforeAccountingPeriod : Account = AccountManager.getAccountWithPath("\(AccountsNameLocalisationManager.getLocalizedAccountName(.expense)):\(AccountsNameLocalisationManager.getLocalizedAccountName(.beforeAccountingPeriod))", context: context) else {
+                throw AccountWithBalanceError.canNotFindBeboreAccountingPeriodAccount
+            }
+            
             TransactionManager.addTransaction(date: datePicker.date, debit: expenseBeforeAccountingPeriod, credit: newCreditAccount, debitAmount: (balance * exchangeRate*100)/100, creditAmount: balance, createdByUser : false, context: context)
         }
-        
-    }
-    
-    
-    private func moneyValidation(moneyAccount: Account) -> Bool {
-        if accountNameTextField.text == nil || accountNameTextField.text == "" {
-            let alert = UIAlertController(title: NSLocalizedString("Warning", comment: ""), message: NSLocalizedString("Please enter correct account name", comment: ""), preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default))
-            self.present(alert, animated: true, completion: nil)
-            return false
+        else {
+            throw AccountWithBalanceError.notSupported
         }
-        else if AccountManager.isFreeAccountName(parent: moneyAccount, name: accountNameTextField.text!, context: context) == false {
-            let alert = UIAlertController(title: NSLocalizedString("Warning", comment: ""), message: NSLocalizedString("This account name is already exist", comment: ""), preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default))
-            self.present(alert, animated: true, completion: nil)
-            return false
-        }
-        else if Double(accountBalanceTextField.text!.replacingOccurrences(of: ",", with: ".")) == nil {
-            let alert = UIAlertController(title: NSLocalizedString("Warning", comment: ""), message: NSLocalizedString("Please check the balance value", comment: ""), preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default))
-            self.present(alert, animated: true, completion: nil)
-            return false
-        }
-        return true
-    }
-    
-    
-    private func creditValidation(creditAccount: Account) -> Bool {
-        if AccountManager.isFreeAccountName(parent: creditAccount, name: accountNameTextField.text!, context: context) == false {
-            let alert = UIAlertController(title: NSLocalizedString("Warning", comment: ""), message: String(format: NSLocalizedString("With credit card we also create associated credit account and this account \"%@\" is already exist",comment: ""), creditAccount.name! + accountNameTextField.text!), preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default))
-            self.present(alert, animated: true, completion: nil)
-            return false
-        }
-        else if Double(creditLimitTextField.text!.replacingOccurrences(of: ",", with: ".")) == nil {
-            let alert = UIAlertController(title: NSLocalizedString("Warning", comment: ""), message: NSLocalizedString("Please check the credit limit value", comment: ""), preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default))
-            self.present(alert, animated: true, completion: nil)
-            return false
-        }
-        return true
-    }
-    
-    
-    private func editValidation() -> Bool {
-        if Double(creditLimitTextField.text!.replacingOccurrences(of: ",", with: ".")) == nil {
-            let alert = UIAlertController(title: NSLocalizedString("Warning", comment: ""), message: NSLocalizedString("Please check the credit limit value", comment: ""), preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default))
-            self.present(alert, animated: true, completion: nil)
-            return false
-        }
-        //FIXME: - remove code below. user cannot enter value less then zero
-        else if let creditLimit = Double(creditLimitTextField.text!.replacingOccurrences(of: ",", with: ".")), creditLimit < 0{
-            let alert = UIAlertController(title: NSLocalizedString("Warning", comment: ""), message: NSLocalizedString("Credit limit value can't be less than 0", comment: ""), preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default))
-            self.present(alert, animated: true, completion: nil)
-            return false
-        }
-        return true
     }
     
     
@@ -824,7 +820,8 @@ class AccountEditorWithInitialBalanceViewController: UIViewController, UIScrollV
     
     
     
-    // MARK: - Keyboard methods
+    // MARK: - Keyboard methods -
+    
     @objc func keyboardWillShow(notification: Notification) {
         let userInfo = notification.userInfo!
         let keyboardSize = (userInfo[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue
@@ -841,17 +838,17 @@ class AccountEditorWithInitialBalanceViewController: UIViewController, UIScrollV
          {
          self.scrollView.scrollRectToVisible(self.activeTextField!.frame, animated: true)
          }*/
-
+        
     }
     
     
     @objc func keyboardWillHide(notification: Notification) {
         let contentInsets = UIEdgeInsets.zero
-         self.mainScrollView.contentInset = contentInsets
-         self.mainScrollView.scrollIndicatorInsets = contentInsets
-
-         // **-- Scroll when keyboard shows up
-         self.mainScrollView.contentSize = self.mainView.frame.size
+        self.mainScrollView.contentInset = contentInsets
+        self.mainScrollView.scrollIndicatorInsets = contentInsets
+        
+        // **-- Scroll when keyboard shows up
+        self.mainScrollView.contentSize = self.mainView.frame.size
     }
     
     
@@ -896,7 +893,3 @@ extension AccountEditorWithInitialBalanceViewController: CurrencyReceiverDelegat
         self.currency = selectedCurrency
     }
 }
-
-
-
-

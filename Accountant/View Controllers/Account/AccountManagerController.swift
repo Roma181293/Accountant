@@ -52,7 +52,7 @@ class AccountManagerController {
                               let textFields = alert.textFields,
                               let textField = textFields.first,
                               AccountManager.isFreeAccountName(parent: account, name: textField.text!, context: self.delegate.context)
-                        else {throw AccountError.accontAlreadyExists(name: alert!.textFields!.first!.text!)}
+                        else {throw AccountError.accountAlreadyExists(name: alert!.textFields!.first!.text!)}
                         
                         try AccountManager.createAccount(parent: account, name: textField.text!, type: account.type, currency: accountCurrency, context: self.delegate.context)
                         try self.delegate.coreDataStack.saveContext(self.delegate.context)
@@ -258,7 +258,7 @@ class AccountManagerController {
                                   let textFields = alert.textFields,
                                   let textField = textFields.first,
                                   AccountManager.isFreeAccountName(parent: selectedAccount, name: textField.text!, context: self.delegate.context)
-                            else {throw AccountError.accontAlreadyExists(name: alert!.textFields!.first!.text!)}
+                            else {throw AccountError.accountAlreadyExists(name: alert!.textFields!.first!.text!)}
                             
                             if !AccountManager.isFreeFromTransactionItems(account: selectedAccount) {
                                 

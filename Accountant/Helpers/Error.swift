@@ -15,7 +15,7 @@ protocol AppError: Error {}
 enum AccountError : AppError {
     case attributeTypeShouldBeInitializeForRootAccount
     //    case accountHasAnAttribureTypeDifferentFromParent  //deprecated
-    case accontAlreadyExists(name: String)
+    case accountAlreadyExists(name: String)
     case categoryAlreadyExists(name: String)
     case cantRemoveAccountThatUsedInTransactionItem(String)
     case cantRemoveCategoryThatUsedInTransactionItem(String)
@@ -34,10 +34,10 @@ extension AccountError: LocalizedError {
             
             
         //            case .accountHasAnAttribureTypeDifferentFromParent: //deprecated
-        //                return NSLocalizedString("Account has an attribure type different from parent", comment: "")
+        //                return NSLocalizedString("Account has an attribure \"Type\" different from the root account", comment: "")
         
         
-        case let .accontAlreadyExists(name):
+        case let .accountAlreadyExists(name):
             return String(format: NSLocalizedString("Account with name \"%@\" already exist. Please use another name", comment: ""),name)
             
         case let .categoryAlreadyExists(name):
@@ -153,14 +153,30 @@ extension TransactionError: LocalizedError {
 
 
 enum AccountWithBalanceError: AppError {
+   case emptyAccountName
+    case emptyBalance
+    case emptyCreditLimit
     case emptyExchangeRate
+    case canNotFindBeboreAccountingPeriodAccount
+    case notSupported
 }
 
 extension AccountWithBalanceError: LocalizedError {
     public var errorDescription: String? {
         switch self {
+        
+        case .emptyAccountName:
+            return NSLocalizedString("Please enter account name",comment: "")
+        case .emptyBalance:
+            return NSLocalizedString("Please enter balance",comment: "")
+        case .emptyCreditLimit:
+            return NSLocalizedString("Please enter credit limit",comment: "")
         case .emptyExchangeRate:
             return NSLocalizedString("Please enter exchange rate",comment: "")
+        case .canNotFindBeboreAccountingPeriodAccount:
+            return NSLocalizedString("Can not find \"Bebore accounting period\" account. Please contact to support",comment: "")
+        case .notSupported:
+            return NSLocalizedString("Not supported",comment: "")
         }
     }
 }
