@@ -614,12 +614,10 @@ class AccountEditorWithInitialBalanceViewController: UIViewController, UIScrollV
         
         confirmButton.setImage(UIImage(systemName: "checkmark"), for: .normal)
         
-        guard let moneyAccountType = moneyAccountType else {return}
-        if moneyAccountType == .creditCard {
+        creditLimitTextField.isHidden = true
+        
+        if let moneyAccountType = moneyAccountType,  moneyAccountType == .creditCard {
             creditLimitTextField.isHidden = false
-        }
-        else {
-            creditLimitTextField.isHidden = true
         }
     }
     
