@@ -187,7 +187,7 @@ class AuthPinAndBiometricViewController: UIViewController {
         var error: NSError?
         if context.canEvaluatePolicy(.deviceOwnerAuthentication, error: &error) {
 
-            let reason = NSLocalizedString("Authentication is required to open the app", comment: "")
+            let reason = NSLocalizedString("to activate", comment: "")
             context.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: reason ) { success, error in
 
                 if success {

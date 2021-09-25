@@ -85,8 +85,8 @@ class AccountNavigatorTableViewController: UITableViewController, AccountManager
         }
         else {
             if showHiddenAccounts {
-                self.navigationController?.title = NSLocalizedString("Accounts manager", comment: "")
-                self.navigationItem.title = NSLocalizedString("Accounts manager", comment: "")
+                self.navigationController?.title = NSLocalizedString("Account manager", comment: "")
+                self.navigationItem.title = NSLocalizedString("Account manager", comment: "")
             }
             else {
                 self.navigationController?.title = NSLocalizedString("Accounts", comment: "")

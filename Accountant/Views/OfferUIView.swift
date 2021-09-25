@@ -170,7 +170,7 @@ class OfferUIView: UIView {
         addSalesViewBadge(discount: discount)
         }
         
-        self.offerDisclaimerLabel = NSLocalizedString("A subscription is automatically renewed unless you cancel it at least 24 hours before the end of the current period. The renewal fee will be deducted during the day before the end of the current period. You can manage and unsubscribe in your iTunes account settings.", comment: "")
+        self.offerDisclaimerLabel = NSLocalizedString("A subscription is automatically renewed unless you cancel it at least 24 hours before the end of the billing cycle. The renewal fee will be charged on the day before the end of the current billing cycle. You can manage or cancel subscription in your iTunes account settings", comment: "")
         
         self.purchaseButonTitle = NSLocalizedString("Subscribe", comment: "")
         

@@ -91,21 +91,21 @@ class AccountManagerController {
                 if selectedAccount.parent?.currency == nil {
                     if selectedAccount.isHidden {
                         title = NSLocalizedString("Unhide",comment: "")
-                        message = NSLocalizedString("Do you want to unhide account?",comment: "")
+                        message = NSLocalizedString("Are you sure you want to unhide account?",comment: "")
                     }
                     else {
                         title = NSLocalizedString("Hide",comment: "")
-                        message = NSLocalizedString("Do you want to hide account?",comment: "")
+                        message = NSLocalizedString("Are you sure you want to hide account?",comment: "")
                     }
                 }
                 else {
                     if selectedAccount.isHidden {
                         title = NSLocalizedString("Unhide",comment: "")
-                        message = NSLocalizedString("Do you want to unhide category?",comment: "")
+                        message = NSLocalizedString("Are you sure you want to unhide category?",comment: "")
                     }
                     else {
                         title = NSLocalizedString("Hide",comment: "")
-                        message = NSLocalizedString("Do you want to hide category?",comment: "")
+                        message = NSLocalizedString("Are you sure you want to hide category?",comment: "")
                     }
                 }
                 
@@ -151,24 +151,24 @@ class AccountManagerController {
     
     
     func removeAccount(indexPath: IndexPath, selectedAccount: Account) -> UIContextualAction{
-        let removeAction = UIContextualAction(style: .destructive, title: NSLocalizedString("Remove",comment: "")) { _, _, complete in
+        let removeAction = UIContextualAction(style: .destructive, title: NSLocalizedString("Delete",comment: "")) { _, _, complete in
             do {
                 try AccountManager.canBeRemove(account: selectedAccount)
                 
                 var message = ""
                 if selectedAccount.parent?.currency == nil {
                     if let linkedAccount = selectedAccount.linkedAccount {
-                        message =  String(format: NSLocalizedString("Do you want to remove account and linked account \"%@\"?",comment: ""), linkedAccount.path!)
+                        message =  String(format: NSLocalizedString("Are you sure you want to delete account and linked account  \"%@\"?",comment: ""), linkedAccount.path!)
                     }
                     else {
-                        message = NSLocalizedString("Do you want to remove account?",comment: "")
+                        message = NSLocalizedString("Are you sure you want to delete account?",comment: "")
                     }
                 }
                 else {
-                    message = NSLocalizedString("Do you want to remove category and all subcategories?",comment: "")
+                    message = NSLocalizedString("Are you sure you want to delete this category and all its subcategories?",comment: "")
                 }
                 
-                let alert = UIAlertController(title: NSLocalizedString("Remove",comment: ""), message: message, preferredStyle: .alert)
+                let alert = UIAlertController(title: NSLocalizedString("Delete",comment: ""), message: message, preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: NSLocalizedString("Yes",comment: ""), style: .destructive, handler: {(_) in
                     do {
                         try AccountManager.removeAccount(selectedAccount, eligibilityChacked: true, context: self.delegate.context)
@@ -262,7 +262,7 @@ class AccountManagerController {
                             
                             if !AccountManager.isFreeFromTransactionItems(account: selectedAccount) {
                                 
-                                let alert1 = UIAlertController(title: NSLocalizedString("Warning",comment: ""), message:  String(format: NSLocalizedString("Category \"%@\" has transactions. All this thansactions will be automatically moved to new subcategory \"%@\"",comment: ""), selectedAccount.name!,AccountsNameLocalisationManager.getLocalizedAccountName(.other1)), preferredStyle: .alert)
+                                let alert1 = UIAlertController(title: NSLocalizedString("Warning",comment: ""), message:  String(format: NSLocalizedString("Category \"%@\" contains transactions. All these thansactions will be automatically moved to the new \"%@\" subcategory. ",comment: ""), selectedAccount.name!,AccountsNameLocalisationManager.getLocalizedAccountName(.other1)), preferredStyle: .alert)
                                 alert1.addAction(UIAlertAction(title: NSLocalizedString("Create and Move",comment: ""), style: .default, handler: { [weak alert1] (_) in
                                     do {
                                         try AccountManager.createAccount(parent: selectedAccount, name: textField.text!, type: selectedAccount.type, currency: selectedAccount.currency!, context: self.delegate.context)

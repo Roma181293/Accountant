@@ -66,7 +66,7 @@ class SimpleTransactionEditorViewController: UIViewController, GADFullScreenCont
     
     let stepLabel: UILabel = {
         let label = UILabel()
-        label.text = NSLocalizedString("Step: 2", comment: "")
+        label.text = NSLocalizedString("Step 2", comment: "")
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()

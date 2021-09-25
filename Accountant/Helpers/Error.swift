@@ -30,39 +30,39 @@ extension AccountError: LocalizedError {
     public var errorDescription: String? {
         switch self {
         case .attributeTypeShouldBeInitializeForRootAccount:
-            return NSLocalizedString("Attribute \"Type\" should be initialize for the root account", comment: "")
+            return NSLocalizedString("Attribute \"Type\" should be filled in for the root account", comment: "")
             
             
         //            case .accountHasAnAttribureTypeDifferentFromParent: //deprecated
-        //                return NSLocalizedString("Account has an attribure \"Type\" different from the root account", comment: "")
+        //                return NSLocalizedString("This account has an attribure \"Type\" different from the root account", comment: "")
         
         
         case let .accountAlreadyExists(name):
-            return String(format: NSLocalizedString("Account with name \"%@\" already exist. Please use another name", comment: ""),name)
+            return String(format: NSLocalizedString("Account name \"%@\" is already taken. Please use another name", comment: ""),name)
             
         case let .categoryAlreadyExists(name):
-            return String(format: NSLocalizedString("Category with name \"%@\" already exist. Please use another name", comment: ""),name)
+            return String(format: NSLocalizedString("Category name \"%@\" is already taken. Please use another name", comment: ""),name)
             
         case let .cantRemoveAccountThatUsedInTransactionItem(list):
-            return NSLocalizedString("You can not remove this account, it should be free from transactions", comment: "")
+            return NSLocalizedString("This account cannot be deleted because of existing transactions", comment: "")
             
         case let .cantRemoveCategoryThatUsedInTransactionItem(list):
-            return NSLocalizedString("You can not remove this category, it should be free from transactions", comment: "")
+            return NSLocalizedString("This category cannot be deleted because of existing transactions", comment: "")
             
         case let .creditAccountAlreadyExist(name):
-            return String(format: NSLocalizedString("With credit card we also create associated credit account and this account \"%@\" is already exist",comment: ""), AccountsNameLocalisationManager.getLocalizedAccountName(.credits)+":"+name)
+            return String(format: NSLocalizedString("We create an associated credit account with your credit cards. Credit account \"%@\" already exists",comment: ""), AccountsNameLocalisationManager.getLocalizedAccountName(.credits)+":"+name)
             
         case .reservedName:
-            return NSLocalizedString("This is an app-reserved name. Please use another one",comment: "")
+            return NSLocalizedString("This is name is reserved by the app. Please use another name",comment: "")
             
         case let .accountDoesNotExist(name):
-            return String(format: NSLocalizedString("\"%@\" account does not exist. Please contact to support", comment: ""), name)
+            return String(format: NSLocalizedString("\"%@\" account does not exist. Please contact support", comment: ""), name)
             
         case let .accumulativeAccountCannotBeHiddenWithNonZeroAmount(name):
-            return String(format: NSLocalizedString("You cannot hide \"%@\" account with non zero amount", comment: ""), name)
+            return String(format: NSLocalizedString("You cannot hide \"%@\" account. Only accounts with 0 balance can be hidden", comment: ""), name)
             
         case let .linkedAccountHasTransactionItem(name):
-            return String(format: NSLocalizedString("Linked account \"%@\" can not be removed, as it should be free from transactions", comment: ""), name)
+            return String(format: NSLocalizedString("Linked account \"%@\" cannot be removed because of existing transactions", comment: ""), name)
         }
     }
     
@@ -93,11 +93,11 @@ extension CurrencyError: LocalizedError {
         case .thisCurrencyAlreadyExists:
             return NSLocalizedString("This currency already exists",comment: "")
         case .thisCurrencyUsedInAccounts:
-            return NSLocalizedString("This currency used in accounts",comment: "")
+            return NSLocalizedString("This currency is already used on your accounts",comment: "")
         case .thisIsAccountingCurrency:
-            return NSLocalizedString("This is accounting currency",comment: "")
+            return NSLocalizedString("TThis is your accounting currency",comment: "")
         case .thisCurrencyAlreadyUsedInTransaction:
-            return NSLocalizedString("Current accounting currency already used in transaction where one of accounts has different currency",comment: "")
+            return NSLocalizedString("This currency is already used in transactions where one of the accounts has a different currency",comment: "")
         }
     }
 }
@@ -132,7 +132,7 @@ extension TransactionError: LocalizedError {
     public var errorDescription: String? {
         switch self {
         case .differentAmountForSingleCurrecyTransaction:
-            return NSLocalizedString("You  have transaction in single currency. But amount in From:Account not equal to amount To:Account",comment: "")
+            return NSLocalizedString("You have a transaction in the same currency, but amounts in From:Account and To:Account are not matching",comment: "")
         case .noDebitTransactionItem:
             return NSLocalizedString("Please add To:Account",comment: "")
         case .noCreditTransactionItem:
@@ -142,7 +142,7 @@ extension TransactionError: LocalizedError {
         case .creditTransactionItemWOAccount:
             return NSLocalizedString("Please select From:Account",comment: "")
         case let .multicurrencyAccount(name):
-            return String(format: NSLocalizedString("Please create subaccount to \"%@\" and select them", comment: ""), name)
+            return String(format: NSLocalizedString("Please create a subaccount for \"%@\" and select it", comment: ""), name)
         }
     }
 }
@@ -166,7 +166,7 @@ extension AccountWithBalanceError: LocalizedError {
         switch self {
         
         case .emptyAccountName:
-            return NSLocalizedString("Please enter account name",comment: "")
+            return NSLocalizedString("Please enter the account name",comment: "")
         case .emptyBalance:
             return NSLocalizedString("Please enter balance",comment: "")
         case .emptyCreditLimit:
@@ -174,7 +174,7 @@ extension AccountWithBalanceError: LocalizedError {
         case .emptyExchangeRate:
             return NSLocalizedString("Please enter exchange rate",comment: "")
         case .canNotFindBeboreAccountingPeriodAccount:
-            return NSLocalizedString("Can not find \"Bebore accounting period\" account. Please contact to support",comment: "")
+            return NSLocalizedString("Can not find \"Bebore accounting period\" account. Please contact support",comment: "")
         case .notSupported:
             return NSLocalizedString("Not supported",comment: "")
         }

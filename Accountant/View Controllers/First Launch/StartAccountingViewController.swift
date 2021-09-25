@@ -20,13 +20,13 @@ class StartAccountingViewController: UIViewController, CurrencyReceiverDelegate 
     var currency: Currency?
     
     var workFlowTitleArray = [
-        NSLocalizedString("Please choose accounting start date. When you adding existing account, this date will be using automatically", comment: ""),
-        NSLocalizedString("Choose currecy for Income and Expense categories. This currency cannot be changed in the future", comment: ""),
+        NSLocalizedString("Please choose an accounting start date. This date will be automatically used for your future accounts", comment: ""),
+        NSLocalizedString("Choose currecy for Income and Expenses categories. This currency cannot be changed in the future", comment: ""),
         NSLocalizedString("Please add income categories", comment: ""),
         NSLocalizedString("Please add expense categories", comment: ""),
         NSLocalizedString("Please add Money accounts (Cash and bank cards)", comment: ""),
-        NSLocalizedString("Please add debtors. Debtors also include deposits", comment: ""),
-        NSLocalizedString("Please add credits. Credit limit on card credit are automatically added to the credits", comment: "")]
+        NSLocalizedString("Please add debtors. Debtors also include bank deposits", comment: ""),
+        NSLocalizedString("Please add credits. Credit card limits are automatically added to credits", comment: "")]
     
     let mainView : UIView = {
         let view = UIView()

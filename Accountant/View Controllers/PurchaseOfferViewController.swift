@@ -14,13 +14,13 @@ final class PurchaseOfferViewController: UIViewController {
     
     let descriptionArray = [ ("♾", "Unlimited number of accounts and categories"),
                              ("✔", "Subcategories. Create income and expense strucrure"),
-                             ("₴＄€", "Create account in currencies different from accounting currency"),
+                             ("₴＄€", "Account creation in currencies different from accounting currency."),
                              ("🙈", "Hide accounts and categories"),
-                             ("🧾🧾", "Copy transaction"),
+                             ("🧾🧾", "Copy transactions"),
                              ("🔒", "Security"),
-                             ("📤", "Export accounts/categories and transactions to the file"),
+                             ("📤", "Export of accounts/categories and transactions"),
                              //("📥", "Import accounts/categories and transactions from the file"),
-                             ("⚠️", "No advertising")]
+                             ("⚠️", "No ads")]
     
     let titleLabel: UILabel = {
         let titleLabel = UILabel()

@@ -27,7 +27,7 @@ enum AccountSubType : Int16 {
 
 enum BaseAccounts : String, CaseIterable {
     case income = "Income"
-    case expense = "Expense"
+    case expense = "Expenses"
     case money = "Money"
     case credits = "Credits"
     case debtors = "Debtors"

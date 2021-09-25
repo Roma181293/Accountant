@@ -63,7 +63,7 @@ class BiometricAuthViewController: UIViewController {
         var error: NSError?
         if context.canEvaluatePolicy(.deviceOwnerAuthentication, error: &error) {
             biometryAuthButton.isHidden = true
-            let reason = NSLocalizedString("Authentication is required to open the app", comment: "")
+            let reason = NSLocalizedString("to activate", comment: "")
             context.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: reason ) { success, error in
                 if success {
                     // Move to the main thread because a state update triggers UI changes.

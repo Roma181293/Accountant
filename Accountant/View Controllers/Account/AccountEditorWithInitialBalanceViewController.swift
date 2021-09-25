@@ -97,7 +97,7 @@ class AccountEditorWithInitialBalanceViewController: UIViewController, UIScrollV
     
     let stepLabel: UILabel = {
         let label = UILabel()
-        label.text = NSLocalizedString("Step: 1", comment: "")
+        label.text = NSLocalizedString("Step 1", comment: "")
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()

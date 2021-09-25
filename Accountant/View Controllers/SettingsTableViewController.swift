@@ -17,7 +17,7 @@ enum SettingsDataSource: String, CaseIterable{
     case auth = "Auth"
     case envirement = "Envirement"
     case accountingCurrency = "Accounting currency"
-    case accountsManager = "Accounts manager"
+    case accountsManager = "Account manager"
     case importAccounts = "Import Account List"
     case importTransactions = "Import Transaction List"
     case exportAccounts = "Share Account List"

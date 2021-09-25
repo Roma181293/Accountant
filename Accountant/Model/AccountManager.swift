@@ -15,7 +15,7 @@ class AccountManager {
         let reservedAccountNames = [
             //EN
             "Income"
-            ,"Expense"
+            ,"Expenses"
             ,"Capital"
             ,"Money"
             ,"Debtors"

@@ -60,7 +60,7 @@ class ConfigureAnalyticsViewController: UIViewController {
     
     let dateIntervalLabel: UILabel = {
         let label = UILabel()
-        label.text = NSLocalizedString("Date interval", comment: "")
+        label.text = NSLocalizedString("Time interval", comment: "")
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         return label

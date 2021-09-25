@@ -437,7 +437,7 @@ extension ComplexTransactionEditorViewController: UITableViewDelegate, UITableVi
         case creditTableView:
             numberOfRows = items.filter({$0.type == AccounttingMethod.credit.rawValue}).count
         default:
-            let alert = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("Please contact to support. Can not find external table view to count number of rows", comment: ""), preferredStyle: .alert)
+            let alert = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("Please contact support. Cannot find external table view to count the number of rows", comment: ""), preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default))
             self.present(alert, animated: true, completion: nil)
         }
@@ -456,7 +456,7 @@ extension ComplexTransactionEditorViewController: UITableViewDelegate, UITableVi
             cell = tableView.dequeueReusableCell(withIdentifier: Constants.Cell.transactionItemTableViewCell, for: indexPath) as! TransactionItemTableViewCell
             cell.configureCell(for: items.filter({$0.type == AccounttingMethod.credit.rawValue})[indexPath.row], with: self)
         default:
-            let alert = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("Please contact to support. Can not find external table view to add cells", comment: ""), preferredStyle: .alert)
+            let alert = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("Please contact support. Cannot find external table view to add cells", comment: ""), preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default))
             self.present(alert, animated: true, completion: nil)
         }
@@ -479,14 +479,14 @@ extension ComplexTransactionEditorViewController: UITableViewDelegate, UITableVi
             transactionItemToRemove = items.filter({$0.type == AccounttingMethod.credit.rawValue})[indexPath.row]
             transactionItemsCount = items.filter({$0.type == AccounttingMethod.credit.rawValue}).count
         default:
-            let alert = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("Please contact to support. Can not find external table view to remove transaction item", comment: ""), preferredStyle: .alert)
+            let alert = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("Please contact support. Cannot find external table view to delete transaction item", comment: ""), preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default))
             self.present(alert, animated: true, completion: nil)
         }
         
         guard transactionItemsCount > 1 else {return nil}
         
-        let delete = UIContextualAction(style: .normal, title: NSLocalizedString("Remove",comment: "")) { (contAct, view, complete) in
+        let delete = UIContextualAction(style: .normal, title: NSLocalizedString("Delete",comment: "")) { (contAct, view, complete) in
             guard let transactionItemToRemove = transactionItemToRemove else {return}
             self.transaction?.removeFromItems(transactionItemToRemove)
             tableView.reloadData()
