@@ -14,7 +14,7 @@ final class PurchaseOfferViewController: UIViewController {
     
     let descriptionArray = [ ("♾", "Unlimited number of accounts and categories"),
                              ("✔", "Subcategories. Create income and expense strucrure"),
-                             ("₴＄€", "Account creation in currencies different from accounting currency."),
+                             ("₴＄€", "Account creation in currencies different from accounting currency"),
                              ("🙈", "Hide accounts and categories"),
                              ("🧾🧾", "Copy transactions"),
                              ("🔒", "Security"),

@@ -41,7 +41,7 @@
 "We create an associated credit account with your credit cards. Credit account \"%@\" already exists" = "Разом з кредитною картою ми створюємо пов'язаний кредитний рахунок, і цей рахунок \"%@\" вже існує";
 "You cannot hide \"%@\" account. Only accounts with 0 balance can be hidden" = "Не можливо приховати рахунок \"%@\". Лише рахунки з нульовим балансом можна приховати";
 "You have a transaction in the same currency, but amounts in From:Account and To:Account are not matching" = "Ви маєте транзакцію в одній валюті. Але сума З:Рахунку не співпадає з сумою До:Рахунку";
-"A subscription is automatically renewed unless you cancel it at least 24 hours before the end of the billing cycle. The renewal fee will be charged on the day before the end of the current billing cycle. You can manage or cancel subscription in your iTunes account settings" = "Підписка подовжується автоматично, якщо ви не скасували її принаймі за 24 години до завершення поточного періоду. Оплата за подовження буде списано протягом доби, що передує даті завершення поточного періоду. Керувати підпискою та скасувати її можна в налаштуваннях облікового запису iTunes.";
+"A subscription is automatically renewed unless you cancel it at least 24 hours before the end of the billing cycle. The renewal fee will be charged on the day before the end of the current billing cycle. You can manage or cancel subscription in your iTunes account settings" = "Підписка подовжується автоматично, якщо ви не скасували її принаймі за 24 години до завершення поточного періоду. Оплата за подовження буде списано протягом доби, що передує даті завершення поточного періоду. Керувати підпискою та скасувати її можна в налаштуваннях облікового запису iTunes";
 "after" = "після";
 "Discount" = "Знижка";
 "for free" = "безкоштовно";
@@ -95,9 +95,9 @@
 "Type:" = "Тип:";
 "Create account" = "Створити рахунок";
 "Multicurrency" = "Багатовалютний";
-"This value is subtracted from the total amount and pie chart.\nAccount amount cannot be less than zero.\nPlease check transactions on this account." = "Це значення виключено з загальної суми та діаграми.\nСума по рахунку не може приймати значення менше нуля.\nБудь ласка перевірте операції з цим рахунком";
+"This value is subtracted from the total amount and pie chart.\nAccount amount cannot be less than zero.\nPlease check transactions on this account" = "Це значення виключено з загальної суми та діаграми.\nСума по рахунку не може приймати значення менше нуля.\nБудь ласка перевірте операції з цим рахунком";
 "Exchange rate updated: %@" = "Курс оновлено: %@";
-"This value is subtracted from the total amount and pie chart.\nCategory amount cannot be less than zero.\nPlease check transactions on this category." = "Це значення виключено з загальної суми та діаграми.\nСума по категорії не може приймати значення менше нуля.\nБудь ласка перевірте операції з цією категорією";
+"This value is subtracted from the total amount and pie chart.\nCategory amount cannot be less than zero.\nPlease check transactions on this category" = "Це значення виключено з загальної суми та діаграми.\nСума по категорії не може приймати значення менше нуля.\nБудь ласка перевірте операції з цією категорією";
 "Analytics" = "Аналітика";
 "0-9" = "0-9";
 "9-0" = "9-0";
@@ -156,7 +156,7 @@
 "Share Account List" = "Поділитися списком рахунків";
 "Share Transaction List" = "Поділитися списком операцій";
 "Terms of use" = "Умови використання";
-"Account creation in currencies different from accounting currency." = "Створення рахунків у валютах відмінних від валюти обліку";
+"Account creation in currencies different from accounting currency" = "Створення рахунків у валютах відмінних від валюти обліку";
 "Copy transactions" = "Копіюйте операції";
 "Export of accounts/categories and transactions" = "Експорт рахунків/категорій і операцій";
 "Hide accounts and categories" = "Приховування рахунків і категорій";

@@ -77,8 +77,8 @@ struct Constants {
     }
     
     struct URL {
-        static let privacyPolicy = "https://www.apple.com"
-        static let termsOfUse = "https://www.tsn.ua"
+        static let privacyPolicy = "https://github.com/Roma181293/My-Budget/blob/main/Privacy%20Policy.pdf"
+        static let termsOfUse = "https://github.com/Roma181293/My-Budget/blob/main/Terms%20Of%20Use.pdf"
     }
     
     struct Size {

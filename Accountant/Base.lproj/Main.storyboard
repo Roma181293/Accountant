@@ -1030,7 +1030,9 @@
                                     <constraint firstAttribute="width" constant="98" id="EMI-1F-NtZ"/>
                                     <constraint firstAttribute="height" constant="98" id="ZdY-mJ-qVE"/>
                                 </constraints>
-                                <state key="normal" image="touchid" catalog="system"/>
+                                <state key="normal">
+                                    <imageReference key="image" image="touchid" catalog="system" symbolScale="large"/>
+                                </state>
                                 <connections>
                                     <action selector="biometryAuthentication" destination="lXa-lN-w01" eventType="touchUpInside" id="jhq-6U-7n4"/>
                                 </connections>
