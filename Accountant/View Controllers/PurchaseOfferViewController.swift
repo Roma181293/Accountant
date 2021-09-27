@@ -25,7 +25,7 @@ final class PurchaseOfferViewController: UIViewController {
     let titleLabel: UILabel = {
         let titleLabel = UILabel()
         titleLabel.textAlignment = .center
-        titleLabel.text = "Accountant".uppercased()
+        titleLabel.text = "MyBudget"
         titleLabel.textColor = UIColor.label
         titleLabel.font = UIFont.boldSystemFont(ofSize: 20.0)
         titleLabel.translatesAutoresizingMaskIntoConstraints = false

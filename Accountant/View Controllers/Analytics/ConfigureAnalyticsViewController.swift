@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import GoogleMobileAds
+//import GoogleMobileAds
 import Purchases
 
 class ConfigureAnalyticsViewController: UIViewController {
@@ -20,7 +20,7 @@ class ConfigureAnalyticsViewController: UIViewController {
     var sortCategoryBy : SortCategoryType = .aToz
     var dateComponent : Calendar.Component = .day
     
-    var interstitial: GADInterstitialAd?
+//    var interstitial: GADInterstitialAd?
     
     private var dateInterval : DateInterval! {
         didSet {
@@ -169,7 +169,7 @@ class ConfigureAnalyticsViewController: UIViewController {
         
         reloadProAccessData()
         
-        interstitial?.fullScreenContentDelegate = analyticsViewController
+//        interstitial?.fullScreenContentDelegate = analyticsViewController
       
         addMainView()
         configureSegmentedControls()
@@ -348,10 +348,11 @@ class ConfigureAnalyticsViewController: UIViewController {
         DispatchQueue.main.asyncAfter(deadline: DispatchTime(uptimeNanoseconds: 25), execute:{
             switch UserProfile.whatPreContentShowInView(.configureAnalytics) {
             case .add:
-                if let interstitial = self.interstitial {
-                    interstitial.present(fromRootViewController: self)
-                    self.dismiss(animated: true, completion: nil)
-                }
+                break
+//                if let interstitial = self.interstitial {
+//                    interstitial.present(fromRootViewController: self)
+//                    self.dismiss(animated: true, completion: nil)
+//                }
             case .offer:
                 let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
                 let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.purchaseOfferViewController) as! PurchaseOfferViewController

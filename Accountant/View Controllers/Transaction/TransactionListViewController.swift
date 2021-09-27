@@ -8,7 +8,7 @@
 
 import UIKit
 import CoreData
-import GoogleMobileAds
+//import GoogleMobileAds
 import Purchases
 
 class TransactionListViewController: UIViewController{
@@ -32,7 +32,7 @@ class TransactionListViewController: UIViewController{
         return frc
     }()
     
-    private var interstitial: GADInterstitialAd?
+//    private var interstitial: GADInterstitialAd?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -102,16 +102,16 @@ class TransactionListViewController: UIViewController{
     }
     
     func createAd() {
-        let request = GADRequest()
-        GADInterstitialAd.load(withAdUnitID:Constants.APIKey.googleAD,
-                               request: request,
-                               completionHandler: { [self] ad, error in
-                                if let error = error {
-                                    print("Failed to load interstitial ad with error: \(error.localizedDescription)")
-                                    return
-                                }
-                                interstitial = ad
-                               })
+//        let request = GADRequest()
+//        GADInterstitialAd.load(withAdUnitID:Constants.APIKey.googleAD,
+//                               request: request,
+//                               completionHandler: { [self] ad, error in
+//                                if let error = error {
+//                                    print("Failed to load interstitial ad with error: \(error.localizedDescription)")
+//                                    return
+//                                }
+//                                interstitial = ad
+//                               })
     }
     
     @objc func showPurchaseOfferVC() {
@@ -136,7 +136,7 @@ class TransactionListViewController: UIViewController{
     @objc func addTransaction(_ sender:UIButton!){
         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         let transactionEditorVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.simpleTransactionEditorViewController) as! SimpleTransactionEditorViewController
-        transactionEditorVC.interstitial = interstitial
+//        transactionEditorVC.interstitial = interstitial
         transactionEditorVC.isUserHasPaidAccess = isUserHasPaidAccess
         self.navigationController?.pushViewController(transactionEditorVC, animated: true)
     }
@@ -248,7 +248,7 @@ extension TransactionListViewController: UITableViewDelegate, UITableViewDataSou
         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         let transactioEditorVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.simpleTransactionEditorViewController) as! SimpleTransactionEditorViewController
         transactioEditorVC.transaction = fetchedResultsController.object(at: indexPath) as Transaction
-        transactioEditorVC.interstitial = interstitial
+//        transactioEditorVC.interstitial = interstitial
         transactioEditorVC.isUserHasPaidAccess = isUserHasPaidAccess
         self.navigationController?.pushViewController(transactioEditorVC, animated: true)
         

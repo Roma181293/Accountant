@@ -7,14 +7,14 @@
 
 import UIKit
 import CoreData
-import GoogleMobileAds
+//import GoogleMobileAds
 import Purchases
 
-class SimpleTransactionEditorViewController: UIViewController, GADFullScreenContentDelegate {
+class SimpleTransactionEditorViewController: UIViewController {//}, GADFullScreenContentDelegate {
     
     weak var delegate : UIViewController?
     
-    var interstitial: GADInterstitialAd?
+//    var interstitial: GADInterstitialAd?
     
     var isUserHasPaidAccess = false
     
@@ -257,7 +257,7 @@ class SimpleTransactionEditorViewController: UIViewController, GADFullScreenCont
         
         
         reloadProAccessData()
-        interstitial?.fullScreenContentDelegate = self
+//        interstitial?.fullScreenContentDelegate = self
         showPreContent()
         initialConfigureUI()
         
@@ -472,9 +472,10 @@ class SimpleTransactionEditorViewController: UIViewController, GADFullScreenCont
             DispatchQueue.main.asyncAfter(deadline: DispatchTime(uptimeNanoseconds: 25), execute:{
                 switch UserProfile.whatPreContentShowInView(.transactionEditor) {
                 case .add:
-                    if let interstitial = self.interstitial {
-                        interstitial.present(fromRootViewController: self)
-                    }
+                    break
+//                    if let interstitial = self.interstitial {
+//                        interstitial.present(fromRootViewController: self)
+//                    }
                 case .offer:
                     let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
                     let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.purchaseOfferViewController) as! PurchaseOfferViewController

@@ -7,7 +7,7 @@
 
 import UIKit
 import Purchases
-import GoogleMobileAds
+//import GoogleMobileAds
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -21,7 +21,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Purchases.configure(withAPIKey: Constants.APIKey.revenueCat)
         
         //MARK:GOOGLE ADD initializing
-        GADMobileAds.sharedInstance().start(completionHandler: nil)
+//        GADMobileAds.sharedInstance().start(completionHandler: nil)
         
         //MARK: Loading exchange rates
         NetworkServices.loadCurrency(date: Date()) { (currencyHistoricalData, error) in

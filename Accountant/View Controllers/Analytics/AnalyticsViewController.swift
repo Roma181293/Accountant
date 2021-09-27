@@ -10,10 +10,10 @@
 import UIKit
 import Charts
 import CoreData
-import GoogleMobileAds
+//import GoogleMobileAds
 import Purchases
 
-class AnalyticsViewController: UIViewController, UIScrollViewDelegate, GADFullScreenContentDelegate{
+class AnalyticsViewController: UIViewController, UIScrollViewDelegate {//}, GADFullScreenContentDelegate{
     
     @IBOutlet weak var segmentedControl: UISegmentedControl!
     @IBOutlet weak var pageControl: UIPageControl!
@@ -26,7 +26,7 @@ class AnalyticsViewController: UIViewController, UIScrollViewDelegate, GADFullSc
     
     unowned var analyticsTableViewController: AnalyticsTableViewController!
     
-    private var interstitial: GADInterstitialAd?
+//    private var interstitial: GADInterstitialAd?
     
     private var slides:[UIView] = []
     
@@ -111,16 +111,16 @@ class AnalyticsViewController: UIViewController, UIScrollViewDelegate, GADFullSc
     }
     
     func createAd() {
-        let request = GADRequest()
-        GADInterstitialAd.load(withAdUnitID: Constants.APIKey.googleAD,
-                               request: request,
-                               completionHandler: { [self] ad, error in
-                                if let error = error {
-                                    print("Failed to load interstitial ad with error: \(error.localizedDescription)")
-                                    return
-                                }
-                                interstitial = ad
-                               })
+//        let request = GADRequest()
+//        GADInterstitialAd.load(withAdUnitID: Constants.APIKey.googleAD,
+//                               request: request,
+//                               completionHandler: { [self] ad, error in
+//                                if let error = error {
+//                                    print("Failed to load interstitial ad with error: \(error.localizedDescription)")
+//                                    return
+//                                }
+//                                interstitial = ad
+//                               })
     }
     
     func setValueToDateInterval() {
@@ -276,7 +276,7 @@ class AnalyticsViewController: UIViewController, UIScrollViewDelegate, GADFullSc
             vc.transferedDateInterval = dateInterval
             vc.dateComponent = dateComponent
             vc.sortCategoryBy = sortCategoryBy
-            vc.interstitial = interstitial
+//            vc.interstitial = interstitial
         }
         else if segue.identifier == Constants.Segue.goToAnalyticsTVC {
             analyticsTableViewController = segue.destination as? AnalyticsTableViewController
