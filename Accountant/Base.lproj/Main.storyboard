@@ -124,27 +124,6 @@
             </objects>
             <point key="canvasLocation" x="-6042" y="2690"/>
         </scene>
-        <!--Settings-->
-        <scene sceneID="tdZ-2I-h6a">
-            <objects>
-                <tableViewController storyboardIdentifier="UserProfileTVC_ID" id="Otk-76-Fkk" customClass="SettingsTableViewController" customModule="Accountant" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="OMq-FX-eM4">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <connections>
-                            <outlet property="dataSource" destination="Otk-76-Fkk" id="OnG-we-z3H"/>
-                            <outlet property="delegate" destination="Otk-76-Fkk" id="IXa-mP-NZm"/>
-                        </connections>
-                    </tableView>
-                    <tabBarItem key="tabBarItem" title="Settings" image="gear" catalog="system" id="LaP-YD-quG"/>
-                    <navigationItem key="navigationItem" id="AdS-RO-aOB"/>
-                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="7qH-xG-3L3" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-1214.4927536231885" y="3521.6517857142858"/>
-        </scene>
         <!--Import Transaction View Controller-->
         <scene sceneID="zoc-Cq-2Ah">
             <objects>
@@ -319,7 +298,7 @@
                         <segue destination="xRa-eE-QKN" kind="relationship" relationship="viewControllers" id="Qeu-9O-znX"/>
                         <segue destination="cG4-t1-4hJ" kind="relationship" relationship="viewControllers" id="oIY-Rn-HXF"/>
                         <segue destination="iUb-tQ-GKn" kind="relationship" relationship="viewControllers" id="ICj-Hx-8KB"/>
-                        <segue destination="Otk-76-Fkk" kind="relationship" relationship="viewControllers" id="HRU-E3-oV6"/>
+                        <segue destination="wC1-ZT-jvo" kind="relationship" relationship="viewControllers" id="SMP-gR-l6t"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Cyv-CC-8bN" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -633,7 +612,7 @@
                                 </connections>
                             </containerView>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="08D-Cc-lzg">
-                                <rect key="frame" x="92" y="96" width="230" height="32"/>
+                                <rect key="frame" x="92" y="101" width="230" height="32"/>
                                 <segments>
                                     <segment title="Money"/>
                                     <segment title="Debtors"/>
@@ -656,7 +635,7 @@
                             <constraint firstItem="8rl-2V-0Em" firstAttribute="centerY" secondItem="Z76-aL-6fa" secondAttribute="centerY" constant="13" id="QSq-Sz-6Ql"/>
                             <constraint firstItem="Vq5-It-EGY" firstAttribute="leading" secondItem="gC3-wk-Nz3" secondAttribute="leading" id="STt-lA-JZc"/>
                             <constraint firstItem="8rl-2V-0Em" firstAttribute="leading" secondItem="gC3-wk-Nz3" secondAttribute="leading" id="ZRW-0N-zXZ"/>
-                            <constraint firstItem="08D-Cc-lzg" firstAttribute="top" secondItem="gC3-wk-Nz3" secondAttribute="top" constant="8" id="hZG-hr-uMi"/>
+                            <constraint firstItem="08D-Cc-lzg" firstAttribute="top" secondItem="gC3-wk-Nz3" secondAttribute="top" constant="13" id="hZG-hr-uMi"/>
                             <constraint firstItem="AoU-6U-0Yh" firstAttribute="top" secondItem="08D-Cc-lzg" secondAttribute="bottom" id="mRT-Vy-GlC"/>
                             <constraint firstItem="gC3-wk-Nz3" firstAttribute="trailing" secondItem="Vq5-It-EGY" secondAttribute="trailing" id="vzk-Zt-fsB"/>
                             <constraint firstItem="gC3-wk-Nz3" firstAttribute="trailing" secondItem="AoU-6U-0Yh" secondAttribute="trailing" id="wB2-dE-ytZ"/>
@@ -674,6 +653,22 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2VD-mu-5f9" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-1217" y="1892"/>
+        </scene>
+        <!--Settings-->
+        <scene sceneID="kR6-nn-akj">
+            <objects>
+                <viewController storyboardIdentifier="SettingsVC_ID" id="wC1-ZT-jvo" customClass="SettingsViewController" customModule="Accountant" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="GEb-kv-c9n">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="7dg-EV-TCH"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Settings" image="gear" catalog="system" id="xhr-jt-1XU"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="7DP-bd-aI9" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1213" y="3466"/>
         </scene>
         <!--Analytics-->
         <scene sceneID="MJu-LE-W7i">

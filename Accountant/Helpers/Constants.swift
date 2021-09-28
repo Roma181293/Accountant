@@ -42,7 +42,7 @@ struct Constants {
         static let analyticsTableViewController = "AnalyticsTVC_ID"
         static let configureAnalyticsViewController = "ConfigureAnalyticsVC_ID"
         
-        static let settingsTableViewController = "UserProfileTVC_ID"
+        static let settingsViewController = "SettingsVC_ID"
         static let subscriptionsStatusViewController = "SubscriptionsStatusVC_ID"
     }
     

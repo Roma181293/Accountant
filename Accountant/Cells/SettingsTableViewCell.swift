@@ -11,7 +11,7 @@ import LocalAuthentication
 class SettingsTableViewCell: UITableViewCell {
     
     var dataItem: SettingsDataSource!
-    var delegate: SettingsTableViewController!
+    var delegate: SettingsViewController!
     
     let iconImangeView: UIImageView = {
         let imageView  = UIImageView()
@@ -61,7 +61,7 @@ class SettingsTableViewCell: UITableViewCell {
         accessoryType = .none
     }
     
-    func configureCell(for dataItem: SettingsDataSource, with delegate: SettingsTableViewController) {
+    func configureCell(for dataItem: SettingsDataSource, with delegate: SettingsViewController) {
         
         self.dataItem = dataItem
         

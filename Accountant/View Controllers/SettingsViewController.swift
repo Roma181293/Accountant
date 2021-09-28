@@ -1,5 +1,5 @@
 //
-//  UserProfileTableViewController.swift
+//  SettingsViewController.swift
 //  Accounting
 //
 //  Created by Roman Topchii on 16.04.2020.
@@ -26,7 +26,7 @@ enum SettingsDataSource: String, CaseIterable{
     case privacyPolicy = "Privacy policy"
 }
 
-class SettingsTableViewController: UITableViewController {
+class SettingsViewController: UIViewController {
     
     var isUserHasPaidAccess = false
     var proAccessExpirationDate: Date?
@@ -39,14 +39,34 @@ class SettingsTableViewController: UITableViewController {
     var isImportAccounts: Bool = true
     
     
+    let tableView: UITableView = {
+        let tableView = UITableView()
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        return tableView
+    }()
+    
+    let versionLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .systemGray
+        label.font = UIFont.systemFont(ofSize: 11)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.tableFooterView = UIView(frame: .zero)
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.register(SettingsTableViewCell.self, forCellReuseIdentifier: Constants.Cell.settingsCell)
+
+        addMainView()
+        getAppVersion()
+        
         if let  environment = CoreDataStack.shared.activeEnviroment() {
             self.environment = environment
         }
         
-        tableView.register(SettingsTableViewCell.self, forCellReuseIdentifier: Constants.Cell.settingsCell)
         
         //MARK:- adding NotificationCenter observers
         NotificationCenter.default.addObserver(self, selector: #selector(self.environmentDidChange), name: .environmentDidChange, object: nil)
@@ -66,30 +86,110 @@ class SettingsTableViewController: UITableViewController {
         NotificationCenter.default.removeObserver(self, name: .receivedProAccessData, object: nil)
     }
     
+    private func addMainView() {
+        view.addSubview(versionLabel)
+        versionLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        versionLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -5).isActive = true
+        view.addSubview(tableView)
+        tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+        tableView.bottomAnchor.constraint(equalTo: versionLabel.topAnchor, constant: -5).isActive = true
+    }
+    
+    private func getAppVersion() {
+        guard let dictionary = Bundle.main.infoDictionary,
+              let version = dictionary["CFBundleShortVersionString"] as? String,
+              let bundle = dictionary["CFBundleVersion"] as? String
+        else {return}
+        
+        versionLabel.text = "\(NSLocalizedString("App version", comment: "")) \(version) (\(bundle))"
+    }
+    
+    @objc func environmentDidChange(){
+        if let  environment = CoreDataStack.shared.activeEnviroment() {
+            self.environment = environment
+            print(environment.rawValue)
+        }
+        context = CoreDataStack.shared.persistentContainer.viewContext
+        refreshDataSet()
+        tableView.reloadData()
+    }
+    
+    @objc func reloadProAccessData() {
+        Purchases.shared.purchaserInfo { (purchaserInfo, error) in
+            if let error = error {
+                self.errorHandler(error: error)
+            }
+            else {
+                if purchaserInfo?.entitlements.all["pro"]?.isActive == true {
+                    self.isUserHasPaidAccess = true
+                    self.proAccessExpirationDate = purchaserInfo?.expirationDate(forEntitlement: "pro")
+                }
+                else if purchaserInfo?.entitlements.all["pro"]?.isActive == false {
+                    self.isUserHasPaidAccess = false
+                    self.proAccessExpirationDate = nil
+                }
+            }
+            self.refreshDataSet()
+            self.tableView.reloadData()
+        }
+    }
+    
+    
+    func refreshDataSet() {
+        dataSource.removeAll()
+        for item in SettingsDataSource.allCases {
+            if (item == .envirement && UserProfile.isAppLaunchedBefore() == false)
+                || (item == .startAccounting && UserProfile.isAppLaunchedBefore() == true)
+                || (item == .auth && isUserHasPaidAccess == false) {}
+            else {
+                dataSource.append(item)
+            }
+        }
+    }
+    
+    func showPurchaseOfferVC() {
+        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.purchaseOfferViewController) as! PurchaseOfferViewController
+        self.navigationController?.present(vc, animated: true, completion: nil)
+    }
+    
+    func errorHandler(error: Error) {
+        var title = NSLocalizedString("Error", comment: "")
+        let alert = UIAlertController(title: title, message: error.localizedDescription, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default))
+        self.present(alert, animated: true, completion: nil)
+    }
+}
+
+
+
+extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
     
     // MARK: - Table view data source
-    override func numberOfSections(in tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
     }
     
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         return dataSource.count
     }
     
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: Constants.Cell.settingsCell, for: indexPath) as! SettingsTableViewCell
         cell.configureCell(for: dataSource[indexPath.row] , with: self)
         
         return cell
     }
     
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 44
     }
     
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         
         switch dataSource[indexPath.row] {
@@ -182,65 +282,9 @@ class SettingsTableViewController: UITableViewController {
         }
         tableView.deselectRow(at: indexPath, animated: true)
     }
-    
-    @objc func environmentDidChange(){
-        if let  environment = CoreDataStack.shared.activeEnviroment() {
-            self.environment = environment
-            print(environment.rawValue)
-        }
-        context = CoreDataStack.shared.persistentContainer.viewContext
-        refreshDataSet()
-        tableView.reloadData()
-    }
-    
-    @objc func reloadProAccessData() {
-        Purchases.shared.purchaserInfo { (purchaserInfo, error) in
-            if let error = error {
-                self.errorHandler(error: error)
-            }
-            else {
-                if purchaserInfo?.entitlements.all["pro"]?.isActive == true {
-                    self.isUserHasPaidAccess = true
-                    self.proAccessExpirationDate = purchaserInfo?.expirationDate(forEntitlement: "pro")
-                }
-                else if purchaserInfo?.entitlements.all["pro"]?.isActive == false {
-                    self.isUserHasPaidAccess = false
-                    self.proAccessExpirationDate = nil
-                }
-            }
-            self.refreshDataSet()
-            self.tableView.reloadData()
-        }
-    }
-    
-    
-    func refreshDataSet() {
-        dataSource.removeAll()
-        for item in SettingsDataSource.allCases {
-            if (item == .envirement && UserProfile.isAppLaunchedBefore() == false)
-                || (item == .startAccounting && UserProfile.isAppLaunchedBefore() == true)
-                || (item == .auth && isUserHasPaidAccess == false) {}
-            else {
-                dataSource.append(item)
-            }
-        }
-    }
-    
-    func showPurchaseOfferVC() {
-        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.purchaseOfferViewController) as! PurchaseOfferViewController
-        self.navigationController?.present(vc, animated: true, completion: nil)
-    }
-    
-    func errorHandler(error: Error) {
-        var title = NSLocalizedString("Error", comment: "")
-        let alert = UIAlertController(title: title, message: error.localizedDescription, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default))
-        self.present(alert, animated: true, completion: nil)
-    }
 }
 
-extension SettingsTableViewController {
+extension SettingsViewController {
     func shareTXTFile (fileName: String, data : String) {
         let docDirectory = try? FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
         if let fileURL = docDirectory?.appendingPathComponent(fileName).appendingPathExtension("txt") {
@@ -258,7 +302,7 @@ extension SettingsTableViewController {
     }
 }
 
-extension SettingsTableViewController: UIDocumentPickerDelegate {
+extension SettingsViewController: UIDocumentPickerDelegate {
     
     public func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
         guard controller.documentPickerMode == .import, let url = urls.first, let data = try? String(contentsOf: url)

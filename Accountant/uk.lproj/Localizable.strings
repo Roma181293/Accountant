@@ -166,13 +166,14 @@
 "Subcategories. Create income and expense strucrure" = "Підкатегорії. Створення структури доходів і витрат";
 "Unlimited number of accounts, categories and subcategories" = "Необмежена кількість рахунків, категорій та підкатегорій";
 "Account" = "Рахунок";
-"Amount" = "Сума";ç
+"Amount" = "Сума";
 "Credit limit:" = "Кредитний ліміт:";
 "Get PRO access" = "Отримати PRO доступ";
 "PRO access" = "PRO доступ";
 "Test mode" = "Тестовий режим";
 "till" = "до";
 "Export of transactions" = "Експорт операцій";
+"App version" = "Версія";
 "AED" = "Дирхам ОАЕ";
 "AMD" = "Вірменський драм";
 "AUD" = "Австралійський долар";

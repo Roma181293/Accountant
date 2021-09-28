@@ -55,7 +55,7 @@
 		2B1FEB7B266EC39800BF53BD /* AnalyticsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1FEB78266EC39800BF53BD /* AnalyticsTableViewController.swift */; };
 		2B1FEB7C266EC39800BF53BD /* AnalyticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1FEB79266EC39800BF53BD /* AnalyticsViewController.swift */; };
 		2B1FEB8E266EC44600BF53BD /* ConfigureAnalyticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1FEB8D266EC44600BF53BD /* ConfigureAnalyticsViewController.swift */; };
-		2B1FEB98266EDE5000BF53BD /* SettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1FEB96266EDE5000BF53BD /* SettingsTableViewController.swift */; };
+		2B1FEB98266EDE5000BF53BD /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1FEB96266EDE5000BF53BD /* SettingsViewController.swift */; };
 		2B1FEBAC266EE19B00BF53BD /* ImportTransactionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1FEBAA266EE19B00BF53BD /* ImportTransactionViewController.swift */; };
 		2B1FEBB1266EE1D500BF53BD /* PreTrasaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1FEBB0266EE1D500BF53BD /* PreTrasaction.swift */; };
 		2B1FEBB6266EE45F00BF53BD /* PreTransactionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1FEBB5266EE45F00BF53BD /* PreTransactionTableViewCell.swift */; };
@@ -155,7 +155,7 @@
 		2B1FEB78266EC39800BF53BD /* AnalyticsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnalyticsTableViewController.swift; sourceTree = "<group>"; };
 		2B1FEB79266EC39800BF53BD /* AnalyticsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnalyticsViewController.swift; sourceTree = "<group>"; };
 		2B1FEB8D266EC44600BF53BD /* ConfigureAnalyticsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfigureAnalyticsViewController.swift; sourceTree = "<group>"; };
-		2B1FEB96266EDE5000BF53BD /* SettingsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsTableViewController.swift; sourceTree = "<group>"; };
+		2B1FEB96266EDE5000BF53BD /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		2B1FEBAA266EE19B00BF53BD /* ImportTransactionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImportTransactionViewController.swift; sourceTree = "<group>"; };
 		2B1FEBB0266EE1D500BF53BD /* PreTrasaction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreTrasaction.swift; sourceTree = "<group>"; };
 		2B1FEBB5266EE45F00BF53BD /* PreTransactionTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreTransactionTableViewCell.swift; sourceTree = "<group>"; };
@@ -284,7 +284,7 @@
 				2B1FEB50266D260100BF53BD /* Currency */,
 				2B1FEAA3266C368100BF53BD /* First Launch */,
 				2B1FEAB7266C3D7900BF53BD /* Transaction */,
-				2B1FEB96266EDE5000BF53BD /* SettingsTableViewController.swift */,
+				2B1FEB96266EDE5000BF53BD /* SettingsViewController.swift */,
 				2B1FEBAA266EE19B00BF53BD /* ImportTransactionViewController.swift */,
 				2B1FEB4B266D25EE00BF53BD /* PurchaseOfferViewController.swift */,
 				2B1407A726F5D49B00114B95 /* WebViewController.swift */,
@@ -703,7 +703,7 @@
 				2B1FEABC266C41C100BF53BD /* AccountsNameLocalisationManager.swift in Sources */,
 				2B1FEAFC266CB61000BF53BD /* CurrencyTableViewController.swift in Sources */,
 				2B1FEA3F266BEDD400BF53BD /* UserProfile.swift in Sources */,
-				2B1FEB98266EDE5000BF53BD /* SettingsTableViewController.swift in Sources */,
+				2B1FEB98266EDE5000BF53BD /* SettingsViewController.swift in Sources */,
 				2B1FEA4F266BEE6700BF53BD /* CurrencyHistoricalDataPB.swift in Sources */,
 				2B2E6D1D26DD960D004A9680 /* TransactionItemTextField.swift in Sources */,
 				2B3A260426E95C780033E746 /* AccessCheckManager.swift in Sources */,
@@ -941,6 +941,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 0.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = RT.MyBudget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -961,6 +962,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 0.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = RT.MyBudget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;

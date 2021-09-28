@@ -1,4 +1,11 @@
 
+
+/* Class = "UITabBarItem"; title = "Transactions"; ObjectID = "5Pq-3r-Hem"; */
+"5Pq-3r-Hem.title" = "Операції";
+
+/* Class = "UITabBarItem"; title = "Accounts"; ObjectID = "F5u-YS-bZZ"; */
+"F5u-YS-bZZ.title" = "Рахунки";
+
 /* Class = "UISegmentedControl"; 08D-Cc-lzg.segmentTitles[0] = "Money"; ObjectID = "08D-Cc-lzg"; */
 "08D-Cc-lzg.segmentTitles[0]" = "Гроші";
 
@@ -8,290 +15,8 @@
 /* Class = "UISegmentedControl"; 08D-Cc-lzg.segmentTitles[2] = "Creditors"; ObjectID = "08D-Cc-lzg"; */
 "08D-Cc-lzg.segmentTitles[2]" = "Борги";
 
-/* Class = "UILabel"; text = "99"; ObjectID = "0Bx-o9-jQG"; */
-"0Bx-o9-jQG.text" = "99";
-
-/* Class = "UILabel"; text = "Label"; ObjectID = "0CM-Hu-TnQ"; */
-"0CM-Hu-TnQ.text" = "Label";
-
-/* Class = "UILabel"; text = "Category:"; ObjectID = "20C-qB-Kmd"; */
-"20C-qB-Kmd.text" = "Категорія:";
-
-/* Class = "UIButton"; normalTitle = "0"; ObjectID = "27j-SG-RVF"; */
-"27j-SG-RVF.normalTitle" = "0";
-
-/* Class = "UIButton"; normalTitle = "1"; ObjectID = "2u2-vj-Iek"; */
-"2u2-vj-Iek.normalTitle" = "1";
-
-/* Class = "UILabel"; text = "To"; ObjectID = "4Bg-jh-rC4"; */
-"4Bg-jh-rC4.text" = "До";
-
-/* Class = "UILabel"; text = "Detail"; ObjectID = "4cl-Bc-pBu"; */
-"4cl-Bc-pBu.text" = "Detail";
-
-/* Class = "UILabel"; text = "To:"; ObjectID = "4qa-DQ-oEB"; */
-"4qa-DQ-oEB.text" = "До:";
-
-/* Class = "UITabBarItem"; title = "Transactions"; ObjectID = "5Pq-3r-Hem"; */
-"5Pq-3r-Hem.title" = "Операції";
-
 /* Class = "UITabBarItem"; title = "Analytics"; ObjectID = "6TN-tW-nfr"; */
 "6TN-tW-nfr.title" = "Аналітика";
-
-/* Class = "UIButton"; normalTitle = "2"; ObjectID = "6qV-9c-Gg2"; */
-"6qV-9c-Gg2.normalTitle" = "2";
-
-/* Class = "UITextField"; placeholder = "Name"; ObjectID = "6rG-eZ-dxc"; */
-"6rG-eZ-dxc.placeholder" = "Ім'я";
-
-/* Class = "UILabel"; text = "Label"; ObjectID = "7DJ-cL-1hF"; */
-"7DJ-cL-1hF.text" = "Label";
-
-/* Class = "UILabel"; text = "Currency:"; ObjectID = "7zs-jc-86W"; */
-"7zs-jc-86W.text" = "Валюта:";
-
-/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "85l-2h-mfd"; */
-"85l-2h-mfd.normalTitle" = "Button";
-
-/* Class = "UILabel"; text = "Sorted category by:"; ObjectID = "894-wx-n2t"; */
-"894-wx-n2t.text" = "Сортування:";
-
-/* Class = "UIButton"; normalTitle = "5"; ObjectID = "8NS-I5-aul"; */
-"8NS-I5-aul.normalTitle" = "5";
-
-/* Class = "UILabel"; text = "Label"; ObjectID = "8ZI-fh-XbX"; */
-"8ZI-fh-XbX.text" = "Label";
-
-/* Class = "UIButton"; normalTitle = "From: Account"; ObjectID = "93s-LU-hxr"; */
-"93s-LU-hxr.normalTitle" = "From: Account";
-
-/* Class = "UIButton"; normalTitle = "9"; ObjectID = "9H8-8y-eau"; */
-"9H8-8y-eau.normalTitle" = "9";
-
-/* Class = "UILabel"; text = "Date interval"; ObjectID = "AbF-e7-PoL"; */
-"AbF-e7-PoL.text" = "Часовий інтервал";
-
-/* Class = "UILabel"; text = "Expiration date"; ObjectID = "B3B-0O-G6f"; */
-"B3B-0O-G6f.text" = "Expiration date";
-
-/* Class = "UILabel"; text = "Type:"; ObjectID = "BYJ-cO-tgF"; */
-"BYJ-cO-tgF.text" = "Тип:";
-
-
-/* Class = "UILabel"; text = "Type:"; ObjectID = "Kat-ya-3Cr"; */
-"Kat-ya-3Cr.text" = "Тип";
-
-
-/* Class = "UIButton"; normalTitle = "Multicurrency"; ObjectID = "9d3-vf-M3w"; */
-"9d3-vf-M3w.normalTitle" = "Багатовалютний";
-
-
-/* Class = "UILabel"; text = "Label"; ObjectID = "D79-gx-SHd"; */
-"D79-gx-SHd.text" = "Label";
-
-/* Class = "UILabel"; text = "99"; ObjectID = "DkX-kz-Mul"; */
-"DkX-kz-Mul.text" = "99";
-
-/* Class = "UILabel"; text = "Please select start Accounting date. You cannot add any transaction before this date.And this value can't be changing in future. When you adding existing account, this date will be using automatically"; ObjectID = "DpJ-P7-0lD"; */
-"DpJ-P7-0lD.text" = "Будь ласка, виберіть дату початку обліку. Ви не можете додати жодної транзакції до цієї дати, і це значення не може змінюватися в майбутньому. Коли ви додаєте існуючий рахунок, ця дата використовуватиметься автоматично.";
-
-/* Class = "UILabel"; text = "From"; ObjectID = "E9z-D7-VY9"; */
-"E9z-D7-VY9.text" = "З";
-
-/* Class = "UITabBarItem"; title = "Accounts"; ObjectID = "F5u-YS-bZZ"; */
-"F5u-YS-bZZ.title" = "Рахунки";
-
-/* Class = "UILabel"; text = "Label"; ObjectID = "FeH-gJ-EXw"; */
-"FeH-gJ-EXw.text" = "Label";
-
-/* Class = "UILabel"; text = "Label"; ObjectID = "Fwo-1F-vpY"; */
-"Fwo-1F-vpY.text" = "Label";
-
-/* Class = "UILabel"; text = "Label"; ObjectID = "GHQ-gT-yHr"; */
-"GHQ-gT-yHr.text" = "Label";
-
-/* Class = "UILabel"; text = "Amount:"; ObjectID = "I0k-Qe-McI"; */
-"I0k-Qe-McI.text" = "Сума:";
-
-/* Class = "UIButton"; normalTitle = "7"; ObjectID = "IRX-tS-CG5"; */
-"IRX-tS-CG5.normalTitle" = "7";
-
-/* Class = "UISegmentedControl"; IVo-9M-yow.segmentTitles[0] = "Day"; ObjectID = "IVo-9M-yow"; */
-"IVo-9M-yow.segmentTitles[0]" = "День";
-
-/* Class = "UISegmentedControl"; IVo-9M-yow.segmentTitles[1] = "Week"; ObjectID = "IVo-9M-yow"; */
-"IVo-9M-yow.segmentTitles[1]" = "Тиждень";
-
-/* Class = "UISegmentedControl"; IVo-9M-yow.segmentTitles[2] = "Month"; ObjectID = "IVo-9M-yow"; */
-"IVo-9M-yow.segmentTitles[2]" = "Місяць";
-
-/* Class = "UILabel"; text = "Name"; ObjectID = "J65-F1-gUR"; */
-"J65-F1-gUR.text" = "Ім'я";
-
-/* Class = "UITextField"; placeholder = "Comment"; ObjectID = "Jm9-JM-r3h"; */
-"Jm9-JM-r3h.placeholder" = "Коментар";
-
-/* Class = "UILabel"; text = "Detail"; ObjectID = "K9v-7t-X3h"; */
-"K9v-7t-X3h.text" = "Detail";
-
-/* Class = "UIButton"; normalTitle = "8"; ObjectID = "KnL-wn-JIm"; */
-"KnL-wn-JIm.normalTitle" = "8";
-
-/* Class = "UILabel"; text = "Title"; ObjectID = "KwG-bz-aeg"; */
-"KwG-bz-aeg.text" = "Title";
-
-/* Class = "UITabBarItem"; title = "Settings"; ObjectID = "LaP-YD-quG"; */
-"LaP-YD-quG.title" = "Налаштування";
-
-/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "MD9-mE-MsC"; */
-"MD9-mE-MsC.normalTitle" = "Button";
-
-/* Class = "UINavigationItem"; title = "Budget"; ObjectID = "NOG-uW-vEG"; */
-"NOG-uW-vEG.title" = "Бюджет";
-
-/* Class = "UIButton"; normalTitle = "6"; ObjectID = "Npi-Cv-89n"; */
-"Npi-Cv-89n.normalTitle" = "6";
-
-/* Class = "UILabel"; text = "Step: 2"; ObjectID = "NwN-p0-5AZ"; */
-"NwN-p0-5AZ.text" = "Крок: 2";
-
-/* Class = "UILabel"; text = "Entitlement name"; ObjectID = "NwU-My-e2g"; */
-"NwU-My-e2g.text" = "Entitlement name";
-
-/* Class = "UILabel"; text = "Memo:"; ObjectID = "OVp-AA-P6R"; */
-"OVp-AA-P6R.text" = "Коментар:";
-
-/* Class = "UILabel"; text = "99.99.9999"; ObjectID = "PWP-Bo-OnT"; */
-"PWP-Bo-OnT.text" = "99.99.9999";
-
-/* Class = "UILabel"; text = "Time distribution:"; ObjectID = "R3h-TS-blX"; */
-"R3h-TS-blX.text" = "Розподіл часу:";
-
-/* Class = "UISegmentedControl"; Tmz-Ha-1oR.segmentTitles[0] = "Assets"; ObjectID = "Tmz-Ha-1oR"; */
-"Tmz-Ha-1oR.segmentTitles[0]" = "Активи";
-
-/* Class = "UISegmentedControl"; Tmz-Ha-1oR.segmentTitles[1] = "Liabilities"; ObjectID = "Tmz-Ha-1oR"; */
-"Tmz-Ha-1oR.segmentTitles[1]" = "Пасиви";
-
-/* Class = "UILabel"; text = "Label"; ObjectID = "TrI-9W-A10"; */
-"TrI-9W-A10.text" = "Label";
-
-/* Class = "UILabel"; text = "Label"; ObjectID = "Ufp-l5-G1J"; */
-"Ufp-l5-G1J.text" = "Label";
-
-/* Class = "UILabel"; text = "Label"; ObjectID = "VHi-fQ-p4O"; */
-"VHi-fQ-p4O.text" = "Label";
-
-/* Class = "UILabel"; text = "From"; ObjectID = "VrF-00-guE"; */
-"VrF-00-guE.text" = "З";
-
-/* Class = "UITextField"; placeholder = "Amount"; ObjectID = "YFK-C5-AYQ"; */
-"YFK-C5-AYQ.placeholder" = "Сума";
-
-/* Class = "UILabel"; text = "Title"; ObjectID = "atT-v7-58i"; */
-"atT-v7-58i.text" = "Title";
-
-/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "b4O-Vh-vLS"; */
-"b4O-Vh-vLS.normalTitle" = "Button";
-
-/* Class = "UILabel"; text = "Label"; ObjectID = "b84-je-vgA"; */
-"b84-je-vgA.text" = "Label";
-
-/* Class = "UIButton"; normalTitle = "3"; ObjectID = "cW3-kC-e97"; */
-"cW3-kC-e97.normalTitle" = "3";
-
-/* Class = "UITextField"; placeholder = "Balance"; ObjectID = "ccW-kg-W2G"; */
-"ccW-kg-W2G.placeholder" = "Баланс";
-
-/* Class = "UISegmentedControl"; dPH-mm-hft.segmentTitles[0] = "A-Z"; ObjectID = "dPH-mm-hft"; */
-"dPH-mm-hft.segmentTitles[0]" = "А-Я";
-
-/* Class = "UISegmentedControl"; dPH-mm-hft.segmentTitles[1] = "Z-A"; ObjectID = "dPH-mm-hft"; */
-"dPH-mm-hft.segmentTitles[1]" = "Я-А";
-
-/* Class = "UISegmentedControl"; dPH-mm-hft.segmentTitles[2] = "0-9"; ObjectID = "dPH-mm-hft"; */
-"dPH-mm-hft.segmentTitles[2]" = "0-9";
-
-/* Class = "UISegmentedControl"; dPH-mm-hft.segmentTitles[3] = "9-0"; ObjectID = "dPH-mm-hft"; */
-"dPH-mm-hft.segmentTitles[3]" = "9-0";
-
-/* Class = "UILabel"; text = "Currency:"; ObjectID = "dnN-hd-CVb"; */
-"dnN-hd-CVb.text" = "Валюта";
-
-/* Class = "UILabel"; text = "Label"; ObjectID = "eln-OW-Q4O"; */
-"eln-OW-Q4O.text" = "Label";
-
-/* Class = "UILabel"; text = "Name"; ObjectID = "g6I-8X-7kF"; */
-"g6I-8X-7kF.text" = "Ім'я";
-
-/* Class = "UILabel"; text = "Label"; ObjectID = "ghM-d1-3lX"; */
-"ghM-d1-3lX.text" = "Label";
-
-/* Class = "UILabel"; text = "The accounting currency is the currency used to account for transactions. The accounting currency is not necessarily the same as the local or transactional currency. Often the accounting currency has the same denomination as the local currency where you are located. If the accounting currency is different from transaction currency, it is necessary to enter amounts in both currencies in this transaction"; ObjectID = "hGT-U9-8EG"; */
-"hGT-U9-8EG.text" = "Валюта обліку - це валюта, що використовується для обліку операцій. Облікова валюта не обов’язково збігається з місцевою або валютою операції. Часто валюта обліку співпадає з місцевою валютою, де ви знаходитесь. Якщо валюта бухгалтерського обліку відрізняється від валюти операції, у цій операції необхідно ввести суми в обох валютах";
-
-/* Class = "UILabel"; text = "Label"; ObjectID = "ji6-yk-9MN"; */
-"ji6-yk-9MN.text" = "Label";
-
-/* Class = "UILabel"; text = "To"; ObjectID = "kaB-sW-HHP"; */
-"kaB-sW-HHP.text" = "До";
-
-/* Class = "UIButton"; normalTitle = "USD"; ObjectID = "kcs-Wp-Az1"; */
-"kcs-Wp-Az1.normalTitle" = "USD";
-
-/* Class = "UILabel"; text = "Label"; ObjectID = "ksu-iC-sxR"; */
-"ksu-iC-sxR.text" = "Label";
-
-/* Class = "UILabel"; text = "base/selected ExcRate"; ObjectID = "lZg-pb-VgO"; */
-"lZg-pb-VgO.text" = "base/selected ExcRate";
-
-/* Class = "UILabel"; text = "Title"; ObjectID = "lsf-hS-eOk"; */
-"lsf-hS-eOk.text" = "Title";
-
-/* Class = "UILabel"; text = "-"; ObjectID = "mLu-aZ-spJ"; */
-"mLu-aZ-spJ.text" = "-";
-
-/* Class = "UISegmentedControl"; oZO-SF-MSS.segmentTitles[0] = "New"; ObjectID = "oZO-SF-MSS"; */
-"oZO-SF-MSS.segmentTitles[0]" = "Новий";
-
-/* Class = "UISegmentedControl"; oZO-SF-MSS.segmentTitles[1] = "Existing"; ObjectID = "oZO-SF-MSS"; */
-"oZO-SF-MSS.segmentTitles[1]" = "Існуючий";
-
-/* Class = "UIButton"; normalTitle = "4"; ObjectID = "ocT-Dp-SHx"; */
-"ocT-Dp-SHx.normalTitle" = "4";
-
-/* Class = "UITextField"; placeholder = "Amount"; ObjectID = "q9R-P2-g2e"; */
-"q9R-P2-g2e.placeholder" = "Сума";
-
-/* Class = "UILabel"; text = "Step: 1"; ObjectID = "qzp-ys-EUO"; */
-"qzp-ys-EUO.text" = "Крок: 1";
-
-/* Class = "UILabel"; text = "Title"; ObjectID = "rDq-H4-nqC"; */
-"rDq-H4-nqC.text" = "Title";
-
-/* Class = "UILabel"; text = "Label"; ObjectID = "rVK-ou-maR"; */
-"rVK-ou-maR.text" = "Label";
-
-/* Class = "UITabBarItem"; title = "Budget"; ObjectID = "rpT-kk-mMX"; */
-"rpT-kk-mMX.title" = "Бюджет";
-
-/* Class = "UILabel"; text = "From:"; ObjectID = "sfP-UU-k2P"; */
-"sfP-UU-k2P.text" = "З:";
-
-/* Class = "UILabel"; text = "Accounting"; ObjectID = "sfm-lf-YZn"; */
-"sfm-lf-YZn.text" = "Accounting";
-
-/* Class = "UILabel"; text = " "; ObjectID = "spa-oc-m7x"; */
-"spa-oc-m7x.text" = " ";
-
-/* Class = "UILabel"; text = "Detail"; ObjectID = "tDo-au-j51"; */
-"tDo-au-j51.text" = "Detail";
-
-/* Class = "UILabel"; text = "Use Exhange Rate"; ObjectID = "uyC-Rg-04p"; */
-"uyC-Rg-04p.text" = "Use Exhange Rate";
-
-/* Class = "UITextField"; placeholder = "Credit Limit"; ObjectID = "uzU-PL-ufV"; */
-"uzU-PL-ufV.placeholder" = "Кредитний ліміт";
 
 /* Class = "UISegmentedControl"; waj-9n-cEF.segmentTitles[0] = "Income"; ObjectID = "waj-9n-cEF"; */
 "waj-9n-cEF.segmentTitles[0]" = "Доходи";
@@ -299,23 +24,26 @@
 /* Class = "UISegmentedControl"; waj-9n-cEF.segmentTitles[1] = "Expense"; ObjectID = "waj-9n-cEF"; */
 "waj-9n-cEF.segmentTitles[1]" = "Витрати";
 
-/* Class = "UINavigationItem"; title = "Transactions"; ObjectID = "wru-rP-J8c"; */
-"wru-rP-J8c.title" = "Опарації";
+/* Class = "UITabBarItem"; title = "Settings"; ObjectID = "xhr-jt-1XU"; */
+"xhr-jt-1XU.title" = "Налаштування";
 
-/* Class = "UILabel"; text = "Last update"; ObjectID = "xmK-kp-uHU"; */
-"xmK-kp-uHU.text" = "Останнє оновлення";
+/* Class = "UILabel"; text = "Type:"; ObjectID = "Kat-ya-3Cr"; */
+"Kat-ya-3Cr.text" = "Тип";
 
-/* Class = "UILabel"; text = "Is regular budget"; ObjectID = "ybR-iW-36u"; */
-"ybR-iW-36u.text" = "Постійний бюджет";
+/* Class = "UIButton"; normalTitle = "Multicurrency"; ObjectID = "9d3-vf-M3w"; */
+"9d3-vf-M3w.normalTitle" = "Багатовалютний";
+
+/* Class = "UISegmentedControl"; Tmz-Ha-1oR.segmentTitles[0] = "Assets"; ObjectID = "Tmz-Ha-1oR"; */
+"Tmz-Ha-1oR.segmentTitles[0]" = "Активи";
+
+/* Class = "UISegmentedControl"; Tmz-Ha-1oR.segmentTitles[1] = "Liabilities"; ObjectID = "Tmz-Ha-1oR"; */
+"Tmz-Ha-1oR.segmentTitles[1]" = "Пасиви";
+
+/* Class = "UILabel"; text = "Currency:"; ObjectID = "dnN-hd-CVb"; */
+"dnN-hd-CVb.text" = "Валюта";
 
 /* Class = "UILabel"; text = "Name:"; ObjectID = "yxx-gJ-zNA"; */
 "yxx-gJ-zNA.text" = "Ім'я";
 
-/* Class = "UIButton"; normalTitle = "To: Account"; ObjectID = "zgl-DL-PEL"; */
-"zgl-DL-PEL.normalTitle" = "До: Рахунку";
 
-/* Class = "UILabel"; text = "Label"; ObjectID = "zlC-sC-4cJ"; */
-"zlC-sC-4cJ.text" = "Label";
 
-/* Class = "UIButton"; normalTitle = "Credit"; ObjectID = "zog-L2-6wM"; */
-"zog-L2-6wM.normalTitle" = "Кредит";
