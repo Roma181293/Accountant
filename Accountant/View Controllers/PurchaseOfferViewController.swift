@@ -12,15 +12,16 @@ import SafariServices
 
 final class PurchaseOfferViewController: UIViewController {
     
-    let descriptionArray = [ ("♾", "Unlimited number of accounts and categories"),
+    let descriptionArray = [ ("♾", "Unlimited number of accounts, categories and subcategories"),
                              ("✔", "Subcategories. Create income and expense strucrure"),
                              ("₴＄€", "Account creation in currencies different from accounting currency"),
                              ("🙈", "Hide accounts and categories"),
                              ("🧾🧾", "Copy transactions"),
-                             ("🔒", "Security"),
-                             ("📤", "Export of accounts/categories and transactions"),
+                             ("📤", "Export of transactions"),
                              //("📥", "Import accounts/categories and transactions from the file"),
-                             ("⚠️", "No ads")]
+                             ("🔒", "Security")
+//                             ("⚠️", "No ads")
+    ]
     
     let titleLabel: UILabel = {
         let titleLabel = UILabel()
@@ -37,7 +38,7 @@ final class PurchaseOfferViewController: UIViewController {
         stackView.axis = .vertical
         stackView.alignment = .center
         stackView.distribution = .fill
-        stackView.spacing = 5.0
+        stackView.spacing = 10
         stackView.backgroundColor = UIColor(white: 1, alpha: 0)
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
@@ -300,7 +301,7 @@ final class PurchaseOfferViewController: UIViewController {
         //MARK: - Fetch products
         Purchases.shared.offerings { (offerings, error) in
             if let offerings = offerings {
-                let activeOffer = "proaccessallproducts"//= RemoteConfigValues.sharedInstance.getActiveOffer(forKey: .activeOffer)
+                let activeOffer = "pro_access_all_app"//= RemoteConfigValues.sharedInstance.getActiveOffer(forKey: .activeOffer)
                 
                 guard let packages = offerings.offering(identifier: activeOffer)?.availablePackages  else {
                     return

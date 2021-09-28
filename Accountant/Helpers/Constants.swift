@@ -72,13 +72,13 @@ struct Constants {
     }
     
     struct APIKey {
-        static let revenueCat = "kdbkctkUtCoRwtOqEDXtMeRaGxBkxLHG"
+        static let revenueCat = "WtNuPdTrjjiiOwUaTogcvKOAbeydXpNx"
         static let googleAD = "ca-app-pub-3940256099942544/4411468910"
     }
     
     struct URL {
-        static let privacyPolicy = "https://github.com/Roma181293/My-Budget/blob/main/Privacy%20Policy.pdf"
-        static let termsOfUse = "https://github.com/Roma181293/My-Budget/blob/main/Terms%20Of%20Use.pdf"
+        static let privacyPolicy = "https://drive.google.com/file/d/1H3CZXn03YgGGM2uThEQ1yQ1G5PCvt3SB/view?usp=sharing"
+        static let termsOfUse = "https://drive.google.com/file/d/1jGybkl74yTbOfzcFtGSySw8k86GjTP5N/view?usp=sharing"
     }
     
     struct Size {
