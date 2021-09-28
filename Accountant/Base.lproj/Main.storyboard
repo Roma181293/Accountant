@@ -670,7 +670,7 @@
             </objects>
             <point key="canvasLocation" x="-1213" y="3522"/>
         </scene>
-        <!--Item-->
+        <!--Logo-->
         <scene sceneID="Mqj-JX-Z4s">
             <objects>
                 <viewController id="3N9-m2-e5M" customClass="LogoViewController" customModule="Accountant" customModuleProvider="target" sceneMemberID="viewController">

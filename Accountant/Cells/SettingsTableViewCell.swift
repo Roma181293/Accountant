@@ -62,7 +62,7 @@ class SettingsTableViewCell: UITableViewCell {
     }
     
     func configureCell(for dataItem: SettingsDataSource, with delegate: SettingsViewController) {
-        
+        self.delegate = delegate
         self.dataItem = dataItem
         
         proBadgeView.isHidden = true
@@ -251,7 +251,7 @@ class SettingsTableViewCell: UITableViewCell {
                     
                     CoreDataStack.shared.switchToDB(.prod)
                 }
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                     NotificationCenter.default.post(name: .environmentDidChange, object: nil)
                     self.activityIndicator.stopAnimating()
                     self.activityIndicator.isHidden = true

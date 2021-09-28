@@ -285,7 +285,7 @@
 				2B1FEAD8266C48E400BF53BD /* Account */,
 				2B1FEB80266EC3A200BF53BD /* Analytics */,
 				2B1FEACA266C433800BF53BD /* Auth */,
-				2B1FEB50266D260100BF53BD /* Currency */,
+				2B497D322703CB01007A31AB /* Currency */,
 				2B1FEAA3266C368100BF53BD /* First Launch */,
 				2B1FEAB7266C3D7900BF53BD /* Transaction */,
 				2B1FEB96266EDE5000BF53BD /* SettingsViewController.swift */,
@@ -380,14 +380,6 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
-		2B1FEB50266D260100BF53BD /* Currency */ = {
-			isa = PBXGroup;
-			children = (
-				2B1FEAFB266CB61000BF53BD /* CurrencyTableViewController.swift */,
-			);
-			path = Currency;
-			sourceTree = "<group>";
-		};
 		2B1FEB66266D752200BF53BD /* Visualisation */ = {
 			isa = PBXGroup;
 			children = (
@@ -420,6 +412,14 @@
 				2B497D2E2703B81E007A31AB /* LogoView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		2B497D322703CB01007A31AB /* Currency */ = {
+			isa = PBXGroup;
+			children = (
+				2B1FEAFB266CB61000BF53BD /* CurrencyTableViewController.swift */,
+			);
+			path = Currency;
 			sourceTree = "<group>";
 		};
 		2B949BA22665B4040033383A = {

@@ -43,7 +43,6 @@ struct Constants {
         static let configureAnalyticsViewController = "ConfigureAnalyticsVC_ID"
         
         static let settingsViewController = "SettingsVC_ID"
-        static let subscriptionsStatusViewController = "SubscriptionsStatusVC_ID"
     }
     
     struct Cell {
