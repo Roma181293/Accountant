@@ -670,6 +670,22 @@
             </objects>
             <point key="canvasLocation" x="-1213" y="3522"/>
         </scene>
+        <!--Item-->
+        <scene sceneID="Mqj-JX-Z4s">
+            <objects>
+                <viewController id="3N9-m2-e5M" customClass="LogoViewController" customModule="Accountant" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="i8I-XJ-PVZ">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="R3g-9b-hgY"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Logo" id="avN-J9-aPR"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="IW2-9F-ODF" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1213" y="4323"/>
+        </scene>
         <!--Analytics-->
         <scene sceneID="MJu-LE-W7i">
             <objects>

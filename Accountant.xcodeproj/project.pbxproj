@@ -73,6 +73,8 @@
 		2B490DDE26E4BA6000967E11 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B490DDD26E4BA6000967E11 /* GradientView.swift */; };
 		2B490DE026E4BB1800967E11 /* ProBadgeUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B490DDF26E4BB1800967E11 /* ProBadgeUIView.swift */; };
 		2B4976FC26DBE90B00147EAA /* ComplexTransactionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B4976FB26DBE90B00147EAA /* ComplexTransactionTableViewCell.swift */; };
+		2B497D2F2703B81E007A31AB /* LogoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B497D2E2703B81E007A31AB /* LogoView.swift */; };
+		2B497D312703B94D007A31AB /* LogoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B497D302703B94D007A31AB /* LogoViewController.swift */; };
 		2B949BAF2665B4040033383A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B949BAE2665B4040033383A /* AppDelegate.swift */; };
 		2B949BB12665B4040033383A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B949BB02665B4040033383A /* SceneDelegate.swift */; };
 		2B949BB62665B4040033383A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2B949BB42665B4040033383A /* Main.storyboard */; };
@@ -178,6 +180,8 @@
 		2B490DDD26E4BA6000967E11 /* GradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
 		2B490DDF26E4BB1800967E11 /* ProBadgeUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProBadgeUIView.swift; sourceTree = "<group>"; };
 		2B4976FB26DBE90B00147EAA /* ComplexTransactionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComplexTransactionTableViewCell.swift; sourceTree = "<group>"; };
+		2B497D2E2703B81E007A31AB /* LogoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoView.swift; sourceTree = "<group>"; };
+		2B497D302703B94D007A31AB /* LogoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoViewController.swift; sourceTree = "<group>"; };
 		2B949BAB2665B4040033383A /* Accountant.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Accountant.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2B949BAE2665B4040033383A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2B949BB02665B4040033383A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -288,6 +292,7 @@
 				2B1FEBAA266EE19B00BF53BD /* ImportTransactionViewController.swift */,
 				2B1FEB4B266D25EE00BF53BD /* PurchaseOfferViewController.swift */,
 				2B1407A726F5D49B00114B95 /* WebViewController.swift */,
+				2B497D302703B94D007A31AB /* LogoViewController.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -412,6 +417,7 @@
 				2B490DDD26E4BA6000967E11 /* GradientView.swift */,
 				2B490DDF26E4BB1800967E11 /* ProBadgeUIView.swift */,
 				2B104E5126E558F300E67F6A /* SalesBadgeUIView.swift */,
+				2B497D2E2703B81E007A31AB /* LogoView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -698,6 +704,7 @@
 				2B1FEA3A266BEDA400BF53BD /* CoreDataStack.swift in Sources */,
 				2B1407AC26F931AA00114B95 /* AccountNavigationTableViewCell.swift in Sources */,
 				2B1FEA6A266BF15200BF53BD /* AccountManager.swift in Sources */,
+				2B497D2F2703B81E007A31AB /* LogoView.swift in Sources */,
 				2B1FEAC6266C433200BF53BD /* BiometricAuthViewController.swift in Sources */,
 				2B1FEAE7266CAF6C00BF53BD /* Extension UIScrollView.swift in Sources */,
 				2B1FEABC266C41C100BF53BD /* AccountsNameLocalisationManager.swift in Sources */,
@@ -733,6 +740,7 @@
 				2BE2593326BC8E6D0025301F /* Error.swift in Sources */,
 				2B1FEAAB266C3AB900BF53BD /* SimpleTransactionEditorViewController.swift in Sources */,
 				2B490DD926E4B8CE00967E11 /* OfferUITapGestureRecognizer.swift in Sources */,
+				2B497D312703B94D007A31AB /* LogoViewController.swift in Sources */,
 				2B1FEAC5266C433200BF53BD /* AuthPinAndBiometricViewController.swift in Sources */,
 				2B1FEB6E266D752200BF53BD /* PresentingData.swift in Sources */,
 				2B490DD726E2911C00967E11 /* Extension Notification.swift in Sources */,
