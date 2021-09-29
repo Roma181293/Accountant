@@ -922,7 +922,23 @@ class AccountManager {
         try? createAccount(parent: nil, name: AccountsNameLocalisationManager.getLocalizedAccountName(.credits), type: AccountType.liabilities.rawValue, currency: nil, createdByUser: false, context: context)
         try? createAccount(parent: nil, name: AccountsNameLocalisationManager.getLocalizedAccountName(.debtors), type: AccountType.assets.rawValue, currency: nil, createdByUser: false, context: context)
         try? createAccount(parent: nil, name: AccountsNameLocalisationManager.getLocalizedAccountName(.capital), type: AccountType.liabilities.rawValue, currency: accountingCurrency, createdByUser: false, context: context)
-        try? createAccount(parent: nil, name: AccountsNameLocalisationManager.getLocalizedAccountName(.expense), type: AccountType.assets.rawValue, currency: accountingCurrency, createdByUser: false, context: context)
-        try? createAccount(parent: nil, name: AccountsNameLocalisationManager.getLocalizedAccountName(.income), type: AccountType.liabilities.rawValue, currency: accountingCurrency, createdByUser: false, context: context)
+        
+        let expense = try? createAndGetAccount(parent: nil, name: AccountsNameLocalisationManager.getLocalizedAccountName(.expense), type: AccountType.assets.rawValue, currency: accountingCurrency, createdByUser: false, context: context)
+        try? createAccount(parent: expense, name: NSLocalizedString("Food", comment: ""), type: AccountType.assets.rawValue, currency: accountingCurrency, createdByUser: false, context: context)
+        try? createAccount(parent: expense, name: NSLocalizedString("Transport", comment: ""), type: AccountType.assets.rawValue, currency: accountingCurrency, createdByUser: false, context: context)
+        try? createAccount(parent: expense, name: NSLocalizedString("Gifts", comment: ""), type: AccountType.assets.rawValue, currency: accountingCurrency, createdByUser: false, context: context)
+        let home = try? createAndGetAccount(parent: expense, name: NSLocalizedString("Home", comment: ""), type: AccountType.assets.rawValue, currency: accountingCurrency, createdByUser: false, context: context)
+        try? createAccount(parent: home, name: NSLocalizedString("Utility", comment: ""), type: AccountType.assets.rawValue, currency: accountingCurrency, createdByUser: false, context: context)
+        try? createAccount(parent: home, name: NSLocalizedString("Rent", comment: ""), type: AccountType.assets.rawValue, currency: accountingCurrency, createdByUser: false, context: context)
+        try? createAccount(parent: home, name: NSLocalizedString("Renovation", comment: ""), type: AccountType.assets.rawValue, currency: accountingCurrency, createdByUser: false, context: context)
+        
+        
+        
+        
+        let income = try? createAndGetAccount(parent: nil, name: AccountsNameLocalisationManager.getLocalizedAccountName(.income), type: AccountType.liabilities.rawValue, currency: accountingCurrency, createdByUser: false, context: context)
+        try? createAccount(parent: income, name: NSLocalizedString("Salary", comment: ""), type: AccountType.liabilities.rawValue, currency: accountingCurrency, createdByUser: false, context: context)
+        try? createAccount(parent: income, name: NSLocalizedString("Gifts", comment: ""), type: AccountType.liabilities.rawValue, currency: accountingCurrency, createdByUser: false, context: context)
+        try? createAccount(parent: income, name: NSLocalizedString("Interest on deposits", comment: ""), type: AccountType.liabilities.rawValue, currency: accountingCurrency, createdByUser: false, context: context)
+        
     }
 }

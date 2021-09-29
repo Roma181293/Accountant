@@ -15,10 +15,19 @@ class AccessCheckManager {
     static func checkUserAccessToCreateSubAccountForSelected(account : Account?, isUserHasPaidAccess: Bool, environment: Environment) -> Bool {
         print(environment)
         if environment == .test ||
-            (environment == .prod && (isUserHasPaidAccess || (isUserHasPaidAccess == false && account?.children?.count ?? 10 < 10 && (account == nil || account?.level == 0)))) {
+            (environment == .prod && (isUserHasPaidAccess || (isUserHasPaidAccess == false && account?.directChildren?.count ?? 15 < 15 && (account == nil || account?.level == 1)))) {
             return true
         }
         return false
+        
+        
+        
+//        print(environment)
+//        if environment == .test ||
+//            (environment == .prod && (isUserHasPaidAccess || (isUserHasPaidAccess == false && account?.directChildren?.count ?? 10 < 10 && (account == nil || account?.level == 0)))) {
+//            return true
+//        }
+//        return false
     }
     
     static func checkUserAccessToHideAccount(environment: Environment, isUserHasPaidAccess: Bool) -> Bool {

@@ -7,6 +7,15 @@
 */
 
 "<Other>" = "<Інше>";
+"Food" = "Продукти";
+"Transport" = "Транспорт";
+"Gifts" = "Подарунки";
+"Home" = "Житло";
+"Utility" = "Комуналка";
+"Rent" = "Оренда";
+"Renovation" = "Ремонт";
+"Salary" = "Зарплата";
+"Interest on deposits" = "Відсотки за вкладами";
 "Before accounting period" = "До обліковий період";
 "Capital" = "Капітал";
 "Credits" = "Борги";
@@ -67,7 +76,7 @@
 "Are you sure you want to unhide account?" = "Ви дійсно хочете показати рахунок?";
 "Are you sure you want to unhide category?" = "Ви дійсно хочете показати категорію?";
 "Cancel" = "Закрити";
-"Category \"%@\" contains transactions. All these thansactions will be automatically moved to the new \"%@\" subcategory. " = "Категорія \"%@\" має операції. Всі ці операції будуть автоматично переміщені на підкатегорію \"%@\"";
+"Category \"%@\" contains transactions. All these thansactions will be automatically moved to the new \"%@\" subcategory" = "Категорія \"%@\" має операції. Всі ці операції будуть автоматично переміщені на підкатегорію \"%@\"";
 "Create and Move" = "Створити і Перемістити";
 "Delete" = "Видалити";
 "Hide" = "Приховати";
@@ -156,8 +165,10 @@
 "Share Account List" = "Поділитися списком рахунків";
 "Share Transaction List" = "Поділитися списком операцій";
 "Terms of use" = "Умови використання";
+"App version" = "Версія";
 "Account creation in currencies different from accounting currency" = "Створення рахунків у валютах відмінних від валюти обліку";
 "Copy transactions" = "Копіювання операцій";
+"Export of transactions" = "Експорт операцій";
 "Export of accounts/categories and transactions" = "Експорт рахунків/категорій і операцій";
 "Hide accounts and categories" = "Приховування рахунків і категорій";
 "Import accounts/categories and transactions from the file" = "Імпорт рахунків/категорій і операцій";
@@ -172,8 +183,6 @@
 "PRO access" = "PRO доступ";
 "Test mode" = "Тестовий режим";
 "till" = "до";
-"Export of transactions" = "Експорт операцій";
-"App version" = "Версія";
 "AED" = "Дирхам ОАЕ";
 "AMD" = "Вірменський драм";
 "AUD" = "Австралійський долар";
