@@ -207,6 +207,7 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
         case .accountsManager:
             let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.accountNavigatorTableViewController) as!
                 AccountNavigatorTableViewController
+            vc.searchBarIsHidden = false
             vc.isUserHasPaidAccess = isUserHasPaidAccess
             self.navigationController?.pushViewController(vc, animated: true)
         case .importAccounts:

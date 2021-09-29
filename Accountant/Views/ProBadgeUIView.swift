@@ -33,10 +33,10 @@ class ProBadgeUIView: UIView {
         let gradientOrangeView = GradientView(frame: self.bounds, colorTop: .systemPink, colorBottom: .systemRed)
         gradientOrangeView.layer.cornerRadius = height/2
         self.insertSubview(gradientOrangeView, at: 0)
-        self.layer.shadowColor = UIColor.lightGray.cgColor
-        self.layer.shadowOffset = CGSize(width: 0, height: 0)
-        self.layer.shadowRadius = 2.0
-        self.layer.shadowOpacity = 2.0
+//        self.layer.shadowColor = UIColor.lightGray.cgColor
+//        self.layer.shadowOffset = CGSize(width: 0, height: 0)
+//        self.layer.shadowRadius = 2.0
+//        self.layer.shadowOpacity = 2.0
         self.layer.masksToBounds = false
         
         //The Label subview

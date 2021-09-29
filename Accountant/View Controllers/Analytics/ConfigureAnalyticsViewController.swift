@@ -221,7 +221,7 @@ class ConfigureAnalyticsViewController: UIViewController {
         mainStackView.leadingAnchor.constraint(equalTo: mainView.leadingAnchor, constant: 10).isActive = true
         mainStackView.trailingAnchor.constraint(equalTo: mainView.trailingAnchor, constant: -10).isActive = true
         mainStackView.topAnchor.constraint(equalTo: mainView.topAnchor, constant: 10).isActive = true
-        mainStackView.bottomAnchor.constraint(equalTo: mainView.bottomAnchor, constant: -10).isActive = true
+        mainStackView.bottomAnchor.constraint(equalTo: mainView.bottomAnchor, constant: -13).isActive = true
         
         //MARK:- Date Interval Label
         mainStackView.addArrangedSubview(dateIntervalLabel)
