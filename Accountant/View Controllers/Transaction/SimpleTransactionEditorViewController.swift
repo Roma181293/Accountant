@@ -89,6 +89,7 @@ class SimpleTransactionEditorViewController: UIViewController {//}, GADFullScree
     let amountInCreditCurrencyTextField: UITextField = {
         let textField = UITextField()
         textField.tag = 1
+        textField.textAlignment = .right
         textField.keyboardType = .decimalPad
         textField.layer.cornerRadius = 5
         textField.layer.borderColor = UIColor.lightGray.cgColor
@@ -112,6 +113,7 @@ class SimpleTransactionEditorViewController: UIViewController {//}, GADFullScree
     let amountInDebitCurrencyTextField: UITextField = {
         let textField = UITextField()
         textField.tag = 2
+        textField.textAlignment = .right
         textField.keyboardType = .decimalPad
         textField.layer.cornerRadius = 5
         textField.layer.borderColor = UIColor.lightGray.cgColor

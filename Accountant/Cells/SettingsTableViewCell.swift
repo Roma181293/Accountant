@@ -29,12 +29,14 @@ class SettingsTableViewCell: UITableViewCell {
     
     let titleLabel : UILabel = {
         let label = UILabel()
+        label.textColor = Colors.Main.defaultCellTextColor
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     let detailLabel : UILabel = {
         let label = UILabel()
+        label.textColor = Colors.Main.defaultCellTextColor
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()

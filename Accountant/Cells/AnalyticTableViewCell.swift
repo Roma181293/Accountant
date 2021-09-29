@@ -18,12 +18,14 @@ class AnalyticTableViewCell: UITableViewCell {
     
     let titleLabel : UILabel = {
         let label = UILabel()
+        label.textColor = Colors.Main.defaultCellTextColor
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     let amountLabel : UILabel = {
         let label = UILabel()
+        label.textColor = Colors.Main.defaultCellTextColor
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -50,12 +52,12 @@ class AnalyticTableViewCell: UITableViewCell {
         }
         else if let children = accountData.account.children, children.count > 0, account != accountData.account {
             self.accessoryType = .disclosureIndicator
-            amountLabel.textColor = .label
+            amountLabel.textColor = Colors.Main.defaultCellTextColor
             emptySpaceView.isHidden = true
         }
         else {
             self.accessoryType = .none
-            amountLabel.textColor = .label
+            amountLabel.textColor =  Colors.Main.defaultCellTextColor
             emptySpaceView.isHidden = false
         }
         

@@ -27,7 +27,7 @@ class AccountNavigationTableViewCell: UITableViewCell {
     
     let nameLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .label
+        label.textColor =  Colors.Main.defaultCellTextColor
         label.lineBreakMode = .byCharWrapping
         label.textAlignment = .left
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -47,7 +47,7 @@ class AccountNavigationTableViewCell: UITableViewCell {
     
     let amountLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .label
+        label.textColor = Colors.Main.defaultCellTextColor
         label.textAlignment = .right
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -104,8 +104,8 @@ class AccountNavigationTableViewCell: UITableViewCell {
             amountLabel.textColor = .systemGray
         }
         else {
-            nameLabel.textColor = .label
-            amountLabel.textColor = .label
+            nameLabel.textColor = Colors.Main.defaultCellTextColor
+            amountLabel.textColor = Colors.Main.defaultCellTextColor
         }
 
         if let parent = account.parent, parent.currency == nil {
@@ -116,6 +116,4 @@ class AccountNavigationTableViewCell: UITableViewCell {
         }
         
     }
-    
-
 }

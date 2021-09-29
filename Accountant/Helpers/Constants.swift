@@ -134,6 +134,7 @@ struct Constants {
 struct Colors {
     
     struct Main {
+        static let defaultCellTextColor = UIColor(named: "blackGrayColor")
         static let defaultButton = UIColor.systemGray4
         static let confirmButton = UIColor.systemGray5
         static let darkBlue = UIColor(red: 27/255, green: 35/255, blue: 47/255, alpha: 1)
@@ -155,3 +156,4 @@ struct Colors {
         
     }
 }
+

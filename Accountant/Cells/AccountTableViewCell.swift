@@ -63,7 +63,7 @@ class AccountTableViewCell: UITableViewCell {
     
     let nameLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .label
+        label.textColor = Colors.Main.defaultCellTextColor
         label.lineBreakMode = .byCharWrapping
         label.textAlignment = .left
         label.numberOfLines = 2
@@ -92,7 +92,7 @@ class AccountTableViewCell: UITableViewCell {
     
     let amountInAccountCurrencyLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .label
+        label.textColor = Colors.Main.defaultCellTextColor
         label.textAlignment = .right
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -218,7 +218,7 @@ class AccountTableViewCell: UITableViewCell {
         
         if dataToShow.amountInAccountCurrency >= 0 {
             amountInAccountCurrencyLabel.text = "\(dataToShow.amountInAccountCurrency) \(currency.code!)"
-            amountInAccountCurrencyLabel.textColor = .label
+            amountInAccountCurrencyLabel.textColor = Colors.Main.defaultCellTextColor
             self.accessoryType = .none
             if currency != accountingCurrency && dataToShow.amountInAccountingCurrency != 0 {
                 if let accountingCurrencyCode = accountingCurrency.code {
