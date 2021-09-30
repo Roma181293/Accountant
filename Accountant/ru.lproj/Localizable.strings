@@ -16,6 +16,10 @@
 "Renovation" = "Ремонт";
 "Salary" = "Зарплата";
 "Interest on deposits" = "Проценты по вкладам";
+"Deposit" = "Депозит";
+"Salary card" = "Зарплатная карта";
+"Cash" = "Наличные";
+"Credit card" = "Кредитная карта";
 "Before accounting period" = "До учетный период";
 "Capital" = "Капитал";
 "Credits" = "Долги";

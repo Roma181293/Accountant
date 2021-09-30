@@ -174,8 +174,8 @@ class AccountManager {
     }
     
     
-    static func createAccount(parent: Account?, name : String, type : Int16?, currency : Currency?, moneyAccountType : Int16? = nil, createdByUser : Bool = true, context: NSManagedObjectContext) throws {
-        try createAndGetAccount(parent: parent, name : name, type : type, currency : currency, subType : moneyAccountType, createdByUser : createdByUser, context: context)
+    static func createAccount(parent: Account?, name : String, type : Int16?, currency : Currency?, subType : Int16? = nil, createdByUser : Bool = true, context: NSManagedObjectContext) throws {
+        try createAndGetAccount(parent: parent, name : name, type : type, currency : currency, subType : subType, createdByUser : createdByUser, context: context)
     }
     
     static func changeCurrencyForBaseAccounts(to currency : Currency, modifyDate: Date = Date(), modifiedByUser: Bool = true, context : NSManagedObjectContext) throws {
@@ -951,5 +951,277 @@ class AccountManager {
         try? createAccount(parent: income, name: NSLocalizedString("Gifts", comment: ""), type: AccountType.liabilities.rawValue, currency: accountingCurrency, createdByUser: false, context: context)
         try? createAccount(parent: income, name: NSLocalizedString("Interest on deposits", comment: ""), type: AccountType.liabilities.rawValue, currency: accountingCurrency, createdByUser: false, context: context)
         
+    }
+    
+    
+    static func addBaseAccountsTest(accountingCurrency: Currency, context: NSManagedObjectContext) {
+        AccountsNameLocalisationManager.createAllLocalizedAccountName()
+        
+        let money = try? createAndGetAccount(parent: nil, name: AccountsNameLocalisationManager.getLocalizedAccountName(.money), type: AccountType.assets.rawValue, currency: nil, createdByUser: false, context: context)
+        
+        let credits = try? createAndGetAccount(parent: nil, name: AccountsNameLocalisationManager.getLocalizedAccountName(.credits), type: AccountType.liabilities.rawValue, currency: nil, createdByUser: false, context: context)
+        let debtors = try? createAndGetAccount(parent: nil, name: AccountsNameLocalisationManager.getLocalizedAccountName(.debtors), type: AccountType.assets.rawValue, currency: nil, createdByUser: false, context: context)
+        let deposit = try? createAndGetAccount(parent: debtors, name: NSLocalizedString("Deposit", comment: ""), type: AccountType.assets.rawValue, currency: accountingCurrency, createdByUser: false, context: context)
+        
+        let capital = try? createAndGetAccount(parent: nil, name: AccountsNameLocalisationManager.getLocalizedAccountName(.capital), type: AccountType.liabilities.rawValue, currency: accountingCurrency, createdByUser: false, context: context)
+        
+        
+       
+        
+        let salaryCard = try? createAndGetAccount(parent: money, name: NSLocalizedString("Salary card", comment: ""), type: AccountType.assets.rawValue, currency: accountingCurrency, subType: AccountSubType.cash.rawValue, createdByUser: false, context: context)
+        let cash = try? createAndGetAccount(parent: money, name: NSLocalizedString("Cash", comment: ""), type: AccountType.assets.rawValue, currency: accountingCurrency, subType: AccountSubType.debitCard.rawValue, createdByUser: false, context: context)
+        
+        let creditcard_A = try? createAndGetAccount(parent: money, name: NSLocalizedString("Credit card", comment: ""), type: AccountType.assets.rawValue, currency: accountingCurrency, subType: AccountSubType.creditCard.rawValue, createdByUser: false, context: context)
+        let creditcard_L = try? createAndGetAccount(parent: credits, name: NSLocalizedString("Credit card", comment: ""), type: AccountType.liabilities.rawValue, currency: accountingCurrency, createdByUser: false, context: context)
+        creditcard_A?.linkedAccount = creditcard_L
+        
+        let expense = try? createAndGetAccount(parent: nil, name: AccountsNameLocalisationManager.getLocalizedAccountName(.expense), type: AccountType.assets.rawValue, currency: accountingCurrency, createdByUser: false, context: context)
+        let food = try? createAndGetAccount(parent: expense, name: NSLocalizedString("Food", comment: ""), type: AccountType.assets.rawValue, currency: accountingCurrency, createdByUser: false, context: context)
+        let transport = try? createAndGetAccount(parent: expense, name: NSLocalizedString("Transport", comment: ""), type: AccountType.assets.rawValue, currency: accountingCurrency, createdByUser: false, context: context)
+        let gifts_E = try? createAndGetAccount(parent: expense, name: NSLocalizedString("Gifts", comment: ""), type: AccountType.assets.rawValue, currency: accountingCurrency, createdByUser: false, context: context)
+        let home = try? createAndGetAccount(parent: expense, name: NSLocalizedString("Home", comment: ""), type: AccountType.assets.rawValue, currency: accountingCurrency, createdByUser: false, context: context)
+        let utility = try? createAndGetAccount(parent: home, name: NSLocalizedString("Utility", comment: ""), type: AccountType.assets.rawValue, currency: accountingCurrency, createdByUser: false, context: context)
+        let rent = try? createAndGetAccount(parent: home, name: NSLocalizedString("Rent", comment: ""), type: AccountType.assets.rawValue, currency: accountingCurrency, createdByUser: false, context: context)
+        let renovation = try? createAndGetAccount(parent: home, name: NSLocalizedString("Renovation", comment: ""), type: AccountType.assets.rawValue, currency: accountingCurrency, createdByUser: false, context: context)
+        
+        
+        let income = try? createAndGetAccount(parent: nil, name: AccountsNameLocalisationManager.getLocalizedAccountName(.income), type: AccountType.liabilities.rawValue, currency: accountingCurrency, createdByUser: false, context: context)
+        let salary = try? createAndGetAccount(parent: income, name: NSLocalizedString("Salary", comment: ""), type: AccountType.liabilities.rawValue, currency: accountingCurrency, createdByUser: false, context: context)
+        let gifts_I = try? createAndGetAccount(parent: income, name: NSLocalizedString("Gifts", comment: ""), type: AccountType.liabilities.rawValue, currency: accountingCurrency, createdByUser: false, context: context)
+        let interestOnDeposits = try? createAndGetAccount(parent: income, name: NSLocalizedString("Interest on deposits", comment: ""), type: AccountType.liabilities.rawValue, currency: accountingCurrency, createdByUser: false, context: context)
+        
+        
+        let calendar = Calendar.current
+        
+        
+        
+        TransactionManager.addTransaction(date: calendar.date(byAdding: .day, value: -60, to: Date())!,
+                                          debit: deposit!,
+                                          credit: capital!,
+                                          debitAmount: 50000,
+                                          creditAmount: 50000,
+                                          context: context)
+        TransactionManager.addTransaction(date: calendar.date(byAdding: .day, value: -60, to: Date())!,
+                                          debit: creditcard_A!,
+                                          credit: creditcard_L!,
+                                          debitAmount: 5000,
+                                          creditAmount: 5000,
+                                          context: context)
+        TransactionManager.addTransaction(date: calendar.date(byAdding: .day, value: -60, to: Date())!,
+                                          debit: cash!,
+                                          credit: capital!,
+                                          debitAmount: 2000,
+                                          creditAmount: 2000,
+                                          context: context)
+        TransactionManager.addTransaction(date: calendar.date(byAdding: .day, value: -59, to: Date())!,
+                                          debit: food!,
+                                          credit: salaryCard!,
+                                          debitAmount: 300,
+                                          creditAmount: 300,
+                                          context: context)
+        TransactionManager.addTransaction(date: calendar.date(byAdding: .day, value: -55, to: Date())!,
+                                          debit: food!,
+                                          credit: salaryCard!,
+                                          debitAmount: 800,
+                                          creditAmount: 800,
+                                          context: context)
+        TransactionManager.addTransaction(date: calendar.date(byAdding: .day, value: -50, to: Date())!,
+                                          debit: food!,
+                                          credit: salaryCard!,
+                                          debitAmount: 300,
+                                          creditAmount: 300,
+                                          context: context)
+        TransactionManager.addTransaction(date: calendar.date(byAdding: .day, value: -49, to: Date())!,
+                                          debit: cash!,
+                                          credit: salaryCard!,
+                                          debitAmount: 4000,
+                                          creditAmount: 4000,
+                                          context: context)
+        TransactionManager.addTransaction(date: calendar.date(byAdding: .day, value: -47, to: Date())!,
+                                          debit: gifts_E!,
+                                          credit: cash!,
+                                          debitAmount: 1000,
+                                          creditAmount: 1000,
+                                          context: context)
+        TransactionManager.addTransaction(date: calendar.date(byAdding: .day, value: -46, to: Date())!,
+                                          debit: food!,
+                                          credit: salaryCard!,
+                                          debitAmount: 200,
+                                          creditAmount: 200,
+                                          context: context)
+        TransactionManager.addTransaction(date: calendar.date(byAdding: .day, value: -44, to: Date())!,
+                                          debit: food!,
+                                          credit: salaryCard!,
+                                          debitAmount: 300,
+                                          creditAmount: 300,
+                                          context: context)
+        TransactionManager.addTransaction(date: calendar.date(byAdding: .day, value: -42, to: Date())!,
+                                          debit: food!,
+                                          credit: salaryCard!,
+                                          debitAmount: 500,
+                                          creditAmount: 500,
+                                          context: context)
+        TransactionManager.addTransaction(date: calendar.date(byAdding: .day, value: -40, to: Date())!,
+                                          debit: food!,
+                                          credit: salaryCard!,
+                                          debitAmount: 300,
+                                          creditAmount: 300,
+                                          context: context)
+        TransactionManager.addTransaction(date: calendar.date(byAdding: .day, value: -39, to: Date())!,
+                                          debit: food!,
+                                          credit: salaryCard!,
+                                          debitAmount: 100,
+                                          creditAmount: 100,
+                                          context: context)
+        TransactionManager.addTransaction(date: calendar.date(byAdding: .day, value: -38, to: Date())!,
+                                          debit: cash!,
+                                          credit: salaryCard!,
+                                          debitAmount: 1000,
+                                          creditAmount: 1000,
+                                          context: context)
+        TransactionManager.addTransaction(date: calendar.date(byAdding: .day, value: -37, to: Date())!,
+                                          debit: food!,
+                                          credit: salaryCard!,
+                                          debitAmount: 300,
+                                          creditAmount: 300,
+                                          context: context)
+        TransactionManager.addTransaction(date: calendar.date(byAdding: .day, value: -36, to: Date())!,
+                                          debit: food!,
+                                          credit: salaryCard!,
+                                          debitAmount: 300,
+                                          creditAmount: 300,
+                                          context: context)
+        TransactionManager.addTransaction(date: calendar.date(byAdding: .day, value: -35, to: Date())!,
+                                          debit: rent!,
+                                          credit: cash!,
+                                          debitAmount: 5000,
+                                          creditAmount: 5000,
+                                          context: context)
+        TransactionManager.addTransaction(date: calendar.date(byAdding: .day, value: -34, to: Date())!,
+                                          debit: utility!,
+                                          credit: salaryCard!,
+                                          debitAmount: 1000,
+                                          creditAmount: 1000,
+                                          context: context)
+        TransactionManager.addTransaction(date: calendar.date(byAdding: .day, value: -32, to: Date())!,
+                                          debit: salaryCard!,
+                                          credit: salary!,
+                                          debitAmount: 20000,
+                                          creditAmount: 20000,
+                                          context: context)
+        TransactionManager.addTransaction(date: calendar.date(byAdding: .day, value: -31, to: Date())!,
+                                          debit: salaryCard!,
+                                          credit: interestOnDeposits!,
+                                          debitAmount: 200,
+                                          creditAmount: 200,
+                                          context: context)
+        
+        
+        
+        
+        
+        
+        TransactionManager.addTransaction(date: calendar.date(byAdding: .day, value: -29, to: Date())!,
+                                          debit: food!,
+                                          credit: salaryCard!,
+                                          debitAmount: 300,
+                                          creditAmount: 300,
+                                          context: context)
+        TransactionManager.addTransaction(date: calendar.date(byAdding: .day, value: -25, to: Date())!,
+                                          debit: food!,
+                                          credit: salaryCard!,
+                                          debitAmount: 800,
+                                          creditAmount: 800,
+                                          context: context)
+        TransactionManager.addTransaction(date: calendar.date(byAdding: .day, value: -20, to: Date())!,
+                                          debit: food!,
+                                          credit: salaryCard!,
+                                          debitAmount: 300,
+                                          creditAmount: 300,
+                                          context: context)
+        TransactionManager.addTransaction(date: calendar.date(byAdding: .day, value: -19, to: Date())!,
+                                          debit: cash!,
+                                          credit: salaryCard!,
+                                          debitAmount: 4000,
+                                          creditAmount: 4000,
+                                          context: context)
+        TransactionManager.addTransaction(date: calendar.date(byAdding: .day, value: -17, to: Date())!,
+                                          debit: gifts_E!,
+                                          credit: cash!,
+                                          debitAmount: 1000,
+                                          creditAmount: 1000,
+                                          context: context)
+        TransactionManager.addTransaction(date: calendar.date(byAdding: .day, value: -16, to: Date())!,
+                                          debit: food!,
+                                          credit: salaryCard!,
+                                          debitAmount: 200,
+                                          creditAmount: 200,
+                                          context: context)
+        TransactionManager.addTransaction(date: calendar.date(byAdding: .day, value: -14, to: Date())!,
+                                          debit: food!,
+                                          credit: salaryCard!,
+                                          debitAmount: 300,
+                                          creditAmount: 300,
+                                          context: context)
+        TransactionManager.addTransaction(date: calendar.date(byAdding: .day, value: -12, to: Date())!,
+                                          debit: food!,
+                                          credit: salaryCard!,
+                                          debitAmount: 500,
+                                          creditAmount: 500,
+                                          context: context)
+        TransactionManager.addTransaction(date: calendar.date(byAdding: .day, value: -10, to: Date())!,
+                                          debit: food!,
+                                          credit: salaryCard!,
+                                          debitAmount: 300,
+                                          creditAmount: 300,
+                                          context: context)
+        TransactionManager.addTransaction(date: calendar.date(byAdding: .day, value: -9, to: Date())!,
+                                          debit: food!,
+                                          credit: salaryCard!,
+                                          debitAmount: 100,
+                                          creditAmount: 100,
+                                          context: context)
+        TransactionManager.addTransaction(date: calendar.date(byAdding: .day, value: -8, to: Date())!,
+                                          debit: cash!,
+                                          credit: salaryCard!,
+                                          debitAmount: 1000,
+                                          creditAmount: 1000,
+                                          context: context)
+        TransactionManager.addTransaction(date: calendar.date(byAdding: .day, value: -7, to: Date())!,
+                                          debit: food!,
+                                          credit: salaryCard!,
+                                          debitAmount: 300,
+                                          creditAmount: 300,
+                                          context: context)
+        TransactionManager.addTransaction(date: calendar.date(byAdding: .day, value: -6, to: Date())!,
+                                          debit: food!,
+                                          credit: salaryCard!,
+                                          debitAmount: 300,
+                                          creditAmount: 300,
+                                          context: context)
+        TransactionManager.addTransaction(date: calendar.date(byAdding: .day, value: -5, to: Date())!,
+                                          debit: rent!,
+                                          credit: cash!,
+                                          debitAmount: 5000,
+                                          creditAmount: 5000,
+                                          context: context)
+        TransactionManager.addTransaction(date: calendar.date(byAdding: .day, value: -4, to: Date())!,
+                                          debit: utility!,
+                                          credit: salaryCard!,
+                                          debitAmount: 1000,
+                                          creditAmount: 1000,
+                                          context: context)
+        TransactionManager.addTransaction(date: calendar.date(byAdding: .day, value: -2, to: Date())!,
+                                          debit: salaryCard!,
+                                          credit: salary!,
+                                          debitAmount: 20000,
+                                          creditAmount: 20000,
+                                          context: context)
+        TransactionManager.addTransaction(date: calendar.date(byAdding: .day, value: -1, to: Date())!,
+                                          debit: salaryCard!,
+                                          credit: interestOnDeposits!,
+                                          debitAmount: 200,
+                                          creditAmount: 200,
+                                          context: context)
     }
 }

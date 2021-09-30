@@ -147,7 +147,7 @@ class WelcomeViewController: UIViewController {
             CurrencyManager.addCurrencies(context: context)
             guard let currency = try CurrencyManager.getCurrencyForCode("UAH", context: context) else {return}
             try CurrencyManager.changeAccountingCurrency(old: nil, new: currency, context: context)
-            AccountManager.addBaseAccounts(accountingCurrency: currency, context: context)
+            AccountManager.addBaseAccountsTest(accountingCurrency: currency, context: context)
             try CoreDataStack.shared.saveContext(context)
             
             let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
