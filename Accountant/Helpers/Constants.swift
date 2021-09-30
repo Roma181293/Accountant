@@ -122,11 +122,47 @@ struct Constants {
         ]
         
         
-        static let set1: [NSUIColor] = ChartColorTemplates.vordiplom()
-            + ChartColorTemplates.joyful()
-            + ChartColorTemplates.colorful()
-            + ChartColorTemplates.liberty()
-            + ChartColorTemplates.pastel()
+        static let set1: [NSUIColor] =
+            
+//            [UIColor.systemIndigo,
+//             UIColor.systemBlue,
+//             UIColor.systemTeal,
+//             UIColor.systemGreen,
+//             UIColor.systemYellow,
+//             UIColor.systemOrange,
+//             UIColor.systemRed,
+//            ]
+            
+            [UIColor.systemBlue,
+             UIColor.systemTeal,
+             UIColor.systemGreen,
+             UIColor.systemYellow,
+             UIColor.systemOrange,
+             UIColor.systemRed]
+//            +
+//            [
+////                NSUIColor(red: 217/255.0, green: 80/255.0, blue: 138/255.0, alpha: 1.0),
+////             NSUIColor(red: 254/255.0, green: 149/255.0, blue: 7/255.0, alpha: 1.0),
+////             NSUIColor(red: 254/255.0, green: 247/255.0, blue: 120/255.0, alpha: 1.0),
+//             NSUIColor(red: 106/255.0, green: 167/255.0, blue: 134/255.0, alpha: 1.0),
+//             NSUIColor(red: 53/255.0, green: 194/255.0, blue: 209/255.0, alpha: 1.0)]
+//            +
+//            [NSUIColor(red: 193/255.0, green: 37/255.0, blue: 82/255.0, alpha: 1.0),
+////             NSUIColor(red: 255/255.0, green: 102/255.0, blue: 0/255.0, alpha: 1.0),
+//             NSUIColor(red: 245/255.0, green: 199/255.0, blue: 0/255.0, alpha: 1.0),
+//             NSUIColor(red: 106/255.0, green: 150/255.0, blue: 31/255.0, alpha: 1.0),
+//             NSUIColor(red: 179/255.0, green: 100/255.0, blue: 53/255.0, alpha: 1.0)]
+//            +
+//            [NSUIColor(red: 207/255.0, green: 248/255.0, blue: 246/255.0, alpha: 1.0),
+//             NSUIColor(red: 148/255.0, green: 212/255.0, blue: 212/255.0, alpha: 1.0),
+//             NSUIColor(red: 136/255.0, green: 180/255.0, blue: 187/255.0, alpha: 1.0),
+//             NSUIColor(red: 118/255.0, green: 174/255.0, blue: 175/255.0, alpha: 1.0),
+//             NSUIColor(red: 42/255.0, green: 109/255.0, blue: 130/255.0, alpha: 1.0)]
+//
+//            + ChartColorTemplates.joyful()
+//            + ChartColorTemplates.colorful()
+//            + ChartColorTemplates.liberty()
+//            + ChartColorTemplates.pastel()
     }
 }
 

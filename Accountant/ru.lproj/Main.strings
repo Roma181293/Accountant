@@ -1,0 +1,46 @@
+
+
+/* Class = "UITabBarItem"; title = "Transactions"; ObjectID = "5Pq-3r-Hem"; */
+"5Pq-3r-Hem.title" = "Операции";
+
+/* Class = "UITabBarItem"; title = "Accounts"; ObjectID = "F5u-YS-bZZ"; */
+"F5u-YS-bZZ.title" = "Счета";
+
+/* Class = "UISegmentedControl"; 08D-Cc-lzg.segmentTitles[0] = "Money"; ObjectID = "08D-Cc-lzg"; */
+"08D-Cc-lzg.segmentTitles[0]" = "Деньги";
+
+/* Class = "UISegmentedControl"; 08D-Cc-lzg.segmentTitles[1] = "Debtors"; ObjectID = "08D-Cc-lzg"; */
+"08D-Cc-lzg.segmentTitles[1]" = "Должники";
+
+/* Class = "UISegmentedControl"; 08D-Cc-lzg.segmentTitles[2] = "Creditors"; ObjectID = "08D-Cc-lzg"; */
+"08D-Cc-lzg.segmentTitles[2]" = "Долги";
+
+/* Class = "UITabBarItem"; title = "Analytics"; ObjectID = "6TN-tW-nfr"; */
+"6TN-tW-nfr.title" = "Аналитика";
+
+/* Class = "UISegmentedControl"; waj-9n-cEF.segmentTitles[0] = "Income"; ObjectID = "waj-9n-cEF"; */
+"waj-9n-cEF.segmentTitles[0]" = "Доходы";
+
+/* Class = "UISegmentedControl"; waj-9n-cEF.segmentTitles[1] = "Expense"; ObjectID = "waj-9n-cEF"; */
+"waj-9n-cEF.segmentTitles[1]" = "Расходы";
+
+/* Class = "UITabBarItem"; title = "Settings"; ObjectID = "xhr-jt-1XU"; */
+"xhr-jt-1XU.title" = "Настройки";
+
+/* Class = "UILabel"; text = "Type:"; ObjectID = "Kat-ya-3Cr"; */
+"Kat-ya-3Cr.text" = "Тип";
+
+/* Class = "UIButton"; normalTitle = "Multicurrency"; ObjectID = "9d3-vf-M3w"; */
+"9d3-vf-M3w.normalTitle" = "Многовалютний";
+
+/* Class = "UISegmentedControl"; Tmz-Ha-1oR.segmentTitles[0] = "Assets"; ObjectID = "Tmz-Ha-1oR"; */
+"Tmz-Ha-1oR.segmentTitles[0]" = "Активы";
+
+/* Class = "UISegmentedControl"; Tmz-Ha-1oR.segmentTitles[1] = "Liabilities"; ObjectID = "Tmz-Ha-1oR"; */
+"Tmz-Ha-1oR.segmentTitles[1]" = "Пассивы";
+
+/* Class = "UILabel"; text = "Currency:"; ObjectID = "dnN-hd-CVb"; */
+"dnN-hd-CVb.text" = "Валюта";
+
+/* Class = "UILabel"; text = "Name:"; ObjectID = "yxx-gJ-zNA"; */
+"yxx-gJ-zNA.text" = "Имя";

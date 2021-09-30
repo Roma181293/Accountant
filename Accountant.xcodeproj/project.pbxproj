@@ -194,6 +194,9 @@
 		2B949BCF2665B4090033383A /* AccountantUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AccountantUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2B949BD32665B4090033383A /* AccountantUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountantUITests.swift; sourceTree = "<group>"; };
 		2B949BD52665B4090033383A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2B9E7BC02705923500FBE5B2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Main.strings; sourceTree = "<group>"; };
+		2B9E7BC12705923500FBE5B2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		2B9E7BC22705923500FBE5B2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		2BC058B826CD7A9400FE896C /* ComplexTransactionEditorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComplexTransactionEditorViewController.swift; sourceTree = "<group>"; };
 		2BC058BC26CDB63E00FE896C /* TransactionItemTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionItemTableViewCell.swift; sourceTree = "<group>"; };
 		2BCC0BD926ACD79C00E8680E /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
@@ -591,6 +594,7 @@
 				en,
 				Base,
 				uk,
+				ru,
 			);
 			mainGroup = 2B949BA22665B4040033383A;
 			productRefGroup = 2B949BAC2665B4040033383A /* Products */;
@@ -793,6 +797,7 @@
 			children = (
 				2B3F0D0F26A0EFA000AA514B /* en */,
 				2B3F0D1326A0F01C00AA514B /* uk */,
+				2B9E7BC22705923500FBE5B2 /* ru */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -802,6 +807,7 @@
 			children = (
 				2B3F0D0A26A0EF0500AA514B /* Base */,
 				2B3F0D1126A0EFEC00AA514B /* uk */,
+				2B9E7BC02705923500FBE5B2 /* ru */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -811,6 +817,7 @@
 			children = (
 				2B3F0D0B26A0EF0500AA514B /* Base */,
 				2B3F0D1226A0F01B00AA514B /* uk */,
+				2B9E7BC12705923500FBE5B2 /* ru */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
