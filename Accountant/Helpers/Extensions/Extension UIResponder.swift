@@ -22,7 +22,12 @@ extension UIResponder : UITextFieldDelegate {
             }
             return false
         case 100...199:  // names
-            if let regex = try? NSRegularExpression(pattern: "^[\\w\\s.\\$-'&/]{0,32}?$" , options: .caseInsensitive) {
+            if let regex = try? NSRegularExpression(pattern: "^[^,:@]{0,32}?$" , options: .caseInsensitive) {
+                return regex.numberOfMatches(in: newText, options: .reportProgress, range: NSRange(location: 0, length: (newText as NSString).length)) > 0
+            }
+            return false
+        case 200...299:  // comments
+            if let regex = try? NSRegularExpression(pattern: "^[^,:@]{0,64}?$" , options: .caseInsensitive) {
                 return regex.numberOfMatches(in: newText, options: .reportProgress, range: NSRange(location: 0, length: (newText as NSString).length)) > 0
             }
             return false

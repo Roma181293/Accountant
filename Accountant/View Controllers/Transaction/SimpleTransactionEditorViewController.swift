@@ -128,7 +128,7 @@ class SimpleTransactionEditorViewController: UIViewController {//}, GADFullScree
     
     let commentTextField: UITextField = {
         let textField = UITextField()
-        textField.tag = 100
+        textField.tag = 200
         textField.placeholder = NSLocalizedString("Comment", comment: "")
         textField.layer.cornerRadius = 5
         textField.layer.borderColor = UIColor.lightGray.cgColor
