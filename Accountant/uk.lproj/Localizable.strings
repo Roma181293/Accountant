@@ -96,15 +96,12 @@
 "Error" = "Помилка";
 "OK" = "ОК";
 "Add account" = "Додати рахунок";
-"Balance" = "Баланс";
-"Balance on:" = "Баланс на";
+"Balance on" = "Баланс на";
 "Credit limit" = "Кредитний ліміт";
+"Exchange rate" = "Курс обміну";
 "Currency:" = "Валюта:";
 "Done" = "Готово";
-"Existing" = "Існуючий";
 "Name" = "Iм'я";
-"New" = "Новий";
-"Step 1" = "Крок: 1";
 "Type:" = "Тип:";
 "Create account" = "Створити рахунок";
 "Multicurrency" = "Багатовалютний";
@@ -132,7 +129,7 @@
 "Please add debtors. Debtors also include bank deposits" = "Додайте боржників. До боржників також відносяться вклади та депозити в банках";
 "Please add expense categories" = "Додайте категорії витрат";
 "Please add income categories" = "Додайте категорії доходів";
-"Please add Money accounts (Cash and bank cards)" = "Додайте грошові рахунки (Готівку та банківські картки)";
+"Please add money accounts (Cash and bank cards)" = "Додайте грошові рахунки (Готівку та банківські картки)";
 "Please choose an accounting start date. This date will be automatically used for your future accounts" = "Будь ласка, оберіть дату початку обліку. В подальшому ця дата буде використовуватися при створенні рахунків";
 "Please choose currency" = "Будь ласка оберіть валюту";
 "Start accounting" = "Почати облік";
@@ -243,5 +240,5 @@
 "USD" = "Долар США";
 "UZS" = "Узбецький сум";
 "VND" = "В'єтнамський донг";
-
+"ZAR" = "Південно Афпіканський ренд";
 

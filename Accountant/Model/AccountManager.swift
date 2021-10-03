@@ -969,7 +969,7 @@ class AccountManager {
        
         
         let salaryCard = try? createAndGetAccount(parent: money, name: NSLocalizedString("Salary card", comment: ""), type: AccountType.assets.rawValue, currency: accountingCurrency, subType: AccountSubType.cash.rawValue, createdByUser: false, context: context)
-        let cash = try? createAndGetAccount(parent: money, name: NSLocalizedString("Cash", comment: ""), type: AccountType.assets.rawValue, currency: accountingCurrency, subType: AccountSubType.debitCard.rawValue, createdByUser: false, context: context)
+        let cash = try? createAndGetAccount(parent: money, name: NSLocalizedString("Cash", comment: ""), type: AccountType.assets.rawValue, currency: accountingCurrency, subType: AccountSubType.cash.rawValue, createdByUser: false, context: context)
         
         let creditcard_A = try? createAndGetAccount(parent: money, name: NSLocalizedString("Credit card", comment: ""), type: AccountType.assets.rawValue, currency: accountingCurrency, subType: AccountSubType.creditCard.rawValue, createdByUser: false, context: context)
         let creditcard_L = try? createAndGetAccount(parent: credits, name: NSLocalizedString("Credit card", comment: ""), type: AccountType.liabilities.rawValue, currency: accountingCurrency, createdByUser: false, context: context)

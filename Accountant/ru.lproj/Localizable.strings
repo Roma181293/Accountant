@@ -96,14 +96,12 @@
 "Error" = "Ошибка";
 "OK" = "ОК";
 "Add account" = "Добавить счет";
-"Balance" = "Баланс";
-"Balance on:" = "Баланс на";
+"Balance on" = "Баланс на";
 "Credit limit" = "Кредитный лимит";
+"Exchange rate" = "Курс обмена";
 "Currency:" = "Валюта:";
 "Done" = "Готово";
-"Existing" = "Существующий";
-"New" = "Новый";
-"Step 1" = "Шаг: 1";
+"Name" = "Имя";
 "Type:" = "Тип:";
 "Create account" = "Создать счет";
 "Multicurrency" = "Многовалютный";
@@ -131,7 +129,7 @@
 "Please add debtors. Debtors also include bank deposits" = "Добавте должников. К должникам относятся так же вложения и допозиты в банках";
 "Please add expense categories" = "Добавьте категории расходов";
 "Please add income categories" = "Добавьте категории доходов";
-"Please add Money accounts (Cash and bank cards)" = "Добавьте денежные счета (Налтчные и банковские карты)";
+"Please add money accounts (Cash and bank cards)" = "Добавьте денежные счета (Наличные и банковские карты)";
 "Please choose an accounting start date. This date will be automatically used for your future accounts" = "Пожалуйста укажите дату начала учета. В дельнейшем эта дата будет использоваться при создании счетов";
 "Please choose currency" = "Пожалуйста выберите валюту";
 "Start accounting" = "Начать учет";

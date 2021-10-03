@@ -70,10 +70,9 @@ class AccountManagerController {
             }
             else {
                 let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-                let transactionEditorVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.accountEditorWithInitialBalanceViewController) as! AccountEditorWithInitialBalanceViewController
-                transactionEditorVC.parentAccount = account
-                transactionEditorVC.delegate = self.delegate.getVCUsedForPop()
-                self.delegate.navigationController?.pushViewController(transactionEditorVC, animated: true)
+                let accountEditorWithInitialBalanceVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.accountEditorWithInitialBalanceViewController) as! AccountEditorWithInitialBalanceViewController
+                accountEditorWithInitialBalanceVC.parentAccount = account
+                self.delegate.navigationController?.pushViewController(accountEditorWithInitialBalanceVC, animated: true)
             }
         }
         else {
@@ -236,11 +235,10 @@ class AccountManagerController {
             if AccessCheckManager.checkUserAccessToCreateSubAccountForSelected(account: selectedAccount, isUserHasPaidAccess: self.delegate.isUserHasPaidAccess, environment: self.delegate.environment) {
                 if selectedAccount.currency == nil {
                     let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-                    let transactionEditorVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.accountEditorWithInitialBalanceViewController) as! AccountEditorWithInitialBalanceViewController
+                    let accountEditorWithInitialBalanceVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.accountEditorWithInitialBalanceViewController) as! AccountEditorWithInitialBalanceViewController
                     
-                    transactionEditorVC.parentAccount = selectedAccount
-                    transactionEditorVC.delegate = self.delegate
-                    self.delegate.navigationController?.pushViewController(transactionEditorVC, animated: true)
+                    accountEditorWithInitialBalanceVC.parentAccount = selectedAccount
+                    self.delegate.navigationController?.pushViewController(accountEditorWithInitialBalanceVC, animated: true)
                 }
                 else {
                     
