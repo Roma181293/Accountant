@@ -307,6 +307,41 @@ class AccountManagerController {
         return addSubCategory
     }
     
+    private func addFromAccount(_ account: Account, transactionItemType: AccounttingMethod) {
+      
+    }
+    
+    
+    
+    func addTransactionWithDebitAccount(indexPath: IndexPath, selectedAccount: Account) -> UIContextualAction {
+        let addDebitTransaction = UIContextualAction(style: .normal, title: NSLocalizedString("To",comment: "")) { (contAct, view, complete) in
+            let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+            let simpleTransactionEditorVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.simpleTransactionEditorViewController) as! SimpleTransactionEditorViewController
+            simpleTransactionEditorVC.tmpDebit = selectedAccount
+            simpleTransactionEditorVC.delegate = self.delegate
+            self.delegate.navigationController?.pushViewController(simpleTransactionEditorVC, animated: true)
+            complete(true)
+        }
+        addDebitTransaction.backgroundColor = .systemGreen
+        return addDebitTransaction
+    }
+    
+    func addTransactionWithCreditAccount(indexPath: IndexPath, selectedAccount: Account) -> UIContextualAction {
+        let addCreditTransaction = UIContextualAction(style: .normal, title: NSLocalizedString("From",comment: "")) { (contAct, view, complete) in
+            let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+            let simpleTransactionEditorVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.simpleTransactionEditorViewController) as! SimpleTransactionEditorViewController
+            simpleTransactionEditorVC.tmpCredit = selectedAccount
+            simpleTransactionEditorVC.delegate = self.delegate
+            self.delegate.navigationController?.pushViewController(simpleTransactionEditorVC, animated: true)
+            complete(true)
+        }
+        addCreditTransaction.backgroundColor = .systemOrange
+        return addCreditTransaction
+    }
+    
+    
+    
+    
     func showPurchaseOfferVC() {
         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.purchaseOfferViewController) as! PurchaseOfferViewController

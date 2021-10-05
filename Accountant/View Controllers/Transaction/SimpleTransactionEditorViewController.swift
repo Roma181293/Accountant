@@ -64,13 +64,6 @@ class SimpleTransactionEditorViewController: UIViewController {//}, GADFullScree
         return view
     }()
     
-    let stepLabel: UILabel = {
-        let label = UILabel()
-        label.text = NSLocalizedString("Step 2", comment: "")
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
     let datePicker: UIDatePicker = {
         let datePicker = UIDatePicker()
         datePicker.preferredDatePickerStyle = .wheels
@@ -320,17 +313,12 @@ class SimpleTransactionEditorViewController: UIViewController {//}, GADFullScree
         mainView.widthAnchor.constraint(equalTo: mainScrollView.widthAnchor, constant: -20).isActive = true
         mainView.heightAnchor.constraint(equalTo: mainScrollView.heightAnchor).isActive = true
         
-        //MARK:- Step Label
-        mainView.addSubview(stepLabel)
-        stepLabel.trailingAnchor.constraint(equalTo: mainView.trailingAnchor).isActive = true
-        stepLabel.topAnchor.constraint(equalTo: mainView.topAnchor, constant: 25).isActive = true
-        stepLabel.widthAnchor.constraint(equalToConstant: 60).isActive = true
-        
+     
         //MARK:- Outert Stack View
         mainView.addSubview(mainStackView)
         mainStackView.leadingAnchor.constraint(equalTo: mainView.leadingAnchor).isActive = true
         mainStackView.trailingAnchor.constraint(equalTo: mainView.trailingAnchor).isActive = true
-        mainStackView.topAnchor.constraint(equalTo: stepLabel.bottomAnchor).isActive = true
+        mainStackView.topAnchor.constraint(equalTo: mainView.topAnchor, constant: 25).isActive = true
         
         //MARK:- Date Picker
         mainStackView.addArrangedSubview(datePicker)
@@ -404,12 +392,7 @@ class SimpleTransactionEditorViewController: UIViewController {//}, GADFullScree
         }
         else if transaction == nil {
             addNewTransaction()
-            if let delegate = delegate {
-                self.navigationController?.popToViewController(delegate, animated: true)
-            }
-            else {
-                self.navigationController?.popViewController(animated: true)
-            }
+            self.navigationController?.popViewController(animated: true)
         }
     }
     
@@ -494,37 +477,21 @@ class SimpleTransactionEditorViewController: UIViewController {//}, GADFullScree
         creditButton.backgroundColor = Colors.Main.defaultButton
         
         
-        if transaction == nil && tmpDebit == nil && tmpCredit == nil{
+        if transaction == nil{
             getExhangeRate()
             self.navigationItem.title = NSLocalizedString("Add transaction", comment: "")
             self.navigationItem.rightBarButtonItem = nil
             debit = nil
             credit = nil
-            stepLabel.isHidden = true
-        }
-        else if tmpCredit != nil || tmpDebit != nil {
-            if tmpCredit != nil {
-                creditButton.isUserInteractionEnabled = false
-            }
-            if tmpDebit != nil {
-                debitButton.isUserInteractionEnabled = false
-            }
-            self.navigationItem.title = NSLocalizedString("Add transaction", comment: "")
-            self.navigationItem.rightBarButtonItem = nil
-            getExhangeRate()
             credit = tmpCredit
             debit = tmpDebit
         }
         else {
             fillUIForExistingTransaction()
-            stepLabel.isHidden = true
         }
         
         // keyboard
         addDoneButtonOnDecimalKeyboard()
-        
-        
-        
     }
     
     

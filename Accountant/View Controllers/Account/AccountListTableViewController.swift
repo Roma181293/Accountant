@@ -69,7 +69,7 @@ class AccountListTableViewController: UITableViewController, AccountManagerTable
         let selectedAccount : Account = self.listOfAccountsToShow[indexPath.row].account
         
         var tmpConfiguration: [UIContextualAction] = []
-        
+        tmpConfiguration.append(accountManagerController.addTransactionWithDebitAccount(indexPath: indexPath, selectedAccount: selectedAccount))
         if AccountManager.canBeRenamed(account: selectedAccount) {
             tmpConfiguration.append(accountManagerController.renameAccount(indexPath: indexPath, selectedAccount: selectedAccount))
             tmpConfiguration.append(accountManagerController.removeAccount(indexPath: indexPath, selectedAccount: selectedAccount))
@@ -78,6 +78,10 @@ class AccountListTableViewController: UITableViewController, AccountManagerTable
             tmpConfiguration.append(accountManagerController.hideAccount(indexPath: indexPath, selectedAccount: selectedAccount))
         }
         return UISwipeActionsConfiguration(actions: tmpConfiguration)
+    }
+    override func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let selectedAccount : Account = self.listOfAccountsToShow[indexPath.row].account
+        return UISwipeActionsConfiguration(actions: [accountManagerController.addTransactionWithCreditAccount(indexPath: indexPath, selectedAccount: selectedAccount)])
     }
     
     func errorHandlerMethod(error : Error) {
