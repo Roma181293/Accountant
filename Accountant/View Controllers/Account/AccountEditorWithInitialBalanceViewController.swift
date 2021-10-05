@@ -526,10 +526,6 @@ class AccountEditorWithInitialBalanceViewController: UIViewController, UIScrollV
             accountSubTypeLabel.isHidden = true
         }
 
-        
-        if let accountingStartDate = UserProfile.getAccountingStartDate() {
-            datePicker.date = accountingStartDate
-        }
         datePicker.isUserInteractionEnabled = true
         balanceOnDateLabel.isHidden = false
         datePicker.isHidden = false

@@ -103,20 +103,6 @@ class UserProfile {
         return date
     }
     
-    
-    static func setAccountingStartDate(_ date: Date) {
-        if getAppBecomeBackgroundDate() == nil {
-            let defaults = UserDefaults.standard
-            defaults.set(date, forKey: "appAccountingStartDate")
-        }
-    }
-    
-    static func getAccountingStartDate() -> Date? {
-        guard let date = UserDefaults.standard.object(forKey: "appAccountingStartDate") as? Date else {return nil}
-        return date
-    }
-    
-    
     static func setLastAccessCheckDate() {
         if getAppBecomeBackgroundDate() == nil {
             let defaults = UserDefaults.standard

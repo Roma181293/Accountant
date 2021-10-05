@@ -20,7 +20,6 @@ class StartAccountingViewController: UIViewController, CurrencyReceiverDelegate 
     var currency: Currency?
     
     var workFlowTitleArray = [
-        NSLocalizedString("Please choose an accounting start date. This date will be automatically used for your future accounts", comment: ""),
         NSLocalizedString("Choose currecy for Income and Expenses categories. This currency cannot be changed in the future", comment: ""),
         NSLocalizedString("Please add income categories", comment: ""),
         NSLocalizedString("Please add expense categories", comment: ""),
@@ -60,13 +59,6 @@ class StartAccountingViewController: UIViewController, CurrencyReceiverDelegate 
         return button
     }()
     
-    let datePicker : UIDatePicker = {
-        let datePicker = UIDatePicker()
-        datePicker.datePickerMode = .dateAndTime
-        datePicker.translatesAutoresizingMaskIntoConstraints = false
-        return datePicker
-    }()
-    
     let nextButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = Colors.Main.confirmButton
@@ -104,7 +96,7 @@ class StartAccountingViewController: UIViewController, CurrencyReceiverDelegate 
         CurrencyManager.addCurrencies(context: context)
         
         addMainView()
-        
+        addCurrencyTVC()
         titleLabel.text = workFlowTitleArray[currentStep]
         nextButton.addTarget(self, action: #selector(self.nextStep), for: .touchUpInside)
     }
@@ -144,11 +136,6 @@ class StartAccountingViewController: UIViewController, CurrencyReceiverDelegate 
         addButton.topAnchor.constraint(equalTo: cardView.bottomAnchor).isActive = true
         addButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
         addButton.widthAnchor.constraint(equalToConstant: 40).isActive = true
-        
-        //MARK: - Date Picker
-        mainView.addSubview(datePicker)
-        datePicker.topAnchor.constraint(equalTo: cardView.bottomAnchor, constant: 80).isActive = true
-        datePicker.centerXAnchor.constraint(equalTo: mainView.centerXAnchor).isActive = true
         
         //MARK: - Next button
         view.addSubview(nextButton)
@@ -218,21 +205,6 @@ class StartAccountingViewController: UIViewController, CurrencyReceiverDelegate 
     
     @objc private func nextStep(){
         if currentStep == 0 {
-            currentStep += 1
-            let calendar = Calendar.current
-            guard let date = calendar.dateInterval(of: .day, for: datePicker.date)?.start else {return}
-            UserProfile.setAccountingStartDate(date)
-          
-            
-            datePicker.isHidden = true
-            datePicker.removeFromSuperview()
-            
-            titleLabel.text = workFlowTitleArray[currentStep]
-            
-            addCurrencyTVC()
-            
-        }
-        else if currentStep == 1 {
             if  let currency = currency {
                 do {
                     AccountManager.addBaseAccounts(accountingCurrency: currency, context: context)
@@ -257,29 +229,29 @@ class StartAccountingViewController: UIViewController, CurrencyReceiverDelegate 
                 self.present(alert, animated: true, completion: nil)
             }
         }
-        else if currentStep == 2 {
+        else if currentStep == 1 {
             currentStep += 1
             accountNavigationTVC.account = AccountManager.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.expense), context: context)
             configureUIForStep()
         }
-        else if currentStep == 3 {
+        else if currentStep == 2 {
             currentStep += 1
             accountNavigationTVC.account = AccountManager.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.money), context: context)
             configureUIForStep()
         }
-        else if currentStep == 4 {
+        else if currentStep == 3 {
             currentStep += 1
             accountNavigationTVC.account = AccountManager.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.debtors), context: context)
             configureUIForStep()
         }
-        else if currentStep == 5 {
+        else if currentStep == 4 {
             currentStep += 1
             accountNavigationTVC.account = AccountManager.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.credits), context: context)
             configureUIForStep()
             nextButton.setImage(UIImage(systemName: "checkmark") , for: .normal)
             
         }
-        else if currentStep == 6 {
+        else if currentStep == 5 {
             do{
                 try context.save()
                 NotificationCenter.default.post(name: .environmentDidChange, object: nil)

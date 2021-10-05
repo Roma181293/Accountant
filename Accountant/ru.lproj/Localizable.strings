@@ -124,13 +124,12 @@
 "Change accounting currency" = "Изменить валюту учета";
 "Currency" = "Валюта";
 "Accounting start" = "Начало учета";
-"Choose currecy for Income and Expenses categories. This currency cannot be changed in the future" = "Виберите валюту для учета Доходов и Расходов. Эта валюта не может быть изменена в будующем";
-"Please add credits. Credit card limits are automatically added to credits" = "Добавьте кредиты. В кредиты автоматически добавляются кредитные лимиты по кредитным картам";
+"Choose currecy for Income and Expenses categories. This currency cannot be changed in the future" = "Виберите валюту учета Доходов и Расходов. Эта валюта не может быть изменена в будущем";
+"Please add credits. Credit card limits are automatically added to credits" = "Добавьте долги. Лимиты по кредитным картам добавляются автоматически в долги";
 "Please add debtors. Debtors also include bank deposits" = "Добавте должников. К должникам относятся так же вложения и допозиты в банках";
 "Please add expense categories" = "Добавьте категории расходов";
 "Please add income categories" = "Добавьте категории доходов";
 "Please add money accounts (Cash and bank cards)" = "Добавьте денежные счета (Наличные и банковские карты)";
-"Please choose an accounting start date. This date will be automatically used for your future accounts" = "Пожалуйста укажите дату начала учета. В дельнейшем эта дата будет использоваться при создании счетов";
 "Please choose currency" = "Пожалуйста выберите валюту";
 "Start accounting" = "Начать учет";
 "Try functionality" = "Попробоавть функционал";
@@ -161,7 +160,7 @@
 "Accounting currency" = "Валюта учета";
 "Import Account List" = "Импортировать счета";
 "Import Transaction List" = "Импортировать операции";
-"Privacy policy" = "Политека конфиенциальности";
+"Privacy policy" = "Политика конфиденциальности";
 "Settings" = "Настройки";
 "Share Account List" = "Поделиться списком счетов";
 "Share Transaction List" = "Поделиться списком операций";

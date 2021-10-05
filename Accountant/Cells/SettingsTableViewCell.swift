@@ -183,15 +183,15 @@ class SettingsTableViewCell: UITableViewCell {
         
         
         contentView.addSubview(iconImangeView)
-        iconImangeView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16).isActive = true
-        iconImangeView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 4).isActive = true
-        iconImangeView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -4).isActive = true
+        iconImangeView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10).isActive = true
+        iconImangeView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 6).isActive = true
+        iconImangeView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -6).isActive = true
         iconImangeView.widthAnchor.constraint(equalTo: iconImangeView.heightAnchor).isActive = true
         
         contentView.addSubview(proBadgeView)
-        proBadgeView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16).isActive = true
-        proBadgeView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 4).isActive = true
-        proBadgeView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -4).isActive = true
+        proBadgeView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10).isActive = true
+        proBadgeView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 6).isActive = true
+        proBadgeView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -6).isActive = true
         proBadgeView.widthAnchor.constraint(equalTo: iconImangeView.heightAnchor).isActive = true
         
         contentView.addSubview(titleLabel)

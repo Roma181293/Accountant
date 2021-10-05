@@ -124,13 +124,12 @@
 "Change accounting currency" = "Змінити валюту обліку";
 "Currency" = "Валюта";
 "Accounting start" = "Початок обліку";
-"Choose currecy for Income and Expenses categories. This currency cannot be changed in the future" = "Оберіть валюту для обліку Доходів та Витрат. Ця валюта не може бути змінена у майбутньому";
-"Please add credits. Credit card limits are automatically added to credits" = "Додайте кредити. В кредити автоматично дадаються кредитні ліміти по кредитним карткам";
+"Choose currecy for Income and Expenses categories. This currency cannot be changed in the future" = "Оберіть валюту обліку Доходів та Витрат. Ця валюта не може бути змінена у майбутньому";
+"Please add credits. Credit card limits are automatically added to credits" = "Додайте борги. Ліміти по кредитних картках додаються автоматично в борги";
 "Please add debtors. Debtors also include bank deposits" = "Додайте боржників. До боржників також відносяться вклади та депозити в банках";
 "Please add expense categories" = "Додайте категорії витрат";
 "Please add income categories" = "Додайте категорії доходів";
 "Please add money accounts (Cash and bank cards)" = "Додайте грошові рахунки (Готівку та банківські картки)";
-"Please choose an accounting start date. This date will be automatically used for your future accounts" = "Будь ласка, оберіть дату початку обліку. В подальшому ця дата буде використовуватися при створенні рахунків";
 "Please choose currency" = "Будь ласка оберіть валюту";
 "Start accounting" = "Почати облік";
 "Try functionality" = "Спробувати функціонал";
@@ -241,4 +240,3 @@
 "UZS" = "Узбецький сум";
 "VND" = "В'єтнамський донг";
 "ZAR" = "Південно Афпіканський ренд";
-
