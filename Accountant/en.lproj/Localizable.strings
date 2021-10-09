@@ -6,6 +6,11 @@
   
 */
 
+
+
+"Income1" = "Income";
+
+
 //CurrencyList
 "AUD" = "Australian Dollar";
 "CAD" = "Canadian Dollar";

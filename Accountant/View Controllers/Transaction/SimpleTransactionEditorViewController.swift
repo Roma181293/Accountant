@@ -14,7 +14,7 @@ class SimpleTransactionEditorViewController: UIViewController {//}, GADFullScree
     
     weak var delegate : UIViewController?
     
-//    var interstitial: GADInterstitialAd?
+    //    var interstitial: GADInterstitialAd?
     
     var isUserHasPaidAccess = false
     
@@ -28,24 +28,20 @@ class SimpleTransactionEditorViewController: UIViewController {//}, GADFullScree
             configureUI()
         }
     }
+    
     var credit : Account? {
         didSet {
             configureUI()
         }
     }
     
-    var tmpDebit: Account?
-    var tmpCredit: Account?
-    
     var currencyHistoricalData : CurrencyHistoricalDataProtocol? {
         didSet{
             setExchangeRateToLabel()
         }
     }
+    
     var selectedRateCreditToDebit : Double?
-    
-    
-    
     
     
     let mainScrollView: UIScrollView = {
@@ -62,6 +58,16 @@ class SimpleTransactionEditorViewController: UIViewController {//}, GADFullScree
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
+    }()
+    
+    let transactionTypeSegmentedControl: UISegmentedControl = {
+        let segmentedControl = UISegmentedControl(items: [NSLocalizedString("Expense",comment: ""),
+                                                          NSLocalizedString("Income1",comment: ""),
+                                                          NSLocalizedString("Transfer",comment: ""),
+                                                          NSLocalizedString("Manual",comment: "")])
+        segmentedControl.selectedSegmentIndex = 0
+        segmentedControl.translatesAutoresizingMaskIntoConstraints = false
+        return segmentedControl
     }()
     
     let datePicker: UIDatePicker = {
@@ -234,6 +240,7 @@ class SimpleTransactionEditorViewController: UIViewController {//}, GADFullScree
         addMainView()
         
         addButton.addTarget(self, action: #selector(self.done(_:)), for: .touchUpInside)
+        transactionTypeSegmentedControl.addTarget(self, action: #selector(self.transactionTypeDidChange(_:)), for: .valueChanged)
         datePicker.addTarget(self, action: #selector(self.changeDate(_:)), for: .valueChanged)
         debitButton.addTarget(self, action: #selector(self.selectDebitAccount), for: .touchUpInside)
         creditButton.addTarget(self, action: #selector(self.selectCreditAccount), for: .touchUpInside)
@@ -249,12 +256,14 @@ class SimpleTransactionEditorViewController: UIViewController {//}, GADFullScree
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
         view.addGestureRecognizer(tap)
         
-        
-        
         reloadProAccessData()
-//        interstitial?.fullScreenContentDelegate = self
+        //        interstitial?.fullScreenContentDelegate = self
+        
         showPreContent()
         initialConfigureUI()
+        
+        // keyboard
+        addDoneButtonOnDecimalKeyboard()
         
         //MARK:- adding NotificationCenter observers
         NotificationCenter.default.addObserver(self, selector: #selector(self.reloadProAccessData), name: .receivedProAccessData, object: nil)
@@ -264,6 +273,14 @@ class SimpleTransactionEditorViewController: UIViewController {//}, GADFullScree
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         
+        setAccountNameToButtons()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    
+    func setAccountNameToButtons() {
         if let credit = credit, let name = credit.path{
             creditButton.setTitle("\(NSLocalizedString("From:", comment: "")) \(name)", for: .normal)
         }
@@ -276,11 +293,7 @@ class SimpleTransactionEditorViewController: UIViewController {//}, GADFullScree
         else {
             debitButton.setTitle(NSLocalizedString("To: Account", comment: ""), for: .normal)
         }
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
-    
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(true)
@@ -313,12 +326,15 @@ class SimpleTransactionEditorViewController: UIViewController {//}, GADFullScree
         mainView.widthAnchor.constraint(equalTo: mainScrollView.widthAnchor, constant: -20).isActive = true
         mainView.heightAnchor.constraint(equalTo: mainScrollView.heightAnchor).isActive = true
         
-     
+    
         //MARK:- Outert Stack View
         mainView.addSubview(mainStackView)
         mainStackView.leadingAnchor.constraint(equalTo: mainView.leadingAnchor).isActive = true
         mainStackView.trailingAnchor.constraint(equalTo: mainView.trailingAnchor).isActive = true
         mainStackView.topAnchor.constraint(equalTo: mainView.topAnchor, constant: 25).isActive = true
+        
+        //MARK:- Transaction Type Segmented Control
+        mainStackView.addArrangedSubview(transactionTypeSegmentedControl)
         
         //MARK:- Date Picker
         mainStackView.addArrangedSubview(datePicker)
@@ -360,6 +376,32 @@ class SimpleTransactionEditorViewController: UIViewController {//}, GADFullScree
         addButton.heightAnchor.constraint(equalToConstant: 68).isActive = true
         addButton.widthAnchor.constraint(equalToConstant: 68).isActive = true
     }
+    
+    @objc func transactionTypeDidChange(_ sender: UISegmentedControl) {
+        switch sender.selectedSegmentIndex {
+        case 0:
+            print("Expense")
+            debit = AccountManager.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.expense), context: context)
+            credit = AccountManager.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.money), context: context)
+        case 1:
+            print("Income")
+            debit = AccountManager.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.money), context: context)
+            credit = AccountManager.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.income), context: context)
+        case 2:
+            print("Transfer")
+            debit = AccountManager.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.money), context: context)
+            credit = AccountManager.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.money), context: context)
+        default:
+            print("Manual")
+            //            tmpDebit = nil
+            //            tmpCredit = nil
+            debit = nil
+            credit = nil
+        }
+    }
+    
+    
+    
     @objc func reloadProAccessData() {
         Purchases.shared.purchaserInfo { (purchaserInfo, error) in
             if purchaserInfo?.entitlements.all["pro"]?.isActive == true {
@@ -444,7 +486,6 @@ class SimpleTransactionEditorViewController: UIViewController {//}, GADFullScree
             debitToCreditExchangeRateLabel.isHidden = false
             creditToDebitExchangeRateLabel.isHidden = false
             getExhangeRate()
-            //            setExchangeRateToLabel()
         }
         else {
             debitToCreditExchangeRateLabel.isHidden = true
@@ -458,9 +499,9 @@ class SimpleTransactionEditorViewController: UIViewController {//}, GADFullScree
                 switch UserProfile.whatPreContentShowInView(.transactionEditor) {
                 case .add:
                     break
-//                    if let interstitial = self.interstitial {
-//                        interstitial.present(fromRootViewController: self)
-//                    }
+                //                    if let interstitial = self.interstitial {
+                //                        interstitial.present(fromRootViewController: self)
+                //                    }
                 case .offer:
                     let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
                     let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.purchaseOfferViewController) as! PurchaseOfferViewController
@@ -476,41 +517,61 @@ class SimpleTransactionEditorViewController: UIViewController {//}, GADFullScree
         debitButton.backgroundColor = Colors.Main.defaultButton
         creditButton.backgroundColor = Colors.Main.defaultButton
         
-        
         if transaction == nil{
-            getExhangeRate()
+            
             self.navigationItem.title = NSLocalizedString("Add transaction", comment: "")
             self.navigationItem.rightBarButtonItem = nil
-            debit = nil
-            credit = nil
-            credit = tmpCredit
-            debit = tmpDebit
+            getExhangeRate()
+            if debit == nil && credit == nil {
+                switch transactionTypeSegmentedControl.selectedSegmentIndex {
+                case 0:
+                    print("Expense")
+                    debit = AccountManager.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.expense), context: context)
+                    credit = AccountManager.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.money), context: context)
+                case 1:
+                    print("Income")
+                    debit = AccountManager.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.money), context: context)
+                    credit = AccountManager.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.income), context: context)
+                case 2:
+                    print("Transfer")
+                    debit = AccountManager.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.money), context: context)
+                    credit = AccountManager.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.money), context: context)
+                default:
+                    print("Manual")
+                    debit = nil
+                    credit = nil
+                }
+            }
+            else {
+                transactionTypeSegmentedControl.isHidden = true
+                transactionTypeSegmentedControl.selectedSegmentIndex = 3
+            }
         }
         else {
             fillUIForExistingTransaction()
         }
-        
-        // keyboard
-        addDoneButtonOnDecimalKeyboard()
     }
     
     
     private func configureUI(){
         amountInCreditCurrencyTextField.placeholder = ""
-        
         amountInCreditCurrencyTextField.text = ""
         
-        
         if let credit = credit, let debit = debit {
-            if debit.currency == nil || credit.currency == nil {
+            if debit.currency == nil
+                || (debit.parent == nil
+                        && debit != AccountManager.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.capital), context: context))
+                || credit.currency == nil
+                || (credit.parent == nil
+                        && credit != AccountManager.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.capital), context: context)) {
                 amountInDebitCurrencyTextField.placeholder = ""
-                amountInCreditCurrencyTextField.isHidden = true
-                amountStackView.isHidden = false
                 amountInDebitCurrencyTextField.isHidden = false
+                amountInDebitCurrencyTextField.text = ""
+                amountStackView.isHidden = true
+                
                 creditToDebitExchangeRateLabel.isHidden = true
                 debitToCreditExchangeRateLabel.isHidden = true
-                amountInDebitCurrencyTextField.placeholder = ""
-                amountInDebitCurrencyTextField.text = ""
+                
                 useExchangeRateSwich.isHidden = true
                 useExchangeRateLabel.isHidden = true
             }
@@ -532,14 +593,13 @@ class SimpleTransactionEditorViewController: UIViewController {//}, GADFullScree
                 amountInDebitCurrencyTextField.isHidden = false
                 creditToDebitExchangeRateLabel.isHidden = false
                 debitToCreditExchangeRateLabel.isHidden = false
-                //                amountInDebitCurrencyTextField.placeholder = ""
                 amountInDebitCurrencyTextField.text = ""
                 useExchangeRateSwich.isHidden = false
                 useExchangeRateLabel.isHidden = false
                 setExchangeRateToLabel()
             }
         }
-        else if debit == nil || credit == nil {
+        else if debit == nil || credit == nil || debit?.currency == nil || credit?.currency == nil {
             amountStackView.isHidden = true
             amountInCreditCurrencyTextField.isHidden = true
             amountInDebitCurrencyTextField.isHidden = true
@@ -550,6 +610,7 @@ class SimpleTransactionEditorViewController: UIViewController {//}, GADFullScree
             useExchangeRateSwich.isHidden = true
             useExchangeRateLabel.isHidden = true
         }
+        setAccountNameToButtons()
     }
     
     
@@ -570,7 +631,6 @@ class SimpleTransactionEditorViewController: UIViewController {//}, GADFullScree
             creditToDebitExchangeRateLabel.text = "\(creditCurrency.code!)/\(debitCurrency.code!): \(round(selectedRateCreditToDebit!*10000)/10000)"
             debitToCreditExchangeRateLabel.text = "\(debitCurrency.code!)/\(creditCurrency.code!): \(round(1.0/selectedRateCreditToDebit!*10000)/10000)"
         }
-        
     }
     
     
@@ -638,6 +698,9 @@ class SimpleTransactionEditorViewController: UIViewController {//}, GADFullScree
         vc.searchBarIsHidden = false
         vc.typeOfAccountingMethod = .debit
         vc.isUserHasPaidAccess = isUserHasPaidAccess
+        if let debit = debit, transactionTypeSegmentedControl.selectedSegmentIndex != 3 {
+            vc.account = AccountManager.getRootAccountFor(debit)
+        }
         doneButtonAction()
         self.navigationController?.pushViewController(vc, animated: true)
     }
@@ -650,11 +713,16 @@ class SimpleTransactionEditorViewController: UIViewController {//}, GADFullScree
         vc.searchBarIsHidden = false
         vc.typeOfAccountingMethod = .credit
         vc.isUserHasPaidAccess = isUserHasPaidAccess
+        if let credit = credit, transactionTypeSegmentedControl.selectedSegmentIndex != 3 {
+            vc.account = AccountManager.getRootAccountFor(credit)
+        }
         doneButtonAction()
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
     private func fillUIForExistingTransaction() {
+        transactionTypeSegmentedControl.isHidden = true
+        
         guard let transaction = transaction,
               let date = transaction.date,
               let items = transaction.items?.allObjects as? [TransactionItem]

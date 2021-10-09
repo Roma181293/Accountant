@@ -140,6 +140,10 @@
 "Edit transaction" = "Редактировать операцию";
 "From:" = "С:";
 "From: Account" = "С: Счет";
+"Expense" = "Расход";
+"Income1" = "Доход";
+"Transfer" = "Перевод";
+"Manual" = "Ручная";
 "Please check the \"From:\" amount value" = "Проверьте значение суммы \"С:\"";
 "Please check the \"To:\" amount value" = "Проверьте значение суммы \"На:\"";
 "Please select \"From:\"" = "Выберите  \"С:\"";
@@ -153,6 +157,8 @@
 "Please contact support. Cannot find external table view to add cells" = "Please contact to support. Can not find external table view to add cells";
 "Please contact support. Cannot find external table view to count the number of rows" = "Please contact to support. Can not find external table view to count number of rows";
 "Please contact support. Cannot find external table view to delete transaction item" = "Please contact to support. Can not find external table view to remove transaction item";
+"From" = "С";
+"To" = "На";
 "Copy" = "Копировать";
 "Do you want to delete transaction?" = "Вы действительно хотите удалить операцию?";
 "Get PRO" = "PRO";
@@ -240,5 +246,3 @@
 "UZS" = "Узбекский сум";
 "VND" = "Вьетнамский донг";
 "ZAR" = "Южно Африканский ренд";
-"From" = "З";
-"To" = "На";

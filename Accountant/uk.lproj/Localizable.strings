@@ -140,6 +140,10 @@
 "Edit transaction" = "Редагувати операцію";
 "From:" = "З:";
 "From: Account" = "З: Рахунок";
+"Expense" = "Витрата";
+"Income1" = "Дохід";
+"Transfer" = "Переказ";
+"Manual" = "Ручна";
 "Please check the \"From:\" amount value" = "Перевірте значення суми \"З:\"";
 "Please check the \"To:\" amount value" = "Перевірте значення суми \"До:\"";
 "Please select \"From:\"" = "Оберіть \"З:\"";
@@ -153,6 +157,8 @@
 "Please contact support. Cannot find external table view to add cells" = "Please contact to support. Can not find external table view to add cells";
 "Please contact support. Cannot find external table view to count the number of rows" = "Please contact to support. Can not find external table view to count number of rows";
 "Please contact support. Cannot find external table view to delete transaction item" = "Please contact to support. Can not find external table view to remove transaction item";
+"From" = "З";
+"To" = "До";
 "Copy" = "Копіювати";
 "Do you want to delete transaction?" = "Ви дійсно хочете видалити операцію?";
 "Get PRO" = "PRO";
@@ -240,5 +246,3 @@
 "UZS" = "Узбецький сум";
 "VND" = "В'єтнамський донг";
 "ZAR" = "Південно Афпіканський ренд";
-"From" = "З";
-"To" = "До";
