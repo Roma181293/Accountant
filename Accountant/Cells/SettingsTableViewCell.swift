@@ -253,11 +253,11 @@ class SettingsTableViewCell: UITableViewCell {
                     
                     CoreDataStack.shared.switchToDB(.prod)
                 }
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+//                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                     NotificationCenter.default.post(name: .environmentDidChange, object: nil)
                     self.activityIndicator.stopAnimating()
                     self.activityIndicator.isHidden = true
-                }
+//                }
             } catch let error {
                 delegate.errorHandler(error: error)
             }

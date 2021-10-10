@@ -1013,6 +1013,12 @@ class AccountManager {
                                           debitAmount: 2000,
                                           creditAmount: 2000,
                                           context: context)
+        TransactionManager.addTransaction(date: calendar.date(byAdding: .day, value: -60, to: Date())!,
+                                          debit: salaryCard!,
+                                          credit: capital!,
+                                          debitAmount: 20000,
+                                          creditAmount: 20000,
+                                          context: context)
         TransactionManager.addTransaction(date: calendar.date(byAdding: .day, value: -59, to: Date())!,
                                           debit: food!,
                                           credit: salaryCard!,

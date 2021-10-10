@@ -278,7 +278,7 @@ extension TransactionListViewController: UITableViewDelegate, UITableViewDataSou
         
         let copy = UIContextualAction(style: .normal, title: NSLocalizedString("Copy",comment: "")) { _, _, complete in
             do {
-                if self.isUserHasPaidAccess {
+                if self.isUserHasPaidAccess || self.coreDataStack.activeEnviroment() == .test {
                     let transaction = self.fetchedResultsController.object(at: indexPath) as Transaction
                     TransactionManager.copyTransaction(transaction, context: self.context)
                     try self.coreDataStack.saveContext(self.context)

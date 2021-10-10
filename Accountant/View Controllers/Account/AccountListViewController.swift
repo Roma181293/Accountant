@@ -127,6 +127,7 @@ class AccountListViewController: UIViewController, UIScrollViewDelegate{
                 self.updateUI()
                 return
             }
+            print("startDate", startDate)
             dateInterval = DateInterval(start : startDate, end : Date())
             currencyHistoricalData = UserProfile.getLastExchangeRate()
             self.updateUI()
@@ -339,39 +340,39 @@ class AccountListViewController: UIViewController, UIScrollViewDelegate{
     
     
     @objc func environmentDidChange(){
-        context = CoreDataStack.shared.persistentContainer.viewContext
-        
         segmentedControl.selectedSegmentIndex = 0
         
+        context = CoreDataStack.shared.persistentContainer.viewContext
         accountingCurrency = CurrencyManager.getAccountingCurrency(context: context)!
         account = AccountManager.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.money), context: context)
         
         moneyAccountListTableViewController.context = context
-        moneyAccountListTableViewController.account = account
         moneyAccountListTableViewController.accountingCurrency = accountingCurrency
+        moneyAccountListTableViewController.account = account
         
         if let environment = coreDataStack.activeEnviroment() {
             self.environment = environment
             moneyAccountListTableViewController.environment = self.environment
         }
         
-        if isNeedUpdateAll() {
-            dateOfLastChangesInDB = UserProfile.getDateOfLastChangesInDB()
-            scrollView.scrollToLeft(animated: false)
-            updateUI()
+        if let startDate = TransactionManager.getDateForFirstTransaction(context: context) {
+            dateInterval = DateInterval(start : startDate, end : Date())
         }
+        else {
+            dateInterval = DateInterval(start : Date(), end : Date())
+        }
+        currencyHistoricalData = UserProfile.getLastExchangeRate()
     }
     
     @objc func reloadProAccessData() {
         Purchases.shared.purchaserInfo { (purchaserInfo, error) in
             if purchaserInfo?.entitlements.all["pro"]?.isActive == true {
                 self.isUserHasPaidAccess = true
-                self.moneyAccountListTableViewController.isUserHasPaidAccess = self.isUserHasPaidAccess
             }
             else if purchaserInfo?.entitlements.all["pro"]?.isActive == false {
                 self.isUserHasPaidAccess = false
-                self.moneyAccountListTableViewController.isUserHasPaidAccess = self.isUserHasPaidAccess
             }
+            self.moneyAccountListTableViewController.isUserHasPaidAccess = self.isUserHasPaidAccess
         }
     }
 }

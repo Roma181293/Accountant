@@ -31,14 +31,14 @@ class AccessCheckManager {
     }
     
     static func checkUserAccessToHideAccount(environment: Environment, isUserHasPaidAccess: Bool) -> Bool {
-        if environment == .test || (environment == .prod && isUserHasPaidAccess == true){
+        if environment == .test || isUserHasPaidAccess == true {
             return true
         }
         return false
     }
     
     static func checkUserAccessToCreateAccountInNotAccountingCurrency(environment: Environment, isUserHasPaidAccess: Bool) -> Bool {
-        if environment == .test || (environment == .prod && isUserHasPaidAccess == true){
+        if environment == .test || isUserHasPaidAccess == true {
             return true
         }
         return false
@@ -56,7 +56,7 @@ class AccessCheckManager {
     }
     
     static func checkUserAccessToImportExportEntities(environment: Environment, isUserHasPaidAccess: Bool) -> Bool {
-        if environment == .test || (environment == .prod && isUserHasPaidAccess == true){
+        if environment == .test || isUserHasPaidAccess == true {
             return true
         }
         return false
