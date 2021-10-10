@@ -782,26 +782,34 @@ class SimpleTransactionEditorViewController: UIViewController {//}, GADFullScree
     
     
     private func validation() -> Bool {
-        if credit?.parent == nil && credit?.name != AccountsNameLocalisationManager.getLocalizedAccountName(.capital) {
-            let alert = UIAlertController(title: NSLocalizedString("Warning", comment: ""), message: NSLocalizedString("Please select \"From:\"", comment: ""), preferredStyle: .alert)
+        if credit?.parent == nil
+            && credit?.name != AccountsNameLocalisationManager.getLocalizedAccountName(.capital) {
+            let alert = UIAlertController(title: NSLocalizedString("Warning", comment: ""), message: NSLocalizedString("Please select \"From:\" account/category", comment: ""), preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default))
             self.present(alert, animated: true, completion: nil)
             return false
         }
-        else if debit?.parent == nil  && debit?.name != AccountsNameLocalisationManager.getLocalizedAccountName(.capital) {
-            let alert = UIAlertController(title: NSLocalizedString("Warning", comment: ""), message: NSLocalizedString("Please select \"To:\"", comment: ""), preferredStyle: .alert)
+        else if debit?.parent == nil
+                    && debit?.name != AccountsNameLocalisationManager.getLocalizedAccountName(.capital) {
+            let alert = UIAlertController(title: NSLocalizedString("Warning", comment: ""), message: NSLocalizedString("Please select \"To:\" account/category", comment: ""), preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default))
+            self.present(alert, animated: true, completion: nil)
+            return false
+        }
+        else if debit != nil && credit != nil && debit!.currency == credit!.currency &&  Double(amountInDebitCurrencyTextField.text!.replacingOccurrences(of: ",", with: ".")) == nil  {
+            let alert = UIAlertController(title: NSLocalizedString("Warning", comment: ""), message: NSLocalizedString("Please check the amount value", comment: ""), preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default))
+            self.present(alert, animated: true, completion: nil)
+            return false
+        }
+        else if Double(amountInCreditCurrencyTextField.text!.replacingOccurrences(of: ",", with: ".")) == nil {
+            let alert = UIAlertController(title: NSLocalizedString("Warning", comment: ""), message: NSLocalizedString("Please check the \"From:\" amount value", comment: ""), preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default))
             self.present(alert, animated: true, completion: nil)
             return false
         }
         else if Double(amountInDebitCurrencyTextField.text!.replacingOccurrences(of: ",", with: ".")) == nil {
             let alert = UIAlertController(title: NSLocalizedString("Warning", comment: ""), message: NSLocalizedString("Please check the \"To:\" amount value", comment: ""), preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default))
-            self.present(alert, animated: true, completion: nil)
-            return false
-        }
-        else if Double(amountInCreditCurrencyTextField.text!.replacingOccurrences(of: ",", with: ".")) == nil && debit?.currency != credit?.currency {
-            let alert = UIAlertController(title: NSLocalizedString("Warning", comment: ""), message: NSLocalizedString("Please check the \"From:\" amount value", comment: ""), preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default))
             self.present(alert, animated: true, completion: nil)
             return false

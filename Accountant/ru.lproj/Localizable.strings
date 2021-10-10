@@ -144,10 +144,11 @@
 "Income1" = "Доход";
 "Transfer" = "Перевод";
 "Manual" = "Ручная";
+"Please check the amount value" = "Проверьте значение суммы";
 "Please check the \"From:\" amount value" = "Проверьте значение суммы \"С:\"";
 "Please check the \"To:\" amount value" = "Проверьте значение суммы \"На:\"";
-"Please select \"From:\"" = "Выберите  \"С:\"";
-"Please select \"To:\"" = "Выберите  \"На:\"";
+"Please select \"From:\" account/category" = "Выберите  \"С:\" счет/категорию";
+"Please select \"To:\" account/category" = "Выберите  \"На:\" счет/категорию";
 "Save" = "Сохранить";
 "Step 2" = "Шаг: 2";
 "To:" = "На:";

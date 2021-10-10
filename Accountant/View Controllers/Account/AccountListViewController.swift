@@ -93,6 +93,10 @@ class AccountListViewController: UIViewController, UIScrollViewDelegate{
         NotificationCenter.default.addObserver(self, selector: #selector(self.reloadProAccessData), name: .receivedProAccessData, object: nil)
         context = CoreDataStack.shared.persistentContainer.viewContext
   
+        if let environment = coreDataStack.activeEnviroment() {
+            self.environment = environment
+        }
+        
         reloadProAccessData()
         
         accountingCurrency = CurrencyManager.getAccountingCurrency(context: context)!
@@ -107,6 +111,7 @@ class AccountListViewController: UIViewController, UIScrollViewDelegate{
             account = AccountManager.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.credits), context: context)
         }
         
+        moneyAccountListTableViewController.environment = self.environment
         moneyAccountListTableViewController.context = context
         moneyAccountListTableViewController.delegate = self
         moneyAccountListTableViewController.accountingCurrency = accountingCurrency
