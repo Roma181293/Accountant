@@ -802,7 +802,7 @@ class SimpleTransactionEditorViewController: UIViewController {//}, GADFullScree
             self.present(alert, animated: true, completion: nil)
             return false
         }
-        else if Double(amountInCreditCurrencyTextField.text!.replacingOccurrences(of: ",", with: ".")) == nil {
+        else if Double(amountInCreditCurrencyTextField.text!.replacingOccurrences(of: ",", with: ".")) == nil && debit?.currency != credit?.currency {
             let alert = UIAlertController(title: NSLocalizedString("Warning", comment: ""), message: NSLocalizedString("Please check the \"From:\" amount value", comment: ""), preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default))
             self.present(alert, animated: true, completion: nil)
