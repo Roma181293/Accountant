@@ -276,7 +276,7 @@ extension TransactionListViewController: UITableViewDelegate, UITableViewDataSou
             complete(true)
         }
         
-        let copy = UIContextualAction(style: .normal, title: NSLocalizedString("Copy",comment: "")) { _, _, complete in
+        let duplicate = UIContextualAction(style: .normal, title: NSLocalizedString("Duplicate",comment: "")) { _, _, complete in
             do {
                 if self.isUserHasPaidAccess || self.coreDataStack.activeEnviroment() == .test {
                     let transaction = self.fetchedResultsController.object(at: indexPath) as Transaction
@@ -297,7 +297,7 @@ extension TransactionListViewController: UITableViewDelegate, UITableViewDataSou
             complete(true)
         }
         
-        let configuration : UISwipeActionsConfiguration? = UISwipeActionsConfiguration(actions: [delete,copy])
+        let configuration : UISwipeActionsConfiguration? = UISwipeActionsConfiguration(actions: [delete,duplicate])
         configuration?.actions[0].backgroundColor = .systemRed
         configuration?.actions[0].image = UIImage(systemName: "trash")
         configuration?.actions[1].backgroundColor = .systemBlue

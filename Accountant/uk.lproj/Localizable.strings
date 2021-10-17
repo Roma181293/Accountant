@@ -160,7 +160,7 @@
 "Please contact support. Cannot find external table view to delete transaction item" = "Please contact to support. Can not find external table view to remove transaction item";
 "From" = "З";
 "To" = "До";
-"Copy" = "Копіювати";
+"Duplicate" = "Дублювати";
 "Do you want to delete transaction?" = "Ви дійсно хочете видалити операцію?";
 "Get PRO" = "PRO";
 "Transactions" = "Операції";
@@ -174,7 +174,7 @@
 "Terms of use" = "Умови використання";
 "App version" = "Версія";
 "Account creation in currencies different from accounting currency" = "Створення рахунків у валютах відмінних від валюти обліку";
-"Copy transactions" = "Копіювання операцій";
+"Duplicate transactions" = "Дублювання операцій";
 "Export of transactions" = "Експорт операцій";
 "Export of accounts/categories and transactions" = "Експорт рахунків/категорій і операцій";
 "Hide accounts and categories" = "Приховування рахунків і категорій";

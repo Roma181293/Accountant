@@ -132,7 +132,7 @@
 "Please add money accounts (Cash and bank cards)" = "Добавьте денежные счета (Наличные и банковские карты)";
 "Please choose currency" = "Пожалуйста выберите валюту";
 "Start accounting" = "Начать учет";
-"Try functionality" = "Попробоавть функционал";
+"Try functionality" = "Попробовать функционал";
 "Welcome" = "Привет";
 "Add transaction" = "Добавить операцию";
 "Comment" = "Коментарий";
@@ -160,7 +160,7 @@
 "Please contact support. Cannot find external table view to delete transaction item" = "Please contact to support. Can not find external table view to remove transaction item";
 "From" = "С";
 "To" = "На";
-"Copy" = "Копировать";
+"Duplicate" = "Дублировать";
 "Do you want to delete transaction?" = "Вы действительно хотите удалить операцию?";
 "Get PRO" = "PRO";
 "Transactions" = "Операции";
@@ -174,7 +174,7 @@
 "Terms of use" = "Условия использования";
 "App version" = "Версия";
 "Account creation in currencies different from accounting currency" = "Создание счетов в валютах отличныйх от валюты учета";
-"Copy transactions" = "Копирование операций";
+"Duplicate transactions" = "Дублирование операций";
 "Export of transactions" = "Экспорт операций";
 "Export of accounts/categories and transactions" = "Экспорт счетов/категорий и операций";
 "Hide accounts and categories" = "Скрытие счетов и категорий";
