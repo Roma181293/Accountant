@@ -54,6 +54,9 @@
 "We create an associated credit account with your credit cards. Credit account \"%@\" already exists" = "Вместе с кредитной картой мы создаем связаный кредитный счет, и этот счет \"%@\" уже существует";
 "You cannot hide \"%@\" account. Only accounts with 0 balance can be hidden" = "Невозможно скрыть счет \"%@\". Только счета с нулевым балансом можно скрыть";
 "You have a transaction in the same currency, but amounts in From:Account and To:Account are not matching" = "Вы имеете транзакцию в одной валюте.Но сумма С:Счет не совпадает с суммой На:Счет";
+"Please check amount value to account/category \"%@\"" = "Пожалуйста проверьте значение сумми на счет/категорию \"%@\"";
+"Please check amount value from account/category \"%@\"" = "Пожалуйста проверьте значение сумми со счета/категории \"%@\"";
+"There are one or more thansaction items with incorrect types value. Possible values: \"From\", \"Credit\", \"To\", \"Debit\"" = "Один або більше елементіа операціі має некоректне значення типу. Можливі значення: \"From\", \"Credit\", \"To\", \"Debit\"";
 "A subscription is automatically renewed unless you cancel it at least 24 hours before the end of the billing cycle. The renewal fee will be charged on the day before the end of the current billing cycle. You can manage or cancel subscription in your iTunes account settings" = "Подписка продлевается автоматически, если вы не отменили ее хотябы за 24 часа до завершения текущего периода. Оплата за продолжение будет списана в течение суток, что предшествет дате завершения текущего периода. Управлять подпиской и отменить ее можна в настройках учетной записи iTunes";
 "after" = "после";
 "Discount" = "Скидка";
@@ -174,7 +177,7 @@
 "Terms of use" = "Условия использования";
 "App version" = "Версия";
 "Account creation in currencies different from accounting currency" = "Создание счетов в валютах отличныйх от валюты учета";
-"Duplicate transactions" = "Дублирование операций";
+"Duplicate transactions" = "Дуюлирование операций";
 "Export of transactions" = "Экспорт операций";
 "Export of accounts/categories and transactions" = "Экспорт счетов/категорий и операций";
 "Hide accounts and categories" = "Скрытие счетов и категорий";
@@ -247,3 +250,8 @@
 "UZS" = "Узбекский сум";
 "VND" = "Вьетнамский донг";
 "ZAR" = "Южно Африканский ренд";
+"Import transactions" = "Импорт операций";
+"Success" = "Успех";
+"All transactions successfully added" = "Все операции успешно добавлены";
+"Please fix all errors in transaction list" = "Пожалуйста исправте все ошибки в операциях";
+"Show olny errors" = "Показать только ошибки";

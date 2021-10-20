@@ -64,32 +64,6 @@ class TransactionManager {
     }
     
     
-    static func addTransactionsFromPreTransactionList(_ preTransactionList : [PreTransaction], context: NSManagedObjectContext) {
-        var transactionList : [Transaction] = []
-        
-        let createDate = Date()
-        let createdByUser = true
-
-        for preTransaction in preTransactionList {
-            
-            let transaction = Transaction(context: context)
-            transaction.createDate = createDate
-            transaction.createdByUser = createdByUser
-            transaction.modifyDate = createDate
-            transaction.modifiedByUser = createdByUser
-        
-            transaction.date = preTransaction.date
-            
-            TransactionItemManager.createTransactionItem(transaction: transaction, type: .debit, account: preTransaction.debit!, amount: preTransaction.debitAmount!, createdByUser: createdByUser, createDate: createDate, context: context)
-            TransactionItemManager.createTransactionItem(transaction: transaction, type: .credit, account: preTransaction.credit!, amount: preTransaction.creditAmount!, createdByUser: createdByUser, createDate: createDate, context: context)
-            
-            transaction.comment = preTransaction.memo
-            
-            transactionList.append(transaction)
-        }
-    }
-    
-    
     static func deleteTransaction(_ transaction : Transaction, context: NSManagedObjectContext){
         do {
             for item in transaction.items!.allObjects as! [TransactionItem]{
@@ -132,7 +106,7 @@ class TransactionManager {
         }
         inputMatrix.remove(at: 0)
 
-        //load accounts from DB
+        //load accounts from the DB
         context.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
         let accountFetchRequest : NSFetchRequest<Account> = NSFetchRequest<Account>(entityName: Account.entity().name!)
         accountFetchRequest.sortDescriptors = [NSSortDescriptor(key: "path", ascending: false)]
@@ -147,8 +121,38 @@ class TransactionManager {
             
             guard row.count > 1 else {break}
             
-            let preTransaction = PreTransaction()
-            preTransaction.date = formatter.date(from: row[0])
+            func getPreTransactionWithId(_ id : String) -> PreTransaction? {
+                let candidate = preTransactionList.filter({if $0.id == id {return true} else {return false}})
+                if candidate.count == 1 {
+                    return candidate[0]
+                }
+                return nil
+            }
+            
+            
+            var preTransaction : PreTransaction!
+            
+            if let pretransaction = getPreTransactionWithId(row[0]) {
+                preTransaction = pretransaction
+                if let date = formatter.date(from: row[1]), preTransaction.transaction.date == nil {
+                    preTransaction.transaction.date = date
+                }
+            }
+            else {
+                preTransaction = PreTransaction()
+                preTransaction.transaction = Transaction(context: context)
+                preTransaction.id = row[0]
+                preTransaction.transaction.date = formatter.date(from: row[1])
+                if row[5] != "" {
+                    preTransaction.transaction.comment = row[5]
+                }
+            
+                preTransaction.transaction.createDate = Date()
+                preTransaction.transaction.modifyDate = Date()
+                preTransaction.transaction.createdByUser = true
+                preTransaction.transaction.modifiedByUser = true
+                preTransactionList.append(preTransaction)
+            }
 
             func findAccountWithPath(_ path : String) -> Account?{
                 for account in accounts {
@@ -158,16 +162,30 @@ class TransactionManager {
                 }
                 return nil
             }
-
-            preTransaction.credit = findAccountWithPath(row[1])
-            preTransaction.creditAmount = Double(row[2])
-            preTransaction.debit = findAccountWithPath(row[3])
-            preTransaction.debitAmount = Double(row[4])
-
-            if row[5] != "" {
-                preTransaction.memo = row[5]
+            
+            let transactionItem = TransactionItem(context: context)
+            if row[2] == "Credit" || row[2] == "From" {
+                transactionItem.type = 0
             }
-            preTransactionList.append(preTransaction)
+            else if row[2] == "Debit" || row[2] == "To" {
+                transactionItem.type = 1
+            }
+            else {
+                throw TransactionItemError.attributeTypeDidNotSpecified
+            }
+            transactionItem.account = findAccountWithPath(row[3])
+            if let amount = Double(row[4]) {
+                transactionItem.amount = amount
+            }
+            else {
+                transactionItem.amount = -1
+            }
+
+            transactionItem.transaction = preTransaction.transaction
+            transactionItem.createDate = Date()
+            transactionItem.modifyDate = Date()
+            transactionItem.createdByUser = true
+            transactionItem.modifiedByUser = true
         }
         return preTransactionList
     }
@@ -178,34 +196,33 @@ class TransactionManager {
         tansactionFetchRequest.sortDescriptors = [NSSortDescriptor(key: "date", ascending: false)]
         do{
             let storedTransactions = try context.fetch(tansactionFetchRequest)
-            var export : String = "Date,Credit,Credit amount,Debit,Debit amount,Comment"
+            var export : String = "Id,Date,Type,Account,Amount,Comment"
             let formatter = DateFormatter()
             formatter.dateFormat = "yyyy-MM-dd hh:mm:ss z"
             for transaction in storedTransactions {
                 
-                var debitAccount: Account!
-                var creditAccount: Account!
-                var debitAmount: Double = 0
-                var creditAmount: Double = 0
+                let startIndex =  transaction.id.debugDescription.index(transaction.id.debugDescription.firstIndex(of: "x")!, offsetBy: 1)
+                let endIndex = transaction.id.debugDescription.index(transaction.id.debugDescription.firstIndex(of: ")")!, offsetBy: -1)
+                let transactionId = transaction.id.debugDescription[startIndex...endIndex]
                 
                 for item in transaction.items?.allObjects as! [TransactionItem] {
-                    if item.type == AccounttingMethod.debit.rawValue {
-                        debitAccount = item.account!
-                        debitAmount = item.amount
+                    export += "\n"
+                    
+                    export +=  String(describing: transactionId) + ","
+                    
+                    export +=  String(describing: formatter.string(from:transaction.date!)) + ","
+                    var type :String = ""
+                    if item.type == 0 {
+                        type = "Credit"
                     }
-                    else if item.type == AccounttingMethod.credit.rawValue {
-                        creditAccount = item.account!
-                        creditAmount = item.amount
+                    else if item.type == 1 {
+                        type = "Debit"
                     }
+                    export +=  type + ","
+                    export +=  String(describing: item.account!.path ?? "error") + ","
+                    export +=  String(describing: item.amount) + ","
+                    export +=  "\(transaction.comment ?? "")"
                 }
-                
-                export += "\n"
-                export +=  String(describing: formatter.string(from:transaction.date!))+","
-                export +=  String(describing: creditAccount.path ?? "error")+","
-                export +=  String(describing: creditAmount)+","
-                export +=  String(describing: debitAccount.path ?? "error")+","
-                export +=  String(describing: debitAmount)+","
-                export +=  "\(transaction.comment ?? "")"
             }
             return export
         }
@@ -245,6 +262,15 @@ class TransactionManager {
                     }
                     else {
                         throw TransactionError.multicurrencyAccount(name: account.path!)
+                    }
+                    
+                    if item.amount < 0 {
+                        switch type {
+                        case .debit:
+                            throw TransactionItemError.invalidAmountInDebitTransactioItem(path: account.path!)
+                        case .credit:
+                            throw TransactionItemError.invalidAmountInCreditTransactioItem(path: account.path!)
+                        }
                     }
                 }
                 else {

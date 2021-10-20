@@ -8,10 +8,17 @@
 import UIKit
 import CoreData
 
+enum TransactionEditorMode {
+    case `default`
+    case importMode
+}
+
 class ComplexTransactionEditorViewController: UIViewController{
     
     var coreDataStack = CoreDataStack.shared
     var context: NSManagedObjectContext = CoreDataStack.shared.persistentContainer.viewContext
+    
+    var mode : TransactionEditorMode = .default
     
     var transaction : Transaction?
     private weak var transactionItemForAccountSpecifying: TransactionItem?
@@ -20,6 +27,7 @@ class ComplexTransactionEditorViewController: UIViewController{
     //UI element declaration
     let mainStackViewSpacing: CGFloat = 5
     var activeTextField : UITextField?
+    
     let mainView : UIView = {
         let mainView = UIView()
         mainView.translatesAutoresizingMaskIntoConstraints = false
@@ -148,12 +156,23 @@ class ComplexTransactionEditorViewController: UIViewController{
         super.viewDidLoad()
         
         if let transaction = transaction {
-            datePicker.date = transaction.date!
+            if let date =  transaction.date {
+                datePicker.date = date
+            }
+            else {
+                datePicker.date = Date()
+            }
             commentTextField.text = transaction.comment
             isNewTransaction = false
             self.navigationItem.title = NSLocalizedString("Edit transaction", comment: "")
-            self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: NSLocalizedString("Save", comment: ""), style: .done, target: self, action: #selector(self.confirm(_:)))
-            confirmButton.isHidden = true
+            
+            if mode == .default {
+                self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: NSLocalizedString("Save", comment: ""), style: .done, target: self, action: #selector(self.confirm(_:)))
+                confirmButton.isHidden = true
+            }
+            else if mode == .importMode {
+                confirmButton.isHidden = false
+            }
         }
         else {
             datePicker.date = Date()
@@ -214,14 +233,16 @@ class ComplexTransactionEditorViewController: UIViewController{
     override func willMove(toParent parent: UIViewController?) {
         super.willMove(toParent: parent)
         if parent == nil {
-            if transaction != nil && context.hasChanges { //to avoid transactionItems with no account
+            if transaction != nil && context.hasChanges && mode == .default { //to avoid transactionItems with no account
             context.rollback()
             }
         }
     }
     
     deinit {
-        context.rollback()
+        if  mode == .default {
+            context.rollback()
+        }
     }
     
     func addMainView() {
@@ -376,6 +397,7 @@ class ComplexTransactionEditorViewController: UIViewController{
     }
     
     @objc func confirm(_ sender: UIButton) {
+        dismissKeyboard()
         guard let transaction = transaction else {return}
         
         do {
@@ -384,7 +406,7 @@ class ComplexTransactionEditorViewController: UIViewController{
                 try coreDataStack.saveContext(context)
                 self.navigationController?.popViewController(animated: true)
             }
-            else if context.hasChanges {
+            else if context.hasChanges && mode == .default {
                 try TransactionManager.validateTransactionDataBeforeSave(transaction)
                 let alert = UIAlertController(title: NSLocalizedString("Save",comment: ""), message: NSLocalizedString("Do you want to save changes?", comment: ""), preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: NSLocalizedString("Yes",comment: ""), style: .default, handler: {(_) in
@@ -404,6 +426,11 @@ class ComplexTransactionEditorViewController: UIViewController{
                 alert.addAction(UIAlertAction(title: NSLocalizedString("Cancel",comment: ""), style: .cancel))
                 self.present(alert, animated: true, completion: nil)
             }
+            else if mode == .importMode {
+                transaction.date = datePicker.date
+                try TransactionManager.validateTransactionDataBeforeSave(transaction)
+                self.navigationController?.popViewController(animated: true)
+            }
             else {
                 self.navigationController?.popViewController(animated: true)
             }
@@ -416,7 +443,7 @@ class ComplexTransactionEditorViewController: UIViewController{
     
     func errorHandler(error: Error) {
         var title = NSLocalizedString("Error", comment: "")
-        if error is TransactionError{
+        if error is AppError{
             title = NSLocalizedString("Warning", comment: "")
         }
         

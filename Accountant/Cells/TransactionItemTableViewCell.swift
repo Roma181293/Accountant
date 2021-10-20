@@ -48,16 +48,16 @@ class TransactionItemTableViewCell: UITableViewCell {
         
         if let account = transactionItem.account {
             accountButton.setTitle(account.path!, for: .normal)
-            amountTextField.text = String(transactionItem.amount)
         }
         else {
             accountButton.setTitle(NSLocalizedString("Account", comment: ""), for: .normal)
-            if transactionItem.amount != 0 {
-                amountTextField.text = String(transactionItem.amount)
-            }
-            else {
-                amountTextField.text = ""
-            }
+        }
+        
+        if transactionItem.amount > 0 {
+            amountTextField.text = String(transactionItem.amount)
+        }
+        else {
+            amountTextField.text = ""
         }
         addMainView()
     }
