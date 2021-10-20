@@ -36,7 +36,7 @@
 "Not supported" = "Не поддерживается";
 "Please add From:Account" = "Пожалуйста добавьте С:Счет";
 "Please add To:Account" = "Пожалуйста добавьте На:Счет";
-"Please create a subaccount for \"%@\" and select it" = "Пожалуйста доздайте дочерний счет к \"%@\" и выберите его";
+"Please create a subaccount for \"%@\" and select it" = "Пожалуйста cоздайте дочерний счет к \"%@\" и выберите его";
 "Please enter balance" = "Пожалуйста введите баланс";
 "Please enter credit limit" = "Пожалуйста введите кредитный лимит";
 "Please enter exchange rate" = "Пожалуйста введите курс обмена";
