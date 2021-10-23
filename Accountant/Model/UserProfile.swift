@@ -68,6 +68,20 @@ class UserProfile {
         }
     }
     
+    static func useMultiItemTransaction(_ value: Bool) {
+        let defaults = UserDefaults.standard
+        defaults.set(value, forKey: "useMultiItemTransaction")
+    }
+    
+    static func isUseMultiItemTransaction() -> Bool{
+        if let value = UserDefaults.standard.object(forKey: "useMultiItemTransaction") as? Bool {
+            return value
+        }
+        else {
+            return false
+        }
+    }
+    
     
     static func setUserAuth(_ authType: AuthType) {
         let defaults = UserDefaults.standard

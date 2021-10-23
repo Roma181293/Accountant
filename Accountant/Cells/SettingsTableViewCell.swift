@@ -148,6 +148,13 @@ class SettingsTableViewCell: UITableViewCell {
             iconImangeView.image = UIImage(systemName: "list.bullet.indent")
             iconImangeView.tintColor = .systemRed
             accessoryType = .disclosureIndicator
+        case.multiItemTransaction:
+            switcher.isHidden = false
+            titleLabel.text = NSLocalizedString(dataItem.rawValue, comment: "")
+            iconImangeView.image = UIImage(systemName: "list.number")
+            iconImangeView.tintColor = .blue
+            switcher.isOn = UserProfile.isUseMultiItemTransaction()
+            accessoryType = .none
         case .importAccounts:
             titleLabel.text = NSLocalizedString(dataItem.rawValue, comment: "")
             iconImangeView.image = UIImage(systemName: "square.and.arrow.down.on.square")
@@ -219,6 +226,21 @@ class SettingsTableViewCell: UITableViewCell {
             }
             else {
                 UserProfile.setUserAuth(.none)
+            }
+        }
+        else if dataItem == .multiItemTransaction {
+            
+            if sender.isOn {
+                if AccessCheckManager.checkUserAccessToSwitchingAppToMultiItemMode(environment: delegate.environment, isUserHasPaidAccess: delegate.isUserHasPaidAccess) {
+                UserProfile.useMultiItemTransaction(true)
+                }
+                else {
+                    sender.isOn = false
+                    delegate.showPurchaseOfferVC()
+                }
+            }
+            else {
+                UserProfile.useMultiItemTransaction(false)
             }
         }
         else if dataItem == .envirement {

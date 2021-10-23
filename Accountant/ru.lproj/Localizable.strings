@@ -167,6 +167,7 @@
 "Do you want to delete transaction?" = "Вы действительно хотите удалить операцию?";
 "Get PRO" = "PRO";
 "Transactions" = "Операции";
+"Multi item transaction" = " Многоэлементная операция";
 "Accounting currency" = "Валюта учета";
 "Import Account List" = "Импортировать счета";
 "Import Transaction List" = "Импортировать операции";
@@ -178,10 +179,9 @@
 "App version" = "Версия";
 "Account creation in currencies different from accounting currency" = "Создание счетов в валютах отличныйх от валюты учета";
 "Duplicate transactions" = "Дублирование операций";
-"Export of transactions" = "Экспорт операций";
-"Export of accounts/categories and transactions" = "Экспорт счетов/категорий и операций";
+"Export and import of transactions" = "Экспорт и импорт операций";
+"Create multi item transactions" = "Создание многоэлементных операций";
 "Hide accounts and categories" = "Скрытие счетов и категорий";
-"Import accounts/categories and transactions from the file" = "Импорт счетов/категорий и операций";
 "No ads" = "Отсутствие рекламы";
 "Security" = "Безопасность";
 "Subcategories. Create income and expense strucrure" = "Подкатегории. Создание структуры доходов и расходов";

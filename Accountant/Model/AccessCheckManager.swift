@@ -37,6 +37,13 @@ class AccessCheckManager {
         return false
     }
     
+    static func checkUserAccessToSwitchingAppToMultiItemMode(environment: Environment, isUserHasPaidAccess: Bool) -> Bool {
+        if environment == .test || isUserHasPaidAccess == true {
+            return true
+        }
+        return false
+    }
+    
     static func checkUserAccessToCreateAccountInNotAccountingCurrency(environment: Environment, isUserHasPaidAccess: Bool) -> Bool {
         if environment == .test || isUserHasPaidAccess == true {
             return true

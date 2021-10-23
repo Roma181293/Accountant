@@ -18,12 +18,14 @@ enum SettingsDataSource: String, CaseIterable{
     case envirement = "Envirement"
     case accountingCurrency = "Accounting currency"
     case accountsManager = "Account manager"
+    case multiItemTransaction = "Multi item transaction"
     case importAccounts = "Import Account List"
     case importTransactions = "Import Transaction List"
     case exportAccounts = "Share Account List"
     case exportTransactions = "Share Transaction List"
     case termsOfUse = "Terms of use"
     case privacyPolicy = "Privacy policy"
+    
 }
 
 class SettingsViewController: UIViewController {
@@ -210,6 +212,8 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
             vc.searchBarIsHidden = false
             vc.isUserHasPaidAccess = isUserHasPaidAccess
             self.navigationController?.pushViewController(vc, animated: true)
+        case .multiItemTransaction:
+            break
         case .importAccounts:
             if AccessCheckManager.checkUserAccessToImportExportEntities(environment: environment, isUserHasPaidAccess: isUserHasPaidAccess) {
                 isImportAccounts = true

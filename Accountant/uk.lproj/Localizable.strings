@@ -167,6 +167,7 @@
 "Do you want to delete transaction?" = "Ви дійсно хочете видалити операцію?";
 "Get PRO" = "PRO";
 "Transactions" = "Операції";
+"Multi item transaction" = "Багатоелементна операція";
 "Accounting currency" = "Валюта обліку";
 "Import Account List" = "Імпортувати рахунки";
 "Import Transaction List" = "Імпортувати операції";
@@ -178,10 +179,9 @@
 "App version" = "Версія";
 "Account creation in currencies different from accounting currency" = "Створення рахунків у валютах відмінних від валюти обліку";
 "Duplicate transactions" = "Дублювання операцій";
-"Export of transactions" = "Експорт операцій";
-"Export of accounts/categories and transactions" = "Експорт рахунків/категорій і операцій";
+"Export and import of transactions" = "Експорт та імпорт операцій";
+"Create multi item transactions" = "Створення багатоелементних операцій";
 "Hide accounts and categories" = "Приховування рахунків і категорій";
-"Import accounts/categories and transactions from the file" = "Імпорт рахунків/категорій і операцій";
 "No ads" = "Відсутність реклами";
 "Security" = "Безпека";
 "Subcategories. Create income and expense strucrure" = "Підкатегорії. Створення структури доходів і витрат";

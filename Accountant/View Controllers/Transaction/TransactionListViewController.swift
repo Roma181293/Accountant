@@ -135,10 +135,19 @@ class TransactionListViewController: UIViewController{
     
     @objc func addTransaction(_ sender:UIButton!){
         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let transactionEditorVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.simpleTransactionEditorViewController) as! SimpleTransactionEditorViewController
-//        transactionEditorVC.interstitial = interstitial
-        transactionEditorVC.isUserHasPaidAccess = isUserHasPaidAccess
-        self.navigationController?.pushViewController(transactionEditorVC, animated: true)
+        
+        if UserProfile.isUseMultiItemTransaction() {
+            let transactioEditorVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.complexTransactionEditorViewController) as! ComplexTransactionEditorViewController
+            
+            transactioEditorVC.context = context
+            self.navigationController?.pushViewController(transactioEditorVC, animated: true)
+        }
+        else {
+            let transactioEditorVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.simpleTransactionEditorViewController) as! SimpleTransactionEditorViewController
+            //        transactioEditorVC.interstitial = interstitial
+            transactioEditorVC.isUserHasPaidAccess = isUserHasPaidAccess
+            self.navigationController?.pushViewController(transactioEditorVC, animated: true)
+        }
     }
     
     
@@ -175,11 +184,10 @@ class TransactionListViewController: UIViewController{
         Purchases.shared.purchaserInfo { (purchaserInfo, error) in
             if purchaserInfo?.entitlements.all["pro"]?.isActive == true {
                 self.isUserHasPaidAccess = true
-                //                self.tabBarController?.navigationItem.rightBarButtonItem = nil
             }
             else if purchaserInfo?.entitlements.all["pro"]?.isActive == false {
                 self.isUserHasPaidAccess = false
-                //                self.tabBarController?.navigationItem.rightBarButtonItem = UIBarButtonItem(title: NSLocalizedString("Get PRO", comment: ""), style: .bordered, target: self, action: #selector(self.showPurchaseOfferVC))
+                UserProfile.useMultiItemTransaction(false)
             }
         }
     }
@@ -237,21 +245,23 @@ extension TransactionListViewController: UITableViewDelegate, UITableViewDataSou
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        let transaction = fetchedResultsController.object(at: indexPath) as Transaction
         
-        //        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        //        let transactioEditorVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.complexTransactionEditorViewController) as! ComplexTransactionEditorViewController
-        //        transactioEditorVC.transaction = fetchedResultsController.object(at: indexPath) as Transaction
-        //        transactioEditorVC.context = context
-        //        vc.isUserHasPaidAccess = isUserHasPaidAccess
-        //        self.navigationController?.pushViewController(transactioEditorVC, animated: true)
-        //
         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let transactioEditorVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.simpleTransactionEditorViewController) as! SimpleTransactionEditorViewController
-        transactioEditorVC.transaction = fetchedResultsController.object(at: indexPath) as Transaction
-//        transactioEditorVC.interstitial = interstitial
-        transactioEditorVC.isUserHasPaidAccess = isUserHasPaidAccess
-        self.navigationController?.pushViewController(transactioEditorVC, animated: true)
-        
+      
+        if (transaction.items?.allObjects as! [TransactionItem]).count > 2 ||  UserProfile.isUseMultiItemTransaction() {
+            let transactioEditorVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.complexTransactionEditorViewController) as! ComplexTransactionEditorViewController
+            transactioEditorVC.transaction = transaction
+            transactioEditorVC.context = context
+            self.navigationController?.pushViewController(transactioEditorVC, animated: true)
+        }
+        else {
+            let transactioEditorVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.simpleTransactionEditorViewController) as! SimpleTransactionEditorViewController
+            transactioEditorVC.transaction = transaction
+            //        transactioEditorVC.interstitial = interstitial
+            transactioEditorVC.isUserHasPaidAccess = isUserHasPaidAccess
+            self.navigationController?.pushViewController(transactioEditorVC, animated: true)
+        }
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {

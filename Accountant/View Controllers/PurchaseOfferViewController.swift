@@ -16,9 +16,9 @@ final class PurchaseOfferViewController: UIViewController {
                              ("✔", "Subcategories. Create income and expense strucrure"),
                              ("₴＄€", "Account creation in currencies different from accounting currency"),
                              ("🙈", "Hide accounts and categories"),
+                             ("🤫","Create multi item transactions"),
                              ("🧾🧾", "Duplicate transactions"),
-                             ("📤", "Export of transactions"),
-                             //("📥", "Import accounts/categories and transactions from the file"),
+                             ("📤📥", "Export and import of transactions"),
                              ("🔒", "Security")
 //                             ("⚠️", "No ads")
     ]
