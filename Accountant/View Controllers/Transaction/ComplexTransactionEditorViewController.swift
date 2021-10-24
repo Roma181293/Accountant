@@ -141,13 +141,17 @@ class ComplexTransactionEditorViewController: UIViewController{
     
     let confirmButton: UIButton = {
         let button = UIButton()
-        button.backgroundColor = UIColor(displayP3Red: 242/255, green: 242/255, blue: 243/255, alpha: 1)
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.setImage(UIImage(systemName: "checkmark"), for: .normal)
+        
+        button.backgroundColor = Colors.Main.confirmButton
         button.layer.cornerRadius = 34
-        button.backgroundColor = .systemGray5
-        if let image = UIImage(systemName: "checkmark") {
-            button.setImage(image, for: .normal)
-        }
+        button.layer.shadowColor = UIColor.gray.cgColor
+        button.layer.shadowOffset = CGSize(width: 2, height: 2)
+        button.layer.shadowOpacity = 0.5
+        button.layer.shadowRadius = 3
+        button.layer.masksToBounds =  false
+        
         return button
     }()
     

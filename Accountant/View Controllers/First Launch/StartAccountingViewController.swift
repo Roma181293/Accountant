@@ -61,10 +61,16 @@ class StartAccountingViewController: UIViewController, CurrencyReceiverDelegate 
     
     let nextButton: UIButton = {
         let button = UIButton()
-        button.backgroundColor = Colors.Main.confirmButton
         button.setImage(UIImage(systemName: "arrow.right") , for: .normal)
-        button.layer.cornerRadius = 34
         button.translatesAutoresizingMaskIntoConstraints = false
+        
+        button.backgroundColor = Colors.Main.confirmButton
+        button.layer.cornerRadius = 34
+        button.layer.shadowColor = UIColor.gray.cgColor
+        button.layer.shadowOffset = CGSize(width: 2, height: 2)
+        button.layer.shadowOpacity = 0.5
+        button.layer.shadowRadius = 3
+        button.layer.masksToBounds =  false
         return button
     }()
     

@@ -199,7 +199,6 @@ class TransactionListViewController: UIViewController{
     
     private func addButtonToViewController() {
         let addButton = UIButton(frame: CGRect(origin: CGPoint(x: self.view.frame.width - 70 , y: self.view.frame.height - 150), size: CGSize(width: 68, height: 68)))
-        addButton.backgroundColor = .systemGray5
         view.addSubview(addButton)
         
         addButton.translatesAutoresizingMaskIntoConstraints = false
@@ -211,7 +210,14 @@ class TransactionListViewController: UIViewController{
             addButton.widthAnchor.constraint(equalToConstant: 68)
         ])
         
+        addButton.backgroundColor = Colors.Main.confirmButton
         addButton.layer.cornerRadius = 34
+        addButton.layer.shadowColor = UIColor.gray.cgColor
+        addButton.layer.shadowOffset = CGSize(width: 2, height: 2)
+        addButton.layer.shadowOpacity = 0.5
+        addButton.layer.shadowRadius = 3
+        addButton.layer.masksToBounds =  false
+        
         if let image = UIImage(systemName: "plus") {
             addButton.setImage(image, for: .normal)
         }

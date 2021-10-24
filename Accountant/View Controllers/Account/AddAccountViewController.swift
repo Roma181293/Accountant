@@ -58,10 +58,16 @@ class AddAccountViewController: UIViewController {
         let widthConstraint = NSLayoutConstraint(item: addButton, attribute: NSLayoutConstraint.Attribute.width, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: 68)
         let heightConstraint = NSLayoutConstraint(item: addButton, attribute: NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: 68)
         view.addConstraints([horizontalConstraint, verticalConstraint, widthConstraint, heightConstraint])
+        
+        addButton.setImage(UIImage(systemName: "plus"), for: .normal)
+        
+        addButton.backgroundColor = Colors.Main.confirmButton
         addButton.layer.cornerRadius = 34
-        if let image = UIImage(systemName: "plus") {
-            addButton.setImage(image, for: .normal)
-        }
+        addButton.layer.shadowColor = UIColor.gray.cgColor
+        addButton.layer.shadowOffset = CGSize(width: 2, height: 2)
+        addButton.layer.shadowOpacity = 0.5
+        addButton.layer.shadowRadius = 3
+        addButton.layer.masksToBounds =  false
         addButton.addTarget(self, action: #selector(AddAccountViewController.save(_:)), for: .touchUpInside)
     }
     

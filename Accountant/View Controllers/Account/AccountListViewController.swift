@@ -117,11 +117,13 @@ class AccountListViewController: UIViewController, UIScrollViewDelegate{
         moneyAccountListTableViewController.accountingCurrency = accountingCurrency
         moneyAccountListTableViewController.isUserHasPaidAccess = isUserHasPaidAccess
         moneyAccountListTableViewController.account = account
+        
+        addButtonToViewController()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        addButtonToViewController()
+        
         self.tabBarController?.navigationItem.title = NSLocalizedString("Accounts",comment: "")
         if isNeedUpdateAll() {
             dateOfLastChangesInDB = UserProfile.getDateOfLastChangesInDB()
@@ -313,7 +315,6 @@ class AccountListViewController: UIViewController, UIScrollViewDelegate{
     
     private func addButtonToViewController() {
         let addButton = UIButton(frame: CGRect(origin: CGPoint(x: self.view.frame.width - 70 , y: self.view.frame.height - 150), size: CGSize(width: 68, height: 68)))
-        addButton.backgroundColor = .systemGray5
         view.addSubview(addButton)
         
         addButton.translatesAutoresizingMaskIntoConstraints = false
@@ -325,10 +326,16 @@ class AccountListViewController: UIViewController, UIScrollViewDelegate{
             addButton.widthAnchor.constraint(equalToConstant: 68)
           ])
         
+        addButton.setImage(UIImage(systemName: "plus"), for: .normal)
+        
+        addButton.backgroundColor = Colors.Main.confirmButton
         addButton.layer.cornerRadius = 34
-        if let image = UIImage(systemName: "plus") {
-            addButton.setImage(image, for: .normal)
-        }
+        addButton.layer.shadowColor = UIColor.gray.cgColor
+        addButton.layer.shadowOffset = CGSize(width: 2, height: 2)
+        addButton.layer.shadowOpacity = 0.5
+        addButton.layer.shadowRadius = 3
+        addButton.layer.masksToBounds =  false
+        
         addButton.addTarget(self, action: #selector(AccountListViewController.addAccount(_:)), for: .touchUpInside)
     }
     
