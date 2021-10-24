@@ -56,7 +56,7 @@
 "You have a transaction in the same currency, but amounts in From:Account and To:Account are not matching" = "Ви маєте транзакцію в одній валюті. Але сума З:Рахунку не співпадає з сумою До:Рахунку";
 "Please check amount value to account/category \"%@\"" = "Будь ласка перевірте значеня суми на рахунок/категорію \"%@\"";
 "Please check amount value from account/category \"%@\"" = "Будь ласка перевірте значеня суми з рахунока/категорії \"%@\"";
-"There are one or more thansaction items with incorrect types value. Possible values: \"From\", \"Credit\", \"To\", \"Debit\"" = "Один або більше елементіа операціі має некоректне значення типу. Можливі значення: \"From\", \"Credit\", \"To\", \"Debit\"";
+"There are one or more thansaction items with incorrect types value. Possible values: \"From\", \"Credit\", \"To\", \"Debit\"" = "Один або більше елементів операціі має некоректне значення типу. Можливі значення: \"From\", \"Credit\", \"To\", \"Debit\"";
 "A subscription is automatically renewed unless you cancel it at least 24 hours before the end of the billing cycle. The renewal fee will be charged on the day before the end of the current billing cycle. You can manage or cancel subscription in your iTunes account settings" = "Підписка подовжується автоматично, якщо ви не скасували її принаймі за 24 години до завершення поточного періоду. Оплата за подовження буде списано протягом доби, що передує даті завершення поточного періоду. Керувати підпискою та скасувати її можна в налаштуваннях облікового запису iTunes";
 "after" = "після";
 "Discount" = "Знижка";

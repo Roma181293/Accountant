@@ -111,6 +111,7 @@ class ImportTransactionViewController: UIViewController{
             preTransactionList = try TransactionManager.importTransactionList(from: dataFromFile, context: context)
         }
         catch let error {
+            context.rollback()
             errorHandler(error: error)
         }
     }
@@ -142,6 +143,13 @@ class ImportTransactionViewController: UIViewController{
                 confirmButton.isHidden = true
                 return false
             }
+        }
+        if preTransactionList.count == 0 {
+            showOnlyErrorsLabel.isHidden = true
+            showOnlyErrorsSwich.isHidden = true
+            confirmButton.isHidden = true
+            print("Isn't ready")
+            return false
         }
         print("Ready")
         confirmButton.isHidden = false
