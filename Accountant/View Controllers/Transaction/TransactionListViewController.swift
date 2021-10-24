@@ -19,6 +19,7 @@ class TransactionListViewController: UIViewController{
     
     let coreDataStack = CoreDataStack.shared
     var context = CoreDataStack.shared.persistentContainer.viewContext
+    var environment = Environment.prod
     
     var resultSearchController = UISearchController()
     
@@ -136,7 +137,7 @@ class TransactionListViewController: UIViewController{
     @objc func addTransaction(_ sender:UIButton!){
         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         
-        if UserProfile.isUseMultiItemTransaction() {
+        if UserProfile.isUseMultiItemTransaction(environment: environment) {
             let transactioEditorVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.complexTransactionEditorViewController) as! ComplexTransactionEditorViewController
             
             transactioEditorVC.context = context
@@ -155,6 +156,9 @@ class TransactionListViewController: UIViewController{
         
         //MARK:- reset context and fetchedResultsController
         context = CoreDataStack.shared.persistentContainer.viewContext
+        if let environment = coreDataStack.activeEnviroment() {
+            self.environment = environment
+        }
         fetchedResultsController = {
             let fetchRequest : NSFetchRequest<Transaction> = NSFetchRequest<Transaction>(entityName: "Transaction")
             fetchRequest.sortDescriptors = [NSSortDescriptor(key: "date", ascending: false)]
@@ -187,7 +191,7 @@ class TransactionListViewController: UIViewController{
             }
             else if purchaserInfo?.entitlements.all["pro"]?.isActive == false {
                 self.isUserHasPaidAccess = false
-                UserProfile.useMultiItemTransaction(false)
+                UserProfile.useMultiItemTransaction(false, environment: self.environment)
             }
         }
     }
@@ -249,7 +253,7 @@ extension TransactionListViewController: UITableViewDelegate, UITableViewDataSou
         
         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
       
-        if (transaction.items?.allObjects as! [TransactionItem]).count > 2 ||  UserProfile.isUseMultiItemTransaction() {
+        if (transaction.items?.allObjects as! [TransactionItem]).count > 2 ||  UserProfile.isUseMultiItemTransaction(environment: environment) {
             let transactioEditorVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.complexTransactionEditorViewController) as! ComplexTransactionEditorViewController
             transactioEditorVC.transaction = transaction
             transactioEditorVC.context = context

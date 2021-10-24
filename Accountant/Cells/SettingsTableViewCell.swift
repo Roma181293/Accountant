@@ -153,7 +153,7 @@ class SettingsTableViewCell: UITableViewCell {
             titleLabel.text = NSLocalizedString(dataItem.rawValue, comment: "")
             iconImangeView.image = UIImage(systemName: "list.number")
             iconImangeView.tintColor = .blue
-            switcher.isOn = UserProfile.isUseMultiItemTransaction()
+            switcher.isOn = UserProfile.isUseMultiItemTransaction(environment: delegate.environment)
             accessoryType = .none
         case .importAccounts:
             titleLabel.text = NSLocalizedString(dataItem.rawValue, comment: "")
@@ -232,7 +232,7 @@ class SettingsTableViewCell: UITableViewCell {
             
             if sender.isOn {
                 if AccessCheckManager.checkUserAccessToSwitchingAppToMultiItemMode(environment: delegate.environment, isUserHasPaidAccess: delegate.isUserHasPaidAccess) {
-                UserProfile.useMultiItemTransaction(true)
+                    UserProfile.useMultiItemTransaction(true,environment: delegate.environment)
                 }
                 else {
                     sender.isOn = false
@@ -240,7 +240,7 @@ class SettingsTableViewCell: UITableViewCell {
                 }
             }
             else {
-                UserProfile.useMultiItemTransaction(false)
+                UserProfile.useMultiItemTransaction(false,environment: delegate.environment)
             }
         }
         else if dataItem == .envirement {
@@ -272,6 +272,8 @@ class SettingsTableViewCell: UITableViewCell {
                     try AccountManager.deleteAllAccounts(context: context)
                     try CurrencyManager.deleteAllCurrencies(context: context)
                     try CoreDataStack.shared.saveContext(context)
+                    
+                     UserProfile.useMultiItemTransaction(false, environment: .test)
                     
                     CoreDataStack.shared.switchToDB(.prod)
                 }

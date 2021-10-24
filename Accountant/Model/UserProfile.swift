@@ -68,13 +68,13 @@ class UserProfile {
         }
     }
     
-    static func useMultiItemTransaction(_ value: Bool) {
+    static func useMultiItemTransaction(_ value: Bool, environment: Environment){
         let defaults = UserDefaults.standard
-        defaults.set(value, forKey: "useMultiItemTransaction")
+        defaults.set(value, forKey: "useMultiItemTransaction\(environment.rawValue)")
     }
     
-    static func isUseMultiItemTransaction() -> Bool{
-        if let value = UserDefaults.standard.object(forKey: "useMultiItemTransaction") as? Bool {
+    static func isUseMultiItemTransaction(environment: Environment) -> Bool{
+        if let value = UserDefaults.standard.object(forKey: "useMultiItemTransaction\(environment.rawValue)") as? Bool {
             return value
         }
         else {
