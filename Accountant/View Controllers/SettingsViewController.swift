@@ -19,10 +19,10 @@ enum SettingsDataSource: String, CaseIterable{
     case accountingCurrency = "Accounting currency"
     case accountsManager = "Account manager"
     case multiItemTransaction = "Multi item transaction"
-    case importAccounts = "Import Account List"
-    case importTransactions = "Import Transaction List"
-    case exportAccounts = "Share Account List"
-    case exportTransactions = "Share Transaction List"
+    case importAccounts = "Import account list"
+    case importTransactions = "Import transaction list"
+    case exportAccounts = "Export account list"
+    case exportTransactions = "Export transaction list"
     case termsOfUse = "Terms of use"
     case privacyPolicy = "Privacy policy"
     
@@ -144,7 +144,10 @@ class SettingsViewController: UIViewController {
         for item in SettingsDataSource.allCases {
             if (item == .envirement && UserProfile.isAppLaunchedBefore() == false)
                 || (item == .startAccounting && UserProfile.isAppLaunchedBefore() == true)
-                || (item == .auth && isUserHasPaidAccess == false) {}
+                || (item == .auth && isUserHasPaidAccess == false)
+                || item == .importAccounts
+                || item == .exportAccounts
+            {}
             else {
                 dataSource.append(item)
             }

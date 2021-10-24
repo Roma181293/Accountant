@@ -169,12 +169,12 @@
 "Transactions" = "Операції";
 "Multi item transaction" = "Багатоелементна операція";
 "Accounting currency" = "Валюта обліку";
-"Import Account List" = "Імпортувати рахунки";
-"Import Transaction List" = "Імпортувати операції";
+"Import account list" = "Імпорт рахунків";
+"Import transaction list" = "Імпорт операцій";
 "Privacy policy" = "Політика конфіденційності";
 "Settings" = "Налаштування";
-"Share Account List" = "Поділитися списком рахунків";
-"Share Transaction List" = "Поділитися списком операцій";
+"Export account list" = "Експорт рахунків";
+"Export transaction list" = "Експорт операцій";
 "Terms of use" = "Умови використання";
 "App version" = "Версія";
 "Account creation in currencies different from accounting currency" = "Створення рахунків у валютах відмінних від валюти обліку";

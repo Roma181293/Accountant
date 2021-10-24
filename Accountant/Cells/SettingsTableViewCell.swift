@@ -155,22 +155,22 @@ class SettingsTableViewCell: UITableViewCell {
             iconImangeView.tintColor = .blue
             switcher.isOn = UserProfile.isUseMultiItemTransaction(environment: delegate.environment)
             accessoryType = .none
-        case .importAccounts:
-            titleLabel.text = NSLocalizedString(dataItem.rawValue, comment: "")
-            iconImangeView.image = UIImage(systemName: "square.and.arrow.down.on.square")
-            iconImangeView.tintColor = .systemTeal
         case .importTransactions:
             titleLabel.text = NSLocalizedString(dataItem.rawValue, comment: "")
-            iconImangeView.image = UIImage(systemName: "tray.and.arrow.down")
+            iconImangeView.image = UIImage(systemName: "square.and.arrow.down.on.square")
             iconImangeView.tintColor = .systemIndigo
-        case .exportAccounts:
+        case .importAccounts:
             titleLabel.text = NSLocalizedString(dataItem.rawValue, comment: "")
-            iconImangeView.image = UIImage(systemName: "square.and.arrow.up.on.square")
-            iconImangeView.tintColor = .cyan
+            iconImangeView.image = UIImage(systemName: "tray.and.arrow.down")
+            iconImangeView.tintColor = .systemTeal
         case .exportTransactions:
             titleLabel.text = NSLocalizedString(dataItem.rawValue, comment: "")
-            iconImangeView.image = UIImage(systemName: "tray.and.arrow.up")
+            iconImangeView.image = UIImage(systemName: "square.and.arrow.up.on.square")
             iconImangeView.tintColor = .systemPurple
+        case .exportAccounts:
+            titleLabel.text = NSLocalizedString(dataItem.rawValue, comment: "")
+            iconImangeView.image = UIImage(systemName: "tray.and.arrow.up")
+            iconImangeView.tintColor = .cyan
         case .termsOfUse:
             titleLabel.text = NSLocalizedString(dataItem.rawValue, comment: "")
             iconImangeView.image = UIImage(systemName: "doc")
@@ -268,12 +268,12 @@ class SettingsTableViewCell: UITableViewCell {
                 else {
                     let context = CoreDataStack.shared.persistentContainer.viewContext
                     
-                    try TransactionManager.deleteAllTransactions(context: context)
+                    TransactionManager.deleteAllTransactions(context: context)
                     try AccountManager.deleteAllAccounts(context: context)
                     try CurrencyManager.deleteAllCurrencies(context: context)
                     try CoreDataStack.shared.saveContext(context)
                     
-                     UserProfile.useMultiItemTransaction(false, environment: .test)
+                    UserProfile.useMultiItemTransaction(false, environment: .test)
                     
                     CoreDataStack.shared.switchToDB(.prod)
                 }

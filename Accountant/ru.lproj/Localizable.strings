@@ -36,7 +36,7 @@
 "Not supported" = "Не поддерживается";
 "Please add From:Account" = "Пожалуйста добавьте С:Счет";
 "Please add To:Account" = "Пожалуйста добавьте На:Счет";
-"Please create a subaccount for \"%@\" and select it" = "Пожалуйста cоздайте дочерний счет к \"%@\" и выберите его";
+"Please create a subaccount for \"%@\" and select it" = "Пожалуйста создайте дочерний счет к \"%@\" и выберите его";
 "Please enter balance" = "Пожалуйста введите баланс";
 "Please enter credit limit" = "Пожалуйста введите кредитный лимит";
 "Please enter exchange rate" = "Пожалуйста введите курс обмена";
@@ -138,7 +138,7 @@
 "Try functionality" = "Попробовать функционал";
 "Welcome" = "Привет";
 "Add transaction" = "Добавить операцию";
-"Comment" = "Коментарий";
+"Comment" = "Комментарий";
 "Do you want to save changes?" = "Вы действительно хотите сохранить изменения?";
 "Edit transaction" = "Редактировать операцию";
 "From:" = "С:";
@@ -167,14 +167,14 @@
 "Do you want to delete transaction?" = "Вы действительно хотите удалить операцию?";
 "Get PRO" = "PRO";
 "Transactions" = "Операции";
-"Multi item transaction" = " Многоэлементная операция";
+"Multi item transaction" = "Многоэлементная операция";
 "Accounting currency" = "Валюта учета";
-"Import Account List" = "Импортировать счета";
-"Import Transaction List" = "Импортировать операции";
+"Import account list" = "Импорт счетов";
+"Import transaction list" = "Импорт операций";
 "Privacy policy" = "Политика конфиденциальности";
 "Settings" = "Настройки";
-"Share Account List" = "Поделиться списком счетов";
-"Share Transaction List" = "Поделиться списком операций";
+"Export account list" = "Экспорт счетов";
+"Export transaction list" = "Экспорт операций";
 "Terms of use" = "Условия использования";
 "App version" = "Версия";
 "Account creation in currencies different from accounting currency" = "Создание счетов в валютах отличныйх от валюты учета";
