@@ -130,12 +130,16 @@ class ComplexTransactionEditorViewController: UIViewController{
     
     let commentTextField : UITextField = {
         let textField = UITextField()
-        textField.placeholder = NSLocalizedString("Comment", comment: "")
-        textField.autocorrectionType = UITextAutocorrectionType.no
-        textField.font = UIFont.systemFont(ofSize: 13)
-        textField.borderStyle = UITextField.BorderStyle.roundedRect
-        textField.translatesAutoresizingMaskIntoConstraints = false
         textField.tag = 200
+        textField.placeholder = NSLocalizedString("Comment", comment: "")
+        textField.layer.cornerRadius = 5
+        textField.layer.borderColor = UIColor.lightGray.cgColor
+        textField.layer.borderWidth = 0.5
+        textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: textField.frame.height))
+        textField.leftViewMode = .always
+        textField.rightView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: textField.frame.height))
+        textField.rightViewMode = .always
+        textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }()
     
@@ -252,16 +256,16 @@ class ComplexTransactionEditorViewController: UIViewController{
     func addMainView() {
         //MARK:- Main View
         view.addSubview(mainView)
-        mainView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        mainView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        mainView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8).isActive = true
+        mainView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8).isActive = true
         mainView.safeAreaLayoutGuide.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
         mainView.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
         
         //MARK:- Date Picker
         mainView.addSubview(datePicker)
         datePicker.topAnchor.constraint(equalTo: mainView.topAnchor, constant: 20).isActive = true
-        datePicker.leadingAnchor.constraint(equalTo: mainView.leadingAnchor, constant: 20).isActive = true
-        datePicker.trailingAnchor.constraint(equalTo: mainView.trailingAnchor, constant: -20).isActive = true
+        datePicker.leadingAnchor.constraint(equalTo: mainView.leadingAnchor).isActive = true
+        datePicker.trailingAnchor.constraint(equalTo: mainView.trailingAnchor).isActive = true
         datePicker.heightAnchor.constraint(equalToConstant: 180).isActive = true
         
         //MARK:- Confirm button
@@ -274,8 +278,8 @@ class ComplexTransactionEditorViewController: UIViewController{
         //MARK:- Comment Text Field
         view.addSubview(commentTextField)
         commentTextField.bottomAnchor.constraint(equalTo: confirmButton.topAnchor, constant: -20).isActive = true
-        commentTextField.leadingAnchor.constraint(equalTo: mainView.leadingAnchor, constant: 20).isActive = true
-        commentTextField.trailingAnchor.constraint(equalTo: mainView.trailingAnchor, constant: -20).isActive = true
+        commentTextField.leadingAnchor.constraint(equalTo: mainView.leadingAnchor).isActive = true
+        commentTextField.trailingAnchor.constraint(equalTo: mainView.trailingAnchor).isActive = true
         commentTextField.heightAnchor.constraint(equalToConstant: 30).isActive = true
         
         
@@ -283,8 +287,8 @@ class ComplexTransactionEditorViewController: UIViewController{
         mainView.addSubview(mainStackView)
         mainStackView.spacing = mainStackViewSpacing
         mainStackView.topAnchor.constraint(equalTo: datePicker.bottomAnchor, constant: 20).isActive = true
-        mainStackView.leadingAnchor.constraint(equalTo: mainView.leadingAnchor, constant: 20).isActive = true
-        mainStackView.trailingAnchor.constraint(equalTo: mainView.trailingAnchor, constant: -20).isActive = true
+        mainStackView.leadingAnchor.constraint(equalTo: mainView.leadingAnchor).isActive = true
+        mainStackView.trailingAnchor.constraint(equalTo: mainView.trailingAnchor).isActive = true
         mainStackView.bottomAnchor.constraint(equalTo: commentTextField.topAnchor, constant: -20).isActive = true
         
         
