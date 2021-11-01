@@ -14,6 +14,7 @@ struct Constants {
     struct Storyboard {
         static let welcomeViewController = "WelcomeVC_ID"
         static let startAccountingViewController = "StartAccountingVC_ID"
+        static let instructionViewController = "InstructionVC_ID"
         
         static let tabBarController = "TabBarController_ID"
         

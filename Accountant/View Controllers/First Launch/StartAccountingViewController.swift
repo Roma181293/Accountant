@@ -23,7 +23,7 @@ class StartAccountingViewController: UIViewController, CurrencyReceiverDelegate 
         NSLocalizedString("Choose currecy for Income and Expenses categories. This currency cannot be changed in the future", comment: ""),
         NSLocalizedString("Please add income categories", comment: ""),
         NSLocalizedString("Please add expense categories", comment: ""),
-        NSLocalizedString("Please add money accounts (Cash and bank cards)", comment: ""),
+        NSLocalizedString("Please add money accounts (Cash and bank cards). \nDo NOT enter secure info about bank cards(full card number and CV2 code)", comment: ""),
         NSLocalizedString("Please add debtors. Debtors also include bank deposits", comment: ""),
         NSLocalizedString("Please add credits. Credit card limits are automatically added to credits", comment: "")]
     

@@ -106,6 +106,7 @@
 "Done" = "Готово";
 "Name" = "Имя";
 "Type:" = "Тип:";
+"Example: John BankName salary" = "Пример: Артем НазваниеБанка зарплата";
 "Create account" = "Создать счет";
 "Multicurrency" = "Многовалютный";
 "This value is subtracted from the total amount and pie chart.\nAccount amount cannot be less than zero.\nPlease check transactions on this account" = "Это значение исключено из общей суммы и диаграммы.\nСумма по счету не может принимать значение меньше нуля.\nПожалуйста проверьте операции с этим счетом";
@@ -132,7 +133,7 @@
 "Please add debtors. Debtors also include bank deposits" = "Добавте должников. К должникам относятся так же вложения и допозиты в банках";
 "Please add expense categories" = "Добавьте категории расходов";
 "Please add income categories" = "Добавьте категории доходов";
-"Please add money accounts (Cash and bank cards)" = "Добавьте денежные счета (Наличные и банковские карты)";
+"Please add money accounts (Cash and bank cards). \nDo NOT enter secure info about bank cards (full card number and CV2 code)" = "Добавьте денежные счета (Наличные и банковские карты). \nНе указывайте данные банковских карт (полный номер карты и CV2 код)";
 "Please choose currency" = "Пожалуйста выберите валюту";
 "Start accounting" = "Начать учет";
 "Try functionality" = "Попробовать функционал";

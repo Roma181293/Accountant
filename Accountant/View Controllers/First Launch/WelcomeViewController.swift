@@ -120,12 +120,16 @@ class WelcomeViewController: UIViewController {
     }
     
     @objc private func startAccounting(_ sender: UIButton) {
-        startAccountingButton.isUserInteractionEnabled = false
-        testButton.isUserInteractionEnabled = false
+//        startAccountingButton.isUserInteractionEnabled = false
+//        testButton.isUserInteractionEnabled = false
+        
+//        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+//        let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.startAccountingViewController) as! StartAccountingViewController
+//        self.navigationController?.pushViewController(vc, animated: true)
         
         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.startAccountingViewController) as! StartAccountingViewController
-        self.navigationController?.pushViewController(vc, animated: true)
+        let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.instructionViewController) as! InstructionViewController
+        self.present(vc, animated: true, completion: nil)
     }
     
     @objc private func tryFunctionality(_ sender: UIButton) {

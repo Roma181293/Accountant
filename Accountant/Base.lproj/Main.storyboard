@@ -509,6 +509,21 @@
             </objects>
             <point key="canvasLocation" x="-1217" y="1892"/>
         </scene>
+        <!--Instruction View Controller-->
+        <scene sceneID="TWl-0q-E2R">
+            <objects>
+                <viewController storyboardIdentifier="InstructionVC_ID" id="Dck-8V-TBm" customClass="InstructionViewController" customModule="Accountant" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="dEU-oS-jA6">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="3cQ-Bs-fu3"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ghz-yu-6Xk" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-5204" y="2690"/>
+        </scene>
         <!--Settings-->
         <scene sceneID="kR6-nn-akj">
             <objects>
