@@ -11,19 +11,32 @@ class InstructionView: UIView {
 
     let imageView: UIImageView = {
        let imageView = UIImageView()
-        imageView.image = UIImage(named: "account-swipe")
+        imageView.image = UIImage(named: "editCategory")
         imageView.contentMode = .scaleAspectFit
+        imageView.layer.borderColor = UIColor.gray.cgColor
+        imageView.layer.borderWidth = 2
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
     
-    let label : UILabel = {
+    let titleLabel : UILabel = {
         let label = UILabel()
-    label.translatesAutoresizingMaskIntoConstraints = false
-    return label
+        label.font = UIFont.boldSystemFont(ofSize: 20)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
     }()
     
-    let stackView: UIStackView = {
+    let mainStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.spacing = 10
+        stackView.axis = .vertical
+        stackView.alignment = .center
+        stackView.distribution = .fill
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
+    }()
+    
+    let descriptionItemStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.spacing = 8
         stackView.axis = .vertical
@@ -34,18 +47,23 @@ class InstructionView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-    
-        self.addSubview(imageView)
-        imageView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10).isActive = true
-        imageView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10).isActive = true
-        imageView.topAnchor.constraint(equalTo: self.topAnchor, constant: 10).isActive = true
-        imageView.heightAnchor.constraint(greaterThanOrEqualToConstant: 200).isActive = true
-        imageView.heightAnchor.constraint(lessThanOrEqualToConstant: 250).isActive = true
+        addSubview(mainStackView)
+        mainStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10).isActive = true
+        mainStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10).isActive = true
+        mainStackView.topAnchor.constraint(equalTo: self.topAnchor, constant: 0).isActive = true
+//        mainStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 0).isActive = true
+//        mainStackView.heightAnchor.constraint(lessThanOrEqualTo: self.heightAnchor).isActive = true
         
+        mainStackView.addArrangedSubview(titleLabel)
+        mainStackView.addArrangedSubview(imageView)
+        imageView.heightAnchor.constraint(greaterThanOrEqualToConstant: 100).isActive = true
+        imageView.heightAnchor.constraint(lessThanOrEqualToConstant: 180).isActive = true
+        
+        mainStackView.addArrangedSubview(descriptionItemStackView)
     }
     
-    
     func addAccountInstruction() {
+        titleLabel.text = "Edit category/account"
         let descriptionArray: [(String,UIColor,String)] = [
             ("plus",UIColor.systemGreen,"Add subcategory to the selected category"),
             ("pencil",UIColor.systemBlue,"Rename selected category/account"),
@@ -54,15 +72,9 @@ class InstructionView: UIView {
             ("eye",UIColor.systemIndigo,"Unhide selected category/account")]
         
         
-        self.addSubview(stackView)
-        stackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10).isActive = true
-        stackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10).isActive = true
-        stackView.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 20).isActive = true
-//        stackView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -10).isActive = true
-        
         //MARK: - Description Stack View
         descriptionArray.forEach({item in
-            let descriptionItemStackView: UIStackView = {
+            let itemStackView: UIStackView = {
                 let stackView = UIStackView()
                 stackView.axis = .horizontal
                 stackView.alignment = .fill
@@ -107,13 +119,10 @@ class InstructionView: UIView {
             backGroundView.widthAnchor.constraint(equalToConstant: 60).isActive = true
             backGroundView.heightAnchor.constraint(equalToConstant: 40).isActive = true
             descriptionLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: 360).isActive = true
-            descriptionItemStackView.addArrangedSubview(backGroundView)
-            descriptionItemStackView.addArrangedSubview(descriptionLabel)
-            stackView.addArrangedSubview(descriptionItemStackView)
-
+            itemStackView.addArrangedSubview(backGroundView)
+            itemStackView.addArrangedSubview(descriptionLabel)
+            descriptionItemStackView.addArrangedSubview(itemStackView)
         })
-        
-        
     }
     
     

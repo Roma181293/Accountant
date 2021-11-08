@@ -95,7 +95,7 @@ class InstructionViewController: UIViewController, UIScrollViewDelegate {
         skipButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
         skipButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
         skipButton.heightAnchor.constraint(equalToConstant: 44).isActive = true
-        skipButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -30).isActive = true
+        skipButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20).isActive = true
         let gradientPinkView = GradientView(frame: skipButton.bounds, colorTop: .systemPink, colorBottom: .systemRed)
         gradientPinkView.layer.cornerRadius = Constants.Size.cornerButtonRadius
         skipButton.insertSubview(gradientPinkView, at: 0)
@@ -131,39 +131,8 @@ class InstructionViewController: UIViewController, UIScrollViewDelegate {
         
         
         for index in 0...array.count-1 {
-            let slide : InstructionView = InstructionView(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
-            slide.label.text = array[index]
+            let slide : InstructionView = InstructionView(frame: CGRect(x: view.frame.width, y: 0, width: view.frame.width, height: view.frame.height*0.7))
             slide.addAccountInstruction()
-                
-//                UIView = UIView()
-////            slide.backgroundColor = .red
-//            slide.translatesAutoresizingMaskIntoConstraints = false
-//
-//            let imageView: UIImageView = {
-//               let imageView = UIImageView()
-//                imageView.image = UIImage(named: "account-swipe")
-//                imageView.contentMode = .scaleAspectFit
-//                imageView.translatesAutoresizingMaskIntoConstraints = false
-//                return imageView
-//            }()
-//
-//            let label : UILabel = UILabel()
-//            label.translatesAutoresizingMaskIntoConstraints = false
-//
-//
-//            slide.addSubview(imageView)
-//            imageView.leadingAnchor.constraint(equalTo: slide.leadingAnchor, constant: 10).isActive = true
-//            imageView.trailingAnchor.constraint(equalTo: slide.trailingAnchor, constant: -10).isActive = true
-//            imageView.topAnchor.constraint(equalTo: slide.topAnchor, constant: 10).isActive = true
-//            imageView.heightAnchor.constraint(greaterThanOrEqualToConstant: 200).isActive = true
-//            imageView.heightAnchor.constraint(lessThanOrEqualToConstant: 250).isActive = true
-//
-//
-//            slide.addSubview(label)
-//            label.centerXAnchor.constraint(equalTo: slide.centerXAnchor).isActive = true
-//            label.centerYAnchor.constraint(equalTo: slide.centerYAnchor).isActive = true
-//            label.text = array[index]
-            
             result.append(slide)
         }
         return result

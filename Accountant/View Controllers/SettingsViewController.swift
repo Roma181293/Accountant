@@ -23,6 +23,7 @@ enum SettingsDataSource: String, CaseIterable{
     case importTransactions = "Import transaction list"
     case exportAccounts = "Export account list"
     case exportTransactions = "Export transaction list"
+    case userGuides = "User guides"
     case termsOfUse = "Terms of use"
     case privacyPolicy = "Privacy policy"
     
@@ -287,6 +288,10 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
             let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.startAccountingViewController) as! StartAccountingViewController
             vc.vc = self.parent
             self.navigationController?.pushViewController(vc, animated: true)
+        case .userGuides:
+            let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+            let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.instructionViewController) as! InstructionViewController
+            self.present(vc, animated: true, completion: nil)
         }
         tableView.deselectRow(at: indexPath, animated: true)
     }

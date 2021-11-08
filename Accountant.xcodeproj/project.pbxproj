@@ -41,7 +41,6 @@
 		2B1FEAE9266CAF6C00BF53BD /* Extension UIResponder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1FEAE4266CAF6C00BF53BD /* Extension UIResponder.swift */; };
 		2B1FEAEA266CAF6C00BF53BD /* Extension Double.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1FEAE5266CAF6C00BF53BD /* Extension Double.swift */; };
 		2B1FEAF7266CB2C200BF53BD /* CurrencyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1FEAF6266CB2C200BF53BD /* CurrencyTableViewCell.swift */; };
-		2B1FEAFC266CB61000BF53BD /* CurrencyTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1FEAFB266CB61000BF53BD /* CurrencyTableViewController.swift */; };
 		2B1FEB18266CBA6000BF53BD /* AccountNavigatorTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1FEB16266CBA6000BF53BD /* AccountNavigatorTableViewController.swift */; };
 		2B1FEB41266D257900BF53BD /* NetworkServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1FEB40266D257800BF53BD /* NetworkServices.swift */; };
 		2B1FEB4C266D25EE00BF53BD /* PurchaseOfferViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1FEB4B266D25EE00BF53BD /* PurchaseOfferViewController.swift */; };
@@ -75,6 +74,7 @@
 		2B4976FC26DBE90B00147EAA /* ComplexTransactionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B4976FB26DBE90B00147EAA /* ComplexTransactionTableViewCell.swift */; };
 		2B497D2F2703B81E007A31AB /* LogoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B497D2E2703B81E007A31AB /* LogoView.swift */; };
 		2B497D312703B94D007A31AB /* LogoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B497D302703B94D007A31AB /* LogoViewController.swift */; };
+		2B80B3C82738328C0037439B /* CurrencyTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B80B3C72738328C0037439B /* CurrencyTableViewController.swift */; };
 		2B949BAF2665B4040033383A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B949BAE2665B4040033383A /* AppDelegate.swift */; };
 		2B949BB12665B4040033383A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B949BB02665B4040033383A /* SceneDelegate.swift */; };
 		2B949BB62665B4040033383A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2B949BB42665B4040033383A /* Main.storyboard */; };
@@ -145,7 +145,6 @@
 		2B1FEAE4266CAF6C00BF53BD /* Extension UIResponder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Extension UIResponder.swift"; sourceTree = "<group>"; };
 		2B1FEAE5266CAF6C00BF53BD /* Extension Double.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Extension Double.swift"; sourceTree = "<group>"; };
 		2B1FEAF6266CB2C200BF53BD /* CurrencyTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrencyTableViewCell.swift; sourceTree = "<group>"; };
-		2B1FEAFB266CB61000BF53BD /* CurrencyTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CurrencyTableViewController.swift; path = /Users/romantopchii/Desktop/Developer/Accountant/Accountant/CurrencyTableViewController.swift; sourceTree = "<absolute>"; };
 		2B1FEB16266CBA6000BF53BD /* AccountNavigatorTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountNavigatorTableViewController.swift; sourceTree = "<group>"; };
 		2B1FEB40266D257800BF53BD /* NetworkServices.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkServices.swift; sourceTree = "<group>"; };
 		2B1FEB4B266D25EE00BF53BD /* PurchaseOfferViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PurchaseOfferViewController.swift; sourceTree = "<group>"; };
@@ -184,6 +183,7 @@
 		2B4976FB26DBE90B00147EAA /* ComplexTransactionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComplexTransactionTableViewCell.swift; sourceTree = "<group>"; };
 		2B497D2E2703B81E007A31AB /* LogoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoView.swift; sourceTree = "<group>"; };
 		2B497D302703B94D007A31AB /* LogoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoViewController.swift; sourceTree = "<group>"; };
+		2B80B3C72738328C0037439B /* CurrencyTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyTableViewController.swift; sourceTree = "<group>"; };
 		2B949BAB2665B4040033383A /* Accountant.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Accountant.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2B949BAE2665B4040033383A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2B949BB02665B4040033383A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -426,7 +426,7 @@
 		2B497D322703CB01007A31AB /* Currency */ = {
 			isa = PBXGroup;
 			children = (
-				2B1FEAFB266CB61000BF53BD /* CurrencyTableViewController.swift */,
+				2B80B3C72738328C0037439B /* CurrencyTableViewController.swift */,
 			);
 			path = Currency;
 			sourceTree = "<group>";
@@ -689,6 +689,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2B80B3C82738328C0037439B /* CurrencyTableViewController.swift in Sources */,
 				2B1FEB70266D752200BF53BD /* ChartsManager.swift in Sources */,
 				2B0D1D3326ADF1D1003C6394 /* TransactionItemManager.swift in Sources */,
 				2B3BD61A26EBE85D0056A9F7 /* SettingsTableViewCell.swift in Sources */,
@@ -720,7 +721,6 @@
 				2B1FEAC6266C433200BF53BD /* BiometricAuthViewController.swift in Sources */,
 				2B1FEAE7266CAF6C00BF53BD /* Extension UIScrollView.swift in Sources */,
 				2B1FEABC266C41C100BF53BD /* AccountsNameLocalisationManager.swift in Sources */,
-				2B1FEAFC266CB61000BF53BD /* CurrencyTableViewController.swift in Sources */,
 				2B1FEA3F266BEDD400BF53BD /* UserProfile.swift in Sources */,
 				2B1FEB98266EDE5000BF53BD /* SettingsViewController.swift in Sources */,
 				2B1FEA4F266BEE6700BF53BD /* CurrencyHistoricalDataPB.swift in Sources */,

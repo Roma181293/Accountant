@@ -186,6 +186,11 @@ class SettingsTableViewCell: UITableViewCell {
             iconImangeView.image = UIImage(systemName: "paperplane.fill")
             iconImangeView.tintColor = .systemYellow
             accessoryType = .disclosureIndicator
+        case .userGuides:
+            titleLabel.text = NSLocalizedString(dataItem.rawValue, comment: "")
+            iconImangeView.image = UIImage(systemName: "info.circle.fill")
+            iconImangeView.tintColor = .systemRed
+            accessoryType = .none
         }
         
         
