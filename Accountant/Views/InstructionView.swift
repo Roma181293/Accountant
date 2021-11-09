@@ -21,6 +21,7 @@ class InstructionView: UIView {
     
     let titleLabel : UILabel = {
         let label = UILabel()
+        label.numberOfLines = 0
         label.font = UIFont.boldSystemFont(ofSize: 20)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -50,7 +51,7 @@ class InstructionView: UIView {
         addSubview(mainStackView)
         mainStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10).isActive = true
         mainStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10).isActive = true
-        mainStackView.topAnchor.constraint(equalTo: self.topAnchor, constant: 0).isActive = true
+        mainStackView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
 //        mainStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 0).isActive = true
 //        mainStackView.heightAnchor.constraint(lessThanOrEqualTo: self.heightAnchor).isActive = true
         
@@ -62,8 +63,8 @@ class InstructionView: UIView {
         mainStackView.addArrangedSubview(descriptionItemStackView)
     }
     
-    func addAccountInstruction() {
-        titleLabel.text = "Edit category/account"
+    func editAccountStructure() {
+        titleLabel.text = "Change category/account structure"
         let descriptionArray: [(String,UIColor,String)] = [
             ("plus",UIColor.systemGreen,"Add subcategory to the selected category"),
             ("pencil",UIColor.systemBlue,"Rename selected category/account"),
@@ -124,8 +125,6 @@ class InstructionView: UIView {
             descriptionItemStackView.addArrangedSubview(itemStackView)
         })
     }
-    
-    
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
