@@ -81,7 +81,7 @@ class AccountTableViewCell: UITableViewCell {
         return stackView
     }()
     
-    let amountInAccountingCurrencyLabel: UILabel = {
+    let amountInCurrencyLabel: UILabel = {
         let label = UILabel()
         label.textColor = .gray
         label.textAlignment = .right
@@ -169,23 +169,23 @@ class AccountTableViewCell: UITableViewCell {
         amountStackView.heightAnchor.constraint(equalToConstant: 43).isActive = true
         amountStackView.leadingAnchor.constraint(equalTo: nameLabel.trailingAnchor, constant: 8).isActive = true
         
-        amountStackView.addArrangedSubview(amountInAccountingCurrencyLabel)
+        amountStackView.addArrangedSubview(amountInCurrencyLabel)
         amountStackView.addArrangedSubview(amountInAccountCurrencyLabel)
         amountStackView.addArrangedSubview(creditLimitInAccountCurrencyLabel)
     }
     
     
-    func updateCellForData(_ dataToShow: AccountData, accountingCurrency : Currency) {
+    func updateCellForData(_ dataToShow: AccountData, currency : Currency) {
         setMainView()
         indicatorView.backgroundColor = dataToShow.color
         systemIconImageView.tintColor = dataToShow.color
         customIconImageView.tintColor = dataToShow.color
         
         nameLabel.text = dataToShow.title
-        amountInAccountingCurrencyLabel.text = " "
+        amountInCurrencyLabel.text = " "
         creditLimitInAccountCurrencyLabel.text = " "
         
-        guard let account = dataToShow.account, let currency = account.currency else {return}
+        guard let account = dataToShow.account, let accountCurrency = account.currency else {return}
         
         switch account.subType {
         case AccountSubType.cash.rawValue:
@@ -217,20 +217,20 @@ class AccountTableViewCell: UITableViewCell {
         
         
         if dataToShow.amountInAccountCurrency >= 0 {
-            amountInAccountCurrencyLabel.text = "\(dataToShow.amountInAccountCurrency) \(currency.code!)"
+            amountInAccountCurrencyLabel.text = "\(dataToShow.amountInAccountCurrency) \(accountCurrency.code!)"
             amountInAccountCurrencyLabel.textColor = Colors.Main.defaultCellTextColor
             self.accessoryType = .none
-            if currency != accountingCurrency && dataToShow.amountInAccountingCurrency != 0 {
-                if let accountingCurrencyCode = accountingCurrency.code {
-                    amountInAccountingCurrencyLabel.text = "≈\(dataToShow.amountInAccountingCurrency) \(accountingCurrencyCode)"
+            if accountCurrency != currency && dataToShow.amountInSelectedCurrency != 0 {
+                if let currencyCode = currency.code {
+                    amountInCurrencyLabel.text = "≈\(dataToShow.amountInSelectedCurrency) \(currencyCode)"
                 }
                 else {
-                    amountInAccountingCurrencyLabel.text = NSLocalizedString("Error", comment: "")
+                    amountInCurrencyLabel.text = NSLocalizedString("Error", comment: "")
                 }
             }
         }
         else {
-            amountInAccountCurrencyLabel.text = "\(dataToShow.amountInAccountCurrency) \(currency.code!)"
+            amountInAccountCurrencyLabel.text = "\(dataToShow.amountInAccountCurrency) \(accountCurrency.code!)"
             amountInAccountCurrencyLabel.textColor = .systemRed
             self.accessoryType = .detailButton
         }

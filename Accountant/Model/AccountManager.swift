@@ -784,7 +784,7 @@ class AccountManager {
     }
     
     
-    static func prepareDataToShow(parentAccount: Account?, dateInterval: DateInterval, accountingCurrency: Currency, currencyHistoricalData: CurrencyHistoricalDataProtocol? = nil, dateComponent: Calendar.Component, isListForAnalytic: Bool,sortTableDataBy: SortCategoryType, context: NSManagedObjectContext) throws -> PresentingData {
+    static func prepareDataToShow(parentAccount: Account?, dateInterval: DateInterval, selectedCurrency: Currency, currencyHistoricalData: CurrencyHistoricalDataProtocol? = nil, dateComponent: Calendar.Component, isListForAnalytic: Bool,sortTableDataBy: SortCategoryType, context: NSManagedObjectContext) throws -> PresentingData {
         var accountsToShow : [Account] = []
         
         if let account = parentAccount {
@@ -826,7 +826,7 @@ class AccountManager {
             account: Account,
             title: String,
             amountInAccountCurrency: Double,
-            amountInAccountingCurrency: Double,
+            amountInSelectedCurrency: Double,
             checkSum: Double)] = []
         
         var maxValue : Double = 0
@@ -877,8 +877,8 @@ class AccountManager {
                 return 0
             }
             
-            var amountInAccountingCurrency: Double {
-                if accountingCurrency == account.currency {
+            var amountInSelectedCurrency: Double {
+                if selectedCurrency == account.currency {
                     return amountInAccountCurrency
                 }
                 else if amountInAccountCurrency != 0,
@@ -887,15 +887,14 @@ class AccountManager {
                     
                     var exchangeRate : Double = 1
                     
-                    if let rate =  currencyHistoricalData.exchangeRate(curr: accountingCurrency.code!, to: accountCurrency.code!) {
+                    if let rate =  currencyHistoricalData.exchangeRate(curr: selectedCurrency.code!, to: accountCurrency.code!) {
                         exchangeRate = rate
                     }
                     return round(amountInAccountCurrency * exchangeRate * 100) / 100
                 }
                 return 0
             }
-            
-            tempData.append((lineChartDataSet: set, account: account, title: title, amountInAccountCurrency: amountInAccountCurrency, amountInAccountingCurrency: amountInAccountingCurrency, checkSum: checkSum))
+            tempData.append((lineChartDataSet: set, account: account, title: title, amountInAccountCurrency: amountInAccountCurrency, amountInSelectedCurrency: amountInSelectedCurrency, checkSum: checkSum))
         }
         
         
@@ -903,7 +902,7 @@ class AccountManager {
         if isListForAnalytic {
             tempData = tempData.filter({$0.checkSum != 0})
         }
-        tempData.sort(by: {$0.amountInAccountingCurrency >= $1.amountInAccountingCurrency})
+        tempData.sort(by: {$0.amountInSelectedCurrency >= $1.amountInSelectedCurrency})
         
         // Coloring
         for (index,item) in tempData.enumerated() {
@@ -918,11 +917,11 @@ class AccountManager {
             }
             item.lineChartDataSet.setColor(color)
             lineChartDataSet.append(item.lineChartDataSet)
-            accountsData.append(AccountData(account: item.account, title: item.title, color: color, amountInAccountCurrency: item.amountInAccountCurrency, amountInAccountingCurrency: item.amountInAccountingCurrency))
+            accountsData.append(AccountData(account: item.account, title: item.title, color: color, amountInAccountCurrency: item.amountInAccountCurrency, amountInSelectedCurrency: item.amountInSelectedCurrency))
         }
         
         
-        return PresentingData(dateInterval:dateInterval, presentingCurrency: accountingCurrency,lineChartData: ChartData(minValue: minValue, maxValue: maxValue, lineChartDataSet: lineChartDataSet), tableData: accountsData, sortTableDataBy: sortTableDataBy)
+        return PresentingData(dateInterval:dateInterval, presentingCurrency: selectedCurrency,lineChartData: ChartData(minValue: minValue, maxValue: maxValue, lineChartDataSet: lineChartDataSet), tableData: accountsData, sortTableDataBy: sortTableDataBy)
     }
     
     

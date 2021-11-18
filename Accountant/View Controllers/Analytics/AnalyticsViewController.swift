@@ -156,7 +156,7 @@ class AnalyticsViewController: UIViewController, UIScrollViewDelegate {//}, GADF
     func updateUI() {
         print(#function)
         do {
-            presentingData = try AccountManager.prepareDataToShow(parentAccount: account, dateInterval: dateInterval, accountingCurrency: accountingCurrency, dateComponent: dateComponent, isListForAnalytic: true, sortTableDataBy: sortCategoryBy, context: context)
+            presentingData = try AccountManager.prepareDataToShow(parentAccount: account, dateInterval: dateInterval, selectedCurrency: accountingCurrency, dateComponent: dateComponent, isListForAnalytic: true, sortTableDataBy: sortCategoryBy, context: context)
         }
         catch let error{
             let alert = UIAlertController(title: NSLocalizedString("Error",comment: ""), message: "\(error.localizedDescription)", preferredStyle: .alert)

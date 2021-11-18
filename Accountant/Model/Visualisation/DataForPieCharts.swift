@@ -20,9 +20,9 @@ struct DataForPieCharts {
         switch distributionType {
         case .amount:
             accountsData.forEach({ item in
-                guard item.amountInAccountingCurrency > 0 else {return}
-                    sum += item.amountInAccountingCurrency
-                    let dataEntry = PieChartDataEntry(value: item.amountInAccountingCurrency)
+                guard item.amountInSelectedCurrency > 0 else {return}
+                    sum += item.amountInSelectedCurrency
+                    let dataEntry = PieChartDataEntry(value: item.amountInSelectedCurrency)
 //                    dataEntry.label = item.title
                     pieChartColorSet.append(item.color)
                     self.pieChartDataEntries.append(dataEntry)
@@ -30,13 +30,13 @@ struct DataForPieCharts {
         case .currecy:
             var tmpResults : [Currency:Double] = [:]
             accountsData.forEach({ item in
-                guard  let accountCurrency = item.account.currency, item.amountInAccountingCurrency > 0 else {return}
-                sum += item.amountInAccountingCurrency
+                guard  let accountCurrency = item.account.currency, item.amountInSelectedCurrency > 0 else {return}
+                sum += item.amountInSelectedCurrency
                 if tmpResults[accountCurrency] != nil {
-                    tmpResults[accountCurrency] = tmpResults[accountCurrency]! + item.amountInAccountingCurrency
+                    tmpResults[accountCurrency] = tmpResults[accountCurrency]! + item.amountInSelectedCurrency
                 }
                 else {
-                    tmpResults[accountCurrency] = item.amountInAccountingCurrency
+                    tmpResults[accountCurrency] = item.amountInSelectedCurrency
                 }
             })
             for key in tmpResults.keys {

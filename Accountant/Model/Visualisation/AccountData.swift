@@ -14,5 +14,5 @@ struct AccountData {
     var title: String = ""
     var color: UIColor!
     var amountInAccountCurrency: Double = 0
-    var amountInAccountingCurrency: Double = 0
+    var amountInSelectedCurrency: Double = 0
 }

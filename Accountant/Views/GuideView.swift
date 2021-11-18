@@ -1,5 +1,5 @@
 //
-//  InstructionView.swift
+//  GuideView.swift
 //  Accountant
 //
 //  Created by Roman Topchii on 31.10.2021.
@@ -7,11 +7,10 @@
 
 import UIKit
 
-class InstructionView: UIView {
-
+class GuideView: UIView {
+    
     let imageView: UIImageView = {
-       let imageView = UIImageView()
-        imageView.image = UIImage(named: "editCategory")
+        let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
         imageView.layer.borderColor = UIColor.gray.cgColor
         imageView.layer.borderWidth = 2
@@ -27,6 +26,14 @@ class InstructionView: UIView {
         return label
     }()
     
+    let bodyLabel : UILabel = {
+        let label = UILabel()
+        label.numberOfLines = 0
+        label.textAlignment = .justified
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
     let mainStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.spacing = 10
@@ -37,7 +44,7 @@ class InstructionView: UIView {
         return stackView
     }()
     
-    let descriptionItemStackView: UIStackView = {
+    let guideItemStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.spacing = 8
         stackView.axis = .vertical
@@ -52,29 +59,30 @@ class InstructionView: UIView {
         mainStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10).isActive = true
         mainStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10).isActive = true
         mainStackView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
-//        mainStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 0).isActive = true
-//        mainStackView.heightAnchor.constraint(lessThanOrEqualTo: self.heightAnchor).isActive = true
+        //        mainStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 0).isActive = true
+        //        mainStackView.heightAnchor.constraint(lessThanOrEqualTo: self.heightAnchor).isActive = true
         
         mainStackView.addArrangedSubview(titleLabel)
+        mainStackView.addArrangedSubview(bodyLabel)
         mainStackView.addArrangedSubview(imageView)
-        imageView.heightAnchor.constraint(greaterThanOrEqualToConstant: 100).isActive = true
-        imageView.heightAnchor.constraint(lessThanOrEqualToConstant: 180).isActive = true
-        
-        mainStackView.addArrangedSubview(descriptionItemStackView)
+        mainStackView.addArrangedSubview(guideItemStackView)
     }
     
-    func editAccountStructure() {
-        titleLabel.text = "Change category/account structure"
-        let descriptionArray: [(String,UIColor,String)] = [
-            ("plus",UIColor.systemGreen,"Add subcategory to the selected category"),
-            ("pencil",UIColor.systemBlue,"Rename selected category/account"),
-            ("trash",UIColor.systemRed,"Delete selected category/account"),
-            ("eye.slash",UIColor.systemGray,"Hide selected category/account"),
-            ("eye",UIColor.systemIndigo,"Unhide selected category/account")]
+    
+    
+    func setGuide(_ guide: Guide) {
+        bodyLabel.text = guide.body
         
+        if let imageName = guide.image, let image = UIImage(named: imageName) {
+            imageView.image = image
+            imageView.widthAnchor.constraint(equalTo: mainStackView.widthAnchor).isActive = true
+            imageView.heightAnchor.constraint(equalTo: mainStackView.widthAnchor, multiplier: imageView.image!.size.height/imageView.image!.size.width).isActive = true
+        }
+        
+        titleLabel.text = guide.title
         
         //MARK: - Description Stack View
-        descriptionArray.forEach({item in
+        guide.items.forEach({item in
             let itemStackView: UIStackView = {
                 let stackView = UIStackView()
                 stackView.axis = .horizontal
@@ -86,25 +94,32 @@ class InstructionView: UIView {
                 return stackView
             }()
             
-            let backGroundView: UIView = {
+            let coloredView: UIView = {
                 let backGroundView = UIView()
-                backGroundView.backgroundColor = item.1
+                backGroundView.backgroundColor = item.backgroungColor
                 backGroundView.translatesAutoresizingMaskIntoConstraints = false
                 return backGroundView
             }()
             
             let imageView: UIImageView = {
                 let imageView = UIImageView()
-                imageView.image = UIImage(systemName: item.0)
-                imageView.tintColor = .white
+                if let imageName = item.image {
+                    imageView.image = UIImage(systemName: imageName)
+                }
+                if let tintColor = item.tintColor {
+                    imageView.tintColor = tintColor
+                }
+                else {
+                    imageView.tintColor = .white
+                }
                 imageView.translatesAutoresizingMaskIntoConstraints = false
                 return imageView
             }()
             
-            let descriptionLabel: UILabel = {
+            let emojiLabel: UILabel = {
                 let label = UILabel()
                 label.textAlignment = .left
-                label.text = NSLocalizedString(item.2, comment: "")
+                label.text = item.emoji
                 label.textColor = .label
                 label.font = UIFont.systemFont(ofSize: 16.0)
                 label.lineBreakMode = .byWordWrapping
@@ -113,16 +128,38 @@ class InstructionView: UIView {
                 return label
             }()
             
-            backGroundView.addSubview(imageView)
-            imageView.centerYAnchor.constraint(equalTo: backGroundView.centerYAnchor).isActive = true
-            imageView.centerXAnchor.constraint(equalTo: backGroundView.centerXAnchor).isActive = true
+            let descriptionLabel: UILabel = {
+                let label = UILabel()
+                label.textAlignment = .left
+                label.text = item.text
+                label.textColor = .label
+                label.font = UIFont.systemFont(ofSize: 16.0)
+                label.lineBreakMode = .byWordWrapping
+                label.numberOfLines = 0
+                label.translatesAutoresizingMaskIntoConstraints = false
+                return label
+            }()
             
-            backGroundView.widthAnchor.constraint(equalToConstant: 60).isActive = true
-            backGroundView.heightAnchor.constraint(equalToConstant: 40).isActive = true
+            coloredView.widthAnchor.constraint(equalToConstant: 60).isActive = true
+            coloredView.heightAnchor.constraint(greaterThanOrEqualToConstant: 40).isActive = true
+            
+            if item.image != nil && item.emoji == nil {
+                coloredView.addSubview(imageView)
+                imageView.centerYAnchor.constraint(equalTo: coloredView.centerYAnchor).isActive = true
+                imageView.centerXAnchor.constraint(equalTo: coloredView.centerXAnchor).isActive = true
+            }
+            else if item.image == nil && item.emoji != nil {
+                coloredView.addSubview(emojiLabel)
+                emojiLabel.centerYAnchor.constraint(equalTo: coloredView.centerYAnchor).isActive = true
+                emojiLabel.centerXAnchor.constraint(equalTo: coloredView.centerXAnchor).isActive = true
+            }
+            
             descriptionLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: 360).isActive = true
-            itemStackView.addArrangedSubview(backGroundView)
+            
+            itemStackView.addArrangedSubview(coloredView)
             itemStackView.addArrangedSubview(descriptionLabel)
-            descriptionItemStackView.addArrangedSubview(itemStackView)
+            
+            guideItemStackView.addArrangedSubview(itemStackView)
         })
     }
     

@@ -11,11 +11,14 @@ import Charts
 import Purchases
 
 class AccountListViewController: UIViewController, UIScrollViewDelegate{
+ 
+    
     
     @IBOutlet weak var segmentedControl: UISegmentedControl!
     @IBOutlet weak var currencyDateLable: UILabel!
     @IBOutlet weak var pageControl: UIPageControl!
     @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet weak var chnageCurrencyButton: UIButton!
     private unowned var moneyAccountListTableViewController: AccountListTableViewController!
     
     private var slides: [UIView] = []
@@ -30,7 +33,7 @@ class AccountListViewController: UIViewController, UIScrollViewDelegate{
     private var dateOfLastChangesInDB : Date?
     
     private var account : Account!
-    private var accountingCurrency : Currency!
+    private var currency : Currency!
     private var presentingData : PresentingData!
     private var dateComponent : Calendar.Component = .day
   
@@ -99,7 +102,7 @@ class AccountListViewController: UIViewController, UIScrollViewDelegate{
         
         reloadProAccessData()
         
-        accountingCurrency = CurrencyManager.getAccountingCurrency(context: context)!
+        currency = CurrencyManager.getAccountingCurrency(context: context)!
         scrollView.delegate = self
         
         switch segmentedControl.selectedSegmentIndex {
@@ -114,7 +117,7 @@ class AccountListViewController: UIViewController, UIScrollViewDelegate{
         moneyAccountListTableViewController.environment = self.environment
         moneyAccountListTableViewController.context = context
         moneyAccountListTableViewController.delegate = self
-        moneyAccountListTableViewController.accountingCurrency = accountingCurrency
+        moneyAccountListTableViewController.currency = currency
         moneyAccountListTableViewController.isUserHasPaidAccess = isUserHasPaidAccess
         moneyAccountListTableViewController.account = account
         
@@ -146,6 +149,22 @@ class AccountListViewController: UIViewController, UIScrollViewDelegate{
         NotificationCenter.default.removeObserver(self, name: .receivedProAccessData, object: nil)
     }
     
+    @IBAction func chnageCurrency(_ sender: Any) {
+        
+//        guard AccessCheckManager.checkUserAccessToCreateAccountInNotAccountingCurrency(environment: coreDataStack.activeEnviroment()!, isUserHasPaidAccess: isUserHasPaidAccess)
+//        else {
+//            self.showPurchaseOfferVC()
+//            return
+//        }
+        
+        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let currencyTableViewController = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.currencyTableViewController) as! CurrencyTableViewController
+        currencyTableViewController.delegate = self
+        currencyTableViewController.currency = currency
+        self.navigationController?.pushViewController(currencyTableViewController, animated: true)
+        
+    }
+    
     @IBAction func changeAccount(_ sender: UISegmentedControl) {
         switch sender.selectedSegmentIndex {
         case 0:
@@ -167,16 +186,10 @@ class AccountListViewController: UIViewController, UIScrollViewDelegate{
     }
     
     
-    /**
-     This method fill all views
-     - sets date to date textFields
-     - create slides and set tis slides to scrollView
-     - manage pageControl
-     */
     public func updateUI() {
         guard let dateInterval = dateInterval, let account = account else {return}
         do {
-            presentingData = try AccountManager.prepareDataToShow(parentAccount: account, dateInterval: dateInterval, accountingCurrency: accountingCurrency, currencyHistoricalData: currencyHistoricalData, dateComponent: dateComponent, isListForAnalytic: false, sortTableDataBy: SortCategoryType.nineToZero, context: context)
+            presentingData = try AccountManager.prepareDataToShow(parentAccount: account, dateInterval: dateInterval, selectedCurrency: currency, currencyHistoricalData: currencyHistoricalData, dateComponent: dateComponent, isListForAnalytic: false, sortTableDataBy: SortCategoryType.nineToZero, context: context)
         }
         catch let error{
             let alert = UIAlertController(title: NSLocalizedString("Error",comment: ""), message: "\(error.localizedDescription)", preferredStyle: .alert)
@@ -194,7 +207,6 @@ class AccountListViewController: UIViewController, UIScrollViewDelegate{
         pageControl.numberOfPages = slides.count
         pageControl.hidesForSinglePage = true
     }
-    
     
     
     private func createSlides() -> [UIView] {
@@ -355,11 +367,11 @@ class AccountListViewController: UIViewController, UIScrollViewDelegate{
         segmentedControl.selectedSegmentIndex = 0
         
         context = CoreDataStack.shared.persistentContainer.viewContext
-        accountingCurrency = CurrencyManager.getAccountingCurrency(context: context)!
+        currency = CurrencyManager.getAccountingCurrency(context: context)!
         account = AccountManager.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.money), context: context)
         
         moneyAccountListTableViewController.context = context
-        moneyAccountListTableViewController.accountingCurrency = accountingCurrency
+        moneyAccountListTableViewController.currency = currency
         moneyAccountListTableViewController.account = account
         
         if let environment = coreDataStack.activeEnviroment() {
@@ -386,5 +398,20 @@ class AccountListViewController: UIViewController, UIScrollViewDelegate{
             }
             self.moneyAccountListTableViewController.isUserHasPaidAccess = self.isUserHasPaidAccess
         }
+    }
+    
+    private func showPurchaseOfferVC() {
+        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.purchaseOfferViewController) as! PurchaseOfferViewController
+        self.present(vc, animated: true, completion: nil)
+    }
+}
+
+
+extension AccountListViewController: CurrencyReceiverDelegate {
+    func setCurrency(_ selectedCurrency: Currency) {
+        currency = selectedCurrency
+        moneyAccountListTableViewController.currency = currency
+        updateUI()
     }
 }

@@ -45,7 +45,7 @@ class AnalyticTableViewCell: UITableViewCell {
     
     func configureCell(for accountData: AccountData, account: Account, accountingCurrency: Currency) {
         indicatorColorView.backgroundColor = accountData.color
-        if accountData.amountInAccountingCurrency < 0 {
+        if accountData.amountInSelectedCurrency < 0 {
             self.accessoryType = .detailButton
             amountLabel.textColor = .red
             emptySpaceView.isHidden = true
@@ -67,7 +67,7 @@ class AnalyticTableViewCell: UITableViewCell {
             amountLabel.text = "\(round(accountData.amountInAccountCurrency*100)/100) \(currency.code!)"
         }
         else {
-            amountLabel.text = "\(round(accountData.amountInAccountingCurrency*100)/100) \(accountingCurrency.code!)"
+            amountLabel.text = "\(round(accountData.amountInSelectedCurrency*100)/100) \(accountingCurrency.code!)"
         }
         
         //MARK:- Adding constraints

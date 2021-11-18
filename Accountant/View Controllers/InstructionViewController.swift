@@ -60,40 +60,54 @@ class InstructionViewController: UIViewController, UIScrollViewDelegate {
         self.dismiss(animated: true, completion: nil)
     }
     
+    var showSkipButton = true
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         scrollView.delegate = self
-//        scrollView.backgroundColor = .yellow
         
         //MARK: - Close Image View subview
-        view.addSubview(self.closeImageView)
-        closeImageView.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        closeImageView.widthAnchor.constraint(equalToConstant: 30).isActive = true
-        closeImageView.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor, constant: 20).isActive = true
-        closeImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10).isActive = true
-        closeImageView.isUserInteractionEnabled = true
-        let gestureClose = UITapGestureRecognizer(target: self, action: #selector(self.closeViewTapped(_:)))
-        closeImageView.addGestureRecognizer(gestureClose)
+        if !showSkipButton {
+            view.addSubview(self.closeImageView)
+            closeImageView.heightAnchor.constraint(equalToConstant: 30).isActive = true
+            closeImageView.widthAnchor.constraint(equalToConstant: 30).isActive = true
+            closeImageView.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor, constant: 20).isActive = true
+            closeImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10).isActive = true
+            closeImageView.isUserInteractionEnabled = true
+            let gestureClose = UITapGestureRecognizer(target: self, action: #selector(self.closeViewTapped(_:)))
+            closeImageView.addGestureRecognizer(gestureClose)
+        }
         
-        
-        view.addSubview(skipButton)
-        skipButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
-        skipButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
-        skipButton.heightAnchor.constraint(equalToConstant: 44).isActive = true
-        skipButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20).isActive = true
-        let gradientPinkView = GradientView(frame: skipButton.bounds, colorTop: .systemPink, colorBottom: .systemRed)
-        gradientPinkView.layer.cornerRadius = Constants.Size.cornerButtonRadius
-        skipButton.insertSubview(gradientPinkView, at: 0)
-        skipButton.layer.masksToBounds = false;
+        if showSkipButton {
+            view.addSubview(skipButton)
+            skipButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
+            skipButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
+            skipButton.heightAnchor.constraint(equalToConstant: 44).isActive = true
+            skipButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -10).isActive = true
+            let gradientPinkView = GradientView(frame: skipButton.bounds, colorTop: .systemPink, colorBottom: .systemRed)
+            gradientPinkView.layer.cornerRadius = Constants.Size.cornerButtonRadius
+            skipButton.insertSubview(gradientPinkView, at: 0)
+            skipButton.layer.masksToBounds = false;
+        }
         
         view.addSubview(pageControl)
         pageControl.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        pageControl.bottomAnchor.constraint(equalTo: skipButton.topAnchor,constant: -20).isActive = true
+        if showSkipButton {
+            pageControl.bottomAnchor.constraint(equalTo: skipButton.topAnchor,constant: -10).isActive = true
+        }
+        else {
+            pageControl.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor,constant: -20).isActive = true
+        }
         
         view.addSubview(scrollView)
         scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
         scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
-        scrollView.topAnchor.constraint(equalTo: closeImageView.bottomAnchor,constant: 10).isActive = true
+        if !showSkipButton {
+            scrollView.topAnchor.constraint(equalTo: closeImageView.bottomAnchor,constant: 10).isActive = true
+        }
+        else {
+            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 10).isActive = true
+        }
         scrollView.bottomAnchor.constraint(equalTo: pageControl.topAnchor).isActive = true
         
         updateUI()
@@ -112,12 +126,42 @@ class InstructionViewController: UIViewController, UIScrollViewDelegate {
     
     private func createSlides() -> [UIView] {
         var result : [UIView] = []
-        let array = ["text1","text2","text3"]
+        let guideList = [Guide(title: NSLocalizedString("Change category/account structure", comment: ""),
+                               image: "editCategory",
+                               body: nil,
+                               items: [GuideItem(image: "plus", backgroungColor: UIColor.systemGreen, text: NSLocalizedString("Add subcategory to the selected item", comment: "")),
+                                       GuideItem(image: "pencil", backgroungColor: UIColor.systemBlue, text: NSLocalizedString("Rename selected item", comment: "")),
+                                       GuideItem(image: "trash", backgroungColor: UIColor.systemRed, text: NSLocalizedString("Delete selected item", comment: "")),
+                                       GuideItem(image: "eye.slash", backgroungColor: UIColor.systemGray, text: NSLocalizedString("Hide selected item", comment: "")),
+                                       GuideItem(image: "eye", backgroungColor: UIColor.systemIndigo, text: NSLocalizedString("Unhide selected item", comment: ""))])
+                         ,Guide(title: "Accounting principle", image: nil, body: "When you add an transaction, the balance simultaneously changes for at least of two accounts/categories at once:", items: [
+                            GuideItem(emoji: "📥", text: NSLocalizedString("Income:\nFrom:Income:Salary +1000\nTo:Money:Bank card +1000", comment: ""))
+                            ,GuideItem(emoji: "📤", text: NSLocalizedString("Expense:\nFrom:Money:Bank card -1000\nTo:Expenses:Food +1000", comment: ""))
+                            ,GuideItem(emoji: "📤📥", text: NSLocalizedString("Transfer:\nFrom:Money:Bank card -1000\nTo:Money:Cash +1000", comment: ""))
+                            ,GuideItem(emoji: "💸", text: NSLocalizedString("Lend or open deposit:\nFrom:Money:Bank card -1000\nTo:Debtors:John Smit +1000", comment: ""))
+                            ,GuideItem(emoji: "🏦", text: NSLocalizedString("Borrow or increase credit limit:\nFrom:Credits:Bank +1000\nTo:Money:Bank card +1000", comment: ""))
+//                            ,GuideItem(emoji: "📤📥", text: NSLocalizedString("Repayment of a credit OR decrease credit limit:\nFrom:Money:Bank card -1000\nTo:Credits:Bank -1000", comment: ""))
+                         ])
+                         
+                         ,Guide(title: NSLocalizedString("Multi item transaction", comment: ""),
+                                image: "multiItemTransaction",
+                                body: "Create transaction that represent your receipt from the market or distribute your income for different subcategories in single place",
+                                items: [GuideItem(emoji:"🤔",backgroungColor: UIColor.systemIndigo, text: NSLocalizedString("You can create transaction with single \"From\" item and multiple \"To\" items\nOR\nmultiple \"From\" items and single \"To\" item", comment: "")),
+                                        GuideItem(image: "trash", backgroungColor: UIColor.systemRed, text: NSLocalizedString("Delete selected item", comment: "")),
+                                        GuideItem(image: "plus", backgroungColor: UIColor.systemGreen, text: NSLocalizedString("Add transaction item", comment: ""))
+                                       ])
+                         //                         ,Guide(title: NSLocalizedString("Settings", comment: ""),
+                         //                                image: nil,
+                         //                                body: nil,
+                         //                                items: [
+                         //                                    GuideItem(image: "list.number", tintColor: UIColor.blue, text: NSLocalizedString("Change switcher position to on state when you need to create multi item transaction", comment: ""))
+                         //                                ,GuideItem(image: "list.bullet.indent", backgroungColor: UIColor.systemRed, text: NSLocalizedString("Here you can change account and category structure. Unhide hidden elements", comment: ""))])
+        ]
         
-        
-        for index in 0...array.count-1 {
-            let slide : InstructionView = InstructionView(frame: CGRect(x: view.frame.width, y: 0, width: view.frame.width, height: view.frame.height*0.7))
-            slide.editAccountStructure()
+        for index in 0...guideList.count-1 {
+            let slide : GuideView = GuideView(frame: CGRect(x: view.frame.width, y: 0, width: view.frame.width, height: view.frame.height*0.7))
+            
+            slide.setGuide(guideList[index])
             result.append(slide)
         }
         return result
@@ -160,31 +204,31 @@ class InstructionViewController: UIViewController, UIScrollViewDelegate {
          */
         let percentOffset: CGPoint = CGPoint(x: percentageHorizontalOffset, y: percentageVerticalOffset)
         
-        if slides.count == 4 {
-            if(percentOffset.x > 0 && percentOffset.x <= 0.33) {
-                
-                slides[0].transform = CGAffineTransform(scaleX: (0.33-percentOffset.x)/0.33, y: (0.33-percentOffset.x)/0.33)
-                slides[1].transform = CGAffineTransform(scaleX: percentOffset.x/0.33, y: percentOffset.x/0.33)
-                
-            } else if(percentOffset.x > 0.33 && percentOffset.x <= 0.66) {
-                slides[1].transform = CGAffineTransform(scaleX: (0.66-percentOffset.x)/0.33, y: (0.66-percentOffset.x)/0.33)
-                slides[2].transform = CGAffineTransform(scaleX: percentOffset.x/0.66, y: percentOffset.x/0.66)
-                
-            } else if(percentOffset.x > 0.66 && percentOffset.x <= 1) {
-                slides[2].transform = CGAffineTransform(scaleX: (1-percentOffset.x)/0.33, y: (1-percentOffset.x)/0.33)
-                slides[3].transform = CGAffineTransform(scaleX: percentOffset.x, y: percentOffset.x)
-            }
-        }
-        else if slides.count == 3 {
-            
-            if(percentOffset.x > 0 && percentOffset.x <= 0.5) {
-
-                slides[0].transform = CGAffineTransform(scaleX: (0.5-percentOffset.x)/0.5, y: (0.5-percentOffset.x)/0.5)
-                slides[1].transform = CGAffineTransform(scaleX: percentOffset.x/0.5, y: percentOffset.x/0.5)
-            } else if(percentOffset.x > 0.5 && percentOffset.x <= 1) {
-                slides[1].transform = CGAffineTransform(scaleX: (1-percentOffset.x)/0.5, y: (1-percentOffset.x)/0.5)
-                slides[2].transform = CGAffineTransform(scaleX: percentOffset.x, y: percentOffset.x)
-            }
-        }
+//        if slides.count == 4 {
+//            if(percentOffset.x > 0 && percentOffset.x <= 0.33) {
+//
+//                slides[0].transform = CGAffineTransform(scaleX: (0.33-percentOffset.x)/0.33, y: (0.33-percentOffset.x)/0.33)
+//                slides[1].transform = CGAffineTransform(scaleX: percentOffset.x/0.33, y: percentOffset.x/0.33)
+//
+//            } else if(percentOffset.x > 0.33 && percentOffset.x <= 0.66) {
+//                slides[1].transform = CGAffineTransform(scaleX: (0.66-percentOffset.x)/0.33, y: (0.66-percentOffset.x)/0.33)
+//                slides[2].transform = CGAffineTransform(scaleX: percentOffset.x/0.66, y: percentOffset.x/0.66)
+//
+//            } else if(percentOffset.x > 0.66 && percentOffset.x <= 1) {
+//                slides[2].transform = CGAffineTransform(scaleX: (1-percentOffset.x)/0.33, y: (1-percentOffset.x)/0.33)
+//                slides[3].transform = CGAffineTransform(scaleX: percentOffset.x, y: percentOffset.x)
+//            }
+//        }
+//        else if slides.count == 3 {
+//
+//            if(percentOffset.x > 0 && percentOffset.x <= 0.5) {
+//
+//                slides[0].transform = CGAffineTransform(scaleX: (0.5-percentOffset.x)/0.5, y: (0.5-percentOffset.x)/0.5)
+//                slides[1].transform = CGAffineTransform(scaleX: percentOffset.x/0.5, y: percentOffset.x/0.5)
+//            } else if(percentOffset.x > 0.5 && percentOffset.x <= 1) {
+//                slides[1].transform = CGAffineTransform(scaleX: (1-percentOffset.x)/0.5, y: (1-percentOffset.x)/0.5)
+//                slides[2].transform = CGAffineTransform(scaleX: percentOffset.x, y: percentOffset.x)
+//            }
+//        }
     }
 }

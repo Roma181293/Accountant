@@ -25,7 +25,7 @@ class PresentingData {
     
     func sortTableData(by: SortCategoryType) {
         var nonNegativeValues  = tableData.filter({
-            if $0.amountInAccountingCurrency >= 0 {
+            if $0.amountInSelectedCurrency >= 0 {
                 return true
             }
             else {
@@ -39,13 +39,13 @@ class PresentingData {
         case .zToa:
             nonNegativeValues = nonNegativeValues.sorted(by:{$0.title > $1.title})
         case .zeroToNine:
-            nonNegativeValues = nonNegativeValues.sorted(by:{$0.amountInAccountingCurrency < $1.amountInAccountingCurrency})
+            nonNegativeValues = nonNegativeValues.sorted(by:{$0.amountInSelectedCurrency < $1.amountInSelectedCurrency})
         case .nineToZero:
-            nonNegativeValues = nonNegativeValues.sorted(by:{$0.amountInAccountingCurrency > $1.amountInAccountingCurrency})
+            nonNegativeValues = nonNegativeValues.sorted(by:{$0.amountInSelectedCurrency > $1.amountInSelectedCurrency})
         }
         
         let negativeValues  = tableData.filter({
-            if $0.amountInAccountingCurrency < 0 {
+            if $0.amountInSelectedCurrency < 0 {
                 return true
             }
             else {

@@ -20,7 +20,7 @@ class AccountListTableViewController: UITableViewController, AccountManagerTable
     var delegate : AccountListViewController!
     
     var account: Account?
-    var accountingCurrency : Currency!
+    var currency : Currency!
     var showHiddenAccounts: Bool = false
     var listOfAccountsToShow : [AccountData] = []
     
@@ -51,7 +51,7 @@ class AccountListTableViewController: UITableViewController, AccountManagerTable
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: Constants.Cell.accountTableViewCell, for: indexPath) as! AccountTableViewCell
-        cell.updateCellForData(listOfAccountsToShow[indexPath.row], accountingCurrency: accountingCurrency)
+        cell.updateCellForData(listOfAccountsToShow[indexPath.row], currency: currency)
         return cell
     }
     

@@ -155,7 +155,7 @@ class AccountEditorWithInitialBalanceViewController: UIViewController, UIScrollV
     let accountNameTextField: UITextField = {
         let textField = UITextField()
         textField.tag = 100
-        textField.placeholder = "Example: John BankName salary"
+        textField.placeholder = NSLocalizedString("Example: John BankName salary", comment: "")
         textField.autocapitalizationType = .words
         textField.layer.cornerRadius = 5
         textField.layer.borderColor = UIColor.lightGray.cgColor
