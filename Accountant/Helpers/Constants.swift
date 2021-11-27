@@ -43,6 +43,8 @@ struct Constants {
         static let analyticsTableViewController = "AnalyticsTVC_ID"
         static let configureAnalyticsViewController = "ConfigureAnalyticsVC_ID"
         
+        static let keeperTableViewController = "KeeperTVC_ID"
+        static let holderTableViewController = "HolderTVC_ID"
         static let settingsViewController = "SettingsVC_ID"
     }
     
@@ -58,6 +60,9 @@ struct Constants {
         static let accountTableViewCell = "AccountTableViewCell_ID"
       
         static let analyticsCell1 = "AnalyticsCell1_ID"
+        
+        static let keeperCell = "KeeperCell_ID"
+        static let holderCell = "HolderCell_ID"
         
         static let currencyCell = "CurrencyCell_ID"
         static let settingsCell = "SettingsCell_ID"

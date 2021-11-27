@@ -21,11 +21,11 @@ struct DataForPieCharts {
         case .amount:
             accountsData.forEach({ item in
                 guard item.amountInSelectedCurrency > 0 else {return}
-                    sum += item.amountInSelectedCurrency
-                    let dataEntry = PieChartDataEntry(value: item.amountInSelectedCurrency)
-//                    dataEntry.label = item.title
-                    pieChartColorSet.append(item.color)
-                    self.pieChartDataEntries.append(dataEntry)
+                sum += item.amountInSelectedCurrency
+                let dataEntry = PieChartDataEntry(value: item.amountInSelectedCurrency)
+//              dataEntry.label = item.title
+                pieChartColorSet.append(item.color)
+                self.pieChartDataEntries.append(dataEntry)
             })
         case .currecy:
             var tmpResults : [Currency:Double] = [:]
@@ -42,6 +42,42 @@ struct DataForPieCharts {
             for key in tmpResults.keys {
                 let dataEntry = PieChartDataEntry(value: tmpResults[key]!)
                 dataEntry.label = key.code!
+                self.pieChartDataEntries.append(dataEntry)
+            }
+            
+        case .holder:
+            var tmpResults : [Holder:Double] = [:]
+            accountsData.forEach({ item in
+                guard  let accountHolder = item.account.holder, item.amountInSelectedCurrency > 0 else {return}
+                sum += item.amountInSelectedCurrency
+                if tmpResults[accountHolder] != nil {
+                    tmpResults[accountHolder] = tmpResults[accountHolder]! + item.amountInSelectedCurrency
+                }
+                else {
+                    tmpResults[accountHolder] = item.amountInSelectedCurrency
+                }
+            })
+            for key in tmpResults.keys {
+                let dataEntry = PieChartDataEntry(value: tmpResults[key]!)
+                dataEntry.label = key.icon!
+                self.pieChartDataEntries.append(dataEntry)
+            }
+            
+        case .keeper:
+            var tmpResults : [Keeper:Double] = [:]
+            accountsData.forEach({ item in
+                guard  let accountKeeper = item.account.keeper, item.amountInSelectedCurrency > 0 else {return}
+                sum += item.amountInSelectedCurrency
+                if tmpResults[accountKeeper] != nil {
+                    tmpResults[accountKeeper] = tmpResults[accountKeeper]! + item.amountInSelectedCurrency
+                }
+                else {
+                    tmpResults[accountKeeper] = item.amountInSelectedCurrency
+                }
+            })
+            for key in tmpResults.keys {
+                let dataEntry = PieChartDataEntry(value: tmpResults[key]!)
+                dataEntry.label = key.name!
                 self.pieChartDataEntries.append(dataEntry)
             }
         }

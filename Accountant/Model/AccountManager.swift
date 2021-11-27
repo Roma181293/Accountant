@@ -92,7 +92,7 @@ class AccountManager {
     }
     
     
-    static func fillAccountAttributes(parent: Account?, name : String, type : Int16?, currency : Currency?, subType : Int16? = nil, createdByUser : Bool = true, createDate: Date = Date(), context: NSManagedObjectContext) -> Account {
+    static func fillAccountAttributes(parent: Account?, name : String, type : Int16?, currency : Currency?, keeper: Keeper?, holder: Holder?, subType : Int16? = nil, createdByUser : Bool = true, createDate: Date = Date(), context: NSManagedObjectContext) -> Account {
         let account = Account(context: context)
         account.createDate = createDate
         account.createdByUser = createdByUser
@@ -101,6 +101,8 @@ class AccountManager {
         account.name = name
         
         account.currency = currency
+        account.keeper = keeper
+        account.holder = holder
         
         if let subType = subType {
             account.subType = subType
@@ -126,7 +128,7 @@ class AccountManager {
     }
     
     
-    static func createAndGetAccount(parent: Account?, name : String, type : Int16?, currency : Currency?, subType : Int16? = nil, createdByUser : Bool = true, createDate: Date = Date(), context: NSManagedObjectContext) throws -> Account {
+    static func createAndGetAccount(parent: Account?, name : String, type : Int16?, currency : Currency?, keeper: Keeper? = nil, holder: Holder? = nil, subType : Int16? = nil, createdByUser : Bool = true, createDate: Date = Date(), context: NSManagedObjectContext) throws -> Account {
         
         if parent == nil && type == nil {throw AccountError.attributeTypeShouldBeInitializeForRootAccount}
 //        guard parent != nil && type != nil && parent?.type != type else {throw AccountError.accountContainAttribureTypeDifferentFromParent}
@@ -143,14 +145,15 @@ class AccountManager {
         }
         
         if let parent = parent, !AccountManager.isFreeFromTransactionItems(account: parent) {
-            let new = fillAccountAttributes(parent: parent, name: AccountsNameLocalisationManager.getLocalizedAccountName(.other1) , type : type, currency : currency, subType : subType, createdByUser : createdByUser, createDate: createDate, context: context)
+            let new = fillAccountAttributes(parent: parent, name: AccountsNameLocalisationManager.getLocalizedAccountName(.other1) , type : type, currency : currency, keeper: keeper, holder: holder, subType : subType, createdByUser : createdByUser, createDate: createDate, context: context)
             TransactionItemManager.moveTransactionItemsFrom(oldAccount: parent, newAccount: new, modifiedByUser: createdByUser, modifyDate: createDate)
         }
         
-        return fillAccountAttributes(parent: parent, name : name, type : type, currency : currency, subType : subType, createdByUser : createdByUser, createDate: createDate, context: context)
+        return fillAccountAttributes(parent: parent, name : name, type : type, currency : currency, keeper: keeper, holder: holder, subType : subType, createdByUser : createdByUser, createDate: createDate, context: context)
     }
     
-    static func createAndGetAccountForImport(parent: Account?, name : String, type : Int16?, currency : Currency?, subType : Int16? = nil, createdByUser : Bool = true, createDate: Date = Date(), context: NSManagedObjectContext) throws -> Account {
+    
+    static func createAndGetAccountForImport(parent: Account?, name : String, type : Int16?, currency : Currency?, keeper: Keeper? = nil, holder: Holder? = nil, subType : Int16? = nil, createdByUser : Bool = true, createDate: Date = Date(), context: NSManagedObjectContext) throws -> Account {
         
         if parent == nil && type == nil {throw AccountError.attributeTypeShouldBeInitializeForRootAccount}
         
@@ -166,17 +169,18 @@ class AccountManager {
         }
         
         if let parent = parent, !AccountManager.isFreeFromTransactionItems(account: parent) {
-            let new = fillAccountAttributes(parent: parent, name: AccountsNameLocalisationManager.getLocalizedAccountName(.other1) , type : type, currency : currency, subType : subType, createdByUser : createdByUser, createDate: createDate, context: context)
+            let new = fillAccountAttributes(parent: parent, name: AccountsNameLocalisationManager.getLocalizedAccountName(.other1) , type : type, currency : currency, keeper: keeper, holder: holder, subType : subType, createdByUser : createdByUser, createDate: createDate, context: context)
             TransactionItemManager.moveTransactionItemsFrom(oldAccount: parent, newAccount: new, modifiedByUser: createdByUser, modifyDate: createDate)
         }
         
-        return fillAccountAttributes(parent: parent, name : name, type : type, currency : currency, subType : subType, createdByUser : createdByUser, createDate: createDate, context: context)
+        return fillAccountAttributes(parent: parent, name : name, type : type, currency : currency, keeper: keeper, holder: holder, subType : subType, createdByUser : createdByUser, createDate: createDate, context: context)
     }
     
     
     static func createAccount(parent: Account?, name : String, type : Int16?, currency : Currency?, subType : Int16? = nil, createdByUser : Bool = true, context: NSManagedObjectContext) throws {
         try createAndGetAccount(parent: parent, name : name, type : type, currency : currency, subType : subType, createdByUser : createdByUser, context: context)
     }
+    
     
     static func changeCurrencyForBaseAccounts(to currency : Currency, modifyDate: Date = Date(), modifiedByUser: Bool = true, context : NSManagedObjectContext) throws {
         let baseAccounts : [Account] = try getRootAccountList(context: context)
@@ -207,6 +211,7 @@ class AccountManager {
     static func getAllChildrenForAcctount(_ account : Account) -> [Account] {
         return account.children?.allObjects as! [Account]
     }
+    
     
     static func getAllAncestorsForAcctount(_ account : Account) -> [Account] {
         return account.ancestors?.allObjects as! [Account]
@@ -956,22 +961,30 @@ class AccountManager {
     static func addBaseAccountsTest(accountingCurrency: Currency, context: NSManagedObjectContext) {
         AccountsNameLocalisationManager.createAllLocalizedAccountName()
         
+        //MARK: - Get keepers
+        let bank1 = try? KeeperManager.getKeeperForName(NSLocalizedString("Bank1", comment: ""), context: context)
+        let bank2 = try? KeeperManager.getKeeperForName(NSLocalizedString("Bank2", comment: ""), context: context)
+        let hanna = try? KeeperManager.getKeeperForName(NSLocalizedString("Hanna", comment: ""), context: context)
+        let cashKeeper = try? KeeperManager.getCashKeeper(context: context)
+        
+        let me = try? HolderManager.getHolderForName(NSLocalizedString("Me", comment: ""), context: context)
+        let kate = try? HolderManager.getHolderForName(NSLocalizedString("Kate", comment: ""), context: context)
+        
+        
         let money = try? createAndGetAccount(parent: nil, name: AccountsNameLocalisationManager.getLocalizedAccountName(.money), type: AccountType.assets.rawValue, currency: nil, createdByUser: false, context: context)
         
         let credits = try? createAndGetAccount(parent: nil, name: AccountsNameLocalisationManager.getLocalizedAccountName(.credits), type: AccountType.liabilities.rawValue, currency: nil, createdByUser: false, context: context)
         let debtors = try? createAndGetAccount(parent: nil, name: AccountsNameLocalisationManager.getLocalizedAccountName(.debtors), type: AccountType.assets.rawValue, currency: nil, createdByUser: false, context: context)
-        let deposit = try? createAndGetAccount(parent: debtors, name: NSLocalizedString("Deposit", comment: ""), type: AccountType.assets.rawValue, currency: accountingCurrency, createdByUser: false, context: context)
-        
         let capital = try? createAndGetAccount(parent: nil, name: AccountsNameLocalisationManager.getLocalizedAccountName(.capital), type: AccountType.liabilities.rawValue, currency: accountingCurrency, createdByUser: false, context: context)
         
+        let deposit = try? createAndGetAccount(parent: debtors, name: NSLocalizedString("Deposit", comment: ""), type: AccountType.assets.rawValue, currency: accountingCurrency, keeper: bank1, holder: me, createdByUser: false, context: context)
+        let lend = try? createAndGetAccount(parent: debtors, name: NSLocalizedString("Hanna", comment: ""), type: AccountType.assets.rawValue, currency: accountingCurrency, keeper: hanna, holder: me, createdByUser: false, context: context)
         
-       
+        let salaryCard = try? createAndGetAccount(parent: money, name: NSLocalizedString("Salary card", comment: ""), type: AccountType.assets.rawValue, currency: accountingCurrency, keeper: bank2, holder: me, subType: AccountSubType.debitCard.rawValue, createdByUser: false, context: context)
+        let cash = try? createAndGetAccount(parent: money, name: NSLocalizedString("Cash", comment: ""), type: AccountType.assets.rawValue, currency: accountingCurrency, keeper: cashKeeper, holder: kate, subType: AccountSubType.cash.rawValue, createdByUser: false, context: context)
         
-        let salaryCard = try? createAndGetAccount(parent: money, name: NSLocalizedString("Salary card", comment: ""), type: AccountType.assets.rawValue, currency: accountingCurrency, subType: AccountSubType.cash.rawValue, createdByUser: false, context: context)
-        let cash = try? createAndGetAccount(parent: money, name: NSLocalizedString("Cash", comment: ""), type: AccountType.assets.rawValue, currency: accountingCurrency, subType: AccountSubType.cash.rawValue, createdByUser: false, context: context)
-        
-        let creditcard_A = try? createAndGetAccount(parent: money, name: NSLocalizedString("Credit card", comment: ""), type: AccountType.assets.rawValue, currency: accountingCurrency, subType: AccountSubType.creditCard.rawValue, createdByUser: false, context: context)
-        let creditcard_L = try? createAndGetAccount(parent: credits, name: NSLocalizedString("Credit card", comment: ""), type: AccountType.liabilities.rawValue, currency: accountingCurrency, createdByUser: false, context: context)
+        let creditcard_A = try? createAndGetAccount(parent: money, name: NSLocalizedString("Credit card", comment: ""), type: AccountType.assets.rawValue, currency: accountingCurrency, keeper: bank1, holder: me, subType: AccountSubType.creditCard.rawValue, createdByUser: false, context: context)
+        let creditcard_L = try? createAndGetAccount(parent: credits, name: NSLocalizedString("Credit card", comment: ""), type: AccountType.liabilities.rawValue, currency: accountingCurrency, keeper: bank1, holder: me, createdByUser: false, context: context)
         creditcard_A?.linkedAccount = creditcard_L
         
         let expense = try? createAndGetAccount(parent: nil, name: AccountsNameLocalisationManager.getLocalizedAccountName(.expense), type: AccountType.assets.rawValue, currency: accountingCurrency, createdByUser: false, context: context)

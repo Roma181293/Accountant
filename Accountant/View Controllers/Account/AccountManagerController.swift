@@ -23,7 +23,7 @@ protocol AccountManagerTableViewControllerDelegate: UITableViewController{
 }
 
 class AccountManagerController {
-    weak var delegate: AccountManagerTableViewControllerDelegate!
+    unowned var delegate: AccountManagerTableViewControllerDelegate!
     
     
     func addSubAccountTo(account: Account?) {
@@ -339,8 +339,19 @@ class AccountManagerController {
         return addCreditTransaction
     }
     
-    
-    
+    func editAccount(indexPath: IndexPath, selectedAccount: Account) -> UIContextualAction {
+        let editAccount = UIContextualAction(style: .normal, title: NSLocalizedString("Edit",comment: "")) { (contAct, view, complete) in
+            let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+            let accountEditorWithInitialBalanceViewController = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.accountEditorWithInitialBalanceViewController) as! AccountEditorWithInitialBalanceViewController
+            accountEditorWithInitialBalanceViewController.parentAccount = AccountManager.getRootAccountFor(selectedAccount)
+            accountEditorWithInitialBalanceViewController.account = selectedAccount
+            self.delegate.navigationController?.pushViewController(accountEditorWithInitialBalanceViewController, animated: true)
+            complete(true)
+        }
+        editAccount.backgroundColor = .systemPink
+        editAccount.image = UIImage(systemName: "gear")
+        return editAccount
+    }
     
     func showPurchaseOfferVC() {
         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)

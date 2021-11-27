@@ -57,6 +57,6 @@ class PresentingData {
     }
     
     func getDataForPieChart(distributionType: DistributionType, showDate: Bool) -> DataForPieCharts {
-        DataForPieCharts(accountsData: tableData, dateInterval: dateInterval, presentingCurrency: presentingCurrency, distributionType: distributionType, showDate: showDate)
+        return DataForPieCharts(accountsData: tableData, dateInterval: dateInterval, presentingCurrency: presentingCurrency, distributionType: distributionType, showDate: showDate)
     }
 }

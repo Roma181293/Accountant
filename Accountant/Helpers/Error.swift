@@ -86,7 +86,6 @@ enum CurrencyError : AppError {
     case thisCurrencyAlreadyUsedInTransaction
 }
 
-
 extension CurrencyError: LocalizedError {
     public var errorDescription: String? {
         switch self {
@@ -102,6 +101,40 @@ extension CurrencyError: LocalizedError {
     }
 }
 
+
+
+enum KeeperError : AppError {
+    case thisKeeperAlreadyExists
+    case thisKeeperUsedInAccounts
+}
+
+extension KeeperError: LocalizedError {
+    public var errorDescription: String? {
+        switch self {
+        case .thisKeeperAlreadyExists:
+            return NSLocalizedString("Item with same name already exists",comment: "")
+        case .thisKeeperUsedInAccounts:
+            return NSLocalizedString("This item is already used on your accounts",comment: "")
+        }
+    }
+}
+
+
+enum HolderError : AppError {
+    case thisHolderAlreadyExists
+    case thisHolderUsedInAccounts
+}
+
+extension HolderError: LocalizedError {
+    public var errorDescription: String? {
+        switch self {
+        case .thisHolderAlreadyExists:
+            return NSLocalizedString("This holder with the same name already exists",comment: "")
+        case .thisHolderUsedInAccounts:
+            return NSLocalizedString("This holder is already used on your accounts",comment: "")
+        }
+    }
+}
 
 
 

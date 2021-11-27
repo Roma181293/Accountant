@@ -15,6 +15,8 @@
         <relationship name="children" toMany="YES" deletionRule="Nullify" destinationEntity="Account" inverseName="ancestors" inverseEntity="Account"/>
         <relationship name="currency" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Currency" inverseName="accounts" inverseEntity="Currency"/>
         <relationship name="directChildren" toMany="YES" deletionRule="Nullify" destinationEntity="Account" inverseName="parent" inverseEntity="Account"/>
+        <relationship name="holder" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Holder" inverseName="accounts" inverseEntity="Holder"/>
+        <relationship name="keeper" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Keeper" inverseName="accounts" inverseEntity="Keeper"/>
         <relationship name="linkedAccount" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Account" inverseName="linkedAccount" inverseEntity="Account"/>
         <relationship name="parent" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Account" inverseName="directChildren" inverseEntity="Account"/>
         <relationship name="transactionItems" toMany="YES" deletionRule="Nullify" destinationEntity="TransactionItem" inverseName="account" inverseEntity="TransactionItem"/>
@@ -28,6 +30,24 @@
         <attribute name="modifyDate" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <relationship name="accounts" toMany="YES" deletionRule="Nullify" destinationEntity="Account" inverseName="currency" inverseEntity="Account"/>
+    </entity>
+    <entity name="Holder" representedClassName="Holder" syncable="YES" codeGenerationType="class">
+        <attribute name="createDate" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="createdByUser" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES"/>
+        <attribute name="icon" attributeType="String"/>
+        <attribute name="modifiedByUser" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES"/>
+        <attribute name="modifyDate" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="name" attributeType="String"/>
+        <relationship name="accounts" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Account" inverseName="holder" inverseEntity="Account"/>
+    </entity>
+    <entity name="Keeper" representedClassName="Keeper" syncable="YES" codeGenerationType="class">
+        <attribute name="createDate" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="createdByUser" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES"/>
+        <attribute name="modifiedByUser" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES"/>
+        <attribute name="modifyDate" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="type" attributeType="Integer 16" usesScalarValueType="YES"/>
+        <relationship name="accounts" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Account" inverseName="keeper" inverseEntity="Account"/>
     </entity>
     <entity name="Transaction" representedClassName="Transaction" syncable="YES" codeGenerationType="class">
         <attribute name="comment" optional="YES" attributeType="String"/>
@@ -53,16 +73,22 @@
         <memberEntity name="Currency"/>
         <memberEntity name="Transaction"/>
         <memberEntity name="TransactionItem"/>
+        <memberEntity name="Keeper"/>
+        <memberEntity name="Holder"/>
     </configuration>
     <configuration name="Test">
         <memberEntity name="Account"/>
         <memberEntity name="Currency"/>
         <memberEntity name="Transaction"/>
         <memberEntity name="TransactionItem"/>
+        <memberEntity name="Keeper"/>
+        <memberEntity name="Holder"/>
     </configuration>
     <elements>
-        <element name="Account" positionX="-42.123046875" positionY="-164.82861328125" width="128" height="284"/>
+        <element name="Account" positionX="-42.123046875" positionY="-164.82861328125" width="128" height="314"/>
+        <element name="Keeper" positionX="-27" positionY="-9" width="128" height="134"/>
         <element name="Currency" positionX="-217.9248657226562" positionY="-150.1015777587891" width="128" height="149"/>
+        <element name="Holder" positionX="-18" positionY="0" width="128" height="134"/>
         <element name="Transaction" positionX="149.5181884765626" positionY="44.60263061523435" width="128" height="134"/>
         <element name="TransactionItem" positionX="144.8784179687499" positionY="-119.3399047851563" width="128" height="149"/>
     </elements>

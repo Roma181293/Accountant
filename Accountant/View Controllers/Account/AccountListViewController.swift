@@ -212,23 +212,28 @@ class AccountListViewController: UIViewController, UIScrollViewDelegate{
     private func createSlides() -> [UIView] {
         
         let slide1 : PieChartView = ChartsManager.setPieChartView(dataForPieCharts : presentingData.getDataForPieChart(distributionType: .amount, showDate: false))
-        
+
         let slide2 : PieChartView = ChartsManager.setPieChartView(dataForPieCharts : presentingData.getDataForPieChart(distributionType: .currecy, showDate: false))
-        
+
         let slide3 : LineChartView = ChartsManager.setLineChartView(chartData: presentingData.lineChartData)
+
+        let slide4 : PieChartView = ChartsManager.setPieChartView(dataForPieCharts : presentingData.getDataForPieChart(distributionType: .holder, showDate: false))
         
+        let slide5 : PieChartView = ChartsManager.setPieChartView(dataForPieCharts : presentingData.getDataForPieChart(distributionType: .keeper, showDate: false))
        
         slide1.tag = 2
         slide2.tag = 3
         slide3.tag = 4
+        slide4.tag = 5
+        slide5.tag = 6
         
-        return [slide1, slide2, slide3]
+        return [slide1, slide2, slide3, slide4, slide5]
     }
     
     
     private func setupSlideScrollView(slides : [UIView]) {
         //deleting previous views
-        for i in 1...4 {
+        for i in 1...6 {
             if let viewWithTag = scrollView.viewWithTag(i) {
                 viewWithTag.removeFromSuperview()
             }

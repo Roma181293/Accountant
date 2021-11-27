@@ -81,7 +81,8 @@ class AccountListTableViewController: UITableViewController, AccountManagerTable
     }
     override func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let selectedAccount : Account = self.listOfAccountsToShow[indexPath.row].account
-        return UISwipeActionsConfiguration(actions: [accountManagerController.addTransactionWithCreditAccount(indexPath: indexPath, selectedAccount: selectedAccount)])
+        return UISwipeActionsConfiguration(actions: [accountManagerController.addTransactionWithCreditAccount(indexPath: indexPath, selectedAccount: selectedAccount),
+                                                     accountManagerController.editAccount(indexPath: indexPath, selectedAccount: selectedAccount)])
     }
     
     func errorHandlerMethod(error : Error) {

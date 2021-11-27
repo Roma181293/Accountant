@@ -261,6 +261,8 @@ class SettingsTableViewCell: UITableViewCell {
                     try TransactionManager.deleteAllTransactions(context: context)
                     try AccountManager.deleteAllAccounts(context: context)
                     try CurrencyManager.deleteAllCurrencies(context: context)
+                    try HolderManager.deleteAllHolders(context: context)
+                    try KeeperManager.deleteAllKeepers(context: context)
                     try CoreDataStack.shared.saveContext(context)
                     
                     //add testData
@@ -270,12 +272,14 @@ class SettingsTableViewCell: UITableViewCell {
                     AccountManager.addBaseAccountsTest(accountingCurrency: currency, context: context)
                     try CoreDataStack.shared.saveContext(context)
                 }
-                else {
+                else if sender.isOn && CoreDataStack.shared.activeEnviroment() == .test {
                     let context = CoreDataStack.shared.persistentContainer.viewContext
                     
                     TransactionManager.deleteAllTransactions(context: context)
                     try AccountManager.deleteAllAccounts(context: context)
                     try CurrencyManager.deleteAllCurrencies(context: context)
+                    try HolderManager.deleteAllHolders(context: context)
+                    try KeeperManager.deleteAllKeepers(context: context)
                     try CoreDataStack.shared.saveContext(context)
                     
                     UserProfile.useMultiItemTransaction(false, environment: .test)

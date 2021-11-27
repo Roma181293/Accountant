@@ -56,4 +56,57 @@ class NetworkServices {
             }
         }
     }
+    
+    
+    static func loadMBUserInfo(compliting: @escaping (MBUserInfo?, Error?) -> Void){
+     
+        AF.request("https://api.monobank.ua/personal/client-info",
+                   headers: ["X-Token" : "uHSislDn_PZokeUPUiigOU6tBaM2Ub95T0Qekafe069I"]
+        ).responseDecodable(of: MBUserInfo.self) {(response) in
+            if let list = response.value {
+                compliting(list, nil)
+            }
+            else {
+                print("ERROR: \(String(describing: response.error?.localizedDescription))")
+                compliting(nil, response.error)
+            }
+        }
+    }
+    
+    static func loadMBUserInfo(){
+     
+        AF.request("https://api.monobank.ua/personal/client-info",
+                   headers: ["X-Token" : "uHSislDn_PZokeUPUiigOU6tBaM2Ub95T0Qekafe069I"]
+        ).response{(response) in
+            if let error = response.error {
+                print("ERROR: \(String(describing: error.localizedDescription))")
+            }
+            else {
+                print(response.value as? String)
+            }
+        }
+    }
+}
+
+
+
+
+struct MBUserInfo:Codable {
+    let clientId : String
+    let name : String
+    let webHookUrl: String
+    let permissions: String
+    let accounts: [MBAccountInfo]
+}
+
+
+struct MBAccountInfo: Codable {
+    let id : String
+    let sendId: String
+    let balance : Int
+    let creditLimit : Int
+    let type : String
+    let maskedPan : [String]
+    let currencyCode: Int
+    let cashbackType: String
 }

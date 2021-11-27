@@ -25,6 +25,12 @@ enum AccountSubType : Int16 {
     case creditCard = 3
 }
 
+enum KeeperType : Int16 {
+    case cash = 0
+    case bank = 1
+    case person = 2
+}
+
 enum BaseAccounts : String, CaseIterable {
     case income = "Income"
     case expense = "Expenses"
@@ -47,6 +53,8 @@ enum SortCategoryType : Int {
 enum DistributionType : Int {
     case amount = 0
     case currecy = 1
+    case holder = 2
+    case keeper = 3
 }
 
 enum AuthType : Int{

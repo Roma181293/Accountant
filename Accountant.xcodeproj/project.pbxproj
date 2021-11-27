@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2B00CAF92746095700821FE0 /* MonobankGetUserInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B00CAF82746095700821FE0 /* MonobankGetUserInfoViewController.swift */; };
+		2B00CAFB2746514900821FE0 /* KeeperManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B00CAFA2746514900821FE0 /* KeeperManager.swift */; };
+		2B00CAFD27465CC500821FE0 /* HolderManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B00CAFC27465CC500821FE0 /* HolderManager.swift */; };
 		2B0D1D3326ADF1D1003C6394 /* TransactionItemManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B0D1D3226ADF1D1003C6394 /* TransactionItemManager.swift */; };
 		2B104E5226E558F300E67F6A /* SalesBadgeUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B104E5126E558F300E67F6A /* SalesBadgeUIView.swift */; };
 		2B1407A826F5D49B00114B95 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1407A726F5D49B00114B95 /* WebViewController.swift */; };
@@ -60,6 +63,7 @@
 		2B1FEBB6266EE45F00BF53BD /* PreTransactionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1FEBB5266EE45F00BF53BD /* PreTransactionTableViewCell.swift */; };
 		2B2E2E8B26E0054400A6CFDD /* AnalyticTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B2E2E8A26E0054400A6CFDD /* AnalyticTableViewCell.swift */; };
 		2B2E6D1D26DD960D004A9680 /* TransactionItemTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B2E6D1C26DD960D004A9680 /* TransactionItemTextField.swift */; };
+		2B3523632746B50300399CF6 /* KeeperTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B3523622746B50300399CF6 /* KeeperTableViewController.swift */; };
 		2B37CEC327405FAA0000E3EF /* Guide.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B37CEC227405FAA0000E3EF /* Guide.swift */; };
 		2B3A260426E95C780033E746 /* AccessCheckManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B3A260326E95C780033E746 /* AccessCheckManager.swift */; };
 		2B3A260626EA6DD90033E746 /* AccountManagerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B3A260526EA6DD90033E746 /* AccountManagerController.swift */; };
@@ -91,6 +95,7 @@
 		2BCC0BDA26ACD79C00E8680E /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BCC0BD926ACD79C00E8680E /* StoreKit.framework */; };
 		2BDB10A126DACD9200D8FE08 /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BDB10A026DACD9200D8FE08 /* Protocols.swift */; };
 		2BE2593326BC8E6D0025301F /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE2593226BC8E6D0025301F /* Error.swift */; };
+		2BE2955E2746E5CB003A1B36 /* HolderTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE2955D2746E5CB003A1B36 /* HolderTableViewController.swift */; };
 		38318A9FD81C28716622F93F /* Pods_Accountant.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97FD10DCF67B198D7BE0F270 /* Pods_Accountant.framework */; };
 /* End PBXBuildFile section */
 
@@ -112,6 +117,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2B00CAF82746095700821FE0 /* MonobankGetUserInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonobankGetUserInfoViewController.swift; sourceTree = "<group>"; };
+		2B00CAFA2746514900821FE0 /* KeeperManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeeperManager.swift; sourceTree = "<group>"; };
+		2B00CAFC27465CC500821FE0 /* HolderManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HolderManager.swift; sourceTree = "<group>"; };
 		2B0D1D3226ADF1D1003C6394 /* TransactionItemManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionItemManager.swift; sourceTree = "<group>"; };
 		2B104E5126E558F300E67F6A /* SalesBadgeUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SalesBadgeUIView.swift; sourceTree = "<group>"; };
 		2B1407A726F5D49B00114B95 /* WebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
@@ -165,6 +173,7 @@
 		2B1FEBB5266EE45F00BF53BD /* PreTransactionTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreTransactionTableViewCell.swift; sourceTree = "<group>"; };
 		2B2E2E8A26E0054400A6CFDD /* AnalyticTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticTableViewCell.swift; sourceTree = "<group>"; };
 		2B2E6D1C26DD960D004A9680 /* TransactionItemTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionItemTextField.swift; sourceTree = "<group>"; };
+		2B3523622746B50300399CF6 /* KeeperTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeeperTableViewController.swift; sourceTree = "<group>"; };
 		2B37CEC227405FAA0000E3EF /* Guide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Guide.swift; sourceTree = "<group>"; };
 		2B3A260326E95C780033E746 /* AccessCheckManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessCheckManager.swift; sourceTree = "<group>"; };
 		2B3A260526EA6DD90033E746 /* AccountManagerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountManagerController.swift; sourceTree = "<group>"; };
@@ -208,6 +217,8 @@
 		2BCC0BD926ACD79C00E8680E /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		2BDB10A026DACD9200D8FE08 /* Protocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocols.swift; sourceTree = "<group>"; };
 		2BE2593226BC8E6D0025301F /* Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
+		2BE2955D2746E5CB003A1B36 /* HolderTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HolderTableViewController.swift; sourceTree = "<group>"; };
+		2BFCE545274ABADF0070C35F /* Accountant 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Accountant 2.xcdatamodel"; sourceTree = "<group>"; };
 		97FD10DCF67B198D7BE0F270 /* Pods_Accountant.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Accountant.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A51B83286AAA2CAF601DDC80 /* Pods-Accountant.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Accountant.debug.xcconfig"; path = "Target Support Files/Pods-Accountant/Pods-Accountant.debug.xcconfig"; sourceTree = "<group>"; };
 		B1061A3612DB2489861B1B83 /* Pods-Accountant.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Accountant.release.xcconfig"; path = "Target Support Files/Pods-Accountant/Pods-Accountant.release.xcconfig"; sourceTree = "<group>"; };
@@ -278,6 +289,8 @@
 				2B1FEA82266C1D9900BF53BD /* TransactionManager.swift */,
 				2B0D1D3226ADF1D1003C6394 /* TransactionItemManager.swift */,
 				2B1FEABB266C41C100BF53BD /* AccountsNameLocalisationManager.swift */,
+				2B00CAFA2746514900821FE0 /* KeeperManager.swift */,
+				2B00CAFC27465CC500821FE0 /* HolderManager.swift */,
 				2B1FEA39266BEDA400BF53BD /* CoreDataStack.swift */,
 				2B1FEB40266D257800BF53BD /* NetworkServices.swift */,
 				2B1FEA3E266BEDD400BF53BD /* UserProfile.swift */,
@@ -298,11 +311,14 @@
 				2B1FEAA3266C368100BF53BD /* First Launch */,
 				2B1FEAB7266C3D7900BF53BD /* Transaction */,
 				2B1FEB96266EDE5000BF53BD /* SettingsViewController.swift */,
+				2B3523622746B50300399CF6 /* KeeperTableViewController.swift */,
+				2BE2955D2746E5CB003A1B36 /* HolderTableViewController.swift */,
 				2BB780AF272D71D3002D2098 /* InstructionViewController.swift */,
 				2B1FEBAA266EE19B00BF53BD /* ImportTransactionViewController.swift */,
 				2B1FEB4B266D25EE00BF53BD /* PurchaseOfferViewController.swift */,
 				2B1407A726F5D49B00114B95 /* WebViewController.swift */,
 				2B497D302703B94D007A31AB /* LogoViewController.swift */,
+				2B00CAF82746095700821FE0 /* MonobankGetUserInfoViewController.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -699,11 +715,14 @@
 				2BB780B0272D71D3002D2098 /* InstructionViewController.swift in Sources */,
 				2B490DDE26E4BA6000967E11 /* GradientView.swift in Sources */,
 				2B1FEBB1266EE1D500BF53BD /* PreTrasaction.swift in Sources */,
+				2B00CAF92746095700821FE0 /* MonobankGetUserInfoViewController.swift in Sources */,
+				2BE2955E2746E5CB003A1B36 /* HolderTableViewController.swift in Sources */,
 				2B1FEA4C266BEE6700BF53BD /* CurrencyHistoricalDataNB.swift in Sources */,
 				2BC058B926CD7A9400FE896C /* ComplexTransactionEditorViewController.swift in Sources */,
 				2B1FEA4D266BEE6700BF53BD /* CurrencyHistoricalDataProtocol.swift in Sources */,
 				2B1FEA62266BF03300BF53BD /* CurrencyManager.swift in Sources */,
 				2B1FEAE9266CAF6C00BF53BD /* Extension UIResponder.swift in Sources */,
+				2B00CAFD27465CC500821FE0 /* HolderManager.swift in Sources */,
 				2B1FEAAE266C3AB900BF53BD /* TransactionListViewController.swift in Sources */,
 				2B44C9F426EDFC6E0009976A /* WelcomeViewController.swift in Sources */,
 				2B1FEAE8266CAF6C00BF53BD /* Extension Formatter.swift in Sources */,
@@ -722,6 +741,7 @@
 				2B1407AC26F931AA00114B95 /* AccountNavigationTableViewCell.swift in Sources */,
 				2B1FEA6A266BF15200BF53BD /* AccountManager.swift in Sources */,
 				2B497D2F2703B81E007A31AB /* LogoView.swift in Sources */,
+				2B00CAFB2746514900821FE0 /* KeeperManager.swift in Sources */,
 				2B1FEAC6266C433200BF53BD /* BiometricAuthViewController.swift in Sources */,
 				2B1FEAE7266CAF6C00BF53BD /* Extension UIScrollView.swift in Sources */,
 				2B1FEABC266C41C100BF53BD /* AccountsNameLocalisationManager.swift in Sources */,
@@ -738,6 +758,7 @@
 				2B1FEB6D266D752200BF53BD /* DataForPieCharts.swift in Sources */,
 				2B1FEB41266D257900BF53BD /* NetworkServices.swift in Sources */,
 				2B1FEAE6266CAF6C00BF53BD /* Extension UIDevice.swift in Sources */,
+				2B3523632746B50300399CF6 /* KeeperTableViewController.swift in Sources */,
 				2B1FEBB6266EE45F00BF53BD /* PreTransactionTableViewCell.swift in Sources */,
 				2B3A260626EA6DD90033E746 /* AccountManagerController.swift in Sources */,
 				2B1FEA4E266BEE6700BF53BD /* CurrencyExchangePB.swift in Sources */,
@@ -1128,9 +1149,10 @@
 		2B949BB72665B4040033383A /* Accountant.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				2BFCE545274ABADF0070C35F /* Accountant 2.xcdatamodel */,
 				2B949BB82665B4040033383A /* Accountant.xcdatamodel */,
 			);
-			currentVersion = 2B949BB82665B4040033383A /* Accountant.xcdatamodel */;
+			currentVersion = 2BFCE545274ABADF0070C35F /* Accountant 2.xcdatamodel */;
 			path = Accountant.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

@@ -138,15 +138,19 @@ class WelcomeViewController: UIViewController {
             let context = CoreDataStack.shared.persistentContainer.viewContext
             
             //remove old test Data
-            try TransactionManager.deleteAllTransactions(context: context)
+            TransactionManager.deleteAllTransactions(context: context)
             try AccountManager.deleteAllAccounts(context: context)
             try CurrencyManager.deleteAllCurrencies(context: context)
+            try KeeperManager.deleteAllKeepers(context: context)
+            try HolderManager.deleteAllHolders(context: context)
             try CoreDataStack.shared.saveContext(context)
             
             //add test Data
             CurrencyManager.addCurrencies(context: context)
             guard let currency = try CurrencyManager.getCurrencyForCode("UAH", context: context) else {return}
             try CurrencyManager.changeAccountingCurrency(old: nil, new: currency, context: context)
+            try KeeperManager.createTestKeepers(context: context)
+            try HolderManager.createTestHolders(context: context)
             AccountManager.addBaseAccountsTest(accountingCurrency: currency, context: context)
             try CoreDataStack.shared.saveContext(context)
             

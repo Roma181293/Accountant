@@ -12,9 +12,9 @@ class StartAccountingViewController: UIViewController, CurrencyReceiverDelegate 
     var coreDataStack = CoreDataStack.shared
     var context = CoreDataStack.shared.persistentContainer.viewContext
     
-    var currencyTVC: CurrencyTableViewController!
+    weak var currencyTVC: CurrencyTableViewController!
     var accountNavigationTVC: AccountNavigatorTableViewController!
-    var vc: UIViewController?
+    weak var vc: UIViewController?
     
     var currentStep = 0
     var currency: Currency?
@@ -91,6 +91,8 @@ class StartAccountingViewController: UIViewController, CurrencyReceiverDelegate 
                 try TransactionManager.deleteAllTransactions(context: context)
                 try AccountManager.deleteAllAccounts(context: context)
                 try CurrencyManager.deleteAllCurrencies(context: context)
+                try HolderManager.deleteAllHolders(context: context)
+                try KeeperManager.deleteAllKeepers(context: context)
                 try CoreDataStack.shared.saveContext(context)
             }
             catch let error {
@@ -99,6 +101,8 @@ class StartAccountingViewController: UIViewController, CurrencyReceiverDelegate 
         }
         
         //add New Data
+        HolderManager.createDefaultHolders(context: context)
+        KeeperManager.createDefaultKeepers(context: context)
         CurrencyManager.addCurrencies(context: context)
         
         addMainView()
