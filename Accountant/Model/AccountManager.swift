@@ -141,7 +141,7 @@ class AccountManager {
                 throw AccountError.accountAlreadyExists(name: name)
             }
             else {
-                throw AccountEçrror.categoryAlreadyExists(name: name)
+                throw AccountError.categoryAlreadyExists(name: name)
             }
         }
         
