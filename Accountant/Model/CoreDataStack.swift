@@ -81,46 +81,6 @@ class CoreDataStack {
     }
     
     
-//    public lazy var viewContext: NSManagedObjectContext = {
-//        return persistentContainer.viewContext
-//    }()
-//
-//    public func newDerivedContext() -> NSManagedObjectContext {
-//        let context = persistentContainer.newBackgroundContext()
-//        return context
-//    }
-//
-//    public func saveContext() {
-//        saveContext(viewContext)
-//    }
-//
-//    public func saveContext(_ context: NSManagedObjectContext) {
-//        if context != viewContext {
-//            saveDerivedContext(context)
-//            return
-//        }
-//
-//        context.perform {
-//            do {
-//                try context.save()
-//            } catch let error as NSError {
-//                fatalError("Unresolved error \(error), \(error.userInfo)")
-//            }
-//        }
-//    }
-//    public func saveDerivedContext(_ context: NSManagedObjectContext) {
-//        context.perform {
-//            do {
-//                try context.save()
-//            } catch let error as NSError {
-//                fatalError("Unresolved error \(error), \(error.userInfo)")
-//            }
-//
-//            self.saveContext(self.viewContext)
-//        }
-//    }
-//
-    
     public func saveContext(_ context: NSManagedObjectContext) throws {
         if context.hasChanges {
             do {

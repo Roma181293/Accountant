@@ -11,12 +11,25 @@ import XCTest
 import CoreData
 
 class AccountTests: XCTestCase {
-    var coreDataStack: TestCoreDataStack!
+    
+    var coreDataStack: CoreDataStack!
     var context: NSManagedObjectContext!
+    
     override func setUp() {
         super.setUp()
-        coreDataStack = TestCoreDataStack.shared
+        coreDataStack = CoreDataStack.shared
         context = coreDataStack.persistentContainer.viewContext
+        HolderManager.createDefaultHolders(context: context)
+        KeeperManager.createDefaultKeepers(context: context)
+        CurrencyManager.addCurrencies(context: context)
+        do {
+        let currency = try CurrencyManager.getCurrencyForCode("UAH", context: context)!
+        try CurrencyManager.changeAccountingCurrency(old: nil, new: currency, context: context)
+        AccountManager.addBaseAccounts(accountingCurrency: currency, context: context)
+        }
+        catch let error{
+            print("error", error.localizedDescription)
+        }
     }
     
     override func tearDown() {
@@ -26,48 +39,145 @@ class AccountTests: XCTestCase {
     
     
     func testIsReservedAccountName() {
-        XCTAssertTrue(AccountManager.isReservedAccountName("Expense"))
+        XCTAssertTrue(AccountManager.isReservedAccountName("Expenses"))
         XCTAssertFalse(AccountManager.isReservedAccountName("Food"))
     }
     
-    func testAccountCreatedByUserNotReservedName () {
-        let name = "Some name"
+    func testIsFreeAccountName () {
+        let name1 = "Name1"
         let accType = AccountType.assets.rawValue
-        do {
-            let account = try AccountManager.createAndGetAccount(parent: nil, name: name, type: accType, currency: nil, createdByUser: true, context: context)
-            XCTAssertTrue(account.name == name)
-            XCTAssertTrue(account.path == name)
-            XCTAssertTrue(account.type == accType)
-            XCTAssertTrue(account.subType == 0)
-            XCTAssertNil(account.parent)
-            XCTAssertNil(account.currency)
-            XCTAssertTrue(account.createdByUser)
-            XCTAssertTrue(account.modifiedByUser)
-            context.rollback()
-        }
-        catch {
-            XCTAssertTrue(false)
-        }
+        let name2 = "Name2"
+        
+        //Chkeck for case when parent == nil
+        XCTAssertTrue(AccountManager.isFreeAccountName(parent: nil, name: name1, context: context))
+        
+        var account1: Account?
+        XCTAssertNoThrow(account1 = try AccountManager.createAndGetAccount(parent: nil, name: name1, type: accType, currency: nil, createdByUser: true, context: context), "Account should be created")
+        XCTAssertNotNil(account1)
+        
+        XCTAssertFalse(AccountManager.isFreeAccountName(parent: nil, name: name1, context: context), "Name should be used by account1")
+        
+        
+        //Chkeck for case when parent != nil
+        XCTAssertTrue(AccountManager.isFreeAccountName(parent: account1, name: name2, context: context), "Name should be free to use")
+        
+        var account2: Account?
+        XCTAssertNoThrow(account2 = try AccountManager.createAndGetAccount(parent: account1, name: name2, type: nil, currency: nil, createdByUser: true, context: context), "Account should be created")
+        XCTAssertNotNil(account2)
+        XCTAssertFalse(AccountManager.isFreeAccountName(parent: account1, name: name2, context: context), "Name should be used by account1")
+        context.rollback()
+    }
+    
+    func testIsFreeFromTransactionItems () {
         
     }
     
-    func testAccountCreatedByUserReservedName () {
-        let name = "Expense"
+    
+    func testNotReservedNameAccountCreatedByUser () throws {
+        let name1 = "Name1"
+        let name2 = "Name2"
         let accType = AccountType.assets.rawValue
-        do {
-            let account = try AccountManager.createAndGetAccount(parent: nil, name: name, type: accType, currency: nil, createdByUser: true, context: context)
-            XCTAssertNil(account)
-            context.rollback()
-        }
-        catch {
-            if let error = error as? AccountError {
-                XCTAssertTrue(error == .reservedAccountName)
-            }
-            else {
-                XCTAssertTrue(false)
-            }
-        }
+        let subType = AccountSubType.cash.rawValue
+        
+        //WO Parent
+        var accountWOParent: Account!
+        XCTAssertNoThrow(accountWOParent = try AccountManager.createAndGetAccount(parent: nil, name: name, type: accType, currency: nil, subType: subType, createdByUser: true, context: context), "Account should be created")
+        
+        XCTAssertTrue(accountWOParent.name == name)
+        XCTAssertTrue(accountWOParent.path == name)
+        XCTAssertTrue(accountWOParent.type == accType)
+        XCTAssertTrue(accountWOParent.subType == subType)
+        XCTAssertNotNil(accountWOParent.type)
+        XCTAssertNil(accountWOParent.parent)
+        XCTAssertNil(accountWOParent.currency)
+        XCTAssertTrue(accountWOParent.createdByUser)
+        XCTAssertTrue(accountWOParent.modifiedByUser)
+        XCTAssertFalse(accountWOParent.isHidden)
+        
+        
+        XCTAssertNoThrow(try AccountManager.changeAccountIsHiddenStatus(accountWOParent))
+        XCTAssertTrue(accountWOParent.isHidden)
+        
+        //With Parent
+        var accountWithParent: Account!
+        XCTAssertNoThrow(accountWithParent = try AccountManager.createAndGetAccount(parent: accountWOParent, name: name2, type: AccountType.liabilities.rawValue, currency: nil, createdByUser: true, context: context), "Account should not be created")
+        XCTAssertNotNil(accountWithParent)
+        
+        //Check inherited attributes values
+        XCTAssertEqual(accountWithParent.type, accountWOParent.type)
+        XCTAssertEqual(accountWithParent.path, (accountWOParent.path ?? "") + ":" + (accountWithParent.name ?? ""))
+        XCTAssertTrue(accountWithParent.isHidden == true)
+        
+        context.rollback()
     }
+    
+    func testCatchCreateAndGetMethodErrors () {
+        
+        var account : Account?
+        
+        XCTAssertThrowsError(account = try AccountManager.createAndGetAccount(parent: nil, name: "", type: nil, currency: nil, createdByUser: true, context: context), "User cannot create empty named account",{error in
+            XCTAssertEqual(error as? AccountError, AccountError.emptyName)
+            context.rollback()
+        })
+        XCTAssertNil(account)
+       
+        
+        XCTAssertThrowsError(account = try AccountManager.createAndGetAccount(parent: nil, name: "Other", type: nil, currency: nil, createdByUser: true, context: context), "Attribute type is required for root account",{error in
+            XCTAssertEqual(error as? AccountError, AccountError.attributeTypeShouldBeInitializeForRootAccount)
+            context.rollback()
+        })
+        XCTAssertNil(account)
+        
+        
+        XCTAssertThrowsError(account = try AccountManager.createAndGetAccount(parent: nil, name: "Other", type: AccountType.assets.rawValue, currency: nil, createdByUser: true, context: context), "User can not create account with reserved name", {error in
+            XCTAssertEqual(error as? AccountError, AccountError.reservedName(name: "Other"))
+            context.rollback()
+        })
+        XCTAssertNil(account)
+        
+        
+        XCTAssertNoThrow(account = try AccountManager.createAndGetAccount(parent: nil, name: "Other", type: AccountType.assets.rawValue, currency: nil, createdByUser: false, context: context), "App can create account with reserved name")
+        XCTAssertNotNil(account)
+        
+        
+        XCTAssertNoThrow(account = try AccountManager.createAndGetAccount(parent: nil, name: "Non reserved name", type: AccountType.assets.rawValue, currency: nil, createdByUser: false, context: context), "App can create account with non reserved name")
+        XCTAssertNotNil(account)
+        
+        context.rollback()
+    }
+    
+    
+    func testDuplicatedOtherAccountDontCreate() {
+        
+        var account1: Account?
+        XCTAssertNoThrow(account1 = try AccountManager.createAndGetAccount(parent: nil, name: "SomeName1", type: AccountType.assets.rawValue, currency: nil, createdByUser: true, context: context), "Account should be created")
+        XCTAssertNotNil(account1)
+        
+        var account2: Account?
+        XCTAssertNoThrow(account2 = try AccountManager.createAndGetAccount(parent: account1, name: "SomeName2", type: nil, currency: nil, createdByUser: true, context: context), "Account should be created")
+        XCTAssertNotNil(account2)
+        
+        
+        TransactionManager.addTransaction(date: Date(), debit: account2!, credit: account2!, debitAmount: 10, creditAmount: 10, comment: nil, createdByUser: true, context: context)
+        
+        
+        var account3: Account?
+        XCTAssertNoThrow(account2 = try AccountManager.createAndGetAccount(parent: account2, name: "SomeName3", type: nil, currency: nil, createdByUser: true, context: context), "Account should be created")
+        XCTAssertNotNil(account2)
+        
+        
+        TransactionManager.addTransaction(date: Date(), debit: account2!, credit: account2!, debitAmount: 10, creditAmount: 10, comment: nil, createdByUser: true, context: context)
+        
+        var account4: Account?
+        XCTAssertNoThrow(account3 = try AccountManager.createAndGetAccount(parent: account2, name: "SomeName4", type: nil, currency: nil, createdByUser: true, context: context), "Account should be created")
+        XCTAssertNotNil(account2)
+        
+        
+        XCTAssertTrue(AccountManager.getAllChildrenForAcctount(account2!).count == 3)
+        
+        context.rollback()
+    }
+   
     
     func testAccountCreatedByAppNotReservedName () {
         let name = "Some name"
@@ -152,35 +262,32 @@ class AccountTests: XCTestCase {
         }
     }
     
-    func testDuplicatedAccountName() {
+    func testDuplicatedAccountName() throws {
         let name1 = "Name1"
         let accType = AccountType.assets.rawValue
         let name2 = "Name2"
-      
-        do {
-            let account1 = try AccountManager.createAndGetAccount(parent: nil, name: name1, type: accType, currency: nil, createdByUser: false, context: context)
-            XCTAssertNotNil(account1)
-            let account2 = try AccountManager.createAndGetAccount(parent: account1, name: name2, type: nil, currency: nil, createdByUser: false, context: context)
-            XCTAssertNotNil(account2)
-            let account3 = try AccountManager.createAndGetAccount(parent: account1, name: name2, type: nil, currency: nil, createdByUser: false, context: context)
-            XCTAssertNil(account3)   //создание субсчета 2 для счета 1
+        
+        var account1: Account?
+        XCTAssertNoThrow(account1 = try AccountManager.createAndGetAccount(parent: nil, name: name1, type: accType, currency: nil, createdByUser: true, context: context), "Account should be created")
+        XCTAssertNotNil(account1)
+        
+        var account2: Account?
+        XCTAssertNoThrow(account2 = try AccountManager.createAndGetAccount(parent: account1, name: name2, type: nil, currency: nil, createdByUser: true, context: context), "Account should be created")
+        XCTAssertNotNil(account2)
+        
+        XCTAssertThrowsError(try AccountManager.createAndGetAccount(parent: account1, name: name2, type: nil, currency: nil, createdByUser: true, context: context), "Duplicated name",{error in
+            XCTAssertEqual(error as? AccountError, AccountError.accountAlreadyExists(name: name2))
             context.rollback()
-        }
-        catch let error{
-            if let error = error as? AccountError {
-                XCTAssertTrue(error == .accontWithThisNameAlreadyExists)
-            }
-            else {
-                XCTAssertTrue(false)
-            }
-        }
+        })
+        
+        context.rollback()
     }
     
     func testCreateZeroLvlAccountWithCurrency() { // счет нулевого уровня должен иметь валюту = nil или валюте учета (нужно ли ограничение что это долна быть валюта учета?)
         let name = "Capital"
         let accType = AccountType.assets.rawValue
         do {
-        let currency = try CurrencyManager.createAndGetCurrency(code: "AUD", name: "Австралійський долар", context: context)
+            let currency = try CurrencyManager.createAndGetCurrency(code: "AUD", iso4217: 036, name: "Австралійський долар", context: context)
         try CurrencyManager.changeAccountingCurrency(old: nil, new: currency, context: context)
 
         let account = try AccountManager.createAndGetAccount(parent: nil, name: name, type: accType, currency: currency, createdByUser:  false, context: context)

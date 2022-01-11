@@ -27,7 +27,7 @@ class CurrencyTests: XCTestCase {
     
     
     func testAddCurrency() throws {
-        let currency = try CurrencyManager.createAndGetCurrency(code: "AUD", name: "Австралійський долар", createdByUser: false, context: context)
+        let currency = try CurrencyManager.createAndGetCurrency(code: "AUD", iso4217: 036, name: "Австралійський долар", createdByUser: false, context: context)
         XCTAssertNotNil(currency, "Currency should not be nil")
         XCTAssertTrue(currency.code == "AUD")
         XCTAssertTrue(currency.name == "Австралійський долар")
@@ -36,10 +36,10 @@ class CurrencyTests: XCTestCase {
     }
     
     func testCreateDublicatedCurrency() throws {
-        try CurrencyManager.createCurrency(code: "XXX", name: "XXXX", createdByUser: false, context: context)
+        try CurrencyManager.createCurrency(code: "XXX", iso4217: 036, name: "XXXX", createdByUser: false, context: context)
         
         do {
-            try CurrencyManager.createCurrency(code: "XXX", name: "XXXX", createdByUser: false, context: context)
+            try CurrencyManager.createCurrency(code: "XXX", iso4217: 086, name: "XXXX", createdByUser: false, context: context)
         }
         catch let error{
             if let error = error as? CurrencyError {
@@ -54,7 +54,7 @@ class CurrencyTests: XCTestCase {
     }
     
     func testCreateAndGetCurrencyForCode() throws {
-        try CurrencyManager.createCurrency(code: "YYY", name: "YYYY", createdByUser: false, context: context)
+        try CurrencyManager.createCurrency(code: "YYY", iso4217: 036, name: "YYYY", createdByUser: false, context: context)
         
         
         guard let currency = try CurrencyManager.getCurrencyForCode("YYY", context: context) else {
@@ -71,7 +71,7 @@ class CurrencyTests: XCTestCase {
     
     
     func testSetAccountingCurrency() throws {
-        try CurrencyManager.createCurrency(code: "AUD", name: "Австралійський долар", createdByUser: false, context: context)
+        try CurrencyManager.createCurrency(code: "AUD", iso4217: 036, name: "Австралійський долар", createdByUser: false, context: context)
         
         guard let currency = try CurrencyManager.getCurrencyForCode("AUD", context: context) else {
             print("Currency should not be nil")
@@ -92,7 +92,7 @@ class CurrencyTests: XCTestCase {
         let name = "Capital"
         let accType = AccountType.assets.rawValue
         do {
-            let currency = try CurrencyManager.createAndGetCurrency(code: "USD", name: "USD", context: context)
+            let currency = try CurrencyManager.createAndGetCurrency(code: "USD", iso4217: 840, name: "USD", context: context)
             try CurrencyManager.changeAccountingCurrency(old: nil, new: currency, context: context)
             
             XCTAssertTrue(currency.isAccounting)
@@ -116,7 +116,7 @@ class CurrencyTests: XCTestCase {
     
     func testCantRemoveAccountingCurrency() {
         do {
-            let currency = try CurrencyManager.createAndGetCurrency(code: "USD", name: "USD", context: context)
+            let currency = try CurrencyManager.createAndGetCurrency(code: "USD", iso4217: 840, name: "USD", context: context)
             try CurrencyManager.changeAccountingCurrency(old: nil, new: currency, context: context)
             
             try CurrencyManager.removeCurrency(currency, context: context)

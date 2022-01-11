@@ -135,19 +135,25 @@ class AccountManager {
 //        guard parent != nil && type != nil && parent?.type != type else {throw AccountError.accountContainAttribureTypeDifferentFromParent}
         
         // accounts with reserved names can create only app
-        guard createdByUser == false || isReservedAccountName(name) == false else {throw AccountError.reservedName}
+        guard createdByUser == false || isReservedAccountName(name) == false else {throw AccountError.reservedName(name: name)}
         guard isFreeAccountName(parent: parent, name : name, context: context) == true else {
             if parent?.currency == nil {
                 throw AccountError.accountAlreadyExists(name: name)
             }
             else {
-                throw AccountError.categoryAlreadyExists(name: name)
+                throw AccountEçrror.categoryAlreadyExists(name: name)
             }
         }
         
+        //Adding "Other" account for cases when parent containts transactions
         if let parent = parent, !AccountManager.isFreeFromTransactionItems(account: parent) {
-            let new = fillAccountAttributes(parent: parent, name: AccountsNameLocalisationManager.getLocalizedAccountName(.other1) , type : type, currency : currency, keeper: keeper, holder: holder, subType : subType, createdByUser : createdByUser, createDate: createDate, context: context)
-            TransactionItemManager.moveTransactionItemsFrom(oldAccount: parent, newAccount: new, modifiedByUser: createdByUser, modifyDate: createDate)
+            var newAccount = getSubAccountWith(name: AccountsNameLocalisationManager.getLocalizedAccountName(.other1), in: parent)
+            if newAccount == nil {
+            newAccount = try createAndGetAccount(parent: parent, name: AccountsNameLocalisationManager.getLocalizedAccountName(.other1) , type : type, currency : currency, keeper: keeper, holder: holder, subType : subType, createdByUser : false, createDate: createDate, context: context)
+            }
+            if newAccount != nil {
+            TransactionItemManager.moveTransactionItemsFrom(oldAccount: parent, newAccount: newAccount!, modifiedByUser: createdByUser, modifyDate: createDate)
+            }
         }
         
         return fillAccountAttributes(parent: parent, name : name, type : type, currency : currency, keeper: keeper, holder: holder, subType : subType, createdByUser : createdByUser, createDate: createDate, context: context)
