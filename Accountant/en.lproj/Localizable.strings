@@ -7,10 +7,6 @@
 */
 
 
-
-"Income1" = "Income";
-
-
 "<Other>" = "<Other>";
 "Food" = "Food";
 "Transport" = "Transport";
@@ -69,8 +65,13 @@
 "There are one or more thansaction items with incorrect types value. Possible values: \"From\", \"Credit\", \"To\", \"Debit\"" = "There are one or more thansaction items with incorrect types value. Possible values: \"From\", \"Credit\", \"To\", \"Debit\"";
 "Item with same name already exists" = "Item with same name already exists";
 "This item is already used on your accounts" = "This item is already used on your accounts";
-"This holder with the same name already exists" = "This holder with the same name already exists";
+"Holder with the same name already exists" = "Holder with the same name already exists";
 "This holder is already used on your accounts" = "This holder is already used on your accounts";
+"Please enter name" = "Please enter name";
+"Too early to retrive Monobank statements data\nPlease wait 1 minute to the next try. This limitation was imposed due to API policy %@. \nLast load %@\n Current call %@" = "Too early to retrive Monobank statements data\nPlease wait 1 minute to the next try. This limitation was imposed due to API policy %@. \nLast load %@\n Current call %@";
+"Please enter emoji icon" = "Please enter emoji icon";
+"Keeper \"%@\" not found" = "Keeper \"%@\" not found";
+"Accounting currency not found" = "Accounting currency not found";
 "A subscription is automatically renewed unless you cancel it at least 24 hours before the end of the billing cycle. The renewal fee will be charged on the day before the end of the current billing cycle. You can manage or cancel subscription in your iTunes account settings" = "A subscription is automatically renewed unless you cancel it at least 24 hours before the end of the billing cycle. The renewal fee will be charged on the day before the end of the current billing cycle. You can manage or cancel subscription in your iTunes account settings";
 "after" = "after";
 "Discount" = "Discount";
@@ -119,17 +120,17 @@
 "Balance on" = "Balance on";
 "Credit limit" = "Credit limit";
 "Exchange rate" = "Exchange rate";
-"Currency:" = "Currency:";
+"Currency" = "Currency";
 "Done" = "Done";
-"Name:" = "Name";
-"Type:" = "Type:";
+"Name" = "Name";
+"Type" = "Type";
 "Example: John BankName salary" = "Example: John BankName salary";
-"Keeper:" = "Keeper:";
-"Holder:" = "Holder:";
+"Keeper" = "Keeper";
+"Holder" = "Holder";
 "Edit account" = "Edit account";
-"Bank:" = "Bank:";
-"Borrower/Bank:" = "Borrower/Bank:";
-"Creditor:" = "Creditor:";
+"Bank" = "Bank";
+"Borrower/Bank" = "Borrower/Bank";
+"Creditor" = "Creditor";
 "Please check the credit limit value" = "Please check the credit limit value";
 "Create account" = "Create account";
 "Multicurrency" = "Multicurrency";
@@ -150,7 +151,6 @@
 "Z-A" = "Z-A";
 "to activate" = "to activate";
 "Change accounting currency" = "Change accounting currency";
-"Currency" = "Currency";
 "Accounting start" = "Accounting start";
 "Choose currecy for Income and Expenses categories. This currency cannot be changed in the future" = "Choose currecy for Income and Expenses categories. This currency cannot be changed in the future";
 "Please add credits. Credit card limits are automatically added to credits" = "Please add credits. Credit card limits are automatically added to credits";
@@ -278,11 +278,21 @@
 "Please fix all errors in transaction list" = "Please fix all errors in transaction list";
 "Show olny errors" = "Show olny errors";
 "Monobank" = "Monobank";
-"Keeper" = "Keeper";
 "Add keeper" = "Add keeper";
 "Add bank" = "Add bank";
 "Add person" = "Add person";
 "Name" = "Name";
-"Holder" = "Holder";
 "Add Holder" = "Add Holder";
 "Icon" = "Icon";
+"To automatically adding your transactions from the Monobank accounts please enter Token in the field below" = "To automatically adding your transactions from the Monobank accounts please enter Token in the field below";
+"Get token" = "Get token";
+"API documentatio" = "API documentatio";
+"Token" = "Token";
+"Get data" = "Get data";
+"Add accounts" = "Add accounts";
+"Please enter Token" = "Please enter Token";
+"Token has been successfully updated" = "Token has been successfully updated";
+"Unknown currency" = "Unknown currency";
+"Already added" = "Already added";
+"Will be adding" = "Will be adding";
+"Balance" = "Balance";

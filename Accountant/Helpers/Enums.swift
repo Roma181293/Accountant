@@ -13,7 +13,7 @@ enum AccountType : Int16 {
     case liabilities = 0
 }
 
-enum AccounttingMethod : Int16 {
+enum AccountingMethod : Int16 {
     case debit = 1
     case credit = 0
 }

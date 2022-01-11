@@ -20,8 +20,8 @@ class SettingsTableViewCell: UITableViewCell {
         return imageView
     }()
     
-    let proBadgeView: ProBadgeUIView = {
-        let view = ProBadgeUIView()
+    let badgeView: BadgeUIView = {
+        let view = BadgeUIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.layer.cornerRadius = Constants.Size.cornerButtonRadius
         return view
@@ -55,7 +55,7 @@ class SettingsTableViewCell: UITableViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        proBadgeView.isHidden = true
+        badgeView.isHidden = true
         iconImangeView.isHidden = false
         switcher.isHidden = true
         detailLabel.text = nil
@@ -67,7 +67,7 @@ class SettingsTableViewCell: UITableViewCell {
         self.delegate = delegate
         self.dataItem = dataItem
         
-        proBadgeView.isHidden = true
+        badgeView.isHidden = true
         iconImangeView.isHidden = false
         switcher.isHidden = true
         detailLabel.text = nil
@@ -89,7 +89,8 @@ class SettingsTableViewCell: UITableViewCell {
                 formatter.locale = Locale(identifier: "\(Bundle.main.localizations.first ?? "en")_\(Locale.current.regionCode ?? "US")")
                 detailLabel.text = NSLocalizedString("till", comment: "") + " " + formatter.string(from: delegate.proAccessExpirationDate!)
             }
-            proBadgeView.isHidden = false
+            badgeView.proBadge()
+            badgeView.isHidden = false
             iconImangeView.isHidden = true
         case .auth:
             switcher.isHidden = false
@@ -191,6 +192,12 @@ class SettingsTableViewCell: UITableViewCell {
             iconImangeView.image = UIImage(systemName: "info.circle.fill")
             iconImangeView.tintColor = .systemRed
             accessoryType = .none
+        case .monobank:
+            titleLabel.text = NSLocalizedString(dataItem.rawValue, comment: "")
+            badgeView.monoBadge()
+            badgeView.isHidden = false
+            iconImangeView.isHidden = true
+            accessoryType = .disclosureIndicator
         }
         
         
@@ -200,11 +207,11 @@ class SettingsTableViewCell: UITableViewCell {
         iconImangeView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -6).isActive = true
         iconImangeView.widthAnchor.constraint(equalTo: iconImangeView.heightAnchor).isActive = true
         
-        contentView.addSubview(proBadgeView)
-        proBadgeView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10).isActive = true
-        proBadgeView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 6).isActive = true
-        proBadgeView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -6).isActive = true
-        proBadgeView.widthAnchor.constraint(equalTo: iconImangeView.heightAnchor).isActive = true
+        contentView.addSubview(badgeView)
+        badgeView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10).isActive = true
+        badgeView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 6).isActive = true
+        badgeView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -6).isActive = true
+        badgeView.widthAnchor.constraint(equalTo: iconImangeView.heightAnchor).isActive = true
         
         contentView.addSubview(titleLabel)
         titleLabel.leadingAnchor.constraint(equalTo: iconImangeView.trailingAnchor, constant: 8).isActive = true
@@ -258,11 +265,14 @@ class SettingsTableViewCell: UITableViewCell {
                     let context = CoreDataStack.shared.persistentContainer.viewContext
                     
                     //remove oldData
-                    try TransactionManager.deleteAllTransactions(context: context)
-                    try AccountManager.deleteAllAccounts(context: context)
-                    try CurrencyManager.deleteAllCurrencies(context: context)
-                    try HolderManager.deleteAllHolders(context: context)
-                    try KeeperManager.deleteAllKeepers(context: context)
+                    let env = CoreDataStack.shared.activeEnviroment()
+                    try TransactionManager.deleteAllTransactions(context: context, env:env)
+                    try AccountManager.deleteAllAccounts(context: context, env:env)
+                    try CurrencyManager.deleteAllCurrencies(context: context, env:env)
+                    try KeeperManager.deleteAllKeepers(context: context, env:env)
+                    try HolderManager.deleteAllHolders(context: context, env:env)
+                    try BankAccountManager.deleteAllBankAccounts(context: context, env: env)
+                    try UserBankProfileManager.deleteAllUBP(context: context, env: env)
                     try CoreDataStack.shared.saveContext(context)
                     
                     //add testData
@@ -272,14 +282,17 @@ class SettingsTableViewCell: UITableViewCell {
                     AccountManager.addBaseAccountsTest(accountingCurrency: currency, context: context)
                     try CoreDataStack.shared.saveContext(context)
                 }
-                else if sender.isOn && CoreDataStack.shared.activeEnviroment() == .test {
+                else if !sender.isOn && CoreDataStack.shared.activeEnviroment() == .test {
                     let context = CoreDataStack.shared.persistentContainer.viewContext
                     
-                    TransactionManager.deleteAllTransactions(context: context)
-                    try AccountManager.deleteAllAccounts(context: context)
-                    try CurrencyManager.deleteAllCurrencies(context: context)
-                    try HolderManager.deleteAllHolders(context: context)
-                    try KeeperManager.deleteAllKeepers(context: context)
+                    let env = CoreDataStack.shared.activeEnviroment()
+                    try TransactionManager.deleteAllTransactions(context: context, env:env)
+                    try AccountManager.deleteAllAccounts(context: context, env:env)
+                    try CurrencyManager.deleteAllCurrencies(context: context, env:env)
+                    try KeeperManager.deleteAllKeepers(context: context, env:env)
+                    try HolderManager.deleteAllHolders(context: context, env:env)
+                    try BankAccountManager.deleteAllBankAccounts(context: context, env: env)
+                    try UserBankProfileManager.deleteAllUBP(context: context, env: env)
                     try CoreDataStack.shared.saveContext(context)
                     
                     UserProfile.useMultiItemTransaction(false, environment: .test)

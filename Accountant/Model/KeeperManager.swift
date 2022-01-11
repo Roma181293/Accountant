@@ -103,7 +103,8 @@ class KeeperManager {
     }
     
     //USE ONLY TO CLEAR DATA IN TEST ENVIRONMENT
-    static func deleteAllKeepers(context: NSManagedObjectContext) throws {
+    static func deleteAllKeepers(context: NSManagedObjectContext, env: Environment?) throws {
+        guard env == .test else {return}
         let keeperFetchRequest : NSFetchRequest<Keeper> = NSFetchRequest<Keeper>(entityName: Keeper.entity().name!)
         keeperFetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
         
@@ -123,5 +124,6 @@ class KeeperManager {
         try createKeeper(name: NSLocalizedString("Bank1", comment: ""), type: .bank, context: context)
         try createKeeper(name: NSLocalizedString("Bank2", comment: ""), type: .bank, context: context)
         try createKeeper(name: NSLocalizedString("Hanna", comment: ""), type: .person, context: context)
+        try createKeeper(name: NSLocalizedString("Monobank",comment: ""), type: .bank, createdByUser: false, context: context)
     }
 }

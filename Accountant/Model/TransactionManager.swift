@@ -19,6 +19,7 @@ class TransactionManager {
         transaction.createdByUser = createdByUser
         transaction.modifyDate = createDate
         transaction.modifiedByUser = createdByUser
+        transaction.applied = true
         
         transaction.date = date
         
@@ -29,6 +30,240 @@ class TransactionManager {
     }
 
     
+    static func addTransactionDraft(account: Account, statment: StatementProtocol, createdByUser : Bool = false, context: NSManagedObjectContext) -> Transaction {
+        let transaction = Transaction(context: context)
+        
+        let createDate = Date()
+        transaction.createDate = createDate
+        transaction.createdByUser = createdByUser
+        transaction.modifyDate = createDate
+        transaction.modifiedByUser = createdByUser
+        transaction.applied = false
+        
+        transaction.date = statment.getDate()
+        let comment = statment.getComment()
+        transaction.comment = comment
+        
+        if statment.getType() == .to {
+            TransactionItemManager.createTransactionItem(transaction: transaction, type: .debit, account: account, amount: statment.getAmount(), createdByUser:  createdByUser, createDate: createDate, context: context)
+            if let creditAccount = findAccountCandidateBeta(comment: comment, account: account, method: .credit) {
+                TransactionItemManager.createTransactionItem(transaction: transaction, type: .credit, account: creditAccount, amount: statment.getAmount(), createdByUser:  createdByUser, createDate: createDate, context: context)
+                transaction.applied = true
+            }
+        }
+        else {
+            TransactionItemManager.createTransactionItem(transaction: transaction, type: .credit, account: account, amount: statment.getAmount(), createdByUser:  createdByUser, createDate: createDate, context: context)
+            if let debitAccount = findAccountCandidateBeta(comment: comment, account: account, method: .debit) {
+                TransactionItemManager.createTransactionItem(transaction: transaction, type: .debit, account: debitAccount, amount: statment.getAmount(), createdByUser:  createdByUser, createDate: createDate, context: context)
+                transaction.applied = true
+            }
+        }
+        
+        return transaction
+    }
+    
+    
+    private static func findAccountCandidate(comment: String, account: Account, method: AccountingMethod) -> Account? {
+        //1. Find all transactionItems there transaction has equal comment and applied status
+        let accountTIs = (account.transactionItems?.allObjects as! [TransactionItem]).filter{
+            
+//            if let checkedcomment = $0.transaction?.comment {
+//                checkedcomment.contains ("🤖")
+//            }
+//
+            if $0.transaction?.comment == comment && $0.transaction?.applied == true {return true}
+            return false
+        }
+        
+        //2. Find all thansactions for transactionItems from step 1
+        var tr: [Transaction] = []
+        accountTIs.forEach({tr.append($0.transaction!)})
+        
+        //3. Preperation. Find pairs (account, transactionDate) fot transactions from step 2 where account != account from the method signature. create account set
+        var zeroIterationCandidatesArray: [(account: Account, transactionDate: Date)] = []
+        var accountSet: Set<Account> = []
+        
+        for tran in tr {
+            for ti in tran.items?.allObjects as! [TransactionItem] {
+                if ti.account != account
+                    && ti.type == method.rawValue
+                    && account.isHidden == false
+                    && (account.directChildren?.allObjects as! [Account]).isEmpty{
+                    
+                    zeroIterationCandidatesArray.append((account: ti.account!, transactionDate: tran.date!))
+                    accountSet.insert(ti.account!)
+                }
+            }
+        }
+        
+        //4. For all uniuqe accounts from accountset create [(account: Account, lastTransactionDate: Date, count: Int)]
+        var firstIterationCandidatesArray: [(account: Account, lastTransactionDate: Date, count: Int)] = []
+        accountSet.forEach({ acc in
+            
+            let count = zeroIterationCandidatesArray.filter{
+                if $0.account == acc {return true}
+                return false
+            }.count
+            
+            let maxDate = zeroIterationCandidatesArray.filter{
+                if $0.account == acc {return true}
+                return false
+            }
+            .max(by: { (a, b) -> Bool in
+                return a.transactionDate < b.transactionDate
+            })!.transactionDate
+            
+            firstIterationCandidatesArray.append((acc,maxDate,count))
+        })
+        
+        //5. Find all candidates with max count
+        guard let firstMax = firstIterationCandidatesArray.sorted(by: {$0.lastTransactionDate > $1.lastTransactionDate}).first else {return nil}
+        var secondIterationCandidatesArray: [(account: Account, lastTransactionDate: Date, count: Int)] = firstIterationCandidatesArray.filter{
+            let firstMax = firstIterationCandidatesArray.sorted(by: {(a,b)->Bool in return a.count < b.count})[0]
+            if firstMax.count == $0.count {
+                return true
+            }
+            return false
+        }
+        
+        
+        
+        if secondIterationCandidatesArray.count <= 1 {
+            return secondIterationCandidatesArray.first?.account
+        }
+        else {
+            //6. Find all candidates with max lastTransactionDate from step 5
+            guard let secondMax = secondIterationCandidatesArray.sorted(by: {$0.lastTransactionDate > $1.lastTransactionDate}).first else {return nil}
+            
+            var thirdIterationCandidatesArray: [(account: Account, lastTransactionDate: Date, count: Int)] = secondIterationCandidatesArray.filter{
+                
+                if secondMax.lastTransactionDate == $0.lastTransactionDate {
+                    return true
+                }
+                return false
+            }
+            
+            if thirdIterationCandidatesArray.count <= 1 {
+                return thirdIterationCandidatesArray.first?.account
+            }
+            else {
+                return nil
+            }
+        }
+    }
+    
+    
+    private static func findAccountCandidateBeta(comment: String, account: Account, method: AccountingMethod) -> Account? {
+//        print(#function, account.path, "\"" + comment + "\"")
+        
+        //0. Finf all transactionItems for account ciblings
+        guard let parent = account.parent else {return nil}
+        
+        var accountTIs1 : [TransactionItem] = []
+        let ciblings = parent.directChildren?.allObjects as! [Account]
+//        print(#function, "ciblings", ciblings.count)
+        
+        ciblings.forEach({item in
+            accountTIs1.append(contentsOf: item.transactionItems?.allObjects as! [TransactionItem])
+            
+        })
+//        print(#function, "accountTIs1", accountTIs1.count)
+        
+        //1. Find all transactionItems there transaction has equal comment and applied status
+        let accountTIs = accountTIs1.filter{
+            
+//            if let checkedcomment = $0.transaction?.comment {
+//                checkedcomment.contains ("🤖")
+//            }
+//
+            if $0.transaction?.comment == comment && $0.transaction?.applied == true {
+                return true
+            }
+            return false
+        }
+//        print(#function, "accountTIs", accountTIs.count)
+        
+        //2. Find all thansactions for transactionItems from step 1
+        var tr: [Transaction] = []
+        accountTIs.forEach({tr.append($0.transaction!)})
+//        print(#function, "tr", tr)
+        
+        
+        //3. Preperation. Find pairs (account, transactionDate) fot transactions from step 2 where account != account from the method signature. create account set
+        var zeroIterationCandidatesArray: [(account: Account, transactionDate: Date)] = []
+        var accountSet: Set<Account> = []
+        
+        for tran in tr {
+            for ti in tran.items?.allObjects as! [TransactionItem] {
+                if ti.account?.parent != account.parent
+                    && ti.type == method.rawValue
+                    && account.isHidden == false
+                    && (account.directChildren?.allObjects as! [Account]).isEmpty{
+                    zeroIterationCandidatesArray.append((account: ti.account!, transactionDate: tran.date!))
+                    accountSet.insert(ti.account!)
+                }
+            }
+        }
+//        print(#function, "zeroIterationCandidatesArray", zeroIterationCandidatesArray.count)
+        
+        //4. For all uniuqe accounts from accountset create [(account: Account, lastTransactionDate: Date, count: Int)]
+        var firstIterationCandidatesArray: [(account: Account, lastTransactionDate: Date, count: Int)] = []
+        accountSet.forEach({ acc in
+            
+            let count = zeroIterationCandidatesArray.filter{
+                if $0.account == acc {return true}
+                return false
+            }.count
+            
+            let maxDate = zeroIterationCandidatesArray.filter{
+                if $0.account == acc {return true}
+                return false
+            }
+            .max(by: { (a, b) -> Bool in
+                return a.transactionDate < b.transactionDate
+            })!.transactionDate
+            
+            firstIterationCandidatesArray.append((acc,maxDate,count))
+        })
+//        print(#function, "firstIterationCandidatesArray", firstIterationCandidatesArray.count)
+        
+        //5. Find all candidates with max count
+        guard let firstMax = firstIterationCandidatesArray.sorted(by: {$0.lastTransactionDate >= $1.lastTransactionDate}).first else
+        {return nil}
+        let secondIterationCandidatesArray: [(account: Account, lastTransactionDate: Date, count: Int)] = firstIterationCandidatesArray.filter{
+           // let firstMax = firstIterationCandidatesArray.sorted(by: {(a,b)->Bool in return a.count < b.count})[0]
+            if firstMax.count == $0.count {
+                return true
+            }
+            return false
+        }
+//        print(#function, "secondIterationCandidatesArray", secondIterationCandidatesArray.count)
+        
+        if !secondIterationCandidatesArray.isEmpty {
+            return secondIterationCandidatesArray.first?.account
+        }
+        else {
+            //6. Find all candidates with max lastTransactionDate from step 5
+            guard let secondMax = secondIterationCandidatesArray.sorted(by: {$0.lastTransactionDate >= $1.lastTransactionDate}).first else
+            {return nil}
+            
+            let thirdIterationCandidatesArray: [(account: Account, lastTransactionDate: Date, count: Int)] = secondIterationCandidatesArray.filter{
+                
+                if secondMax.lastTransactionDate == $0.lastTransactionDate {
+                    return true
+                }
+                return false
+            }
+//            print(#function, "thirdIterationCandidatesArray", thirdIterationCandidatesArray.count,"\n\n\n")
+            
+            if !thirdIterationCandidatesArray.isEmpty {
+                return thirdIterationCandidatesArray.first?.account
+            }
+            else {
+                return nil
+            }
+        }
+    }
     
     static func createAndGetEmptyTransaction(date : Date, comment : String? = nil, createdByUser : Bool = true, context: NSManagedObjectContext) -> Transaction {
             let transaction = Transaction(context: context)
@@ -46,20 +281,19 @@ class TransactionManager {
     }
     
     
-    static func copyTransaction(_ transaction: Transaction, createdByUser : Bool = true, context: NSManagedObjectContext) {
-        let copiedTransaction = Transaction(context: context)
+    static func duplicateTransaction(_ original: Transaction, createdByUser : Bool = true, context: NSManagedObjectContext) {
+        let transaction = Transaction(context: context)
         
         let createDate = Date()
-        copiedTransaction.createDate = createDate
-        copiedTransaction.createdByUser = createdByUser
-        copiedTransaction.modifyDate = createDate
-        copiedTransaction.modifiedByUser = createdByUser
-        copiedTransaction.date = transaction.date
-        copiedTransaction.comment = transaction.comment
+        transaction.createDate = createDate
+        transaction.createdByUser = createdByUser
+        transaction.modifyDate = createDate
+        transaction.modifiedByUser = createdByUser
+        transaction.date = original.date
+        transaction.comment = original.comment
         
-        let copiedTransactionItems = transaction.items!.allObjects as! [TransactionItem]
-        for item in copiedTransactionItems{
-            TransactionItemManager.createTransactionItem(transaction: copiedTransaction, type: item.type, account: item.account!, amount: item.amount, context: context)
+        for item in original.items!.allObjects as! [TransactionItem]{
+            TransactionItemManager.createTransactionItem(transaction: transaction, type: item.type, account: item.account!, amount: item.amount, context: context)
         }
     }
     
@@ -78,7 +312,8 @@ class TransactionManager {
     }
     
     //USE ONLY TO CLEAR DATA IN TEST ENVIRONMENT
-    static func deleteAllTransactions(context: NSManagedObjectContext){
+    static func deleteAllTransactions(context: NSManagedObjectContext, env: Environment?) throws {
+        guard env == .test else {return}
         let transactionFetchRequest : NSFetchRequest<Transaction> = NSFetchRequest<Transaction>(entityName: Transaction.entity().name!)
         transactionFetchRequest.sortDescriptors = [NSSortDescriptor(key: "createDate", ascending: true)]
         
@@ -164,10 +399,10 @@ class TransactionManager {
             }
             
             let transactionItem = TransactionItem(context: context)
-            if row[2] == "Credit" || row[2] == "From" {
+            if row[2].uppercased() == "CREDIT" || row[2].uppercased() == "FROM" {
                 transactionItem.type = 0
             }
-            else if row[2] == "Debit" || row[2] == "To" {
+            else if row[2].description.uppercased() == "DEBIT" || row[2].uppercased() == "TO" {
                 transactionItem.type = 1
             }
             else {
@@ -233,6 +468,13 @@ class TransactionManager {
     }
     
     
+    static func importMonobankStatments(_ statments: [MBStatement], for account : Account, context: NSManagedObjectContext) {
+        for statment in statments {
+            addTransactionDraft(account: account, statment: statment, createdByUser : false, context: context)
+        }
+    }
+    
+    
     static func getDateForFirstTransaction(context: NSManagedObjectContext) -> Date? {
         let transactionFetchRequest : NSFetchRequest<Transaction> = NSFetchRequest<Transaction>(entityName: Transaction.entity().name!)
         transactionFetchRequest.sortDescriptors = [NSSortDescriptor(key: "date", ascending: true)]
@@ -250,7 +492,7 @@ class TransactionManager {
     
     static func validateTransactionDataBeforeSave(_ transaction: Transaction) throws {
         
-        func getDataAboutTransactionItems(transaction: Transaction, type: AccounttingMethod, amount: inout Double, currency: inout Currency?, itemsCount: inout Int) throws {
+        func getDataAboutTransactionItems(transaction: Transaction, type: AccountingMethod, amount: inout Double, currency: inout Currency?, itemsCount: inout Int) throws {
             for item in (transaction.items?.allObjects as! [TransactionItem]).filter({$0.type == type.rawValue}) {
                 itemsCount += 1
                 amount += item.amount

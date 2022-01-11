@@ -112,7 +112,7 @@ class AccountEditorWithInitialBalanceViewController: UIViewController {
     
     let accountSubTypeLabel: UILabel = {
         let label = UILabel()
-        label.text = NSLocalizedString("Type:", comment: "")
+        label.text = NSLocalizedString("Type", comment: "")
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -128,7 +128,7 @@ class AccountEditorWithInitialBalanceViewController: UIViewController {
     
     let currencyLabel: UILabel = {
         let label = UILabel()
-        label.text = NSLocalizedString("Currency:", comment: "")
+        label.text = NSLocalizedString("Currency", comment: "")
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -168,14 +168,14 @@ class AccountEditorWithInitialBalanceViewController: UIViewController {
     
     let nameLabel: UILabel = {
         let label = UILabel()
-        label.text = NSLocalizedString("Name:", comment: "")
+        label.text = NSLocalizedString("Name", comment: "")
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     let keeperLabel: UILabel = {
         let label = UILabel()
-        label.text = NSLocalizedString("Keeper:", comment: "")
+        label.text = NSLocalizedString("Keeper", comment: "")
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -192,7 +192,7 @@ class AccountEditorWithInitialBalanceViewController: UIViewController {
     
     let holderLabel: UILabel = {
         let label = UILabel()
-        label.text = NSLocalizedString("Holder:", comment: "")
+        label.text = NSLocalizedString("Holder", comment: "")
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -631,18 +631,18 @@ class AccountEditorWithInitialBalanceViewController: UIViewController {
     private func configureUI() {
         
         if parentAccount == moneyRootAccount {
-            keeperLabel.text = NSLocalizedString("Bank:", comment: "")
+            keeperLabel.text = NSLocalizedString("Bank", comment: "")
             accountSubType = .debitCard
             accountSubTypeButton.isHidden = false
             accountSubTypeLabel.isHidden = false
         }
         else if parentAccount == debtorsRootAcccount {
-            keeperLabel.text = NSLocalizedString("Borrower/Bank:", comment: "")
+            keeperLabel.text = NSLocalizedString("Borrower/Bank", comment: "")
             accountSubTypeButton.isHidden = true
             accountSubTypeLabel.isHidden = true
         }
         else if parentAccount == creditsRootAccount {
-            keeperLabel.text = NSLocalizedString("Creditor:", comment: "")
+            keeperLabel.text = NSLocalizedString("Creditor", comment: "")
             accountSubTypeButton.isHidden = true
             accountSubTypeLabel.isHidden = true
         }
@@ -672,13 +672,13 @@ class AccountEditorWithInitialBalanceViewController: UIViewController {
         }
         
         if parentAccount == moneyRootAccount {
-            keeperLabel.text = NSLocalizedString("Bank:", comment: "")
+            keeperLabel.text = NSLocalizedString("Bank", comment: "")
         }
         else if parentAccount == debtorsRootAcccount {
-            keeperLabel.text = NSLocalizedString("Borrower/Bank:", comment: "")
+            keeperLabel.text = NSLocalizedString("Borrower/Bank", comment: "")
         }
         else if parentAccount == creditsRootAccount {
-            keeperLabel.text = NSLocalizedString("Creditor:", comment: "")
+            keeperLabel.text = NSLocalizedString("Creditor", comment: "")
         }
         
         accountSubTypeButton.isEnabled = false

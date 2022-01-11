@@ -46,6 +46,8 @@ struct Constants {
         static let keeperTableViewController = "KeeperTVC_ID"
         static let holderTableViewController = "HolderTVC_ID"
         static let settingsViewController = "SettingsVC_ID"
+        
+        static let monobankVC = "MonobankVC_ID"
     }
     
     struct Cell {
@@ -66,6 +68,8 @@ struct Constants {
         
         static let currencyCell = "CurrencyCell_ID"
         static let settingsCell = "SettingsCell_ID"
+        
+        static let bankAccountCell = "BankAccountCell_ID"
     }
     
     struct Segue {
@@ -84,6 +88,8 @@ struct Constants {
     struct URL {
         static let privacyPolicy = "https://drive.google.com/file/d/1H3CZXn03YgGGM2uThEQ1yQ1G5PCvt3SB/view?usp=sharing"
         static let termsOfUse = "https://drive.google.com/file/d/1jGybkl74yTbOfzcFtGSySw8k86GjTP5N/view?usp=sharing"
+        static let monoAPIDoc = "https://api.monobank.ua/docs"
+        static let monoToken = "https://api.monobank.ua"
     }
     
     struct Size {

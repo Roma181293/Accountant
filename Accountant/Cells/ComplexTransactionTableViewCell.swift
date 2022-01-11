@@ -63,6 +63,16 @@ class ComplexTransactionTableViewCell: UITableViewCell {
         return stackView
     }()
     
+    let commentStackView : UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.alignment = .leading
+        stackView.distribution = .fill
+        stackView.spacing = 5.0
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
+    }()
+    
     let debitItemsStackView : UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
@@ -105,11 +115,33 @@ class ComplexTransactionTableViewCell: UITableViewCell {
         return label
     }()
     
+    let commentLabel: UILabel = {
+        let label = UILabel()
+        label.text = "  " + NSLocalizedString("Comment:", comment: "")
+        label.textColor = UIColor(named: "blackGrayColor")
+        label.textAlignment = .left
+        label.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
+        label.layer.cornerRadius = 8
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    let commentContentLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = UIColor(named: "blackGrayColor")
+//            accountPathLabel.font = UIFont.systemFont(ofSize: 16)
+        label.numberOfLines = 0
+        label.lineBreakMode = .byWordWrapping
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
         debitLabel.layer.backgroundColor = cellMainColor.cgColor.copy(alpha: labelsAlpha)
         creditLabel.layer.backgroundColor = cellMainColor.cgColor.copy(alpha: labelsAlpha)
+        commentLabel.layer.backgroundColor = cellMainColor.cgColor.copy(alpha: labelsAlpha)
     }
 
     
@@ -155,6 +187,15 @@ class ComplexTransactionTableViewCell: UITableViewCell {
         debitLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
         
         debitStackView.addArrangedSubview(debitItemsStackView)
+        
+        
+        //MARK:- Comment
+        mainStackView.addArrangedSubview(commentStackView)
+        commentStackView.addArrangedSubview(commentLabel)
+        commentLabel.widthAnchor.constraint(equalToConstant: labelWidth * 1.6).isActive = true
+        commentLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        
+        commentStackView.addArrangedSubview(commentContentLabel)
     }
     
     
@@ -168,7 +209,16 @@ class ComplexTransactionTableViewCell: UITableViewCell {
         formatter.dateStyle = .short
         formatter.timeStyle = .none
         formatter.locale = Locale(identifier: "\(Bundle.main.localizations.first ?? "en")_\(Locale.current.regionCode ?? "US")")
+        
         dateLabel.text = formatter.string(from: date)
+        
+        if let comment = transaction.comment {
+            commentStackView.isHidden = false
+            commentContentLabel.text = transaction.comment
+        }
+        else {
+            commentStackView.isHidden = true
+        }
         
         itemViewArray.forEach({$0.removeFromSuperview()})
         
@@ -178,7 +228,9 @@ class ComplexTransactionTableViewCell: UITableViewCell {
             itemView.translatesAutoresizingMaskIntoConstraints = false
             
             let accountPathLabel = UILabel()
-            accountPathLabel.text = item.account!.path
+            if let acctount = item.account {
+                accountPathLabel.text = acctount.path
+            }
             accountPathLabel.textColor = UIColor(named: "blackGrayColor")
 //            accountPathLabel.font = UIFont.systemFont(ofSize: 16)
             accountPathLabel.numberOfLines = 0
@@ -186,7 +238,12 @@ class ComplexTransactionTableViewCell: UITableViewCell {
             accountPathLabel.translatesAutoresizingMaskIntoConstraints = false
             
             let amountAndCurrencyLabel = UILabel()
-            amountAndCurrencyLabel.text = cutNumber(item.amount) + item.account!.currency!.code!
+            if let acctount = item.account, let currency = acctount.currency {
+                amountAndCurrencyLabel.text = cutNumber(item.amount) + currency.code!
+            }
+            else {
+                amountAndCurrencyLabel.text = "Invalid data"
+            }
             amountAndCurrencyLabel.textColor = UIColor(named: "blackGrayColor")
 //            amouçntAndCurrencyLabel.font = UIFont.systemFont(ofSize: 16)
             amountAndCurrencyLabel.textAlignment = .right
@@ -205,10 +262,10 @@ class ComplexTransactionTableViewCell: UITableViewCell {
             accountPathLabel.setContentCompressionResistancePriority(UILayoutPriority.defaultLow, for:.horizontal)
             amountAndCurrencyLabel.setContentHuggingPriority(UILayoutPriority.defaultHigh, for:.horizontal)
             
-            if item.type == AccounttingMethod.debit.rawValue {
+            if item.type == AccountingMethod.debit.rawValue {
                 debitItemsStackView.addArrangedSubview(itemView)
             }
-            else if item.type == AccounttingMethod.credit.rawValue {
+            else if item.type == AccountingMethod.credit.rawValue {
                 creditItemsStackView.addArrangedSubview(itemView)
             }
             itemViewArray.append(itemView)
@@ -216,27 +273,36 @@ class ComplexTransactionTableViewCell: UITableViewCell {
         
         setMainView()
 
-        let debitRootName = AccountManager.getRootAccountFor(items.filter({$0.type == AccounttingMethod.debit.rawValue})[0].account!).name
-        let creditRootName = AccountManager.getRootAccountFor(items.filter({$0.type == AccounttingMethod.credit.rawValue})[0].account!).name
-
-        if creditRootName == AccountsNameLocalisationManager.getLocalizedAccountName(.income) &&
-           debitRootName == AccountsNameLocalisationManager.getLocalizedAccountName(.money) {
-            cellMainColor = .systemGreen
-        }
-        else  if (creditRootName == AccountsNameLocalisationManager.getLocalizedAccountName(.money) ||
-                  creditRootName == AccountsNameLocalisationManager.getLocalizedAccountName(.credits)) &&
-                  debitRootName == AccountsNameLocalisationManager.getLocalizedAccountName(.expense) {
-            cellMainColor = .systemPink
-        }
-        else  if creditRootName == AccountsNameLocalisationManager.getLocalizedAccountName(.money) &&
-                 debitRootName == AccountsNameLocalisationManager.getLocalizedAccountName(.money) {
-            cellMainColor = .systemTeal
+        if items.count >= 2 {
+            guard items.filter({$0.type == AccountingMethod.debit.rawValue})[0].account != nil &&
+                    items.filter({$0.type == AccountingMethod.credit.rawValue})[0].account != nil else {return}
+            let debitRootName = AccountManager.getRootAccountFor(items.filter({$0.type == AccountingMethod.debit.rawValue})[0].account!).name
+            let creditRootName = AccountManager.getRootAccountFor(items.filter({$0.type == AccountingMethod.credit.rawValue})[0].account!).name
+            
+            if creditRootName == AccountsNameLocalisationManager.getLocalizedAccountName(.income) &&
+                debitRootName == AccountsNameLocalisationManager.getLocalizedAccountName(.money) {
+                cellMainColor = .systemGreen
+            }
+            else  if (creditRootName == AccountsNameLocalisationManager.getLocalizedAccountName(.money) ||
+                      creditRootName == AccountsNameLocalisationManager.getLocalizedAccountName(.credits)) &&
+                        debitRootName == AccountsNameLocalisationManager.getLocalizedAccountName(.expense) {
+                cellMainColor = .systemPink
+            }
+            else  if creditRootName == AccountsNameLocalisationManager.getLocalizedAccountName(.money) &&
+                        debitRootName == AccountsNameLocalisationManager.getLocalizedAccountName(.money) {
+                cellMainColor = .systemTeal
+            }
+            else {
+                cellMainColor = .systemGray
+            }
         }
         else {
-            cellMainColor = .systemGray
+            cellMainColor = .purple
         }
+        
         debitLabel.layer.backgroundColor = cellMainColor.cgColor.copy(alpha: labelsAlpha)
         creditLabel.layer.backgroundColor = cellMainColor.cgColor.copy(alpha: labelsAlpha)
+        commentLabel.layer.backgroundColor = cellMainColor.cgColor.copy(alpha: labelsAlpha)
         mainView.backgroundColor = UIColor(cgColor: cellMainColor.cgColor.copy(alpha: backGroundAlpha)!)
     }
     

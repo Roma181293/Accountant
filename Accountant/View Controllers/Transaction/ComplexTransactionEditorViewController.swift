@@ -10,7 +10,8 @@ import CoreData
 
 enum TransactionEditorMode {
     case `default`
-    case importMode
+    case editDraft //use only for transaction.applied == false
+    case editPreDraft  //use only for import transactions
 }
 
 class ComplexTransactionEditorViewController: UIViewController{
@@ -178,7 +179,7 @@ class ComplexTransactionEditorViewController: UIViewController{
                 self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: NSLocalizedString("Save", comment: ""), style: .done, target: self, action: #selector(self.confirm(_:)))
                 confirmButton.isHidden = true
             }
-            else if mode == .importMode {
+            else if mode != .default {
                 confirmButton.isHidden = false
             }
         }
@@ -248,8 +249,11 @@ class ComplexTransactionEditorViewController: UIViewController{
     }
     
     deinit {
-        if  mode == .default {
+        if  mode == .default || mode == .editDraft {
             context.rollback()
+        }
+        else {
+            print("No need to rolling back")
         }
     }
     
@@ -366,13 +370,13 @@ class ComplexTransactionEditorViewController: UIViewController{
     private func configureAddTransactionItemButtons() {
         guard let transaction = transaction, let items = transaction.items?.allObjects as? [TransactionItem] else {return}
         
-        if items.filter({$0.type == AccounttingMethod.debit.rawValue}).count > 1 {
+        if items.filter({$0.type == AccountingMethod.debit.rawValue}).count > 1 {
             creditAddButton.isHidden = true
         }
         else {
             creditAddButton.isHidden = false
         }
-        if items.filter({$0.type == AccounttingMethod.credit.rawValue}).count > 1 {
+        if items.filter({$0.type == AccountingMethod.credit.rawValue}).count > 1 {
             debitAddButton.isHidden = true
         }
         else {
@@ -380,7 +384,7 @@ class ComplexTransactionEditorViewController: UIViewController{
         }
     }
     
-    private func addEmptyTransactionItem(type: AccounttingMethod){
+    private func addEmptyTransactionItem(type: AccountingMethod){
         let transactionItem = TransactionItem(context: context)
         let date = Date()
         transactionItem.createDate = date
@@ -434,10 +438,17 @@ class ComplexTransactionEditorViewController: UIViewController{
                 alert.addAction(UIAlertAction(title: NSLocalizedString("Cancel",comment: ""), style: .cancel))
                 self.present(alert, animated: true, completion: nil)
             }
-            else if mode == .importMode {
+            else if mode != .default {
                 transaction.date = datePicker.date
+                transaction.applied = true
                 try TransactionManager.validateTransactionDataBeforeSave(transaction)
-                self.navigationController?.popViewController(animated: true)
+                do {
+                    try self.coreDataStack.saveContext(self.context)
+                    self.navigationController?.popViewController(animated: true)
+                }
+                catch let error{
+                    self.errorHandler(error: error)
+                }
             }
             else {
                 self.navigationController?.popViewController(animated: true)
@@ -468,9 +479,9 @@ extension ComplexTransactionEditorViewController: UITableViewDelegate, UITableVi
         
         switch tableView {
         case debitTableView:
-            numberOfRows = items.filter({$0.type == AccounttingMethod.debit.rawValue}).count
+            numberOfRows = items.filter({$0.type == AccountingMethod.debit.rawValue}).count
         case creditTableView:
-            numberOfRows = items.filter({$0.type == AccounttingMethod.credit.rawValue}).count
+            numberOfRows = items.filter({$0.type == AccountingMethod.credit.rawValue}).count
         default:
             let alert = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("Please contact support. Cannot find external table view to count the number of rows", comment: ""), preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default))
@@ -486,10 +497,10 @@ extension ComplexTransactionEditorViewController: UITableViewDelegate, UITableVi
         switch tableView {
         case debitTableView:
             cell = tableView.dequeueReusableCell(withIdentifier: Constants.Cell.transactionItemTableViewCell, for: indexPath) as! TransactionItemTableViewCell
-            cell.configureCell(for: items.filter({$0.type == AccounttingMethod.debit.rawValue})[indexPath.row], with: self)
+            cell.configureCell(for: items.filter({$0.type == AccountingMethod.debit.rawValue})[indexPath.row], with: self)
         case creditTableView:
             cell = tableView.dequeueReusableCell(withIdentifier: Constants.Cell.transactionItemTableViewCell, for: indexPath) as! TransactionItemTableViewCell
-            cell.configureCell(for: items.filter({$0.type == AccounttingMethod.credit.rawValue})[indexPath.row], with: self)
+            cell.configureCell(for: items.filter({$0.type == AccountingMethod.credit.rawValue})[indexPath.row], with: self)
         default:
             let alert = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("Please contact support. Cannot find external table view to add cells", comment: ""), preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default))
@@ -508,11 +519,11 @@ extension ComplexTransactionEditorViewController: UITableViewDelegate, UITableVi
         var transactionItemsCount: Int = 0
         switch tableView {
         case self.debitTableView:
-            transactionItemToRemove = items.filter({$0.type == AccounttingMethod.debit.rawValue})[indexPath.row]
-            transactionItemsCount = items.filter({$0.type == AccounttingMethod.debit.rawValue}).count
+            transactionItemToRemove = items.filter({$0.type == AccountingMethod.debit.rawValue})[indexPath.row]
+            transactionItemsCount = items.filter({$0.type == AccountingMethod.debit.rawValue}).count
         case self.creditTableView:
-            transactionItemToRemove = items.filter({$0.type == AccounttingMethod.credit.rawValue})[indexPath.row]
-            transactionItemsCount = items.filter({$0.type == AccounttingMethod.credit.rawValue}).count
+            transactionItemToRemove = items.filter({$0.type == AccountingMethod.credit.rawValue})[indexPath.row]
+            transactionItemsCount = items.filter({$0.type == AccountingMethod.credit.rawValue}).count
         default:
             let alert = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("Please contact support. Cannot find external table view to delete transaction item", comment: ""), preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default))
@@ -659,9 +670,9 @@ extension ComplexTransactionEditorViewController: AccountRequestor {
         transactionItemForAccountSpecifying?.modifiedByUser = true
 
         switch transactionItemForAccountSpecifying?.type {
-        case AccounttingMethod.debit.rawValue:
+        case AccountingMethod.debit.rawValue:
             debitTableView.reloadData()
-        case AccounttingMethod.credit.rawValue:
+        case AccountingMethod.credit.rawValue:
             creditTableView.reloadData()
         default:
             return

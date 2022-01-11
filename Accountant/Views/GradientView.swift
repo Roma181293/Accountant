@@ -12,8 +12,8 @@ import UIKit
 
 class GradientView: UIButton {
 
-    var colorTop: UIColor?
-    var colorBottom: UIColor?
+    private var colorTop: UIColor?
+    private var colorBottom: UIColor?
     
     override init(frame: CGRect) {
         super.init(frame: frame)

@@ -8,6 +8,7 @@
 
 import Foundation
 import Alamofire
+import CoreData
 
 class NetworkServices {
     
@@ -24,7 +25,7 @@ class NetworkServices {
         }
     }
     
-    static func loadCurrencyPB(date : Date, compliting: @escaping (CurrencyHistoricalDataPB?, Error?) -> Void){
+    private static func loadCurrencyPB(date : Date, compliting: @escaping (CurrencyHistoricalDataPB?, Error?) -> Void){
         
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd.MM.yyyy"
@@ -41,13 +42,14 @@ class NetworkServices {
         }
     }
     
-    static func loadCurrencyNB(date : Date, compliting: @escaping (CurrencyHistoricalDataNB?, Error?) -> Void){
+    private static func loadCurrencyNB(date : Date, compliting: @escaping (CurrencyHistoricalDataNB?, Error?) -> Void){
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyyMMdd"
         let dateString = dateFormatter.string(from:date as Date)
         print(#function, dateString)
         AF.request("https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?date=\(dateString)&json").responseDecodable(of: [CurrencyExhangeNB].self) {(response) in
             if let list = response.value {
+                print(#function,CurrencyHistoricalDataNB(list: list).listOfCurrenciesIso())
                 compliting(CurrencyHistoricalDataNB(list: list), nil)
             }
             else {
@@ -58,11 +60,81 @@ class NetworkServices {
     }
     
     
-    static func loadMBUserInfo(compliting: @escaping (MBUserInfo?, Error?) -> Void){
-     
+    static func loadMBUserInfo(xToken: String, compliting: @escaping (MBUserInfo?, String?, Error?) -> Void){
         AF.request("https://api.monobank.ua/personal/client-info",
-                   headers: ["X-Token" : "uHSislDn_PZokeUPUiigOU6tBaM2Ub95T0Qekafe069I"]
+                   headers: ["X-Token" : xToken]
         ).responseDecodable(of: MBUserInfo.self) {(response) in
+            if let list = response.value {
+                compliting(list, xToken,nil)
+            }
+            else {
+                print("ERROR: \(String(describing: response.error?.localizedDescription))")
+                compliting(nil, nil,response.error)
+            }
+        }
+    }
+
+    static func loadStatementsForBankAccount(_ bankAccount: BankAccount, startDate: Date, endDate: Date, compliting: @escaping ([StatementProtocol]?, Error?) -> Void){
+     
+        print("bankAccount.userBankProfile!.xToken!", bankAccount.userBankProfile!.xToken!)
+        
+        if bankAccount.userBankProfile?.keeper?.name == "Monobank" {
+            AF.request("https://api.monobank.ua/personal/statement/\(bankAccount.id!)/\(Int(startDate.timeIntervalSince1970))/\(Int(endDate.timeIntervalSince1970))",
+                       headers: ["X-Token" : bankAccount.userBankProfile!.xToken!]
+            ).responseDecodable(of: [MBStatement].self) {(response) in
+                if let list = response.value {
+                    compliting(list, nil)
+                }
+                else {
+                    print("ERROR: \(String(describing: response.error?.localizedDescription))")
+                    compliting(nil, response.error)
+                }
+            }
+        }
+    }
+    
+    
+    //MARK: - Methods below only for test purpose
+    private static func loadStatementsForBankAccountWOParse(_ bankAccount: BankAccount, compliting: @escaping ([StatementProtocol]?, Error?) -> Void){
+     
+        if bankAccount.userBankProfile?.keeper?.name == "Monobank" {
+            let calendar = Calendar.current
+            
+            let startDate = bankAccount.lastTransactionDate!
+            var endDate = calendar.date(byAdding: .day, value: 30, to: startDate)!
+            if endDate > Date() {
+                endDate = Date()
+            }
+            print(#function, "https://api.monobank.ua/personal/statement/\(bankAccount.id!)/\(Int(startDate.timeIntervalSince1970))/\(Int(endDate.timeIntervalSince1970))")
+            AF.request("https://api.monobank.ua/personal/statement/\(bankAccount.id!)/\(Int(startDate.timeIntervalSince1970))/\(Int(endDate.timeIntervalSince1970))",
+                       headers: ["X-Token" : bankAccount.userBankProfile!.xToken!]
+            ).responseJSON(completionHandler: { response in
+                switch response.result {
+                case .success(let value):
+                    print("value**: \(value)")
+                    
+                case .failure(let error):
+                    print(error)
+                }
+            })
+            .responseString { response in
+                print("response: \(response)")
+                switch response.result {
+                case .success(let value):
+                    print("value**: \(value)")
+                    
+                case .failure(let error):
+                    print(error)
+                }
+            }
+        }
+    }
+    
+    private static func loadStatements(compliting: @escaping ([MBStatement]?, Error?) -> Void){
+     
+        AF.request("https://api.monobank.ua/personal/statement/0/1635717600/1637212479187",
+                   headers: ["X-Token" : ""]
+        ).responseDecodable(of: [MBStatement].self) {(response) in
             if let list = response.value {
                 compliting(list, nil)
             }
@@ -73,40 +145,51 @@ class NetworkServices {
         }
     }
     
-    static func loadMBUserInfo(){
+    
+    private static func loadWebHook(compliting: @escaping (MBWebHook?, Error?) -> Void){
      
-        AF.request("https://api.monobank.ua/personal/client-info",
-                   headers: ["X-Token" : "uHSislDn_PZokeUPUiigOU6tBaM2Ub95T0Qekafe069I"]
-        ).response{(response) in
-            if let error = response.error {
-                print("ERROR: \(String(describing: error.localizedDescription))")
+        AF.request("https://api.monobank.ua/personal/webhook",
+                   method:.post,
+                   headers: ["X-Token" : ""]
+        ).responseDecodable(of: MBWebHook.self) {(response) in
+            if let list = response.value {
+                print(#function,list)
+                
+                
+                compliting(list, nil)
             }
             else {
-                print(response.value as? String)
+                print(#function,"ERROR: \(String(describing: response.error?.localizedDescription))")
+                compliting(nil, response.error)
             }
         }
     }
-}
-
-
-
-
-struct MBUserInfo:Codable {
-    let clientId : String
-    let name : String
-    let webHookUrl: String
-    let permissions: String
-    let accounts: [MBAccountInfo]
-}
-
-
-struct MBAccountInfo: Codable {
-    let id : String
-    let sendId: String
-    let balance : Int
-    let creditLimit : Int
-    let type : String
-    let maskedPan : [String]
-    let currencyCode: Int
-    let cashbackType: String
+    
+    
+    private static func loadWebHook1(){
+     
+        AF.request("https://api.monobank.ua/personal/webhook",
+                   method:.post,
+                   headers: ["X-Token" : ""]
+        ).responseJSON { response in
+            print("response: \(response)")
+            switch response.result {
+            case .success(let value):
+                print("value**: \(value)")
+                
+            case .failure(let error):
+                print(error)
+            }
+    }
+    .responseString { response in
+        print("response: \(response)")
+        switch response.result {
+        case .success(let value):
+            print("value**: \(value)")
+            
+        case .failure(let error):
+            print(error)
+        }
+    }
+    }
 }

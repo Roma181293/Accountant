@@ -50,9 +50,8 @@ class AccountManagerController {
                     do {
                         guard let alert = alert,
                               let textFields = alert.textFields,
-                              let textField = textFields.first,
-                              AccountManager.isFreeAccountName(parent: account, name: textField.text!, context: self.delegate.context)
-                        else {throw AccountError.accountAlreadyExists(name: alert!.textFields!.first!.text!)}
+                              let textField = textFields.first
+                        else {return}
                         
                         try AccountManager.createAccount(parent: account, name: textField.text!, type: account.type, currency: accountCurrency, context: self.delegate.context)
                         try self.delegate.coreDataStack.saveContext(self.delegate.context)
@@ -306,12 +305,6 @@ class AccountManagerController {
         addSubCategory.image = UIImage(systemName: "plus")
         return addSubCategory
     }
-    
-    private func addFromAccount(_ account: Account, transactionItemType: AccounttingMethod) {
-      
-    }
-    
-    
     
     func addTransactionWithDebitAccount(indexPath: IndexPath, selectedAccount: Account) -> UIContextualAction {
         let addDebitTransaction = UIContextualAction(style: .normal, title: NSLocalizedString("To",comment: "")) { (contAct, view, complete) in

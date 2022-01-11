@@ -741,11 +741,11 @@ class SimpleTransactionEditorViewController: UIViewController {//}, GADFullScree
         var creditAmnt: Double?
         
         for item in items {
-            if item.type == AccounttingMethod.debit.rawValue {
+            if item.type == AccountingMethod.debit.rawValue {
                 debitAcc = item.account
                 debitAmnt = item.amount
             }
-            else if item.type == AccounttingMethod.credit.rawValue {
+            else if item.type == AccountingMethod.credit.rawValue {
                 creditAcc = item.account
                 creditAmnt = item.amount
             }

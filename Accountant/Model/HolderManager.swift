@@ -90,7 +90,8 @@ class HolderManager {
     }
     
     //USE ONLY TO CLEAR DATA IN TEST ENVIRONMENT
-    static func deleteAllHolders(context: NSManagedObjectContext) throws {
+    static func deleteAllHolders(context: NSManagedObjectContext, env: Environment?) throws {
+        guard env == .test else {return}
         let holderFetchRequest : NSFetchRequest<Holder> = NSFetchRequest<Holder>(entityName: Holder.entity().name!)
         holderFetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
         

@@ -220,7 +220,7 @@ extension ImportTransactionViewController: UITableViewDelegate, UITableViewDataS
         let transactioEditorVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.complexTransactionEditorViewController) as! ComplexTransactionEditorViewController
         transactioEditorVC.transaction = preTransactionList.filter({if showOlnyErrors && $0.isReadyToSave {return false} else {return true}})[indexPath.row].transaction
         transactioEditorVC.context = context
-        transactioEditorVC.mode = .importMode
+        transactioEditorVC.mode = .editPreDraft
         self.navigationController?.pushViewController(transactioEditorVC, animated: true)
     }
 }

@@ -76,6 +76,9 @@ class HolderTableViewController: UITableViewController {
                       let nameTextField = textFields.last
                 else {return}
                 
+                guard iconTextField.text?.isEmpty == false else {throw HolderError.emptyIcon}
+                guard nameTextField.text?.isEmpty == false else {throw HolderError.emptyName}
+                
                 try HolderManager.createHolder(name: nameTextField.text!, icon: iconTextField.text!, context: self.context)
                 try CoreDataStack.shared.saveContext(self.context)
                 try self.fetchedResultsController.performFetch()

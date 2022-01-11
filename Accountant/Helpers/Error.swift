@@ -14,7 +14,6 @@ protocol AppError: Error {}
 
 enum AccountError : AppError {
     case attributeTypeShouldBeInitializeForRootAccount
-    //    case accountHasAnAttribureTypeDifferentFromParent  //deprecated
     case accountAlreadyExists(name: String)
     case categoryAlreadyExists(name: String)
     case cantRemoveAccountThatUsedInTransactionItem(String)
@@ -24,6 +23,7 @@ enum AccountError : AppError {
     case accountDoesNotExist(String)
     case accumulativeAccountCannotBeHiddenWithNonZeroAmount(name: String)
     case linkedAccountHasTransactionItem(name: String)
+    case emptyName
 }
 
 extension AccountError: LocalizedError {
@@ -31,12 +31,6 @@ extension AccountError: LocalizedError {
         switch self {
         case .attributeTypeShouldBeInitializeForRootAccount:
             return NSLocalizedString("Attribute \"Type\" should be filled in for the root account", comment: "")
-            
-            
-        //            case .accountHasAnAttribureTypeDifferentFromParent: //deprecated
-        //                return NSLocalizedString("This account has an attribure \"Type\" different from the root account", comment: "")
-        
-        
         case let .accountAlreadyExists(name):
             return String(format: NSLocalizedString("Account name \"%@\" is already taken. Please use another name", comment: ""),name)
             
@@ -63,6 +57,8 @@ extension AccountError: LocalizedError {
             
         case let .linkedAccountHasTransactionItem(name):
             return String(format: NSLocalizedString("Linked account \"%@\" cannot be removed because of existing transactions", comment: ""), name)
+        case .emptyName:
+            return NSLocalizedString("Please enter name", comment: "")
         }
     }
     
@@ -84,6 +80,7 @@ enum CurrencyError : AppError {
     case thisCurrencyUsedInAccounts
     case thisIsAccountingCurrency
     case thisCurrencyAlreadyUsedInTransaction
+    case accountingCurrencyNotFound
 }
 
 extension CurrencyError: LocalizedError {
@@ -94,9 +91,11 @@ extension CurrencyError: LocalizedError {
         case .thisCurrencyUsedInAccounts:
             return NSLocalizedString("This currency is already used on your accounts",comment: "")
         case .thisIsAccountingCurrency:
-            return NSLocalizedString("TThis is your accounting currency",comment: "")
+            return NSLocalizedString("This is your accounting currency",comment: "")
         case .thisCurrencyAlreadyUsedInTransaction:
             return NSLocalizedString("This currency is already used in transactions where one of the accounts has a different currency",comment: "")
+        case .accountingCurrencyNotFound:
+            return NSLocalizedString("Accounting currency not found",comment: "")
         }
     }
 }
@@ -106,6 +105,8 @@ extension CurrencyError: LocalizedError {
 enum KeeperError : AppError {
     case thisKeeperAlreadyExists
     case thisKeeperUsedInAccounts
+    case emptyName
+    case keeperNotFound(name: String)
 }
 
 extension KeeperError: LocalizedError {
@@ -115,6 +116,10 @@ extension KeeperError: LocalizedError {
             return NSLocalizedString("Item with same name already exists",comment: "")
         case .thisKeeperUsedInAccounts:
             return NSLocalizedString("This item is already used on your accounts",comment: "")
+        case .emptyName:
+            return NSLocalizedString("Please enter name", comment: "")
+        case let .keeperNotFound(name):
+            return NSLocalizedString("Keeper \"\(name)\" not found",comment: "")
         }
     }
 }
@@ -123,15 +128,21 @@ extension KeeperError: LocalizedError {
 enum HolderError : AppError {
     case thisHolderAlreadyExists
     case thisHolderUsedInAccounts
+    case emptyName
+    case emptyIcon
 }
 
 extension HolderError: LocalizedError {
     public var errorDescription: String? {
         switch self {
         case .thisHolderAlreadyExists:
-            return NSLocalizedString("This holder with the same name already exists",comment: "")
+            return NSLocalizedString("Holder with the same name already exists",comment: "")
         case .thisHolderUsedInAccounts:
             return NSLocalizedString("This holder is already used on your accounts",comment: "")
+        case .emptyName:
+            return NSLocalizedString("Please enter name", comment: "")
+        case .emptyIcon:
+            return NSLocalizedString("Please enter emoji icon", comment: "")
         }
     }
 }
@@ -206,7 +217,7 @@ extension TransactionItemError: LocalizedError {
 
 
 enum AccountWithBalanceError: AppError {
-   case emptyAccountName
+    case emptyAccountName
     case emptyBalance
     case emptyCreditLimit
     case emptyExchangeRate
@@ -234,3 +245,61 @@ extension AccountWithBalanceError: LocalizedError {
     }
 }
 
+
+enum MonoBankError: AppError {
+    case toEarlyToRetrieveTheData(date: Date)
+   
+}
+
+extension MonoBankError: LocalizedError {
+    private func formateDate(_ date: Date) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .none
+        dateFormatter.timeStyle = .medium
+        dateFormatter.locale = Locale(identifier: "\(Bundle.main.localizations.first ?? "en")_\(Locale.current.regionCode ?? "US")")
+        return dateFormatter.string(from: date)
+    }
+    private func getMonoLink()-> String {
+        return "https://api.monobank.ua/docs"
+    }
+    
+    public var errorDescription: String? {
+        switch self {
+        case let .toEarlyToRetrieveTheData(date):
+            return NSLocalizedString("Too early to retrive Monobank statements data\nPlease wait 1 minute to the next try. This limitation was imposed due to API policy \(getMonoLink()). \nLast load \(formateDate(date))\n Current call \(formateDate(Date()))",comment: "")
+        }
+    }
+}
+
+
+
+enum BankAccountError: AppError {
+    case alreadyExist(name: String?)
+   
+}
+
+extension BankAccountError: LocalizedError {
+    
+    public var errorDescription: String? {
+        switch self {
+        case let .alreadyExist(name):
+            return NSLocalizedString("This account \(name ?? "") already added",comment: "")
+        }
+    }
+}
+
+
+enum UserBankProfileError: AppError {
+    case alreadyExist
+   
+}
+
+extension UserBankProfileError: LocalizedError {
+    
+    public var errorDescription: String? {
+        switch self {
+        case let .alreadyExist:
+            return NSLocalizedString("This user bank profile already exists",comment: "")
+        }
+    }
+}

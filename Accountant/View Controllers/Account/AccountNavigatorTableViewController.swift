@@ -37,7 +37,7 @@ class AccountNavigatorTableViewController: UITableViewController, AccountManager
     
     //TRANSPORT VARIABLES
     weak var simpleTransactionEditorVC : SimpleTransactionEditorViewController?
-    var typeOfAccountingMethod : AccounttingMethod?
+    var typeOfAccountingMethod : AccountingMethod?
     
     var accountRequestorViewController: AccountRequestor?
     //TRANSPORT VARIABLES

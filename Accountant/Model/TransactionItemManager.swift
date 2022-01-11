@@ -10,7 +10,7 @@ import CoreData
 
 class TransactionItemManager {
     
-    static func createAndGetTransactionItem(transaction: Transaction, type: AccounttingMethod, account: Account, amount: Double, createdByUser: Bool = true, createDate: Date = Date(), context: NSManagedObjectContext) -> TransactionItem {
+    static func createAndGetTransactionItem(transaction: Transaction, type: AccountingMethod, account: Account, amount: Double, createdByUser: Bool = true, createDate: Date = Date(), context: NSManagedObjectContext) -> TransactionItem {
         
         let createDate = Date()
         
@@ -28,14 +28,14 @@ class TransactionItemManager {
     }
     
     
-    static func createTransactionItem(transaction: Transaction, type: AccounttingMethod, account: Account, amount: Double, createdByUser: Bool = true, createDate: Date = Date(), context: NSManagedObjectContext) {
+    static func createTransactionItem(transaction: Transaction, type: AccountingMethod, account: Account, amount: Double, createdByUser: Bool = true, createDate: Date = Date(), context: NSManagedObjectContext) {
        createAndGetTransactionItem(transaction: transaction, type: type, account: account, amount: amount, createdByUser: createdByUser, createDate: createDate, context: context)
     }
     
    
     static func createAndGetTransactionItem(transaction: Transaction, type: Int16, account: Account, amount: Double, createdByUser: Bool = true, createDate: Date = Date(), context: NSManagedObjectContext) -> TransactionItem {
         
-        var type1: AccounttingMethod = .debit
+        var type1: AccountingMethod = .debit
         
         switch type {
         case 0:

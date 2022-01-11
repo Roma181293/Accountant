@@ -92,7 +92,7 @@ class AccountManager {
     }
     
     
-    static func fillAccountAttributes(parent: Account?, name : String, type : Int16?, currency : Currency?, keeper: Keeper?, holder: Holder?, subType : Int16? = nil, createdByUser : Bool = true, createDate: Date = Date(), context: NSManagedObjectContext) -> Account {
+    private static func fillAccountAttributes(parent: Account?, name : String, type : Int16?, currency : Currency?, keeper: Keeper?, holder: Holder?, subType : Int16? = nil, createdByUser : Bool = true, createDate: Date = Date(), context: NSManagedObjectContext) -> Account {
         let account = Account(context: context)
         account.createDate = createDate
         account.createdByUser = createdByUser
@@ -130,6 +130,7 @@ class AccountManager {
     
     static func createAndGetAccount(parent: Account?, name : String, type : Int16?, currency : Currency?, keeper: Keeper? = nil, holder: Holder? = nil, subType : Int16? = nil, createdByUser : Bool = true, createDate: Date = Date(), context: NSManagedObjectContext) throws -> Account {
         
+        guard !name.isEmpty else {throw AccountError.emptyName}
         if parent == nil && type == nil {throw AccountError.attributeTypeShouldBeInitializeForRootAccount}
 //        guard parent != nil && type != nil && parent?.type != type else {throw AccountError.accountContainAttribureTypeDifferentFromParent}
         
@@ -155,6 +156,7 @@ class AccountManager {
     
     static func createAndGetAccountForImport(parent: Account?, name : String, type : Int16?, currency : Currency?, keeper: Keeper? = nil, holder: Holder? = nil, subType : Int16? = nil, createdByUser : Bool = true, createDate: Date = Date(), context: NSManagedObjectContext) throws -> Account {
         
+        guard !name.isEmpty else {throw AccountError.emptyName}
         if parent == nil && type == nil {throw AccountError.attributeTypeShouldBeInitializeForRootAccount}
         
         // accounts with reserved names can create only app
@@ -382,7 +384,8 @@ class AccountManager {
     }
     
     //USE ONLY TO CLEAR DATA IN TEST ENVIRONMENT
-    static func deleteAllAccounts(context: NSManagedObjectContext) throws {
+    static func deleteAllAccounts(context: NSManagedObjectContext, env: Environment?) throws {
+        guard env == .test else {return}
         let accountsFetchRequest : NSFetchRequest<Account> = NSFetchRequest<Account>(entityName: Account.entity().name!)
         accountsFetchRequest.sortDescriptors = [NSSortDescriptor(key: "createDate", ascending: true)]
         
@@ -569,13 +572,12 @@ class AccountManager {
         if accounts.isEmpty == false {
             for account in accounts {
                 
-                let transactionItems = account.transactionItems?.allObjects as! [TransactionItem]
-                
+                let transactionItems = (account.transactionItems?.allObjects as! [TransactionItem]).filter{$0.transaction!.applied == true}
                 for item in transactionItems {
-                    if item.type == AccounttingMethod.debit.rawValue{
+                    if item.type == AccountingMethod.debit.rawValue{
                         debitTotal += item.amount
                     }
-                    else if item.type == AccounttingMethod.credit.rawValue{
+                    else if item.type == AccountingMethod.credit.rawValue{
                         creditTotal += item.amount
                     }
                 }
@@ -603,13 +605,13 @@ class AccountManager {
             {
                 for account in accounts {
                     
-                    let transactionItems = account.transactionItems?.allObjects as! [TransactionItem]
+                    let transactionItems = (account.transactionItems?.allObjects as! [TransactionItem]).filter{$0.transaction!.applied == true}
                     
                     for item in transactionItems {
-                        if item.type == AccounttingMethod.debit.rawValue{
+                        if item.type == AccountingMethod.debit.rawValue{
                             debitTotal += item.amount
                         }
-                        else if item.type == AccounttingMethod.credit.rawValue{
+                        else if item.type == AccountingMethod.credit.rawValue{
                             creditTotal += item.amount
                         }
                     }
@@ -631,14 +633,14 @@ class AccountManager {
             }
             else {
                 for account in accounts {
-                    let transactionItems = account.transactionItems?.allObjects as! [TransactionItem]
+                    let transactionItems = (account.transactionItems?.allObjects as! [TransactionItem]).filter{$0.transaction!.applied == true}
                     
                     for item in transactionItems {
                         if dateInterval.contains(item.transaction!.date!) {
-                            if item.type == AccounttingMethod.debit.rawValue{
+                            if item.type == AccountingMethod.debit.rawValue{
                                 debitTotal += item.amount
                             }
-                            else if item.type == AccounttingMethod.credit.rawValue{
+                            else if item.type == AccountingMethod.credit.rawValue{
                                 creditTotal += item.amount
                             }
                         }
@@ -683,13 +685,13 @@ class AccountManager {
         
         for account in accounts {
             
-            let transactionItems = account.transactionItems?.allObjects as! [TransactionItem]
+            let transactionItems = (account.transactionItems?.allObjects as! [TransactionItem]).filter{$0.transaction!.applied == true}
             
             for item in transactionItems {
-                if item.type == AccounttingMethod.debit.rawValue && (item.transaction?.date)! < date {
+                if item.type == AccountingMethod.debit.rawValue && (item.transaction?.date)! < date {
                     debitSaldo += item.amount
                 }
-                else if item.type == AccounttingMethod.credit.rawValue && (item.transaction?.date)! < date {
+                else if item.type == AccountingMethod.credit.rawValue && (item.transaction?.date)! < date {
                     creditSaldo += item.amount
                 }
             }
@@ -747,14 +749,14 @@ class AccountManager {
                 var creditTotal : Double = 0
                 
                 for account in accounts {
-                    let transactionItems = account.transactionItems?.allObjects as! [TransactionItem]
+                    let transactionItems = (account.transactionItems?.allObjects as! [TransactionItem]).filter{$0.transaction!.applied == true}
                     
                     for item in transactionItems {
                         if timeInterval.contains(item.transaction!.date!) {
-                            if item.type == AccounttingMethod.debit.rawValue{
+                            if item.type == AccountingMethod.debit.rawValue{
                                 debitTotal += item.amount
                             }
-                            else if item.type == AccounttingMethod.credit.rawValue{
+                            else if item.type == AccountingMethod.credit.rawValue{
                                 creditTotal += item.amount
                             }
                         }

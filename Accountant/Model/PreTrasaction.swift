@@ -39,7 +39,7 @@ class PreTransaction {
         return true
     }
     
-    private func totalAmountForType(_ type : AccounttingMethod) -> Double? {
+    private func totalAmountForType(_ type : AccountingMethod) -> Double? {
         var totalAmount: Double = 0
         for item in (transaction.items!.allObjects as! [TransactionItem]).filter({if $0.type == type.rawValue {return true} else {return false}}) {
             if item.amount >= 0 {

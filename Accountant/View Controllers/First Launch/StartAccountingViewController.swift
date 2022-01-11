@@ -88,11 +88,14 @@ class StartAccountingViewController: UIViewController, CurrencyReceiverDelegate 
         //remove Old Data
         if UserProfile.isAppLaunchedBefore() == false {
             do {
-                try TransactionManager.deleteAllTransactions(context: context)
-                try AccountManager.deleteAllAccounts(context: context)
-                try CurrencyManager.deleteAllCurrencies(context: context)
-                try HolderManager.deleteAllHolders(context: context)
-                try KeeperManager.deleteAllKeepers(context: context)
+                let env = CoreDataStack.shared.activeEnviroment()
+                try TransactionManager.deleteAllTransactions(context: context, env:env)
+                try AccountManager.deleteAllAccounts(context: context, env:env)
+                try CurrencyManager.deleteAllCurrencies(context: context, env:env)
+                try KeeperManager.deleteAllKeepers(context: context, env:env)
+                try HolderManager.deleteAllHolders(context: context, env:env)
+                try BankAccountManager.deleteAllBankAccounts(context: context, env: env)
+                try UserBankProfileManager.deleteAllUBP(context: context, env: env)
                 try CoreDataStack.shared.saveContext(context)
             }
             catch let error {

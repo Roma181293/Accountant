@@ -79,11 +79,16 @@ class TransactionListViewController: UIViewController{
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         
+//        syncStatmentsData()
+        
         self.tabBarController?.navigationItem.title = NSLocalizedString("Transactions", comment: "")
         if isUserHasPaidAccess == false {
             self.tabBarController?.navigationItem.rightBarButtonItem = UIBarButtonItem(title: NSLocalizedString("Get PRO", comment: ""), style: .plain, target: self, action: #selector(self.showPurchaseOfferVC))
         }
         
+        self.tabBarController?.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "clock.arrow.2.circlepath"), style: .plain, target: self, action: #selector(self.syncStatmentsData))
+        
+        context.rollback()   //??? needs to avoid fatal error when user add transactionItem wo account and click <Back
         fetchData()
         
         if isUserHasPaidAccess == false {
@@ -94,6 +99,7 @@ class TransactionListViewController: UIViewController{
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(true)
         self.tabBarController?.navigationItem.rightBarButtonItem = nil
+        self.tabBarController?.navigationItem.leftBarButtonItem = nil
         resultSearchController.dismiss(animated: true, completion: nil)
     }
     
@@ -115,13 +121,24 @@ class TransactionListViewController: UIViewController{
 //                               })
     }
     
+    @objc func syncStatmentsData(){
+        StatementLoadingService.loadStatments(context: CoreDataStack.shared.persistentContainer.newBackgroundContext(),compliting: {(success, error) in
+            if let success = success, success == true {
+                self.fetchData()
+            }
+            else if let error = error {
+                self.errorHandler(error: error)
+            }
+        })
+    }
+    
     @objc func showPurchaseOfferVC() {
         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.purchaseOfferViewController) as! PurchaseOfferViewController
         self.present(vc, animated: true, completion: nil)
     }
     
-    func fetchData() {
+    private func fetchData() {
         do {
             try fetchedResultsController.performFetch()
             tableView.reloadData()
@@ -223,6 +240,17 @@ class TransactionListViewController: UIViewController{
         }
         addButton.addTarget(self, action: #selector(TransactionListViewController.addTransaction(_:)), for: .touchUpInside)
     }
+    
+    func errorHandler(error: Error) {
+        var title = NSLocalizedString("Error", comment: "")
+        if error is AppError{
+            title = NSLocalizedString("Warning", comment: "")
+        }
+        
+        let alert = UIAlertController(title: title, message: error.localizedDescription, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default))
+        self.present(alert, animated: true, completion: nil)
+    }
 }
 
 
@@ -259,9 +287,16 @@ extension TransactionListViewController: UITableViewDelegate, UITableViewDataSou
         
         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
       
-        if (transaction.items?.allObjects as! [TransactionItem]).count > 2 ||  UserProfile.isUseMultiItemTransaction(environment: environment) {
+        if (transaction.items?.allObjects as! [TransactionItem]).count > 2 || UserProfile.isUseMultiItemTransaction(environment: environment) {
             let transactioEditorVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.complexTransactionEditorViewController) as! ComplexTransactionEditorViewController
             transactioEditorVC.transaction = transaction
+            transactioEditorVC.context = context
+            self.navigationController?.pushViewController(transactioEditorVC, animated: true)
+        }
+        else if transaction.applied == false || UserProfile.isUseMultiItemTransaction(environment: environment) {
+            let transactioEditorVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.complexTransactionEditorViewController) as! ComplexTransactionEditorViewController
+            transactioEditorVC.transaction = transaction
+            transactioEditorVC.mode = .editDraft
             transactioEditorVC.context = context
             self.navigationController?.pushViewController(transactioEditorVC, animated: true)
         }
@@ -300,7 +335,7 @@ extension TransactionListViewController: UITableViewDelegate, UITableViewDataSou
             do {
                 if self.isUserHasPaidAccess || self.coreDataStack.activeEnviroment() == .test {
                     let transaction = self.fetchedResultsController.object(at: indexPath) as Transaction
-                    TransactionManager.copyTransaction(transaction, context: self.context)
+                    TransactionManager.duplicateTransaction(transaction, context: self.context)
                     try self.coreDataStack.saveContext(self.context)
                     try self.fetchedResultsController.performFetch()
                     self.tableView.reloadData()

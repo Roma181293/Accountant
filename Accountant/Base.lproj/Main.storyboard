@@ -124,10 +124,10 @@
             </objects>
             <point key="canvasLocation" x="-6042" y="2690"/>
         </scene>
-        <!--Monobank Get User Info View Controller-->
+        <!--Monobank View Controller-->
         <scene sceneID="B2T-Tw-32h">
             <objects>
-                <viewController storyboardIdentifier="MonobankGetUserInfoVC_ID" id="Djz-Fn-Vnu" customClass="MonobankGetUserInfoViewController" customModule="Accountant" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MonobankVC_ID" id="Djz-Fn-Vnu" customClass="MonobankViewController" customModule="Accountant" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="MlU-62-B9t">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -370,6 +370,21 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WXD-yk-9qG" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="700" y="1091"/>
+        </scene>
+        <!--Complex Transaction Editor View Controller-->
+        <scene sceneID="PWP-T9-LY7">
+            <objects>
+                <viewController storyboardIdentifier="ComplexTransactionEditorVC_ID" id="KAa-v9-vy8" customClass="ComplexTransactionEditorViewController" customModule="Accountant" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="UFr-Vl-tQA">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="qot-gL-Ujg"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="iEc-jB-dc0" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-261" y="404"/>
         </scene>
         <!--Add Account View Controller-->
         <scene sceneID="Xha-nC-Oqc">

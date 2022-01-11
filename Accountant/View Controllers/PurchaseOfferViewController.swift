@@ -1,5 +1,5 @@
 //
-//  SubscriptionsViewController.swift
+//  PurchaseOfferViewController.swift
 //  Accounting
 //
 //  Created by Roman Topchii on 06.02.2021.
@@ -79,8 +79,9 @@ final class PurchaseOfferViewController: UIViewController {
         return titleLabel
     }()
     
-    let proBadgeView: ProBadgeUIView = {
-        let view = ProBadgeUIView()
+    let proBadgeView: BadgeUIView = {
+        let view = BadgeUIView()
+        view.proBadge()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.layer.cornerRadius = Constants.Size.cornerButtonRadius
         return view

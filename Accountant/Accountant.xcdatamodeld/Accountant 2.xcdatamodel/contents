@@ -12,6 +12,7 @@
         <attribute name="subType" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="type" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="ancestors" toMany="YES" deletionRule="Nullify" destinationEntity="Account" inverseName="children" inverseEntity="Account"/>
+        <relationship name="bankAccount" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="BankAccount" inverseName="account" inverseEntity="BankAccount"/>
         <relationship name="children" toMany="YES" deletionRule="Nullify" destinationEntity="Account" inverseName="ancestors" inverseEntity="Account"/>
         <relationship name="currency" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Currency" inverseName="accounts" inverseEntity="Currency"/>
         <relationship name="directChildren" toMany="YES" deletionRule="Nullify" destinationEntity="Account" inverseName="parent" inverseEntity="Account"/>
@@ -21,11 +22,23 @@
         <relationship name="parent" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Account" inverseName="directChildren" inverseEntity="Account"/>
         <relationship name="transactionItems" toMany="YES" deletionRule="Nullify" destinationEntity="TransactionItem" inverseName="account" inverseEntity="TransactionItem"/>
     </entity>
+    <entity name="BankAccount" representedClassName="BankAccount" syncable="YES" codeGenerationType="class">
+        <attribute name="bin" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="iban" optional="YES" attributeType="String"/>
+        <attribute name="id" optional="YES" attributeType="String"/>
+        <attribute name="lastLoadDate" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="lastTransactionDate" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="locked" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="strBin" optional="YES" attributeType="String"/>
+        <relationship name="account" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Account" inverseName="bankAccount" inverseEntity="Account"/>
+        <relationship name="userBankProfile" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UserBankProfile" inverseName="bankAccounts" inverseEntity="UserBankProfile"/>
+    </entity>
     <entity name="Currency" representedClassName="Currency" syncable="YES" codeGenerationType="class">
         <attribute name="code" attributeType="String" minValueString="3" maxValueString="3"/>
         <attribute name="createDate" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="createdByUser" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES"/>
         <attribute name="isAccounting" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="iso4217" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="modifiedByUser" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES"/>
         <attribute name="modifyDate" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="name" optional="YES" attributeType="String"/>
@@ -48,8 +61,10 @@
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="type" attributeType="Integer 16" usesScalarValueType="YES"/>
         <relationship name="accounts" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Account" inverseName="keeper" inverseEntity="Account"/>
+        <relationship name="userBankProfiles" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UserBankProfile" inverseName="keeper" inverseEntity="UserBankProfile"/>
     </entity>
     <entity name="Transaction" representedClassName="Transaction" syncable="YES" codeGenerationType="class">
+        <attribute name="applied" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES"/>
         <attribute name="comment" optional="YES" attributeType="String"/>
         <attribute name="createDate" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="createdByUser" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES"/>
@@ -68,6 +83,13 @@
         <relationship name="account" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Account" inverseName="transactionItems" inverseEntity="Account"/>
         <relationship name="transaction" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Transaction" inverseName="items" inverseEntity="Transaction"/>
     </entity>
+    <entity name="UserBankProfile" representedClassName="UserBankProfile" syncable="YES" codeGenerationType="class">
+        <attribute name="id" attributeType="String"/>
+        <attribute name="name" attributeType="String"/>
+        <attribute name="xToken" optional="YES" attributeType="String"/>
+        <relationship name="bankAccounts" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="BankAccount" inverseName="userBankProfile" inverseEntity="BankAccount"/>
+        <relationship name="keeper" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Keeper" inverseName="userBankProfiles" inverseEntity="Keeper"/>
+    </entity>
     <configuration name="Production">
         <memberEntity name="Account"/>
         <memberEntity name="Currency"/>
@@ -75,6 +97,8 @@
         <memberEntity name="TransactionItem"/>
         <memberEntity name="Keeper"/>
         <memberEntity name="Holder"/>
+        <memberEntity name="BankAccount"/>
+        <memberEntity name="UserBankProfile"/>
     </configuration>
     <configuration name="Test">
         <memberEntity name="Account"/>
@@ -83,13 +107,17 @@
         <memberEntity name="TransactionItem"/>
         <memberEntity name="Keeper"/>
         <memberEntity name="Holder"/>
+        <memberEntity name="BankAccount"/>
+        <memberEntity name="UserBankProfile"/>
     </configuration>
     <elements>
-        <element name="Account" positionX="-42.123046875" positionY="-164.82861328125" width="128" height="314"/>
-        <element name="Keeper" positionX="-27" positionY="-9" width="128" height="134"/>
-        <element name="Currency" positionX="-217.9248657226562" positionY="-150.1015777587891" width="128" height="149"/>
-        <element name="Holder" positionX="-18" positionY="0" width="128" height="134"/>
-        <element name="Transaction" positionX="149.5181884765626" positionY="44.60263061523435" width="128" height="134"/>
-        <element name="TransactionItem" positionX="144.8784179687499" positionY="-119.3399047851563" width="128" height="149"/>
+        <element name="Account" positionX="-42.123046875" positionY="-164.82861328125" width="128" height="329"/>
+        <element name="BankAccount" positionX="-206.14111328125" positionY="131.3073120117188" width="128" height="164"/>
+        <element name="Currency" positionX="-217.9248657226562" positionY="-150.1015777587891" width="128" height="164"/>
+        <element name="Holder" positionX="309.6853332519531" positionY="32.04922485351562" width="128" height="134"/>
+        <element name="Keeper" positionX="-68.74896240234375" positionY="326.0362243652344" width="128" height="163"/>
+        <element name="Transaction" positionX="362.8795166015626" positionY="-143.0828552246094" width="128" height="149"/>
+        <element name="TransactionItem" positionX="165.4147949218749" positionY="-181.9701385498047" width="128" height="149"/>
+        <element name="UserBankProfile" positionX="-394.6514282226562" positionY="204.031982421875" width="128" height="118"/>
     </elements>
 </model>

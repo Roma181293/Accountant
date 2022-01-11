@@ -62,5 +62,11 @@ struct CurrencyHistoricalDataNB : Codable, CurrencyHistoricalDataProtocol {
         return list
     }
     
+    func listOfCurrenciesIso() -> [(code: String, iso4217: Int)] {
+        var list = [(code: String, iso4217: Int)]()
+        exchangeRatesList.forEach({list.append((code: $0.currency, iso4217: $0.code))})
+        return list
+    }
+    
    
 }
