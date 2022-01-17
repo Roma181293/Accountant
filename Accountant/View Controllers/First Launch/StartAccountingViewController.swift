@@ -96,6 +96,8 @@ class StartAccountingViewController: UIViewController, CurrencyReceiverDelegate 
                 try HolderManager.deleteAllHolders(context: context, env:env)
                 try BankAccountManager.deleteAllBankAccounts(context: context, env: env)
                 try UserBankProfileManager.deleteAllUBP(context: context, env: env)
+                try RateManager.deleteAllRates(context: context, env: env)
+                try ExchangeManager.deleteAllExchanges(context: context, env: env)
                 try CoreDataStack.shared.saveContext(context)
             }
             catch let error {

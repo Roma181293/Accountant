@@ -11,10 +11,10 @@ import CoreData
 
 class UserBankProfileManager {
     
-    static func isFreeId(_ id: String?, context: NSManagedObjectContext) -> Bool {
+    static func isFreeExternalId(_ externalId: String?, context: NSManagedObjectContext) -> Bool {
         let userBankProfileFetchRequest : NSFetchRequest<UserBankProfile> = NSFetchRequest<UserBankProfile>(entityName: UserBankProfile.entity().name!)
         userBankProfileFetchRequest.sortDescriptors = [NSSortDescriptor(key: "id", ascending: true)]
-        userBankProfileFetchRequest.predicate = NSPredicate(format: "id = %@", id as! CVarArg)
+        userBankProfileFetchRequest.predicate = NSPredicate(format: "externalId = %@", externalId as! CVarArg)
         
         if let ba = try? context.fetch(userBankProfileFetchRequest) as? [UserBankProfile], ba.isEmpty {
             return true
@@ -24,24 +24,10 @@ class UserBankProfileManager {
         }
     }
     
-//    static func createMonoBankUBP(_ mbui: MBUserInfo, xToken: String, context: NSManagedObjectContext) throws -> UserBankProfile {
-//        guard isFreeId(mbui.clientId, context: context) else {throw UserBankProfileError.alreadyExist}
-//
-//        let ubp = UserBankProfile(context: context)
-//        ubp.name = mbui.name
-//        ubp.xToken = xToken
-//        ubp.id = mbui.clientId
-//        ubp.keeper = try? KeeperManager.getKeeperForName(NSLocalizedString("Monobank", comment: ""), context: context)
-////        for item in mbui.accounts{
-////            BankAccountManager.createMBBankAccount(item, userBankProfile: ubp, context: context)
-////        }
-//        return ubp
-//    }
-    
-    static func getUBP(_ id: String?, context: NSManagedObjectContext) -> UserBankProfile? {
+    static func getUBP(_ externalId: String?, context: NSManagedObjectContext) -> UserBankProfile? {
         let userBankProfileFetchRequest : NSFetchRequest<UserBankProfile> = NSFetchRequest<UserBankProfile>(entityName: UserBankProfile.entity().name!)
         userBankProfileFetchRequest.sortDescriptors = [NSSortDescriptor(key: "id", ascending: true)]
-        userBankProfileFetchRequest.predicate = NSPredicate(format: "id = %@", id as! CVarArg)
+        userBankProfileFetchRequest.predicate = NSPredicate(format: "externalId = %@", externalId as! CVarArg)
         
         if let ubps = try? context.fetch(userBankProfileFetchRequest) as? [UserBankProfile], !ubps.isEmpty {
             print(#function, "ubps.count", ubps.count)
@@ -58,9 +44,9 @@ class UserBankProfileManager {
         
         let userBankProfileFetchRequest : NSFetchRequest<UserBankProfile> = NSFetchRequest<UserBankProfile>(entityName: UserBankProfile.entity().name!)
         userBankProfileFetchRequest.sortDescriptors = [NSSortDescriptor(key: "id", ascending: true)]
-        userBankProfileFetchRequest.predicate = NSPredicate(format: "id = %@", mbui.clientId as! CVarArg)
+        userBankProfileFetchRequest.predicate = NSPredicate(format: "externalId = %@", mbui.clientId as! CVarArg)
         
-        if let ubps = try? context.fetch(userBankProfileFetchRequest) as? [UserBankProfile], ubps.isEmpty == false {
+        if let ubps = try? context.fetch(userBankProfileFetchRequest) as [UserBankProfile], ubps.isEmpty == false {
             let ubp = ubps.last!
             ubp.xToken = xToken
             return ubp
@@ -69,7 +55,8 @@ class UserBankProfileManager {
             let ubp = UserBankProfile(context: context)
             ubp.name = mbui.name
             ubp.xToken = xToken
-            ubp.id = mbui.clientId
+            ubp.id = UUID()
+            ubp.externalId = mbui.clientId
             ubp.keeper = try? KeeperManager.getKeeperForName(NSLocalizedString("Monobank", comment: ""), context: context)
             return ubp
         }

@@ -16,7 +16,7 @@ struct MBUserInfo:Codable {
     let accounts: [MBAccountInfo]
     
     func isExists(context: NSManagedObjectContext) -> Bool {
-        return !UserBankProfileManager.isFreeId(clientId, context: context)
+        return !UserBankProfileManager.isFreeExternalId(clientId, context: context)
     }
     
     func getUBP(conetxt: NSManagedObjectContext) -> UserBankProfile? {

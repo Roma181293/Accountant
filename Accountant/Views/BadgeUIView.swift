@@ -69,6 +69,26 @@ class BadgeUIView: UIView {
         NSLayoutConstraint.activate([horizontalConstraint, verticalConstraint])
     }
     
+    func exchangeBadge() {
+        label.text = "💹"
+        label.font = UIFont.boldSystemFont(ofSize: 30)
+        //The Gradient subview
+        if gradientView != nil {
+            gradientView.removeFromSuperview()
+        }
+        self.gradientView = GradientView(frame: self.bounds, colorTop: .clear, colorBottom: .clear)
+        self.gradientView.layer.cornerRadius = height/2
+        self.insertSubview(gradientView, at: 0)
+        self.layer.masksToBounds = false
+        
+        //The Label subview
+        gradientView.addSubview(label)
+        let horizontalConstraint = NSLayoutConstraint(item: label, attribute: NSLayoutConstraint.Attribute.centerX, relatedBy: NSLayoutConstraint.Relation.equal, toItem: gradientView, attribute: NSLayoutConstraint.Attribute.centerX, multiplier: 1, constant: 0)
+        let verticalConstraint = NSLayoutConstraint(item: label, attribute: NSLayoutConstraint.Attribute.centerY, relatedBy: NSLayoutConstraint.Relation.equal, toItem: gradientView, attribute: NSLayoutConstraint.Attribute.centerY, multiplier: 1, constant: 0)
+        
+        NSLayoutConstraint.activate([horizontalConstraint, verticalConstraint])
+    }
+    
     func getWidth() -> CGFloat {
         return self.width
     }

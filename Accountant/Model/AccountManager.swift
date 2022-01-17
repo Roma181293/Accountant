@@ -94,6 +94,7 @@ class AccountManager {
     
     private static func fillAccountAttributes(parent: Account?, name : String, type : Int16?, currency : Currency?, keeper: Keeper?, holder: Holder?, subType : Int16? = nil, createdByUser : Bool = true, createDate: Date = Date(), context: NSManagedObjectContext) -> Account {
         let account = Account(context: context)
+        account.id = UUID()
         account.createDate = createDate
         account.createdByUser = createdByUser
         account.modifyDate = createDate
@@ -900,7 +901,7 @@ class AccountManager {
                     
                     var exchangeRate : Double = 1
                     
-                    if let rate =  currencyHistoricalData.exchangeRate(curr: selectedCurrency.code!, to: accountCurrency.code!) {
+                    if let rate =  currencyHistoricalData.exchangeRate(pay: selectedCurrency.code!, forOne: accountCurrency.code!) {
                         exchangeRate = rate
                     }
                     return round(amountInAccountCurrency * exchangeRate * 100) / 100

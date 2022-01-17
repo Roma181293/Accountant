@@ -15,6 +15,7 @@ class TransactionItemManager {
         let createDate = Date()
         
         let item = TransactionItem(context: context)
+        item.id = UUID()
         item.account = account
         item.amount = amount
         item.transaction = transaction

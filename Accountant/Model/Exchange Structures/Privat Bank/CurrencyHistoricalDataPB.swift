@@ -31,22 +31,24 @@ struct CurrencyHistoricalDataPB: Codable, CurrencyHistoricalDataProtocol {
         if exchangeRatesList.isEmpty == false {
             let formatter = DateFormatter()
             formatter.dateFormat = "dd.MM.yyyy"
+//            guard let dateSafe = formatter.date(from: date) else {return nil}
+//            return Calendar.current.startOfDay(for: dateSafe)
             return formatter.date(from: date)
         }
         return nil
     }
     
-    func exchangeRate(curr: String, to curr1 : String) -> Double? {
+    func exchangeRate(pay: String, forOne curr1 : String) -> Double? {
         var rate : Double?
         var rate1 : Double?
-        if curr == "UAH" {
+        if pay == "UAH" {
             rate = 1
         }
         if curr1 == "UAH" {
             rate1 = 1
         }
         for item in self.exchangeRatesList {
-            if item.currency == curr {
+            if item.currency == pay {
                 rate = item.purchaseRateNB
             }
             if item.currency == curr1 {
@@ -54,14 +56,13 @@ struct CurrencyHistoricalDataPB: Codable, CurrencyHistoricalDataProtocol {
             }
         }
         guard let rate11 = rate, let rate21 = rate1 else {return nil}
-        return round(rate21/rate11*1000)/1000
+        return round(rate21/rate11*100000)/100000
     }
     
     func listOfCurrencies() -> [String] {
         var list = [String]()
         exchangeRatesList.forEach({
-            if let currency = $0.currency {
-                list.append(currency)}
+            list.append($0.currency)
         })
         return list
     }
@@ -69,10 +70,28 @@ struct CurrencyHistoricalDataPB: Codable, CurrencyHistoricalDataProtocol {
     func listOfCurrenciesWithDescription() -> [(String,String)] {
         var list = [(String,String)]()
         exchangeRatesList.forEach({
-            if let currency = $0.currency {
-                list.append((currency,""))}
+            list.append(($0.currency,""))
         })
         return list
+    }
+    
+    func getBaseCurrencyCode() -> String? {
+        return "UAH"
+    }
+    
+    func getBaseCurrencyISO4217() -> Int16? {
+        return Int16(baseCurrency)
+    }
+    
+    func getRateList() -> [(amount: Double, currencyCode: String)] {
+        
+        var result : [(amount: Double, currencyCode: String)] = []
+        
+        exchangeRatesList.forEach({
+            result.append(($0.purchaseRateNB, $0.currency))
+        })
+        
+        return result
     }
 }
 

@@ -123,7 +123,7 @@ class SettingsTableViewCell: UITableViewCell {
             iconImangeView.tintColor = .systemOrange
         case .envirement:
             switcher.isHidden = false
-            titleLabel.text = NSLocalizedString("Test mode", comment: "")
+            titleLabel.text = NSLocalizedString(dataItem.rawValue, comment: "")
             
             if CoreDataStack.shared.activeEnviroment() == .prod {
                 switcher.isOn = false
@@ -195,6 +195,12 @@ class SettingsTableViewCell: UITableViewCell {
         case .monobank:
             titleLabel.text = NSLocalizedString(dataItem.rawValue, comment: "")
             badgeView.monoBadge()
+            badgeView.isHidden = false
+            iconImangeView.isHidden = true
+            accessoryType = .disclosureIndicator
+        case .exchangeRates:
+            titleLabel.text = NSLocalizedString(dataItem.rawValue, comment: "")
+            badgeView.exchangeBadge()
             badgeView.isHidden = false
             iconImangeView.isHidden = true
             accessoryType = .disclosureIndicator
@@ -273,13 +279,15 @@ class SettingsTableViewCell: UITableViewCell {
                     try HolderManager.deleteAllHolders(context: context, env:env)
                     try BankAccountManager.deleteAllBankAccounts(context: context, env: env)
                     try UserBankProfileManager.deleteAllUBP(context: context, env: env)
+                    try RateManager.deleteAllRates(context: context, env: env)
+                    try ExchangeManager.deleteAllExchanges(context: context, env: env)
                     try CoreDataStack.shared.saveContext(context)
                     
                     //add testData
                     CurrencyManager.addCurrencies(context: context)
                     guard let currency = try CurrencyManager.getCurrencyForCode("UAH", context: context) else {return}
                     try CurrencyManager.changeAccountingCurrency(old: nil, new: currency, context: context)
-                    AccountManager.addBaseAccountsTest(accountingCurrency: currency, context: context)
+                    try AccountManager.addBaseAccountsTest(accountingCurrency: currency, context: context)
                     try CoreDataStack.shared.saveContext(context)
                 }
                 else if !sender.isOn && CoreDataStack.shared.activeEnviroment() == .test {
@@ -293,6 +301,8 @@ class SettingsTableViewCell: UITableViewCell {
                     try HolderManager.deleteAllHolders(context: context, env:env)
                     try BankAccountManager.deleteAllBankAccounts(context: context, env: env)
                     try UserBankProfileManager.deleteAllUBP(context: context, env: env)
+                    try RateManager.deleteAllRates(context: context, env: env)
+                    try ExchangeManager.deleteAllExchanges(context: context, env: env)
                     try CoreDataStack.shared.saveContext(context)
                     
                     UserProfile.useMultiItemTransaction(false, environment: .test)

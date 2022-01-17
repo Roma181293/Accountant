@@ -35,6 +35,7 @@ class KeeperManager {
         }
         let date = Date()
         let keeper = Keeper(context: context)
+        keeper.id = UUID()
         keeper.createdByUser = createdByUser
         keeper.createDate = date
         keeper.modifiedByUser = createdByUser

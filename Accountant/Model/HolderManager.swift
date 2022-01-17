@@ -35,6 +35,7 @@ class HolderManager {
         }
         let date = Date()
         let holder = Holder(context: context)
+        holder.id = UUID()
         holder.createdByUser = createdByUser
         holder.createDate = date
         holder.modifiedByUser = createdByUser

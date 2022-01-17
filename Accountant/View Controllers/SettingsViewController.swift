@@ -15,11 +15,12 @@ enum SettingsDataSource: String, CaseIterable{
     case offer = "Purchase offer"
     case startAccounting = "Start accounting"
     case auth = "Auth"
-    case envirement = "Envirement"
+    case envirement = "Test mode"
     case accountingCurrency = "Accounting currency"
     case accountsManager = "Account manager"
     case multiItemTransaction = "Multi item transaction"
     case monobank = "Monobank"
+    case exchangeRates = "Exchange rates"
     case importAccounts = "Import account list"
     case importTransactions = "Import transaction list"
     case exportAccounts = "Export account list"
@@ -295,6 +296,9 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
         case .monobank:
             let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
             let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.monobankVC) as! MonobankViewController
+            self.navigationController?.pushViewController(vc, animated: true)
+        case .exchangeRates:
+            let vc = ExchangeTableViewController()
             self.navigationController?.pushViewController(vc, animated: true)
         }
         tableView.deselectRow(at: indexPath, animated: true)

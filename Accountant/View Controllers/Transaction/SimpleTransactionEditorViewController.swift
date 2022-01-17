@@ -626,7 +626,7 @@ class SimpleTransactionEditorViewController: UIViewController {//}, GADFullScree
         else {return}
         
         if useExchangeRateSwich.isOn {
-            guard let currencyHistoricalData = currencyHistoricalData, let rate = currencyHistoricalData.exchangeRate(curr: creditCurrency.code!, to: debitCurrency.code!) else {return}
+            guard let currencyHistoricalData = currencyHistoricalData, let rate = currencyHistoricalData.exchangeRate(pay: creditCurrency.code!, forOne: debitCurrency.code!) else {return}
             print(rate)
             selectedRateCreditToDebit = rate
             creditToDebitExchangeRateLabel.text = "\(creditCurrency.code!)/\(debitCurrency.code!): \(round(rate*10000)/10000)"
@@ -673,15 +673,20 @@ class SimpleTransactionEditorViewController: UIViewController {//}, GADFullScree
     private func addNewTransaction() {
         guard let debit = debit, let credit = credit else {return}
         
+        var comment : String?
+        if commentTextField.text?.isEmpty == false {
+            comment = commentTextField.text
+        }
+        
         if debit.currency == credit.currency {
             if let amountInDebitCurrency = Double(amountInDebitCurrencyTextField.text!.replacingOccurrences(of: ",", with: ".")) {
-                TransactionManager.addTransaction(date: datePicker.date, debit: debit, credit: credit, debitAmount: amountInDebitCurrency, creditAmount: amountInDebitCurrency, comment: commentTextField.text, context: context)
+                TransactionManager.addTransaction(date: datePicker.date, debit: debit, credit: credit, debitAmount: amountInDebitCurrency, creditAmount: amountInDebitCurrency, comment: comment, context: context)
             }
         }
         else {
             if let amountInDebitCurrency = Double(amountInDebitCurrencyTextField.text!.replacingOccurrences(of: ",", with: ".")),
                let amountInCreditCurrency = Double(amountInCreditCurrencyTextField.text!.replacingOccurrences(of: ",", with: ".")) {
-                TransactionManager.addTransaction(date: datePicker.date, debit: debit, credit: credit, debitAmount: amountInDebitCurrency, creditAmount: amountInCreditCurrency, comment: commentTextField.text, context: context)
+                TransactionManager.addTransaction(date: datePicker.date, debit: debit, credit: credit, debitAmount: amountInDebitCurrency, creditAmount: amountInCreditCurrency, comment: comment, context: context)
             }
         }
         

@@ -15,6 +15,7 @@ class TransactionManager {
         let transaction = Transaction(context: context)
         
         let createDate = Date()
+        transaction.id = UUID()
         transaction.createDate = createDate
         transaction.createdByUser = createdByUser
         transaction.modifyDate = createDate
@@ -34,6 +35,7 @@ class TransactionManager {
         let transaction = Transaction(context: context)
         
         let createDate = Date()
+        transaction.id = UUID()
         transaction.createDate = createDate
         transaction.createdByUser = createdByUser
         transaction.modifyDate = createDate
@@ -266,17 +268,18 @@ class TransactionManager {
     }
     
     static func createAndGetEmptyTransaction(date : Date, comment : String? = nil, createdByUser : Bool = true, context: NSManagedObjectContext) -> Transaction {
-            let transaction = Transaction(context: context)
-            
-            let createDate = Date()
-            transaction.createDate = createDate
-            transaction.createdByUser = createdByUser
-            transaction.modifyDate = createDate
-            transaction.modifiedByUser = createdByUser
-            
-            transaction.date = date
-            
-            transaction.comment = comment
+        let transaction = Transaction(context: context)
+        
+        let createDate = Date()
+        transaction.id = UUID()
+        transaction.createDate = createDate
+        transaction.createdByUser = createdByUser
+        transaction.modifyDate = createDate
+        transaction.modifiedByUser = createdByUser
+        
+        transaction.date = date
+        
+        transaction.comment = comment
         return transaction
     }
     
@@ -285,6 +288,7 @@ class TransactionManager {
         let transaction = Transaction(context: context)
         
         let createDate = Date()
+        transaction.id = UUID()
         transaction.createDate = createDate
         transaction.createdByUser = createdByUser
         transaction.modifyDate = createDate

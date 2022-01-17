@@ -24,6 +24,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        GADMobileAds.sharedInstance().start(completionHandler: nil)
         
         //MARK: Loading exchange rates
+        if UserProfile.isAppLaunchedBefore() {
+        ExchangeRatesLoadingService.loadExchangeRates(context: CoreDataStack.shared.persistentContainer.newBackgroundContext())
+        }
         NetworkServices.loadCurrency(date: Date()) { (currencyHistoricalData, error) in
             if let currencyHistoricalData = currencyHistoricalData {
                 DispatchQueue.main.async {

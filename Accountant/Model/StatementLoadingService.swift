@@ -19,7 +19,7 @@ class StatementLoadingService {
         for (index, item) in bankAccounts.enumerated() {
          
             let newContext = CoreDataStack.shared.persistentContainer.newBackgroundContext()
-            guard let ba = BankAccountManager.getBankAccounyWithId(item.id!, context: newContext) else {return}//
+            guard let ba = BankAccountManager.getBankAccountByExternalId(item.externalId!, context: newContext) else {return}//
             
             if Date() > calendar.date(byAdding: .second, value: 60, to: ba.lastLoadDate!)! {
                 
@@ -45,7 +45,7 @@ class StatementLoadingService {
                 print("startDate, endDate", startDate, endDate)
                 
                 NetworkServices.loadStatementsForBankAccount(ba,startDate: startDate, endDate: endDate, compliting: {statments, error in
-                    print("--> Statements successfully loaded for \(ba.account?.path ?? "")")
+                    print("--> Statements successfully loaded for \(ba.account?.path ?? "")", ba.externalId)
                     if let statments = statments {
                         // print("statments.count",statments.count)
                         do{

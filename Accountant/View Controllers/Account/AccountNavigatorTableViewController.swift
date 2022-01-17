@@ -24,9 +24,9 @@ class AccountNavigatorTableViewController: UITableViewController, AccountManager
     var isSwipeAvailable: Bool = true {
         didSet {
             if isSwipeAvailable  && canModifyAccountStructure && account != nil {
-                let newBackButton = UIBarButtonItem(title: "+", style: .plain, target: self, action: #selector(self.addAccount))
-                newBackButton.image = UIImage(systemName: "plus")
-                self.navigationItem.rightBarButtonItem = newBackButton
+                let addButton = UIBarButtonItem(title: "+", style: .plain, target: self, action: #selector(self.addAccount))
+                addButton.image = UIImage(systemName: "plus")
+                self.navigationItem.rightBarButtonItem = addButton
             }
             else {
                 self.navigationItem.rightBarButtonItem = nil

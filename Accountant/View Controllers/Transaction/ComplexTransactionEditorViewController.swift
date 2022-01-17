@@ -412,6 +412,10 @@ class ComplexTransactionEditorViewController: UIViewController{
         dismissKeyboard()
         guard let transaction = transaction else {return}
         
+        if let comment = commentTextField.text {
+            transaction.comment = comment
+        }
+        
         do {
             if isNewTransaction {
                 try TransactionManager.validateTransactionDataBeforeSave(transaction)

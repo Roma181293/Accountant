@@ -65,21 +65,20 @@ class NetworkServices {
                    headers: ["X-Token" : xToken]
         ).responseDecodable(of: MBUserInfo.self) {(response) in
             if let list = response.value {
-                compliting(list, xToken,nil)
+                compliting(list, xToken, nil)
             }
             else {
                 print("ERROR: \(String(describing: response.error?.localizedDescription))")
-                compliting(nil, nil,response.error)
+                compliting(nil, nil, response.error)
             }
         }
     }
 
     static func loadStatementsForBankAccount(_ bankAccount: BankAccount, startDate: Date, endDate: Date, compliting: @escaping ([StatementProtocol]?, Error?) -> Void){
      
-        print("bankAccount.userBankProfile!.xToken!", bankAccount.userBankProfile!.xToken!)
-        
         if bankAccount.userBankProfile?.keeper?.name == "Monobank" {
-            AF.request("https://api.monobank.ua/personal/statement/\(bankAccount.id!)/\(Int(startDate.timeIntervalSince1970))/\(Int(endDate.timeIntervalSince1970))",
+            print("bankAccount.userBankProfile!.xToken!", bankAccount.userBankProfile!.xToken!, "https://api.monobank.ua/personal/statement/\(bankAccount.externalId!)/\(Int(startDate.timeIntervalSince1970))/\(Int(endDate.timeIntervalSince1970))")
+            AF.request("https://api.monobank.ua/personal/statement/\(bankAccount.externalId!)/\(Int(startDate.timeIntervalSince1970))/\(Int(endDate.timeIntervalSince1970))",
                        headers: ["X-Token" : bankAccount.userBankProfile!.xToken!]
             ).responseDecodable(of: [MBStatement].self) {(response) in
                 if let list = response.value {

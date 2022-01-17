@@ -10,7 +10,7 @@ import Foundation
 
 struct CurrencyExchangePB : Codable {
     let baseCurrency : String
-    let currency : String?
+    let currency : String
     let saleRateNB : Double
     let purchaseRateNB : Double
     

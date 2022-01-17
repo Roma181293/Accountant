@@ -9,7 +9,7 @@
 import Foundation
 
 struct CurrencyExhangeNB: Codable {
-    let code : Int
+    let code : Int16
     let txt : String
     let rate : Double
     let currency : String

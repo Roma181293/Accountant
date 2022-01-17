@@ -34,8 +34,8 @@ class CoreDataStack {
 
         container.persistentStoreDescriptions = [productionStoreDescription]
         container.loadPersistentStores(completionHandler: { (_, error) in
-//            guard let error = error as NSError? else { return }
-//            fatalError("###\(#function): Failed to load persistent stores:\(error)")
+            guard let error = error as NSError? else { return }
+            fatalError("###\(#function): Failed to load persistent stores:\(error)")
         })
         container.viewContext.automaticallyMergesChangesFromParent = true
        
@@ -55,8 +55,8 @@ class CoreDataStack {
 
             container.persistentStoreDescriptions = [storeDescription]
             container.loadPersistentStores(completionHandler: { (_, error) in
-//                guard let error = error as NSError? else { return }
-//                fatalError("###\(#function): Failed to load persistent stores:\(error)")
+                guard let error = error as NSError? else { return }
+                fatalError("###\(#function): Failed to load persistent stores:\(error)")
             })
             container.viewContext.automaticallyMergesChangesFromParent = true
            
@@ -88,10 +88,10 @@ class CoreDataStack {
                 UserProfile.setDateOfLastChangesInDB(Date())
             } catch {
                 context.rollback()
-                // Replace this implementation with code to handle the error appropriately.
-                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-//                let nserror = error as NSError
-//                fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+//                 Replace this implementation with code to handle the error appropriately.
+//                 fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+                let nserror = error as NSError
+                fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
             }
         }
     }

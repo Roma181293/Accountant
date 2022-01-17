@@ -59,6 +59,7 @@ class MonobankViewController: UIViewController {
         let label = UILabel()
         label.text = NSLocalizedString("To automatically adding your transactions from the Monobank accounts please enter Token in the field below", comment: "")// + "https://api.monobank.ua"
         label.numberOfLines = 0
+        label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -247,19 +248,9 @@ class MonobankViewController: UIViewController {
         holderButton.widthAnchor.constraint(equalToConstant: 60).isActive = true
         
         mainStackView.addArrangedSubview(bankAccountsTableView)
+        bankAccountsTableView.heightAnchor.constraint(equalToConstant: 300).isActive = true
         
         mainStackView.addArrangedSubview(confirmButton)
-//
-//        mainView.addSubview(bankAccountsTableView)
-//        bankAccountsTableView.topAnchor.constraint(equalTo: consolidatedStackView.bottomAnchor).isActive = true
-//        bankAccountsTableView.leadingAnchor.constraint(equalTo: mainView.leadingAnchor).isActive = true
-//        bankAccountsTableView.trailingAnchor.constraint(equalTo: mainView.trailingAnchor).isActive = true
-        bankAccountsTableView.heightAnchor.constraint(equalToConstant: 300).isActive = true
-//
-//        mainView.addSubview(confirmButton)
-//        confirmButton.bottomAnchor.constraint(equalTo: mainView.bottomAnchor, constant: -20).isActive = true
-//        confirmButton.leadingAnchor.constraint(equalTo: mainView.leadingAnchor).isActive = true
-//        confirmButton.trailingAnchor.constraint(equalTo: mainView.trailingAnchor).isActive = true
         confirmButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
         self.confirmButton.isHidden = true
         
@@ -270,7 +261,6 @@ class MonobankViewController: UIViewController {
         let apiDocTap = UITapGestureRecognizer(target: self, action: #selector(self.aboutApiLabelTapped))
         apiDocLabel.isUserInteractionEnabled = true
         apiDocLabel.addGestureRecognizer(apiDocTap)
-        
     }
     
     @objc func getUserInfo() {
@@ -370,10 +360,9 @@ class MonobankViewController: UIViewController {
                 //Check exchange rate value
                 if currency != accountingCurrency {
                     guard let currencyHistoricalData = currencyHistoricalData,
-                          let rate = currencyHistoricalData.exchangeRate(curr: currency.code!, to: accountingCurrency.code!)
+                          let rate = currencyHistoricalData.exchangeRate(pay: accountingCurrency.code!, forOne: currency.code!)
                     else {return}
                     exchangeRate = rate
-                    print("exchangeRate", exchangeRate)
                 }
                 
                 let newMoneyAccount = try AccountManager.createAndGetAccount(parent: moneyRootAccount, name: item.maskedPan.last!, type: moneyRootAccount.type, currency: currency, keeper: keeper, holder:holder, subType: AccountSubType.creditCard.rawValue, context: context)

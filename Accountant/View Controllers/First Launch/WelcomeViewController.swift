@@ -146,6 +146,8 @@ class WelcomeViewController: UIViewController {
             try HolderManager.deleteAllHolders(context: context, env:env)
             try BankAccountManager.deleteAllBankAccounts(context: context, env: env)
             try UserBankProfileManager.deleteAllUBP(context: context, env: env)
+            try RateManager.deleteAllRates(context: context, env: env)
+            try ExchangeManager.deleteAllExchanges(context: context, env: env)
             try CoreDataStack.shared.saveContext(context)
             
             //add test Data
@@ -154,7 +156,7 @@ class WelcomeViewController: UIViewController {
             try CurrencyManager.changeAccountingCurrency(old: nil, new: currency, context: context)
             try KeeperManager.createTestKeepers(context: context)
             try HolderManager.createTestHolders(context: context)
-            AccountManager.addBaseAccountsTest(accountingCurrency: currency, context: context)
+            try AccountManager.addBaseAccountsTest(accountingCurrency: currency, context: context)
             try CoreDataStack.shared.saveContext(context)
             
             let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
