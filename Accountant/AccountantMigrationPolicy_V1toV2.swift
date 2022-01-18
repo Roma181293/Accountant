@@ -18,7 +18,7 @@ class AccountantMigrationPolicy_V1toV2: NSEntityMigrationPolicy {
            let destResults = manager.destinationInstances(forEntityMappingName: mapping.name, sourceInstances: [sInstance])
             if let destResults = destResults.last {
                 destResults.setValue(UUID(), forKey: "id")
-                destResults.setValue(false, forKey: "modifiedBuUser")
+                destResults.setValue(false, forKey: "modifiedByUser")
                 destResults.setValue(Date(), forKey: "modifyDate")
             }
         }
@@ -34,7 +34,7 @@ class AccountantMigrationPolicy_V1toV2: NSEntityMigrationPolicy {
                          destResults.setValue($0.iso4217, forKey: "iso4217")
                      }
                      destResults.setValue(UUID(), forKey: "id")
-                     destResults.setValue(false, forKey: "modifiedBuUser")
+                     destResults.setValue(false, forKey: "modifiedByUser")
                      destResults.setValue(Date(), forKey: "modifyDate")
                  }
             })
@@ -45,7 +45,7 @@ class AccountantMigrationPolicy_V1toV2: NSEntityMigrationPolicy {
              if let destResults = destResults.last {
                  destResults.setValue(UUID(), forKey: "id")
                  destResults.setValue(true, forKey: "applied")
-                 destResults.setValue(false, forKey: "modifiedBuUser")
+                 destResults.setValue(false, forKey: "modifiedByUser")
                  destResults.setValue(Date(), forKey: "modifyDate")
              }
             
@@ -54,7 +54,7 @@ class AccountantMigrationPolicy_V1toV2: NSEntityMigrationPolicy {
             let destResults = manager.destinationInstances(forEntityMappingName: mapping.name, sourceInstances: [sInstance])
              if let destResults = destResults.last {
                  destResults.setValue(UUID(), forKey: "id")
-                 destResults.setValue(false, forKey: "modifiedBuUser")
+                 destResults.setValue(false, forKey: "modifiedByUser")
                  destResults.setValue(Date(), forKey: "modifyDate")
              }
         }
