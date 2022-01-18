@@ -28,16 +28,18 @@ class CoreDataStack {
 //        let testStoreDescription = NSPersistentStoreDescription(url: testStoreURL)
 //        testStoreDescription.configuration = "Test"
 
-        let productionStoreURL = defaultDirectoryURL.appendingPathComponent("Production.sqlite")
-        let productionStoreDescription = NSPersistentStoreDescription(url: productionStoreURL)
-        productionStoreDescription.configuration = "Production"
+        let storeURL = defaultDirectoryURL.appendingPathComponent("Production.sqlite")
+        let storeDescription = NSPersistentStoreDescription(url: storeURL)
+        storeDescription.configuration = "Production"
+        storeDescription.shouldMigrateStoreAutomatically = true
+        storeDescription.shouldInferMappingModelAutomatically = false
 
-        container.persistentStoreDescriptions = [productionStoreDescription]
+        container.persistentStoreDescriptions = [storeDescription]
         container.loadPersistentStores(completionHandler: { (_, error) in
             guard let error = error as NSError? else { return }
             fatalError("###\(#function): Failed to load persistent stores:\(error)")
         })
-        container.viewContext.automaticallyMergesChangesFromParent = true
+//        container.viewContext.automaticallyMergesChangesFromParent = true
        
         return container
     }()

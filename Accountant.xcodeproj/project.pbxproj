@@ -117,6 +117,8 @@
 		2BDB10A126DACD9200D8FE08 /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BDB10A026DACD9200D8FE08 /* Protocols.swift */; };
 		2BE2593326BC8E6D0025301F /* AppErrorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE2593226BC8E6D0025301F /* AppErrorProtocol.swift */; };
 		2BE2955E2746E5CB003A1B36 /* HolderTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE2955D2746E5CB003A1B36 /* HolderTableViewController.swift */; };
+		2BEEC18927960136000B210F /* MappingModel_V1toV2.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 2BEEC18827960136000B210F /* MappingModel_V1toV2.xcmappingmodel */; };
+		2BEEC18B2796017F000B210F /* AccountantMigrationPolicy_V1toV2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BEEC18A2796017F000B210F /* AccountantMigrationPolicy_V1toV2.swift */; };
 		38318A9FD81C28716622F93F /* Pods_Accountant.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97FD10DCF67B198D7BE0F270 /* Pods_Accountant.framework */; };
 /* End PBXBuildFile section */
 
@@ -260,6 +262,8 @@
 		2BDB10A026DACD9200D8FE08 /* Protocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocols.swift; sourceTree = "<group>"; };
 		2BE2593226BC8E6D0025301F /* AppErrorProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppErrorProtocol.swift; sourceTree = "<group>"; };
 		2BE2955D2746E5CB003A1B36 /* HolderTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HolderTableViewController.swift; sourceTree = "<group>"; };
+		2BEEC18827960136000B210F /* MappingModel_V1toV2.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = MappingModel_V1toV2.xcmappingmodel; sourceTree = "<group>"; };
+		2BEEC18A2796017F000B210F /* AccountantMigrationPolicy_V1toV2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountantMigrationPolicy_V1toV2.swift; sourceTree = "<group>"; };
 		2BFCE545274ABADF0070C35F /* Accountant 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Accountant 2.xcdatamodel"; sourceTree = "<group>"; };
 		97FD10DCF67B198D7BE0F270 /* Pods_Accountant.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Accountant.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A51B83286AAA2CAF601DDC80 /* Pods-Accountant.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Accountant.debug.xcconfig"; path = "Target Support Files/Pods-Accountant/Pods-Accountant.debug.xcconfig"; sourceTree = "<group>"; };
@@ -563,6 +567,8 @@
 			children = (
 				2B7AB3FA278D4BC800974156 /* Errors */,
 				2B949BB72665B4040033383A /* Accountant.xcdatamodeld */,
+				2BEEC18827960136000B210F /* MappingModel_V1toV2.xcmappingmodel */,
+				2BEEC18A2796017F000B210F /* AccountantMigrationPolicy_V1toV2.swift */,
 				2B949BAE2665B4040033383A /* AppDelegate.swift */,
 				2B1FEA5D266BEFA500BF53BD /* Model */,
 				2B949BB02665B4040033383A /* SceneDelegate.swift */,
@@ -859,6 +865,7 @@
 				2B3523632746B50300399CF6 /* KeeperTableViewController.swift in Sources */,
 				2B1FEBB6266EE45F00BF53BD /* PreTransactionTableViewCell.swift in Sources */,
 				2B7AB3FE278D4C3E00974156 /* CurrencyError.swift in Sources */,
+				2BEEC18B2796017F000B210F /* AccountantMigrationPolicy_V1toV2.swift in Sources */,
 				2B6561F72775F8C400150B35 /* MBAccountInfo.swift in Sources */,
 				2B3A260626EA6DD90033E746 /* AccountManagerController.swift in Sources */,
 				2B6561F92775F92700150B35 /* MBStatement.swift in Sources */,
@@ -867,6 +874,7 @@
 				2B1FEB18266CBA6000BF53BD /* AccountNavigatorTableViewController.swift in Sources */,
 				2B1FEB6F266D752200BF53BD /* AccountData.swift in Sources */,
 				2B1FEADC266CAEC200BF53BD /* AccountEditorWithInitialBalanceViewController.swift in Sources */,
+				2BEEC18927960136000B210F /* MappingModel_V1toV2.xcmappingmodel in Sources */,
 				2B1FEB4C266D25EE00BF53BD /* PurchaseOfferViewController.swift in Sources */,
 				2B949BAF2665B4040033383A /* AppDelegate.swift in Sources */,
 				2B949BB12665B4040033383A /* SceneDelegate.swift in Sources */,
