@@ -81,6 +81,7 @@ class HolderManager {
     static func getMe(context: NSManagedObjectContext) throws -> Holder? {
         let holderFetchRequest : NSFetchRequest<Holder> = NSFetchRequest<Holder>(entityName: Holder.entity().name!)
         holderFetchRequest.sortDescriptors = [NSSortDescriptor(key: "createDate", ascending: true)]
+        holderFetchRequest.predicate = NSPredicate(format: "createdByUser = false")
         let holders = try context.fetch(holderFetchRequest)
         if holders.isEmpty {
             return nil

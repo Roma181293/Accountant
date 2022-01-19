@@ -387,6 +387,7 @@ class ComplexTransactionEditorViewController: UIViewController{
     private func addEmptyTransactionItem(type: AccountingMethod){
         let transactionItem = TransactionItem(context: context)
         let date = Date()
+        transactionItem.id = UUID()
         transactionItem.createDate = date
         transactionItem.modifyDate = date
         transactionItem.createdByUser = true
@@ -399,6 +400,7 @@ class ComplexTransactionEditorViewController: UIViewController{
     private func addEmptyTransaction() {
         transaction = Transaction(context: context)
         transaction?.date = Date()
+        transaction?.id = UUID()
         let createDate = Date()
         transaction?.createDate = createDate
         transaction?.modifyDate = createDate
@@ -684,8 +686,8 @@ extension ComplexTransactionEditorViewController: AccountRequestor {
     }
     
     func setAmount(transactionItem: TransactionItem, amount: Double) {
-            transactionItem.amount = amount
-            transactionItem.modifyDate = Date()
-            transactionItem.modifiedByUser = true
+        transactionItem.amount = amount
+        transactionItem.modifyDate = Date()
+        transactionItem.modifiedByUser = true
     }
 }

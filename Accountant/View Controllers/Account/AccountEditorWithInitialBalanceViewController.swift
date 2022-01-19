@@ -41,14 +41,16 @@ class AccountEditorWithInitialBalanceViewController: UIViewController {
         }
     }
     
-    var keeper : Keeper! {
+    var keeper : Keeper? {
         didSet{
+            guard let keeper = keeper else {return}
             keeperButton.setTitle(keeper.name, for: .normal)
         }
     }
     
-    var holder: Holder! {
+    var holder: Holder? {
         didSet {
+            guard let holder = holder else {return}
             holderButton.setTitle(holder.icon! + "-" + holder.name!, for: .normal)
         }
     }
@@ -695,6 +697,8 @@ class AccountEditorWithInitialBalanceViewController: UIViewController {
         nameLabel.textColor = .systemGray
         currencyLabel.isHidden = true
         currencyButton.isHidden = true
+        exchangeRateLabel.isHidden = true
+        exchangeRateTextField.isHidden = true
     }
     
     private func configureUIForCurrency() {

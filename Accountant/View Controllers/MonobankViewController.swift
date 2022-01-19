@@ -117,6 +117,7 @@ class MonobankViewController: UIViewController {
     
     let tokenTextField: UITextField = {
         let textField = UITextField()
+        textField.tag = 1000
         textField.layer.cornerRadius = 5
         textField.layer.borderColor = UIColor.lightGray.cgColor
         textField.layer.borderWidth = 0.5
@@ -136,7 +137,7 @@ class MonobankViewController: UIViewController {
     
     let holderLabel: UILabel = {
         let label = UILabel()
-        label.text = NSLocalizedString("Holder:", comment: "")
+        label.text = NSLocalizedString("Holder", comment: "")
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -189,10 +190,8 @@ class MonobankViewController: UIViewController {
             self.holder = holder
         }
         
-        holderButton.isHidden = true
-        holderLabel.isHidden = true
-        confirmButton.isHidden = true
-        
+        tokenTextField.delegate = self
+       
         //MARK:- Register cell for TableViews
         bankAccountsTableView.register(BankAccountTableViewCell.self, forCellReuseIdentifier: Constants.Cell.bankAccountCell)
         
@@ -200,11 +199,23 @@ class MonobankViewController: UIViewController {
         bankAccountsTableView.delegate = self
         bankAccountsTableView.dataSource = self
         
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
+        view.addGestureRecognizer(tap)
+        
         getDataButton.addTarget(self, action: #selector(self.getUserInfo), for: .touchUpInside)
         confirmButton.addTarget(self, action: #selector(self.createAccounts), for: .touchUpInside)
         holderButton.addTarget(self, action: #selector(self.selectHolder), for: .touchUpInside)
         
+        setupUI()
+    }
+    
+    private func setupUI(){
         self.view.addSubview(mainView)
+        
+        holderButton.isHidden = true
+        holderLabel.isHidden = true
+        confirmButton.isHidden = true
+        
         mainView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 10).isActive = true
         mainView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -10).isActive = true
         mainView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20).isActive = true
@@ -248,7 +259,7 @@ class MonobankViewController: UIViewController {
         holderButton.widthAnchor.constraint(equalToConstant: 60).isActive = true
         
         mainStackView.addArrangedSubview(bankAccountsTableView)
-        bankAccountsTableView.heightAnchor.constraint(equalToConstant: 300).isActive = true
+        bankAccountsTableView.heightAnchor.constraint(equalToConstant: 200).isActive = true
         
         mainStackView.addArrangedSubview(confirmButton)
         confirmButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
@@ -262,6 +273,7 @@ class MonobankViewController: UIViewController {
         apiDocLabel.isUserInteractionEnabled = true
         apiDocLabel.addGestureRecognizer(apiDocTap)
     }
+    
     
     @objc func getUserInfo() {
         if let xTokenStr = tokenTextField.text, !xTokenStr.isEmpty {
@@ -475,6 +487,16 @@ class MonobankViewController: UIViewController {
         let webVC = WebViewController(url: url!, configuration: config)
         self.present(webVC, animated: true, completion: nil)
     }
+    
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
+    
+    func textFieldShouldReturn(_ textField : UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
 }
 
 
