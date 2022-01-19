@@ -392,8 +392,14 @@ class ComplexTransactionEditorViewController: UIViewController{
         transactionItem.modifyDate = date
         transactionItem.createdByUser = true
         transactionItem.modifiedByUser = true
-        transactionItem.amount = 0
         transactionItem.type = type.rawValue
+        
+        if let transaction = transaction, transaction.items!.count == 1 {
+            transactionItem.amount = (transaction.items!.allObjects as! [TransactionItem]).first!.amount
+        }
+        else {
+            transactionItem.amount = 0
+        }
         transaction?.addToItems(transactionItem)
     }
     
