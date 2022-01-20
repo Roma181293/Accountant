@@ -28,6 +28,7 @@ class BankAccountManager {
         guard isFreeExternalId(externalId, context: context) else {throw BankAccountError.alreadyExist(name: strBin)}
         
         let bankAccount = BankAccount(context: context)
+        bankAccount.active = true
         bankAccount.iban = iban
         bankAccount.strBin = strBin
         bankAccount.bin = bin ?? 0
@@ -78,6 +79,36 @@ class BankAccountManager {
     
     static func createMBBankAccount(_ mbba: MBAccountInfo, userBankProfile: UserBankProfile, context: NSManagedObjectContext) {
         createBankAccount(userBankProfile: userBankProfile, iban: mbba.iban, strBin: mbba.maskedPan.first, bin: nil, externalId: mbba.id, lastTransactionDate: Calendar.current.date(byAdding: .day, value: -30, to: Date())!, context: context)
+    }
+    
+    static func findNotValidAccountCandidateForLinking(for bankAccount: BankAccount) -> [Account] {
+        guard let account = bankAccount.account else {return []}
+        var siblings = bankAccount.account?.parent?.directChildren?.allObjects as! [Account]
+        siblings = siblings.filter{
+            if $0.subType != account.subType || $0.currency != account.currency || $0 == account {
+                return true
+            }
+            return false
+        }
+        return siblings
+    }
+    
+    static func changeLinkedAccount(to account: Account, for bankAccount: BankAccount) throws {
+        guard account.type == bankAccount.account?.type else {return}
+        guard account.subType == bankAccount.account?.subType else {throw BankAccountError.cantChangeLinkedAccountCozSubType}
+        guard account.currency == bankAccount.account?.currency else {throw BankAccountError.cantChangeLinkedAccountCozCurrency}
+        bankAccount.account = account
+    }
+    
+    func changeActiveStatusFor(_ bankAccount: BankAccount, context: NSManagedObjectContext) {
+        if bankAccount.active {
+            bankAccount.active = false
+        }
+        else {
+            bankAccount.active = true
+            
+            bankAccount.userBankProfile?.active = true
+        }
     }
     
     //USE ONLY TO CLEAR DATA IN TEST ENVIRONMENT

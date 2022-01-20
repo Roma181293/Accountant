@@ -71,6 +71,7 @@ struct Constants {
         
         static let bankAccountCell = "BankAccountCell_ID"
         static let exchangeCell = "ExchangeCell_ID"
+        static let userBankProfileCell = "UserBankProfileCell_ID"
     }
     
     struct Segue {

@@ -54,11 +54,24 @@ class UserBankProfileManager {
         else {
             let ubp = UserBankProfile(context: context)
             ubp.name = mbui.name
+            ubp.active = true
             ubp.xToken = xToken
             ubp.id = UUID()
             ubp.externalId = mbui.clientId
             ubp.keeper = try? KeeperManager.getKeeperForName(NSLocalizedString("Monobank", comment: ""), context: context)
             return ubp
+        }
+    }
+    
+    func changeActiveStatusFor(_ ubp: UserBankProfile, context: NSManagedObjectContext) {
+        if ubp.active {
+            ubp.active = false
+            (ubp.bankAccounts?.allObjects as! [BankAccount]).forEach({
+                $0.active = false
+            })
+        }
+        else {
+            ubp.active = true
         }
     }
     

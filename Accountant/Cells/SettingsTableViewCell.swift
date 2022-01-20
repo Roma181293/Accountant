@@ -192,12 +192,12 @@ class SettingsTableViewCell: UITableViewCell {
             iconImangeView.image = UIImage(systemName: "info.circle.fill")
             iconImangeView.tintColor = .systemRed
             accessoryType = .none
-        case .monobank:
+        case .bankProfiles:
             titleLabel.text = NSLocalizedString(dataItem.rawValue, comment: "")
-            badgeView.monoBadge()
-            badgeView.isHidden = false
-            iconImangeView.isHidden = true
+            iconImangeView.image = UIImage(systemName: "building.columns.fill")
+            iconImangeView.tintColor = .orange
             accessoryType = .disclosureIndicator
+            
         case .exchangeRates:
             titleLabel.text = NSLocalizedString(dataItem.rawValue, comment: "")
             badgeView.exchangeBadge()

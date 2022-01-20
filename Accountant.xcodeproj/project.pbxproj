@@ -94,6 +94,8 @@
 		2B7AB40C278D4D5500974156 /* UserBankProfileError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B7AB40B278D4D5500974156 /* UserBankProfileError.swift */; };
 		2B7AB40E278D50EA00974156 /* TransactionItemError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B7AB40D278D50EA00974156 /* TransactionItemError.swift */; };
 		2B80B3C82738328C0037439B /* CurrencyTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B80B3C72738328C0037439B /* CurrencyTableViewController.swift */; };
+		2B8172EF2798B0EC00E6CB20 /* UserBankProfileTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B8172EE2798B0EC00E6CB20 /* UserBankProfileTableViewController.swift */; };
+		2B8172F12798B7B200E6CB20 /* BankAccountTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B8172F02798B7B200E6CB20 /* BankAccountTableViewController.swift */; };
 		2B85D855278F013B0042858B /* ExchangeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B85D854278F013A0042858B /* ExchangeManager.swift */; };
 		2B85D857278F020D0042858B /* RateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B85D856278F020D0042858B /* RateManager.swift */; };
 		2B85D859278F480C0042858B /* ExchangeRatesLoadingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B85D858278F480C0042858B /* ExchangeRatesLoadingService.swift */; };
@@ -232,6 +234,8 @@
 		2B7AB40B278D4D5500974156 /* UserBankProfileError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserBankProfileError.swift; sourceTree = "<group>"; };
 		2B7AB40D278D50EA00974156 /* TransactionItemError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionItemError.swift; sourceTree = "<group>"; };
 		2B80B3C72738328C0037439B /* CurrencyTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyTableViewController.swift; sourceTree = "<group>"; };
+		2B8172EE2798B0EC00E6CB20 /* UserBankProfileTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserBankProfileTableViewController.swift; sourceTree = "<group>"; };
+		2B8172F02798B7B200E6CB20 /* BankAccountTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankAccountTableViewController.swift; sourceTree = "<group>"; };
 		2B85D854278F013A0042858B /* ExchangeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeManager.swift; sourceTree = "<group>"; };
 		2B85D856278F020D0042858B /* RateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RateManager.swift; sourceTree = "<group>"; };
 		2B85D858278F480C0042858B /* ExchangeRatesLoadingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeRatesLoadingService.swift; sourceTree = "<group>"; };
@@ -371,6 +375,8 @@
 				2B1407A726F5D49B00114B95 /* WebViewController.swift */,
 				2B00CAF82746095700821FE0 /* MonobankViewController.swift */,
 				2B85D85A278F63FC0042858B /* ExchangeTableViewController.swift */,
+				2B8172EE2798B0EC00E6CB20 /* UserBankProfileTableViewController.swift */,
+				2B8172F02798B7B200E6CB20 /* BankAccountTableViewController.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -848,6 +854,7 @@
 				2B1FEA3F266BEDD400BF53BD /* UserProfile.swift in Sources */,
 				2B1FEB98266EDE5000BF53BD /* SettingsViewController.swift in Sources */,
 				2B1FEA4F266BEE6700BF53BD /* CurrencyHistoricalDataPB.swift in Sources */,
+				2B8172F12798B7B200E6CB20 /* BankAccountTableViewController.swift in Sources */,
 				2B2E6D1D26DD960D004A9680 /* TransactionItemTextField.swift in Sources */,
 				2B3A260426E95C780033E746 /* AccessCheckManager.swift in Sources */,
 				2B490DDB26E4B92600967E11 /* OfferUIView.swift in Sources */,
@@ -882,6 +889,7 @@
 				2B1407A826F5D49B00114B95 /* WebViewController.swift in Sources */,
 				2B1FEAF7266CB2C200BF53BD /* CurrencyTableViewCell.swift in Sources */,
 				2B1FEB7B266EC39800BF53BD /* AnalyticsTableViewController.swift in Sources */,
+				2B8172EF2798B0EC00E6CB20 /* UserBankProfileTableViewController.swift in Sources */,
 				2B4976FC26DBE90B00147EAA /* ComplexTransactionTableViewCell.swift in Sources */,
 				2B7AB408278D4D1000974156 /* MonoBankError.swift in Sources */,
 				2B7AB402278D4C9800974156 /* HolderError.swift in Sources */,

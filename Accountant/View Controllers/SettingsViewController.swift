@@ -19,7 +19,7 @@ enum SettingsDataSource: String, CaseIterable{
     case accountingCurrency = "Accounting currency"
     case accountsManager = "Account manager"
     case multiItemTransaction = "Multi item transaction"
-    case monobank = "Monobank"
+    case bankProfiles = "Bank profiles"
     case exchangeRates = "Exchange rates"
     case importAccounts = "Import account list"
     case importTransactions = "Import transaction list"
@@ -293,10 +293,13 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
             let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
             let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.instructionViewController) as! InstructionViewController
             self.present(vc, animated: true, completion: nil)
-        case .monobank:
-            let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-            let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.monobankVC) as! MonobankViewController
+        case .bankProfiles:
+            let vc = UserBankProfileTableViewController()
             self.navigationController?.pushViewController(vc, animated: true)
+            
+//            let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+//            let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.monobankVC) as! MonobankViewController
+//            self.navigationController?.pushViewController(vc, animated: true)
         case .exchangeRates:
             let vc = ExchangeTableViewController()
             self.navigationController?.pushViewController(vc, animated: true)
