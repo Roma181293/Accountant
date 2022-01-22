@@ -39,7 +39,7 @@ class CoreDataStack {
             guard let error = error as NSError? else { return }
             fatalError("###\(#function): Failed to load persistent stores:\(error)")
         })
-//        container.viewContext.automaticallyMergesChangesFromParent = true
+        container.viewContext.automaticallyMergesChangesFromParent = true
        
         return container
     }()

@@ -147,7 +147,7 @@ class AccountManager {
         }
         
         //Adding "Other" account for cases when parent containts transactions
-        if let parent = parent, !AccountManager.isFreeFromTransactionItems(account: parent) {
+        if let parent = parent, AccountManager.isFreeFromTransactionItems(account: parent) == false, AccountManager.isReservedAccountName(name) == false {
             var newAccount = getSubAccountWith(name: AccountsNameLocalisationManager.getLocalizedAccountName(.other1), in: parent)
             if newAccount == nil {
             newAccount = try createAndGetAccount(parent: parent, name: AccountsNameLocalisationManager.getLocalizedAccountName(.other1) , type : type, currency : currency, keeper: keeper, holder: holder, subType : subType, createdByUser : false, createDate: createDate, context: context)

@@ -50,14 +50,14 @@ class TransactionManager {
             TransactionItemManager.createTransactionItem(transaction: transaction, type: .debit, account: account, amount: statment.getAmount(), createdByUser:  createdByUser, createDate: createDate, context: context)
             if let creditAccount = findAccountCandidateBeta(comment: comment, account: account, method: .credit) {
                 TransactionItemManager.createTransactionItem(transaction: transaction, type: .credit, account: creditAccount, amount: statment.getAmount(), createdByUser:  createdByUser, createDate: createDate, context: context)
-                transaction.applied = true
+                transaction.applied = false
             }
         }
         else {
             TransactionItemManager.createTransactionItem(transaction: transaction, type: .credit, account: account, amount: statment.getAmount(), createdByUser:  createdByUser, createDate: createDate, context: context)
             if let debitAccount = findAccountCandidateBeta(comment: comment, account: account, method: .debit) {
                 TransactionItemManager.createTransactionItem(transaction: transaction, type: .debit, account: debitAccount, amount: statment.getAmount(), createdByUser:  createdByUser, createDate: createDate, context: context)
-                transaction.applied = true
+                transaction.applied = false
             }
         }
         
@@ -390,6 +390,7 @@ class TransactionManager {
                 preTransaction.transaction.modifyDate = Date()
                 preTransaction.transaction.createdByUser = true
                 preTransaction.transaction.modifiedByUser = true
+                preTransaction.transaction.id = UUID()
                 preTransactionList.append(preTransaction)
             }
 
@@ -421,6 +422,7 @@ class TransactionManager {
             }
 
             transactionItem.transaction = preTransaction.transaction
+            transactionItem.id = UUID()
             transactionItem.createDate = Date()
             transactionItem.modifyDate = Date()
             transactionItem.createdByUser = true
@@ -440,9 +442,9 @@ class TransactionManager {
             formatter.dateFormat = "yyyy-MM-dd hh:mm:ss z"
             for transaction in storedTransactions {
                 
-                let startIndex =  transaction.id.debugDescription.index(transaction.id.debugDescription.firstIndex(of: "x")!, offsetBy: 1)
-                let endIndex = transaction.id.debugDescription.index(transaction.id.debugDescription.firstIndex(of: ")")!, offsetBy: -1)
-                let transactionId = transaction.id.debugDescription[startIndex...endIndex]
+//                let startIndex =  transaction.id.debugDescription.index(transaction.id.debugDescription.firstIndex(of: "x")!, offsetBy: 1)
+//                let endIndex = transaction.id.debugDescription.index(transaction.id.debugDescription.firstIndex(of: ")")!, offsetBy: -1)
+                let transactionId = transaction.id!//.debugDescription[startIndex...endIndex]
                 
                 for item in transaction.items?.allObjects as! [TransactionItem] {
                     export += "\n"

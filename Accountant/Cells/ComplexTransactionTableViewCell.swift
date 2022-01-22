@@ -117,7 +117,7 @@ class ComplexTransactionTableViewCell: UITableViewCell {
     
     let commentLabel: UILabel = {
         let label = UILabel()
-        label.text = "  " + NSLocalizedString("Comment:", comment: "")
+        label.text = "  " + NSLocalizedString("Comment:", comment: "") + "  "
         label.textColor = UIColor(named: "blackGrayColor")
         label.textAlignment = .left
         label.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
@@ -192,9 +192,8 @@ class ComplexTransactionTableViewCell: UITableViewCell {
         //MARK:- Comment
         mainStackView.addArrangedSubview(commentStackView)
         commentStackView.addArrangedSubview(commentLabel)
-        commentLabel.widthAnchor.constraint(equalToConstant: labelWidth * 1.6).isActive = true
         commentLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
-        
+        commentLabel.window?.canResizeToFitContent = true
         commentStackView.addArrangedSubview(commentContentLabel)
     }
     
@@ -273,7 +272,7 @@ class ComplexTransactionTableViewCell: UITableViewCell {
         
         setMainView()
 
-        if items.count >= 2 {
+        if items.count >= 2 && transaction.applied == true {
             guard items.filter({$0.type == AccountingMethod.debit.rawValue})[0].account != nil &&
                     items.filter({$0.type == AccountingMethod.credit.rawValue})[0].account != nil else {return}
             let debitRootName = AccountManager.getRootAccountFor(items.filter({$0.type == AccountingMethod.debit.rawValue})[0].account!).name

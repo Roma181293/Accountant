@@ -77,7 +77,7 @@
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="type" attributeType="Integer 16" usesScalarValueType="YES"/>
         <relationship name="accounts" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Account" inverseName="keeper" inverseEntity="Account"/>
-        <relationship name="userBankProfiles" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UserBankProfile" inverseName="keeper" inverseEntity="UserBankProfile"/>
+        <relationship name="userBankProfiles" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="UserBankProfile" inverseName="keeper" inverseEntity="UserBankProfile"/>
     </entity>
     <entity name="Rate" representedClassName="Rate" syncable="YES" codeGenerationType="class">
         <attribute name="amount" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
