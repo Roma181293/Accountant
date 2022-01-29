@@ -14,6 +14,9 @@ class BankAccountTableViewController: UITableViewController {
     
     var userBankProfile: UserBankProfile!
     
+    var bankAccount: BankAccount!
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -41,12 +44,18 @@ class BankAccountTableViewController: UITableViewController {
         let cell = UITableViewCell(style: .subtitle , reuseIdentifier: Constants.Cell.userBankProfileCell)
 //        let cell = tableView.dequeueReusableCell(withIdentifier: Constants.Cell.userBankProfileCell, for: indexPath)
         let ba = (userBankProfile.bankAccounts?.allObjects as! [BankAccount])[indexPath.row]
+        if ba.active {
+            cell.textLabel?.textColor = .darkText
+        }
+        else {
+            cell.textLabel?.textColor = .systemGray
+        }
         cell.textLabel?.text = (ba.strBin ?? "") + " (" + (ba.account?.currency?.code ?? "") + ")"
         cell.detailTextLabel?.text = ba.account?.path
         return cell
     }
     
-    var bankAccount: BankAccount!
+    
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
       
     }
@@ -67,11 +76,14 @@ class BankAccountTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        
+        let selectedBankAccount = (self.userBankProfile.bankAccounts?.allObjects as! [BankAccount])[indexPath.row]
+        
         let changeLink = UIContextualAction(style: .normal, title: NSLocalizedString("Relink",comment: "")) { (contAct, view, complete) in
             
             let alert = UIAlertController(title: NSLocalizedString("Relink",comment: ""), message: NSLocalizedString("Do you really want to change linked account?", comment: ""), preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: NSLocalizedString("Yes",comment: ""), style: .default, handler: { (_) in
-                self.bankAccount = (self.userBankProfile.bankAccounts?.allObjects as! [BankAccount])[indexPath.row]
+                self.bankAccount = selectedBankAccount
                 
                 let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
                 let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.accountNavigatorTableViewController) as! AccountNavigatorTableViewController
@@ -90,7 +102,71 @@ class BankAccountTableViewController: UITableViewController {
         }
         changeLink.backgroundColor = .systemBlue
         changeLink.image = UIImage(systemName: "link")
-        return UISwipeActionsConfiguration(actions: [changeLink])
+        
+        
+        
+        let changeActiveStatus = UIContextualAction(style: .normal, title: nil) { (contAct, view, complete) in
+            var title = NSLocalizedString("Activate", comment: "")
+            var message = NSLocalizedString("Do you want activate this bank account in the app?",comment: "")
+            if selectedBankAccount.active {
+                title = NSLocalizedString("Deactivate", comment: "")
+                message = NSLocalizedString("Do you want deactivate this bank account in the app?",comment: "")
+            }
+            
+            let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: NSLocalizedString("Yes",comment: ""), style: .default, handler: { (_) in
+                do{
+                    BankAccountManager.changeActiveStatusFor(selectedBankAccount, context: self.context)
+                    try CoreDataStack.shared.saveContext(self.context)
+                    tableView.reloadData()
+                }
+                catch let error {
+                    self.errorHandler(error: error)
+                }
+            }))
+            alert.addAction(UIAlertAction(title: NSLocalizedString("Cancel",comment: ""), style: .cancel))
+            self.present(alert, animated: true, completion: nil)
+            
+            complete(true)
+        }
+      
+        if selectedBankAccount.active {
+            changeActiveStatus.backgroundColor = .systemGray
+            changeActiveStatus.image = UIImage(systemName: "eye.slash")
+        }
+        else {
+            changeActiveStatus.backgroundColor = .systemIndigo
+            changeActiveStatus.image = UIImage(systemName: "eye")
+        }
+        
+        
+        let delete = UIContextualAction(style: .normal, title: nil) { (contAct, view, complete) in
+           
+            let alert = UIAlertController(title: NSLocalizedString("Delete", comment: ""), message: NSLocalizedString("Do you want delete this bank account in the app? All transactions related to this bank account will be kept. Please enter \"MyBudget: Finance keeper\" to confirm this action", comment: ""), preferredStyle: .alert)
+            
+            alert.addTextField()
+            alert.addAction(UIAlertAction(title: NSLocalizedString("Yes",comment: ""), style: .default, handler: { [weak alert] (_) in
+                do{ guard let alert = alert,
+                          let textFields = alert.textFields,
+                          let textField = textFields.first
+                    else {return}
+                    try BankAccountManager.deleteBankAccount(selectedBankAccount, consentText: textField.text!, context: self.context)
+                    try CoreDataStack.shared.saveContext(self.context)
+                    tableView.reloadData()
+                }
+                catch let error {
+                    self.errorHandler(error: error)
+                }
+            }))
+            alert.addAction(UIAlertAction(title: NSLocalizedString("Cancel",comment: ""), style: .cancel))
+            self.present(alert, animated: true, completion: nil)
+            
+            complete(true)
+        }
+        delete.backgroundColor = .systemRed
+        delete.image = UIImage(systemName: "trash")
+        
+        return UISwipeActionsConfiguration(actions: [changeLink,changeActiveStatus,delete])
     }
 }
 

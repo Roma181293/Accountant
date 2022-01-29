@@ -150,6 +150,16 @@ class InstructionViewController: UIViewController, UIScrollViewDelegate {
                                         GuideItem(image: "trash", backgroungColor: UIColor.systemRed, text: NSLocalizedString("Delete selected item", comment: "")),
                                         GuideItem(image: "plus", backgroungColor: UIColor.systemGreen, text: NSLocalizedString("Add transaction item", comment: ""))
                                        ])
+                         ,Guide(title: NSLocalizedString("Monobank sync", comment: ""),
+                                image: nil,
+                                body: NSLocalizedString("Now you can sync your Monobank transaction", comment: ""),
+                                items: [GuideItem(emoji:"🤖", text: NSLocalizedString("Easy to use. No need to add thansactions manually", comment: "")),
+                                        GuideItem(emoji:"👨‍🎓", text: NSLocalizedString("First time you need specify which category this transaction relates. But for the next time we automatically fill this category/account. You just need to check this transaction and confirm correctness", comment: "")),
+                                        GuideItem(emoji:"🔒", text: NSLocalizedString("All bank data hosts only on your device locally", comment: "")),
+                                        GuideItem(emoji:"🥺", text: NSLocalizedString("Privacy. You can delete all data related to your bank", comment: "")),
+                                        
+                                        
+                                       ])
                          //                         ,Guide(title: NSLocalizedString("Settings", comment: ""),
                          //                                image: nil,
                          //                                body: nil,

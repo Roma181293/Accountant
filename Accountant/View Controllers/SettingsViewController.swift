@@ -147,8 +147,8 @@ class SettingsViewController: UIViewController {
             if (item == .envirement && UserProfile.isAppLaunchedBefore() == false)
                 || (item == .startAccounting && UserProfile.isAppLaunchedBefore() == true)
                 || (item == .auth && isUserHasPaidAccess == false)
-                || item == .importAccounts
-                || item == .exportAccounts
+//                || item == .importAccounts
+//                || item == .exportAccounts
             {}
             else {
                 dataSource.append(item)

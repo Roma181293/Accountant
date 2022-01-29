@@ -21,6 +21,8 @@ class StatementLoadingService {
             let newContext = CoreDataStack.shared.persistentContainer.newBackgroundContext()
             guard let ba = BankAccountManager.getBankAccountByExternalId(item.externalId!, context: newContext) else {return}//
             
+            guard ba.active == true else {return}
+            
             if Date() > calendar.date(byAdding: .second, value: 60, to: ba.lastLoadDate!)! {
                 
                 ba.locked = true

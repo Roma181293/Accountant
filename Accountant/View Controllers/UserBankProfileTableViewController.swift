@@ -80,6 +80,76 @@ class UserBankProfileTableViewController: UITableViewController {
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
+    
+    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        
+        let selectedUBP = fetchedResultsController.object(at: indexPath) as UserBankProfile
+   
+        
+        let changeActiveStatus = UIContextualAction(style: .normal, title: nil) { (contAct, view, complete) in
+            var title = NSLocalizedString("Activate", comment: "")
+            var message = NSLocalizedString("Do you want activate this bank profile in the app? Please note that you need manually activate each bank account for this profile",comment: "")
+            if selectedUBP.active {
+                title = NSLocalizedString("Deactivate", comment: "")
+                message = NSLocalizedString("Do you want deactivate this bank profile in the app?",comment: "")
+            }
+            
+            let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: NSLocalizedString("Yes",comment: ""), style: .default, handler: { (_) in
+                do{
+                    UserBankProfileManager.changeActiveStatusFor(selectedUBP,context: self.context)
+                    try CoreDataStack.shared.saveContext(self.context)
+                    tableView.reloadData()
+                }
+                catch let error {
+                    self.errorHandler(error: error)
+                }
+            }))
+            alert.addAction(UIAlertAction(title: NSLocalizedString("Cancel",comment: ""), style: .cancel))
+            self.present(alert, animated: true, completion: nil)
+            
+            complete(true)
+        }
+      
+        if selectedUBP.active {
+            changeActiveStatus.backgroundColor = .systemGray
+            changeActiveStatus.image = UIImage(systemName: "eye.slash")
+        }
+        else {
+            changeActiveStatus.backgroundColor = .systemIndigo
+            changeActiveStatus.image = UIImage(systemName: "eye")
+        }
+        
+        let delete = UIContextualAction(style: .normal, title: nil) { (contAct, view, complete) in
+           
+            let alert = UIAlertController(title: NSLocalizedString("Delete", comment: ""), message: NSLocalizedString("Do you want delete this bank profile in the app? All transactions related to this bank profile will be kept. Please enter \"MyBudget: Finance keeper\" to confirm this action", comment: ""), preferredStyle: .alert)
+            
+            alert.addTextField()
+            alert.addAction(UIAlertAction(title: NSLocalizedString("Yes",comment: ""), style: .default, handler: { [weak alert] (_) in
+                do{ guard let alert = alert,
+                          let textFields = alert.textFields,
+                          let textField = textFields.first
+                    else {return}
+                    try UserBankProfileManager.deleteUBP(selectedUBP, consentText: textField.text!, context: self.context)
+                    try CoreDataStack.shared.saveContext(self.context)
+                    tableView.reloadData()
+                }
+                catch let error {
+                    self.errorHandler(error: error)
+                }
+            }))
+            alert.addAction(UIAlertAction(title: NSLocalizedString("Cancel",comment: ""), style: .cancel))
+            self.present(alert, animated: true, completion: nil)
+            
+            complete(true)
+        }
+        delete.backgroundColor = .systemRed
+        delete.image = UIImage(systemName: "trash")
+        
+        return UISwipeActionsConfiguration(actions: [delete,changeActiveStatus])
+    }
+
+    
     func errorHandler(error : Error) {
         if error is AppError {
             let alert = UIAlertController(title: NSLocalizedString("Warning", comment: ""), message: error.localizedDescription, preferredStyle: .alert)

@@ -98,9 +98,12 @@ class BankAccountManager {
         guard account.subType == bankAccount.account?.subType else {throw BankAccountError.cantChangeLinkedAccountCozSubType}
         guard account.currency == bankAccount.account?.currency else {throw BankAccountError.cantChangeLinkedAccountCozCurrency}
         bankAccount.account = account
+        account.keeper = bankAccount.userBankProfile?.keeper
+        account.modifyDate = Date()
+        account.modifiedByUser = true
     }
     
-    func changeActiveStatusFor(_ bankAccount: BankAccount, context: NSManagedObjectContext) {
+    static func changeActiveStatusFor(_ bankAccount: BankAccount, context: NSManagedObjectContext) {
         if bankAccount.active {
             bankAccount.active = false
         }
@@ -108,6 +111,15 @@ class BankAccountManager {
             bankAccount.active = true
             
             bankAccount.userBankProfile?.active = true
+        }
+    }
+    
+    static func deleteBankAccount(_ bankAccount: BankAccount, consentText: String, context: NSManagedObjectContext) throws {
+        if consentText == "MyBudget: Finance keeper" {
+            context.delete(bankAccount)
+        }
+        else {
+            throw UserBankProfileError.invalidConsentText(consentText)
         }
     }
     

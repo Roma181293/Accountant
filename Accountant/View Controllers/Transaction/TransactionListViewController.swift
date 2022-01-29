@@ -79,14 +79,12 @@ class TransactionListViewController: UIViewController{
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         
-//        syncStatmentsData()
-        
         self.tabBarController?.navigationItem.title = NSLocalizedString("Transactions", comment: "")
         if isUserHasPaidAccess == false {
             self.tabBarController?.navigationItem.rightBarButtonItem = UIBarButtonItem(title: NSLocalizedString("Get PRO", comment: ""), style: .plain, target: self, action: #selector(self.showPurchaseOfferVC))
         }
         
-        self.tabBarController?.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "clock.arrow.2.circlepath"), style: .plain, target: self, action: #selector(self.syncStatmentsData))
+        self.tabBarController?.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "arrow.triangle.2.circlepath"), style: .plain, target: self, action: #selector(self.syncStatmentsData))
         
         context.rollback()   //??? needs to avoid fatal error when user add transactionItem wo account and click <Back
         fetchData()

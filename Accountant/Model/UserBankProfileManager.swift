@@ -63,7 +63,7 @@ class UserBankProfileManager {
         }
     }
     
-    func changeActiveStatusFor(_ ubp: UserBankProfile, context: NSManagedObjectContext) {
+    static func changeActiveStatusFor(_ ubp: UserBankProfile, context: NSManagedObjectContext) {
         if ubp.active {
             ubp.active = false
             (ubp.bankAccounts?.allObjects as! [BankAccount]).forEach({
@@ -72,6 +72,18 @@ class UserBankProfileManager {
         }
         else {
             ubp.active = true
+        }
+    }
+    
+    static func deleteUBP(_ ubp: UserBankProfile, consentText: String, context: NSManagedObjectContext) throws {
+        if consentText == "MyBudget: Finance keeper" {
+            try (ubp.bankAccounts?.allObjects as! [BankAccount]).forEach({
+                try BankAccountManager.deleteBankAccount($0, consentText: consentText, context: context)
+            })
+            context.delete(ubp)
+        }
+        else {
+            throw UserBankProfileError.invalidConsentText(consentText)
         }
     }
     
