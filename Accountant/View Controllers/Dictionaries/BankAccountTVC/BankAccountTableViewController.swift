@@ -45,7 +45,7 @@ class BankAccountTableViewController: UITableViewController {
 //        let cell = tableView.dequeueReusableCell(withIdentifier: Constants.Cell.userBankProfileCell, for: indexPath)
         let ba = (userBankProfile.bankAccounts?.allObjects as! [BankAccount])[indexPath.row]
         if ba.active {
-            cell.textLabel?.textColor = .darkText
+            cell.textLabel?.textColor = .label
         }
         else {
             cell.textLabel?.textColor = .systemGray
@@ -62,13 +62,16 @@ class BankAccountTableViewController: UITableViewController {
     
     func errorHandler(error : Error) {
         if error is AppError {
-            let alert = UIAlertController(title: NSLocalizedString("Warning", comment: ""), message: error.localizedDescription, preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default, handler: nil))
+            let alert = UIAlertController(title: NSLocalizedString("Warning", tableName: Constants.Localizable.bankAccountTVC, comment: ""),
+                                          message: error.localizedDescription,
+                                          preferredStyle: .alert)
+            
+            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", tableName: Constants.Localizable.bankAccountTVC, comment: ""), style: .default, handler: nil))
             self.present(alert, animated: true, completion: nil)
         }
         else {
-            let alert = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: error.localizedDescription, preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default, handler: { [self](_) in
+            let alert = UIAlertController(title: NSLocalizedString("Error", tableName: Constants.Localizable.bankAccountTVC, comment: ""), message: error.localizedDescription, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", tableName: Constants.Localizable.bankAccountTVC, comment: ""), style: .default, handler: { [self](_) in
                 self.navigationController?.popViewController(animated: true)
             }))
             self.present(alert, animated: true, completion: nil)
@@ -79,10 +82,14 @@ class BankAccountTableViewController: UITableViewController {
         
         let selectedBankAccount = (self.userBankProfile.bankAccounts?.allObjects as! [BankAccount])[indexPath.row]
         
-        let changeLink = UIContextualAction(style: .normal, title: NSLocalizedString("Relink",comment: "")) { (contAct, view, complete) in
+        let changeLink = UIContextualAction(style: .normal, title: NSLocalizedString("Relink",tableName: Constants.Localizable.bankAccountTVC, value: "Relink", comment: "")) { (contAct, view, complete) in
             
-            let alert = UIAlertController(title: NSLocalizedString("Relink",comment: ""), message: NSLocalizedString("Do you really want to change linked account?", comment: ""), preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: NSLocalizedString("Yes",comment: ""), style: .default, handler: { (_) in
+            let alert = UIAlertController(
+                title: NSLocalizedString("Relink",tableName: Constants.Localizable.bankAccountTVC, value: "Error", comment: ""),
+                message: NSLocalizedString("Do you really want to change linked account?",tableName: Constants.Localizable.bankAccountTVC, value: "Do you really want to change linked account?", comment: ""),
+                preferredStyle: .alert)
+            
+            alert.addAction(UIAlertAction(title: NSLocalizedString("Yes", tableName: Constants.Localizable.bankAccountTVC, comment: ""), style: .default, handler: { (_) in
                 self.bankAccount = selectedBankAccount
                 
                 let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
@@ -95,7 +102,7 @@ class BankAccountTableViewController: UITableViewController {
                 vc.excludeAccountList = BankAccountManager.findNotValidAccountCandidateForLinking(for: self.bankAccount)
                 self.navigationController?.pushViewController(vc, animated: true)
             }))
-            alert.addAction(UIAlertAction(title: NSLocalizedString("Cancel",comment: ""), style: .cancel))
+            alert.addAction(UIAlertAction(title: NSLocalizedString("Cancel", tableName: Constants.Localizable.bankAccountTVC, comment: ""), style: .cancel))
             self.present(alert, animated: true, completion: nil)
             
             complete(true)
@@ -107,14 +114,14 @@ class BankAccountTableViewController: UITableViewController {
         
         let changeActiveStatus = UIContextualAction(style: .normal, title: nil) { (contAct, view, complete) in
             var title = NSLocalizedString("Activate", comment: "")
-            var message = NSLocalizedString("Do you want activate this bank account in the app?",comment: "")
+            var message = NSLocalizedString("Do you want activate this bank account in the app?", tableName: Constants.Localizable.bankAccountTVC, comment: "")
             if selectedBankAccount.active {
                 title = NSLocalizedString("Deactivate", comment: "")
-                message = NSLocalizedString("Do you want deactivate this bank account in the app?",comment: "")
+                message = NSLocalizedString("Do you want deactivate this bank account in the app?", tableName: Constants.Localizable.bankAccountTVC, comment: "")
             }
             
             let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: NSLocalizedString("Yes",comment: ""), style: .default, handler: { (_) in
+            alert.addAction(UIAlertAction(title: NSLocalizedString("Yes", tableName: Constants.Localizable.bankAccountTVC, comment: ""), style: .default, handler: { (_) in
                 do{
                     BankAccountManager.changeActiveStatusFor(selectedBankAccount, context: self.context)
                     try CoreDataStack.shared.saveContext(self.context)
@@ -124,7 +131,7 @@ class BankAccountTableViewController: UITableViewController {
                     self.errorHandler(error: error)
                 }
             }))
-            alert.addAction(UIAlertAction(title: NSLocalizedString("Cancel",comment: ""), style: .cancel))
+            alert.addAction(UIAlertAction(title: NSLocalizedString("Cancel", tableName: Constants.Localizable.bankAccountTVC, comment: ""), style: .cancel))
             self.present(alert, animated: true, completion: nil)
             
             complete(true)
@@ -142,10 +149,10 @@ class BankAccountTableViewController: UITableViewController {
         
         let delete = UIContextualAction(style: .normal, title: nil) { (contAct, view, complete) in
            
-            let alert = UIAlertController(title: NSLocalizedString("Delete", comment: ""), message: NSLocalizedString("Do you want delete this bank account in the app? All transactions related to this bank account will be kept. Please enter \"MyBudget: Finance keeper\" to confirm this action", comment: ""), preferredStyle: .alert)
+            let alert = UIAlertController(title: NSLocalizedString("Delete", tableName: Constants.Localizable.bankAccountTVC, comment: ""), message: NSLocalizedString("Do you want delete this bank account in the app? All transactions related to this bank account will be kept. Please enter \"MyBudget: Finance keeper\" to confirm this action", tableName: Constants.Localizable.bankAccountTVC, comment: ""), preferredStyle: .alert)
             
             alert.addTextField()
-            alert.addAction(UIAlertAction(title: NSLocalizedString("Yes",comment: ""), style: .default, handler: { [weak alert] (_) in
+            alert.addAction(UIAlertAction(title: NSLocalizedString("Yes", tableName: Constants.Localizable.bankAccountTVC, comment: ""), style: .default, handler: { [weak alert] (_) in
                 do{ guard let alert = alert,
                           let textFields = alert.textFields,
                           let textField = textFields.first
@@ -158,7 +165,7 @@ class BankAccountTableViewController: UITableViewController {
                     self.errorHandler(error: error)
                 }
             }))
-            alert.addAction(UIAlertAction(title: NSLocalizedString("Cancel",comment: ""), style: .cancel))
+            alert.addAction(UIAlertAction(title: NSLocalizedString("Cancel", tableName: Constants.Localizable.bankAccountTVC, comment: ""), style: .cancel))
             self.present(alert, animated: true, completion: nil)
             
             complete(true)

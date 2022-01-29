@@ -1,0 +1,20 @@
+/*
+  UserBankProfileTVCLocalizable.strings
+  Accountant
+
+  Created by Roman Topchii on 29.01.2022.
+  
+*/
+
+"Activate" = "Активація";
+"Bank profiles" = "Банківські профілі";
+"Cancel" = "Закрити";
+"Deactivate" = "Деактивація";
+"Delete" = "Видалити";
+"Do you want activate this bank profile in the app? Please note that you need manually activate each bank account for this profile" = "Ви дійсно хочете активувати банківський профіль у додатку? Активацію банківських рахунків потрібно виконати вручну";
+"Do you want deactivate this bank profile in the app?" = "Ви дійсно хочете деактивувати банківський профіль у додатку? Разом з ним деактивуються всі пов'язані банківські рахунки у додатку. Виписка по не активним банківським рахункам не завантажується";
+"Do you want delete this bank profile in the app? All transactions related to this bank profile will be kept. Please enter \"MyBudget: Finance keeper\" to confirm this action" = "Ви дійсно хочете видалити банківський профіль з додатку? Всі операції пов'язані з цим банківським профілем залишаться. Будь ласка введіть \"MyBudget: Finance keeper\" для підтвердження операції";
+"Error" = "Помилка";
+"OK" = "OK";
+"Warning" = "Увага";
+"Yes" = "Так";

@@ -1,0 +1,32 @@
+/*
+  SettingsVCLocalizable.strings
+  Accountant
+
+  Created by Roman Topchii on 29.01.2022.
+  
+*/
+
+"Account manager" = "Account manager";
+"Accounting currency" = "Accounting currency";
+"App version" = "App version";
+"Auth" = "Auth";
+"Bank profiles" = "Bank profiles";
+"Error" = "Error";
+"Exchange rates" = "Exchange rates";
+"Export account list" = "Export account list";
+"Export transaction list" = "Export transaction list";
+"Import account list" = "Import account list";
+"Import transaction list" = "Import transaction list";
+"Multi item transaction" = "Multi item transaction";
+"OK" = "OK";
+"Privacy policy" = "Privacy policy";
+"Purchase offer" = "Purchase offer";
+"Settings" = "Settings";
+"Start accounting" = "Start accounting";
+"Terms of use" = "Terms of use";
+"User guides" = "User guides";
+"Get PRO access" = "Get PRO access";
+"Pin code" = "Pin code";
+"PRO access" = "PRO access";
+"Test mode" = "Test mode";
+"till" = "till";

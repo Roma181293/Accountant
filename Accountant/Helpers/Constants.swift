@@ -11,6 +11,12 @@ import Charts
 
 struct Constants {
     
+    struct Localizable {
+        static let settingsVC = "SettingsVCLocalizable"
+        static let bankAccountTVC = "BankAccountTVCLocalizable"
+        static let userBankProfileTVC = "UserBankProfileTVCLocalizable"
+    }
+    
     struct Storyboard {
         static let welcomeViewController = "WelcomeVC_ID"
         static let startAccountingViewController = "StartAccountingVC_ID"

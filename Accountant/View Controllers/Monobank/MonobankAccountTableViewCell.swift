@@ -1,5 +1,5 @@
 //
-//  BankAccountTableViewCell.swift
+//  MonobankAccountTableViewCell.swift
 //  Accountant
 //
 //  Created by Roman Topchii on 18.12.2021.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class BankAccountTableViewCell: UITableViewCell {
+class MonobankAccountTableViewCell: UITableViewCell {
 
     let mainStackView : UIStackView = {
         let stackView = UIStackView()

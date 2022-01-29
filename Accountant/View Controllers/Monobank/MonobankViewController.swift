@@ -193,7 +193,7 @@ class MonobankViewController: UIViewController {
         tokenTextField.delegate = self
        
         //MARK:- Register cell for TableViews
-        bankAccountsTableView.register(BankAccountTableViewCell.self, forCellReuseIdentifier: Constants.Cell.bankAccountCell)
+        bankAccountsTableView.register(MonobankAccountTableViewCell.self, forCellReuseIdentifier: Constants.Cell.bankAccountCell)
         
         //MARK:- TableView delegates
         bankAccountsTableView.delegate = self
@@ -507,9 +507,9 @@ extension MonobankViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        var cell = BankAccountTableViewCell()
+        var cell = MonobankAccountTableViewCell()
         if let userInfo = userInfo  {
-            cell = tableView.dequeueReusableCell(withIdentifier: Constants.Cell.bankAccountCell, for: indexPath) as! BankAccountTableViewCell
+            cell = tableView.dequeueReusableCell(withIdentifier: Constants.Cell.bankAccountCell, for: indexPath) as! MonobankAccountTableViewCell
             let account = userInfo.accounts[indexPath.row]
             let isAdded = userInfo.isExists(context: CoreDataStack.shared.persistentContainer.viewContext)
             if !isAdded {

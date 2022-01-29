@@ -81,7 +81,7 @@ class SettingsViewController: UIViewController {
         super.viewWillAppear(true)
         refreshDataSet()
      
-        self.tabBarController?.navigationItem.title = NSLocalizedString("Settings", comment: "")
+        self.tabBarController?.navigationItem.title =  NSLocalizedString("Settings", tableName: Constants.Localizable.settingsVC, bundle: Bundle.main, value: "Settings", comment: "")
         reloadProAccessData()
     }
     
@@ -107,7 +107,7 @@ class SettingsViewController: UIViewController {
               let bundle = dictionary["CFBundleVersion"] as? String
         else {return}
         
-        versionLabel.text = "\(NSLocalizedString("App version", comment: "")) \(version) (\(bundle))"
+        versionLabel.text = "\(NSLocalizedString("App version", tableName: Constants.Localizable.settingsVC, value: "App version", comment: "")) \(version) (\(bundle))"
     }
     
     @objc func environmentDidChange(){
@@ -163,9 +163,9 @@ class SettingsViewController: UIViewController {
     }
     
     func errorHandler(error: Error) {
-        var title = NSLocalizedString("Error", comment: "")
+        var title = NSLocalizedString("Error", tableName: Constants.Localizable.settingsVC, value: "Error", comment: "")
         let alert = UIAlertController(title: title, message: error.localizedDescription, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default))
+        alert.addAction(UIAlertAction(title: NSLocalizedString("OK", tableName: Constants.Localizable.settingsVC, value: "OK", comment: ""), style: .default))
         self.present(alert, animated: true, completion: nil)
     }
 }

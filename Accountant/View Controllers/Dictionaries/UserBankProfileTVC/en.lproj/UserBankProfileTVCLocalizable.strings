@@ -1,0 +1,20 @@
+/*
+  UserBankProfileTVCLocalizable.strings
+  Accountant
+
+  Created by Roman Topchii on 29.01.2022.
+  
+*/
+
+"Activate" = "Activate";
+"Bank profiles" = "Bank profiles";
+"Cancel" = "Cancel";
+"Deactivate" = "Deactivate";
+"Delete" = "Delete";
+"Do you want activate this bank profile in the app? Please note that you need manually activate each bank account for this profile" = "Do you want activate this bank profile in the app? Please note that you need manually activate each bank account for this profile";
+"Do you want deactivate this bank profile in the app?" = "Do you want deactivate this bank profile in the app? Please note that all related bank accounts will be deactivated. Statements doesn't loads for inactive bank accounts";
+"Do you want delete this bank profile in the app? All transactions related to this bank profile will be kept. Please enter \"MyBudget: Finance keeper\" to confirm this action" = "Do you want delete this bank profile from the app? All transactions related to this bank profile will be kept. Please enter \"MyBudget: Finance keeper\" to confirm this action";
+"Error" = "Error";
+"OK" = "OK";
+"Warning" = "Warning";
+"Yes" = "Yes";

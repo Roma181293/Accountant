@@ -1,0 +1,13 @@
+/*
+  MonobankVCLocalizable.strings
+  Accountant
+
+  Created by Roman Topchii on 29.01.2022.
+  
+*/
+
+"Already added" = "Вже додано";
+"Balance" = "Баланс";
+"Credit limit" = "Кредитний ліміт";
+"Unknown currency" = "Невідома валюта";
+"Will be adding" = "Буде доданий";

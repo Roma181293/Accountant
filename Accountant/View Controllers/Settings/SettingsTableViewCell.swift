@@ -73,14 +73,14 @@ class SettingsTableViewCell: UITableViewCell {
         detailLabel.text = nil
         activityIndicator.isHidden = true
         accessoryType = .none
-        
+        titleLabel.text = NSLocalizedString(dataItem.rawValue, tableName: Constants.Localizable.settingsVC, value: dataItem.rawValue, comment: "")
         switch dataItem {
         case .offer:
             if delegate.isUserHasPaidAccess {
-                titleLabel.text = NSLocalizedString("PRO access", comment: "")
+                titleLabel.text = NSLocalizedString("PRO access", tableName: Constants.Localizable.settingsVC, value: "PRO access", comment: "")
             }
             else {
-                titleLabel.text = NSLocalizedString("Get PRO access", comment: "")
+                titleLabel.text = NSLocalizedString("Get PRO access", tableName: Constants.Localizable.settingsVC, value: "Get PRO access", comment: "")
             }
             if delegate.isUserHasPaidAccess && delegate.proAccessExpirationDate != nil {
                 let formatter = DateFormatter()
@@ -106,7 +106,7 @@ class SettingsTableViewCell: UITableViewCell {
                     iconImangeView.image = UIImage(systemName: "touchid")
                 }
                 else if context.biometryType == .none{
-                    titleLabel.text = "Secure code"
+                    titleLabel.text = NSLocalizedString("Pin code", tableName: Constants.Localizable.settingsVC, value: "Pin code", comment: "")
                     iconImangeView.image = UIImage(systemName: "lock.fill")
                 }
                 
@@ -123,8 +123,6 @@ class SettingsTableViewCell: UITableViewCell {
             iconImangeView.tintColor = .systemOrange
         case .envirement:
             switcher.isHidden = false
-            titleLabel.text = NSLocalizedString(dataItem.rawValue, comment: "")
-            
             if CoreDataStack.shared.activeEnviroment() == .prod {
                 switcher.isOn = false
             }
@@ -134,7 +132,6 @@ class SettingsTableViewCell: UITableViewCell {
             iconImangeView.image = UIImage(systemName: "gamecontroller")
             iconImangeView.tintColor = .systemYellow
         case .accountingCurrency:
-            titleLabel.text = NSLocalizedString(dataItem.rawValue, comment: "")
             if let currency = CurrencyManager.getAccountingCurrency(context: delegate.context) {
                 detailLabel.text = currency.code!
             }
@@ -145,67 +142,53 @@ class SettingsTableViewCell: UITableViewCell {
             iconImangeView.tintColor = .systemGreen
 //            accessoryType = .disclosureIndicator
         case .accountsManager:
-            titleLabel.text = NSLocalizedString(dataItem.rawValue, comment: "")
             iconImangeView.image = UIImage(systemName: "list.bullet.indent")
             iconImangeView.tintColor = .systemRed
             accessoryType = .disclosureIndicator
         case.multiItemTransaction:
             switcher.isHidden = false
-            titleLabel.text = NSLocalizedString(dataItem.rawValue, comment: "")
             iconImangeView.image = UIImage(systemName: "list.number")
             iconImangeView.tintColor = .blue
             switcher.isOn = UserProfile.isUseMultiItemTransaction(environment: delegate.environment)
             accessoryType = .none
         case .importTransactions:
-            titleLabel.text = NSLocalizedString(dataItem.rawValue, comment: "")
             iconImangeView.image = UIImage(systemName: "square.and.arrow.down.on.square")
             iconImangeView.tintColor = .systemIndigo
         case .importAccounts:
-            titleLabel.text = NSLocalizedString(dataItem.rawValue, comment: "")
             iconImangeView.image = UIImage(systemName: "tray.and.arrow.down")
             iconImangeView.tintColor = .systemTeal
         case .exportTransactions:
-            titleLabel.text = NSLocalizedString(dataItem.rawValue, comment: "")
             iconImangeView.image = UIImage(systemName: "square.and.arrow.up.on.square")
             iconImangeView.tintColor = .systemPurple
         case .exportAccounts:
-            titleLabel.text = NSLocalizedString(dataItem.rawValue, comment: "")
             iconImangeView.image = UIImage(systemName: "tray.and.arrow.up")
             iconImangeView.tintColor = .cyan
         case .termsOfUse:
-            titleLabel.text = NSLocalizedString(dataItem.rawValue, comment: "")
             iconImangeView.image = UIImage(systemName: "doc")
             iconImangeView.tintColor = .systemBlue
             accessoryType = .disclosureIndicator
         case .privacyPolicy:
-            titleLabel.text = NSLocalizedString(dataItem.rawValue, comment: "")
             iconImangeView.image = UIImage(systemName: "lock.shield.fill")
             iconImangeView.tintColor = .systemBlue
             accessoryType = .disclosureIndicator
         case .startAccounting:
-            titleLabel.text = NSLocalizedString(dataItem.rawValue, comment: "")
             iconImangeView.image = UIImage(systemName: "paperplane.fill")
             iconImangeView.tintColor = .systemYellow
             accessoryType = .disclosureIndicator
         case .userGuides:
-            titleLabel.text = NSLocalizedString(dataItem.rawValue, comment: "")
             iconImangeView.image = UIImage(systemName: "info.circle.fill")
             iconImangeView.tintColor = .systemRed
             accessoryType = .none
         case .bankProfiles:
-            titleLabel.text = NSLocalizedString(dataItem.rawValue, comment: "")
             iconImangeView.image = UIImage(systemName: "building.columns.fill")
             iconImangeView.tintColor = .orange
             accessoryType = .disclosureIndicator
-            
         case .exchangeRates:
-            titleLabel.text = NSLocalizedString(dataItem.rawValue, comment: "")
             badgeView.exchangeBadge()
             badgeView.isHidden = false
             iconImangeView.isHidden = true
             accessoryType = .disclosureIndicator
         }
-        
         
         contentView.addSubview(iconImangeView)
         iconImangeView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10).isActive = true
