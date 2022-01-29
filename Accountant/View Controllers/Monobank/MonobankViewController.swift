@@ -57,7 +57,7 @@ class MonobankViewController: UIViewController {
     
     let titleLabel : UILabel = {
         let label = UILabel()
-        label.text = NSLocalizedString("To automatically adding your transactions from the Monobank accounts please enter Token in the field below", comment: "")// + "https://api.monobank.ua"
+        label.text = NSLocalizedString("To automatically adding your transactions from the Monobank accounts please enter Token in the field below", tableName: Constants.Localizable.monobankVC, comment: "")// + "https://api.monobank.ua"
         label.numberOfLines = 0
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -67,7 +67,7 @@ class MonobankViewController: UIViewController {
     let getTokenLabel: UILabel = {
         let titleLabel = UILabel()
         titleLabel.textAlignment = .center
-        titleLabel.text = NSLocalizedString("Get token", comment: "")
+        titleLabel.text = NSLocalizedString("Get token", tableName: Constants.Localizable.monobankVC, comment: "")
         titleLabel.textColor = UIColor.lightGray
         titleLabel.font = UIFont.systemFont(ofSize: 12.0)
         titleLabel.lineBreakMode = .byWordWrapping
@@ -79,7 +79,7 @@ class MonobankViewController: UIViewController {
     let apiDocLabel: UILabel = {
         let titleLabel = UILabel()
         titleLabel.textAlignment = .center
-        titleLabel.text = NSLocalizedString("API documentation", comment: "")
+        titleLabel.text = NSLocalizedString("API documentation", tableName: Constants.Localizable.monobankVC, comment: "")
         titleLabel.textColor = UIColor.lightGray
         titleLabel.font = UIFont.systemFont(ofSize: 12.0)
         titleLabel.lineBreakMode = .byWordWrapping
@@ -110,7 +110,7 @@ class MonobankViewController: UIViewController {
     
     let tokenLabel: UILabel = {
         let label = UILabel()
-        label.text = NSLocalizedString("Token", comment: "")
+        label.text = NSLocalizedString("Token", tableName: Constants.Localizable.monobankVC, comment: "")
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -137,7 +137,7 @@ class MonobankViewController: UIViewController {
     
     let holderLabel: UILabel = {
         let label = UILabel()
-        label.text = NSLocalizedString("Holder", comment: "")
+        label.text = NSLocalizedString("Holder", tableName: Constants.Localizable.monobankVC, comment: "")
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -157,7 +157,7 @@ class MonobankViewController: UIViewController {
         button.layer.cornerRadius = 5
         button.backgroundColor = .systemGray5
         button.setTitleColor(.systemBlue, for: .normal)
-        button.setTitle(NSLocalizedString("Get data", comment: ""), for: .normal)
+        button.setTitle(NSLocalizedString("Get data", tableName: Constants.Localizable.monobankVC, comment: ""), for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -173,7 +173,7 @@ class MonobankViewController: UIViewController {
         button.layer.cornerRadius = 5
         button.backgroundColor = .systemGray5
         button.setTitleColor(.systemBlue, for: .normal)
-        button.setTitle(NSLocalizedString("Add accounts", comment: ""), for: .normal)
+        button.setTitle(NSLocalizedString("Add accounts", tableName: Constants.Localizable.monobankVC, comment: ""), for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -182,7 +182,7 @@ class MonobankViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.navigationItem.title = NSLocalizedString("Monobank", comment: "")
+        self.navigationItem.title = NSLocalizedString("Monobank", tableName: Constants.Localizable.monobankVC, comment: "")
         
         getCurrencyExchangeRate()
         
@@ -312,15 +312,15 @@ class MonobankViewController: UIViewController {
             })
         }
         else {
-            let alert = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("Please enter Token", comment: ""), preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default, handler: nil))
+            let alert = UIAlertController(title: NSLocalizedString("Error", tableName: Constants.Localizable.monobankVC, comment: ""), message: NSLocalizedString("Please enter Token", tableName: Constants.Localizable.monobankVC, comment: ""), preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", tableName: Constants.Localizable.monobankVC, comment: ""), style: .default, handler: nil))
             self.present(alert, animated: true, completion: nil)
         }
     }
     
     private func tokenDidUpdate() {
-        let alert = UIAlertController(title: NSLocalizedString("Warning", comment: ""), message: NSLocalizedString("Token has been successfully updated", comment: ""), preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default, handler: nil))
+        let alert = UIAlertController(title: NSLocalizedString("Warning", tableName: Constants.Localizable.monobankVC, comment: ""), message: NSLocalizedString("Token has been successfully updated", comment: ""), preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: NSLocalizedString("OK", tableName: Constants.Localizable.monobankVC, comment: ""), style: .default, handler: nil))
         self.present(alert, animated: true, completion: nil)
     }
     
@@ -457,13 +457,13 @@ class MonobankViewController: UIViewController {
     
     func errorHandler(error : Error) {
         if error is AppError {
-            let alert = UIAlertController(title: NSLocalizedString("Warning", comment: ""), message: error.localizedDescription, preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default, handler: nil))
+            let alert = UIAlertController(title: NSLocalizedString("Warning", tableName: Constants.Localizable.monobankVC, comment: ""), message: error.localizedDescription, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", tableName: Constants.Localizable.monobankVC, comment: ""), style: .default, handler: nil))
             self.present(alert, animated: true, completion: nil)
         }
         else {
-            let alert = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: error.localizedDescription, preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default, handler: { [self](_) in
+            let alert = UIAlertController(title: NSLocalizedString("Error", tableName: Constants.Localizable.monobankVC, comment: ""), message: error.localizedDescription, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", tableName: Constants.Localizable.monobankVC, comment: ""), style: .default, handler: { [self](_) in
                 self.navigationController?.popViewController(animated: true)
             }))
             self.present(alert, animated: true, completion: nil)

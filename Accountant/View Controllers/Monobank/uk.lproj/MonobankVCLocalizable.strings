@@ -6,6 +6,20 @@
   
 */
 
+"Add accounts" = "Додати рахунки";
+"API documentation" = "API документація";
+"Error" = "Помилка";
+"Get data" = "Отримати інформацию";
+"Get token" = "Отримати токен";
+"Holder" = "Власник";
+"Monobank" = "Monobank";
+"OK" = "OK";
+"Please enter Token" = "Будь ласка введіть Токен";
+"To automatically adding your transactions from the Monobank accounts please enter Token in the field below" = "Для автоматичного завантаженно операций з рахунків Monobank будь ласка введіть Токен в поле нижче ";
+"Token" = "Токен";
+"Token has been successfully updated" = "Токен було успішно оновлено";
+"Warning" = "Увага";
+"Yes" = "Так";
 "Already added" = "Вже додано";
 "Balance" = "Баланс";
 "Credit limit" = "Кредитний ліміт";

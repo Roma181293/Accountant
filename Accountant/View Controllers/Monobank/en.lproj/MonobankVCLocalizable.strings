@@ -6,6 +6,20 @@
   
 */
 
+"Add accounts" = "Add accounts";
+"API documentation" = "API documentation";
+"Error" = "Error";
+"Get data" = "Get data";
+"Get token" = "Get token";
+"Holder" = "Holder";
+"Monobank" = "Monobank";
+"OK" = "OK";
+"Please enter Token" = "Please enter Token";
+"To automatically adding your transactions from the Monobank accounts please enter Token in the field below" = "To automatically adding your transactions from the Monobank accounts please enter Token in the field below";
+"Token" = "Token";
+"Token has been successfully updated" = "Token has been successfully updated";
+"Warning" = "Warning";
+"Yes" = "Yes";
 "Already added" = "Already added";
 "Balance" = "Balance";
 "Credit limit" = "Credit limit";

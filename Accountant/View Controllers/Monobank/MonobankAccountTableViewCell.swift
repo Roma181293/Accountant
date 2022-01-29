@@ -75,16 +75,16 @@ class MonobankAccountTableViewCell: UITableViewCell {
         let currency = mbba.getCurrency(context: CoreDataStack.shared.persistentContainer.viewContext)?.code ?? "Unknown currency"
         
         if isAdded {
-            statusLabel.text = "  " + NSLocalizedString("Already added", comment: "") + "  "
+            statusLabel.text = "  " + NSLocalizedString("Already added", tableName: Constants.Localizable.monobankVC, comment: "") + "  "
             statusLabel.layer.backgroundColor = UIColor.green.cgColor
         }
         else {
-            statusLabel.text = "  " + NSLocalizedString("Will be adding", comment: "") + "  "
+            statusLabel.text = "  " + NSLocalizedString("Will be adding", tableName: Constants.Localizable.monobankVC, comment: "") + "  "
             statusLabel.layer.backgroundColor = UIColor.orange.cgColor
         }
         
         nameLabel.text = mbba.maskedPan.last
-        balanceLabel.text = NSLocalizedString("Balance", comment: "") + " " + String(Double(mbba.balance)/100.0) + " " + currency
-        creditLimitLabel.text = NSLocalizedString("Credit limit", comment: "") + " " + String(Double(mbba.creditLimit)/100.0) + " " + currency
+        balanceLabel.text = NSLocalizedString("Balance", tableName: Constants.Localizable.monobankVC, comment: "") + " " + String(Double(mbba.balance)/100.0) + " " + currency
+        creditLimitLabel.text = NSLocalizedString("Credit limit", tableName: Constants.Localizable.monobankVC, comment: "") + " " + String(Double(mbba.creditLimit)/100.0) + " " + currency
     }
 }

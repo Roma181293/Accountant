@@ -15,6 +15,7 @@ struct Constants {
         static let settingsVC = "SettingsVCLocalizable"
         static let bankAccountTVC = "BankAccountTVCLocalizable"
         static let userBankProfileTVC = "UserBankProfileTVCLocalizable"
+        static let monobankVC = "MonobankVCLocalizable"
     }
     
     struct Storyboard {
