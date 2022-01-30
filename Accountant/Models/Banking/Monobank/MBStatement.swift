@@ -26,7 +26,7 @@ struct MBStatement: Codable, StatementProtocol {
     let counterIban: String?
     
     func getAmount() -> Double {
-        return Double(abs(amount)/100)
+        return abs(Double(amount)/100.0)
     }
     
     func getType() -> StatmentType {

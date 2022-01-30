@@ -41,7 +41,7 @@ class BankAccountManager {
         let calendar = Calendar.current
         bankAccount.lastLoadDate = calendar.date(byAdding: .second, value: -60, to: Date())!
 
-        bankAccount.lastTransactionDate = calendar.date(byAdding: .day, value: -90, to: Date())!  //Date()  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        bankAccount.lastTransactionDate = Date() //calendar.date(byAdding: .day, value: -90, to: Date())!  //Date()  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         return bankAccount
     }
     
