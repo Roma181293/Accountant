@@ -341,10 +341,11 @@ class TransactionManager {
     
     
     static func exportTransactionsToString(context: NSManagedObjectContext) -> String {
-        let tansactionFetchRequest : NSFetchRequest<Transaction> = NSFetchRequest<Transaction>(entityName: Transaction.entity().name!)
-        tansactionFetchRequest.sortDescriptors = [NSSortDescriptor(key: "date", ascending: false)]
+        let transactionFetchRequest : NSFetchRequest<Transaction> = NSFetchRequest<Transaction>(entityName: Transaction.entity().name!)
+        transactionFetchRequest.sortDescriptors = [NSSortDescriptor(key: "date", ascending: false)]
+        transactionFetchRequest.predicate = NSPredicate(format: "applied = true")
         do{
-            let storedTransactions = try context.fetch(tansactionFetchRequest)
+            let storedTransactions = try context.fetch(transactionFetchRequest)
             var export : String = "Id,Date,Type,Account,Amount,Comment"
             let formatter = DateFormatter()
             formatter.dateFormat = "yyyy-MM-dd hh:mm:ss z"
