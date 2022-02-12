@@ -221,7 +221,7 @@ class ComplexTransactionTableViewCell: UITableViewCell {
         
         itemViewArray.forEach({$0.removeFromSuperview()})
         
-        for item in items {
+        for item in items.sorted(by: {$0.amount >= $1.amount}) {
             
             let itemView = UIView()
             itemView.translatesAutoresizingMaskIntoConstraints = false

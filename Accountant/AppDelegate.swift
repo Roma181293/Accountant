@@ -25,7 +25,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         //MARK: Loading exchange rates
         if UserProfile.isAppLaunchedBefore() {
-        ExchangeRatesLoadingService.loadExchangeRates(context: CoreDataStack.shared.persistentContainer.newBackgroundContext())
+            ExchangeRatesLoadingService.loadExchangeRates(context: CoreDataStack.shared.persistentContainer.newBackgroundContext())
         }
         NetworkServices.loadCurrency(date: Date()) { (currencyHistoricalData, error) in
             if let currencyHistoricalData = currencyHistoricalData {

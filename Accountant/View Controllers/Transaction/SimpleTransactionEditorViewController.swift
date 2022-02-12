@@ -734,6 +734,7 @@ class SimpleTransactionEditorViewController: UIViewController {//}, GADFullScree
     
     private func fillUIForExistingTransaction() {
         transactionTypeSegmentedControl.isHidden = true
+        transactionTypeSegmentedControl.selectedSegmentIndex = 3
         
         guard let transaction = transaction,
               let date = transaction.date,

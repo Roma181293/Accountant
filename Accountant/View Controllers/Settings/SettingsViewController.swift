@@ -144,13 +144,14 @@ class SettingsViewController: UIViewController {
     func refreshDataSet() {
         dataSource.removeAll()
         for item in SettingsDataSource.allCases {
-            if (item == .envirement && UserProfile.isAppLaunchedBefore() == false)
+            if !((item == .envirement && UserProfile.isAppLaunchedBefore() == false)
                 || (item == .startAccounting && UserProfile.isAppLaunchedBefore() == true)
                 || (item == .auth && isUserHasPaidAccess == false)
-//                || item == .importAccounts
-//                || item == .exportAccounts
-            {}
-            else {
+                || item == .importAccounts
+                || item == .exportAccounts
+                || item == .userGuides
+                || item == .exchangeRates)
+            {
                 dataSource.append(item)
             }
         }

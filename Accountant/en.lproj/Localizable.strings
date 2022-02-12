@@ -68,7 +68,7 @@
 "Holder with the same name already exists" = "Holder with the same name already exists";
 "This holder is already used on your accounts" = "This holder is already used on your accounts";
 "Please enter name" = "Please enter name";
-"Too early to retrive Monobank statements data\nPlease wait 1 minute to the next try. This limitation was imposed due to API policy %@. \nLast load %@\n Current call %@" = "Too early to retrive Monobank statements data\nPlease wait 1 minute to the next try. This limitation was imposed due to API policy %@. \nLast load %@\n Current call %@";
+"Too early to retrive Monobank statements data. Please wait 1 minute to the next try. This limitation was imposed due to API policy %@ \n\nLast load %@ \nCurrent call %@" = "Too early to retrive Monobank statements data. Please wait 1 minute to the next try. This limitation was imposed due to API policy %@ \n\nLast load %@ \nCurrent call %@";
 "Please enter emoji icon" = "Please enter emoji icon";
 "Keeper \"%@\" not found" = "Keeper \"%@\" not found";
 "Accounting currency not found" = "Accounting currency not found";

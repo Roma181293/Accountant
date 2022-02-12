@@ -45,117 +45,25 @@ class TransactionManager {
         transaction.date = statment.getDate()
         let comment = statment.getComment()
         transaction.comment = comment
+        transaction.applied = false
         
         if statment.getType() == .to {
             TransactionItemManager.createTransactionItem(transaction: transaction, type: .debit, account: account, amount: statment.getAmount(), createdByUser:  createdByUser, createDate: createDate, context: context)
-            if let creditAccount = findAccountCandidateBeta(comment: comment, account: account, method: .credit) {
+            if let creditAccount = findAccountCandidate(comment: comment, account: account, method: .credit) {
                 TransactionItemManager.createTransactionItem(transaction: transaction, type: .credit, account: creditAccount, amount: statment.getAmount(), createdByUser:  createdByUser, createDate: createDate, context: context)
-                transaction.applied = false
             }
         }
         else {
             TransactionItemManager.createTransactionItem(transaction: transaction, type: .credit, account: account, amount: statment.getAmount(), createdByUser:  createdByUser, createDate: createDate, context: context)
-            if let debitAccount = findAccountCandidateBeta(comment: comment, account: account, method: .debit) {
+            if let debitAccount = findAccountCandidate(comment: comment, account: account, method: .debit) {
                 TransactionItemManager.createTransactionItem(transaction: transaction, type: .debit, account: debitAccount, amount: statment.getAmount(), createdByUser:  createdByUser, createDate: createDate, context: context)
-                transaction.applied = false
             }
         }
-        
         return transaction
     }
     
     
     private static func findAccountCandidate(comment: String, account: Account, method: AccountingMethod) -> Account? {
-        //1. Find all transactionItems there transaction has equal comment and applied status
-        let accountTIs = (account.transactionItems?.allObjects as! [TransactionItem]).filter{
-            
-//            if let checkedcomment = $0.transaction?.comment {
-//                checkedcomment.contains ("🤖")
-//            }
-//
-            if $0.transaction?.comment == comment && $0.transaction?.applied == true {return true}
-            return false
-        }
-        
-        //2. Find all thansactions for transactionItems from step 1
-        var tr: [Transaction] = []
-        accountTIs.forEach({tr.append($0.transaction!)})
-        
-        //3. Preperation. Find pairs (account, transactionDate) fot transactions from step 2 where account != account from the method signature. create account set
-        var zeroIterationCandidatesArray: [(account: Account, transactionDate: Date)] = []
-        var accountSet: Set<Account> = []
-        
-        for tran in tr {
-            for ti in tran.items?.allObjects as! [TransactionItem] {
-                if ti.account != account
-                    && ti.type == method.rawValue
-                    && account.isHidden == false
-                    && (account.directChildren?.allObjects as! [Account]).isEmpty{
-                    
-                    zeroIterationCandidatesArray.append((account: ti.account!, transactionDate: tran.date!))
-                    accountSet.insert(ti.account!)
-                }
-            }
-        }
-        
-        //4. For all uniuqe accounts from accountset create [(account: Account, lastTransactionDate: Date, count: Int)]
-        var firstIterationCandidatesArray: [(account: Account, lastTransactionDate: Date, count: Int)] = []
-        accountSet.forEach({ acc in
-            
-            let count = zeroIterationCandidatesArray.filter{
-                if $0.account == acc {return true}
-                return false
-            }.count
-            
-            let maxDate = zeroIterationCandidatesArray.filter{
-                if $0.account == acc {return true}
-                return false
-            }
-            .max(by: { (a, b) -> Bool in
-                return a.transactionDate < b.transactionDate
-            })!.transactionDate
-            
-            firstIterationCandidatesArray.append((acc,maxDate,count))
-        })
-        
-        //5. Find all candidates with max count
-        guard let firstMax = firstIterationCandidatesArray.sorted(by: {$0.lastTransactionDate > $1.lastTransactionDate}).first else {return nil}
-        var secondIterationCandidatesArray: [(account: Account, lastTransactionDate: Date, count: Int)] = firstIterationCandidatesArray.filter{
-            let firstMax = firstIterationCandidatesArray.sorted(by: {(a,b)->Bool in return a.count < b.count})[0]
-            if firstMax.count == $0.count {
-                return true
-            }
-            return false
-        }
-        
-        
-        
-        if secondIterationCandidatesArray.count <= 1 {
-            return secondIterationCandidatesArray.first?.account
-        }
-        else {
-            //6. Find all candidates with max lastTransactionDate from step 5
-            guard let secondMax = secondIterationCandidatesArray.sorted(by: {$0.lastTransactionDate > $1.lastTransactionDate}).first else {return nil}
-            
-            var thirdIterationCandidatesArray: [(account: Account, lastTransactionDate: Date, count: Int)] = secondIterationCandidatesArray.filter{
-                
-                if secondMax.lastTransactionDate == $0.lastTransactionDate {
-                    return true
-                }
-                return false
-            }
-            
-            if thirdIterationCandidatesArray.count <= 1 {
-                return thirdIterationCandidatesArray.first?.account
-            }
-            else {
-                return nil
-            }
-        }
-    }
-    
-    
-    private static func findAccountCandidateBeta(comment: String, account: Account, method: AccountingMethod) -> Account? {
 //        print(#function, account.path, "\"" + comment + "\"")
         
         //0. Finf all transactionItems for account ciblings
@@ -197,7 +105,7 @@ class TransactionManager {
         
         for tran in tr {
             for ti in tran.items?.allObjects as! [TransactionItem] {
-                if ti.account?.parent != account.parent
+                if ti.account != account
                     && ti.type == method.rawValue
                     && account.isHidden == false
                     && (account.directChildren?.allObjects as! [Account]).isEmpty{
