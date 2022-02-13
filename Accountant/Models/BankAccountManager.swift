@@ -60,6 +60,18 @@ class BankAccountManager {
         }
     }
     
+    static func hasActiveBankAccounts(context: NSManagedObjectContext) -> Bool {
+        let bankAccountFetchRequest : NSFetchRequest<BankAccount> = NSFetchRequest<BankAccount>(entityName: BankAccount.entity().name!)
+        bankAccountFetchRequest.sortDescriptors = [NSSortDescriptor(key: "id", ascending: true)]
+        bankAccountFetchRequest.predicate = NSPredicate(format: "active = true")
+        do {
+            return try !context.fetch(bankAccountFetchRequest).isEmpty
+        }
+        catch {
+            return false
+        }
+    }
+    
     static func getBankAccountByExternalId(_ externalId: String, context: NSManagedObjectContext) -> BankAccount? {
         let bankAccountFetchRequest : NSFetchRequest<BankAccount> = NSFetchRequest<BankAccount>(entityName: BankAccount.entity().name!)
         bankAccountFetchRequest.sortDescriptors = [NSSortDescriptor(key: "id", ascending: true)]
