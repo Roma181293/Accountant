@@ -82,8 +82,8 @@ class AccountListViewController: UIViewController, UIScrollViewDelegate{
         case "iPhone 6","iPhone 6 Plus", "iPhone 6s","iPhone 6s Plus", "iPhone 7","iPhone 7 Plus","iPhone 8","iPhone 8 Plus","iPhone SE (2nd generation)": correction = 24
         case "iPhone 11","iPhone XR": correction = -4
         case "iPhone X","iPhone XS","iPhone 11 Pro", "iPhone XS Max", "iPhone 11 Pro Max": correction = 0
-        case "iPhone 12 mini": correction = -6
-        case "iPhone 12","iPhone 12 Pro","iPhone 12 Pro Max": correction = -3
+        case "iPhone 12 mini","iPhone 13 Mini": correction = -6
+        case "iPhone 12","iPhone 12 Pro","iPhone 12 Pro Max","iPhone 13 Pro Max","iPhone 13 Pro","iPhone 13": correction = -3
         default: break
         }
         scrollView.frame = CGRect(x: 0, y: scrollView.frame.origin.y, width: view.frame.width, height: view.frame.height/2-scrollView.frame.origin.y+correction)

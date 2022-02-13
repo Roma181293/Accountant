@@ -21,6 +21,7 @@ class StartAccountingViewController: UIViewController, CurrencyReceiverDelegate 
     
     var workFlowTitleArray = [
         NSLocalizedString("Choose currecy for Income and Expenses categories. This currency cannot be changed in the future", comment: ""),
+        NSLocalizedString("Add Monobank bank profile, to sync statements data. All the data stores only on this device locally", comment: ""),
         NSLocalizedString("Please add income categories", comment: ""),
         NSLocalizedString("Please add expense categories", comment: ""),
         NSLocalizedString("Please add money accounts (Cash and bank cards). \nDo NOT enter secure info about bank cards(full card number and CV2 code)", comment: ""),
@@ -59,7 +60,23 @@ class StartAccountingViewController: UIViewController, CurrencyReceiverDelegate 
         return button
     }()
     
-    let nextButton: UIButton = {
+    let addBankProfileButton : UIButton = {
+        let button = UIButton()
+        button.setTitle(NSLocalizedString("Go to bank profiles", comment: ""), for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        
+        button.backgroundColor = Colors.Main.confirmButton
+        button.setTitleColor(.systemBlue, for: .normal)
+        button.layer.cornerRadius = 34
+        button.layer.shadowColor = UIColor.gray.cgColor
+        button.layer.shadowOffset = CGSize(width: 2, height: 2)
+        button.layer.shadowOpacity = 0.5
+        button.layer.shadowRadius = 3
+        button.layer.masksToBounds =  false
+        return button
+    }()
+    
+    let nextButton : UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "arrow.right") , for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -188,6 +205,25 @@ class StartAccountingViewController: UIViewController, CurrencyReceiverDelegate 
         currencyTVC.didMove(toParent: self)
     }
     
+    
+    private func addBankProfilesButton() {
+        addBankProfileButton.addTarget(self, action: #selector(self.addBankProfileButtonDidTap), for: .touchUpInside)
+        mainView.addSubview(addBankProfileButton)
+        addBankProfileButton.widthAnchor.constraint(equalTo: mainView.widthAnchor,multiplier: 0.9).isActive = true
+        addBankProfileButton.heightAnchor.constraint(equalToConstant: 68).isActive = true
+        addBankProfileButton.centerXAnchor.constraint(equalTo: mainView.centerXAnchor).isActive = true
+        addBankProfileButton.topAnchor.constraint(equalTo: addButton.bottomAnchor, constant: 40).isActive = true
+    }
+    
+    private func removeBankProfilesButton() {
+        addBankProfileButton.removeFromSuperview()
+    }
+    
+    @objc private func addBankProfileButtonDidTap() {
+        let vc = UserBankProfileTableViewController()
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
     private func removeCurrencyTVC(){
         currencyTVC.delegate = nil
         currencyTVC.view.removeFromSuperview()
@@ -228,11 +264,11 @@ class StartAccountingViewController: UIViewController, CurrencyReceiverDelegate 
                     
                     currentStep += 1
                     titleLabel.text = workFlowTitleArray[currentStep]
-                    addButton.alpha = 1
                     addButton.addTarget(self, action: #selector(self.addAccount), for: .touchUpInside)
                     
                     removeCurrencyTVC()
-                    addAccountNavigatorTVC()
+                    addBankProfilesButton()
+                    
                 }
                 catch let error {
                     errorHandler(error: error)
@@ -246,27 +282,34 @@ class StartAccountingViewController: UIViewController, CurrencyReceiverDelegate 
         }
         else if currentStep == 1 {
             currentStep += 1
-            accountNavigationTVC.account = AccountManager.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.expense), context: context)
+            addButton.alpha = 1
+            removeBankProfilesButton()
+            addAccountNavigatorTVC()
             configureUIForStep()
         }
         else if currentStep == 2 {
             currentStep += 1
-            accountNavigationTVC.account = AccountManager.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.money), context: context)
+            accountNavigationTVC.account = AccountManager.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.expense), context: context)
             configureUIForStep()
         }
         else if currentStep == 3 {
             currentStep += 1
-            accountNavigationTVC.account = AccountManager.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.debtors), context: context)
+            accountNavigationTVC.account = AccountManager.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.money), context: context)
             configureUIForStep()
         }
         else if currentStep == 4 {
+            currentStep += 1
+            accountNavigationTVC.account = AccountManager.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.debtors), context: context)
+            configureUIForStep()
+        }
+        else if currentStep == 5 {
             currentStep += 1
             accountNavigationTVC.account = AccountManager.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.credits), context: context)
             configureUIForStep()
             nextButton.setImage(UIImage(systemName: "checkmark") , for: .normal)
             
         }
-        else if currentStep == 5 {
+        else if currentStep == 6 {
             do{
                 try context.save()
                 NotificationCenter.default.post(name: .environmentDidChange, object: nil)

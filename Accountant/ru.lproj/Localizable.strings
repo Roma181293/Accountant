@@ -296,3 +296,5 @@
 "Will be adding" = "Будет добавлен";
 "Balance" = "Баланс";
 "Comment:" = "Комент:";
+"Add Monobank bank profile, to sync statements data. All the data stores only on this device locally" = "Добавить профиль Monobank для синхронизации выписок. Вся инвормация хранится только на этом устройстве локально";
+"Go to bank profiles" = "Перейти к банковским профилям";
