@@ -24,7 +24,7 @@
 		2B1FEA4F266BEE6700BF53BD /* CurrencyHistoricalDataPB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1FEA4A266BEE6700BF53BD /* CurrencyHistoricalDataPB.swift */; };
 		2B1FEA54266BEEC000BF53BD /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1FEA53266BEEC000BF53BD /* Enums.swift */; };
 		2B1FEA62266BF03300BF53BD /* CurrencyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1FEA61266BF03300BF53BD /* CurrencyManager.swift */; };
-		2B1FEA6A266BF15200BF53BD /* AccountManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1FEA69266BF15200BF53BD /* AccountManager.swift */; };
+		2B1FEA6A266BF15200BF53BD /* SeedDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1FEA69266BF15200BF53BD /* SeedDataManager.swift */; };
 		2B1FEA6F266C112600BF53BD /* AccountTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1FEA6E266C112600BF53BD /* AccountTests.swift */; };
 		2B1FEA74266C116F00BF53BD /* TestCoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1FEA73266C116F00BF53BD /* TestCoreDataStack.swift */; };
 		2B1FEA83266C1D9A00BF53BD /* TransactionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1FEA82266C1D9900BF53BD /* TransactionManager.swift */; };
@@ -164,7 +164,7 @@
 		2B1FEA4A266BEE6700BF53BD /* CurrencyHistoricalDataPB.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrencyHistoricalDataPB.swift; sourceTree = "<group>"; };
 		2B1FEA53266BEEC000BF53BD /* Enums.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Enums.swift; sourceTree = "<group>"; };
 		2B1FEA61266BF03300BF53BD /* CurrencyManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrencyManager.swift; sourceTree = "<group>"; };
-		2B1FEA69266BF15200BF53BD /* AccountManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountManager.swift; sourceTree = "<group>"; };
+		2B1FEA69266BF15200BF53BD /* SeedDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SeedDataManager.swift; sourceTree = "<group>"; };
 		2B1FEA6E266C112600BF53BD /* AccountTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountTests.swift; sourceTree = "<group>"; };
 		2B1FEA73266C116F00BF53BD /* TestCoreDataStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestCoreDataStack.swift; sourceTree = "<group>"; };
 		2B1FEA82266C1D9900BF53BD /* TransactionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransactionManager.swift; sourceTree = "<group>"; };
@@ -353,7 +353,7 @@
 				2B6561F22775F86D00150B35 /* Banking */,
 				2B1FEA43266BEE6700BF53BD /* Exchange Structures */,
 				2B1FEB66266D752200BF53BD /* Visualisation */,
-				2B1FEA69266BF15200BF53BD /* AccountManager.swift */,
+				2B1FEA69266BF15200BF53BD /* SeedDataManager.swift */,
 				2B1FEA61266BF03300BF53BD /* CurrencyManager.swift */,
 				2B1FEA82266C1D9900BF53BD /* TransactionManager.swift */,
 				2B0D1D3226ADF1D1003C6394 /* TransactionItemManager.swift */,
@@ -961,7 +961,7 @@
 				2BB780B2272EAB9B002D2098 /* GuideView.swift in Sources */,
 				2B7AB40C278D4D5500974156 /* UserBankProfileError.swift in Sources */,
 				2B1407AC26F931AA00114B95 /* AccountNavigationTableViewCell.swift in Sources */,
-				2B1FEA6A266BF15200BF53BD /* AccountManager.swift in Sources */,
+				2B1FEA6A266BF15200BF53BD /* SeedDataManager.swift in Sources */,
 				2B00CAFB2746514900821FE0 /* KeeperManager.swift in Sources */,
 				2B1FEAC6266C433200BF53BD /* BiometricAuthViewController.swift in Sources */,
 				2B1FEAE7266CAF6C00BF53BD /* Extension UIScrollView.swift in Sources */,

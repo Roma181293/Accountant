@@ -262,7 +262,7 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
             }
         case .exportAccounts:
             if AccessCheckManager.checkUserAccessToImportExportEntities(environment: environment, isUserHasPaidAccess: isUserHasPaidAccess) {
-                shareTXTFile(fileName: "AccountList", data: AccountManager.exportAccountsToString(context: context))
+                shareTXTFile(fileName: "AccountList", data: Account.exportAccountsToString(context: context))
             }
             else{
                 showPurchaseOfferVC()
@@ -335,7 +335,7 @@ extension SettingsViewController: UIDocumentPickerDelegate {
         
         if isImportAccounts {
             do {
-                try AccountManager.importAccounts( data, context: context)
+                try Account.importAccounts( data, context: context)
                 try coreDataStack.saveContext(context)
             } catch let error {
                 errorHandler(error: error)

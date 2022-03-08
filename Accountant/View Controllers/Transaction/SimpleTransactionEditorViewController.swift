@@ -388,16 +388,16 @@ class SimpleTransactionEditorViewController: UIViewController {//}, GADFullScree
         switch sender.selectedSegmentIndex {
         case 0:
             print("Expense")
-            debit = AccountManager.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.expense), context: context)
-            credit = AccountManager.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.money), context: context)
+            debit = Account.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.expense), context: context)
+            credit = Account.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.money), context: context)
         case 1:
             print("Income")
-            debit = AccountManager.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.money), context: context)
-            credit = AccountManager.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.income), context: context)
+            debit = Account.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.money), context: context)
+            credit = Account.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.income), context: context)
         case 2:
             print("Transfer")
-            debit = AccountManager.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.money), context: context)
-            credit = AccountManager.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.money), context: context)
+            debit = Account.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.money), context: context)
+            credit = Account.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.money), context: context)
         default:
             print("Manual")
             //            tmpDebit = nil
@@ -533,16 +533,16 @@ class SimpleTransactionEditorViewController: UIViewController {//}, GADFullScree
                 switch transactionTypeSegmentedControl.selectedSegmentIndex {
                 case 0:
                     print("Expense")
-                    debit = AccountManager.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.expense), context: context)
-                    credit = AccountManager.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.money), context: context)
+                    debit = Account.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.expense), context: context)
+                    credit = Account.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.money), context: context)
                 case 1:
                     print("Income")
-                    debit = AccountManager.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.money), context: context)
-                    credit = AccountManager.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.income), context: context)
+                    debit = Account.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.money), context: context)
+                    credit = Account.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.income), context: context)
                 case 2:
                     print("Transfer")
-                    debit = AccountManager.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.money), context: context)
-                    credit = AccountManager.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.money), context: context)
+                    debit = Account.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.money), context: context)
+                    credit = Account.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.money), context: context)
                 default:
                     print("Manual")
                     debit = nil
@@ -567,10 +567,10 @@ class SimpleTransactionEditorViewController: UIViewController {//}, GADFullScree
         if let credit = credit, let debit = debit {
             if debit.currency == nil
                 || (debit.parent == nil
-                        && debit != AccountManager.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.capital), context: context))
+                        && debit != Account.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.capital), context: context))
                 || credit.currency == nil
                 || (credit.parent == nil
-                        && credit != AccountManager.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.capital), context: context)) {
+                        && credit != Account.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.capital), context: context)) {
                 amountInDebitCurrencyTextField.placeholder = ""
                 amountInDebitCurrencyTextField.isHidden = false
                 amountInDebitCurrencyTextField.text = ""

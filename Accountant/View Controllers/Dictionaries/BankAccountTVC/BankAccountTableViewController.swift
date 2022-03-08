@@ -98,7 +98,7 @@ class BankAccountTableViewController: UITableViewController {
                 vc.showHiddenAccounts = false
                 vc.canModifyAccountStructure = false
                 vc.accountRequestorViewController = self
-                vc.account = AccountManager.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.money), context: self.context)
+                vc.account = Account.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.money), context: self.context)
                 vc.excludeAccountList = BankAccountManager.findNotValidAccountCandidateForLinking(for: self.bankAccount)
                 self.navigationController?.pushViewController(vc, animated: true)
             }))

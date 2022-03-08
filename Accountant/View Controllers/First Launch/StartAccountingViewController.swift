@@ -107,7 +107,7 @@ class StartAccountingViewController: UIViewController, CurrencyReceiverDelegate 
             do {
                 let env = CoreDataStack.shared.activeEnviroment()
                 try TransactionManager.deleteAllTransactions(context: context, env:env)
-                try AccountManager.deleteAllAccounts(context: context, env:env)
+                try Account.deleteAllAccounts(context: context, env:env)
                 try CurrencyManager.deleteAllCurrencies(context: context, env:env)
                 try KeeperManager.deleteAllKeepers(context: context, env:env)
                 try HolderManager.deleteAllHolders(context: context, env:env)
@@ -235,7 +235,7 @@ class StartAccountingViewController: UIViewController, CurrencyReceiverDelegate 
         let storyboard = UIStoryboard(name: "Main", bundle: .main)
         accountNavigationTVC = storyboard.instantiateViewController(identifier: Constants.Storyboard.accountNavigatorTableViewController) as AccountNavigatorTableViewController
         
-        accountNavigationTVC.account = AccountManager.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.income), context: context)
+        accountNavigationTVC.account = Account.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.income), context: context)
         accountNavigationTVC.searchBarIsHidden = true
         addChild(accountNavigationTVC)
         mainView.addSubview(accountNavigationTVC.view)
@@ -258,7 +258,7 @@ class StartAccountingViewController: UIViewController, CurrencyReceiverDelegate 
         if currentStep == 0 {
             if  let currency = currency {
                 do {
-                    AccountManager.addBaseAccounts(accountingCurrency: currency, context: context)
+                    SeedDataManager.addBaseAccounts(accountingCurrency: currency, context: context)
                     
                     try coreDataStack.saveContext(context)
                     
@@ -289,22 +289,22 @@ class StartAccountingViewController: UIViewController, CurrencyReceiverDelegate 
         }
         else if currentStep == 2 {
             currentStep += 1
-            accountNavigationTVC.account = AccountManager.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.expense), context: context)
+            accountNavigationTVC.account = Account.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.expense), context: context)
             configureUIForStep()
         }
         else if currentStep == 3 {
             currentStep += 1
-            accountNavigationTVC.account = AccountManager.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.money), context: context)
+            accountNavigationTVC.account = Account.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.money), context: context)
             configureUIForStep()
         }
         else if currentStep == 4 {
             currentStep += 1
-            accountNavigationTVC.account = AccountManager.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.debtors), context: context)
+            accountNavigationTVC.account = Account.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.debtors), context: context)
             configureUIForStep()
         }
         else if currentStep == 5 {
             currentStep += 1
-            accountNavigationTVC.account = AccountManager.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.credits), context: context)
+            accountNavigationTVC.account = Account.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.credits), context: context)
             configureUIForStep()
             nextButton.setImage(UIImage(systemName: "checkmark") , for: .normal)
             

@@ -115,7 +115,7 @@ class CurrencyManager {
     static func changeAccountingCurrency(old oldCurr: Currency?, new newCurr: Currency, modifyDate: Date = Date(), modifiedByUser: Bool = true, context: NSManagedObjectContext) throws {
         if let oldCurr = oldCurr {
             guard try accountingCurrencyCanBeChanged(context: context) else {throw CurrencyError.thisCurrencyAlreadyUsedInTransaction}
-            try AccountManager.changeCurrencyForBaseAccounts(to: newCurr, modifyDate: modifyDate, modifiedByUser: modifiedByUser, context: context)
+            try Account.changeCurrencyForBaseAccounts(to: newCurr, modifyDate: modifyDate, modifiedByUser: modifiedByUser, context: context)
             oldCurr.isAccounting = false
             oldCurr.modifyDate = modifyDate
             oldCurr.modifiedByUser = modifiedByUser
@@ -125,7 +125,7 @@ class CurrencyManager {
             newCurr.modifiedByUser = modifiedByUser
         }
         else {
-            try AccountManager.changeCurrencyForBaseAccounts(to: newCurr, context: context)
+            try Account.changeCurrencyForBaseAccounts(to: newCurr, context: context)
             newCurr.isAccounting = true
             newCurr.modifyDate = modifyDate
             newCurr.modifiedByUser = modifiedByUser

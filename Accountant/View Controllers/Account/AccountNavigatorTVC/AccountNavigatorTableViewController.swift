@@ -238,7 +238,7 @@ class AccountNavigatorTableViewController: UITableViewController, AccountManager
             }
             
            
-            if AccountManager.canBeRenamed(account: selectedAccount) {
+            if Account.canBeRenamed(account: selectedAccount) {
                 tmpConfiguration.append(accountManagerController.renameAccount(indexPath: indexPath, selectedAccount: selectedAccount))
                 tmpConfiguration.append(accountManagerController.removeAccount(indexPath: indexPath, selectedAccount: selectedAccount))
             }

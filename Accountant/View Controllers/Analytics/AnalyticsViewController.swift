@@ -65,7 +65,7 @@ class AnalyticsViewController: UIViewController, UIScrollViewDelegate {//}, GADF
         accountingCurrency = CurrencyManager.getAccountingCurrency(context: context)!
         scrollView.delegate = self
         if account == nil {
-            account = AccountManager.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.expense), context: context)
+            account = Account.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.expense), context: context)
         }
         if account?.parent != nil {
             segmentedControl.isHidden = true
@@ -103,9 +103,9 @@ class AnalyticsViewController: UIViewController, UIScrollViewDelegate {//}, GADF
     @IBAction func chooseAccount(_ sender: UISegmentedControl) {
         switch sender.selectedSegmentIndex {
         case 0:
-            account = AccountManager.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.income), context: context)
+            account = Account.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.income), context: context)
         default:
-            account = AccountManager.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.expense), context: context)
+            account = Account.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.expense), context: context)
         }
         updateUI()
     }
@@ -156,7 +156,7 @@ class AnalyticsViewController: UIViewController, UIScrollViewDelegate {//}, GADF
     func updateUI() {
         print(#function)
         do {
-            presentingData = try AccountManager.prepareDataToShow(parentAccount: account, dateInterval: dateInterval, selectedCurrency: accountingCurrency, dateComponent: dateComponent, isListForAnalytic: true, sortTableDataBy: sortCategoryBy, context: context)
+            presentingData = try Account.prepareDataToShow(parentAccount: account, dateInterval: dateInterval, selectedCurrency: accountingCurrency, dateComponent: dateComponent, isListForAnalytic: true, sortTableDataBy: sortCategoryBy, context: context)
         }
         catch let error{
             let alert = UIAlertController(title: NSLocalizedString("Error",comment: ""), message: "\(error.localizedDescription)", preferredStyle: .alert)
@@ -288,7 +288,7 @@ class AnalyticsViewController: UIViewController, UIScrollViewDelegate {//}, GADF
         context = CoreDataStack.shared.persistentContainer.viewContext
         
         accountingCurrency = CurrencyManager.getAccountingCurrency(context: context)!
-            account = AccountManager.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.expense), context: context)
+            account = Account.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.expense), context: context)
         segmentedControl.selectedSegmentIndex = 1
         
         if isNeedUpdateAll() {

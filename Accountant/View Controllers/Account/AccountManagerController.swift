@@ -53,7 +53,7 @@ class AccountManagerController {
                               let textField = textFields.first
                         else {return}
                         
-                        try AccountManager.createAccount(parent: account, name: textField.text!, type: account.type, currency: accountCurrency, context: self.delegate.context)
+                        try Account.createAccount(parent: account, name: textField.text!, type: account.type, currency: accountCurrency, context: self.delegate.context)
                         try self.delegate.coreDataStack.saveContext(self.delegate.context)
                         try self.delegate.updateSourceTable()
                         self.delegate.tableView.reloadData()
@@ -151,7 +151,7 @@ class AccountManagerController {
     func removeAccount(indexPath: IndexPath, selectedAccount: Account) -> UIContextualAction{
         let removeAction = UIContextualAction(style: .destructive, title: NSLocalizedString("Delete",comment: "")) { _, _, complete in
             do {
-                try AccountManager.canBeRemove(account: selectedAccount)
+                try Account.canBeRemove(account: selectedAccount)
                 
                 var message = ""
                 if selectedAccount.parent?.currency == nil {
@@ -169,7 +169,7 @@ class AccountManagerController {
                 let alert = UIAlertController(title: NSLocalizedString("Delete",comment: ""), message: message, preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: NSLocalizedString("Yes",comment: ""), style: .destructive, handler: {(_) in
                     do {
-                        try AccountManager.removeAccount(selectedAccount, eligibilityChacked: true, context: self.delegate.context)
+                        try Account.removeAccount(selectedAccount, eligibilityChacked: true, context: self.delegate.context)
                         try self.delegate.coreDataStack.saveContext(self.delegate.context)
                         try self.delegate.updateSourceTable()
                         
@@ -208,7 +208,7 @@ class AccountManagerController {
                 guard let textField = alert?.textFields![0] else {return}
                 
                 do {
-                    try AccountManager.renameAccount(selectedAccount, to: textField.text!, context: self.delegate.context)
+                    try Account.renameAccount(selectedAccount, to: textField.text!, context: self.delegate.context)
                     try self.delegate.coreDataStack.saveContext(self.delegate.context)
                     try self.delegate.updateSourceTable()
                     self.delegate.tableView.reloadData()
@@ -254,7 +254,7 @@ class AccountManagerController {
                             guard let alert = alert,
                                   let textFields = alert.textFields,
                                   let textField = textFields.first,
-                                  AccountManager.isFreeAccountName(parent: selectedAccount, name: textField.text!, context: self.delegate.context)
+                                  Account.isFreeAccountName(parent: selectedAccount, name: textField.text!, context: self.delegate.context)
                             else {throw AccountError.accountAlreadyExists(name: alert!.textFields!.first!.text!)}
                             
                             if !selectedAccount.isFreeFromTransactionItems {
@@ -262,7 +262,7 @@ class AccountManagerController {
                                 let alert1 = UIAlertController(title: NSLocalizedString("Warning",comment: ""), message:  String(format: NSLocalizedString("Category \"%@\" contains transactions. All these thansactions will be automatically moved to the new \"%@\" subcategory",comment: ""), selectedAccount.name!,AccountsNameLocalisationManager.getLocalizedAccountName(.other1)), preferredStyle: .alert)
                                 alert1.addAction(UIAlertAction(title: NSLocalizedString("Create and Move",comment: ""), style: .default, handler: { [weak alert1] (_) in
                                     do {
-                                        try AccountManager.createAccount(parent: selectedAccount, name: textField.text!, type: selectedAccount.type, currency: selectedAccount.currency!, context: self.delegate.context)
+                                        try Account.createAccount(parent: selectedAccount, name: textField.text!, type: selectedAccount.type, currency: selectedAccount.currency!, context: self.delegate.context)
                                         try self.delegate.coreDataStack.saveContext(self.delegate.context)
                                         try self.delegate.updateSourceTable()
                                         self.delegate.tableView.reloadData()
@@ -280,7 +280,7 @@ class AccountManagerController {
                             }
                             else {
                                 
-                                try AccountManager.createAccount(parent: selectedAccount, name: textField.text!, type: selectedAccount.type, currency: selectedAccount.currency!, context: self.delegate.context)
+                                try Account.createAccount(parent: selectedAccount, name: textField.text!, type: selectedAccount.type, currency: selectedAccount.currency!, context: self.delegate.context)
                                 try self.delegate.coreDataStack.saveContext(self.delegate.context)
                                 try self.delegate.updateSourceTable()
                                 self.delegate.tableView.reloadData()

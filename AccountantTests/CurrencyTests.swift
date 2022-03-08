@@ -97,7 +97,7 @@ class CurrencyTests: XCTestCase {
             
             XCTAssertTrue(currency.isAccounting)
             
-            try AccountManager.createAccount(parent: nil, name: name, type: accType, currency: currency, createdByUser:  false, context: context)
+            try SeedDataManager.createAccount(parent: nil, name: name, type: accType, currency: currency, createdByUser:  false, context: context)
             
             try CurrencyManager.removeCurrency(currency, context: context)
             XCTAssertNil(currency)
