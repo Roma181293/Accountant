@@ -109,7 +109,7 @@ class AccountNavigationTableViewCell: UITableViewCell {
         }
 
         if let parent = account.parent, parent.currency == nil {
-            amountLabel.text = "\(round(AccountManager.balanceForDateLessThenSelected(date: Date(), accounts: [account])*100)/100) \(account.currency!.code!)"
+            amountLabel.text = "\(round(account.balanceForDateLessThenSelected(Date())*100)/100) \(account.currency!.code!)"
         }
         else {
             amountLabel.text = ""

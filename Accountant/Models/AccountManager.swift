@@ -231,31 +231,6 @@ class AccountManager {
         }
     }
     
-    
-    static func changeAccountIsHiddenStatus(_ account : Account, modifiedByUser : Bool = true, modifyDate: Date = Date()) throws {
-        let oldIsHidden = account.isHidden
-        if oldIsHidden {  //activation
-            for anc in account.ancestorList.filter({$0.isHidden == true}) {
-                anc.isHidden = false
-                anc.modifyDate = modifyDate
-                anc.modifiedByUser = modifiedByUser
-            }
-        }
-        else {  //deactivation
-            for item in account.childrenList.filter({$0.isHidden == false}){
-                item.isHidden = true
-                item.modifyDate = modifyDate
-                item.modifiedByUser = modifiedByUser
-            }
-        }
-        if let parent = account.parent, parent.parent == nil && AccountManager.balance(of : [account]) != 0 && parent.currency == nil && account.isHidden == false{
-            throw AccountError.accumulativeAccountCannotBeHiddenWithNonZeroAmount(name: account.path!)
-        }
-        account.isHidden = !oldIsHidden
-        account.modifyDate = modifyDate
-        account.modifiedByUser = modifiedByUser
-    }
-    
     static func removeAccount(_ account: Account, eligibilityChacked: Bool, context: NSManagedObjectContext) throws {
         var accounts = account.childrenList
         accounts.append(account)
@@ -307,18 +282,6 @@ class AccountManager {
         }
     }
     
-    static func accountListUsingInTransactions(account: Account) -> [Account] {
-        var accounts = account.childrenList
-        accounts.append(account)
-        
-        var results : [Account] = []
-        for acc in accounts{
-            if !acc.isFreeFromTransactionItems{
-                results.append(acc)
-            }
-        }
-        return results
-    }
     
     //USE ONLY TO CLEAR DATA IN TEST ENVIRONMENT
     static func deleteAllAccounts(context: NSManagedObjectContext, env: Environment?) throws {
@@ -498,238 +461,6 @@ class AccountManager {
     
     
     
-    
-    
-    // MARK: - BALANCE
-    
-    static func balance(of accounts: [Account]) -> Double {
-        var debitTotal : Double = 0
-        var creditTotal : Double = 0
-        
-        if accounts.isEmpty == false {
-            for account in accounts {
-                
-                let transactionItems = (account.transactionItems?.allObjects as! [TransactionItem]).filter{$0.transaction!.applied == true}
-                for item in transactionItems {
-                    if item.type == AccountingMethod.debit.rawValue{
-                        debitTotal += item.amount
-                    }
-                    else if item.type == AccountingMethod.credit.rawValue{
-                        creditTotal += item.amount
-                    }
-                }
-            }
-            if accounts[0].type == AccountType.assets.rawValue {
-                return debitTotal - creditTotal
-            }
-            else {
-                return creditTotal - debitTotal
-            }
-        }
-        else {
-            return 0
-        }
-    }
-    
-    
-    static func balanceForDateInterval(dateInterval: DateInterval ,accounts: [Account], context: NSManagedObjectContext) -> Double {
-        var debitTotal : Double = 0
-        var creditTotal : Double = 0
-        
-        if accounts.isEmpty == false {
-            if accounts[0].rootAccount.name == AccountsNameLocalisationManager.getLocalizedAccountName(.money) ||
-                accounts[0].rootAccount.name == AccountsNameLocalisationManager.getLocalizedAccountName(.credits) ||
-                accounts[0].rootAccount.name == AccountsNameLocalisationManager.getLocalizedAccountName(.debtors)
-            {
-                for account in accounts {
-                    
-                    let transactionItems = (account.transactionItems?.allObjects as! [TransactionItem]).filter{$0.transaction!.applied == true}
-                    
-                    for item in transactionItems {
-                        if item.type == AccountingMethod.debit.rawValue{
-                            debitTotal += item.amount
-                        }
-                        else if item.type == AccountingMethod.credit.rawValue{
-                            creditTotal += item.amount
-                        }
-                    }
-                }
-            }
-            else if accounts[0].name == AccountsNameLocalisationManager.getLocalizedAccountName(.capital) {
-                if let expense = AccountManager.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.expense),context: context),
-                   let income = AccountManager.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.income), context: context) {
-                    
-                    let capital = accounts[0]
-                    let capitalBalance = balanceForDateLessThenSelected(date: dateInterval.end, accounts: capital.childrenList)
-                    let incomeBalance = balanceForDateLessThenSelected(date: dateInterval.end, accounts: income.childrenList)
-                    let expenseBalance = balanceForDateLessThenSelected(date: dateInterval.end, accounts: expense.childrenList)
-                    
-                    if capitalBalance + incomeBalance - expenseBalance > 0 {
-                        return capitalBalance + incomeBalance - expenseBalance
-                    }
-                }
-            }
-            else {
-                for account in accounts {
-                    let transactionItems = (account.transactionItems?.allObjects as! [TransactionItem]).filter{$0.transaction!.applied == true}
-                    
-                    for item in transactionItems {
-                        if dateInterval.contains(item.transaction!.date!) {
-                            if item.type == AccountingMethod.debit.rawValue{
-                                debitTotal += item.amount
-                            }
-                            else if item.type == AccountingMethod.credit.rawValue{
-                                creditTotal += item.amount
-                            }
-                        }
-                    }
-                }
-            }
-            if accounts[0].type == AccountType.assets.rawValue {
-                return  round((debitTotal - creditTotal)*100)/100
-            }
-            else {
-                return round((creditTotal - debitTotal)*100)/100
-            }
-        }
-        else {
-            return 0
-        }
-    }
-    
-    /*
-     /*   static func totalBalanceInCurrencyForListOfAccounts(onDate : Date, accountList: [Account], currencyHistoricalData: CurrencyHistoricalDataProtocol, currency: Currency) -> Double {
-     
-     if accountList.isEmpty == false {
-     var amount : Double = 0
-     for account in accountList {
-     var exchangeRate : Double = 1
-     if let rate =  currencyHistoricalData.exchangeRate(curr: currency.name!, to: account.currency!.name!) {
-     exchangeRate = rate
-     }
-     amount += balanceForDateLessThenSelected(date: onDate, accounts: [account]) * exchangeRate
-     }
-     return amount
-     }
-     else {
-     return 0
-     }
-     }
-     */
-     */
-    static func balanceForDateLessThenSelected(date : Date, accounts: [Account]) -> Double{
-        var debitSaldo : Double = 0
-        var creditSaldo : Double = 0
-        
-        for account in accounts {
-            
-            let transactionItems = (account.transactionItems?.allObjects as! [TransactionItem]).filter{$0.transaction!.applied == true}
-            
-            for item in transactionItems {
-                if item.type == AccountingMethod.debit.rawValue && (item.transaction?.date)! < date {
-                    debitSaldo += item.amount
-                }
-                else if item.type == AccountingMethod.credit.rawValue && (item.transaction?.date)! < date {
-                    creditSaldo += item.amount
-                }
-            }
-        }
-        
-        if accounts[0].type == AccountType.assets.rawValue {
-            return debitSaldo - creditSaldo
-        }
-        else {
-            return creditSaldo - debitSaldo
-        }
-    }
-    
-    
-    // MARK: - Methods that prepare data for visualisation (Charts)
-    
-    static func createDateIntervalArray(dateInterval : DateInterval , dateComponent : Calendar.Component) -> [DateInterval] {
-        let calendar = Calendar.current
-        
-        var intervalArray : [DateInterval] = []
-        var interval = calendar.dateInterval(of: dateComponent ,for: dateInterval.start)
-        while let tmpInterval = interval, tmpInterval.end <= dateInterval.end{
-            intervalArray.append(tmpInterval)
-            interval = calendar.dateInterval(of: dateComponent ,for: tmpInterval.end)
-        }
-        
-        if let tmpInterval = interval, tmpInterval.start < dateInterval.end && tmpInterval.end > dateInterval.end{
-            intervalArray.append(DateInterval(start: tmpInterval.start, end: dateInterval.end))
-        }
-        //        print("date interval [",dateInterval.start,dateInterval.end,"]")
-        //        intervalArray.forEach({print($0)})
-        return intervalArray
-        
-    }
-    
-    
-    static func getBalancesForDateIntervals(accounts : [Account], dateInterval : DateInterval , dateComponent : Calendar.Component) -> [(date : Date, value : Double)] {
-        
-        //creates date interval
-        let intervalArray : [DateInterval] = createDateIntervalArray(dateInterval: dateInterval, dateComponent: dateComponent)
-        
-        //calculate accountSaldoToLeftBorderDate
-        var accountSaldoToLeftBorderDate : Double = 0
-        var result : [(date : Date, value : Double)] = [(date : dateInterval.start, value : accountSaldoToLeftBorderDate)]
-        
-        if accounts.isEmpty == false {
-            if  accounts[0].rootAccount.name == AccountsNameLocalisationManager.getLocalizedAccountName(.money) ||
-                accounts[0].rootAccount.name == AccountsNameLocalisationManager.getLocalizedAccountName(.credits) ||
-                accounts[0].rootAccount.name == AccountsNameLocalisationManager.getLocalizedAccountName(.debtors) {
-                
-                accountSaldoToLeftBorderDate = balanceForDateLessThenSelected(date: dateInterval.start, accounts: accounts)
-            }
-            
-            for (index,timeInterval) in intervalArray.enumerated() {
-                var debitTotal : Double = 0
-                var creditTotal : Double = 0
-                
-                for account in accounts {
-                    let transactionItems = (account.transactionItems?.allObjects as! [TransactionItem]).filter{$0.transaction!.applied == true}
-                    
-                    for item in transactionItems {
-                        if timeInterval.contains(item.transaction!.date!) {
-                            if item.type == AccountingMethod.debit.rawValue{
-                                debitTotal += item.amount
-                            }
-                            else if item.type == AccountingMethod.credit.rawValue{
-                                creditTotal += item.amount
-                            }
-                        }
-                    }
-                }
-                // FIXME: - remove condition below if its unused
-                if true ||
-                    accounts[0].rootAccount.name == AccountsNameLocalisationManager.getLocalizedAccountName(.money) ||
-                    accounts[0].rootAccount.name == AccountsNameLocalisationManager.getLocalizedAccountName(.credits) ||
-                    accounts[0].rootAccount.name == AccountsNameLocalisationManager.getLocalizedAccountName(.debtors) {
-                    if  accounts[0].type == AccountType.assets.rawValue {
-                        result.append((date: timeInterval.end, value: round((result[index].value + debitTotal - creditTotal)*100)/100))
-                    }
-                    else {
-                        result.append((date: timeInterval.end, value: round((result[index].value + creditTotal - debitTotal)*100)/100))
-                    }
-                }
-                else {
-                    if accounts[0].type == AccountType.assets.rawValue {
-                        result.append((date: timeInterval.end, value: round((debitTotal - creditTotal)*100)/100))
-                    }
-                    else {
-                        result.append((date: timeInterval.end, value: round((creditTotal - debitTotal)*100)/100))
-                    }
-                }
-            }
-        }
-        else {
-            result = []
-        }
-        return result
-    }
-    
-    
     static func prepareDataToShow(parentAccount: Account?, dateInterval: DateInterval, selectedCurrency: Currency, currencyHistoricalData: CurrencyHistoricalDataProtocol? = nil, dateComponent: Calendar.Component, isListForAnalytic: Bool,sortTableDataBy: SortCategoryType, context: NSManagedObjectContext) throws -> PresentingData {
         var accountsToShow : [Account] = []
         
@@ -783,13 +514,11 @@ class AccountManager {
             var arrayOfResultsForTmpAccount : [(date: Date, value: Double)] = []
             if account != parentAccount {
                 title = account.name!
-                var accoluAndAllChildren : [Account] = [account]
-                accoluAndAllChildren += account.childrenList
-                arrayOfResultsForTmpAccount = getBalancesForDateIntervals(accounts: accoluAndAllChildren, dateInterval: dateInterval, dateComponent: dateComponent)
+                arrayOfResultsForTmpAccount = account.getBalancesForDateIntervals(dateInterval: dateInterval, dateComponent: dateComponent, calcIncludedAccountsBalances: true)
             }
             else {
                 title = AccountsNameLocalisationManager.getLocalizedAccountName(.other1)//NSLocalizedString("<Other>", comment: "")
-                arrayOfResultsForTmpAccount = getBalancesForDateIntervals(accounts: [account], dateInterval: dateInterval, dateComponent: dateComponent)
+                arrayOfResultsForTmpAccount = account.getBalancesForDateIntervals(dateInterval: dateInterval, dateComponent: dateComponent, calcIncludedAccountsBalances: false)
             }
             
             //convert (date: Date, value: Double) to ChartDataEntry(x:Double, y: Double)

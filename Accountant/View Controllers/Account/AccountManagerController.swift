@@ -111,7 +111,7 @@ class AccountManagerController {
                 alert.addAction(UIAlertAction(title: NSLocalizedString("Yes",comment: ""), style: .destructive, handler: {(_) in
                     
                     do {
-                        try AccountManager.changeAccountIsHiddenStatus(selectedAccount)
+                        try selectedAccount.changeIsHiddenStatus()
                         try self.delegate.coreDataStack.saveContext(self.delegate.context)
                         try self.delegate.updateSourceTable()
                         

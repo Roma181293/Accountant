@@ -204,7 +204,7 @@ class AccountTableViewCell: UITableViewCell {
             customIconContainerView.isHidden = true
             iconView.isHidden = true
             if dataToShow.account.parent?.name == AccountsNameLocalisationManager.getLocalizedAccountName(.money), let credit = dataToShow.account.linkedAccount {
-                let amount = round(AccountManager.balance(of: [credit])*100)/100
+                let amount = round(credit.balance*100)/100
                 if amount >= 0 {
                     creditLimitInAccountCurrencyLabel.text = "\(NSLocalizedString("Credit limit:",comment: "")) \(amount) \(credit.currency!.code!)"
                 }
