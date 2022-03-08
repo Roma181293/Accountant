@@ -257,7 +257,7 @@ class AccountManagerController {
                                   AccountManager.isFreeAccountName(parent: selectedAccount, name: textField.text!, context: self.delegate.context)
                             else {throw AccountError.accountAlreadyExists(name: alert!.textFields!.first!.text!)}
                             
-                            if !AccountManager.isFreeFromTransactionItems(account: selectedAccount) {
+                            if !selectedAccount.isFreeFromTransactionItems {
                                 
                                 let alert1 = UIAlertController(title: NSLocalizedString("Warning",comment: ""), message:  String(format: NSLocalizedString("Category \"%@\" contains transactions. All these thansactions will be automatically moved to the new \"%@\" subcategory",comment: ""), selectedAccount.name!,AccountsNameLocalisationManager.getLocalizedAccountName(.other1)), preferredStyle: .alert)
                                 alert1.addAction(UIAlertAction(title: NSLocalizedString("Create and Move",comment: ""), style: .default, handler: { [weak alert1] (_) in
@@ -336,7 +336,7 @@ class AccountManagerController {
         let editAccount = UIContextualAction(style: .normal, title: NSLocalizedString("Edit",comment: "")) { (contAct, view, complete) in
             let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
             let accountEditorWithInitialBalanceViewController = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.accountEditorWithInitialBalanceViewController) as! AccountEditorWithInitialBalanceViewController
-            accountEditorWithInitialBalanceViewController.parentAccount = AccountManager.getRootAccountFor(selectedAccount)
+            accountEditorWithInitialBalanceViewController.parentAccount = selectedAccount.rootAccount
             accountEditorWithInitialBalanceViewController.account = selectedAccount
             self.delegate.navigationController?.pushViewController(accountEditorWithInitialBalanceViewController, animated: true)
             complete(true)

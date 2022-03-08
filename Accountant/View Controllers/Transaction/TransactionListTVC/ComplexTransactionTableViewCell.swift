@@ -275,8 +275,8 @@ class ComplexTransactionTableViewCell: UITableViewCell {
         if items.count >= 2 && transaction.applied == true {
             guard items.filter({$0.type == AccountingMethod.debit.rawValue})[0].account != nil &&
                     items.filter({$0.type == AccountingMethod.credit.rawValue})[0].account != nil else {return}
-            let debitRootName = AccountManager.getRootAccountFor(items.filter({$0.type == AccountingMethod.debit.rawValue})[0].account!).name
-            let creditRootName = AccountManager.getRootAccountFor(items.filter({$0.type == AccountingMethod.credit.rawValue})[0].account!).name
+            let debitRootName = items.filter({$0.type == AccountingMethod.debit.rawValue})[0].account!.rootAccount.name
+            let creditRootName = items.filter({$0.type == AccountingMethod.credit.rawValue})[0].account!.rootAccount.name
             
             if creditRootName == AccountsNameLocalisationManager.getLocalizedAccountName(.income) &&
                 debitRootName == AccountsNameLocalisationManager.getLocalizedAccountName(.money) {

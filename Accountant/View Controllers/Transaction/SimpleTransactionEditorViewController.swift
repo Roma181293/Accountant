@@ -711,7 +711,7 @@ class SimpleTransactionEditorViewController: UIViewController {//}, GADFullScree
         vc.typeOfAccountingMethod = .debit
         vc.isUserHasPaidAccess = isUserHasPaidAccess
         if let debit = debit, transactionTypeSegmentedControl.selectedSegmentIndex != 3 {
-            vc.account = AccountManager.getRootAccountFor(debit)
+            vc.account = debit.rootAccount
         }
         doneButtonAction()
         self.navigationController?.pushViewController(vc, animated: true)
@@ -726,7 +726,7 @@ class SimpleTransactionEditorViewController: UIViewController {//}, GADFullScree
         vc.typeOfAccountingMethod = .credit
         vc.isUserHasPaidAccess = isUserHasPaidAccess
         if let credit = credit, transactionTypeSegmentedControl.selectedSegmentIndex != 3 {
-            vc.account = AccountManager.getRootAccountFor(credit)
+            vc.account = credit.rootAccount
         }
         doneButtonAction()
         self.navigationController?.pushViewController(vc, animated: true)

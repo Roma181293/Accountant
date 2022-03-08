@@ -838,7 +838,7 @@ class AccountEditorWithInitialBalanceViewController: UIViewController {
                     }
                 }
                 else {
-                    var expenseBeforeAccountingPeriod : Account? = AccountManager.getSubAccountWith(name: AccountsNameLocalisationManager.getLocalizedAccountName(.beforeAccountingPeriod), in: expenseRootAccount)
+                    var expenseBeforeAccountingPeriod : Account? = expenseRootAccount.getSubAccountWith(name: AccountsNameLocalisationManager.getLocalizedAccountName(.beforeAccountingPeriod))
                     
                     if expenseBeforeAccountingPeriod == nil {
                         expenseBeforeAccountingPeriod = try? AccountManager.createAndGetAccount(parent: expenseRootAccount, name: AccountsNameLocalisationManager.getLocalizedAccountName(.beforeAccountingPeriod), type: expenseRootAccount.type, currency: expenseRootAccount.currency, createdByUser: false, context: context)

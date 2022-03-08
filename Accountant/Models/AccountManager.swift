@@ -83,72 +83,13 @@ class AccountManager {
         }
     }
     
-    
-    static func isFreeFromTransactionItems(account: Account) -> Bool {
-        if (account.transactionItems?.allObjects as! [TransactionItem]).isEmpty {
-            return true
-        }
-        return false
-    }
-    
-    
-    private static func fillAccountAttributes(parent: Account?, name : String, type : Int16?, currency : Currency?, keeper: Keeper?, holder: Holder?, subType : Int16? = nil, createdByUser : Bool = true, createDate: Date = Date(), context: NSManagedObjectContext) -> Account {
-        let account = Account(context: context)
-        account.id = UUID()
-        account.createDate = createDate
-        account.createdByUser = createdByUser
-        account.modifyDate = createDate
-        account.modifiedByUser = createdByUser
-        account.name = name
-        
-        account.currency = currency
-        account.keeper = keeper
-        account.holder = holder
-        
-        if let subType = subType {
-            account.subType = subType
-        }
-        
-        if let parent = parent {
-            account.parent = parent
-            account.isHidden = parent.isHidden
-            account.addToAncestors(parent)
-            if let parentAncestors = parent.ancestors {
-                account.addToAncestors(parentAncestors)
-            }
-            account.level = parent.level + 1
-            account.path = parent.path!+":"+name
-            account.type = parent.type
-        }
-        else {
-            account.level = 0
-            account.path = name
-            account.type = type!
-        }
-        return account
-    }
-    
-    
     static func createAndGetAccount(parent: Account?, name : String, type : Int16?, currency : Currency?, keeper: Keeper? = nil, holder: Holder? = nil, subType : Int16? = nil, createdByUser : Bool = true, createDate: Date = Date(), context: NSManagedObjectContext) throws -> Account {
         
-        guard !name.isEmpty else {throw AccountError.emptyName}
-        if parent == nil && type == nil {throw AccountError.attributeTypeShouldBeInitializeForRootAccount}
-//        guard parent != nil && type != nil && parent?.type != type else {throw AccountError.accountContainAttribureTypeDifferentFromParent}
-        
-        // accounts with reserved names can create only app
-        guard createdByUser == false || isReservedAccountName(name) == false else {throw AccountError.reservedName(name: name)}
-        guard isFreeAccountName(parent: parent, name : name, context: context) == true else {
-            if parent?.currency == nil {
-                throw AccountError.accountAlreadyExists(name: name)
-            }
-            else {
-                throw AccountError.categoryAlreadyExists(name: name)
-            }
-        }
+        try validateAttributes(parent: parent, name: name, type: type, currency: currency, keeper: keeper, holder: holder, subType: subType, createdByUser: createdByUser, context: context)
         
         //Adding "Other" account for cases when parent containts transactions
-        if let parent = parent, AccountManager.isFreeFromTransactionItems(account: parent) == false, AccountManager.isReservedAccountName(name) == false {
-            var newAccount = getSubAccountWith(name: AccountsNameLocalisationManager.getLocalizedAccountName(.other1), in: parent)
+        if let parent = parent, parent.isFreeFromTransactionItems == false, AccountManager.isReservedAccountName(name) == false {
+            var newAccount = parent.getSubAccountWith(name: AccountsNameLocalisationManager.getLocalizedAccountName(.other1))
             if newAccount == nil {
             newAccount = try createAndGetAccount(parent: parent, name: AccountsNameLocalisationManager.getLocalizedAccountName(.other1) , type : type, currency : currency, keeper: keeper, holder: holder, subType : subType, createdByUser : false, createDate: createDate, context: context)
             }
@@ -157,7 +98,7 @@ class AccountManager {
             }
         }
         
-        return fillAccountAttributes(parent: parent, name : name, type : type, currency : currency, keeper: keeper, holder: holder, subType : subType, createdByUser : createdByUser, createDate: createDate, context: context)
+        return Account(parent: parent, name : name, type : type, currency : currency, keeper: keeper, holder: holder, subType : subType, createdByUser : createdByUser, createDate: createDate, context: context)
     }
     
     
@@ -177,17 +118,36 @@ class AccountManager {
             }
         }
         
-        if let parent = parent, !AccountManager.isFreeFromTransactionItems(account: parent) {
-            let new = fillAccountAttributes(parent: parent, name: AccountsNameLocalisationManager.getLocalizedAccountName(.other1) , type : type, currency : currency, keeper: keeper, holder: holder, subType : subType, createdByUser : createdByUser, createDate: createDate, context: context)
+        if let parent = parent, parent.isFreeFromTransactionItems {
+            let new = Account(parent: parent, name: AccountsNameLocalisationManager.getLocalizedAccountName(.other1) , type : type, currency : currency, keeper: keeper, holder: holder, subType : subType, createdByUser : createdByUser, createDate: createDate, context: context)
             TransactionItemManager.moveTransactionItemsFrom(oldAccount: parent, newAccount: new, modifiedByUser: createdByUser, modifyDate: createDate)
         }
         
-        return fillAccountAttributes(parent: parent, name : name, type : type, currency : currency, keeper: keeper, holder: holder, subType : subType, createdByUser : createdByUser, createDate: createDate, context: context)
+        return Account(parent: parent, name : name, type : type, currency : currency, keeper: keeper, holder: holder, subType : subType, createdByUser : createdByUser, createDate: createDate, context: context)
     }
     
     
-    static func createAccount(parent: Account?, name : String, type : Int16?, currency : Currency?, subType : Int16? = nil, createdByUser : Bool = true, context: NSManagedObjectContext) throws {
-        try createAndGetAccount(parent: parent, name : name, type : type, currency : currency, subType : subType, createdByUser : createdByUser, context: context)
+    static func createAccount(parent: Account?, name : String, type : Int16?, currency : Currency?, keeper: Keeper? = nil, holder: Holder? = nil, subType : Int16? = nil, createdByUser : Bool = true, context: NSManagedObjectContext) throws {
+        try validateAttributes(parent: parent, name: name, type: type, currency: currency, keeper: keeper, holder: holder, subType: subType, createdByUser: createdByUser, context: context)
+        Account(parent: parent, name: name, type: type, currency: currency, keeper: keeper, holder: holder, subType: subType, createdByUser: createdByUser, createDate: Date(), context: context)
+    }
+    
+    private static func validateAttributes(parent: Account?, name : String, type : Int16?, currency : Currency?, keeper: Keeper? = nil, holder: Holder? = nil, subType : Int16? = nil, createdByUser : Bool = true, context: NSManagedObjectContext) throws {
+        
+        guard !name.isEmpty else {throw AccountError.emptyName}
+        if parent == nil && type == nil {throw AccountError.attributeTypeShouldBeInitializeForRootAccount}
+//        guard parent != nil && type != nil && parent?.type != type else {throw AccountError.accountContainAttribureTypeDifferentFromParent}
+        
+        // accounts with reserved names can create only app
+        guard createdByUser == false || isReservedAccountName(name) == false else {throw AccountError.reservedName(name: name)}
+        guard isFreeAccountName(parent: parent, name : name, context: context) == true else {
+            if parent?.currency == nil {
+                throw AccountError.accountAlreadyExists(name: name)
+            }
+            else {
+                throw AccountError.categoryAlreadyExists(name: name)
+            }
+        }
     }
     
     
@@ -196,7 +156,7 @@ class AccountManager {
         var acc : [Account] = []
         for item in baseAccounts{
             if let currency = item.currency, currency.isAccounting == true {
-                acc.append(contentsOf: getAllChildrenForAcctount(item))
+                acc.append(contentsOf: item.childrenList)
                 acc.append(item)
             }
         }
@@ -206,26 +166,6 @@ class AccountManager {
             account.modifyDate = modifyDate
         }
     }
-    
-    static func getRootAccountFor(_ account: Account) -> Account{
-        for item in account.ancestors?.allObjects as! [Account] {
-            if item.level == 0 {
-                return item
-            }
-        }
-        return account
-    }
-    
-    
-    static func getAllChildrenForAcctount(_ account : Account) -> [Account] {
-        return account.children?.allObjects as! [Account]
-    }
-    
-    
-    static func getAllAncestorsForAcctount(_ account : Account) -> [Account] {
-        return account.ancestors?.allObjects as! [Account]
-    }
-    
     
     static func canBeRenamed(account:Account) -> Bool {
         if isReservedAccountName(account.name!){
@@ -252,7 +192,7 @@ class AccountManager {
             account.path = parent.path! + ":" + newName
             account.name = newName
             
-            let allChildren = getAllChildrenForAcctount(account)
+            let allChildren = account.childrenList
             for child in allChildren{
                 if let childParent = child.parent{
                     child.path = childParent.path! + ":" + child.name!
@@ -270,16 +210,6 @@ class AccountManager {
         accountFetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
         accountFetchRequest.predicate = NSPredicate(format: "parent = nil")
         return try context.fetch(accountFetchRequest)
-    }
-    
-    static func getSubAccountWith(name: String, in account : Account) -> Account? {
-        let children = getAllChildrenForAcctount(account)
-        for child in children {
-            if child.name == name {
-                return child
-            }
-        }
-        return nil
     }
     
     static func getAccountWithPath(_ path: String, context: NSManagedObjectContext) -> Account? {
@@ -305,14 +235,14 @@ class AccountManager {
     static func changeAccountIsHiddenStatus(_ account : Account, modifiedByUser : Bool = true, modifyDate: Date = Date()) throws {
         let oldIsHidden = account.isHidden
         if oldIsHidden {  //activation
-            for anc in getAllAncestorsForAcctount(account).filter({$0.isHidden == true}) {
+            for anc in account.ancestorList.filter({$0.isHidden == true}) {
                 anc.isHidden = false
                 anc.modifyDate = modifyDate
                 anc.modifiedByUser = modifiedByUser
             }
         }
         else {  //deactivation
-            for item in getAllChildrenForAcctount(account).filter({$0.isHidden == false}){
+            for item in account.childrenList.filter({$0.isHidden == false}){
                 item.isHidden = true
                 item.modifyDate = modifyDate
                 item.modifiedByUser = modifiedByUser
@@ -327,7 +257,7 @@ class AccountManager {
     }
     
     static func removeAccount(_ account: Account, eligibilityChacked: Bool, context: NSManagedObjectContext) throws {
-        var accounts = getAllChildrenForAcctount(account)
+        var accounts = account.childrenList
         accounts.append(account)
         if eligibilityChacked == false {
             try canBeRemove(account: account)
@@ -348,12 +278,12 @@ class AccountManager {
     
     
     static func canBeRemove(account: Account) throws {
-        var accounts = getAllChildrenForAcctount(account)
+        var accounts = account.childrenList
         accounts.append(account)
         
         var accountUsedInTransactionItem : [Account] = []
         for acc in accounts{
-            if !isFreeFromTransactionItems(account: acc) {
+            if !acc.isFreeFromTransactionItems {
                 accountUsedInTransactionItem.append(acc)
             }
         }
@@ -372,18 +302,18 @@ class AccountManager {
             }
         }
         
-        if let linkedAccount = account.linkedAccount, !isFreeFromTransactionItems(account: linkedAccount) {
+        if let linkedAccount = account.linkedAccount, !linkedAccount.isFreeFromTransactionItems {
             throw AccountError.linkedAccountHasTransactionItem(name: linkedAccount.path!)
         }
     }
     
     static func accountListUsingInTransactions(account: Account) -> [Account] {
-        var accounts = getAllChildrenForAcctount(account)
+        var accounts = account.childrenList
         accounts.append(account)
         
         var results : [Account] = []
         for acc in accounts{
-            if !isFreeFromTransactionItems(account: acc) {
+            if !acc.isFreeFromTransactionItems{
                 results.append(acc)
             }
         }
@@ -607,8 +537,9 @@ class AccountManager {
         var creditTotal : Double = 0
         
         if accounts.isEmpty == false {
-            if AccountManager.getRootAccountFor(accounts[0]).name == AccountsNameLocalisationManager.getLocalizedAccountName(.money) || AccountManager.getRootAccountFor(accounts[0]).name == AccountsNameLocalisationManager.getLocalizedAccountName(.credits) ||
-                AccountManager.getRootAccountFor(accounts[0]).name == AccountsNameLocalisationManager.getLocalizedAccountName(.debtors)
+            if accounts[0].rootAccount.name == AccountsNameLocalisationManager.getLocalizedAccountName(.money) ||
+                accounts[0].rootAccount.name == AccountsNameLocalisationManager.getLocalizedAccountName(.credits) ||
+                accounts[0].rootAccount.name == AccountsNameLocalisationManager.getLocalizedAccountName(.debtors)
             {
                 for account in accounts {
                     
@@ -629,9 +560,9 @@ class AccountManager {
                    let income = AccountManager.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.income), context: context) {
                     
                     let capital = accounts[0]
-                    let capitalBalance = balanceForDateLessThenSelected(date: dateInterval.end, accounts: AccountManager.getAllChildrenForAcctount(capital))
-                    let incomeBalance = balanceForDateLessThenSelected(date: dateInterval.end, accounts: AccountManager.getAllChildrenForAcctount(income))
-                    let expenseBalance = balanceForDateLessThenSelected(date: dateInterval.end, accounts: AccountManager.getAllChildrenForAcctount(expense))
+                    let capitalBalance = balanceForDateLessThenSelected(date: dateInterval.end, accounts: capital.childrenList)
+                    let incomeBalance = balanceForDateLessThenSelected(date: dateInterval.end, accounts: income.childrenList)
+                    let expenseBalance = balanceForDateLessThenSelected(date: dateInterval.end, accounts: expense.childrenList)
                     
                     if capitalBalance + incomeBalance - expenseBalance > 0 {
                         return capitalBalance + incomeBalance - expenseBalance
@@ -745,8 +676,9 @@ class AccountManager {
         var result : [(date : Date, value : Double)] = [(date : dateInterval.start, value : accountSaldoToLeftBorderDate)]
         
         if accounts.isEmpty == false {
-            if AccountManager.getRootAccountFor(accounts[0]).name == AccountsNameLocalisationManager.getLocalizedAccountName(.money) || AccountManager.getRootAccountFor(accounts[0]).name == AccountsNameLocalisationManager.getLocalizedAccountName(.credits) ||
-                AccountManager.getRootAccountFor(accounts[0]).name == AccountsNameLocalisationManager.getLocalizedAccountName(.debtors) {
+            if  accounts[0].rootAccount.name == AccountsNameLocalisationManager.getLocalizedAccountName(.money) ||
+                accounts[0].rootAccount.name == AccountsNameLocalisationManager.getLocalizedAccountName(.credits) ||
+                accounts[0].rootAccount.name == AccountsNameLocalisationManager.getLocalizedAccountName(.debtors) {
                 
                 accountSaldoToLeftBorderDate = balanceForDateLessThenSelected(date: dateInterval.start, accounts: accounts)
             }
@@ -771,9 +703,9 @@ class AccountManager {
                 }
                 // FIXME: - remove condition below if its unused
                 if true ||
-                    AccountManager.getRootAccountFor(accounts[0]).name == AccountsNameLocalisationManager.getLocalizedAccountName(.money) ||
-                    AccountManager.getRootAccountFor(accounts[0]).name == AccountsNameLocalisationManager.getLocalizedAccountName(.credits) ||
-                    AccountManager.getRootAccountFor(accounts[0]).name == AccountsNameLocalisationManager.getLocalizedAccountName(.debtors) {
+                    accounts[0].rootAccount.name == AccountsNameLocalisationManager.getLocalizedAccountName(.money) ||
+                    accounts[0].rootAccount.name == AccountsNameLocalisationManager.getLocalizedAccountName(.credits) ||
+                    accounts[0].rootAccount.name == AccountsNameLocalisationManager.getLocalizedAccountName(.debtors) {
                     if  accounts[0].type == AccountType.assets.rawValue {
                         result.append((date: timeInterval.end, value: round((result[index].value + debitTotal - creditTotal)*100)/100))
                     }
@@ -804,9 +736,9 @@ class AccountManager {
         if let account = parentAccount {
             if let children = account.directChildren {
                 accountsToShow = children.allObjects as! [Account]
-                if AccountManager.getRootAccountFor(account).name == AccountsNameLocalisationManager.getLocalizedAccountName(.money) ||
-                    AccountManager.getRootAccountFor(account).name == AccountsNameLocalisationManager.getLocalizedAccountName(.credits) ||
-                    AccountManager.getRootAccountFor(account).name == AccountsNameLocalisationManager.getLocalizedAccountName(.debtors) {
+                if account.rootAccount.name == AccountsNameLocalisationManager.getLocalizedAccountName(.money) ||
+                    account.rootAccount.name == AccountsNameLocalisationManager.getLocalizedAccountName(.credits) ||
+                    account.rootAccount.name == AccountsNameLocalisationManager.getLocalizedAccountName(.debtors) {
                     //                    print("Nothing need to be added")
                 }
                 else {
@@ -852,7 +784,7 @@ class AccountManager {
             if account != parentAccount {
                 title = account.name!
                 var accoluAndAllChildren : [Account] = [account]
-                accoluAndAllChildren += AccountManager.getAllChildrenForAcctount(account)
+                accoluAndAllChildren += account.childrenList
                 arrayOfResultsForTmpAccount = getBalancesForDateIntervals(accounts: accoluAndAllChildren, dateInterval: dateInterval, dateComponent: dateComponent)
             }
             else {

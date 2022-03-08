@@ -269,8 +269,8 @@ class PreTransactionTableViewCell: UITableViewCell{
               let creditAccount = items.filter({$0.type == AccountingMethod.credit.rawValue})[0].account
         else {return}
         
-        let debitRootName = AccountManager.getRootAccountFor(debitAccount).name
-        let creditRootName = AccountManager.getRootAccountFor(creditAccount).name
+        let debitRootName = debitAccount.rootAccount.name
+        let creditRootName = creditAccount.rootAccount.name
         
         if creditRootName == AccountsNameLocalisationManager.getLocalizedAccountName(.income) &&
             debitRootName == AccountsNameLocalisationManager.getLocalizedAccountName(.money) {

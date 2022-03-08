@@ -654,7 +654,7 @@ extension ComplexTransactionEditorViewController: AccountRequestor {
         let filledTransactionItems = transactionItems.filter({$0.type == transactionItem.type && $0.account != nil})
         if (filledTransactionItems.count == 1 && filledTransactionItems[0] != transactionItem)
         || filledTransactionItems.count > 1 {
-            rootAccount = AccountManager.getRootAccountFor(filledTransactionItems[0].account!)
+            rootAccount = filledTransactionItems[0].account!.rootAccount
         }
 
         var usedAccountList :[Account] = []
