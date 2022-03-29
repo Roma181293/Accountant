@@ -48,12 +48,23 @@ extension Account {
     }
     
     var rootAccount: Account {
-        for item in ancestors?.allObjects as! [Account] {
-            if item.level == 0 {
-                return item
-            }
+        if let parent = parent {
+            return parent.rootAccount
         }
         return self
+//        for item in ancestors?.allObjects as! [Account] {
+//            if item.level == 0 {
+//                return item
+//            }
+//        }
+//        return self
+    }
+    
+    var pathCalc: String {
+        if let parent = parent {
+            return parent.pathCalc + ":" + name!
+        }
+        return name!
     }
     
     var directChildrenList: [Account] {
@@ -149,13 +160,13 @@ extension Account{
         }
     }
     
-    func balanceForDateLessThenSelected(_ date : Date) -> Double{
+    func balanceOn(date : Date) -> Double{
         var debit : Double = 0
         var credit : Double = 0
         
         for account in childrenList + [self]  {
             
-            let transactionItems = (account.appliedTransactionItemsList).filter{$0.transaction!.date! < date}
+            let transactionItems = (account.appliedTransactionItemsList).filter{$0.transaction!.date! <= date}
             
             for item in transactionItems {
                 if item.type == AccountingMethod.debit.rawValue {
@@ -193,7 +204,7 @@ extension Account{
         return intervalArray
     }
     
-    func getBalancesForDateIntervals(dateInterval : DateInterval , dateComponent : Calendar.Component, calcIncludedAccountsBalances: Bool = true) -> [(date : Date, value : Double)] {
+    func balance(dateInterval : DateInterval , dateComponent : Calendar.Component, calcIncludedAccountsBalances: Bool = true) -> [(date : Date, value : Double)] {
         
         //creates date interval
         let intervalArray : [DateInterval] = Account.createDateIntervalArray(dateInterval: dateInterval, dateComponent: dateComponent)
@@ -215,7 +226,7 @@ extension Account{
                     accounts[0].rootAccount.name == AccountsNameLocalisationManager.getLocalizedAccountName(.debtors) {
                 
                 accounts.forEach({
-                    accountSaldoToLeftBorderDate += $0.balanceForDateLessThenSelected(dateInterval.start)
+                    accountSaldoToLeftBorderDate += $0.balanceOn(date: dateInterval.start)
                 })
             }
             
@@ -311,8 +322,7 @@ extension Account {
     
     static func isFreeAccountName(parent: Account?, name : String, context: NSManagedObjectContext) -> Bool {
         if let parent = parent {
-            let children = parent.children?.allObjects as! [Account]
-            for child in children{
+            for child in parent.childrenList {
                 if child.name == name{
                     return  false
                 }
@@ -320,11 +330,11 @@ extension Account {
             return true
         }
         else {
-            let accountFetchRequest : NSFetchRequest<Account> = NSFetchRequest<Account>(entityName: "Account")
-            accountFetchRequest.sortDescriptors = [NSSortDescriptor(key: "path", ascending: false)]
-            accountFetchRequest.predicate = NSPredicate(format: "parent = nil and name = %@", name)
+            let fetchRequest : NSFetchRequest<Account> = NSFetchRequest<Account>(entityName: Account.entity().name!)
+            fetchRequest.sortDescriptors = [NSSortDescriptor(key: "path", ascending: false)]
+            fetchRequest.predicate = NSPredicate(format: "parent = nil and name = %@", name)
             do{
-                let accounts = try context.fetch(accountFetchRequest)
+                let accounts = try context.fetch(fetchRequest)
                 if accounts.isEmpty {
                     return true
                 }
@@ -339,63 +349,38 @@ extension Account {
         }
     }
     
-    static func createAndGetAccount(parent: Account?, name : String, type : Int16?, currency : Currency?, keeper: Keeper? = nil, holder: Holder? = nil, subType : Int16? = nil, createdByUser : Bool = true, createDate: Date = Date(), context: NSManagedObjectContext) throws -> Account {
+    static func createAndGetAccount(parent: Account?, name : String, type : Int16?, currency : Currency?, keeper: Keeper? = nil, holder: Holder? = nil, subType : Int16? = nil, createdByUser : Bool = true, createDate: Date = Date(), impoted: Bool = false, context: NSManagedObjectContext) throws -> Account {
         
-        try validateAttributes(parent: parent, name: name, type: type, currency: currency, keeper: keeper, holder: holder, subType: subType, createdByUser: createdByUser, context: context)
+        try validateAttributes(parent: parent, name: name, type: type, currency: currency, keeper: keeper, holder: holder, subType: subType, createdByUser: createdByUser, impoted: impoted, context: context)
         
         //Adding "Other" account for cases when parent containts transactions
         if let parent = parent, parent.isFreeFromTransactionItems == false, Account.isReservedAccountName(name) == false {
             var newAccount = parent.getSubAccountWith(name: AccountsNameLocalisationManager.getLocalizedAccountName(.other1))
             if newAccount == nil {
-            newAccount = try createAndGetAccount(parent: parent, name: AccountsNameLocalisationManager.getLocalizedAccountName(.other1) , type : type, currency : currency, keeper: keeper, holder: holder, subType : subType, createdByUser : false, createDate: createDate, context: context)
+                newAccount = try createAndGetAccount(parent: parent, name: AccountsNameLocalisationManager.getLocalizedAccountName(.other1) , type : type, currency : currency, keeper: keeper, holder: holder, subType : subType, createdByUser : false, createDate: createDate, context: context)
             }
             if newAccount != nil {
-            TransactionItemManager.moveTransactionItemsFrom(oldAccount: parent, newAccount: newAccount!, modifiedByUser: createdByUser, modifyDate: createDate)
+                TransactionItemManager.moveTransactionItemsFrom(oldAccount: parent, newAccount: newAccount!, modifiedByUser: createdByUser, modifyDate: createDate)
             }
         }
         
         return Account(parent: parent, name : name, type : type, currency : currency, keeper: keeper, holder: holder, subType : subType, createdByUser : createdByUser, createDate: createDate, context: context)
     }
     
+    static func createAccount(parent: Account?, name : String, type : Int16?, currency : Currency?, keeper: Keeper? = nil, holder: Holder? = nil, subType : Int16? = nil, createdByUser : Bool = true, impoted: Bool = false, context: NSManagedObjectContext) throws {
+        try createAndGetAccount(parent: parent, name: name, type: type, currency: currency, keeper: keeper, holder: holder, subType: subType, createdByUser: createdByUser, createDate: Date(), impoted: impoted, context: context)
+    }
     
-    static func createAndGetAccountForImport(parent: Account?, name : String, type : Int16?, currency : Currency?, keeper: Keeper? = nil, holder: Holder? = nil, subType : Int16? = nil, createdByUser : Bool = true, createDate: Date = Date(), context: NSManagedObjectContext) throws -> Account {
+    private static func validateAttributes(parent: Account?, name : String, type : Int16?, currency : Currency?, keeper: Keeper? = nil, holder: Holder? = nil, subType : Int16? = nil, createdByUser : Bool = true, impoted: Bool = false, context: NSManagedObjectContext) throws {
         
         guard !name.isEmpty else {throw AccountError.emptyName}
         if parent == nil && type == nil {throw AccountError.attributeTypeShouldBeInitializeForRootAccount}
+        //        guard parent != nil && type != nil && parent?.type != type else {throw AccountError.accountContainAttribureTypeDifferentFromParent}
         
         // accounts with reserved names can create only app
-        //guard createdByUser == false || isReservedAccountName(name) == false else {throw AccountError.reservedAccountName}
-        guard isFreeAccountName(parent: parent, name : name, context: context) == true else {
-            if parent?.currency == nil {
-                throw AccountError.accountAlreadyExists(name: name)
-            }
-            else {
-                throw AccountError.categoryAlreadyExists(name: name)
-            }
+        if !impoted {
+            guard createdByUser == false || isReservedAccountName(name) == false else {throw AccountError.reservedName(name: name)}
         }
-        
-        if let parent = parent, parent.isFreeFromTransactionItems {
-            let new = Account(parent: parent, name: AccountsNameLocalisationManager.getLocalizedAccountName(.other1) , type : type, currency : currency, keeper: keeper, holder: holder, subType : subType, createdByUser : createdByUser, createDate: createDate, context: context)
-            TransactionItemManager.moveTransactionItemsFrom(oldAccount: parent, newAccount: new, modifiedByUser: createdByUser, modifyDate: createDate)
-        }
-        
-        return Account(parent: parent, name : name, type : type, currency : currency, keeper: keeper, holder: holder, subType : subType, createdByUser : createdByUser, createDate: createDate, context: context)
-    }
-    
-    
-    static func createAccount(parent: Account?, name : String, type : Int16?, currency : Currency?, keeper: Keeper? = nil, holder: Holder? = nil, subType : Int16? = nil, createdByUser : Bool = true, context: NSManagedObjectContext) throws {
-        try validateAttributes(parent: parent, name: name, type: type, currency: currency, keeper: keeper, holder: holder, subType: subType, createdByUser: createdByUser, context: context)
-        Account(parent: parent, name: name, type: type, currency: currency, keeper: keeper, holder: holder, subType: subType, createdByUser: createdByUser, createDate: Date(), context: context)
-    }
-    
-    private static func validateAttributes(parent: Account?, name : String, type : Int16?, currency : Currency?, keeper: Keeper? = nil, holder: Holder? = nil, subType : Int16? = nil, createdByUser : Bool = true, context: NSManagedObjectContext) throws {
-        
-        guard !name.isEmpty else {throw AccountError.emptyName}
-        if parent == nil && type == nil {throw AccountError.attributeTypeShouldBeInitializeForRootAccount}
-//        guard parent != nil && type != nil && parent?.type != type else {throw AccountError.accountContainAttribureTypeDifferentFromParent}
-        
-        // accounts with reserved names can create only app
-        guard createdByUser == false || isReservedAccountName(name) == false else {throw AccountError.reservedName(name: name)}
         guard isFreeAccountName(parent: parent, name : name, context: context) == true else {
             if parent?.currency == nil {
                 throw AccountError.accountAlreadyExists(name: name)
@@ -462,18 +447,18 @@ extension Account {
     }
     
     static func getRootAccountList(context : NSManagedObjectContext) throws -> [Account] {
-        let accountFetchRequest : NSFetchRequest<Account> = NSFetchRequest<Account>(entityName: Account.entity().name!)
-        accountFetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
-        accountFetchRequest.predicate = NSPredicate(format: "parent = nil")
-        return try context.fetch(accountFetchRequest)
+        let fetchRequest : NSFetchRequest<Account> = NSFetchRequest<Account>(entityName: Account.entity().name!)
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
+        fetchRequest.predicate = NSPredicate(format: "parent = nil")
+        return try context.fetch(fetchRequest)
     }
     
     static func getAccountWithPath(_ path: String, context: NSManagedObjectContext) -> Account? {
-        let accountFetchRequest : NSFetchRequest<Account> = NSFetchRequest<Account>(entityName: Account.entity().name!)
-        accountFetchRequest.sortDescriptors = [NSSortDescriptor(key: "path", ascending: true)]
-        accountFetchRequest.predicate = NSPredicate(format: "path = %@", path)
+        let fetchRequest : NSFetchRequest<Account> = NSFetchRequest<Account>(entityName: Account.entity().name!)
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "path", ascending: true)]
+        fetchRequest.predicate = NSPredicate(format: "path = %@", path)
         do{
-            let accounts = try context.fetch(accountFetchRequest)
+            let accounts = try context.fetch(fetchRequest)
             if accounts.isEmpty {
                 return nil
             }
@@ -617,7 +602,6 @@ extension Account {
         }
         inputMatrix.remove(at: 0)
         
-        
         for row in inputMatrix {
             guard row.count > 1 else {break}
             
@@ -665,8 +649,7 @@ extension Account {
             
             let linkedAccount = Account.getAccountWithPath(row[6], context: context)
             
-            
-            let account = try? Account.createAndGetAccountForImport(parent: parent, name: name, type: accountType, currency: curency, context: context)
+            let account = try? Account.createAndGetAccount(parent: parent, name: name, type: accountType, currency: curency, impoted: true, context: context)
             account?.linkedAccount = linkedAccount
             account?.subType = accountSubType
             account?.isHidden = isHidden
@@ -770,11 +753,11 @@ extension Account {
             var arrayOfResultsForTmpAccount : [(date: Date, value: Double)] = []
             if account != parentAccount {
                 title = account.name!
-                arrayOfResultsForTmpAccount = account.getBalancesForDateIntervals(dateInterval: dateInterval, dateComponent: dateComponent, calcIncludedAccountsBalances: true)
+                arrayOfResultsForTmpAccount = account.balance(dateInterval: dateInterval, dateComponent: dateComponent, calcIncludedAccountsBalances: true)
             }
             else {
-                title = AccountsNameLocalisationManager.getLocalizedAccountName(.other1)//NSLocalizedString("<Other>", comment: "")
-                arrayOfResultsForTmpAccount = account.getBalancesForDateIntervals(dateInterval: dateInterval, dateComponent: dateComponent, calcIncludedAccountsBalances: false)
+                title = AccountsNameLocalisationManager.getLocalizedAccountName(.other)//NSLocalizedString("<Other>", comment: "")
+                arrayOfResultsForTmpAccount = account.balance(dateInterval: dateInterval, dateComponent: dateComponent, calcIncludedAccountsBalances: false)
             }
             
             //convert (date: Date, value: Double) to ChartDataEntry(x:Double, y: Double)
