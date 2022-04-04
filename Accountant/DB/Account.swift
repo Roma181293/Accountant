@@ -693,25 +693,12 @@ extension Account {
     
     
     
-    static func prepareDataToShow(parentAccount: Account?, dateInterval: DateInterval, selectedCurrency: Currency, currencyHistoricalData: CurrencyHistoricalDataProtocol? = nil, dateComponent: Calendar.Component, isListForAnalytic: Bool,sortTableDataBy: SortCategoryType, context: NSManagedObjectContext) throws -> PresentingData {
-        var accountsToShow : [Account] = []
-        
-        if let account = parentAccount {
-            accountsToShow = account.directChildrenList
-            if account.rootAccount.name == AccountsNameLocalisationManager.getLocalizedAccountName(.money) ||
-                account.rootAccount.name == AccountsNameLocalisationManager.getLocalizedAccountName(.credits) ||
-                account.rootAccount.name == AccountsNameLocalisationManager.getLocalizedAccountName(.debtors) {
-                //                    print("Nothing need to be added")
-            }
-            else {
-                accountsToShow.append(account)
-            }
-        }
-        else {
-            let accountFetchRequest : NSFetchRequest<Account> = NSFetchRequest<Account>(entityName: Account.entity().name!)
-            accountFetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: false)]
-            accountFetchRequest.predicate = NSPredicate(format: "parent = nil")
-            accountsToShow = try context.fetch(accountFetchRequest)
+    func prepareDataToShow(dateInterval: DateInterval, selectedCurrency: Currency, currencyHistoricalData: CurrencyHistoricalDataProtocol? = nil, dateComponent: Calendar.Component, isListForAnalytic: Bool,sortTableDataBy: SortCategoryType, context: NSManagedObjectContext) throws -> PresentingData {
+        var accountsToShow : [Account] = directChildrenList
+        if !(rootAccount.name == AccountsNameLocalisationManager.getLocalizedAccountName(.money) ||
+             rootAccount.name == AccountsNameLocalisationManager.getLocalizedAccountName(.credits) ||
+             rootAccount.name == AccountsNameLocalisationManager.getLocalizedAccountName(.debtors)) {
+            accountsToShow.append(self)
         }
         
         if isListForAnalytic == false {
@@ -742,7 +729,7 @@ extension Account {
         for (index, account) in accountsToShow.enumerated() {
             var title = ""
             var arrayOfResultsForTmpAccount : [(date: Date, value: Double)] = []
-            if account != parentAccount {
+            if account != self {
                 title = account.name!
                 arrayOfResultsForTmpAccount = account.balance(dateInterval: dateInterval, dateComponent: dateComponent, calcIncludedAccountsBalances: true)
             }

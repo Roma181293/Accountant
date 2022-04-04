@@ -9,7 +9,6 @@
 
 import UIKit
 import Charts
-import CoreData
 //import GoogleMobileAds
 import Purchases
 
@@ -154,9 +153,9 @@ class AnalyticsViewController: UIViewController, UIScrollViewDelegate {//}, GADF
      */
     
     func updateUI() {
-        print(#function)
+        guard let account = account else {return}
         do {
-            presentingData = try Account.prepareDataToShow(parentAccount: account, dateInterval: dateInterval, selectedCurrency: accountingCurrency, dateComponent: dateComponent, isListForAnalytic: true, sortTableDataBy: sortCategoryBy, context: context)
+            presentingData = try account.prepareDataToShow(dateInterval: dateInterval, selectedCurrency: accountingCurrency, dateComponent: dateComponent, isListForAnalytic: true, sortTableDataBy: sortCategoryBy, context: context)
         }
         catch let error{
             let alert = UIAlertController(title: NSLocalizedString("Error",comment: ""), message: "\(error.localizedDescription)", preferredStyle: .alert)

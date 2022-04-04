@@ -189,7 +189,7 @@ class AccountListViewController: UIViewController, UIScrollViewDelegate{
     public func updateUI() {
         guard let dateInterval = dateInterval, let account = account else {return}
         do {
-            presentingData = try Account.prepareDataToShow(parentAccount: account, dateInterval: dateInterval, selectedCurrency: currency, currencyHistoricalData: currencyHistoricalData, dateComponent: dateComponent, isListForAnalytic: false, sortTableDataBy: SortCategoryType.nineToZero, context: context)
+            presentingData = try account.prepareDataToShow(dateInterval: dateInterval, selectedCurrency: currency, currencyHistoricalData: currencyHistoricalData, dateComponent: dateComponent, isListForAnalytic: false, sortTableDataBy: SortCategoryType.nineToZero, context: context)
         }
         catch let error{
             let alert = UIAlertController(title: NSLocalizedString("Error",comment: ""), message: "\(error.localizedDescription)", preferredStyle: .alert)
