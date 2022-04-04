@@ -445,14 +445,18 @@ extension Account {
     static func getAccountWithPath(_ path: String, context: NSManagedObjectContext) -> Account? {
         let fetchRequest : NSFetchRequest<Account> = NSFetchRequest<Account>(entityName: Account.entity().name!)
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
-        fetchRequest.predicate = NSPredicate(format: "name = %@", path)
         do{
             let accounts = try context.fetch(fetchRequest)
-            if accounts.isEmpty {
+            if !accounts.isEmpty {
+                for account in accounts {
+                    if account.path == path {
+                        return account
+                    }
+                }
                 return nil
             }
             else {
-                return accounts[0]
+                return nil
             }
         }
         catch let error {
@@ -693,16 +697,14 @@ extension Account {
         var accountsToShow : [Account] = []
         
         if let account = parentAccount {
-            if let children = account.directChildren {
-                accountsToShow = children.allObjects as! [Account]
-                if account.rootAccount.name == AccountsNameLocalisationManager.getLocalizedAccountName(.money) ||
-                    account.rootAccount.name == AccountsNameLocalisationManager.getLocalizedAccountName(.credits) ||
-                    account.rootAccount.name == AccountsNameLocalisationManager.getLocalizedAccountName(.debtors) {
-                    //                    print("Nothing need to be added")
-                }
-                else {
-                    accountsToShow.append(account)
-                }
+            accountsToShow = account.directChildrenList
+            if account.rootAccount.name == AccountsNameLocalisationManager.getLocalizedAccountName(.money) ||
+                account.rootAccount.name == AccountsNameLocalisationManager.getLocalizedAccountName(.credits) ||
+                account.rootAccount.name == AccountsNameLocalisationManager.getLocalizedAccountName(.debtors) {
+                //                    print("Nothing need to be added")
+            }
+            else {
+                accountsToShow.append(account)
             }
         }
         else {
@@ -715,10 +717,10 @@ extension Account {
         if isListForAnalytic == false {
             accountsToShow = accountsToShow.filter({
                 if $0.active {
-                    return false
+                    return true
                 }
                 else {
-                    return true
+                    return false
                 }
             })
         }
