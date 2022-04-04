@@ -288,14 +288,14 @@ class SimpleTransactionEditorViewController: UIViewController {//}, GADFullScree
     
     
     func setAccountNameToButtons() {
-        if let credit = credit, let name = credit.path{
-            creditButton.setTitle("\(NSLocalizedString("From:", comment: "")) \(name)", for: .normal)
+        if let credit = credit {
+            creditButton.setTitle("\(NSLocalizedString("From:", comment: "")) \(credit.path)", for: .normal)
         }
         else {
             creditButton.setTitle(NSLocalizedString("From: Account", comment: ""), for: .normal)
         }
-        if let debit = debit, let name = debit.path {
-            debitButton.setTitle("\(NSLocalizedString("To:", comment: "")) \(name)", for: .normal)
+        if let debit = debit {
+            debitButton.setTitle("\(NSLocalizedString("To:", comment: "")) \(debit.path)", for: .normal)
         }
         else {
             debitButton.setTitle(NSLocalizedString("To: Account", comment: ""), for: .normal)

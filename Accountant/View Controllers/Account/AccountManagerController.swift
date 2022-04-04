@@ -87,23 +87,23 @@ class AccountManagerController {
                 var title = ""
                 var message = ""
                 if selectedAccount.parent?.currency == nil {
-                    if selectedAccount.isHidden {
-                        title = NSLocalizedString("Unhide",comment: "")
-                        message = NSLocalizedString("Are you sure you want to unhide account?",comment: "")
-                    }
-                    else {
+                    if selectedAccount.active {
                         title = NSLocalizedString("Hide",comment: "")
                         message = NSLocalizedString("Are you sure you want to hide account?",comment: "")
                     }
+                    else {
+                        title = NSLocalizedString("Unhide",comment: "")
+                        message = NSLocalizedString("Are you sure you want to unhide account?",comment: "")
+                    }
                 }
                 else {
-                    if selectedAccount.isHidden {
-                        title = NSLocalizedString("Unhide",comment: "")
-                        message = NSLocalizedString("Are you sure you want to unhide category?",comment: "")
-                    }
-                    else {
+                    if selectedAccount.active {
                         title = NSLocalizedString("Hide",comment: "")
                         message = NSLocalizedString("Are you sure you want to hide category?",comment: "")
+                    }
+                    else {
+                        title = NSLocalizedString("Unhide",comment: "")
+                        message = NSLocalizedString("Are you sure you want to unhide category?",comment: "")
                     }
                 }
                 
@@ -111,7 +111,7 @@ class AccountManagerController {
                 alert.addAction(UIAlertAction(title: NSLocalizedString("Yes",comment: ""), style: .destructive, handler: {(_) in
                     
                     do {
-                        try selectedAccount.changeIsHiddenStatus()
+                        try selectedAccount.changeActiveStatus()
                         try self.delegate.coreDataStack.saveContext(self.delegate.context)
                         try self.delegate.updateSourceTable()
                         
@@ -136,13 +136,13 @@ class AccountManagerController {
             complete(true)
         }
         
-        if selectedAccount.isHidden == false {
-            hideAction.backgroundColor = .systemGray
-            hideAction.image = UIImage(systemName: "eye.slash")
-        }
-        else {
+        if selectedAccount.active {
             hideAction.backgroundColor = .systemIndigo
             hideAction.image = UIImage(systemName: "eye")
+        }
+        else {
+            hideAction.backgroundColor = .systemGray
+            hideAction.image = UIImage(systemName: "eye.slash")
         }
         return hideAction
     }
@@ -156,7 +156,7 @@ class AccountManagerController {
                 var message = ""
                 if selectedAccount.parent?.currency == nil {
                     if let linkedAccount = selectedAccount.linkedAccount {
-                        message =  String(format: NSLocalizedString("Are you sure you want to delete account and linked account  \"%@\"?",comment: ""), linkedAccount.path!)
+                        message =  String(format: NSLocalizedString("Are you sure you want to delete account and linked account  \"%@\"?",comment: ""), linkedAccount.path)
                     }
                     else {
                         message = NSLocalizedString("Are you sure you want to delete account?",comment: "")

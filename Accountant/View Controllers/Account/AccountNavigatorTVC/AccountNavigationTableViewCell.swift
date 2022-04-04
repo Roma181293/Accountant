@@ -85,7 +85,7 @@ class AccountNavigationTableViewCell: UITableViewCell {
         pathLabel.setContentCompressionResistancePriority(UILayoutPriority.defaultLow, for:.horizontal)
         amountLabel.setContentHuggingPriority(UILayoutPriority.defaultLow, for:.horizontal)
         
-        if let children = account.children, (children.allObjects as! [Account]).filter({$0.isHidden == false || $0.isHidden == showHiddenAccounts}).count > 0 {
+        if !account.childrenList.filter({$0.active || $0.active != showHiddenAccounts}).isEmpty {
             accessoryType = .disclosureIndicator
         }
         else {
@@ -95,17 +95,17 @@ class AccountNavigationTableViewCell: UITableViewCell {
         nameLabel.text = account.name
         
         if showPath {
-            pathLabel.text = account.path!
+            pathLabel.text = account.path
             pathLabel.isHidden = false
         }
         
-        if account.isHidden {
-            nameLabel.textColor = .systemGray
-            amountLabel.textColor = .systemGray
-        }
-        else {
+        if account.active {
             nameLabel.textColor = Colors.Main.defaultCellTextColor
             amountLabel.textColor = Colors.Main.defaultCellTextColor
+        }
+        else {
+            nameLabel.textColor = .systemGray
+            amountLabel.textColor = .systemGray
         }
 
         if let parent = account.parent, parent.currency == nil {

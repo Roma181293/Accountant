@@ -222,6 +222,7 @@
 		2B490DDD26E4BA6000967E11 /* GradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
 		2B490DDF26E4BB1800967E11 /* BadgeUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeUIView.swift; sourceTree = "<group>"; };
 		2B4976FB26DBE90B00147EAA /* ComplexTransactionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComplexTransactionTableViewCell.swift; sourceTree = "<group>"; };
+		2B52A1EB27F3A93B0056F5D8 /* Accountant 3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Accountant 3.xcdatamodel"; sourceTree = "<group>"; };
 		2B6561F42775F8A000150B35 /* MBUserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MBUserInfo.swift; sourceTree = "<group>"; };
 		2B6561F62775F8C400150B35 /* MBAccountInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MBAccountInfo.swift; sourceTree = "<group>"; };
 		2B6561F82775F92700150B35 /* MBStatement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MBStatement.swift; sourceTree = "<group>"; };
@@ -1429,10 +1430,11 @@
 		2B949BB72665B4040033383A /* Accountant.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				2B52A1EB27F3A93B0056F5D8 /* Accountant 3.xcdatamodel */,
 				2BFCE545274ABADF0070C35F /* Accountant 2.xcdatamodel */,
 				2B949BB82665B4040033383A /* Accountant.xcdatamodel */,
 			);
-			currentVersion = 2BFCE545274ABADF0070C35F /* Accountant 2.xcdatamodel */;
+			currentVersion = 2B52A1EB27F3A93B0056F5D8 /* Accountant 3.xcdatamodel */;
 			path = Accountant.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

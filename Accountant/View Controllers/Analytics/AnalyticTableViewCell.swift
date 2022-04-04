@@ -50,7 +50,7 @@ class AnalyticTableViewCell: UITableViewCell {
             amountLabel.textColor = .red
             emptySpaceView.isHidden = true
         }
-        else if let children = accountData.account.children, children.count > 0, account != accountData.account {
+        else if !accountData.account.childrenList.isEmpty, account != accountData.account {
             self.accessoryType = .disclosureIndicator
             amountLabel.textColor = Colors.Main.defaultCellTextColor
             emptySpaceView.isHidden = true

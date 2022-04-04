@@ -107,7 +107,7 @@ class TransactionManager {
             for ti in tran.items?.allObjects as! [TransactionItem] {
                 if ti.account != account
                     && ti.type == method.rawValue
-                    && account.isHidden == false
+                    && account.active == true
                     && (account.directChildren?.allObjects as! [Account]).isEmpty{
                     zeroIterationCandidatesArray.append((account: ti.account!, transactionDate: tran.date!))
                     accountSet.insert(ti.account!)
@@ -304,7 +304,7 @@ class TransactionManager {
 
             func findAccountWithPath(_ path : String) -> Account?{
                 for account in accounts {
-                    if account.path! == path {
+                    if account.path == path {
                         return account
                     }
                 }
@@ -418,15 +418,15 @@ class TransactionManager {
                         }
                     }
                     else {
-                        throw TransactionError.multicurrencyAccount(name: account.path!)
+                        throw TransactionError.multicurrencyAccount(name: account.path)
                     }
                     
                     if item.amount < 0 {
                         switch type {
                         case .debit:
-                            throw TransactionItemError.invalidAmountInDebitTransactioItem(path: account.path!)
+                            throw TransactionItemError.invalidAmountInDebitTransactioItem(path: account.path)
                         case .credit:
-                            throw TransactionItemError.invalidAmountInCreditTransactioItem(path: account.path!)
+                            throw TransactionItemError.invalidAmountInCreditTransactioItem(path: account.path)
                         }
                     }
                 }

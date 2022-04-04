@@ -47,7 +47,7 @@ class TransactionItemTableViewCell: UITableViewCell {
         amountTextField.transactionItem = transactionItem
         
         if let account = transactionItem.account {
-            accountButton.setTitle(account.path!, for: .normal)
+            accountButton.setTitle(account.path, for: .normal)
         }
         else {
             accountButton.setTitle(NSLocalizedString("Account", comment: ""), for: .normal)

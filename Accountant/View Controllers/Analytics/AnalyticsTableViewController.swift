@@ -60,9 +60,8 @@ class AnalyticsTableViewController: UITableViewController {
         tableView.deselectRow(at: indexPath, animated: true)
         
         if let selectedAccount = listOfAccountsToShow[indexPath.row].account,
-           let children = selectedAccount.children,
-           selectedAccount != account &&
-           children.count > 0 {
+           !selectedAccount.childrenList.isEmpty,
+           selectedAccount != account {
             
             let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
             let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.analyticsViewController) as! AnalyticsViewController

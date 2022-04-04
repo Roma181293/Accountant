@@ -31,19 +31,12 @@ extension Account {
         
         if let parent = parent {
             self.parent = parent
-            self.isHidden = parent.isHidden
-            self.addToAncestors(parent)
-            if let parentAncestors = parent.ancestors {
-                self.addToAncestors(parentAncestors)
-            }
-            self.level = parent.level + 1
-            self.path = parent.path!+":"+name
             self.type = parent.type
+            self.active = parent.active
         }
         else {
-            self.level = 0
-            self.path = name
             self.type = type!
+            self.active = true
         }
     }
     
@@ -52,19 +45,27 @@ extension Account {
             return parent.rootAccount
         }
         return self
-//        for item in ancestors?.allObjects as! [Account] {
-//            if item.level == 0 {
-//                return item
-//            }
-//        }
-//        return self
     }
     
-    var pathCalc: String {
+    var ancestorList: [Account] {
         if let parent = parent {
-            return parent.pathCalc + ":" + name!
+            return [parent] + parent.ancestorList
+        }
+        return []
+    }
+    
+    var path: String {
+        if let parent = parent {
+            return parent.path + ":" + name!
         }
         return name!
+    }
+    
+    var level: Int {
+        if let parent = parent {
+            return parent.level + 1
+        }
+        return 0
     }
     
     var directChildrenList: [Account] {
@@ -72,11 +73,11 @@ extension Account {
     }
     
     var childrenList: [Account] {
-        return children?.allObjects as! [Account]
-    }
-    
-    var ancestorList: [Account] {
-        return ancestors?.allObjects as! [Account]
+        var result: [Account] = self.directChildrenList
+        for child in directChildrenList {
+            result.append(contentsOf: child.childrenList)
+        }
+        return result
     }
     
     var transactionItemsList: [TransactionItem] {
@@ -100,31 +101,34 @@ extension Account {
         return nil
     }
     
-    func changeIsHiddenStatus(modifiedByUser : Bool = true, modifyDate: Date = Date()) throws {
-        let oldIsHidden = self.isHidden
-        if oldIsHidden {  //activation
-            for anc in self.ancestorList.filter({$0.isHidden == true}) {
-                anc.isHidden = false
+    func changeActiveStatus(modifiedByUser : Bool = true, modifyDate: Date = Date()) throws {
+        if parent?.parent == nil &&
+            parent?.currency == nil &&
+            self.balance != 0 &&
+            self.active == true {
+            throw AccountError.accumulativeAccountCannotBeHiddenWithNonZeroAmount(name: self.path)
+        }
+        
+        let oldActive = self.active
+                
+        self.active = !oldActive
+        self.modifyDate = modifyDate
+        self.modifiedByUser = modifiedByUser
+        
+        if oldActive {//deactivation
+            for anc in self.childrenList.filter({$0.active == oldActive}) {
+                anc.active = !oldActive
                 anc.modifyDate = modifyDate
                 anc.modifiedByUser = modifiedByUser
             }
         }
-        else {  //deactivation
-            for item in self.childrenList.filter({$0.isHidden == false}){
-                item.isHidden = true
-                item.modifyDate = modifyDate
-                item.modifiedByUser = modifiedByUser
+        else {//activation
+            for anc in self.ancestorList.filter({$0.active == oldActive}) {
+                anc.active = !oldActive
+                anc.modifyDate = modifyDate
+                anc.modifiedByUser = modifiedByUser
             }
         }
-        if parent?.parent == nil &&
-            parent?.currency == nil &&
-            self.balance != 0 &&
-            self.isHidden == false {
-            throw AccountError.accumulativeAccountCannotBeHiddenWithNonZeroAmount(name: self.path!)
-        }
-        self.isHidden = !oldIsHidden
-        self.modifyDate = modifyDate
-        self.modifiedByUser = modifiedByUser
     }
     
     func accountListUsingInTransactions() -> [Account] {
@@ -331,7 +335,7 @@ extension Account {
         }
         else {
             let fetchRequest : NSFetchRequest<Account> = NSFetchRequest<Account>(entityName: Account.entity().name!)
-            fetchRequest.sortDescriptors = [NSSortDescriptor(key: "path", ascending: false)]
+            fetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: false)]
             fetchRequest.predicate = NSPredicate(format: "parent = nil and name = %@", name)
             do{
                 let accounts = try context.fetch(fetchRequest)
@@ -428,22 +432,7 @@ extension Account {
                 throw AccountError.categoryAlreadyExists(name: newName)
             }
         }
-        
-        if let parent = account.parent {
-            account.path = parent.path! + ":" + newName
-            account.name = newName
-            
-            let allChildren = account.childrenList
-            for child in allChildren{
-                if let childParent = child.parent{
-                    child.path = childParent.path! + ":" + child.name!
-                }
-            }
-        }
-        else {
-            account.path = newName
-            account.name = newName
-        }
+        account.name = newName
     }
     
     static func getRootAccountList(context : NSManagedObjectContext) throws -> [Account] {
@@ -455,8 +444,8 @@ extension Account {
     
     static func getAccountWithPath(_ path: String, context: NSManagedObjectContext) -> Account? {
         let fetchRequest : NSFetchRequest<Account> = NSFetchRequest<Account>(entityName: Account.entity().name!)
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "path", ascending: true)]
-        fetchRequest.predicate = NSPredicate(format: "path = %@", path)
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
+        fetchRequest.predicate = NSPredicate(format: "name = %@", path)
         do{
             let accounts = try context.fetch(fetchRequest)
             if accounts.isEmpty {
@@ -507,7 +496,7 @@ extension Account {
         if !accountUsedInTransactionItem.isEmpty {
             var accountListString : String = ""
             accountUsedInTransactionItem.forEach({
-                accountListString += "\n" + $0.path!
+                accountListString += "\n" + $0.path
             })
             
             if account.parent?.currency == nil {
@@ -519,7 +508,7 @@ extension Account {
         }
         
         if let linkedAccount = account.linkedAccount, !linkedAccount.isFreeFromTransactionItems {
-            throw AccountError.linkedAccountHasTransactionItem(name: linkedAccount.path!)
+            throw AccountError.linkedAccountHasTransactionItem(name: linkedAccount.path)
         }
     }
     
@@ -539,10 +528,10 @@ extension Account {
     static func exportAccountsToString(context: NSManagedObjectContext) -> String {
         
         let accountFetchRequest : NSFetchRequest<Account> = NSFetchRequest<Account>(entityName: Account.entity().name!)
-        accountFetchRequest.sortDescriptors = [NSSortDescriptor(key: "parent.path", ascending: true),NSSortDescriptor(key: "path", ascending: true)]
+        accountFetchRequest.sortDescriptors = [NSSortDescriptor(key: "parent.name", ascending: true),NSSortDescriptor(key: "name", ascending: true)]
         do{
             let storedAccounts = try context.fetch(accountFetchRequest)
-            var export : String = "ParentAccount_path,Account_name,isHidden,Account_type,Account_currency,Account_SubType,LinkedAccount_path\n"
+            var export : String = "ParentAccount_path,Account_name,active,Account_type,Account_currency,Account_SubType,LinkedAccount_path\n"
             for account in storedAccounts {
                 
                 var accountType = ""
@@ -569,13 +558,13 @@ extension Account {
                     accountSubType = "Out of enumeration"
                 }
                 
-                export +=  "\(account.parent != nil ? account.parent!.path! : "" ),"
+                export +=  "\(account.parent != nil ? account.parent!.path : "" ),"
                 export +=  "\(account.name!),"
-                export +=  "\(account.isHidden),"
+                export +=  "\(account.active),"
                 export +=  "\(accountType),"
                 export +=  "\(account.currency?.code ?? "MULTICURRENCY"),"
                 export +=  "\(accountSubType),"
-                export +=  "\(account.linkedAccount != nil ? account.linkedAccount!.path! : "" )\n"
+                export +=  "\(account.linkedAccount != nil ? account.linkedAccount!.path : "" )\n"
             }
             return export
         }
@@ -587,7 +576,7 @@ extension Account {
     
     static func getAccountList(context: NSManagedObjectContext) throws -> [Account] {
         let accountFetchRequest : NSFetchRequest<Account> = NSFetchRequest<Account>(entityName: Account.entity().name!)
-        accountFetchRequest.sortDescriptors = [NSSortDescriptor(key: "path", ascending: true)]
+        accountFetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
         return try context.fetch(accountFetchRequest)
     }
     
@@ -609,14 +598,14 @@ extension Account {
             
             let name = String(row[1])
             
-            var isHidden = false
+            var active = false
             switch row[2] {
             case "false":
-                isHidden = false
+                active = false
             case "true":
-                isHidden = true
+                active = true
             default:
-                break//throw ImportAccountError.invalidIsHiddenValue
+                break//throw ImportAccountError.invalidactiveValue
             }
             
             var accountType: Int16 = 0
@@ -652,7 +641,7 @@ extension Account {
             let account = try? Account.createAndGetAccount(parent: parent, name: name, type: accountType, currency: curency, impoted: true, context: context)
             account?.linkedAccount = linkedAccount
             account?.subType = accountSubType
-            account?.isHidden = isHidden
+            account?.active = active
             
             
             //CHECKING
@@ -683,13 +672,13 @@ extension Account {
                     accountSubTypes = "Out of enumeration"
                 }
                 var export = ""
-                export +=  "\(account.parent != nil ? account.parent!.path! : "" ),"
+                export +=  "\(account.parent != nil ? account.parent!.path : "" ),"
                 export +=  "\(account.name!),"
-                export +=  "\(account.isHidden),"
+                export +=  "\(account.active),"
                 export +=  "\(accountTypes),"
                 export +=  "\(account.currency?.code ?? "MULTICURRENCY"),"
                 export +=  "\(accountSubTypes),"
-                export +=  "\(account.linkedAccount != nil ? account.linkedAccount!.path! : "" )\n"
+                export +=  "\(account.linkedAccount != nil ? account.linkedAccount!.path : "" )\n"
                 //            print(export)
             }
             else {
@@ -718,14 +707,14 @@ extension Account {
         }
         else {
             let accountFetchRequest : NSFetchRequest<Account> = NSFetchRequest<Account>(entityName: Account.entity().name!)
-            accountFetchRequest.sortDescriptors = [NSSortDescriptor(key: "path", ascending: false)]
+            accountFetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: false)]
             accountFetchRequest.predicate = NSPredicate(format: "parent = nil")
             accountsToShow = try context.fetch(accountFetchRequest)
         }
         
         if isListForAnalytic == false {
             accountsToShow = accountsToShow.filter({
-                if $0.isHidden {
+                if $0.active {
                     return false
                 }
                 else {

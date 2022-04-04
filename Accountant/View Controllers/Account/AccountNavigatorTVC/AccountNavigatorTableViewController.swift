@@ -50,8 +50,8 @@ class AccountNavigatorTableViewController: UITableViewController, AccountManager
     
     lazy var fetchedResultsController : NSFetchedResultsController<Account> = {
         let fetchRequest : NSFetchRequest<Account> = NSFetchRequest<Account>(entityName: "Account")
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "path", ascending: true)]
-            fetchRequest.predicate = NSPredicate(format: "parent = %@ && (isHidden = false || isHidden = %@) && NOT (SELF IN %@)", argumentArray: [account, showHiddenAccounts, excludeAccountList])
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
+        fetchRequest.predicate = NSPredicate(format: "parent = %@ && (active = true || active != %@) && NOT (SELF IN %@)", argumentArray: [account, showHiddenAccounts, excludeAccountList])
             return NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
     }()
     
@@ -177,20 +177,7 @@ class AccountNavigatorTableViewController: UITableViewController, AccountManager
         tableView.deselectRow(at: indexPath, animated: true)
         let selectedAccount = fetchedResultsController.object(at: indexPath) as Account
         
-        if let children = selectedAccount.children, (children.allObjects as! [Account]).filter({$0.isHidden == false || $0.isHidden == showHiddenAccounts}).count > 0 {
-            let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-            let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.accountNavigatorTableViewController) as! AccountNavigatorTableViewController
-            vc.account = selectedAccount
-            vc.isUserHasPaidAccess = isUserHasPaidAccess
-            vc.context = context
-            vc.showHiddenAccounts = self.showHiddenAccounts
-            vc.searchBarIsHidden = self.searchBarIsHidden
-            vc.simpleTransactionEditorVC = simpleTransactionEditorVC
-            vc.typeOfAccountingMethod = typeOfAccountingMethod
-            vc.accountRequestorViewController = accountRequestorViewController
-            self.navigationController?.pushViewController(vc, animated: true)
-        }
-        else {
+        if selectedAccount.childrenList.filter({$0.active || $0.active != showHiddenAccounts}).isEmpty {
             if let addTransactionVC = simpleTransactionEditorVC {
                 if typeOfAccountingMethod == .debit {
                     addTransactionVC.debit = selectedAccount
@@ -204,6 +191,19 @@ class AccountNavigatorTableViewController: UITableViewController, AccountManager
                 accountRequestorViewController.setAccount(selectedAccount)
                 self.navigationController?.popToViewController(accountRequestorViewController, animated: true)
             }
+        }
+        else {
+            let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+            let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.accountNavigatorTableViewController) as! AccountNavigatorTableViewController
+            vc.account = selectedAccount
+            vc.isUserHasPaidAccess = isUserHasPaidAccess
+            vc.context = context
+            vc.showHiddenAccounts = self.showHiddenAccounts
+            vc.searchBarIsHidden = self.searchBarIsHidden
+            vc.simpleTransactionEditorVC = simpleTransactionEditorVC
+            vc.typeOfAccountingMethod = typeOfAccountingMethod
+            vc.accountRequestorViewController = accountRequestorViewController
+            self.navigationController?.pushViewController(vc, animated: true)
         }
     }
     
@@ -270,7 +270,7 @@ class AccountNavigatorTableViewController: UITableViewController, AccountManager
     }
     
     func resetPredicate() {
-        fetchedResultsController.fetchRequest.predicate = NSPredicate(format: "parent = %@ && (isHidden = false || isHidden = %@) && NOT (SELF IN %@)", argumentArray: [account, showHiddenAccounts, excludeAccountList])
+        fetchedResultsController.fetchRequest.predicate = NSPredicate(format: "parent = %@ && (active = true || active != %@) && NOT (SELF IN %@)", argumentArray: [account, showHiddenAccounts, excludeAccountList])
     }
 }
 
@@ -279,10 +279,10 @@ extension AccountNavigatorTableViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         if searchController.searchBar.text!.count != 0 {
             if let account = account {
-                fetchedResultsController.fetchRequest.predicate = NSPredicate(format: "path CONTAINS[c] %@ && name CONTAINS[c] %@ && (isHidden = false || isHidden = %@) && NOT (SELF IN %@)", argumentArray: [account.path!,searchController.searchBar.text!, showHiddenAccounts, excludeAccountList])
+                fetchedResultsController.fetchRequest.predicate = NSPredicate(format: "name CONTAINS[c] %@ && (active = true || active != %@) && NOT (SELF IN %@)", argumentArray: [searchController.searchBar.text!, showHiddenAccounts, excludeAccountList])
             }
             else {
-                fetchedResultsController.fetchRequest.predicate = NSPredicate(format: "name CONTAINS[c] %@ && (isHidden = false || isHidden = %@) && NOT (SELF IN %@)", argumentArray: [searchController.searchBar.text!,showHiddenAccounts, excludeAccountList])
+                fetchedResultsController.fetchRequest.predicate = NSPredicate(format: "name CONTAINS[c] %@ && (active = true || active != %@) && NOT (SELF IN %@)", argumentArray: [searchController.searchBar.text!,showHiddenAccounts, excludeAccountList])
             }
             isSwipeAvailable = false
         }
