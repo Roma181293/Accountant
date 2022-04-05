@@ -19,7 +19,7 @@ class AccountTests: XCTestCase {
         super.setUp()
         coreDataStack = CoreDataStack.shared
         context = coreDataStack.persistentContainer.viewContext
-        HolderManager.createDefaultHolders(context: context)
+        Holder.createDefaultHolders(context: context)
         Keeper.createDefaultKeepers(context: context)
         Currency.addCurrencies(context: context)
         do {

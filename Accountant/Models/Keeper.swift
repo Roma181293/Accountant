@@ -60,7 +60,7 @@ extension Keeper {
         let _ = try createAndGetKeeper(name: name, type:type, createdByUser : createdByUser, context: context)
     }
     
-    func removeKeeper() throws {
+    func remove() throws {
         guard accountsList.isEmpty else {
             throw KeeperError.thisKeeperUsedInAccounts
         }

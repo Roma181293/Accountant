@@ -110,7 +110,7 @@ class StartAccountingViewController: UIViewController, CurrencyReceiverDelegate 
                 try Account.deleteAllAccounts(context: context, env:env)
                 try Currency.deleteAllCurrencies(context: context, env:env)
                 try SeedDataManager.deleteAllKeepers(context: context, env:env)
-                try HolderManager.deleteAllHolders(context: context, env:env)
+                try SeedDataManager.deleteAllHolders(context: context, env:env)
                 try BankAccountManager.deleteAllBankAccounts(context: context, env: env)
                 try UserBankProfileManager.deleteAllUBP(context: context, env: env)
                 try RateManager.deleteAllRates(context: context, env: env)
@@ -123,7 +123,7 @@ class StartAccountingViewController: UIViewController, CurrencyReceiverDelegate 
         }
         
         //add New Data
-        HolderManager.createDefaultHolders(context: context)
+        SeedDataManager.createDefaultHolders(context: context)
         SeedDataManager.createDefaultKeepers(context: context)
         SeedDataManager.addCurrencies(context: context)
         

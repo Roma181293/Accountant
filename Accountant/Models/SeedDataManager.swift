@@ -46,6 +46,29 @@ class SeedDataManager {
         })
     }
     
+    //USE ONLY TO CLEAR DATA IN TEST ENVIRONMENT
+    static func deleteAllHolders(context: NSManagedObjectContext, env: Environment?) throws {
+        guard env == .test else {return}
+        let holderFetchRequest : NSFetchRequest<Holder> = NSFetchRequest<Holder>(entityName: Holder.entity().name!)
+        holderFetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
+        
+        let holders = try context.fetch(holderFetchRequest)
+        holders.forEach({
+            context.delete($0)
+        })
+        
+    }
+    
+    
+    static func createDefaultHolders(context: NSManagedObjectContext) {
+        try? Holder.create(name: NSLocalizedString("Me", comment: ""),icon: "😎", createdByUser: false, context: context)
+    }
+    
+    static func createTestHolders(context: NSManagedObjectContext) throws {
+        try Holder.create(name: NSLocalizedString("Me", comment: ""),icon: "😎", createdByUser: false, context: context)
+        try Holder.create(name: NSLocalizedString("Kate", comment: ""),icon: "👩🏻‍🦰", context: context)
+    }
+    
     static func addBaseAccounts(accountingCurrency: Currency, context: NSManagedObjectContext) {
         AccountsNameLocalisationManager.createAllLocalizedAccountName()
         
@@ -81,8 +104,8 @@ class SeedDataManager {
         let hanna = try? Keeper.getKeeperForName(NSLocalizedString("Hanna", comment: ""), context: context)
         let cashKeeper = try? Keeper.getCashKeeper(context: context)
         
-        let me = try? HolderManager.getHolderForName(NSLocalizedString("Me", comment: ""), context: context)
-        let kate = try? HolderManager.getHolderForName(NSLocalizedString("Kate", comment: ""), context: context)
+        let me = try? Holder.get(NSLocalizedString("Me", comment: ""), context: context)
+        let kate = try? Holder.get(NSLocalizedString("Kate", comment: ""), context: context)
         
         
         let money = try? Account.createAndGetAccount(parent: nil, name: AccountsNameLocalisationManager.getLocalizedAccountName(.money), type: AccountType.assets.rawValue, currency: nil, createdByUser: false, context: context)

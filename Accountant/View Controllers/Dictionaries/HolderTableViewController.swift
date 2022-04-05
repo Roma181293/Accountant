@@ -79,7 +79,7 @@ class HolderTableViewController: UITableViewController {
                 guard iconTextField.text?.isEmpty == false else {throw HolderError.emptyIcon}
                 guard nameTextField.text?.isEmpty == false else {throw HolderError.emptyName}
                 
-                try HolderManager.createHolder(name: nameTextField.text!, icon: iconTextField.text!, context: self.context)
+                try Holder.create(name: nameTextField.text!, icon: iconTextField.text!, context: self.context)
                 try CoreDataStack.shared.saveContext(self.context)
                 try self.fetchedResultsController.performFetch()
                 self.tableView.reloadData()

@@ -625,7 +625,7 @@ class AccountEditorWithInitialBalanceViewController: UIViewController {
         if let keeper = try? Keeper.getFirstNonCashKeeper(context: context) {
             self.keeper = keeper
         }
-        if let holder = try? HolderManager.getMe(context: context) {
+        if let holder = try? Holder.getMe(context: context) {
             self.holder = holder
         }
     }

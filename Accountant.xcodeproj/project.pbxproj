@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		2B00CAF92746095700821FE0 /* MonobankViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B00CAF82746095700821FE0 /* MonobankViewController.swift */; };
 		2B00CAFB2746514900821FE0 /* Keeper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B00CAFA2746514900821FE0 /* Keeper.swift */; };
-		2B00CAFD27465CC500821FE0 /* HolderManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B00CAFC27465CC500821FE0 /* HolderManager.swift */; };
+		2B00CAFD27465CC500821FE0 /* Holder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B00CAFC27465CC500821FE0 /* Holder.swift */; };
 		2B0D1D3326ADF1D1003C6394 /* TransactionItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B0D1D3226ADF1D1003C6394 /* TransactionItem.swift */; };
 		2B104E5226E558F300E67F6A /* SalesBadgeUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B104E5126E558F300E67F6A /* SalesBadgeUIView.swift */; };
 		2B1407A826F5D49B00114B95 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1407A726F5D49B00114B95 /* WebViewController.swift */; };
@@ -149,7 +149,7 @@
 /* Begin PBXFileReference section */
 		2B00CAF82746095700821FE0 /* MonobankViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonobankViewController.swift; sourceTree = "<group>"; };
 		2B00CAFA2746514900821FE0 /* Keeper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keeper.swift; sourceTree = "<group>"; };
-		2B00CAFC27465CC500821FE0 /* HolderManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HolderManager.swift; sourceTree = "<group>"; };
+		2B00CAFC27465CC500821FE0 /* Holder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Holder.swift; sourceTree = "<group>"; };
 		2B0D1D3226ADF1D1003C6394 /* TransactionItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionItem.swift; sourceTree = "<group>"; };
 		2B104E5126E558F300E67F6A /* SalesBadgeUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SalesBadgeUIView.swift; sourceTree = "<group>"; };
 		2B1407A726F5D49B00114B95 /* WebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
@@ -360,7 +360,7 @@
 				2B1FEA82266C1D9900BF53BD /* Transaction.swift */,
 				2B0D1D3226ADF1D1003C6394 /* TransactionItem.swift */,
 				2B00CAFA2746514900821FE0 /* Keeper.swift */,
-				2B00CAFC27465CC500821FE0 /* HolderManager.swift */,
+				2B00CAFC27465CC500821FE0 /* Holder.swift */,
 				2B3643BA2753902E007253EB /* UserBankProfileManager.swift */,
 				2B6561FC2776030500150B35 /* BankAccountManager.swift */,
 				2B85D854278F013A0042858B /* ExchangeManager.swift */,
@@ -935,7 +935,7 @@
 				2B7AB40A278D4D3600974156 /* BankAccountError.swift in Sources */,
 				2B1FEA62266BF03300BF53BD /* Currency.swift in Sources */,
 				2B1FEAE9266CAF6C00BF53BD /* Extension UIResponder.swift in Sources */,
-				2B00CAFD27465CC500821FE0 /* HolderManager.swift in Sources */,
+				2B00CAFD27465CC500821FE0 /* Holder.swift in Sources */,
 				2B1FEAAE266C3AB900BF53BD /* TransactionListViewController.swift in Sources */,
 				2B44C9F426EDFC6E0009976A /* WelcomeViewController.swift in Sources */,
 				2B85FD0D277795DC005A295E /* StatementLoadingService.swift in Sources */,
