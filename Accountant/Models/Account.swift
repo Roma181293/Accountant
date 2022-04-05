@@ -92,6 +92,12 @@ extension Account {
         return transactionItemsList.isEmpty
     }
     
+    func accountListUsingInTransactions() -> [Account] {
+        var accounts = childrenList
+        accounts.append(self)
+        return accounts.filter({$0.isFreeFromTransactionItems == false})
+    }
+    
     func getSubAccountWith(name: String) -> Account? {
         for child in childrenList {
             if child.name == name {
@@ -131,10 +137,77 @@ extension Account {
         }
     }
     
-    func accountListUsingInTransactions() -> [Account] {
+    var canBeRenamed: Bool {
+        if Account.isReservedAccountName(name!){
+            return false
+        }
+        return true
+    }
+    
+    
+    func renameAccount(to newName : String, context : NSManagedObjectContext) throws {
+        guard Account.isReservedAccountName(newName) == false else {throw AccountError.reservedName(name: newName)}
+        guard Account.isFreeAccountName(parent: self.parent, name: newName, context: context)
+        else {
+            if self.parent?.currency == nil {
+                throw AccountError.accountAlreadyExists(name: newName)
+            }
+            else {
+                throw AccountError.categoryAlreadyExists(name: newName)
+            }
+        }
+        self.name = newName
+        self.modifyDate = Date()
+        self.modifiedByUser = true
+    }
+    
+    func canBeRemoved() throws {
         var accounts = childrenList
         accounts.append(self)
-        return accounts.filter({$0.isFreeFromTransactionItems == false})
+        
+        var accountUsedInTransactionItem : [Account] = []
+        for acc in accounts{
+            if !acc.isFreeFromTransactionItems {
+                accountUsedInTransactionItem.append(acc)
+            }
+        }
+        
+        if !accountUsedInTransactionItem.isEmpty {
+            var accountListString : String = ""
+            accountUsedInTransactionItem.forEach({
+                accountListString += "\n" + $0.path
+            })
+            
+            if parent?.currency == nil {
+                throw AccountError.cantRemoveAccountThatUsedInTransactionItem(accountListString)
+            }
+            else {
+                throw AccountError.cantRemoveCategoryThatUsedInTransactionItem(accountListString)
+            }
+        }
+        
+        if let linkedAccount = linkedAccount, !linkedAccount.isFreeFromTransactionItems {
+            throw AccountError.linkedAccountHasTransactionItem(name: linkedAccount.path)
+        }
+    }
+    
+    func removeAccount(eligibilityChacked: Bool, context: NSManagedObjectContext) throws {
+        var accounts = childrenList
+        accounts.append(self)
+        if eligibilityChacked == false {
+            try canBeRemoved()
+            accounts.forEach({
+                context.delete($0)
+            })
+        }
+        else {
+            if let linkedAccount = linkedAccount {
+                accounts.append(linkedAccount)
+            }
+            accounts.forEach({
+                context.delete($0)
+            })
+        }
     }
 }
 
@@ -281,9 +354,10 @@ extension Account{
     }
 }
 
+//MARK: - Static methods
 extension Account {
-    static func isReservedAccountName(_ name: String) -> Bool {
-        let reservedAccountNames = [
+    private static var reservedAccountNames: [String] {
+        return [
             //EN
             "Income"
             ,"Expenses"
@@ -315,8 +389,11 @@ extension Account {
             ,"<Прочее>"
             ,"Прочее"
         ]
+    }
+    
+    static func isReservedAccountName(_ name: String) -> Bool {
         for item in reservedAccountNames {
-            if item == name {
+            if item.uppercased() == name.uppercased() {
                 return true
             }
         }
@@ -412,28 +489,6 @@ extension Account {
         }
     }
     
-    static func canBeRenamed(account:Account) -> Bool {
-        if isReservedAccountName(account.name!){
-            return false
-        }
-        else {
-            return true
-        }
-    }
-    
-    
-    static func renameAccount(_ account : Account, to newName : String, context : NSManagedObjectContext) throws {
-        guard isFreeAccountName(parent: account.parent, name: newName, context: context)
-        else {
-            if account.parent?.currency == nil {
-                throw AccountError.accountAlreadyExists(name: newName)
-            }
-            else {
-                throw AccountError.categoryAlreadyExists(name: newName)
-            }
-        }
-        account.name = newName
-    }
     
     static func getRootAccountList(context : NSManagedObjectContext) throws -> [Account] {
         let fetchRequest : NSFetchRequest<Account> = NSFetchRequest<Account>(entityName: Account.entity().name!)
@@ -441,6 +496,14 @@ extension Account {
         fetchRequest.predicate = NSPredicate(format: "parent = nil")
         return try context.fetch(fetchRequest)
     }
+    
+    
+    static func getAccountList(context: NSManagedObjectContext) throws -> [Account] {
+        let accountFetchRequest : NSFetchRequest<Account> = NSFetchRequest<Account>(entityName: Account.entity().name!)
+        accountFetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
+        return try context.fetch(accountFetchRequest)
+    }
+    
     
     static func getAccountWithPath(_ path: String, context: NSManagedObjectContext) -> Account? {
         let fetchRequest : NSFetchRequest<Account> = NSFetchRequest<Account>(entityName: Account.entity().name!)
@@ -462,57 +525,6 @@ extension Account {
         catch let error {
             print("ERROR", error)
             return nil
-        }
-    }
-    
-    static func removeAccount(_ account: Account, eligibilityChacked: Bool, context: NSManagedObjectContext) throws {
-        var accounts = account.childrenList
-        accounts.append(account)
-        if eligibilityChacked == false {
-            try canBeRemove(account: account)
-            accounts.forEach({
-                context.delete($0)
-            })
-        }
-        else {
-            if let linkedAccount = account.linkedAccount {
-                accounts.append(linkedAccount)
-            }
-            accounts.forEach({
-                context.delete($0)
-            })
-        }
-    }
-    
-    
-    
-    static func canBeRemove(account: Account) throws {
-        var accounts = account.childrenList
-        accounts.append(account)
-        
-        var accountUsedInTransactionItem : [Account] = []
-        for acc in accounts{
-            if !acc.isFreeFromTransactionItems {
-                accountUsedInTransactionItem.append(acc)
-            }
-        }
-        
-        if !accountUsedInTransactionItem.isEmpty {
-            var accountListString : String = ""
-            accountUsedInTransactionItem.forEach({
-                accountListString += "\n" + $0.path
-            })
-            
-            if account.parent?.currency == nil {
-                throw AccountError.cantRemoveAccountThatUsedInTransactionItem(accountListString)
-            }
-            else {
-                throw AccountError.cantRemoveCategoryThatUsedInTransactionItem(accountListString)
-            }
-        }
-        
-        if let linkedAccount = account.linkedAccount, !linkedAccount.isFreeFromTransactionItems {
-            throw AccountError.linkedAccountHasTransactionItem(name: linkedAccount.path)
         }
     }
     
@@ -576,12 +588,6 @@ extension Account {
             print("ERROR", error)
             return ""
         }
-    }
-    
-    static func getAccountList(context: NSManagedObjectContext) throws -> [Account] {
-        let accountFetchRequest : NSFetchRequest<Account> = NSFetchRequest<Account>(entityName: Account.entity().name!)
-        accountFetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
-        return try context.fetch(accountFetchRequest)
     }
     
     static func importAccounts(_ data : String, context: NSManagedObjectContext) throws {

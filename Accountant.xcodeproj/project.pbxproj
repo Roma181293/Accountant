@@ -351,6 +351,7 @@
 		2B1FEA5D266BEFA500BF53BD /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				2BDE4F4127D7570A0069624C /* Account.swift */,
 				2B6561F22775F86D00150B35 /* Banking */,
 				2B1FEA43266BEE6700BF53BD /* Exchange Structures */,
 				2B1FEB66266D752200BF53BD /* Visualisation */,
@@ -676,7 +677,6 @@
 		2B949BAD2665B4040033383A /* Accountant */ = {
 			isa = PBXGroup;
 			children = (
-				2BDE4F4027D7569A0069624C /* DB */,
 				2B949BB72665B4040033383A /* Accountant.xcdatamodeld */,
 				2B7F885727A5D74E00A1B63B /* Migration */,
 				2B949BAE2665B4040033383A /* AppDelegate.swift */,
@@ -714,14 +714,6 @@
 				2B949BD52665B4090033383A /* Info.plist */,
 			);
 			path = AccountantUITests;
-			sourceTree = "<group>";
-		};
-		2BDE4F4027D7569A0069624C /* DB */ = {
-			isa = PBXGroup;
-			children = (
-				2BDE4F4127D7570A0069624C /* Account.swift */,
-			);
-			path = DB;
 			sourceTree = "<group>";
 		};
 		77D38D658A3E56B26B79298B /* Frameworks */ = {

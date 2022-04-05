@@ -70,7 +70,7 @@ class AccountListTableViewController: UITableViewController, AccountManagerTable
         
         var tmpConfiguration: [UIContextualAction] = []
         tmpConfiguration.append(accountManagerController.addTransactionWithDebitAccount(indexPath: indexPath, selectedAccount: selectedAccount))
-        if Account.canBeRenamed(account: selectedAccount) {
+        if selectedAccount.canBeRenamed {
             tmpConfiguration.append(accountManagerController.renameAccount(indexPath: indexPath, selectedAccount: selectedAccount))
             tmpConfiguration.append(accountManagerController.removeAccount(indexPath: indexPath, selectedAccount: selectedAccount))
         }

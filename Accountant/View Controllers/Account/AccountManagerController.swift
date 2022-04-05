@@ -151,7 +151,7 @@ class AccountManagerController {
     func removeAccount(indexPath: IndexPath, selectedAccount: Account) -> UIContextualAction{
         let removeAction = UIContextualAction(style: .destructive, title: NSLocalizedString("Delete",comment: "")) { _, _, complete in
             do {
-                try Account.canBeRemove(account: selectedAccount)
+                try selectedAccount.canBeRemoved()
                 
                 var message = ""
                 if selectedAccount.parent?.currency == nil {
@@ -169,7 +169,7 @@ class AccountManagerController {
                 let alert = UIAlertController(title: NSLocalizedString("Delete",comment: ""), message: message, preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: NSLocalizedString("Yes",comment: ""), style: .destructive, handler: {(_) in
                     do {
-                        try Account.removeAccount(selectedAccount, eligibilityChacked: true, context: self.delegate.context)
+                        try selectedAccount.removeAccount(eligibilityChacked: true, context: self.delegate.context)
                         try self.delegate.coreDataStack.saveContext(self.delegate.context)
                         try self.delegate.updateSourceTable()
                         
@@ -208,7 +208,7 @@ class AccountManagerController {
                 guard let textField = alert?.textFields![0] else {return}
                 
                 do {
-                    try Account.renameAccount(selectedAccount, to: textField.text!, context: self.delegate.context)
+                    try selectedAccount.renameAccount(to: textField.text!, context: self.delegate.context)
                     try self.delegate.coreDataStack.saveContext(self.delegate.context)
                     try self.delegate.updateSourceTable()
                     self.delegate.tableView.reloadData()
