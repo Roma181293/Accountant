@@ -427,12 +427,12 @@ class SimpleTransactionEditorViewController: UIViewController {//}, GADFullScree
     
     @objc func done(_ sender: UIButton) {
         guard validation() == true else {return}
-        if let transaction = transaction{
+        if let transaction = transaction {
             //, (datePicker.date != transaction.date || Double(amountInDebitCurrencyTextField.text!) != transaction.amountInDebitCurrency || Double(amountInCreditCurrencyTextField.text!) != transaction.amountInCreditCurrency || debit != transaction.debitAccount || credit != transaction.creditAccount){ //check for changing
             
             let alert = UIAlertController(title: NSLocalizedString("Save", comment: ""), message: NSLocalizedString("Do you want to save changes?", comment: ""), preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: NSLocalizedString("Yes", comment: ""), style: .default, handler: { [] (_) in
-                TransactionManager.deleteTransaction(transaction, context: self.context)
+                transaction.delete(context: self.context)
                 self.addNewTransaction()
                 self.navigationController?.popViewController(animated: true)
             }))
@@ -680,13 +680,13 @@ class SimpleTransactionEditorViewController: UIViewController {//}, GADFullScree
         
         if debit.currency == credit.currency {
             if let amountInDebitCurrency = Double(amountInDebitCurrencyTextField.text!.replacingOccurrences(of: ",", with: ".")) {
-                TransactionManager.addTransaction(date: datePicker.date, debit: debit, credit: credit, debitAmount: amountInDebitCurrency, creditAmount: amountInDebitCurrency, comment: comment, context: context)
+                Transaction.addTransactionWith2TranItems(date: datePicker.date, debit: debit, credit: credit, debitAmount: amountInDebitCurrency, creditAmount: amountInDebitCurrency, comment: comment, context: context)
             }
         }
         else {
             if let amountInDebitCurrency = Double(amountInDebitCurrencyTextField.text!.replacingOccurrences(of: ",", with: ".")),
                let amountInCreditCurrency = Double(amountInCreditCurrencyTextField.text!.replacingOccurrences(of: ",", with: ".")) {
-                TransactionManager.addTransaction(date: datePicker.date, debit: debit, credit: credit, debitAmount: amountInDebitCurrency, creditAmount: amountInCreditCurrency, comment: comment, context: context)
+                Transaction.addTransactionWith2TranItems(date: datePicker.date, debit: debit, credit: credit, debitAmount: amountInDebitCurrency, creditAmount: amountInCreditCurrency, comment: comment, context: context)
             }
         }
         

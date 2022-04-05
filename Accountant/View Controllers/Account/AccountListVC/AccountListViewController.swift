@@ -131,7 +131,7 @@ class AccountListViewController: UIViewController, UIScrollViewDelegate{
         if isNeedUpdateAll() {
             dateOfLastChangesInDB = UserProfile.getDateOfLastChangesInDB()
             scrollView.scrollToLeft(animated: false)
-            guard let startDate = TransactionManager.getDateForFirstTransaction(context: context)
+            guard let startDate = Transaction.getDateForFirstTransaction(context: context)
             else {
                 dateInterval = DateInterval(start : Date(), end : Date())
                 self.updateUI()
@@ -384,7 +384,7 @@ class AccountListViewController: UIViewController, UIScrollViewDelegate{
             moneyAccountListTableViewController.environment = self.environment
         }
         
-        if let startDate = TransactionManager.getDateForFirstTransaction(context: context) {
+        if let startDate = Transaction.getDateForFirstTransaction(context: context) {
             dateInterval = DateInterval(start : startDate, end : Date())
         }
         else {

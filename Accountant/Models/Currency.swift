@@ -30,7 +30,7 @@ extension Currency {
         }
     }
     
-    static func createAndGetCurrency(code: String, iso4217: Int16, name: String?, createdByUser : Bool = true, context: NSManagedObjectContext) throws -> Currency{
+    static func createAndGetCurrency(code: String, iso4217: Int16, name: String?, createdByUser : Bool = true, context: NSManagedObjectContext) throws -> Currency {
         guard isFreeCurrencyCode(code,context: context) == true else {
             throw CurrencyError.thisCurrencyAlreadyExists
         }
@@ -91,7 +91,7 @@ extension Currency {
     
     //FIXME:- need to create new predicate how to check is it awailiable to change accounting currency
     static func accountingCurrencyCanBeChanged(context: NSManagedObjectContext) throws -> Bool {
-        let currencyFetchRequest : NSFetchRequest<TransactionItem> = NSFetchRequest<TransactionItem>(entityName: "TransactionItem")
+        let currencyFetchRequest : NSFetchRequest<TransactionItem> = NSFetchRequest<TransactionItem>(entityName: TransactionItem.entity().name!)
         currencyFetchRequest.sortDescriptors = [NSSortDescriptor(key: "createDate", ascending: true)]
         currencyFetchRequest.predicate = NSPredicate(format: "account.currency.isAccounting = false")
         

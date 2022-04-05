@@ -9,42 +9,113 @@
 import Foundation
 import CoreData
 
-class TransactionManager {
+extension Transaction {
     
-    static func addTransaction(date : Date, debit : Account, credit : Account, debitAmount : Double, creditAmount : Double, comment : String? = nil, createdByUser : Bool = true, context: NSManagedObjectContext) {
-        let transaction = Transaction(context: context)
+    convenience init(date : Date, comment : String? = nil, createdByUser : Bool = true, createDate: Date = Date(), context: NSManagedObjectContext){
+        self.init(context: context)
+        self.id = UUID()
+        self.date = date
+        self.comment = comment
+        self.applied = true
+        self.createDate = createDate
+        self.createdByUser = createdByUser
+        self.modifyDate = createDate
+        self.modifiedByUser = createdByUser
+    }
+    
+    var transactionItemsList: [TransactionItem] {
+       return items!.allObjects as! [TransactionItem]
+    }
+    
+    static func validateTransactionDataBeforeSave(_ transaction: Transaction) throws {
         
+        func getDataAboutTransactionItems(transaction: Transaction, type: AccountingMethod, amount: inout Double, currency: inout Currency?, itemsCount: inout Int) throws {
+            for item in transaction.transactionItemsList.filter({$0.type == type.rawValue}) {
+                itemsCount += 1
+                amount += item.amount
+                if let account = item.account{
+                    if let cur = account.currency {
+                        if currency != cur {
+                            currency = nil //multicurrency transaction
+                        }
+                    }
+                    else {
+                        throw TransactionError.multicurrencyAccount(name: account.path)
+                    }
+                    
+                    if item.amount < 0 {
+                        switch type {
+                        case .debit:
+                            throw TransactionItemError.invalidAmountInDebitTransactioItem(path: account.path)
+                        case .credit:
+                            throw TransactionItemError.invalidAmountInCreditTransactioItem(path: account.path)
+                        }
+                    }
+                }
+                else {
+                    switch type {
+                    case .debit:
+                        throw TransactionError.debitTransactionItemWOAccount
+                    case .credit:
+                        throw TransactionError.creditTransactionItemWOAccount
+                    }
+                }
+            }
+        }
+        
+        var debitAmount: Double = 0
+        var creditAmount: Double = 0
+        
+        var debitItemsCount: Int = 0
+        var creditItemsCount: Int = 0
+        
+        //MARK:- Prepare data to check ability to save transaction
+        var debitCurrency: Currency? = transaction.transactionItemsList.filter({$0.type == 1})[0].account?.currency
+        var creditCurrency: Currency? = transaction.transactionItemsList.filter({$0.type == 0})[0].account?.currency
+        
+        try getDataAboutTransactionItems(transaction: transaction, type: .debit, amount: &debitAmount, currency: &debitCurrency, itemsCount: &debitItemsCount)
+        
+        try getDataAboutTransactionItems(transaction: transaction, type: .credit, amount: &creditAmount, currency: &creditCurrency, itemsCount: &creditItemsCount)
+        
+        
+        //MARK:- Check ability to save transaction
+        
+        if debitItemsCount == 0 {
+            throw TransactionError.noDebitTransactionItem
+        }
+        if creditItemsCount == 0 {
+            throw TransactionError.noCreditTransactionItem
+        }
+        
+        if debitCurrency == creditCurrency {
+            if debitAmount != creditAmount {
+                throw TransactionError.differentAmountForSingleCurrecyTransaction
+            }
+        }
+    }
+    
+    static func addTransactionWith2TranItems(date : Date, debit : Account, credit : Account, debitAmount : Double, creditAmount : Double, comment : String? = nil, createdByUser : Bool = true, context: NSManagedObjectContext) {
         let createDate = Date()
-        transaction.id = UUID()
-        transaction.createDate = createDate
-        transaction.createdByUser = createdByUser
-        transaction.modifyDate = createDate
-        transaction.modifiedByUser = createdByUser
-        transaction.applied = true
-        
-        transaction.date = date
+        let transaction = Transaction(date: date, comment: comment, createdByUser: createdByUser, createDate: createDate, context: context)
         
         TransactionItemManager.createTransactionItem(transaction: transaction, type: .credit, account: credit, amount: creditAmount, createdByUser:  createdByUser, createDate: createDate, context: context)
         TransactionItemManager.createTransactionItem(transaction: transaction, type: .debit, account: debit, amount: debitAmount, createdByUser:  createdByUser, createDate: createDate, context: context)
-        
-        transaction.comment = comment
     }
 
+    static func duplicateTransaction(_ original: Transaction, createdByUser : Bool = true, createDate: Date = Date(), context: NSManagedObjectContext) {
+        
+        let transaction = Transaction(date: original.date!, comment: original.comment, createdByUser: createdByUser, createDate: createDate, context: context)
+        
+        for item in original.transactionItemsList {
+            TransactionItemManager.createTransactionItem(transaction: transaction, type: item.type, account: item.account!, amount: item.amount, context: context)
+        }
+    }
     
-    static func addTransactionDraft(account: Account, statment: StatementProtocol, createdByUser : Bool = false, context: NSManagedObjectContext) -> Transaction {
-        let transaction = Transaction(context: context)
-        
-        let createDate = Date()
-        transaction.id = UUID()
-        transaction.createDate = createDate
-        transaction.createdByUser = createdByUser
-        transaction.modifyDate = createDate
-        transaction.modifiedByUser = createdByUser
-        transaction.applied = false
-        
-        transaction.date = statment.getDate()
+    static func addTransactionDraft(account: Account, statment: StatementProtocol, createdByUser : Bool = false, createDate: Date = Date(), context: NSManagedObjectContext) -> Transaction {
+      
         let comment = statment.getComment()
-        transaction.comment = comment
+        
+        let transaction = Transaction(date: statment.getDate(), comment: comment, createdByUser: createdByUser, createDate: createDate, context: context)
         transaction.applied = false
         
         if statment.getType() == .to {
@@ -62,19 +133,31 @@ class TransactionManager {
         return transaction
     }
     
+    func delete(context: NSManagedObjectContext){
+        do {
+            for item in transactionItemsList{
+                context.delete(item)
+            }
+            context.delete(self)
+            try CoreDataStack.shared.saveContext(context)
+        }
+        catch let error {
+            print("ERROR", error)
+        }
+    }
     
     private static func findAccountCandidate(comment: String, account: Account, method: AccountingMethod) -> Account? {
 //        print(#function, account.path, "\"" + comment + "\"")
         
-        //0. Finf all transactionItems for account ciblings
+        //0. Find all transactionItems for account ciblings
         guard let parent = account.parent else {return nil}
         
         var accountTIs1 : [TransactionItem] = []
-        let ciblings = parent.directChildren?.allObjects as! [Account]
+        let ciblings = parent.directChildrenList
 //        print(#function, "ciblings", ciblings.count)
         
         ciblings.forEach({item in
-            accountTIs1.append(contentsOf: item.transactionItems?.allObjects as! [TransactionItem])
+            accountTIs1.append(contentsOf: item.transactionItemsList)
             
         })
 //        print(#function, "accountTIs1", accountTIs1.count)
@@ -104,11 +187,11 @@ class TransactionManager {
         var accountSet: Set<Account> = []
         
         for tran in tr {
-            for ti in tran.items?.allObjects as! [TransactionItem] {
+            for ti in tran.transactionItemsList {
                 if ti.account != account
                     && ti.type == method.rawValue
                     && account.active == true
-                    && (account.directChildren?.allObjects as! [Account]).isEmpty{
+                    && (account.directChildrenList).isEmpty{
                     zeroIterationCandidatesArray.append((account: ti.account!, transactionDate: tran.date!))
                     accountSet.insert(ti.account!)
                 }
@@ -175,54 +258,6 @@ class TransactionManager {
         }
     }
     
-    static func createAndGetEmptyTransaction(date : Date, comment : String? = nil, createdByUser : Bool = true, context: NSManagedObjectContext) -> Transaction {
-        let transaction = Transaction(context: context)
-        
-        let createDate = Date()
-        transaction.id = UUID()
-        transaction.createDate = createDate
-        transaction.createdByUser = createdByUser
-        transaction.modifyDate = createDate
-        transaction.modifiedByUser = createdByUser
-        
-        transaction.date = date
-        
-        transaction.comment = comment
-        return transaction
-    }
-    
-    
-    static func duplicateTransaction(_ original: Transaction, createdByUser : Bool = true, context: NSManagedObjectContext) {
-        let transaction = Transaction(context: context)
-        
-        let createDate = Date()
-        transaction.id = UUID()
-        transaction.createDate = createDate
-        transaction.createdByUser = createdByUser
-        transaction.modifyDate = createDate
-        transaction.modifiedByUser = createdByUser
-        transaction.date = original.date
-        transaction.comment = original.comment
-        
-        for item in original.items!.allObjects as! [TransactionItem]{
-            TransactionItemManager.createTransactionItem(transaction: transaction, type: item.type, account: item.account!, amount: item.amount, context: context)
-        }
-    }
-    
-    
-    static func deleteTransaction(_ transaction : Transaction, context: NSManagedObjectContext){
-        do {
-            for item in transaction.items!.allObjects as! [TransactionItem]{
-                context.delete(item)
-            }
-            context.delete(transaction)
-            try CoreDataStack.shared.saveContext(context)
-        }
-        catch let error {
-            print("ERROR", error)
-        }
-    }
-    
     //USE ONLY TO CLEAR DATA IN TEST ENVIRONMENT
     static func deleteAllTransactions(context: NSManagedObjectContext, env: Environment?) throws {
         guard env == .test else {return}
@@ -232,7 +267,7 @@ class TransactionManager {
         do {
             let transactions = try context.fetch(transactionFetchRequest)
             for transaction in transactions {
-                for item in transaction.items!.allObjects as! [TransactionItem]{
+                for item in transaction.transactionItemsList {
                     context.delete(item)
                 }
                 context.delete(transaction)
@@ -256,7 +291,7 @@ class TransactionManager {
         //load accounts from the DB
         context.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
         let accountFetchRequest : NSFetchRequest<Account> = NSFetchRequest<Account>(entityName: Account.entity().name!)
-        accountFetchRequest.sortDescriptors = [NSSortDescriptor(key: "path", ascending: false)]
+        accountFetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: false)]
         let accounts = try context.fetch(accountFetchRequest)
 
         var preTransactionList : [PreTransaction] = []
@@ -350,12 +385,9 @@ class TransactionManager {
             let formatter = DateFormatter()
             formatter.dateFormat = "yyyy-MM-dd hh:mm:ss z"
             for transaction in storedTransactions {
+                let transactionId = transaction.id!
                 
-//                let startIndex =  transaction.id.debugDescription.index(transaction.id.debugDescription.firstIndex(of: "x")!, offsetBy: 1)
-//                let endIndex = transaction.id.debugDescription.index(transaction.id.debugDescription.firstIndex(of: ")")!, offsetBy: -1)
-                let transactionId = transaction.id!//.debugDescription[startIndex...endIndex]
-                
-                for item in transaction.items?.allObjects as! [TransactionItem] {
+                for item in transaction.transactionItemsList {
                     export += "\n"
                     
                     export +=  String(describing: transactionId) + ","
@@ -401,74 +433,6 @@ class TransactionManager {
         catch let error {
             print("ERROR", error)
             return nil
-        }
-    }
-    
-    
-    static func validateTransactionDataBeforeSave(_ transaction: Transaction) throws {
-        
-        func getDataAboutTransactionItems(transaction: Transaction, type: AccountingMethod, amount: inout Double, currency: inout Currency?, itemsCount: inout Int) throws {
-            for item in (transaction.items?.allObjects as! [TransactionItem]).filter({$0.type == type.rawValue}) {
-                itemsCount += 1
-                amount += item.amount
-                if let account = item.account{
-                    if let cur = account.currency {
-                        if currency != cur {
-                            currency = nil //multicurrency transaction
-                        }
-                    }
-                    else {
-                        throw TransactionError.multicurrencyAccount(name: account.path)
-                    }
-                    
-                    if item.amount < 0 {
-                        switch type {
-                        case .debit:
-                            throw TransactionItemError.invalidAmountInDebitTransactioItem(path: account.path)
-                        case .credit:
-                            throw TransactionItemError.invalidAmountInCreditTransactioItem(path: account.path)
-                        }
-                    }
-                }
-                else {
-                    switch type {
-                    case .debit:
-                        throw TransactionError.debitTransactionItemWOAccount
-                    case .credit:
-                        throw TransactionError.creditTransactionItemWOAccount
-                    }
-                }
-            }
-        }
-        
-        var debitAmount: Double = 0
-        var creditAmount: Double = 0
-        
-        var debitItemsCount: Int = 0
-        var creditItemsCount: Int = 0
-        
-        //MARK:- Prepare data to check ability to save transaction
-        var debitCurrency: Currency? = (transaction.items?.allObjects as! [TransactionItem]).filter({$0.type == 1})[0].account?.currency
-        var creditCurrency: Currency? = (transaction.items?.allObjects as! [TransactionItem]).filter({$0.type == 0})[0].account?.currency
-        
-        try getDataAboutTransactionItems(transaction: transaction, type: .debit, amount: &debitAmount, currency: &debitCurrency, itemsCount: &debitItemsCount)
-        
-        try getDataAboutTransactionItems(transaction: transaction, type: .credit, amount: &creditAmount, currency: &creditCurrency, itemsCount: &creditItemsCount)
-        
-        
-        //MARK:- Check ability to save transaction
-        
-        if debitItemsCount == 0 {
-            throw TransactionError.noDebitTransactionItem
-        }
-        if creditItemsCount == 0 {
-            throw TransactionError.noCreditTransactionItem
-        }
-        
-        if debitCurrency == creditCurrency {
-            if debitAmount != creditAmount {
-                throw TransactionError.differentAmountForSingleCurrecyTransaction
-            }
         }
     }
 }

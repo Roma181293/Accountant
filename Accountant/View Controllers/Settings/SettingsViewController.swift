@@ -269,7 +269,7 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
             }
         case .exportTransactions:
             if AccessCheckManager.checkUserAccessToImportExportEntities(environment: environment, isUserHasPaidAccess: isUserHasPaidAccess) {
-                shareTXTFile(fileName: "TransactionList", data: TransactionManager.exportTransactionsToString(context: context))
+                shareTXTFile(fileName: "TransactionList", data: Transaction.exportTransactionsToString(context: context))
             }
             else{
                 showPurchaseOfferVC()

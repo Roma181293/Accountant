@@ -796,7 +796,7 @@ class AccountEditorWithInitialBalanceViewController: UIViewController {
                 }
                 let moneyAccount = try Account.createAndGetAccount(parent: parentAccount, name: accountNameTextField.text!, type: parentAccount.type, currency: currency, keeper: keeper, holder:holder, subType: accountSubType.rawValue, context: context)
                 if balance != 0 {
-                    TransactionManager.addTransaction(date: datePicker.date, debit: moneyAccount, credit: capitalRootAccount, debitAmount: round(balance*100)/100, creditAmount: round(round(balance*100)/100 * exchangeRate*100)/100, createdByUser : false, context: context)
+                    Transaction.addTransactionWith2TranItems(date: datePicker.date, debit: moneyAccount, credit: capitalRootAccount, debitAmount: round(balance*100)/100, creditAmount: round(round(balance*100)/100 * exchangeRate*100)/100, createdByUser : false, context: context)
                 }
             }
             else if accountSubType == .creditCard {
@@ -826,15 +826,15 @@ class AccountEditorWithInitialBalanceViewController: UIViewController {
                 newMoneyAccount.linkedAccount = newCreditAccount
                 
                 if balance - creditLimit > 0 {
-                    TransactionManager.addTransaction(date: datePicker.date, debit: newMoneyAccount, credit: capitalRootAccount, debitAmount: round((balance - creditLimit)*100)/100, creditAmount: round(round((balance - creditLimit)*100)/100 * exchangeRate*100)/100, createdByUser : false, context: context)
-                    TransactionManager.addTransaction(date: datePicker.date, debit: newMoneyAccount, credit: newCreditAccount, debitAmount: round(creditLimit*100)/100, creditAmount: round(creditLimit*100)/100, createdByUser : false, context: context)
+                    Transaction.addTransactionWith2TranItems(date: datePicker.date, debit: newMoneyAccount, credit: capitalRootAccount, debitAmount: round((balance - creditLimit)*100)/100, creditAmount: round(round((balance - creditLimit)*100)/100 * exchangeRate*100)/100, createdByUser : false, context: context)
+                    Transaction.addTransactionWith2TranItems(date: datePicker.date, debit: newMoneyAccount, credit: newCreditAccount, debitAmount: round(creditLimit*100)/100, creditAmount: round(creditLimit*100)/100, createdByUser : false, context: context)
                 }
                 else if balance - creditLimit == 0 {
                     if balance == 0 && creditLimit == 0 {
                         
                     }
                     else {
-                        TransactionManager.addTransaction(date: datePicker.date, debit: newMoneyAccount, credit: newCreditAccount, debitAmount: round(creditLimit*100)/100, creditAmount: round(creditLimit*100)/100, createdByUser : false, context: context)
+                        Transaction.addTransactionWith2TranItems(date: datePicker.date, debit: newMoneyAccount, credit: newCreditAccount, debitAmount: round(creditLimit*100)/100, creditAmount: round(creditLimit*100)/100, createdByUser : false, context: context)
                     }
                 }
                 else {
@@ -847,8 +847,8 @@ class AccountEditorWithInitialBalanceViewController: UIViewController {
                         throw AccountWithBalanceError.canNotFindBeboreAccountingPeriodAccount
                     }
                     
-                    TransactionManager.addTransaction(date: datePicker.date,debit: expenseBeforeAccountingPeriodSafe, credit: newMoneyAccount, debitAmount: round(round((creditLimit - balance)*100)/100 * exchangeRate*100)/100, creditAmount: round((creditLimit - balance)*100)/100, createdByUser : false, context: context)
-                    TransactionManager.addTransaction(date: datePicker.date, debit: newMoneyAccount, credit: newCreditAccount, debitAmount: round(creditLimit*100)/100, creditAmount: round(creditLimit*100)/100, createdByUser : false, context: context)
+                    Transaction.addTransactionWith2TranItems(date: datePicker.date,debit: expenseBeforeAccountingPeriodSafe, credit: newMoneyAccount, debitAmount: round(round((creditLimit - balance)*100)/100 * exchangeRate*100)/100, creditAmount: round((creditLimit - balance)*100)/100, createdByUser : false, context: context)
+                    Transaction.addTransactionWith2TranItems(date: datePicker.date, debit: newMoneyAccount, credit: newCreditAccount, debitAmount: round(creditLimit*100)/100, creditAmount: round(creditLimit*100)/100, createdByUser : false, context: context)
                 }
             }
         }
@@ -865,7 +865,7 @@ class AccountEditorWithInitialBalanceViewController: UIViewController {
             
             let newDebtorsAccount = try Account.createAndGetAccount(parent: parentAccount, name: accountNameTextField.text!, type: parentAccount.type, currency: currency, keeper: keeper, holder:holder, context: context)
             
-            TransactionManager.addTransaction(date: datePicker.date, debit: newDebtorsAccount, credit: capitalRootAccount, debitAmount: round(balance*100)/100, creditAmount: round(round(balance*100)/100 * exchangeRate*100)/100, createdByUser : false, context: context)
+            Transaction.addTransactionWith2TranItems(date: datePicker.date, debit: newDebtorsAccount, credit: capitalRootAccount, debitAmount: round(balance*100)/100, creditAmount: round(round(balance*100)/100 * exchangeRate*100)/100, createdByUser : false, context: context)
         }
         else if parentAccount == creditsRootAccount {
             //Check exchange rate value
@@ -886,7 +886,7 @@ class AccountEditorWithInitialBalanceViewController: UIViewController {
                 throw AccountWithBalanceError.canNotFindBeboreAccountingPeriodAccount
             }
             
-            TransactionManager.addTransaction(date: datePicker.date, debit: expenseBeforeAccountingPeriod, credit: newCreditAccount, debitAmount: (balance * exchangeRate*100)/100, creditAmount: balance, createdByUser : false, context: context)
+            Transaction.addTransactionWith2TranItems(date: datePicker.date, debit: expenseBeforeAccountingPeriod, credit: newCreditAccount, debitAmount: (balance * exchangeRate*100)/100, creditAmount: balance, createdByUser : false, context: context)
         }
         else {
             throw AccountWithBalanceError.notSupported

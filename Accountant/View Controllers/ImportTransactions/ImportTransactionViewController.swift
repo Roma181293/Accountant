@@ -111,7 +111,7 @@ class ImportTransactionViewController: UIViewController{
         tableView.keyboardDismissMode = .onDrag;
         
         do{
-            preTransactionList = try TransactionManager.importTransactionList(from: dataFromFile, context: context)
+            preTransactionList = try Transaction.importTransactionList(from: dataFromFile, context: context)
         }
         catch let error {
             context.rollback()

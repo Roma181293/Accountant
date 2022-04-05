@@ -426,12 +426,12 @@ class ComplexTransactionEditorViewController: UIViewController{
         
         do {
             if isNewTransaction {
-                try TransactionManager.validateTransactionDataBeforeSave(transaction)
+                try Transaction.validateTransactionDataBeforeSave(transaction)
                 try coreDataStack.saveContext(context)
                 self.navigationController?.popViewController(animated: true)
             }
             else if context.hasChanges && mode == .default {
-                try TransactionManager.validateTransactionDataBeforeSave(transaction)
+                try Transaction.validateTransactionDataBeforeSave(transaction)
                 let alert = UIAlertController(title: NSLocalizedString("Save",comment: ""), message: NSLocalizedString("Do you want to save changes?", comment: ""), preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: NSLocalizedString("Yes",comment: ""), style: .default, handler: {(_) in
                     do {
@@ -453,7 +453,7 @@ class ComplexTransactionEditorViewController: UIViewController{
             else if mode != .default {
                 transaction.date = datePicker.date
                 transaction.applied = true
-                try TransactionManager.validateTransactionDataBeforeSave(transaction)
+                try Transaction.validateTransactionDataBeforeSave(transaction)
                 do {
                     try self.coreDataStack.saveContext(self.context)
                     self.navigationController?.popViewController(animated: true)

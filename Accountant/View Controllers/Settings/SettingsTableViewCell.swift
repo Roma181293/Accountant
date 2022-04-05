@@ -255,7 +255,7 @@ class SettingsTableViewCell: UITableViewCell {
                     
                     //remove oldData
                     let env = CoreDataStack.shared.activeEnviroment()
-                    try TransactionManager.deleteAllTransactions(context: context, env:env)
+                    try Transaction.deleteAllTransactions(context: context, env:env)
                     try Account.deleteAllAccounts(context: context, env:env)
                     try Currency.deleteAllCurrencies(context: context, env:env)
                     try KeeperManager.deleteAllKeepers(context: context, env:env)
@@ -277,7 +277,7 @@ class SettingsTableViewCell: UITableViewCell {
                     let context = CoreDataStack.shared.persistentContainer.viewContext
                     
                     let env = CoreDataStack.shared.activeEnviroment()
-                    try TransactionManager.deleteAllTransactions(context: context, env:env)
+                    try Transaction.deleteAllTransactions(context: context, env:env)
                     try Account.deleteAllAccounts(context: context, env:env)
                     try Currency.deleteAllCurrencies(context: context, env:env)
                     try KeeperManager.deleteAllKeepers(context: context, env:env)

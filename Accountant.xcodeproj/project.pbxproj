@@ -27,7 +27,7 @@
 		2B1FEA6A266BF15200BF53BD /* SeedDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1FEA69266BF15200BF53BD /* SeedDataManager.swift */; };
 		2B1FEA6F266C112600BF53BD /* AccountTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1FEA6E266C112600BF53BD /* AccountTests.swift */; };
 		2B1FEA74266C116F00BF53BD /* TestCoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1FEA73266C116F00BF53BD /* TestCoreDataStack.swift */; };
-		2B1FEA83266C1D9A00BF53BD /* TransactionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1FEA82266C1D9900BF53BD /* TransactionManager.swift */; };
+		2B1FEA83266C1D9A00BF53BD /* Transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1FEA82266C1D9900BF53BD /* Transaction.swift */; };
 		2B1FEA88266C219C00BF53BD /* CurrencyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1FEA87266C219C00BF53BD /* CurrencyTests.swift */; };
 		2B1FEA9F266C349B00BF53BD /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1FEA9E266C349B00BF53BD /* Constants.swift */; };
 		2B1FEAAB266C3AB900BF53BD /* SimpleTransactionEditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1FEAA7266C3AB800BF53BD /* SimpleTransactionEditorViewController.swift */; };
@@ -167,7 +167,7 @@
 		2B1FEA69266BF15200BF53BD /* SeedDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SeedDataManager.swift; sourceTree = "<group>"; };
 		2B1FEA6E266C112600BF53BD /* AccountTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountTests.swift; sourceTree = "<group>"; };
 		2B1FEA73266C116F00BF53BD /* TestCoreDataStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestCoreDataStack.swift; sourceTree = "<group>"; };
-		2B1FEA82266C1D9900BF53BD /* TransactionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransactionManager.swift; sourceTree = "<group>"; };
+		2B1FEA82266C1D9900BF53BD /* Transaction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Transaction.swift; sourceTree = "<group>"; };
 		2B1FEA87266C219C00BF53BD /* CurrencyTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrencyTests.swift; sourceTree = "<group>"; };
 		2B1FEA9E266C349B00BF53BD /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		2B1FEAA7266C3AB800BF53BD /* SimpleTransactionEditorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleTransactionEditorViewController.swift; sourceTree = "<group>"; };
@@ -357,7 +357,7 @@
 				2B1FEA69266BF15200BF53BD /* SeedDataManager.swift */,
 				2BDE4F4127D7570A0069624C /* Account.swift */,
 				2B1FEA61266BF03300BF53BD /* Currency.swift */,
-				2B1FEA82266C1D9900BF53BD /* TransactionManager.swift */,
+				2B1FEA82266C1D9900BF53BD /* Transaction.swift */,
 				2B0D1D3226ADF1D1003C6394 /* TransactionItemManager.swift */,
 				2B00CAFA2746514900821FE0 /* KeeperManager.swift */,
 				2B00CAFC27465CC500821FE0 /* HolderManager.swift */,
@@ -944,7 +944,7 @@
 				2B1FEB58266D73DC00BF53BD /* AccountListTableViewController.swift in Sources */,
 				2B1FEAEA266CAF6C00BF53BD /* Extension Double.swift in Sources */,
 				2BDB10A126DACD9200D8FE08 /* Protocols.swift in Sources */,
-				2B1FEA83266C1D9A00BF53BD /* TransactionManager.swift in Sources */,
+				2B1FEA83266C1D9A00BF53BD /* Transaction.swift in Sources */,
 				2B490DE026E4BB1800967E11 /* BadgeUIView.swift in Sources */,
 				2B1FEBAC266EE19B00BF53BD /* ImportTransactionViewController.swift in Sources */,
 				2B37CEC327405FAA0000E3EF /* Guide.swift in Sources */,

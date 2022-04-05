@@ -92,6 +92,13 @@ extension Account {
         return transactionItemsList.isEmpty
     }
     
+    var canBeRenamed: Bool {
+        if Account.isReservedAccountName(name!){
+            return false
+        }
+        return true
+    }
+    
     func accountListUsingInTransactions() -> [Account] {
         var accounts = childrenList
         accounts.append(self)
@@ -136,14 +143,6 @@ extension Account {
             }
         }
     }
-    
-    var canBeRenamed: Bool {
-        if Account.isReservedAccountName(name!){
-            return false
-        }
-        return true
-    }
-    
     
     func renameAccount(to newName : String, context : NSManagedObjectContext) throws {
         guard Account.isReservedAccountName(newName) == false else {throw AccountError.reservedName(name: newName)}

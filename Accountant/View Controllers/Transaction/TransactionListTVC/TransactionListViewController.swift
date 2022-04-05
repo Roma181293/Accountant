@@ -313,7 +313,9 @@ extension TransactionListViewController: UITableViewDelegate, UITableViewDataSou
             let alert = UIAlertController(title: NSLocalizedString("Delete", comment: ""), message: NSLocalizedString("Do you want to delete transaction?", comment: ""), preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: NSLocalizedString("Yes", comment: ""), style: .destructive, handler: {(_) in
                 
-                TransactionManager.deleteTransaction(self.fetchedResultsController.object(at: indexPath) as Transaction, context: self.context)
+                
+                let tran = self.fetchedResultsController.object(at: indexPath)
+                tran.delete(context: self.context)
                 do {
                     try self.fetchedResultsController.performFetch()
                     tableView.deleteRows(at: [indexPath], with: .fade)
@@ -334,7 +336,7 @@ extension TransactionListViewController: UITableViewDelegate, UITableViewDataSou
             do {
                 if self.isUserHasPaidAccess || self.coreDataStack.activeEnviroment() == .test {
                     let transaction = self.fetchedResultsController.object(at: indexPath) as Transaction
-                    TransactionManager.duplicateTransaction(transaction, context: self.context)
+                    Transaction.duplicateTransaction(transaction, context: self.context)
                     try self.coreDataStack.saveContext(self.context)
                     try self.fetchedResultsController.performFetch()
                     self.tableView.reloadData()

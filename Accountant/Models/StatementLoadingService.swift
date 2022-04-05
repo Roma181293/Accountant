@@ -53,7 +53,7 @@ class StatementLoadingService {
                         do{
                             var transactions : [Transaction]  = []
                             statments.forEach({
-                                transactions.append(TransactionManager.addTransactionDraft(account: ba.account!, statment: $0, context: newContext))
+                                transactions.append(Transaction.addTransactionDraft(account: ba.account!, statment: $0, context: newContext))
                             })
                             ba.lastTransactionDate = endDate
                             try newContext.save()

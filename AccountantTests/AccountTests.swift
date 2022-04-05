@@ -158,7 +158,7 @@ class AccountTests: XCTestCase {
         XCTAssertNotNil(account2)
         
         
-        TransactionManager.addTransaction(date: Date(), debit: account2!, credit: account2!, debitAmount: 10, creditAmount: 10, comment: nil, createdByUser: true, context: context)
+        Transaction.addTransactionWith2TranItems(date: Date(), debit: account2!, credit: account2!, debitAmount: 10, creditAmount: 10, comment: nil, createdByUser: true, context: context)
         
         
         var account3: Account?
@@ -166,7 +166,7 @@ class AccountTests: XCTestCase {
         XCTAssertNotNil(account2)
         
         
-        TransactionManager.addTransaction(date: Date(), debit: account2!, credit: account2!, debitAmount: 10, creditAmount: 10, comment: nil, createdByUser: true, context: context)
+        Transaction.addTransactionWith2TranItems(date: Date(), debit: account2!, credit: account2!, debitAmount: 10, creditAmount: 10, comment: nil, createdByUser: true, context: context)
         
         var account4: Account?
         XCTAssertNoThrow(account3 = try SeedDataManager.createAndGetAccount(parent: account2, name: "SomeName4", type: nil, currency: nil, createdByUser: true, context: context), "Account should be created")

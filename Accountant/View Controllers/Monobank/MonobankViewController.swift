@@ -386,15 +386,15 @@ class MonobankViewController: UIViewController {
                 newMoneyAccount.linkedAccount = newCreditAccount
                 
                 if balance - creditLimit == 0 && !(balance == 0 && creditLimit == 0) {
-                    TransactionManager.addTransaction(date: Date(), debit: newMoneyAccount, credit: newCreditAccount, debitAmount: round(creditLimit*100)/100, creditAmount: round(creditLimit*100)/100, createdByUser : false, context: context)
+                    Transaction.addTransactionWith2TranItems(date: Date(), debit: newMoneyAccount, credit: newCreditAccount, debitAmount: round(creditLimit*100)/100, creditAmount: round(creditLimit*100)/100, createdByUser : false, context: context)
                 }
                 else if balance == 0 && creditLimit == 0 {
                     
                 }
                 else if balance - creditLimit > 0 {
-                    TransactionManager.addTransaction(date: Date(), debit: newMoneyAccount, credit: capitalRootAccount, debitAmount: round((balance - creditLimit)*100)/100, creditAmount: round(round((balance - creditLimit)*100)/100 * exchangeRate*100)/100, createdByUser : false, context: context)
+                    Transaction.addTransactionWith2TranItems(date: Date(), debit: newMoneyAccount, credit: capitalRootAccount, debitAmount: round((balance - creditLimit)*100)/100, creditAmount: round(round((balance - creditLimit)*100)/100 * exchangeRate*100)/100, createdByUser : false, context: context)
                     if creditLimit != 0 {
-                        TransactionManager.addTransaction(date: Date(), debit: newMoneyAccount, credit: newCreditAccount, debitAmount: round(creditLimit*100)/100, creditAmount: round(creditLimit*100)/100, createdByUser : false, context: context)
+                        Transaction.addTransactionWith2TranItems(date: Date(), debit: newMoneyAccount, credit: newCreditAccount, debitAmount: round(creditLimit*100)/100, creditAmount: round(creditLimit*100)/100, createdByUser : false, context: context)
                     }
                 }
                 else {
@@ -407,8 +407,8 @@ class MonobankViewController: UIViewController {
                         throw AccountWithBalanceError.canNotFindBeboreAccountingPeriodAccount
                     }
                     
-                    TransactionManager.addTransaction(date: Date(),debit: expenseBeforeAccountingPeriodSafe, credit: newMoneyAccount, debitAmount: round(round((creditLimit - balance)*100)/100 * exchangeRate*100)/100, creditAmount: round((creditLimit - balance)*100)/100, createdByUser : false, context: context)
-                    TransactionManager.addTransaction(date: Date(), debit: newMoneyAccount, credit: newCreditAccount, debitAmount: round(creditLimit*100)/100, creditAmount: round(creditLimit*100)/100, createdByUser : false, context: context)
+                    Transaction.addTransactionWith2TranItems(date: Date(),debit: expenseBeforeAccountingPeriodSafe, credit: newMoneyAccount, debitAmount: round(round((creditLimit - balance)*100)/100 * exchangeRate*100)/100, creditAmount: round((creditLimit - balance)*100)/100, createdByUser : false, context: context)
+                    Transaction.addTransactionWith2TranItems(date: Date(), debit: newMoneyAccount, credit: newCreditAccount, debitAmount: round(creditLimit*100)/100, creditAmount: round(creditLimit*100)/100, createdByUser : false, context: context)
                 }
             }
             try CoreDataStack.shared.saveContext(self.context)
