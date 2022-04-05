@@ -566,7 +566,7 @@ extension Account {
                 newAccount = try createAndGetAccount(parent: parent, name: AccountsNameLocalisationManager.getLocalizedAccountName(.other1) , type : type, currency : currency, keeper: keeper, holder: holder, subType : subType, createdByUser : false, createDate: createDate, context: context)
             }
             if newAccount != nil {
-                TransactionItemManager.moveTransactionItemsFrom(oldAccount: parent, newAccount: newAccount!, modifiedByUser: createdByUser, modifyDate: createDate)
+                TransactionItem.moveTransactionItemsFrom(oldAccount: parent, newAccount: newAccount!, modifiedByUser: createdByUser, modifyDate: createDate)
             }
         }
         

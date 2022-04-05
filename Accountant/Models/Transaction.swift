@@ -98,8 +98,8 @@ extension Transaction {
         let createDate = Date()
         let transaction = Transaction(date: date, comment: comment, createdByUser: createdByUser, createDate: createDate, context: context)
         
-        TransactionItemManager.createTransactionItem(transaction: transaction, type: .credit, account: credit, amount: creditAmount, createdByUser:  createdByUser, createDate: createDate, context: context)
-        TransactionItemManager.createTransactionItem(transaction: transaction, type: .debit, account: debit, amount: debitAmount, createdByUser:  createdByUser, createDate: createDate, context: context)
+        TransactionItem(transaction: transaction, type: .credit, account: credit, amount: creditAmount, createdByUser:  createdByUser, createDate: createDate, context: context)
+        TransactionItem(transaction: transaction, type: .debit, account: debit, amount: debitAmount, createdByUser:  createdByUser, createDate: createDate, context: context)
     }
 
     static func duplicateTransaction(_ original: Transaction, createdByUser : Bool = true, createDate: Date = Date(), context: NSManagedObjectContext) {
@@ -107,7 +107,7 @@ extension Transaction {
         let transaction = Transaction(date: original.date!, comment: original.comment, createdByUser: createdByUser, createDate: createDate, context: context)
         
         for item in original.transactionItemsList {
-            TransactionItemManager.createTransactionItem(transaction: transaction, type: item.type, account: item.account!, amount: item.amount, context: context)
+            TransactionItem(transaction: transaction, type: AccountingMethod(rawValue: item.type)!, account: item.account!, amount: item.amount, context: context)
         }
     }
     
@@ -119,15 +119,15 @@ extension Transaction {
         transaction.applied = false
         
         if statment.getType() == .to {
-            TransactionItemManager.createTransactionItem(transaction: transaction, type: .debit, account: account, amount: statment.getAmount(), createdByUser:  createdByUser, createDate: createDate, context: context)
+            TransactionItem(transaction: transaction, type: .debit, account: account, amount: statment.getAmount(), createdByUser:  createdByUser, createDate: createDate, context: context)
             if let creditAccount = findAccountCandidate(comment: comment, account: account, method: .credit) {
-                TransactionItemManager.createTransactionItem(transaction: transaction, type: .credit, account: creditAccount, amount: statment.getAmount(), createdByUser:  createdByUser, createDate: createDate, context: context)
+                TransactionItem(transaction: transaction, type: .credit, account: creditAccount, amount: statment.getAmount(), createdByUser:  createdByUser, createDate: createDate, context: context)
             }
         }
         else {
-            TransactionItemManager.createTransactionItem(transaction: transaction, type: .credit, account: account, amount: statment.getAmount(), createdByUser:  createdByUser, createDate: createDate, context: context)
+            TransactionItem(transaction: transaction, type: .credit, account: account, amount: statment.getAmount(), createdByUser:  createdByUser, createDate: createDate, context: context)
             if let debitAccount = findAccountCandidate(comment: comment, account: account, method: .debit) {
-                TransactionItemManager.createTransactionItem(transaction: transaction, type: .debit, account: debitAccount, amount: statment.getAmount(), createdByUser:  createdByUser, createDate: createDate, context: context)
+                TransactionItem(transaction: transaction, type: .debit, account: debitAccount, amount: statment.getAmount(), createdByUser:  createdByUser, createDate: createDate, context: context)
             }
         }
         return transaction
