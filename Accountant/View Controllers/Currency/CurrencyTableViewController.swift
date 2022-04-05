@@ -111,14 +111,14 @@ class CurrencyTableViewController: UITableViewController {
             do {
                 let fetchedCurrency = fetchedResultsController.object(at: indexPath) as Currency
                 guard let currencyIndexPath = currencyIndexPath else {
-                    try CurrencyManager.changeAccountingCurrency(old: nil, new: fetchedCurrency, context: context)
+                    try Currency.changeAccountingCurrency(old: nil, new: fetchedCurrency, context: context)
                     try CoreDataStack.shared.saveContext(context)
                     tableView.reloadRows(at: [indexPath], with: .automatic)
                     delegate.setCurrency(fetchedCurrency)
                     return
                 }
                 if indexPath != currencyIndexPath {
-                    try CurrencyManager.changeAccountingCurrency(old: currency, new: fetchedCurrency, context: context)
+                    try Currency.changeAccountingCurrency(old: currency, new: fetchedCurrency, context: context)
                     try CoreDataStack.shared.saveContext(context)
                 }
                 else {

@@ -21,10 +21,10 @@ class AccountTests: XCTestCase {
         context = coreDataStack.persistentContainer.viewContext
         HolderManager.createDefaultHolders(context: context)
         KeeperManager.createDefaultKeepers(context: context)
-        CurrencyManager.addCurrencies(context: context)
+        Currency.addCurrencies(context: context)
         do {
-        let currency = try CurrencyManager.getCurrencyForCode("UAH", context: context)!
-        try CurrencyManager.changeAccountingCurrency(old: nil, new: currency, context: context)
+        let currency = try Currency.getCurrencyForCode("UAH", context: context)!
+        try Currency.changeAccountingCurrency(old: nil, new: currency, context: context)
         SeedDataManager.addBaseAccounts(accountingCurrency: currency, context: context)
         }
         catch let error{
@@ -287,8 +287,8 @@ class AccountTests: XCTestCase {
         let name = "Capital"
         let accType = AccountType.assets.rawValue
         do {
-            let currency = try CurrencyManager.createAndGetCurrency(code: "AUD", iso4217: 036, name: "Австралійський долар", context: context)
-        try CurrencyManager.changeAccountingCurrency(old: nil, new: currency, context: context)
+            let currency = try Currency.createAndGetCurrency(code: "AUD", iso4217: 036, name: "Австралійський долар", context: context)
+        try Currency.changeAccountingCurrency(old: nil, new: currency, context: context)
 
         let account = try SeedDataManager.createAndGetAccount(parent: nil, name: name, type: accType, currency: currency, createdByUser:  false, context: context)
 

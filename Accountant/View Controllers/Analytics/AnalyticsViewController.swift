@@ -61,7 +61,7 @@ class AnalyticsViewController: UIViewController, UIScrollViewDelegate {//}, GADF
         
         reloadProAccessData()
         
-        accountingCurrency = CurrencyManager.getAccountingCurrency(context: context)!
+        accountingCurrency = Currency.getAccountingCurrency(context: context)!
         scrollView.delegate = self
         if account == nil {
             account = Account.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.expense), context: context)
@@ -286,7 +286,7 @@ class AnalyticsViewController: UIViewController, UIScrollViewDelegate {//}, GADF
     @objc func environmentDidChange(){
         context = CoreDataStack.shared.persistentContainer.viewContext
         
-        accountingCurrency = CurrencyManager.getAccountingCurrency(context: context)!
+        accountingCurrency = Currency.getAccountingCurrency(context: context)!
             account = Account.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.expense), context: context)
         segmentedControl.selectedSegmentIndex = 1
         

@@ -53,7 +53,7 @@ class AccessCheckManager {
     
     static func checkUserAccessToCreateAccountInCurrency(currency: Currency?, environment: Environment, isUserHasPaidAccess: Bool, context: NSManagedObjectContext) -> Bool {
         
-        guard let accountingCurrency = CurrencyManager.getAccountingCurrency(context: context) else {return false}
+        guard let accountingCurrency = Currency.getAccountingCurrency(context: context) else {return false}
             
         if environment == .test || (environment == .prod && (isUserHasPaidAccess || (isUserHasPaidAccess == false && (currency == accountingCurrency || currency == nil)))) {
             

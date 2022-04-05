@@ -20,7 +20,7 @@ struct MBAccountInfo: Codable {
     let iban: String
     
     func getCurrency(context: NSManagedObjectContext) -> Currency? {
-        return try? CurrencyManager.getCurrencyForISO4217(currencyCode, context: context)
+        return try? Currency.getCurrencyForISO4217(currencyCode, context: context)
     }
     
     func isExists(context: NSManagedObjectContext) -> Bool {

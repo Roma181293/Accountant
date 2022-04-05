@@ -117,12 +117,12 @@ class ExchangeManager {
     static func createExchangeRatesFrom(currencyHistoricalData: CurrencyHistoricalDataProtocol, context: NSManagedObjectContext) {
         print(#function,currencyHistoricalData.ecxhangeDate(),currencyHistoricalData.listOfCurrencies())
         guard let ecxhangeDate = currencyHistoricalData.ecxhangeDate() else {return}
-        guard let accCurrency = CurrencyManager.getAccountingCurrency(context: context) else {return}
+        guard let accCurrency = Currency.getAccountingCurrency(context: context) else {return}
         let exchange = getOrCreateExchange(date: ecxhangeDate, context: context)
         
         try? currencyHistoricalData.listOfCurrencies().forEach{ code in
             guard let rate = currencyHistoricalData.exchangeRate(pay: accCurrency.code!, forOne: code) else {return}
-            guard let currency = try CurrencyManager.getCurrencyForCode(code, context: context) else {return}
+            guard let currency = try Currency.getCurrencyForCode(code, context: context) else {return}
             do {
                 try RateManager.createRate(rate, forExchange: exchange, withCurrency: currency, context: context)
             }

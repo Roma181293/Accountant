@@ -132,7 +132,7 @@ class SettingsTableViewCell: UITableViewCell {
             iconImangeView.image = UIImage(systemName: "gamecontroller")
             iconImangeView.tintColor = .systemYellow
         case .accountingCurrency:
-            if let currency = CurrencyManager.getAccountingCurrency(context: delegate.context) {
+            if let currency = Currency.getAccountingCurrency(context: delegate.context) {
                 detailLabel.text = currency.code!
             }
             else {
@@ -257,7 +257,7 @@ class SettingsTableViewCell: UITableViewCell {
                     let env = CoreDataStack.shared.activeEnviroment()
                     try TransactionManager.deleteAllTransactions(context: context, env:env)
                     try Account.deleteAllAccounts(context: context, env:env)
-                    try CurrencyManager.deleteAllCurrencies(context: context, env:env)
+                    try Currency.deleteAllCurrencies(context: context, env:env)
                     try KeeperManager.deleteAllKeepers(context: context, env:env)
                     try HolderManager.deleteAllHolders(context: context, env:env)
                     try BankAccountManager.deleteAllBankAccounts(context: context, env: env)
@@ -267,9 +267,9 @@ class SettingsTableViewCell: UITableViewCell {
                     try CoreDataStack.shared.saveContext(context)
                     
                     //add testData
-                    CurrencyManager.addCurrencies(context: context)
-                    guard let currency = try CurrencyManager.getCurrencyForCode("UAH", context: context) else {return}
-                    try CurrencyManager.changeAccountingCurrency(old: nil, new: currency, context: context)
+                    SeedDataManager.addCurrencies(context: context)
+                    guard let currency = try Currency.getCurrencyForCode("UAH", context: context) else {return}
+                    try Currency.changeAccountingCurrency(old: nil, new: currency, context: context)
                     try SeedDataManager.addBaseAccountsTest(accountingCurrency: currency, context: context)
                     try CoreDataStack.shared.saveContext(context)
                 }
@@ -279,7 +279,7 @@ class SettingsTableViewCell: UITableViewCell {
                     let env = CoreDataStack.shared.activeEnviroment()
                     try TransactionManager.deleteAllTransactions(context: context, env:env)
                     try Account.deleteAllAccounts(context: context, env:env)
-                    try CurrencyManager.deleteAllCurrencies(context: context, env:env)
+                    try Currency.deleteAllCurrencies(context: context, env:env)
                     try KeeperManager.deleteAllKeepers(context: context, env:env)
                     try HolderManager.deleteAllHolders(context: context, env:env)
                     try BankAccountManager.deleteAllBankAccounts(context: context, env: env)

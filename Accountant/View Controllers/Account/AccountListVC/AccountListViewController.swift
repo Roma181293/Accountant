@@ -102,7 +102,7 @@ class AccountListViewController: UIViewController, UIScrollViewDelegate{
         
         reloadProAccessData()
         
-        currency = CurrencyManager.getAccountingCurrency(context: context)!
+        currency = Currency.getAccountingCurrency(context: context)!
         scrollView.delegate = self
         
         switch segmentedControl.selectedSegmentIndex {
@@ -372,7 +372,7 @@ class AccountListViewController: UIViewController, UIScrollViewDelegate{
         segmentedControl.selectedSegmentIndex = 0
         
         context = CoreDataStack.shared.persistentContainer.viewContext
-        currency = CurrencyManager.getAccountingCurrency(context: context)!
+        currency = Currency.getAccountingCurrency(context: context)!
         account = Account.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.money), context: context)
         
         moneyAccountListTableViewController.context = context

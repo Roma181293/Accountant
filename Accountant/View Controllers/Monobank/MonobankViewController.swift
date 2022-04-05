@@ -361,7 +361,7 @@ class MonobankViewController: UIViewController {
                 let creditLimit : Double = Double(item.creditLimit) / 100
                 
                 guard let currency = item.getCurrency(context: context) else {return}
-                guard let accountingCurrency = CurrencyManager.getAccountingCurrency(context: context) else {throw CurrencyError.accountingCurrencyNotFound}
+                guard let accountingCurrency = Currency.getAccountingCurrency(context: context) else {throw CurrencyError.accountingCurrencyNotFound}
                 guard  let keeper = try KeeperManager.getKeeperForName("Monobank", context: context) else {throw KeeperError.keeperNotFound(name: "Monobank")}
                 
                 //Check credit account name is free

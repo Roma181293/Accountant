@@ -335,7 +335,7 @@ class AccountEditorWithInitialBalanceViewController: UIViewController {
             if let account = account {
                 try getRootAccounts()
                 self.navigationItem.title = NSLocalizedString("Edit account", comment: "")
-                accountingCurrency = CurrencyManager.getAccountingCurrency(context: context)!
+                accountingCurrency = Currency.getAccountingCurrency(context: context)!
                 currency = account.currency
                 configureUI()
                 configureUIForExistAccount(account)
@@ -619,8 +619,8 @@ class AccountEditorWithInitialBalanceViewController: UIViewController {
     func setDefaultSettings() throws {
         try getRootAccounts()
         
-        accountingCurrency = CurrencyManager.getAccountingCurrency(context: context)!
-        currency = CurrencyManager.getAccountingCurrency(context: context)!
+        accountingCurrency = Currency.getAccountingCurrency(context: context)!
+        currency = Currency.getAccountingCurrency(context: context)!
         
         if let keeper = try? KeeperManager.getFirstNonCashKeeper(context: context) {
             self.keeper = keeper

@@ -108,7 +108,7 @@ class StartAccountingViewController: UIViewController, CurrencyReceiverDelegate 
                 let env = CoreDataStack.shared.activeEnviroment()
                 try TransactionManager.deleteAllTransactions(context: context, env:env)
                 try Account.deleteAllAccounts(context: context, env:env)
-                try CurrencyManager.deleteAllCurrencies(context: context, env:env)
+                try Currency.deleteAllCurrencies(context: context, env:env)
                 try KeeperManager.deleteAllKeepers(context: context, env:env)
                 try HolderManager.deleteAllHolders(context: context, env:env)
                 try BankAccountManager.deleteAllBankAccounts(context: context, env: env)
@@ -125,7 +125,7 @@ class StartAccountingViewController: UIViewController, CurrencyReceiverDelegate 
         //add New Data
         HolderManager.createDefaultHolders(context: context)
         KeeperManager.createDefaultKeepers(context: context)
-        CurrencyManager.addCurrencies(context: context)
+        SeedDataManager.addCurrencies(context: context)
         
         addMainView()
         addCurrencyTVC()

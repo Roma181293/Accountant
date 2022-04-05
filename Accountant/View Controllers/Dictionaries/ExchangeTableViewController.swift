@@ -50,7 +50,7 @@ class ExchangeTableViewController: UITableViewController {
             }
         }
         if let exchange = exchange, let date = exchange.date {
-            accountingCurrency = CurrencyManager.getAccountingCurrency(context: context)
+            accountingCurrency = Currency.getAccountingCurrency(context: context)
             
             let dateFormatter = DateFormatter()
             dateFormatter.dateStyle = .medium
