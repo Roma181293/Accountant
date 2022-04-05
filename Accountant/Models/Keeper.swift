@@ -8,7 +8,26 @@
 import Foundation
 import CoreData
 
-class KeeperManager {
+extension Keeper {
+    
+    convenience init(name: String, type: KeeperType, createdByUser : Bool = true, createDate: Date = Date(), context: NSManagedObjectContext) {
+        self.init(context: context)
+        self.id = UUID()
+        self.name = name
+        self.type = type.rawValue
+        self.createdByUser = createdByUser
+        self.createDate = createDate
+        self.modifiedByUser = createdByUser
+        self.modifyDate = createDate
+    }
+    
+    var accountsList: [Account] {
+        return self.accounts!.allObjects as! [Account]
+    }
+    
+    var userBankProfilesList: [UserBankProfile] {
+        return self.userBankProfiles!.allObjects as! [UserBankProfile]
+    }
     
     static func isFreeKeeperName(_ name : String, context: NSManagedObjectContext) -> Bool {
         let keeperFetchRequest : NSFetchRequest<Keeper> = NSFetchRequest<Keeper>(entityName: Keeper.entity().name!)
@@ -29,39 +48,30 @@ class KeeperManager {
         }
     }
     
-    static func createAndGetKeeper(name: String, type: KeeperType, createdByUser : Bool = true, context: NSManagedObjectContext) throws -> Keeper{
+    static func createAndGetKeeper(name: String, type: KeeperType, createdByUser : Bool = true, createDate: Date = Date(), context: NSManagedObjectContext) throws -> Keeper{
         guard isFreeKeeperName(name, context: context) == true else {
             throw KeeperError.thisKeeperAlreadyExists
         }
-        let date = Date()
-        let keeper = Keeper(context: context)
-        keeper.id = UUID()
-        keeper.createdByUser = createdByUser
-        keeper.createDate = date
-        keeper.modifiedByUser = createdByUser
-        keeper.modifyDate = date
-        keeper.name = name
-        keeper.type = type.rawValue
-        return keeper
+        return Keeper(name: name, type: type, createdByUser: createdByUser, createDate: createDate, context: context)
     }
     
     
     static func createKeeper(name: String, type: KeeperType, createdByUser : Bool = true, context: NSManagedObjectContext) throws {
-        try createAndGetKeeper(name: name, type:type, createdByUser : createdByUser, context: context)
+        let _ = try createAndGetKeeper(name: name, type:type, createdByUser : createdByUser, context: context)
     }
     
-    static func removeKeeper(_ keeper: Keeper, context: NSManagedObjectContext) throws {
-        guard keeper.accounts?.allObjects.count == 0 else {
+    func removeKeeper() throws {
+        guard accountsList.isEmpty else {
             throw KeeperError.thisKeeperUsedInAccounts
         }
-        context.delete(keeper)
+        managedObjectContext?.delete(self)
     }
     
-    static func renameKeeper(_ keeper: Keeper, name: String, modifiedByUser: Bool = true, modifyDate: Date = Date(), context: NSManagedObjectContext) throws {
-        guard isFreeKeeperName(name, context: context) else { throw KeeperError.thisKeeperAlreadyExists }
-        keeper.name = name
-        keeper.modifiedByUser = modifiedByUser
-        keeper.modifyDate = modifyDate
+    func renameKeeper(newname: String, modifiedByUser: Bool = true, modifyDate: Date = Date(), context: NSManagedObjectContext) throws {
+        guard Keeper.isFreeKeeperName(newname, context: context) else { throw KeeperError.thisKeeperAlreadyExists }
+        self.name = newname
+        self.modifiedByUser = modifiedByUser
+        self.modifyDate = modifyDate
     }
     
     static func getKeeperForName(_ name : String, context: NSManagedObjectContext) throws -> Keeper? {
@@ -101,30 +111,5 @@ class KeeperManager {
         else {
             return keepers.first
         }
-    }
-    
-    //USE ONLY TO CLEAR DATA IN TEST ENVIRONMENT
-    static func deleteAllKeepers(context: NSManagedObjectContext, env: Environment?) throws {
-        guard env == .test else {return}
-        let keeperFetchRequest : NSFetchRequest<Keeper> = NSFetchRequest<Keeper>(entityName: Keeper.entity().name!)
-        keeperFetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
-        
-        let keepers = try context.fetch(keeperFetchRequest)
-        keepers.forEach({
-            context.delete($0)
-        })
-    }
-    
-    static func createDefaultKeepers(context: NSManagedObjectContext) {
-        try? createKeeper(name: NSLocalizedString("Cash", comment: ""), type: .cash, createdByUser: false, context: context)
-        try? createKeeper(name: NSLocalizedString("Monobank",comment: ""), type: .bank, createdByUser: false, context: context)
-    }
-    
-    static func createTestKeepers(context: NSManagedObjectContext) throws {
-        try createKeeper(name: NSLocalizedString("Cash", comment: ""), type: .cash, createdByUser: false, context: context)
-        try createKeeper(name: NSLocalizedString("Bank1", comment: ""), type: .bank, context: context)
-        try createKeeper(name: NSLocalizedString("Bank2", comment: ""), type: .bank, context: context)
-        try createKeeper(name: NSLocalizedString("Hanna", comment: ""), type: .person, context: context)
-        try createKeeper(name: NSLocalizedString("Monobank",comment: ""), type: .bank, createdByUser: false, context: context)
     }
 }

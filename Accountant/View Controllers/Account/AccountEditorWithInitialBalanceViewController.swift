@@ -517,12 +517,12 @@ class AccountEditorWithInitialBalanceViewController: UIViewController {
             accountSubType = .creditCard
         case .creditCard:
             accountSubType = .cash
-            if let keeper = try? KeeperManager.getCashKeeper(context: context) {
+            if let keeper = try? Keeper.getCashKeeper(context: context) {
                 self.keeper = keeper
             }
         case .cash:
             accountSubType = .debitCard
-            if let keeper = try? KeeperManager.getFirstNonCashKeeper(context: context){
+            if let keeper = try? Keeper.getFirstNonCashKeeper(context: context){
                 self.keeper = keeper
             }
         default:
@@ -622,7 +622,7 @@ class AccountEditorWithInitialBalanceViewController: UIViewController {
         accountingCurrency = Currency.getAccountingCurrency(context: context)!
         currency = Currency.getAccountingCurrency(context: context)!
         
-        if let keeper = try? KeeperManager.getFirstNonCashKeeper(context: context) {
+        if let keeper = try? Keeper.getFirstNonCashKeeper(context: context) {
             self.keeper = keeper
         }
         if let holder = try? HolderManager.getMe(context: context) {
@@ -669,7 +669,7 @@ class AccountEditorWithInitialBalanceViewController: UIViewController {
         holder = acc.holder
         keeper = acc.keeper
         accountSubType = AccountSubType.init(rawValue: acc.subType)
-        if accountSubType == .cash, let keeper = try? KeeperManager.getCashKeeper(context: context) {
+        if accountSubType == .cash, let keeper = try? Keeper.getCashKeeper(context: context) {
             self.keeper = keeper
         }
         

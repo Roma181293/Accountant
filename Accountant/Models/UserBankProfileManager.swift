@@ -58,7 +58,7 @@ class UserBankProfileManager {
             ubp.xToken = xToken
             ubp.id = UUID()
             ubp.externalId = mbui.clientId
-            ubp.keeper = try? KeeperManager.getKeeperForName(NSLocalizedString("Monobank", comment: ""), context: context)
+            ubp.keeper = try? Keeper.getKeeperForName(NSLocalizedString("Monobank", comment: ""), context: context)
             return ubp
         }
     }

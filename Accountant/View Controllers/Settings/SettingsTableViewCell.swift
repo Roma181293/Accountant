@@ -258,7 +258,7 @@ class SettingsTableViewCell: UITableViewCell {
                     try Transaction.deleteAllTransactions(context: context, env:env)
                     try Account.deleteAllAccounts(context: context, env:env)
                     try Currency.deleteAllCurrencies(context: context, env:env)
-                    try KeeperManager.deleteAllKeepers(context: context, env:env)
+                    try SeedDataManager.deleteAllKeepers(context: context, env:env)
                     try HolderManager.deleteAllHolders(context: context, env:env)
                     try BankAccountManager.deleteAllBankAccounts(context: context, env: env)
                     try UserBankProfileManager.deleteAllUBP(context: context, env: env)
@@ -270,7 +270,9 @@ class SettingsTableViewCell: UITableViewCell {
                     SeedDataManager.addCurrencies(context: context)
                     guard let currency = try Currency.getCurrencyForCode("UAH", context: context) else {return}
                     try Currency.changeAccountingCurrency(old: nil, new: currency, context: context)
-                    try SeedDataManager.addBaseAccountsTest(accountingCurrency: currency, context: context)
+                    try SeedDataManager.createTestKeepers(context: context)
+                    try HolderManager.createTestHolders(context: context)
+                    SeedDataManager.addBaseAccountsTest(accountingCurrency: currency, context: context)
                     try CoreDataStack.shared.saveContext(context)
                 }
                 else if !sender.isOn && CoreDataStack.shared.activeEnviroment() == .test {
@@ -280,7 +282,7 @@ class SettingsTableViewCell: UITableViewCell {
                     try Transaction.deleteAllTransactions(context: context, env:env)
                     try Account.deleteAllAccounts(context: context, env:env)
                     try Currency.deleteAllCurrencies(context: context, env:env)
-                    try KeeperManager.deleteAllKeepers(context: context, env:env)
+                    try SeedDataManager.deleteAllKeepers(context: context, env:env)
                     try HolderManager.deleteAllHolders(context: context, env:env)
                     try BankAccountManager.deleteAllBankAccounts(context: context, env: env)
                     try UserBankProfileManager.deleteAllUBP(context: context, env: env)

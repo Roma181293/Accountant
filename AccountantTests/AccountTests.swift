@@ -20,7 +20,7 @@ class AccountTests: XCTestCase {
         coreDataStack = CoreDataStack.shared
         context = coreDataStack.persistentContainer.viewContext
         HolderManager.createDefaultHolders(context: context)
-        KeeperManager.createDefaultKeepers(context: context)
+        Keeper.createDefaultKeepers(context: context)
         Currency.addCurrencies(context: context)
         do {
         let currency = try Currency.getCurrencyForCode("UAH", context: context)!

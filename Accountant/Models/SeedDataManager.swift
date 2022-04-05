@@ -21,6 +21,31 @@ class SeedDataManager {
         })
     }
     
+    static func createDefaultKeepers(context: NSManagedObjectContext) {
+        try? Keeper.createKeeper(name: NSLocalizedString("Cash", comment: ""), type: .cash, createdByUser: false, context: context)
+        try? Keeper.createKeeper(name: NSLocalizedString("Monobank",comment: ""), type: .bank, createdByUser: false, context: context)
+    }
+    
+    static func createTestKeepers(context: NSManagedObjectContext) throws {
+        try Keeper.createKeeper(name: NSLocalizedString("Cash", comment: ""), type: .cash, createdByUser: false, context: context)
+        try Keeper.createKeeper(name: NSLocalizedString("Bank1", comment: ""), type: .bank, context: context)
+        try Keeper.createKeeper(name: NSLocalizedString("Bank2", comment: ""), type: .bank, context: context)
+        try Keeper.createKeeper(name: NSLocalizedString("Hanna", comment: ""), type: .person, context: context)
+        try Keeper.createKeeper(name: NSLocalizedString("Monobank",comment: ""), type: .bank, createdByUser: false, context: context)
+    }
+    
+    //USE ONLY TO CLEAR DATA IN TEST ENVIRONMENT
+    static func deleteAllKeepers(context: NSManagedObjectContext, env: Environment?) throws {
+        guard env == .test else {return}
+        let keeperFetchRequest : NSFetchRequest<Keeper> = NSFetchRequest<Keeper>(entityName: Keeper.entity().name!)
+        keeperFetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
+        
+        let keepers = try context.fetch(keeperFetchRequest)
+        keepers.forEach({
+            context.delete($0)
+        })
+    }
+    
     static func addBaseAccounts(accountingCurrency: Currency, context: NSManagedObjectContext) {
         AccountsNameLocalisationManager.createAllLocalizedAccountName()
         
@@ -51,10 +76,10 @@ class SeedDataManager {
         AccountsNameLocalisationManager.createAllLocalizedAccountName()
         
         //MARK: - Get keepers
-        let bank1 = try? KeeperManager.getKeeperForName(NSLocalizedString("Bank1", comment: ""), context: context)
-        let bank2 = try? KeeperManager.getKeeperForName(NSLocalizedString("Bank2", comment: ""), context: context)
-        let hanna = try? KeeperManager.getKeeperForName(NSLocalizedString("Hanna", comment: ""), context: context)
-        let cashKeeper = try? KeeperManager.getCashKeeper(context: context)
+        let bank1 = try? Keeper.getKeeperForName(NSLocalizedString("Bank1", comment: ""), context: context)
+        let bank2 = try? Keeper.getKeeperForName(NSLocalizedString("Bank2", comment: ""), context: context)
+        let hanna = try? Keeper.getKeeperForName(NSLocalizedString("Hanna", comment: ""), context: context)
+        let cashKeeper = try? Keeper.getCashKeeper(context: context)
         
         let me = try? HolderManager.getHolderForName(NSLocalizedString("Me", comment: ""), context: context)
         let kate = try? HolderManager.getHolderForName(NSLocalizedString("Kate", comment: ""), context: context)
