@@ -98,8 +98,8 @@ extension Transaction {
         let createDate = Date()
         let transaction = Transaction(date: date, comment: comment, createdByUser: createdByUser, createDate: createDate, context: context)
         
-        TransactionItem(transaction: transaction, type: .credit, account: credit, amount: creditAmount, createdByUser:  createdByUser, createDate: createDate, context: context)
-        TransactionItem(transaction: transaction, type: .debit, account: debit, amount: debitAmount, createdByUser:  createdByUser, createDate: createDate, context: context)
+        let _ = TransactionItem(transaction: transaction, type: .credit, account: credit, amount: creditAmount, createdByUser:  createdByUser, createDate: createDate, context: context)
+        let _ = TransactionItem(transaction: transaction, type: .debit, account: debit, amount: debitAmount, createdByUser:  createdByUser, createDate: createDate, context: context)
     }
 
     static func duplicateTransaction(_ original: Transaction, createdByUser : Bool = true, createDate: Date = Date(), context: NSManagedObjectContext) {

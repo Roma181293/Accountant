@@ -84,7 +84,7 @@ class TransactionListViewController: UIViewController{
             self.tabBarController?.navigationItem.rightBarButtonItem = UIBarButtonItem(title: NSLocalizedString("Get PRO", comment: ""), style: .plain, target: self, action: #selector(self.showPurchaseOfferVC))
         }
         
-        if BankAccountManager.hasActiveBankAccounts(context: context) {
+        if BankAccount.hasActiveBankAccounts(context: context) {
             self.tabBarController?.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "arrow.triangle.2.circlepath"), style: .plain, target: self, action: #selector(self.syncStatmentsData))
         }
         context.rollback()   //??? needs to avoid fatal error when user add transactionItem wo account and click <Back

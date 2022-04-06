@@ -59,7 +59,6 @@ class SeedDataManager {
         
     }
     
-    
     static func createDefaultHolders(context: NSManagedObjectContext) {
         try? Holder.create(name: NSLocalizedString("Me", comment: ""),icon: "😎", createdByUser: false, context: context)
     }
@@ -67,6 +66,30 @@ class SeedDataManager {
     static func createTestHolders(context: NSManagedObjectContext) throws {
         try Holder.create(name: NSLocalizedString("Me", comment: ""),icon: "😎", createdByUser: false, context: context)
         try Holder.create(name: NSLocalizedString("Kate", comment: ""),icon: "👩🏻‍🦰", context: context)
+    }
+    
+    //USE ONLY TO CLEAR DATA IN TEST ENVIRONMENT
+    static func deleteAllUBP(context: NSManagedObjectContext, env: Environment?) throws {
+        guard env == .test else {return}
+        let fetchRequest : NSFetchRequest<UserBankProfile> = NSFetchRequest<UserBankProfile>(entityName: UserBankProfile.entity().name!)
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "id", ascending: true)]
+        
+        let ubp = try context.fetch(fetchRequest)
+        ubp.forEach({
+            context.delete($0)
+        })
+    }
+    
+    //USE ONLY TO CLEAR DATA IN TEST ENVIRONMENT
+    static func deleteAllBankAccounts(context: NSManagedObjectContext, env: Environment?) throws {
+        guard env == .test else {return}
+        let fetchRequest : NSFetchRequest<BankAccount> = NSFetchRequest<BankAccount>(entityName: BankAccount.entity().name!)
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "id", ascending: true)]
+        
+        let ba = try context.fetch(fetchRequest)
+        ba.forEach({
+            context.delete($0)
+        })
     }
     
     static func addBaseAccounts(accountingCurrency: Currency, context: NSManagedObjectContext) {

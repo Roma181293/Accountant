@@ -14,12 +14,12 @@ class StatementLoadingService {
     static func loadStatments(context: NSManagedObjectContext, compliting: @escaping(Bool?, Error?) -> Void) {
         let calendar = Calendar.current
         
-        let bankAccounts = BankAccountManager.getBankAccountList(context: context)
+        let bankAccounts = BankAccount.getBankAccountList(context: context)
         
         for (index, item) in bankAccounts.enumerated() {
          
             let newContext = CoreDataStack.shared.persistentContainer.newBackgroundContext()
-            guard let ba = BankAccountManager.getBankAccountByExternalId(item.externalId!, context: newContext) else {return}//
+            guard let ba = BankAccount.getBankAccountByExternalId(item.externalId!, context: newContext) else {return}//
             
             guard ba.active == true else {return}
             

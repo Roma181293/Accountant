@@ -99,7 +99,7 @@ class BankAccountTableViewController: UITableViewController {
                 vc.canModifyAccountStructure = false
                 vc.accountRequestorViewController = self
                 vc.account = Account.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.money), context: self.context)
-                vc.excludeAccountList = BankAccountManager.findNotValidAccountCandidateForLinking(for: self.bankAccount)
+                vc.excludeAccountList = self.bankAccount.findNotValidAccountCandidateForLinking()
                 self.navigationController?.pushViewController(vc, animated: true)
             }))
             alert.addAction(UIAlertAction(title: NSLocalizedString("Cancel", tableName: Constants.Localizable.bankAccountTVC, comment: ""), style: .cancel))
@@ -123,7 +123,7 @@ class BankAccountTableViewController: UITableViewController {
             let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: NSLocalizedString("Yes", tableName: Constants.Localizable.bankAccountTVC, comment: ""), style: .default, handler: { (_) in
                 do{
-                    BankAccountManager.changeActiveStatusFor(selectedBankAccount, context: self.context)
+                    BankAccount.changeActiveStatusFor(selectedBankAccount, context: self.context)
                     try CoreDataStack.shared.saveContext(self.context)
                     tableView.reloadData()
                 }
@@ -157,7 +157,7 @@ class BankAccountTableViewController: UITableViewController {
                           let textFields = alert.textFields,
                           let textField = textFields.first
                     else {return}
-                    try BankAccountManager.deleteBankAccount(selectedBankAccount, consentText: textField.text!, context: self.context)
+                    try selectedBankAccount.delete(consentText: textField.text ?? "")
                     try CoreDataStack.shared.saveContext(self.context)
                     tableView.reloadData()
                 }
@@ -181,7 +181,7 @@ class BankAccountTableViewController: UITableViewController {
 extension BankAccountTableViewController: AccountRequestor {
     func setAccount(_ account: Account) {
         do{
-            try BankAccountManager.changeLinkedAccount(to: account, for: bankAccount)
+            try BankAccount.changeLinkedAccount(to: account, for: bankAccount)
             try CoreDataStack.shared.saveContext(context)
             tableView.reloadData()
         }

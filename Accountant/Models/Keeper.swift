@@ -48,13 +48,27 @@ extension Keeper {
         }
     }
     
-    static func createAndGetKeeper(name: String, type: KeeperType, createdByUser : Bool = true, createDate: Date = Date(), context: NSManagedObjectContext) throws -> Keeper{
+    static func createAndGetKeeper(name: String, type: KeeperType, createdByUser : Bool = true, createDate: Date = Date(), context: NSManagedObjectContext) throws -> Keeper {
         guard isFreeKeeperName(name, context: context) == true else {
             throw KeeperError.thisKeeperAlreadyExists
         }
         return Keeper(name: name, type: type, createdByUser: createdByUser, createDate: createDate, context: context)
     }
     
+    static func getOrCreate(name: String, type: KeeperType, createdByUser : Bool = true, createDate: Date = Date(), context: NSManagedObjectContext) throws -> Keeper {
+        
+        let keeperFetchRequest : NSFetchRequest<Keeper> = NSFetchRequest<Keeper>(entityName: Keeper.entity().name!)
+        keeperFetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
+        keeperFetchRequest.predicate = NSPredicate(format: "name = %@", name)
+        
+        let keepers = try context.fetch(keeperFetchRequest)
+        if !keepers.isEmpty {
+            return keepers[0]
+        }
+        else {
+            return try createAndGetKeeper(name: name, type: type, context: context)
+        }
+    }
     
     static func createKeeper(name: String, type: KeeperType, createdByUser : Bool = true, context: NSManagedObjectContext) throws {
         let _ = try createAndGetKeeper(name: name, type:type, createdByUser : createdByUser, context: context)

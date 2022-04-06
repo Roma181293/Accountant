@@ -95,7 +95,7 @@ class UserBankProfileTableViewController: UITableViewController {
             let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: NSLocalizedString("Yes", tableName: Constants.Localizable.userBankProfileTVC, comment: ""), style: .default, handler: { (_) in
                 do{
-                    UserBankProfileManager.changeActiveStatusFor(selectedUBP,context: self.context)
+                    selectedUBP.changeActiveStatus()
                     try CoreDataStack.shared.saveContext(self.context)
                     tableView.reloadData()
                 }
@@ -130,7 +130,7 @@ class UserBankProfileTableViewController: UITableViewController {
                           let textFields = alert.textFields,
                           let textField = textFields.first
                     else {return}
-                    try UserBankProfileManager.deleteUBP(selectedUBP, consentText: textField.text!, context: self.context)
+                    try selectedUBP.delete(consentText: textField.text!)
                     try CoreDataStack.shared.saveContext(self.context)
                     tableView.reloadData()
                 }

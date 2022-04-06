@@ -24,6 +24,6 @@ struct MBAccountInfo: Codable {
     }
     
     func isExists(context: NSManagedObjectContext) -> Bool {
-        return !BankAccountManager.isFreeExternalId(id, context: context)
+        return !BankAccount.isFreeExternalId(id, context: context)
     }
 }

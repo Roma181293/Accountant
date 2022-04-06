@@ -341,16 +341,14 @@ class MonobankViewController: UIViewController {
         do {
             try getRootAccounts()
             
-            let ubp = UserBankProfileManager.getOrCreateMonoBankUBP(userInfo, xToken: xToken, context: self.context)
+            let ubp = UserBankProfile.getOrCreateMonoBankUBP(userInfo, xToken: xToken, context: self.context)
             
             print("userInfo.accounts.count", userInfo.accounts.count)
-            for item in userInfo.accounts {
-                
-                guard !item.isExists(context: context) else {return}
+            for item in userInfo.accounts.filter({return !$0.isExists(context: context)}) {
                 
                 guard Account.isFreeAccountName(parent: moneyRootAccount, name: item.maskedPan.last! , context: context) else {throw AccountError.accountAlreadyExists(name: moneyRootAccount.name! + ":" + item.maskedPan.last!)}
                 
-                let bankAccount = try BankAccountManager.createAndGetMBBankAccount(item, userBankProfile: ubp, context: context)
+                let bankAccount = try BankAccount.createAndGetMBBankAccount(item, userBankProfile: ubp, context: context)
                 
                 print("item.maskedPan.last!", item.maskedPan.last!)
                 
@@ -511,7 +509,7 @@ extension MonobankViewController: UITableViewDelegate, UITableViewDataSource {
         if let userInfo = userInfo  {
             cell = tableView.dequeueReusableCell(withIdentifier: Constants.Cell.bankAccountCell, for: indexPath) as! MonobankAccountTableViewCell
             let account = userInfo.accounts[indexPath.row]
-            let isAdded = userInfo.isExists(context: CoreDataStack.shared.persistentContainer.viewContext)
+            let isAdded = account.isExists(context: CoreDataStack.shared.persistentContainer.viewContext)
             if !isAdded {
                 confirmButton.isHidden = false
             }
