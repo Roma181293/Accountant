@@ -176,7 +176,7 @@ final class Account: NSManagedObject {
         }
     }
     
-    func renameAccount(to newName : String, context : NSManagedObjectContext) throws {
+    func rename(to newName : String, context : NSManagedObjectContext) throws {
         guard Account.isReservedAccountName(newName) == false else {throw AccountError.reservedName(name: newName)}
         guard Account.isFreeAccountName(parent: self.parent, name: newName, context: context)
         else {
@@ -222,13 +222,13 @@ final class Account: NSManagedObject {
         }
     }
     
-    func removeAccount(eligibilityChacked: Bool, context: NSManagedObjectContext) throws {
+    func delete(eligibilityChacked: Bool) throws {
         var accounts = childrenList
         accounts.append(self)
         if eligibilityChacked == false {
             try canBeRemoved()
             accounts.forEach({
-                context.delete($0)
+                managedObjectContext?.delete($0)
             })
         }
         else {
@@ -236,7 +236,7 @@ final class Account: NSManagedObject {
                 accounts.append(linkedAccount)
             }
             accounts.forEach({
-                context.delete($0)
+                managedObjectContext?.delete($0)
             })
         }
     }

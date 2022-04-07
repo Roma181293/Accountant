@@ -45,7 +45,7 @@ final class Exchange: NSManagedObject {
     /// This function returns  Exchange for a start of a given `date`.
     ///
     /// - Parameter date: exchange date
-    static func getOrCreateExchange(date: Date, createsByUser: Bool = false, createDate: Date = Date(), context: NSManagedObjectContext) -> Exchange {
+    static func getOrCreate(date: Date, createsByUser: Bool = false, createDate: Date = Date(), context: NSManagedObjectContext) -> Exchange {
         
         let beginOfDay = Calendar.current.startOfDay(for: date)
         
@@ -117,7 +117,7 @@ final class Exchange: NSManagedObject {
         print(#function,currencyHistoricalData.ecxhangeDate(),currencyHistoricalData.listOfCurrencies())
         guard let ecxhangeDate = currencyHistoricalData.ecxhangeDate() else {return}
         guard let accCurrency = Currency.getAccountingCurrency(context: context) else {return}
-        let exchange = getOrCreateExchange(date: ecxhangeDate, context: context)
+        let exchange = getOrCreate(date: ecxhangeDate, context: context)
         
         try? currencyHistoricalData.listOfCurrencies().forEach{ code in
             guard let rate = currencyHistoricalData.exchangeRate(pay: accCurrency.code, forOne: code) else {return}

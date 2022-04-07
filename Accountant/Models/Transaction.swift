@@ -147,17 +147,11 @@ final class Transaction: NSManagedObject {
         return transaction
     }
     
-    func delete(context: NSManagedObjectContext){
-        do {
-            for item in transactionItemsList{
-                context.delete(item)
-            }
-            context.delete(self)
-            try CoreDataStack.shared.saveContext(context)
+    func delete(){
+        for item in transactionItemsList{
+            item.managedObjectContext?.delete(item)
         }
-        catch let error {
-            print("ERROR", error)
-        }
+        managedObjectContext?.delete(self)
     }
     
     private static func findAccountCandidate(comment: String, account: Account, method: AccountingMethod) -> Account? {

@@ -315,8 +315,9 @@ extension TransactionListViewController: UITableViewDelegate, UITableViewDataSou
                 
                 
                 let tran = self.fetchedResultsController.object(at: indexPath)
-                tran.delete(context: self.context)
+                tran.delete()
                 do {
+                    try self.coreDataStack.saveContext(self.context)
                     try self.fetchedResultsController.performFetch()
                     tableView.deleteRows(at: [indexPath], with: .fade)
                 }

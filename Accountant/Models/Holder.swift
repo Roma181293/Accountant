@@ -69,7 +69,7 @@ final class Holder: NSManagedObject {
         let _ = try createAndGet(name: name, icon : icon, createdByUser : createdByUser, createDate: createDate, context: context)
     }
     
-    func remove() throws {
+    func delete() throws {
         guard accountsList.isEmpty else {
             throw HolderError.thisHolderUsedInAccounts
         }

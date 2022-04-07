@@ -84,18 +84,18 @@ final class Keeper: NSManagedObject {
         }
     }
     
-    static func createKeeper(name: String, type: KeeperType, createdByUser : Bool = true, context: NSManagedObjectContext) throws {
+    static func create(name: String, type: KeeperType, createdByUser : Bool = true, context: NSManagedObjectContext) throws {
         let _ = try createAndGetKeeper(name: name, type:type, createdByUser : createdByUser, context: context)
     }
     
-    func remove() throws {
+    func delete() throws {
         guard accountsList.isEmpty else {
             throw KeeperError.thisKeeperUsedInAccounts
         }
         managedObjectContext?.delete(self)
     }
     
-    func renameKeeper(newname: String, modifiedByUser: Bool = true, modifyDate: Date = Date(), context: NSManagedObjectContext) throws {
+    func rename(newname: String, modifiedByUser: Bool = true, modifyDate: Date = Date(), context: NSManagedObjectContext) throws {
         guard Keeper.isFreeKeeperName(newname, context: context) else { throw KeeperError.thisKeeperAlreadyExists }
         self.name = newname
         self.modifiedByUser = modifiedByUser

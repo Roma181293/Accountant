@@ -169,7 +169,7 @@ class AccountManagerController {
                 let alert = UIAlertController(title: NSLocalizedString("Delete",comment: ""), message: message, preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: NSLocalizedString("Yes",comment: ""), style: .destructive, handler: {(_) in
                     do {
-                        try selectedAccount.removeAccount(eligibilityChacked: true, context: self.delegate.context)
+                        try selectedAccount.delete(eligibilityChacked: true)
                         try self.delegate.coreDataStack.saveContext(self.delegate.context)
                         try self.delegate.updateSourceTable()
                         
@@ -208,7 +208,7 @@ class AccountManagerController {
                 guard let textField = alert?.textFields![0] else {return}
                 
                 do {
-                    try selectedAccount.renameAccount(to: textField.text!, context: self.delegate.context)
+                    try selectedAccount.rename(to: textField.text!, context: self.delegate.context)
                     try self.delegate.coreDataStack.saveContext(self.delegate.context)
                     try self.delegate.updateSourceTable()
                     self.delegate.tableView.reloadData()

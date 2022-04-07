@@ -432,7 +432,7 @@ class SimpleTransactionEditorViewController: UIViewController {//}, GADFullScree
             
             let alert = UIAlertController(title: NSLocalizedString("Save", comment: ""), message: NSLocalizedString("Do you want to save changes?", comment: ""), preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: NSLocalizedString("Yes", comment: ""), style: .default, handler: { [] (_) in
-                transaction.delete(context: self.context)
+                transaction.delete()
                 self.addNewTransaction()
                 self.navigationController?.popViewController(animated: true)
             }))

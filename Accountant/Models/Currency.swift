@@ -67,7 +67,7 @@ final class Currency: NSManagedObject {
         }
     }
     
-    static func createAndGetCurrency(code: String, iso4217: Int16, name: String?, createdByUser : Bool = true, createDate: Date = Date(), context: NSManagedObjectContext) throws -> Currency {
+    static func createAndGet(code: String, iso4217: Int16, name: String?, createdByUser : Bool = true, createDate: Date = Date(), context: NSManagedObjectContext) throws -> Currency {
         guard isFreeCurrencyCode(code,context: context) == true else {
             throw CurrencyError.thisCurrencyAlreadyExists
         }
@@ -75,11 +75,11 @@ final class Currency: NSManagedObject {
     }
     
     
-    static func createCurrency(code: String, iso4217: Int16, name: String?, createdByUser : Bool = true, context: NSManagedObjectContext) throws {
-        let _ = try createAndGetCurrency(code: code, iso4217: iso4217, name: name, createdByUser : createdByUser, context: context)
+    static func create(code: String, iso4217: Int16, name: String?, createdByUser : Bool = true, context: NSManagedObjectContext) throws {
+        let _ = try createAndGet(code: code, iso4217: iso4217, name: name, createdByUser : createdByUser, context: context)
     }
     
-    func removeCurrency() throws {
+    func delete() throws {
         guard self.accountsList.count == 0 else {
             throw CurrencyError.thisCurrencyUsedInAccounts
         }
@@ -158,8 +158,6 @@ final class Currency: NSManagedObject {
             newCurr.modifiedByUser = modifiedByUser
         }
     }
-    
-    
     
     static func getAccountingCurrency(context: NSManagedObjectContext) -> Currency? {
         let currencyFetchRequest : NSFetchRequest<Currency> = NSFetchRequest<Currency>(entityName: Currency.entity().name!)

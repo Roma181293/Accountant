@@ -88,7 +88,7 @@ class KeeperTableViewController: UITableViewController {
                 
                 guard textField.text?.isEmpty == false else {throw KeeperError.emptyName}
                 
-                try Keeper.createKeeper(name: textField.text!, type: .bank, context: self.context)
+                try Keeper.create(name: textField.text!, type: .bank, context: self.context)
                 try CoreDataStack.shared.saveContext(self.context)
                 try self.fetchedResultsController.performFetch()
                 self.tableView.reloadData()
@@ -109,7 +109,7 @@ class KeeperTableViewController: UITableViewController {
                 
                 guard textField.text?.isEmpty == false else {throw KeeperError.emptyName}
                 
-                try Keeper.createKeeper(name: textField.text!, type: .person, context: self.context)
+                try Keeper.create(name: textField.text!, type: .person, context: self.context)
                 try CoreDataStack.shared.saveContext(self.context)
                 try self.fetchedResultsController.performFetch()
                 self.tableView.reloadData()

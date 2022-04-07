@@ -17,21 +17,21 @@ class SeedDataManager {
         
         
         currencies.forEach({
-            try? Currency.createCurrency(code: $0.code, iso4217: Int16($0.iso4217), name: nil, createdByUser: false, context: context)
+            try? Currency.create(code: $0.code, iso4217: Int16($0.iso4217), name: nil, createdByUser: false, context: context)
         })
     }
     
     static func createDefaultKeepers(context: NSManagedObjectContext) {
-        try? Keeper.createKeeper(name: NSLocalizedString("Cash", comment: ""), type: .cash, createdByUser: false, context: context)
-        try? Keeper.createKeeper(name: NSLocalizedString("Monobank",comment: ""), type: .bank, createdByUser: false, context: context)
+        try? Keeper.create(name: NSLocalizedString("Cash", comment: ""), type: .cash, createdByUser: false, context: context)
+        try? Keeper.create(name: NSLocalizedString("Monobank",comment: ""), type: .bank, createdByUser: false, context: context)
     }
     
     static func createTestKeepers(context: NSManagedObjectContext) throws {
-        try Keeper.createKeeper(name: NSLocalizedString("Cash", comment: ""), type: .cash, createdByUser: false, context: context)
-        try Keeper.createKeeper(name: NSLocalizedString("Bank1", comment: ""), type: .bank, context: context)
-        try Keeper.createKeeper(name: NSLocalizedString("Bank2", comment: ""), type: .bank, context: context)
-        try Keeper.createKeeper(name: NSLocalizedString("Hanna", comment: ""), type: .person, context: context)
-        try Keeper.createKeeper(name: NSLocalizedString("Monobank",comment: ""), type: .bank, createdByUser: false, context: context)
+        try Keeper.create(name: NSLocalizedString("Cash", comment: ""), type: .cash, createdByUser: false, context: context)
+        try Keeper.create(name: NSLocalizedString("Bank1", comment: ""), type: .bank, context: context)
+        try Keeper.create(name: NSLocalizedString("Bank2", comment: ""), type: .bank, context: context)
+        try Keeper.create(name: NSLocalizedString("Hanna", comment: ""), type: .person, context: context)
+        try Keeper.create(name: NSLocalizedString("Monobank",comment: ""), type: .bank, createdByUser: false, context: context)
     }
     
     //USE ONLY TO CLEAR DATA IN TEST ENVIRONMENT
