@@ -85,7 +85,7 @@ class AddAccountViewController: UIViewController {
     }
     
     @objc func save(_ sender:UIButton!){
-        var typeOfAccount : AccountType = .assets
+        var typeOfAccount : Account.TypeEnum = .assets
         if segmentedControl.selectedSegmentIndex == 1 {
             typeOfAccount = .liabilities
         }

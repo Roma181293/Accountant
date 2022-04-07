@@ -117,25 +117,25 @@ class SeedDataManager {
     static func addBaseAccounts(accountingCurrency: Currency, context: NSManagedObjectContext) {
         AccountsNameLocalisationManager.createAllLocalizedAccountName()
         
-        try? Account.createAccount(parent: nil, name: AccountsNameLocalisationManager.getLocalizedAccountName(.money), type: AccountType.assets, currency: nil, createdByUser: false, context: context)
-        try? Account.createAccount(parent: nil, name: AccountsNameLocalisationManager.getLocalizedAccountName(.credits), type: AccountType.liabilities, currency: nil, createdByUser: false, context: context)
-        try? Account.createAccount(parent: nil, name: AccountsNameLocalisationManager.getLocalizedAccountName(.debtors), type: AccountType.assets, currency: nil, createdByUser: false, context: context)
-        try? Account.createAccount(parent: nil, name: AccountsNameLocalisationManager.getLocalizedAccountName(.capital), type: AccountType.liabilities, currency: accountingCurrency, createdByUser: false, context: context)
+        try? Account.createAccount(parent: nil, name: AccountsNameLocalisationManager.getLocalizedAccountName(.money), type: Account.TypeEnum.assets, currency: nil, createdByUser: false, context: context)
+        try? Account.createAccount(parent: nil, name: AccountsNameLocalisationManager.getLocalizedAccountName(.credits), type: Account.TypeEnum.liabilities, currency: nil, createdByUser: false, context: context)
+        try? Account.createAccount(parent: nil, name: AccountsNameLocalisationManager.getLocalizedAccountName(.debtors), type: Account.TypeEnum.assets, currency: nil, createdByUser: false, context: context)
+        try? Account.createAccount(parent: nil, name: AccountsNameLocalisationManager.getLocalizedAccountName(.capital), type: Account.TypeEnum.liabilities, currency: accountingCurrency, createdByUser: false, context: context)
         
-        let expense = try? Account.createAndGetAccount(parent: nil, name: AccountsNameLocalisationManager.getLocalizedAccountName(.expense), type: AccountType.assets, currency: accountingCurrency, createdByUser: false, context: context)
-        try? Account.createAccount(parent: expense, name: NSLocalizedString("Food", comment: ""), type: AccountType.assets, currency: accountingCurrency, createdByUser: false, context: context)
-        try? Account.createAccount(parent: expense, name: NSLocalizedString("Transport", comment: ""), type: AccountType.assets, currency: accountingCurrency, createdByUser: false, context: context)
-        try? Account.createAccount(parent: expense, name: NSLocalizedString("Gifts", comment: ""), type: AccountType.assets, currency: accountingCurrency, createdByUser: false, context: context)
-        let home = try? Account.createAndGetAccount(parent: expense, name: NSLocalizedString("Home", comment: ""), type: AccountType.assets, currency: accountingCurrency, createdByUser: false, context: context)
-        try? Account.createAccount(parent: home, name: NSLocalizedString("Utility", comment: ""), type: AccountType.assets, currency: accountingCurrency, createdByUser: false, context: context)
-        try? Account.createAccount(parent: home, name: NSLocalizedString("Rent", comment: ""), type: AccountType.assets, currency: accountingCurrency, createdByUser: false, context: context)
-        try? Account.createAccount(parent: home, name: NSLocalizedString("Renovation", comment: ""), type: AccountType.assets, currency: accountingCurrency, createdByUser: false, context: context)
+        let expense = try? Account.createAndGetAccount(parent: nil, name: AccountsNameLocalisationManager.getLocalizedAccountName(.expense), type: Account.TypeEnum.assets, currency: accountingCurrency, createdByUser: false, context: context)
+        try? Account.createAccount(parent: expense, name: NSLocalizedString("Food", comment: ""), type: Account.TypeEnum.assets, currency: accountingCurrency, createdByUser: false, context: context)
+        try? Account.createAccount(parent: expense, name: NSLocalizedString("Transport", comment: ""), type: Account.TypeEnum.assets, currency: accountingCurrency, createdByUser: false, context: context)
+        try? Account.createAccount(parent: expense, name: NSLocalizedString("Gifts", comment: ""), type: Account.TypeEnum.assets, currency: accountingCurrency, createdByUser: false, context: context)
+        let home = try? Account.createAndGetAccount(parent: expense, name: NSLocalizedString("Home", comment: ""), type: Account.TypeEnum.assets, currency: accountingCurrency, createdByUser: false, context: context)
+        try? Account.createAccount(parent: home, name: NSLocalizedString("Utility", comment: ""), type: Account.TypeEnum.assets, currency: accountingCurrency, createdByUser: false, context: context)
+        try? Account.createAccount(parent: home, name: NSLocalizedString("Rent", comment: ""), type: Account.TypeEnum.assets, currency: accountingCurrency, createdByUser: false, context: context)
+        try? Account.createAccount(parent: home, name: NSLocalizedString("Renovation", comment: ""), type: Account.TypeEnum.assets, currency: accountingCurrency, createdByUser: false, context: context)
         
         
-        let income = try? Account.createAndGetAccount(parent: nil, name: AccountsNameLocalisationManager.getLocalizedAccountName(.income), type: AccountType.liabilities, currency: accountingCurrency, createdByUser: false, context: context)
-        try? Account.createAccount(parent: income, name: NSLocalizedString("Salary", comment: ""), type: AccountType.liabilities, currency: accountingCurrency, createdByUser: false, context: context)
-        try? Account.createAccount(parent: income, name: NSLocalizedString("Gifts", comment: ""), type: AccountType.liabilities, currency: accountingCurrency, createdByUser: false, context: context)
-        try? Account.createAccount(parent: income, name: NSLocalizedString("Interest on deposits", comment: ""), type: AccountType.liabilities, currency: accountingCurrency, createdByUser: false, context: context)
+        let income = try? Account.createAndGetAccount(parent: nil, name: AccountsNameLocalisationManager.getLocalizedAccountName(.income), type: Account.TypeEnum.liabilities, currency: accountingCurrency, createdByUser: false, context: context)
+        try? Account.createAccount(parent: income, name: NSLocalizedString("Salary", comment: ""), type: Account.TypeEnum.liabilities, currency: accountingCurrency, createdByUser: false, context: context)
+        try? Account.createAccount(parent: income, name: NSLocalizedString("Gifts", comment: ""), type: Account.TypeEnum.liabilities, currency: accountingCurrency, createdByUser: false, context: context)
+        try? Account.createAccount(parent: income, name: NSLocalizedString("Interest on deposits", comment: ""), type: Account.TypeEnum.liabilities, currency: accountingCurrency, createdByUser: false, context: context)
         
     }
     
@@ -153,36 +153,36 @@ class SeedDataManager {
         let kate = try? Holder.get(NSLocalizedString("Kate", comment: ""), context: context)
         
         
-        let money = try? Account.createAndGetAccount(parent: nil, name: AccountsNameLocalisationManager.getLocalizedAccountName(.money), type: AccountType.assets, currency: nil, createdByUser: false, context: context)
+        let money = try? Account.createAndGetAccount(parent: nil, name: AccountsNameLocalisationManager.getLocalizedAccountName(.money), type: Account.TypeEnum.assets, currency: nil, createdByUser: false, context: context)
         
-        let credits = try? Account.createAndGetAccount(parent: nil, name: AccountsNameLocalisationManager.getLocalizedAccountName(.credits), type: AccountType.liabilities, currency: nil, createdByUser: false, context: context)
-        let debtors = try? Account.createAndGetAccount(parent: nil, name: AccountsNameLocalisationManager.getLocalizedAccountName(.debtors), type: AccountType.assets, currency: nil, createdByUser: false, context: context)
-        let capital = try? Account.createAndGetAccount(parent: nil, name: AccountsNameLocalisationManager.getLocalizedAccountName(.capital), type: AccountType.liabilities, currency: accountingCurrency, createdByUser: false, context: context)
+        let credits = try? Account.createAndGetAccount(parent: nil, name: AccountsNameLocalisationManager.getLocalizedAccountName(.credits), type: Account.TypeEnum.liabilities, currency: nil, createdByUser: false, context: context)
+        let debtors = try? Account.createAndGetAccount(parent: nil, name: AccountsNameLocalisationManager.getLocalizedAccountName(.debtors), type: Account.TypeEnum.assets, currency: nil, createdByUser: false, context: context)
+        let capital = try? Account.createAndGetAccount(parent: nil, name: AccountsNameLocalisationManager.getLocalizedAccountName(.capital), type: Account.TypeEnum.liabilities, currency: accountingCurrency, createdByUser: false, context: context)
         
-        let deposit = try? Account.createAndGetAccount(parent: debtors, name: NSLocalizedString("Deposit", comment: ""), type: AccountType.assets, currency: accountingCurrency, keeper: bank1, holder: me, createdByUser: false, context: context)
-        let lend = try? Account.createAndGetAccount(parent: debtors, name: NSLocalizedString("Hanna", comment: ""), type: AccountType.assets, currency: accountingCurrency, keeper: hanna, holder: me, createdByUser: false, context: context)
+        let deposit = try? Account.createAndGetAccount(parent: debtors, name: NSLocalizedString("Deposit", comment: ""), type: Account.TypeEnum.assets, currency: accountingCurrency, keeper: bank1, holder: me, createdByUser: false, context: context)
+        let lend = try? Account.createAndGetAccount(parent: debtors, name: NSLocalizedString("Hanna", comment: ""), type: Account.TypeEnum.assets, currency: accountingCurrency, keeper: hanna, holder: me, createdByUser: false, context: context)
         
-        let salaryCard = try? Account.createAndGetAccount(parent: money, name: NSLocalizedString("Salary card", comment: ""), type: AccountType.assets, currency: accountingCurrency, keeper: bank2, holder: me, subType: AccountSubType.debitCard, createdByUser: false, context: context)
-        let cash = try? Account.createAndGetAccount(parent: money, name: NSLocalizedString("Cash", comment: ""), type: AccountType.assets, currency: accountingCurrency, keeper: cashKeeper, holder: kate, subType: AccountSubType.cash, createdByUser: false, context: context)
+        let salaryCard = try? Account.createAndGetAccount(parent: money, name: NSLocalizedString("Salary card", comment: ""), type: Account.TypeEnum.assets, currency: accountingCurrency, keeper: bank2, holder: me, subType: Account.SubTypeEnum.debitCard, createdByUser: false, context: context)
+        let cash = try? Account.createAndGetAccount(parent: money, name: NSLocalizedString("Cash", comment: ""), type: Account.TypeEnum.assets, currency: accountingCurrency, keeper: cashKeeper, holder: kate, subType: Account.SubTypeEnum.cash, createdByUser: false, context: context)
         
-        let creditcard_A = try? Account.createAndGetAccount(parent: money, name: NSLocalizedString("Credit card", comment: ""), type: AccountType.assets, currency: accountingCurrency, keeper: bank1, holder: me, subType: AccountSubType.creditCard, createdByUser: false, context: context)
-        let creditcard_L = try? Account.createAndGetAccount(parent: credits, name: NSLocalizedString("Credit card", comment: ""), type: AccountType.liabilities, currency: accountingCurrency, keeper: bank1, holder: me, createdByUser: false, context: context)
+        let creditcard_A = try? Account.createAndGetAccount(parent: money, name: NSLocalizedString("Credit card", comment: ""), type: Account.TypeEnum.assets, currency: accountingCurrency, keeper: bank1, holder: me, subType: Account.SubTypeEnum.creditCard, createdByUser: false, context: context)
+        let creditcard_L = try? Account.createAndGetAccount(parent: credits, name: NSLocalizedString("Credit card", comment: ""), type: Account.TypeEnum.liabilities, currency: accountingCurrency, keeper: bank1, holder: me, createdByUser: false, context: context)
         creditcard_A?.linkedAccount = creditcard_L
         
-        let expense = try? Account.createAndGetAccount(parent: nil, name: AccountsNameLocalisationManager.getLocalizedAccountName(.expense), type: AccountType.assets, currency: accountingCurrency, createdByUser: false, context: context)
-        let food = try? Account.createAndGetAccount(parent: expense, name: NSLocalizedString("Food", comment: ""), type: AccountType.assets, currency: accountingCurrency, createdByUser: false, context: context)
-        let transport = try? Account.createAndGetAccount(parent: expense, name: NSLocalizedString("Transport", comment: ""), type: AccountType.assets, currency: accountingCurrency, createdByUser: false, context: context)
-        let gifts_E = try? Account.createAndGetAccount(parent: expense, name: NSLocalizedString("Gifts", comment: ""), type: AccountType.assets, currency: accountingCurrency, createdByUser: false, context: context)
-        let home = try? Account.createAndGetAccount(parent: expense, name: NSLocalizedString("Home", comment: ""), type: AccountType.assets, currency: accountingCurrency, createdByUser: false, context: context)
-        let utility = try? Account.createAndGetAccount(parent: home, name: NSLocalizedString("Utility", comment: ""), type: AccountType.assets, currency: accountingCurrency, createdByUser: false, context: context)
-        let rent = try? Account.createAndGetAccount(parent: home, name: NSLocalizedString("Rent", comment: ""), type: AccountType.assets, currency: accountingCurrency, createdByUser: false, context: context)
-        let renovation = try? Account.createAndGetAccount(parent: home, name: NSLocalizedString("Renovation", comment: ""), type: AccountType.assets, currency: accountingCurrency, createdByUser: false, context: context)
+        let expense = try? Account.createAndGetAccount(parent: nil, name: AccountsNameLocalisationManager.getLocalizedAccountName(.expense), type: Account.TypeEnum.assets, currency: accountingCurrency, createdByUser: false, context: context)
+        let food = try? Account.createAndGetAccount(parent: expense, name: NSLocalizedString("Food", comment: ""), type: Account.TypeEnum.assets, currency: accountingCurrency, createdByUser: false, context: context)
+        let transport = try? Account.createAndGetAccount(parent: expense, name: NSLocalizedString("Transport", comment: ""), type: Account.TypeEnum.assets, currency: accountingCurrency, createdByUser: false, context: context)
+        let gifts_E = try? Account.createAndGetAccount(parent: expense, name: NSLocalizedString("Gifts", comment: ""), type: Account.TypeEnum.assets, currency: accountingCurrency, createdByUser: false, context: context)
+        let home = try? Account.createAndGetAccount(parent: expense, name: NSLocalizedString("Home", comment: ""), type: Account.TypeEnum.assets, currency: accountingCurrency, createdByUser: false, context: context)
+        let utility = try? Account.createAndGetAccount(parent: home, name: NSLocalizedString("Utility", comment: ""), type: Account.TypeEnum.assets, currency: accountingCurrency, createdByUser: false, context: context)
+        let rent = try? Account.createAndGetAccount(parent: home, name: NSLocalizedString("Rent", comment: ""), type: Account.TypeEnum.assets, currency: accountingCurrency, createdByUser: false, context: context)
+        let renovation = try? Account.createAndGetAccount(parent: home, name: NSLocalizedString("Renovation", comment: ""), type: Account.TypeEnum.assets, currency: accountingCurrency, createdByUser: false, context: context)
         
         
-        let income = try? Account.createAndGetAccount(parent: nil, name: AccountsNameLocalisationManager.getLocalizedAccountName(.income), type: AccountType.liabilities, currency: accountingCurrency, createdByUser: false, context: context)
-        let salary = try? Account.createAndGetAccount(parent: income, name: NSLocalizedString("Salary", comment: ""), type: AccountType.liabilities, currency: accountingCurrency, createdByUser: false, context: context)
-        let gifts_I = try? Account.createAndGetAccount(parent: income, name: NSLocalizedString("Gifts", comment: ""), type: AccountType.liabilities, currency: accountingCurrency, createdByUser: false, context: context)
-        let interestOnDeposits = try? Account.createAndGetAccount(parent: income, name: NSLocalizedString("Interest on deposits", comment: ""), type: AccountType.liabilities, currency: accountingCurrency, createdByUser: false, context: context)
+        let income = try? Account.createAndGetAccount(parent: nil, name: AccountsNameLocalisationManager.getLocalizedAccountName(.income), type: Account.TypeEnum.liabilities, currency: accountingCurrency, createdByUser: false, context: context)
+        let salary = try? Account.createAndGetAccount(parent: income, name: NSLocalizedString("Salary", comment: ""), type: Account.TypeEnum.liabilities, currency: accountingCurrency, createdByUser: false, context: context)
+        let gifts_I = try? Account.createAndGetAccount(parent: income, name: NSLocalizedString("Gifts", comment: ""), type: Account.TypeEnum.liabilities, currency: accountingCurrency, createdByUser: false, context: context)
+        let interestOnDeposits = try? Account.createAndGetAccount(parent: income, name: NSLocalizedString("Interest on deposits", comment: ""), type: Account.TypeEnum.liabilities, currency: accountingCurrency, createdByUser: false, context: context)
         
         
         let calendar = Calendar.current

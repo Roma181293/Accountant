@@ -8,21 +8,9 @@
 
 import Foundation
 
-enum AccountType : Int16 {
-    case assets = 1
-    case liabilities = 0
-}
-
 enum AccountingMethod : Int16 {
     case debit = 1
     case credit = 0
-}
-
-enum AccountSubType : Int16 {
-    case none = 0
-    case cash = 1
-    case debitCard = 2
-    case creditCard = 3
 }
 
 enum KeeperType : Int16 {

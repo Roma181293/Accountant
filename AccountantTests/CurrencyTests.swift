@@ -90,7 +90,7 @@ class CurrencyTests: XCTestCase {
     
     func testCantRemoveCurrencyWithLinkToAccount() {
         let name = "Capital"
-        let accType = AccountType.assets.rawValue
+        let accType = Account.TypeEnum.assets.rawValue
         do {
             let currency = try Currency.createAndGetCurrency(code: "USD", iso4217: 840, name: "USD", context: context)
             try Currency.changeAccountingCurrency(old: nil, new: currency, context: context)

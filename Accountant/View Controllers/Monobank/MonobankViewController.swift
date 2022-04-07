@@ -346,7 +346,7 @@ class MonobankViewController: UIViewController {
             print("userInfo.accounts.count", userInfo.accounts.count)
             for item in userInfo.accounts.filter({return !$0.isExists(context: context)}) {
                 
-                guard Account.isFreeAccountName(parent: moneyRootAccount, name: item.maskedPan.last! , context: context) else {throw AccountError.accountAlreadyExists(name: moneyRootAccount.name! + ":" + item.maskedPan.last!)}
+                guard Account.isFreeAccountName(parent: moneyRootAccount, name: item.maskedPan.last! , context: context) else {throw AccountError.accountAlreadyExists(name: moneyRootAccount.name + ":" + item.maskedPan.last!)}
                 
                 let bankAccount = try BankAccount.createAndGetMBBankAccount(item, userBankProfile: ubp, context: context)
                 
@@ -364,7 +364,7 @@ class MonobankViewController: UIViewController {
                 
                 //Check credit account name is free
                 guard Account.isFreeAccountName(parent: creditsRootAccount, name: item.maskedPan.last! , context: context)
-                else {throw AccountError.creditAccountAlreadyExist(creditsRootAccount.name! + item.maskedPan.last!)}
+                else {throw AccountError.creditAccountAlreadyExist(creditsRootAccount.name + item.maskedPan.last!)}
                 
                 
                 //Check exchange rate value
@@ -375,11 +375,11 @@ class MonobankViewController: UIViewController {
                     exchangeRate = rate
                 }
                 
-            let newMoneyAccount = try Account.createAndGetAccount(parent: moneyRootAccount, name: item.maskedPan.last!, type: AccountType(rawValue: moneyRootAccount.type)!, currency: currency, keeper: keeper, holder:holder, subType: AccountSubType.creditCard, context: context)
+                let newMoneyAccount = try Account.createAndGetAccount(parent: moneyRootAccount, name: item.maskedPan.last!, type: moneyRootAccount.type, currency: currency, keeper: keeper, holder:holder, subType: Account.SubTypeEnum.creditCard, context: context)
                 
                 newMoneyAccount.bankAccount = bankAccount
                 
-                let newCreditAccount = try Account.createAndGetAccount(parent: creditsRootAccount, name: item.maskedPan.last!, type: AccountType(rawValue: creditsRootAccount.type) ?? .liabilities, currency: currency, keeper: keeper, holder:holder, context: context)
+                let newCreditAccount = try Account.createAndGetAccount(parent: creditsRootAccount, name: item.maskedPan.last!, type: creditsRootAccount.type, currency: currency, keeper: keeper, holder:holder, context: context)
                 
                 newMoneyAccount.linkedAccount = newCreditAccount
                 
@@ -399,7 +399,7 @@ class MonobankViewController: UIViewController {
                     var expenseBeforeAccountingPeriod : Account? = expenseRootAccount.getSubAccountWith(name: AccountsNameLocalisationManager.getLocalizedAccountName(.beforeAccountingPeriod))
                     
                     if expenseBeforeAccountingPeriod == nil {
-                        expenseBeforeAccountingPeriod = try? Account.createAndGetAccount(parent: expenseRootAccount, name: AccountsNameLocalisationManager.getLocalizedAccountName(.beforeAccountingPeriod), type: AccountType(rawValue: expenseRootAccount.type) ?? .assets, currency: expenseRootAccount.currency, createdByUser: false, context: context)
+                        expenseBeforeAccountingPeriod = try? Account.createAndGetAccount(parent: expenseRootAccount, name: AccountsNameLocalisationManager.getLocalizedAccountName(.beforeAccountingPeriod), type: expenseRootAccount.type, currency: expenseRootAccount.currency, createdByUser: false, context: context)
                     }
                     guard let expenseBeforeAccountingPeriodSafe = expenseBeforeAccountingPeriod else {
                         throw AccountWithBalanceError.canNotFindBeboreAccountingPeriodAccount
@@ -421,7 +421,7 @@ class MonobankViewController: UIViewController {
         let rootAccountList = try Account.getRootAccountList(context: context)
         rootAccountList.forEach({
             
-            switch $0.name! {
+            switch $0.name {
             case AccountsNameLocalisationManager.getLocalizedAccountName(.money):
                 moneyRootAccount = $0
             case AccountsNameLocalisationManager.getLocalizedAccountName(.credits):

@@ -11,30 +11,41 @@ import Charts
 
 final class Account: NSManagedObject {
     
+    @objc enum TypeEnum : Int16 {
+        case liabilities = 0
+        case assets = 1
+    }
+    
+    @objc enum SubTypeEnum : Int16 {
+        case none = 0
+        case cash = 1
+        case debitCard = 2
+        case creditCard = 3
+    }
+    
     @nonobjc public class func fetchRequest() -> NSFetchRequest<Account> {
         return NSFetchRequest<Account>(entityName: "Account")
     }
-
+    
+    @NSManaged public var id: UUID
     @NSManaged public var active: Bool
-    @NSManaged public var createDate: Date?
-    @NSManaged public var createdByUser: Bool
-    @NSManaged public var id: UUID?
-    @NSManaged public var modifiedByUser: Bool
-    @NSManaged public var modifyDate: Date?
-    @NSManaged public var name: String?
-    @NSManaged public var subType: Int16
-    @NSManaged public var type: Int16
+    @NSManaged public var name: String
+    @NSManaged public var subType: SubTypeEnum
+    @NSManaged public var type: TypeEnum
     @NSManaged public var bankAccount: BankAccount?
     @NSManaged public var currency: Currency?
-    @NSManaged public var directChildren: NSSet?
     @NSManaged public var holder: Holder?
     @NSManaged public var keeper: Keeper?
     @NSManaged public var linkedAccount: Account?
     @NSManaged public var parent: Account?
-    @NSManaged public var transactionItems: NSSet?
+    @NSManaged public var directChildren: Set<Account>!
+    @NSManaged public var transactionItems: Set<TransactionItem>!
+    @NSManaged public var createDate: Date?
+    @NSManaged public var createdByUser: Bool
+    @NSManaged public var modifyDate: Date?
+    @NSManaged public var modifiedByUser: Bool
     
-    
-    convenience init(parent: Account?, name : String, type : AccountType, currency : Currency?, keeper: Keeper?, holder: Holder?, subType : AccountSubType?, createdByUser : Bool = true, createDate: Date = Date(), context: NSManagedObjectContext) {
+    convenience init(parent: Account?, name : String, type : TypeEnum, currency : Currency?, keeper: Keeper?, holder: Holder?, subType : SubTypeEnum?, createdByUser : Bool = true, createDate: Date = Date(), context: NSManagedObjectContext) {
         
         self.init(context: context)
         self.id = UUID()
@@ -48,7 +59,7 @@ final class Account: NSManagedObject {
         self.keeper = keeper
         self.holder = holder
         
-        self.subType = subType?.rawValue ?? AccountSubType.none.rawValue
+        self.subType = subType ?? .none
         
         if let parent = parent {
             self.parent = parent
@@ -56,7 +67,7 @@ final class Account: NSManagedObject {
             self.active = parent.active
         }
         else {
-            self.type = type.rawValue
+            self.type = type
             self.active = true
         }
     }
@@ -77,9 +88,9 @@ final class Account: NSManagedObject {
     
     var path: String {
         if let parent = parent {
-            return parent.path + ":" + name!
+            return parent.path + ":" + name
         }
-        return name!
+        return name
     }
     
     var level: Int {
@@ -90,7 +101,7 @@ final class Account: NSManagedObject {
     }
     
     var directChildrenList: [Account] {
-        return directChildren?.allObjects as! [Account]
+        return Array(directChildren)
     }
     
     var childrenList: [Account] {
@@ -102,7 +113,7 @@ final class Account: NSManagedObject {
     }
     
     var transactionItemsList: [TransactionItem] {
-        return transactionItems?.allObjects as! [TransactionItem]
+        return Array(transactionItems)
     }
     
     var appliedTransactionItemsList: [TransactionItem] {
@@ -114,7 +125,7 @@ final class Account: NSManagedObject {
     }
     
     var canBeRenamed: Bool {
-        if Account.isReservedAccountName(name!){
+        if Account.isReservedAccountName(name){
             return false
         }
         return true
@@ -249,7 +260,7 @@ extension Account{
             }
         }
         
-        if type == AccountType.assets.rawValue {
+        if type == TypeEnum.assets {
             return debitTotal - creditTotal
         }
         else {
@@ -275,7 +286,7 @@ extension Account{
             }
         }
         
-        if type == AccountType.assets.rawValue {
+        if type == TypeEnum.assets {
             return debit - credit
         }
         else {
@@ -332,7 +343,7 @@ extension Account{
                 var creditTotal : Double = 0
                 
                 for account in accounts {
-                    let transactionItems = (account.transactionItems?.allObjects as! [TransactionItem]).filter{$0.transaction!.applied == true}
+                    let transactionItems = account.transactionItemsList.filter{$0.transaction!.applied == true}
                     
                     for item in transactionItems {
                         if timeInterval.contains(item.transaction!.date!) {
@@ -350,7 +361,7 @@ extension Account{
                     accounts[0].rootAccount.name == AccountsNameLocalisationManager.getLocalizedAccountName(.money) ||
                     accounts[0].rootAccount.name == AccountsNameLocalisationManager.getLocalizedAccountName(.credits) ||
                     accounts[0].rootAccount.name == AccountsNameLocalisationManager.getLocalizedAccountName(.debtors) {
-                    if  accounts[0].type == AccountType.assets.rawValue {
+                    if  accounts[0].type == TypeEnum.assets {
                         result.append((date: timeInterval.end, value: round((result[index].value + debitTotal - creditTotal)*100)/100))
                     }
                     else {
@@ -358,7 +369,7 @@ extension Account{
                     }
                 }
                 else {
-                    if accounts[0].type == AccountType.assets.rawValue {
+                    if accounts[0].type == TypeEnum.assets {
                         result.append((date: timeInterval.end, value: round((debitTotal - creditTotal)*100)/100))
                     }
                     else {
@@ -414,7 +425,7 @@ extension Account {
             var title = ""
             var arrayOfResultsForTmpAccount : [(date: Date, value: Double)] = []
             if account != self {
-                title = account.name!
+                title = account.name
                 arrayOfResultsForTmpAccount = account.balance(dateInterval: dateInterval, dateComponent: dateComponent, calcIncludedAccountsBalances: true)
             }
             else {
@@ -576,7 +587,7 @@ extension Account {
         }
     }
     
-    static func createAndGetAccount(parent: Account?, name : String, type : AccountType, currency : Currency?, keeper: Keeper? = nil, holder: Holder? = nil, subType : AccountSubType? = nil, createdByUser : Bool = true, createDate: Date = Date(), impoted: Bool = false, context: NSManagedObjectContext) throws -> Account {
+    static func createAndGetAccount(parent: Account?, name : String, type : TypeEnum, currency : Currency?, keeper: Keeper? = nil, holder: Holder? = nil, subType : SubTypeEnum? = nil, createdByUser : Bool = true, createDate: Date = Date(), impoted: Bool = false, context: NSManagedObjectContext) throws -> Account {
         
         try validateAttributes(parent: parent, name: name, type: type, currency: currency, keeper: keeper, holder: holder, subType: subType, createdByUser: createdByUser, impoted: impoted, context: context)
         
@@ -594,11 +605,11 @@ extension Account {
         return Account(parent: parent, name : name, type : type, currency : currency, keeper: keeper, holder: holder, subType : subType, createdByUser : createdByUser, createDate: createDate, context: context)
     }
     
-    static func createAccount(parent: Account?, name : String, type : AccountType, currency : Currency?, keeper: Keeper? = nil, holder: Holder? = nil, subType : AccountSubType? = nil, createdByUser : Bool = true, impoted: Bool = false, context: NSManagedObjectContext) throws {
+    static func createAccount(parent: Account?, name : String, type : TypeEnum, currency : Currency?, keeper: Keeper? = nil, holder: Holder? = nil, subType : SubTypeEnum? = nil, createdByUser : Bool = true, impoted: Bool = false, context: NSManagedObjectContext) throws {
         try createAndGetAccount(parent: parent, name: name, type: type, currency: currency, keeper: keeper, holder: holder, subType: subType, createdByUser: createdByUser, createDate: Date(), impoted: impoted, context: context)
     }
     
-    private static func validateAttributes(parent: Account?, name : String, type : AccountType, currency : Currency?, keeper: Keeper? = nil, holder: Holder? = nil, subType : AccountSubType? = nil, createdByUser : Bool = true, impoted: Bool = false, context: NSManagedObjectContext) throws {
+    private static func validateAttributes(parent: Account?, name : String, type : TypeEnum, currency : Currency?, keeper: Keeper? = nil, holder: Holder? = nil, subType : SubTypeEnum? = nil, createdByUser : Bool = true, impoted: Bool = false, context: NSManagedObjectContext) throws {
         
         guard !name.isEmpty else {throw AccountError.emptyName}
         if parent == nil && type == nil {throw AccountError.attributeTypeShouldBeInitializeForRootAccount}
@@ -698,9 +709,9 @@ extension Account {
                 
                 var accountType = ""
                 switch account.type {
-                case AccountType.assets.rawValue:
+                case TypeEnum.assets:
                     accountType = "Assets"
-                case AccountType.liabilities.rawValue:
+                case TypeEnum.liabilities:
                     accountType = "Liabilities"
                 default:
                     accountType = "Out of enumeration"
@@ -708,20 +719,20 @@ extension Account {
                 
                 var accountSubType = ""
                 switch account.subType {
-                case AccountSubType.none.rawValue:
+                case SubTypeEnum.none:
                     accountSubType = ""
-                case AccountSubType.cash.rawValue:
+                case SubTypeEnum.cash:
                     accountSubType = "Cash"
-                case AccountSubType.debitCard.rawValue:
+                case SubTypeEnum.debitCard:
                     accountSubType = "DebitCard"
-                case AccountSubType.creditCard.rawValue:
+                case SubTypeEnum.creditCard:
                     accountSubType = "CreditCard"
                 default:
                     accountSubType = "Out of enumeration"
                 }
                 
                 export +=  "\(account.parent != nil ? account.parent!.path : "" ),"
-                export +=  "\(account.name!),"
+                export +=  "\(account.name),"
                 export +=  "\(account.active),"
                 export +=  "\(accountType),"
                 export +=  "\(account.currency?.code ?? "MULTICURRENCY"),"
@@ -767,9 +778,9 @@ extension Account {
             var accountType: Int16 = 0
             switch row[3] {
             case "Assets":
-                accountType = AccountType.assets.rawValue
+                accountType = TypeEnum.assets.rawValue
             case "Liabilities":
-                accountType = AccountType.liabilities.rawValue
+                accountType = TypeEnum.liabilities.rawValue
             default:
                 break//throw ImportAccountError.invalidAccountTypeValue
             }
@@ -792,9 +803,9 @@ extension Account {
             
             let linkedAccount = Account.getAccountWithPath(row[6], context: context)
             
-            let account = try? Account.createAndGetAccount(parent: parent, name: name, type: AccountType(rawValue: accountType)!, currency: curency, impoted: true, context: context)
+            let account = try? Account.createAndGetAccount(parent: parent, name: name, type: TypeEnum(rawValue: accountType)!, currency: curency, impoted: true, context: context)
             account?.linkedAccount = linkedAccount
-            account?.subType = accountSubType
+            account?.subType = SubTypeEnum(rawValue:accountSubType) ?? .none
             account?.active = active
             
             
@@ -804,9 +815,9 @@ extension Account {
                 accountToBeAdded.append(account)
                 var accountTypes = ""
                 switch account.type {
-                case AccountType.assets.rawValue:
+                case TypeEnum.assets:
                     accountTypes = "Assets"
-                case AccountType.liabilities.rawValue:
+                case TypeEnum.liabilities:
                     accountTypes = "Liabilities"
                 default:
                     accountTypes = "Out of enumeration"
@@ -814,20 +825,20 @@ extension Account {
                 
                 var accountSubTypes = ""
                 switch account.subType {
-                case AccountSubType.none.rawValue:
+                case SubTypeEnum.none:
                     accountSubTypes = ""
-                case AccountSubType.cash.rawValue:
+                case SubTypeEnum.cash:
                     accountSubTypes = "Cash"
-                case AccountSubType.debitCard.rawValue:
+                case SubTypeEnum.debitCard:
                     accountSubTypes = "DebitCard"
-                case AccountSubType.creditCard.rawValue:
+                case SubTypeEnum.creditCard:
                     accountSubTypes = "CreditCard"
                 default:
                     accountSubTypes = "Out of enumeration"
                 }
                 var export = ""
                 export +=  "\(account.parent != nil ? account.parent!.path : "" ),"
-                export +=  "\(account.name!),"
+                export +=  "\(account.name),"
                 export +=  "\(account.active),"
                 export +=  "\(accountTypes),"
                 export +=  "\(account.currency?.code ?? "MULTICURRENCY"),"

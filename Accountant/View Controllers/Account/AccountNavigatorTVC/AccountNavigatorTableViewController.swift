@@ -78,7 +78,7 @@ class AccountNavigatorTableViewController: UITableViewController, AccountManager
         isSwipeAvailable = true //need assign to show add button
         
         if let account = account {
-            self.navigationItem.title = "\(account.name!)"
+            self.navigationItem.title = "\(account.name)"
         }
         else {
             if showHiddenAccounts {
