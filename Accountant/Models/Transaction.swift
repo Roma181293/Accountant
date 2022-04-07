@@ -1,5 +1,5 @@
 //
-//  TransactionManager.swift
+//  Transaction.swift
 //  Accounting
 //
 //  Created by Roman Topchii on 03.01.2021.
@@ -15,15 +15,15 @@ final class Transaction: NSManagedObject {
         return NSFetchRequest<Transaction>(entityName: "Transaction")
     }
     
+    @NSManaged public var id: UUID
+    @NSManaged public var date: Date
     @NSManaged public var applied: Bool
     @NSManaged public var comment: String?
+    @NSManaged public var items: Set<TransactionItem>
     @NSManaged public var createDate: Date?
     @NSManaged public var createdByUser: Bool
-    @NSManaged public var date: Date?
-    @NSManaged public var id: UUID?
-    @NSManaged public var modifiedByUser: Bool
     @NSManaged public var modifyDate: Date?
-    @NSManaged public var items: NSSet?
+    @NSManaged public var modifiedByUser: Bool
     
     convenience init(date : Date, comment : String? = nil, createdByUser : Bool = true, createDate: Date = Date(), context: NSManagedObjectContext){
         self.init(context: context)
@@ -37,14 +37,14 @@ final class Transaction: NSManagedObject {
         self.modifiedByUser = createdByUser
     }
     
-    var transactionItemsList: [TransactionItem] {
-       return items!.allObjects as! [TransactionItem]
+    var itemsList: [TransactionItem] {
+       return Array(items)
     }
     
     static func validateTransactionDataBeforeSave(_ transaction: Transaction) throws {
         
         func getDataAboutTransactionItems(transaction: Transaction, type: AccountingMethod, amount: inout Double, currency: inout Currency?, itemsCount: inout Int) throws {
-            for item in transaction.transactionItemsList.filter({$0.type == type.rawValue}) {
+            for item in transaction.itemsList.filter({$0.type == type.rawValue}) {
                 itemsCount += 1
                 amount += item.amount
                 if let account = item.account{
@@ -84,8 +84,8 @@ final class Transaction: NSManagedObject {
         var creditItemsCount: Int = 0
         
         //MARK:- Prepare data to check ability to save transaction
-        var debitCurrency: Currency? = transaction.transactionItemsList.filter({$0.type == 1})[0].account?.currency
-        var creditCurrency: Currency? = transaction.transactionItemsList.filter({$0.type == 0})[0].account?.currency
+        var debitCurrency: Currency? = transaction.itemsList.filter({$0.type == 1})[0].account?.currency
+        var creditCurrency: Currency? = transaction.itemsList.filter({$0.type == 0})[0].account?.currency
         
         try getDataAboutTransactionItems(transaction: transaction, type: .debit, amount: &debitAmount, currency: &debitCurrency, itemsCount: &debitItemsCount)
         
@@ -118,9 +118,9 @@ final class Transaction: NSManagedObject {
 
     static func duplicateTransaction(_ original: Transaction, createdByUser : Bool = true, createDate: Date = Date(), context: NSManagedObjectContext) {
         
-        let transaction = Transaction(date: original.date!, comment: original.comment, createdByUser: createdByUser, createDate: createDate, context: context)
+        let transaction = Transaction(date: original.date, comment: original.comment, createdByUser: createdByUser, createDate: createDate, context: context)
         
-        for item in original.transactionItemsList {
+        for item in original.itemsList {
             TransactionItem(transaction: transaction, type: AccountingMethod(rawValue: item.type)!, account: item.account!, amount: item.amount, context: context)
         }
     }
@@ -148,7 +148,7 @@ final class Transaction: NSManagedObject {
     }
     
     func delete(){
-        for item in transactionItemsList{
+        for item in itemsList{
             item.managedObjectContext?.delete(item)
         }
         managedObjectContext?.delete(self)
@@ -195,12 +195,12 @@ final class Transaction: NSManagedObject {
         var accountSet: Set<Account> = []
         
         for tran in tr {
-            for ti in tran.transactionItemsList {
+            for ti in tran.itemsList {
                 if ti.account != account
                     && ti.type == method.rawValue
                     && account.active == true
                     && (account.directChildrenList).isEmpty{
-                    zeroIterationCandidatesArray.append((account: ti.account!, transactionDate: tran.date!))
+                    zeroIterationCandidatesArray.append((account: ti.account!, transactionDate: tran.date))
                     accountSet.insert(ti.account!)
                 }
             }
@@ -311,7 +311,7 @@ final class Transaction: NSManagedObject {
                 preTransaction = PreTransaction()
                 preTransaction.transaction = Transaction(context: context)
                 preTransaction.id = row[0]
-                preTransaction.transaction.date = formatter.date(from: row[1])
+                preTransaction.transaction.date = formatter.date(from: row[1]) ?? Date()  
                 if row[5] != "" {
                     preTransaction.transaction.comment = row[5]
                 }
@@ -372,14 +372,13 @@ final class Transaction: NSManagedObject {
             let formatter = DateFormatter()
             formatter.dateFormat = "yyyy-MM-dd hh:mm:ss z"
             for transaction in storedTransactions {
-                let transactionId = transaction.id!
                 
-                for item in transaction.transactionItemsList {
+                for item in transaction.itemsList {
                     export += "\n"
                     
-                    export +=  String(describing: transactionId) + ","
+                    export +=  String(describing: transaction.id) + ","
                     
-                    export +=  String(describing: formatter.string(from:transaction.date!)) + ","
+                    export +=  String(describing: formatter.string(from:transaction.date)) + ","
                     var type :String = ""
                     if item.type == 0 {
                         type = "Credit"

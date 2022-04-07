@@ -162,28 +162,18 @@ class PreTransactionTableViewCell: UITableViewCell{
     func setTransaction(_ transaction : Transaction) {
         self.transaction = transaction
         
-        let items = transaction.items?.allObjects as! [TransactionItem]
-        
-        if let date = transaction.date {
-            let formatter = DateFormatter()
-            formatter.dateStyle = .short
-            formatter.timeStyle = .none
-            formatter.locale = Locale(identifier: "\(Bundle.main.localizations.first ?? "en")_\(Locale.current.regionCode ?? "US")")
-            dateLabel.text = formatter.string(from: date)
-            dateLabel.layer.backgroundColor = UIColor.clear.cgColor
-            dateLabel.textColor = UIColor(named: "blackGrayColor")
-            dateLabel.layer.cornerRadius = 8
-        }
-        else {
-            dateLabel.text = "Error"
-            dateLabel.layer.backgroundColor = UIColor.red.cgColor
-            dateLabel.textColor = UIColor(named: "blackGrayColor")
-            dateLabel.layer.cornerRadius = 8
-        }
+        let formatter = DateFormatter()
+        formatter.dateStyle = .short
+        formatter.timeStyle = .none
+        formatter.locale = Locale(identifier: "\(Bundle.main.localizations.first ?? "en")_\(Locale.current.regionCode ?? "US")")
+        dateLabel.text = formatter.string(from: transaction.date)
+        dateLabel.layer.backgroundColor = UIColor.clear.cgColor
+        dateLabel.textColor = UIColor(named: "blackGrayColor")
+        dateLabel.layer.cornerRadius = 8
         
         itemViewArray.forEach({$0.removeFromSuperview()})
         
-        for item in items {
+        for item in transaction.itemsList {
             
             let itemView = UIView()
             itemView.translatesAutoresizingMaskIntoConstraints = false
@@ -265,8 +255,8 @@ class PreTransactionTableViewCell: UITableViewCell{
         
         setMainView()
         
-        guard let debitAccount = items.filter({$0.type == AccountingMethod.debit.rawValue})[0].account,
-              let creditAccount = items.filter({$0.type == AccountingMethod.credit.rawValue})[0].account
+        guard let debitAccount = transaction.itemsList.filter({$0.type == AccountingMethod.debit.rawValue})[0].account,
+              let creditAccount = transaction.itemsList.filter({$0.type == AccountingMethod.credit.rawValue})[0].account
         else {return}
         
         let debitRootName = debitAccount.rootAccount.name

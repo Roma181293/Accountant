@@ -200,16 +200,13 @@ class ComplexTransactionTableViewCell: UITableViewCell {
     
     func setTransaction(_ transaction : Transaction) {
         self.transaction = transaction
-        guard let date = transaction.date,
-              let items = transaction.items?.allObjects as? [TransactionItem]
-        else {return}
         
         let formatter = DateFormatter()
         formatter.dateStyle = .short
         formatter.timeStyle = .none
         formatter.locale = Locale(identifier: "\(Bundle.main.localizations.first ?? "en")_\(Locale.current.regionCode ?? "US")")
         
-        dateLabel.text = formatter.string(from: date)
+        dateLabel.text = formatter.string(from: transaction.date)
         
         if let comment = transaction.comment {
             commentStackView.isHidden = false
@@ -221,7 +218,7 @@ class ComplexTransactionTableViewCell: UITableViewCell {
         
         itemViewArray.forEach({$0.removeFromSuperview()})
         
-        for item in items.sorted(by: {$0.amount >= $1.amount}) {
+        for item in transaction.itemsList.sorted(by: {$0.amount >= $1.amount}) {
             
             let itemView = UIView()
             itemView.translatesAutoresizingMaskIntoConstraints = false
@@ -272,11 +269,11 @@ class ComplexTransactionTableViewCell: UITableViewCell {
         
         setMainView()
 
-        if items.count >= 2 && transaction.applied == true {
-            guard items.filter({$0.type == AccountingMethod.debit.rawValue})[0].account != nil &&
-                    items.filter({$0.type == AccountingMethod.credit.rawValue})[0].account != nil else {return}
-            let debitRootName = items.filter({$0.type == AccountingMethod.debit.rawValue})[0].account!.rootAccount.name
-            let creditRootName = items.filter({$0.type == AccountingMethod.credit.rawValue})[0].account!.rootAccount.name
+        if transaction.itemsList.count >= 2 && transaction.applied == true {
+            guard transaction.itemsList.filter({$0.type == AccountingMethod.debit.rawValue})[0].account != nil &&
+                    transaction.itemsList.filter({$0.type == AccountingMethod.credit.rawValue})[0].account != nil else {return}
+            let debitRootName = transaction.itemsList.filter({$0.type == AccountingMethod.debit.rawValue})[0].account!.rootAccount.name
+            let creditRootName = transaction.itemsList.filter({$0.type == AccountingMethod.credit.rawValue})[0].account!.rootAccount.name
             
             if creditRootName == AccountsNameLocalisationManager.getLocalizedAccountName(.income) &&
                 debitRootName == AccountsNameLocalisationManager.getLocalizedAccountName(.money) {

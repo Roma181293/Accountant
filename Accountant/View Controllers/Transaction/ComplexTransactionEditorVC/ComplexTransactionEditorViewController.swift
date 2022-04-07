@@ -165,12 +165,7 @@ class ComplexTransactionEditorViewController: UIViewController{
         super.viewDidLoad()
         
         if let transaction = transaction {
-            if let date =  transaction.date {
-                datePicker.date = date
-            }
-            else {
-                datePicker.date = Date()
-            }
+            datePicker.date = transaction.date
             commentTextField.text = transaction.comment
             isNewTransaction = false
             self.navigationItem.title = NSLocalizedString("Edit transaction", comment: "")
@@ -368,15 +363,14 @@ class ComplexTransactionEditorViewController: UIViewController{
     
     
     private func configureAddTransactionItemButtons() {
-        guard let transaction = transaction, let items = transaction.items?.allObjects as? [TransactionItem] else {return}
-        
-        if items.filter({$0.type == AccountingMethod.debit.rawValue}).count > 1 {
+        guard let transaction = transaction  else {return}
+        if transaction.itemsList.filter({$0.type == AccountingMethod.debit.rawValue}).count > 1 {
             creditAddButton.isHidden = true
         }
         else {
             creditAddButton.isHidden = false
         }
-        if items.filter({$0.type == AccountingMethod.credit.rawValue}).count > 1 {
+        if transaction.itemsList.filter({$0.type == AccountingMethod.credit.rawValue}).count > 1 {
             debitAddButton.isHidden = true
         }
         else {
@@ -394,8 +388,8 @@ class ComplexTransactionEditorViewController: UIViewController{
         transactionItem.modifiedByUser = true
         transactionItem.type = type.rawValue
         
-        if let transaction = transaction, transaction.items!.count == 1 {
-            transactionItem.amount = (transaction.items!.allObjects as! [TransactionItem]).first!.amount
+        if let transaction = transaction, transaction.itemsList.count == 1 {
+            transactionItem.amount = transaction.itemsList.first!.amount
         }
         else {
             transactionItem.amount = 0
@@ -486,14 +480,13 @@ class ComplexTransactionEditorViewController: UIViewController{
 
 extension ComplexTransactionEditorViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let transaction = transaction, let items = transaction.items?.allObjects as? [TransactionItem] else {return 0}
+        guard let transaction = transaction else {return 0}
         var numberOfRows = 0
-        
         switch tableView {
         case debitTableView:
-            numberOfRows = items.filter({$0.type == AccountingMethod.debit.rawValue}).count
+            numberOfRows = transaction.itemsList.filter({$0.type == AccountingMethod.debit.rawValue}).count
         case creditTableView:
-            numberOfRows = items.filter({$0.type == AccountingMethod.credit.rawValue}).count
+            numberOfRows = transaction.itemsList.filter({$0.type == AccountingMethod.credit.rawValue}).count
         default:
             let alert = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("Please contact support. Cannot find external table view to count the number of rows", comment: ""), preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default))
@@ -504,15 +497,15 @@ extension ComplexTransactionEditorViewController: UITableViewDelegate, UITableVi
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var cell = TransactionItemTableViewCell()
-        guard let transaction = transaction, let items = transaction.items?.allObjects as? [TransactionItem] else {return cell}
+        guard let transaction = transaction else {return cell}
         
         switch tableView {
         case debitTableView:
             cell = tableView.dequeueReusableCell(withIdentifier: Constants.Cell.transactionItemTableViewCell, for: indexPath) as! TransactionItemTableViewCell
-            cell.configureCell(for: items.filter({$0.type == AccountingMethod.debit.rawValue})[indexPath.row], with: self)
+            cell.configureCell(for: transaction.itemsList.filter({$0.type == AccountingMethod.debit.rawValue})[indexPath.row], with: self)
         case creditTableView:
             cell = tableView.dequeueReusableCell(withIdentifier: Constants.Cell.transactionItemTableViewCell, for: indexPath) as! TransactionItemTableViewCell
-            cell.configureCell(for: items.filter({$0.type == AccountingMethod.credit.rawValue})[indexPath.row], with: self)
+            cell.configureCell(for: transaction.itemsList.filter({$0.type == AccountingMethod.credit.rawValue})[indexPath.row], with: self)
         default:
             let alert = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("Please contact support. Cannot find external table view to add cells", comment: ""), preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default))
@@ -526,16 +519,16 @@ extension ComplexTransactionEditorViewController: UITableViewDelegate, UITableVi
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        guard let transaction = transaction, let items = transaction.items?.allObjects as? [TransactionItem] else {return nil}
+        guard let transaction = transaction else {return nil}
         var transactionItemToRemove: TransactionItem?
         var transactionItemsCount: Int = 0
         switch tableView {
         case self.debitTableView:
-            transactionItemToRemove = items.filter({$0.type == AccountingMethod.debit.rawValue})[indexPath.row]
-            transactionItemsCount = items.filter({$0.type == AccountingMethod.debit.rawValue}).count
+            transactionItemToRemove = transaction.itemsList.filter({$0.type == AccountingMethod.debit.rawValue})[indexPath.row]
+            transactionItemsCount = transaction.itemsList.filter({$0.type == AccountingMethod.debit.rawValue}).count
         case self.creditTableView:
-            transactionItemToRemove = items.filter({$0.type == AccountingMethod.credit.rawValue})[indexPath.row]
-            transactionItemsCount = items.filter({$0.type == AccountingMethod.credit.rawValue}).count
+            transactionItemToRemove = transaction.itemsList.filter({$0.type == AccountingMethod.credit.rawValue})[indexPath.row]
+            transactionItemsCount = transaction.itemsList.filter({$0.type == AccountingMethod.credit.rawValue}).count
         default:
             let alert = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("Please contact support. Cannot find external table view to delete transaction item", comment: ""), preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default))
@@ -648,19 +641,18 @@ extension ComplexTransactionEditorViewController: AccountRequestor {
 
         transactionItemForAccountSpecifying = transactionItem
 
-        guard let transaction = transaction,
-              let transactionItems = transaction.items?.allObjects as? [TransactionItem] else {return}
+        guard let transaction = transaction else {return}
 
         weak var rootAccount: Account?
 
-        let filledTransactionItems = transactionItems.filter({$0.type == transactionItem.type && $0.account != nil})
+        let filledTransactionItems = transaction.itemsList.filter({$0.type == transactionItem.type && $0.account != nil})
         if (filledTransactionItems.count == 1 && filledTransactionItems[0] != transactionItem)
         || filledTransactionItems.count > 1 {
             rootAccount = filledTransactionItems[0].account!.rootAccount
         }
 
         var usedAccountList :[Account] = []
-        for item in transactionItems{
+        for item in transaction.itemsList{
             if let account = item.account {
                 usedAccountList.append(account)
             }

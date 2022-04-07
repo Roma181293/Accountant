@@ -1,5 +1,5 @@
 //
-//  ExchangeRateManager.swift
+//  Rate.swift
 //  Accountant
 //
 //  Created by Roman Topchii on 12.01.2022.
@@ -17,15 +17,14 @@ final class Rate: NSManagedObject {
     @nonobjc public class func fetchRequest() -> NSFetchRequest<Rate> {
         return NSFetchRequest<Rate>(entityName: "Rate")
     }
-
-    @NSManaged public var amount: Double
-    @NSManaged public var createDate: Date?
-    @NSManaged public var createdByUser: Bool
     @NSManaged public var id: UUID?
-    @NSManaged public var modifiedByUser: Bool
-    @NSManaged public var modifyDate: Date?
+    @NSManaged public var amount: Double
     @NSManaged public var currency: Currency?
     @NSManaged public var exchange: Exchange?
+    @NSManaged public var createDate: Date?
+    @NSManaged public var createdByUser: Bool
+    @NSManaged public var modifyDate: Date?
+    @NSManaged public var modifiedByUser: Bool
     
     convenience init(_ rateAmount: Double, forExchange exchange: Exchange, withCurrency currency: Currency, createdByUser: Bool = false, createDate: Date = Date(), context: NSManagedObjectContext) {
         self.init(context: context)

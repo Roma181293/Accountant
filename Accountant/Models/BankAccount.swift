@@ -14,11 +14,11 @@ final class BankAccount: NSManagedObject {
         return NSFetchRequest<BankAccount>(entityName: "BankAccount")
     }
 
+    @NSManaged public var id: UUID?
+    @NSManaged public var externalId: String?
     @NSManaged public var active: Bool
     @NSManaged public var bin: Int16
-    @NSManaged public var externalId: String?
     @NSManaged public var iban: String?
-    @NSManaged public var id: UUID?
     @NSManaged public var lastLoadDate: Date?
     @NSManaged public var lastTransactionDate: Date?
     @NSManaged public var locked: Bool

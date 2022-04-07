@@ -16,7 +16,7 @@ class PreTransaction {
             return false
         }
     
-        for item in transaction.items!.allObjects as! [TransactionItem] {
+        for item in transaction.itemsList {
             if item.amount == nil || item.account == nil {
                 return false
             }
@@ -29,8 +29,8 @@ class PreTransaction {
     }
     
     private var isSingleCurrency: Bool {
-        for item1 in transaction.items!.allObjects as! [TransactionItem] {
-            for item2 in transaction.items!.allObjects as! [TransactionItem] {
+        for item1 in transaction.itemsList {
+            for item2 in transaction.itemsList {
                 if item1.account?.currency != item2.account?.currency {
                     return false
                 }
@@ -41,7 +41,7 @@ class PreTransaction {
     
     private func totalAmountForType(_ type : AccountingMethod) -> Double? {
         var totalAmount: Double = 0
-        for item in (transaction.items!.allObjects as! [TransactionItem]).filter({if $0.type == type.rawValue {return true} else {return false}}) {
+        for item in transaction.itemsList.filter({if $0.type == type.rawValue {return true} else {return false}}) {
             if item.amount >= 0 {
                 totalAmount += item.amount
             }

@@ -145,7 +145,7 @@ class SeedDataManager {
         
         let transactions = try context.fetch(transactionFetchRequest)
         for transaction in transactions {
-            for item in transaction.transactionItemsList {
+            for item in transaction.itemsList {
                 context.delete(item)
             }
             context.delete(transaction)

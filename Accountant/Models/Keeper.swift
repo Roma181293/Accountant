@@ -1,5 +1,5 @@
 //
-//  KeeperManager.swift
+//  Keeper.swift
 //  Accountant
 //
 //  Created by Roman Topchii on 18.11.2021.
@@ -14,15 +14,15 @@ final class Keeper: NSManagedObject {
         return NSFetchRequest<Keeper>(entityName: "Keeper")
     }
 
-    @NSManaged public var createDate: Date?
-    @NSManaged public var createdByUser: Bool
     @NSManaged public var id: UUID?
-    @NSManaged public var modifiedByUser: Bool
-    @NSManaged public var modifyDate: Date?
     @NSManaged public var name: String?
     @NSManaged public var type: Int16
     @NSManaged public var accounts: NSSet?
     @NSManaged public var userBankProfiles: NSSet?
+    @NSManaged public var createDate: Date?
+    @NSManaged public var createdByUser: Bool
+    @NSManaged public var modifyDate: Date?
+    @NSManaged public var modifiedByUser: Bool
     
     convenience init(name: String, type: KeeperType, createdByUser : Bool = true, createDate: Date = Date(), context: NSManagedObjectContext) {
         self.init(context: context)

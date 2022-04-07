@@ -14,14 +14,15 @@ final class Holder: NSManagedObject {
         return NSFetchRequest<Holder>(entityName: "Holder")
     }
 
-    @NSManaged public var createDate: Date?
-    @NSManaged public var createdByUser: Bool
-    @NSManaged public var icon: String?
+
     @NSManaged public var id: UUID?
-    @NSManaged public var modifiedByUser: Bool
-    @NSManaged public var modifyDate: Date?
+    @NSManaged public var icon: String?
     @NSManaged public var name: String?
     @NSManaged public var accounts: NSSet?
+    @NSManaged public var createDate: Date?
+    @NSManaged public var createdByUser: Bool
+    @NSManaged public var modifyDate: Date?
+    @NSManaged public var modifiedByUser: Bool
     
     convenience init(name: String, icon : String, createdByUser : Bool = true, createDate: Date = Date(), context: NSManagedObjectContext) {
         self.init(context: context)

@@ -20,13 +20,13 @@ final class Exchange: NSManagedObject {
         return NSFetchRequest<Exchange>(entityName: "Exchange")
     }
 
+    @NSManaged public var id: UUID?
+    @NSManaged public var date: Date?
+    @NSManaged public var rates: NSSet?
     @NSManaged public var createDate: Date?
     @NSManaged public var createdByUser: Bool
-    @NSManaged public var date: Date?
-    @NSManaged public var id: UUID?
-    @NSManaged public var modifiedByUser: Bool
     @NSManaged public var modifyDate: Date?
-    @NSManaged public var rates: NSSet?
+    @NSManaged public var modifiedByUser: Bool
     
     convenience init(date: Date, createsByUser: Bool = false, createDate: Date = Date(), context: NSManagedObjectContext) {
         self.init(context: context)

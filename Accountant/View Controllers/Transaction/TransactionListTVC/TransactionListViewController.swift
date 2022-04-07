@@ -286,7 +286,7 @@ extension TransactionListViewController: UITableViewDelegate, UITableViewDataSou
         
         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
       
-        if (transaction.items?.allObjects as! [TransactionItem]).count > 2 || UserProfile.isUseMultiItemTransaction(environment: environment) {
+        if transaction.itemsList.count > 2 || UserProfile.isUseMultiItemTransaction(environment: environment) {
             let transactioEditorVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.complexTransactionEditorViewController) as! ComplexTransactionEditorViewController
             transactioEditorVC.transaction = transaction
             transactioEditorVC.context = context

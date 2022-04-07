@@ -273,10 +273,7 @@ extension Account{
         var credit : Double = 0
         
         for account in childrenList + [self]  {
-            
-            let transactionItems = (account.appliedTransactionItemsList).filter{$0.transaction!.date! <= date}
-            
-            for item in transactionItems {
+            for item in account.appliedTransactionItemsList.filter{$0.transaction!.date <= date} {
                 if item.type == AccountingMethod.debit.rawValue {
                     debit += item.amount
                 }
@@ -346,7 +343,7 @@ extension Account{
                     let transactionItems = account.transactionItemsList.filter{$0.transaction!.applied == true}
                     
                     for item in transactionItems {
-                        if timeInterval.contains(item.transaction!.date!) {
+                        if timeInterval.contains(item.transaction!.date) {
                             if item.type == AccountingMethod.debit.rawValue{
                                 debitTotal += item.amount
                             }

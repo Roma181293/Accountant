@@ -736,17 +736,14 @@ class SimpleTransactionEditorViewController: UIViewController {//}, GADFullScree
         transactionTypeSegmentedControl.isHidden = true
         transactionTypeSegmentedControl.selectedSegmentIndex = 3
         
-        guard let transaction = transaction,
-              let date = transaction.date,
-              let items = transaction.items?.allObjects as? [TransactionItem]
-        else {return}
+        guard let transaction = transaction else {return}
         
         var debitAcc: Account?
         var creditAcc: Account?
         var debitAmnt: Double?
         var creditAmnt: Double?
         
-        for item in items {
+        for item in transaction.itemsList {
             if item.type == AccountingMethod.debit.rawValue {
                 debitAcc = item.account
                 debitAmnt = item.amount
@@ -768,7 +765,7 @@ class SimpleTransactionEditorViewController: UIViewController {//}, GADFullScree
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: NSLocalizedString("Save", comment: ""), style: .plain, target: self, action: #selector(done))
         addButton.isHidden = true
         
-        datePicker.date = date
+        datePicker.date = transaction.date
         
         debit = debitAccount
         credit = creditAccount

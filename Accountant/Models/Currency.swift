@@ -128,7 +128,8 @@ final class Currency: NSManagedObject {
         else {
             let transactionItems = try context.fetch(currencyFetchRequest)
             for itemInForeignCurrency in transactionItems {
-                for item in itemInForeignCurrency.transaction?.items?.allObjects as! [TransactionItem] {
+                guard let items = itemInForeignCurrency.transaction?.itemsList else {return false}
+                for item in items {
                     if item.account!.currency!.isAccounting == true {
                         return false
                     }

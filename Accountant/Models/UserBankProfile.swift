@@ -15,10 +15,10 @@ final class UserBankProfile: NSManagedObject {
         return NSFetchRequest<UserBankProfile>(entityName: "UserBankProfile")
     }
 
-    @NSManaged public var active: Bool
-    @NSManaged public var externalId: String?
     @NSManaged public var id: UUID?
+    @NSManaged public var externalId: String?
     @NSManaged public var name: String?
+    @NSManaged public var active: Bool
     @NSManaged public var xToken: String?
     @NSManaged public var bankAccounts: NSSet?
     @NSManaged public var keeper: Keeper?
