@@ -53,7 +53,7 @@ class AccountManagerController {
                               let textField = textFields.first
                         else {return}
                         
-                        try Account.createAccount(parent: account, name: textField.text!, type: account.type, currency: accountCurrency, context: self.delegate.context)
+                        try Account.createAccount(parent: account, name: textField.text!, type: AccountType(rawValue: account.type)!, currency: accountCurrency, context: self.delegate.context)
                         try self.delegate.coreDataStack.saveContext(self.delegate.context)
                         try self.delegate.updateSourceTable()
                         self.delegate.tableView.reloadData()
@@ -262,7 +262,7 @@ class AccountManagerController {
                                 let alert1 = UIAlertController(title: NSLocalizedString("Warning",comment: ""), message:  String(format: NSLocalizedString("Category \"%@\" contains transactions. All these thansactions will be automatically moved to the new \"%@\" subcategory",comment: ""), selectedAccount.name!,AccountsNameLocalisationManager.getLocalizedAccountName(.other1)), preferredStyle: .alert)
                                 alert1.addAction(UIAlertAction(title: NSLocalizedString("Create and Move",comment: ""), style: .default, handler: { [weak alert1] (_) in
                                     do {
-                                        try Account.createAccount(parent: selectedAccount, name: textField.text!, type: selectedAccount.type, currency: selectedAccount.currency!, context: self.delegate.context)
+                                        try Account.createAccount(parent: selectedAccount, name: textField.text!, type: AccountType(rawValue: selectedAccount.type)!, currency: selectedAccount.currency!, context: self.delegate.context)
                                         try self.delegate.coreDataStack.saveContext(self.delegate.context)
                                         try self.delegate.updateSourceTable()
                                         self.delegate.tableView.reloadData()
@@ -280,7 +280,7 @@ class AccountManagerController {
                             }
                             else {
                                 
-                                try Account.createAccount(parent: selectedAccount, name: textField.text!, type: selectedAccount.type, currency: selectedAccount.currency!, context: self.delegate.context)
+                                try Account.createAccount(parent: selectedAccount, name: textField.text!, type: AccountType(rawValue: selectedAccount.type)!, currency: selectedAccount.currency!, context: self.delegate.context)
                                 try self.delegate.coreDataStack.saveContext(self.delegate.context)
                                 try self.delegate.updateSourceTable()
                                 self.delegate.tableView.reloadData()

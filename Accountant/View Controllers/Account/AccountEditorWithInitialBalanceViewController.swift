@@ -794,7 +794,7 @@ class AccountEditorWithInitialBalanceViewController: UIViewController {
                         throw AccountWithBalanceError.emptyExchangeRate
                     }
                 }
-                let moneyAccount = try Account.createAndGetAccount(parent: parentAccount, name: accountNameTextField.text!, type: parentAccount.type, currency: currency, keeper: keeper, holder:holder, subType: accountSubType.rawValue, context: context)
+                let moneyAccount = try Account.createAndGetAccount(parent: parentAccount, name: accountNameTextField.text!, type: AccountType(rawValue: parentAccount.type) ?? .assets, currency: currency, keeper: keeper, holder:holder, subType: accountSubType.rawValue, context: context)
                 if balance != 0 {
                     Transaction.addTransactionWith2TranItems(date: datePicker.date, debit: moneyAccount, credit: capitalRootAccount, debitAmount: round(balance*100)/100, creditAmount: round(round(balance*100)/100 * exchangeRate*100)/100, createdByUser : false, context: context)
                 }
@@ -820,8 +820,8 @@ class AccountEditorWithInitialBalanceViewController: UIViewController {
                     }
                 }
                 
-                let newMoneyAccount = try Account.createAndGetAccount(parent: parentAccount, name: accountNameTextField.text!, type: parentAccount.type, currency: currency, keeper: keeper, holder:holder, subType: accountSubType.rawValue, context: context)
-                let newCreditAccount = try Account.createAndGetAccount(parent: creditsRootAccount, name: accountNameTextField.text!, type: creditsRootAccount.type, currency: currency, keeper: keeper, holder:holder, context: context)
+                let newMoneyAccount = try Account.createAndGetAccount(parent: parentAccount, name: accountNameTextField.text!, type: AccountType(rawValue: parentAccount.type) ?? .assets, currency: currency, keeper: keeper, holder:holder, subType: accountSubType.rawValue, context: context)
+                let newCreditAccount = try Account.createAndGetAccount(parent: creditsRootAccount, name: accountNameTextField.text!, type: AccountType(rawValue: creditsRootAccount.type) ?? .liabilities, currency: currency, keeper: keeper, holder:holder, context: context)
                 
                 newMoneyAccount.linkedAccount = newCreditAccount
                 
@@ -841,7 +841,7 @@ class AccountEditorWithInitialBalanceViewController: UIViewController {
                     var expenseBeforeAccountingPeriod : Account? = expenseRootAccount.getSubAccountWith(name: AccountsNameLocalisationManager.getLocalizedAccountName(.beforeAccountingPeriod))
                     
                     if expenseBeforeAccountingPeriod == nil {
-                        expenseBeforeAccountingPeriod = try? Account.createAndGetAccount(parent: expenseRootAccount, name: AccountsNameLocalisationManager.getLocalizedAccountName(.beforeAccountingPeriod), type: expenseRootAccount.type, currency: expenseRootAccount.currency, createdByUser: false, context: context)
+                        expenseBeforeAccountingPeriod = try? Account.createAndGetAccount(parent: expenseRootAccount, name: AccountsNameLocalisationManager.getLocalizedAccountName(.beforeAccountingPeriod), type: AccountType(rawValue: expenseRootAccount.type) ?? .assets, currency: expenseRootAccount.currency, createdByUser: false, context: context)
                     }
                     guard let expenseBeforeAccountingPeriodSafe = expenseBeforeAccountingPeriod else {
                         throw AccountWithBalanceError.canNotFindBeboreAccountingPeriodAccount
@@ -863,7 +863,7 @@ class AccountEditorWithInitialBalanceViewController: UIViewController {
                 }
             }
             
-            let newDebtorsAccount = try Account.createAndGetAccount(parent: parentAccount, name: accountNameTextField.text!, type: parentAccount.type, currency: currency, keeper: keeper, holder:holder, context: context)
+            let newDebtorsAccount = try Account.createAndGetAccount(parent: parentAccount, name: accountNameTextField.text!, type: AccountType(rawValue: parentAccount.type) ?? .assets, currency: currency, keeper: keeper, holder:holder, context: context)
             
             Transaction.addTransactionWith2TranItems(date: datePicker.date, debit: newDebtorsAccount, credit: capitalRootAccount, debitAmount: round(balance*100)/100, creditAmount: round(round(balance*100)/100 * exchangeRate*100)/100, createdByUser : false, context: context)
         }
@@ -878,9 +878,9 @@ class AccountEditorWithInitialBalanceViewController: UIViewController {
                 }
             }
             
-            try? Account.createAccount(parent: expenseRootAccount, name: AccountsNameLocalisationManager.getLocalizedAccountName(.beforeAccountingPeriod), type: AccountType.assets.rawValue, currency: expenseRootAccount.currency, createdByUser: false, context: context)
+            try? Account.createAccount(parent: expenseRootAccount, name: AccountsNameLocalisationManager.getLocalizedAccountName(.beforeAccountingPeriod), type: AccountType.assets, currency: expenseRootAccount.currency, createdByUser: false, context: context)
             
-            let newCreditAccount = try Account.createAndGetAccount(parent: parentAccount, name: accountNameTextField.text!, type: parentAccount.type, currency: currency, keeper: keeper, holder:holder, context: context)
+            let newCreditAccount = try Account.createAndGetAccount(parent: parentAccount, name: accountNameTextField.text!, type: AccountType(rawValue: parentAccount.type) ?? .liabilities, currency: currency, keeper: keeper, holder:holder, context: context)
             
             guard let expenseBeforeAccountingPeriod : Account = Account.getAccountWithPath("\(AccountsNameLocalisationManager.getLocalizedAccountName(.expense)):\(AccountsNameLocalisationManager.getLocalizedAccountName(.beforeAccountingPeriod))", context: context) else {
                 throw AccountWithBalanceError.canNotFindBeboreAccountingPeriodAccount
