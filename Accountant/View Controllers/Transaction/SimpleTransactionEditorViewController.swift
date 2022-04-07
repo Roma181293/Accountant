@@ -477,12 +477,12 @@ class SimpleTransactionEditorViewController: UIViewController {//}, GADFullScree
         else {
             if let amountInCreditCurrency = Double(amountInCreditCurrencyTextField.text!.replacingOccurrences(of: ",", with: ".")),
                let amountInDebitCurrency = Double(amountInDebitCurrencyTextField.text!.replacingOccurrences(of: ",", with: ".")){
-                creditToDebitExchangeRateLabel.text = "\(creditCurrency.code!)/\(debitCurrency.code!): \(round(amountInCreditCurrency/amountInDebitCurrency*10000)/10000)"
-                debitToCreditExchangeRateLabel.text = "\(debitCurrency.code!)/\(creditCurrency.code!): \(round(amountInDebitCurrency/amountInCreditCurrency*10000)/10000)"
+                creditToDebitExchangeRateLabel.text = "\(creditCurrency.code)/\(debitCurrency.code): \(round(amountInCreditCurrency/amountInDebitCurrency*10000)/10000)"
+                debitToCreditExchangeRateLabel.text = "\(debitCurrency.code)/\(creditCurrency.code): \(round(amountInDebitCurrency/amountInCreditCurrency*10000)/10000)"
             }
             else {
-                creditToDebitExchangeRateLabel.text = "\(creditCurrency.code!)/\(debitCurrency.code!): "
-                debitToCreditExchangeRateLabel.text = "\(debitCurrency.code!)/\(creditCurrency.code!): "
+                creditToDebitExchangeRateLabel.text = "\(creditCurrency.code)/\(debitCurrency.code): "
+                debitToCreditExchangeRateLabel.text = "\(debitCurrency.code)/\(creditCurrency.code): "
             }
         }
     }
@@ -583,7 +583,7 @@ class SimpleTransactionEditorViewController: UIViewController {//}, GADFullScree
                 useExchangeRateLabel.isHidden = true
             }
             else if credit.currency == debit.currency {
-                amountInDebitCurrencyTextField.placeholder = debit.currency!.code!
+                amountInDebitCurrencyTextField.placeholder = debit.currency!.code
                 amountInCreditCurrencyTextField.isHidden = true
                 amountStackView.isHidden = false
                 amountInDebitCurrencyTextField.isHidden = false
@@ -593,8 +593,8 @@ class SimpleTransactionEditorViewController: UIViewController {//}, GADFullScree
                 useExchangeRateLabel.isHidden = true
             }
             else {
-                amountInCreditCurrencyTextField.placeholder = credit.currency!.code!
-                amountInDebitCurrencyTextField.placeholder = debit.currency!.code!
+                amountInCreditCurrencyTextField.placeholder = credit.currency!.code
+                amountInDebitCurrencyTextField.placeholder = debit.currency!.code
                 amountStackView.isHidden = false
                 amountInCreditCurrencyTextField.isHidden = false
                 amountInDebitCurrencyTextField.isHidden = false
@@ -626,17 +626,17 @@ class SimpleTransactionEditorViewController: UIViewController {//}, GADFullScree
         else {return}
         
         if useExchangeRateSwich.isOn {
-            guard let currencyHistoricalData = currencyHistoricalData, let rate = currencyHistoricalData.exchangeRate(pay: creditCurrency.code!, forOne: debitCurrency.code!) else {return}
+            guard let currencyHistoricalData = currencyHistoricalData, let rate = currencyHistoricalData.exchangeRate(pay: creditCurrency.code, forOne: debitCurrency.code) else {return}
             print(rate)
             selectedRateCreditToDebit = rate
-            creditToDebitExchangeRateLabel.text = "\(creditCurrency.code!)/\(debitCurrency.code!): \(round(rate*10000)/10000)"
-            debitToCreditExchangeRateLabel.text = "\(debitCurrency.code!)/\(creditCurrency.code!): \(round(1.0/rate*10000)/10000)"
+            creditToDebitExchangeRateLabel.text = "\(creditCurrency.code)/\(debitCurrency.code): \(round(rate*10000)/10000)"
+            debitToCreditExchangeRateLabel.text = "\(debitCurrency.code)/\(creditCurrency.code): \(round(1.0/rate*10000)/10000)"
         }
         else if let amountInCreditCurrency = Double(amountInCreditCurrencyTextField.text!.replacingOccurrences(of: ",", with: ".")),
                 let amountInDebitCurrency = Double(amountInDebitCurrencyTextField.text!.replacingOccurrences(of: ",", with: ".")) {
             selectedRateCreditToDebit = amountInCreditCurrency/amountInDebitCurrency
-            creditToDebitExchangeRateLabel.text = "\(creditCurrency.code!)/\(debitCurrency.code!): \(round(selectedRateCreditToDebit!*10000)/10000)"
-            debitToCreditExchangeRateLabel.text = "\(debitCurrency.code!)/\(creditCurrency.code!): \(round(1.0/selectedRateCreditToDebit!*10000)/10000)"
+            creditToDebitExchangeRateLabel.text = "\(creditCurrency.code)/\(debitCurrency.code): \(round(selectedRateCreditToDebit!*10000)/10000)"
+            debitToCreditExchangeRateLabel.text = "\(debitCurrency.code)/\(creditCurrency.code): \(round(1.0/selectedRateCreditToDebit!*10000)/10000)"
         }
     }
     
@@ -781,8 +781,8 @@ class SimpleTransactionEditorViewController: UIViewController {//}, GADFullScree
             
             selectedRateCreditToDebit = creditAmount/debitAmount
             
-            creditToDebitExchangeRateLabel.text = "\(creditAccount.currency!.code!)/\(debitAccount.currency!.code!): \(round(creditAmount/debitAmount*10000)/10000)"
-            debitToCreditExchangeRateLabel.text = "\(debitAccount.currency!.code!)/\(creditAccount.currency!.code!): \(round(debitAmount/creditAmount*10000)/10000)"
+            creditToDebitExchangeRateLabel.text = "\(creditAccount.currency!.code)/\(debitAccount.currency!.code): \(round(creditAmount/debitAmount*10000)/10000)"
+            debitToCreditExchangeRateLabel.text = "\(debitAccount.currency!.code)/\(creditAccount.currency!.code): \(round(debitAmount/creditAmount*10000)/10000)"
         }
         else {
             amountInDebitCurrencyTextField.text = "\(debitAmount)"

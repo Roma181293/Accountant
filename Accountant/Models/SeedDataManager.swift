@@ -56,7 +56,6 @@ class SeedDataManager {
         holders.forEach({
             context.delete($0)
         })
-        
     }
     
     static func createDefaultHolders(context: NSManagedObjectContext) {
@@ -112,6 +111,45 @@ class SeedDataManager {
         exchanges.forEach({
             context.delete($0)
         })
+    }
+    
+    //USE ONLY TO CLEAR DATA IN TEST ENVIRONMENT
+    static func deleteAllCurrencies(context: NSManagedObjectContext, env: Environment?) throws {
+        guard env == .test else {return}
+        let currencyFetchRequest : NSFetchRequest<Currency> = NSFetchRequest<Currency>(entityName: Currency.entity().name!)
+        currencyFetchRequest.sortDescriptors = [NSSortDescriptor(key: "code", ascending: true)]
+        
+        let currencies = try context.fetch(currencyFetchRequest)
+        currencies.forEach({
+            context.delete($0)
+        })
+    }
+    
+    //USE ONLY TO CLEAR DATA IN TEST ENVIRONMENT
+    static func deleteAllAccounts(context: NSManagedObjectContext, env: Environment?) throws {
+        guard env == .test else {return}
+        let accountsFetchRequest : NSFetchRequest<Account> = NSFetchRequest<Account>(entityName: Account.entity().name!)
+        accountsFetchRequest.sortDescriptors = [NSSortDescriptor(key: "createDate", ascending: true)]
+        
+        let accounts = try context.fetch(accountsFetchRequest)
+        accounts.forEach({
+            context.delete($0)
+        })
+    }
+    
+    //USE ONLY TO CLEAR DATA IN TEST ENVIRONMENT
+    static func deleteAllTransactions(context: NSManagedObjectContext, env: Environment?) throws {
+        guard env == .test else {return}
+        let transactionFetchRequest : NSFetchRequest<Transaction> = NSFetchRequest<Transaction>(entityName: Transaction.entity().name!)
+        transactionFetchRequest.sortDescriptors = [NSSortDescriptor(key: "createDate", ascending: true)]
+        
+        let transactions = try context.fetch(transactionFetchRequest)
+        for transaction in transactions {
+            for item in transaction.transactionItemsList {
+                context.delete(item)
+            }
+            context.delete(transaction)
+        }
     }
     
     static func addBaseAccounts(accountingCurrency: Currency, context: NSManagedObjectContext) {

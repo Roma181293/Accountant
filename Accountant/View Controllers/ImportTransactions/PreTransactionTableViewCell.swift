@@ -209,14 +209,14 @@ class PreTransactionTableViewCell: UITableViewCell{
             if let account = item.account, let currency = account.currency {
                 
                 if item.amount < 0 {
-                    amountAndCurrencyLabel.text = "Error " + currency.code!
+                    amountAndCurrencyLabel.text = "Error " + currency.code
                     amountAndCurrencyLabel.layer.backgroundColor = UIColor.red.cgColor
                     amountAndCurrencyLabel.textColor = UIColor(named: "blackGrayColor")
                     amountAndCurrencyLabel.textAlignment = .right
                     amountAndCurrencyLabel.layer.cornerRadius = 8
                 }
                 else {
-                    amountAndCurrencyLabel.text = cutNumber(item.amount) + currency.code!
+                    amountAndCurrencyLabel.text = cutNumber(item.amount) + currency.code
                 }
             }
             else {

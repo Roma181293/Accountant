@@ -64,10 +64,10 @@ class AnalyticTableViewCell: UITableViewCell {
         titleLabel.text = accountData.title
         
         if let currency = accountData.account.currency {
-            amountLabel.text = "\(round(accountData.amountInAccountCurrency*100)/100) \(currency.code!)"
+            amountLabel.text = "\(round(accountData.amountInAccountCurrency*100)/100) \(currency.code)"
         }
         else {
-            amountLabel.text = "\(round(accountData.amountInSelectedCurrency*100)/100) \(accountingCurrency.code!)"
+            amountLabel.text = "\(round(accountData.amountInSelectedCurrency*100)/100) \(accountingCurrency.code)"
         }
         
         //MARK:- Adding constraints

@@ -15,17 +15,38 @@ final class Currency: NSManagedObject {
         return NSFetchRequest<Currency>(entityName: "Currency")
     }
     
-    @NSManaged public var code: String?
+    @NSManaged public var id: UUID?
+    @NSManaged public var code: String
+    @NSManaged public var iso4217: Int16
+    @NSManaged public var name: String?
+    @NSManaged public var isAccounting: Bool
+    @NSManaged public var accounts: Set<Account>!
+    @NSManaged public var exchangeRates: Set<Rate>!
     @NSManaged public var createDate: Date?
     @NSManaged public var createdByUser: Bool
-    @NSManaged public var id: UUID?
-    @NSManaged public var isAccounting: Bool
-    @NSManaged public var iso4217: Int16
-    @NSManaged public var modifiedByUser: Bool
     @NSManaged public var modifyDate: Date?
-    @NSManaged public var name: String?
-    @NSManaged public var accounts: NSSet?
-    @NSManaged public var exchangeRates: NSSet?
+    @NSManaged public var modifiedByUser: Bool
+    
+    convenience init(code: String, iso4217: Int16, name: String?, createdByUser : Bool = true, createDate: Date = Date(), context: NSManagedObjectContext) {
+        self.init(context: context)
+        self.id = UUID()
+        self.code = code  //UAH
+        self.iso4217 = iso4217  //980
+        self.name = name
+        self.isAccounting = false
+        self.createdByUser = createdByUser
+        self.createDate = createDate
+        self.modifiedByUser = createdByUser
+        self.modifyDate = createDate
+    }
+    
+    var accountsList: [Account] {
+        return Array(accounts)
+    }
+    
+    var exchangeRatesList: [Account] {
+        return Array(accounts)
+    }
     
     static func isFreeCurrencyCode(_ code : String, context: NSManagedObjectContext) -> Bool {
         let currencyFetchRequest : NSFetchRequest<Currency> = NSFetchRequest<Currency>(entityName: "Currency")
@@ -46,36 +67,26 @@ final class Currency: NSManagedObject {
         }
     }
     
-    static func createAndGetCurrency(code: String, iso4217: Int16, name: String?, createdByUser : Bool = true, context: NSManagedObjectContext) throws -> Currency {
+    static func createAndGetCurrency(code: String, iso4217: Int16, name: String?, createdByUser : Bool = true, createDate: Date = Date(), context: NSManagedObjectContext) throws -> Currency {
         guard isFreeCurrencyCode(code,context: context) == true else {
             throw CurrencyError.thisCurrencyAlreadyExists
         }
-        let date = Date()
-        let currency = Currency(context: context)
-        currency.id = UUID()
-        currency.createdByUser = createdByUser
-        currency.createDate = date
-        currency.modifiedByUser = createdByUser
-        currency.modifyDate = date
-        currency.code = code  //UAH
-        currency.iso4217 = iso4217  //980
-        currency.name = name
-        return currency
+        return Currency(code: code, iso4217: iso4217, name: name, createdByUser: createdByUser, createDate: createDate, context: context)
     }
     
     
     static func createCurrency(code: String, iso4217: Int16, name: String?, createdByUser : Bool = true, context: NSManagedObjectContext) throws {
-        try createAndGetCurrency(code: code, iso4217: iso4217, name: name, createdByUser : createdByUser, context: context)
+        let _ = try createAndGetCurrency(code: code, iso4217: iso4217, name: name, createdByUser : createdByUser, context: context)
     }
     
-    func removeCurrency(context: NSManagedObjectContext) throws {
-        guard self.accounts?.allObjects.count == 0 else {
+    func removeCurrency() throws {
+        guard self.accountsList.count == 0 else {
             throw CurrencyError.thisCurrencyUsedInAccounts
         }
         guard self.isAccounting else {
             throw CurrencyError.thisIsAccountingCurrency
         }
-        context.delete(self)
+        managedObjectContext?.delete(self)
     }
     
     static func getCurrencyForCode(_ code : String, context: NSManagedObjectContext) throws -> Currency? {
@@ -167,18 +178,5 @@ final class Currency: NSManagedObject {
             print("ERROR", error)
             return nil
         }
-    }
-    
-    //USE ONLY TO CLEAR DATA IN TEST ENVIRONMENT
-    static func deleteAllCurrencies(context: NSManagedObjectContext, env: Environment?) throws {
-        guard env == .test else {return}
-        let currencyFetchRequest : NSFetchRequest<Currency> = NSFetchRequest<Currency>(entityName: Currency.entity().name!)
-        currencyFetchRequest.sortDescriptors = [NSSortDescriptor(key: "code", ascending: true)]
-        
-        let currencies = try context.fetch(currencyFetchRequest)
-        currencies.forEach({
-            context.delete($0)
-        })
-        
     }
 }

@@ -272,27 +272,6 @@ final class Transaction: NSManagedObject {
         }
     }
     
-    //USE ONLY TO CLEAR DATA IN TEST ENVIRONMENT
-    static func deleteAllTransactions(context: NSManagedObjectContext, env: Environment?) throws {
-        guard env == .test else {return}
-        let transactionFetchRequest : NSFetchRequest<Transaction> = NSFetchRequest<Transaction>(entityName: Transaction.entity().name!)
-        transactionFetchRequest.sortDescriptors = [NSSortDescriptor(key: "createDate", ascending: true)]
-        
-        do {
-            let transactions = try context.fetch(transactionFetchRequest)
-            for transaction in transactions {
-                for item in transaction.transactionItemsList {
-                    context.delete(item)
-                }
-                context.delete(transaction)
-            }
-        }
-        catch let error {
-            print("ERROR", error)
-        }
-    }
-    
-    
     static func importTransactionList(from data : String, context: NSManagedObjectContext) throws -> [PreTransaction] {
         var inputMatrix: [[String]] = []
         let rows = data.components(separatedBy: "\n")

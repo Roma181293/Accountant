@@ -94,12 +94,12 @@ class CurrencyTableViewController: UITableViewController {
                 }
             }
         }
-            cell.codeLabel.text = fetchedCurrency.code!
+            cell.codeLabel.text = fetchedCurrency.code
             if let name = fetchedCurrency.name  {
                 cell.nameLabel.text = name
             }
             else {
-                cell.nameLabel.text = NSLocalizedString(fetchedCurrency.code!, comment: "")
+                cell.nameLabel.text = NSLocalizedString(fetchedCurrency.code, comment: "")
             }
         return cell
     }

@@ -139,9 +139,9 @@ class WelcomeViewController: UIViewController {
             
             //remove old test Data
             let env = CoreDataStack.shared.activeEnviroment()
-            try Transaction.deleteAllTransactions(context: context, env:env)
-            try Account.deleteAllAccounts(context: context, env:env)
-            try Currency.deleteAllCurrencies(context: context, env:env)
+            try SeedDataManager.deleteAllTransactions(context: context, env:env)
+            try SeedDataManager.deleteAllAccounts(context: context, env:env)
+            try SeedDataManager.deleteAllCurrencies(context: context, env:env)
             try SeedDataManager.deleteAllKeepers(context: context, env:env)
             try SeedDataManager.deleteAllHolders(context: context, env:env)
             try SeedDataManager.deleteAllBankAccounts(context: context, env: env)

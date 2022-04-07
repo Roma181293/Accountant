@@ -120,7 +120,7 @@ final class Exchange: NSManagedObject {
         let exchange = getOrCreateExchange(date: ecxhangeDate, context: context)
         
         try? currencyHistoricalData.listOfCurrencies().forEach{ code in
-            guard let rate = currencyHistoricalData.exchangeRate(pay: accCurrency.code!, forOne: code) else {return}
+            guard let rate = currencyHistoricalData.exchangeRate(pay: accCurrency.code, forOne: code) else {return}
             guard let currency = try Currency.getCurrencyForCode(code, context: context) else {return}
             do {
                 try Rate.create(rate, forExchange: exchange, withCurrency: currency, context: context)

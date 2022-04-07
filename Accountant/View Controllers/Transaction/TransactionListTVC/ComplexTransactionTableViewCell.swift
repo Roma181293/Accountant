@@ -238,7 +238,7 @@ class ComplexTransactionTableViewCell: UITableViewCell {
             
             let amountAndCurrencyLabel = UILabel()
             if let acctount = item.account, let currency = acctount.currency {
-                amountAndCurrencyLabel.text = cutNumber(item.amount) + currency.code!
+                amountAndCurrencyLabel.text = cutNumber(item.amount) + currency.code
             }
             else {
                 amountAndCurrencyLabel.text = "Invalid data"

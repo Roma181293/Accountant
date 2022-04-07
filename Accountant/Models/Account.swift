@@ -474,7 +474,7 @@ extension Account {
                     
                     var exchangeRate : Double = 1
                     
-                    if let rate =  currencyHistoricalData.exchangeRate(pay: selectedCurrency.code!, forOne: accountCurrency.code!) {
+                    if let rate =  currencyHistoricalData.exchangeRate(pay: selectedCurrency.code, forOne: accountCurrency.code) {
                         exchangeRate = rate
                     }
                     return round(amountInAccountCurrency * exchangeRate * 100) / 100
@@ -683,19 +683,6 @@ extension Account {
             print("ERROR", error)
             return nil
         }
-    }
-    
-    
-    //USE ONLY TO CLEAR DATA IN TEST ENVIRONMENT
-    static func deleteAllAccounts(context: NSManagedObjectContext, env: Environment?) throws {
-        guard env == .test else {return}
-        let accountsFetchRequest : NSFetchRequest<Account> = NSFetchRequest<Account>(entityName: Account.entity().name!)
-        accountsFetchRequest.sortDescriptors = [NSSortDescriptor(key: "createDate", ascending: true)]
-        
-        let accounts = try context.fetch(accountsFetchRequest)
-        accounts.forEach({
-            context.delete($0)
-        })
     }
     
     static func exportAccountsToString(context: NSManagedObjectContext) -> String {

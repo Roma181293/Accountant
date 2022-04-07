@@ -117,6 +117,6 @@ class AddAccountViewController: UIViewController {
 extension AddAccountViewController: CurrencyReceiverDelegate{
     func setCurrency(_ selectedCurrency: Currency) {
         self.currency = selectedCurrency
-        currencyButton.setTitle(selectedCurrency.code!, for: .normal)
+        currencyButton.setTitle(selectedCurrency.code, for: .normal)
     }
 }

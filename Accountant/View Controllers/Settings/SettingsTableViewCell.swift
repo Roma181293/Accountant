@@ -133,7 +133,7 @@ class SettingsTableViewCell: UITableViewCell {
             iconImangeView.tintColor = .systemYellow
         case .accountingCurrency:
             if let currency = Currency.getAccountingCurrency(context: delegate.context) {
-                detailLabel.text = currency.code!
+                detailLabel.text = currency.code
             }
             else {
                 detailLabel.text = "No currency"
@@ -255,9 +255,9 @@ class SettingsTableViewCell: UITableViewCell {
                     
                     //remove oldData
                     let env = CoreDataStack.shared.activeEnviroment()
-                    try Transaction.deleteAllTransactions(context: context, env:env)
-                    try Account.deleteAllAccounts(context: context, env:env)
-                    try Currency.deleteAllCurrencies(context: context, env:env)
+                    try SeedDataManager.deleteAllTransactions(context: context, env:env)
+                    try SeedDataManager.deleteAllAccounts(context: context, env:env)
+                    try SeedDataManager.deleteAllCurrencies(context: context, env:env)
                     try SeedDataManager.deleteAllKeepers(context: context, env:env)
                     try SeedDataManager.deleteAllHolders(context: context, env:env)
                     try SeedDataManager.deleteAllBankAccounts(context: context, env: env)
@@ -279,9 +279,9 @@ class SettingsTableViewCell: UITableViewCell {
                     let context = CoreDataStack.shared.persistentContainer.viewContext
                     
                     let env = CoreDataStack.shared.activeEnviroment()
-                    try Transaction.deleteAllTransactions(context: context, env:env)
-                    try Account.deleteAllAccounts(context: context, env:env)
-                    try Currency.deleteAllCurrencies(context: context, env:env)
+                    try SeedDataManager.deleteAllTransactions(context: context, env:env)
+                    try SeedDataManager.deleteAllAccounts(context: context, env:env)
+                    try SeedDataManager.deleteAllCurrencies(context: context, env:env)
                     try SeedDataManager.deleteAllKeepers(context: context, env:env)
                     try SeedDataManager.deleteAllHolders(context: context, env:env)
                     try SeedDataManager.deleteAllBankAccounts(context: context, env: env)

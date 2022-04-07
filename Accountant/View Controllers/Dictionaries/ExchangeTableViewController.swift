@@ -77,7 +77,7 @@ class ExchangeTableViewController: UITableViewController {
         if let exchange = exchange {
             guard let rates = exchange.rates else {return cell}
             let rate = (rates.allObjects as! [Rate])[indexPath.row]
-            cell.textLabel?.text = "1 " + rate.currency!.code! + " = " + String(rate.amount) + " " + accountingCurrency.code!
+            cell.textLabel?.text = "1 " + rate.currency!.code + " = " + String(rate.amount) + " " + accountingCurrency.code
             cell.detailTextLabel?.text = String(rate.amount)
         }
         else {

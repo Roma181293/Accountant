@@ -370,7 +370,7 @@ class MonobankViewController: UIViewController {
                 //Check exchange rate value
                 if currency != accountingCurrency {
                     guard let currencyHistoricalData = currencyHistoricalData,
-                          let rate = currencyHistoricalData.exchangeRate(pay: accountingCurrency.code!, forOne: currency.code!)
+                          let rate = currencyHistoricalData.exchangeRate(pay: accountingCurrency.code, forOne: currency.code)
                     else {return}
                     exchangeRate = rate
                 }

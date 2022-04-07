@@ -702,7 +702,7 @@ class AccountEditorWithInitialBalanceViewController: UIViewController {
     }
     
     private func configureUIForCurrency() {
-        currencyButton.setTitle(currency.code!, for: .normal)
+        currencyButton.setTitle(currency.code, for: .normal)
         if currency == accountingCurrency {
             exchangeRateLabel.isHidden = true
             exchangeRateTextField.isHidden = true
@@ -712,7 +712,7 @@ class AccountEditorWithInitialBalanceViewController: UIViewController {
         else {
             exchangeRateLabel.isHidden = false
             exchangeRateTextField.isHidden = false
-            exchangeRateLabel.text = NSLocalizedString("Exchange rate", comment: "") + " \(accountingCurrency.code!)/\(currency.code!)"
+            exchangeRateLabel.text = NSLocalizedString("Exchange rate", comment: "") + " \(accountingCurrency.code)/\(currency.code)"
         }
     }
     

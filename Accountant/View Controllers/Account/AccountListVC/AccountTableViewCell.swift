@@ -206,7 +206,7 @@ class AccountTableViewCell: UITableViewCell {
             if dataToShow.account.parent?.name == AccountsNameLocalisationManager.getLocalizedAccountName(.money), let credit = dataToShow.account.linkedAccount {
                 let amount = round(credit.balance*100)/100
                 if amount >= 0 {
-                    creditLimitInAccountCurrencyLabel.text = "\(NSLocalizedString("Credit limit:",comment: "")) \(amount) \(credit.currency!.code!)"
+                    creditLimitInAccountCurrencyLabel.text = "\(NSLocalizedString("Credit limit:",comment: "")) \(amount) \(credit.currency!.code)"
                 }
             }
         default:
@@ -217,20 +217,15 @@ class AccountTableViewCell: UITableViewCell {
         
         
         if dataToShow.amountInAccountCurrency >= 0 {
-            amountInAccountCurrencyLabel.text = "\(dataToShow.amountInAccountCurrency) \(accountCurrency.code!)"
+            amountInAccountCurrencyLabel.text = "\(dataToShow.amountInAccountCurrency) \(accountCurrency.code)"
             amountInAccountCurrencyLabel.textColor = Colors.Main.defaultCellTextColor
             self.accessoryType = .none
             if accountCurrency != currency && dataToShow.amountInSelectedCurrency != 0 {
-                if let currencyCode = currency.code {
-                    amountInCurrencyLabel.text = "≈\(dataToShow.amountInSelectedCurrency) \(currencyCode)"
-                }
-                else {
-                    amountInCurrencyLabel.text = NSLocalizedString("Error", comment: "")
-                }
+                amountInCurrencyLabel.text = "≈\(dataToShow.amountInSelectedCurrency) \(currency.code)"
             }
         }
         else {
-            amountInAccountCurrencyLabel.text = "\(dataToShow.amountInAccountCurrency) \(accountCurrency.code!)"
+            amountInAccountCurrencyLabel.text = "\(dataToShow.amountInAccountCurrency) \(accountCurrency.code)"
             amountInAccountCurrencyLabel.textColor = .systemRed
             self.accessoryType = .detailButton
         }
