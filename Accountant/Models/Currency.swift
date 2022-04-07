@@ -9,7 +9,23 @@
 import Foundation
 import CoreData
 
-extension Currency {
+final class Currency: NSManagedObject {
+    
+    @nonobjc public class func fetchRequest() -> NSFetchRequest<Currency> {
+        return NSFetchRequest<Currency>(entityName: "Currency")
+    }
+    
+    @NSManaged public var code: String?
+    @NSManaged public var createDate: Date?
+    @NSManaged public var createdByUser: Bool
+    @NSManaged public var id: UUID?
+    @NSManaged public var isAccounting: Bool
+    @NSManaged public var iso4217: Int16
+    @NSManaged public var modifiedByUser: Bool
+    @NSManaged public var modifyDate: Date?
+    @NSManaged public var name: String?
+    @NSManaged public var accounts: NSSet?
+    @NSManaged public var exchangeRates: NSSet?
     
     static func isFreeCurrencyCode(_ code : String, context: NSManagedObjectContext) -> Bool {
         let currencyFetchRequest : NSFetchRequest<Currency> = NSFetchRequest<Currency>(entityName: "Currency")

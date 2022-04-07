@@ -9,7 +9,21 @@
 import Foundation
 import CoreData
 
-extension Transaction {
+final class Transaction: NSManagedObject {
+    
+    @nonobjc public class func fetchRequest() -> NSFetchRequest<Transaction> {
+        return NSFetchRequest<Transaction>(entityName: "Transaction")
+    }
+    
+    @NSManaged public var applied: Bool
+    @NSManaged public var comment: String?
+    @NSManaged public var createDate: Date?
+    @NSManaged public var createdByUser: Bool
+    @NSManaged public var date: Date?
+    @NSManaged public var id: UUID?
+    @NSManaged public var modifiedByUser: Bool
+    @NSManaged public var modifyDate: Date?
+    @NSManaged public var items: NSSet?
     
     convenience init(date : Date, comment : String? = nil, createdByUser : Bool = true, createDate: Date = Date(), context: NSManagedObjectContext){
         self.init(context: context)

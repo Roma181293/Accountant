@@ -8,7 +8,23 @@
 import Foundation
 import CoreData
 
-extension BankAccount {
+final class BankAccount: NSManagedObject {
+    
+    @nonobjc public class func fetchRequest() -> NSFetchRequest<BankAccount> {
+        return NSFetchRequest<BankAccount>(entityName: "BankAccount")
+    }
+
+    @NSManaged public var active: Bool
+    @NSManaged public var bin: Int16
+    @NSManaged public var externalId: String?
+    @NSManaged public var iban: String?
+    @NSManaged public var id: UUID?
+    @NSManaged public var lastLoadDate: Date?
+    @NSManaged public var lastTransactionDate: Date?
+    @NSManaged public var locked: Bool
+    @NSManaged public var strBin: String?
+    @NSManaged public var account: Account?
+    @NSManaged public var userBankProfile: UserBankProfile?
     
     convenience init(userBankProfile: UserBankProfile, iban: String?, strBin: String?, bin: Int16?, externalId: String?, lastTransactionDate: Date = Date(), context: NSManagedObjectContext) {
         

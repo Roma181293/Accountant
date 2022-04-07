@@ -9,7 +9,30 @@ import Foundation
 import CoreData
 import Charts
 
-extension Account {
+final class Account: NSManagedObject {
+    
+    @nonobjc public class func fetchRequest() -> NSFetchRequest<Account> {
+        return NSFetchRequest<Account>(entityName: "Account")
+    }
+
+    @NSManaged public var active: Bool
+    @NSManaged public var createDate: Date?
+    @NSManaged public var createdByUser: Bool
+    @NSManaged public var id: UUID?
+    @NSManaged public var modifiedByUser: Bool
+    @NSManaged public var modifyDate: Date?
+    @NSManaged public var name: String?
+    @NSManaged public var subType: Int16
+    @NSManaged public var type: Int16
+    @NSManaged public var bankAccount: BankAccount?
+    @NSManaged public var currency: Currency?
+    @NSManaged public var directChildren: NSSet?
+    @NSManaged public var holder: Holder?
+    @NSManaged public var keeper: Keeper?
+    @NSManaged public var linkedAccount: Account?
+    @NSManaged public var parent: Account?
+    @NSManaged public var transactionItems: NSSet?
+    
     
     convenience init(parent: Account?, name : String, type : AccountType, currency : Currency?, keeper: Keeper?, holder: Holder?, subType : AccountSubType?, createdByUser : Bool = true, createDate: Date = Date(), context: NSManagedObjectContext) {
         

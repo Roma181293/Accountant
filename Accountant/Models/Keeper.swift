@@ -8,7 +8,21 @@
 import Foundation
 import CoreData
 
-extension Keeper {
+final class Keeper: NSManagedObject {
+    
+    @nonobjc public class func fetchRequest() -> NSFetchRequest<Keeper> {
+        return NSFetchRequest<Keeper>(entityName: "Keeper")
+    }
+
+    @NSManaged public var createDate: Date?
+    @NSManaged public var createdByUser: Bool
+    @NSManaged public var id: UUID?
+    @NSManaged public var modifiedByUser: Bool
+    @NSManaged public var modifyDate: Date?
+    @NSManaged public var name: String?
+    @NSManaged public var type: Int16
+    @NSManaged public var accounts: NSSet?
+    @NSManaged public var userBankProfiles: NSSet?
     
     convenience init(name: String, type: KeeperType, createdByUser : Bool = true, createDate: Date = Date(), context: NSManagedObjectContext) {
         self.init(context: context)

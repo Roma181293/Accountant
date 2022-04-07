@@ -400,7 +400,7 @@ class ComplexTransactionEditorViewController: UIViewController{
         else {
             transactionItem.amount = 0
         }
-        transaction?.addToItems(transactionItem)
+        transactionItem.transaction = transaction
     }
     
     private func addEmptyTransaction() {
@@ -546,7 +546,9 @@ extension ComplexTransactionEditorViewController: UITableViewDelegate, UITableVi
         
         let delete = UIContextualAction(style: .normal, title: NSLocalizedString("Delete",comment: "")) { (contAct, view, complete) in
             guard let transactionItemToRemove = transactionItemToRemove else {return}
-            self.transaction?.removeFromItems(transactionItemToRemove)
+            transactionItemToRemove.transaction = nil
+            transactionItemToRemove.managedObjectContext?.delete(transactionItemToRemove)
+//            self.transaction?.removeFromItems(transactionItemToRemove)
             tableView.reloadData()
             self.configureAddTransactionItemButtons()
             complete(true)

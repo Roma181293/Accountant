@@ -12,7 +12,21 @@ enum RateError : Error {
     case alreadyExist
 }
 
-extension Rate {
+final class Rate: NSManagedObject {
+    
+    @nonobjc public class func fetchRequest() -> NSFetchRequest<Rate> {
+        return NSFetchRequest<Rate>(entityName: "Rate")
+    }
+
+    @NSManaged public var amount: Double
+    @NSManaged public var createDate: Date?
+    @NSManaged public var createdByUser: Bool
+    @NSManaged public var id: UUID?
+    @NSManaged public var modifiedByUser: Bool
+    @NSManaged public var modifyDate: Date?
+    @NSManaged public var currency: Currency?
+    @NSManaged public var exchange: Exchange?
+    
     convenience init(_ rateAmount: Double, forExchange exchange: Exchange, withCurrency currency: Currency, createdByUser: Bool = false, createDate: Date = Date(), context: NSManagedObjectContext) {
         self.init(context: context)
         self.id = UUID()

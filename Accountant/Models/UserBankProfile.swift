@@ -9,7 +9,19 @@ import Foundation
 import CoreData
 
 
-extension UserBankProfile {
+final class UserBankProfile: NSManagedObject {
+    
+    @nonobjc public class func fetchRequest() -> NSFetchRequest<UserBankProfile> {
+        return NSFetchRequest<UserBankProfile>(entityName: "UserBankProfile")
+    }
+
+    @NSManaged public var active: Bool
+    @NSManaged public var externalId: String?
+    @NSManaged public var id: UUID?
+    @NSManaged public var name: String?
+    @NSManaged public var xToken: String?
+    @NSManaged public var bankAccounts: NSSet?
+    @NSManaged public var keeper: Keeper?
     
     convenience init(name: String, externalId: String?, keeper: Keeper, xToken: String, context: NSManagedObjectContext) {
         self.init(context: context)

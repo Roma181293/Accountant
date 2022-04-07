@@ -8,7 +8,20 @@
 import Foundation
 import CoreData
 
-extension Holder {
+final class Holder: NSManagedObject {
+    
+    @nonobjc public class func fetchRequest() -> NSFetchRequest<Holder> {
+        return NSFetchRequest<Holder>(entityName: "Holder")
+    }
+
+    @NSManaged public var createDate: Date?
+    @NSManaged public var createdByUser: Bool
+    @NSManaged public var icon: String?
+    @NSManaged public var id: UUID?
+    @NSManaged public var modifiedByUser: Bool
+    @NSManaged public var modifyDate: Date?
+    @NSManaged public var name: String?
+    @NSManaged public var accounts: NSSet?
     
     convenience init(name: String, icon : String, createdByUser : Bool = true, createDate: Date = Date(), context: NSManagedObjectContext) {
         self.init(context: context)
