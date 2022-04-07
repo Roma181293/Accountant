@@ -92,6 +92,28 @@ class SeedDataManager {
         })
     }
     
+    static func deleteAllRates(context: NSManagedObjectContext, env: Environment?) throws {
+        guard env == .test else {return}
+        let ratesFetchRequest : NSFetchRequest<Rate> = NSFetchRequest<Rate>(entityName: Rate.entity().name!)
+        ratesFetchRequest.sortDescriptors = [NSSortDescriptor(key: "createDate", ascending: true)]
+        
+        let rates = try context.fetch(ratesFetchRequest)
+        rates.forEach({
+            context.delete($0)
+        })
+    }
+    
+    static func deleteAllExchanges(context: NSManagedObjectContext, env: Environment?) throws {
+        guard env == .test else {return}
+        let exchangesFetchRequest : NSFetchRequest<Exchange> = NSFetchRequest<Exchange>(entityName: Exchange.entity().name!)
+        exchangesFetchRequest.sortDescriptors = [NSSortDescriptor(key: "createDate", ascending: true)]
+        
+        let exchanges = try context.fetch(exchangesFetchRequest)
+        exchanges.forEach({
+            context.delete($0)
+        })
+    }
+    
     static func addBaseAccounts(accountingCurrency: Currency, context: NSManagedObjectContext) {
         AccountsNameLocalisationManager.createAllLocalizedAccountName()
         

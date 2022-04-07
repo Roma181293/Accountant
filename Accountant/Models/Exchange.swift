@@ -1,5 +1,5 @@
 //
-//  ExchangeManager.swift
+//  Exchange.swift
 //  Accountant
 //
 //  Created by Roman Topchii on 12.01.2022.
@@ -14,27 +14,26 @@ enum ExchangeError:Error{
     case baseCurrencyCodeNotFound
 }
 
-class ExchangeManager {
+extension Exchange {
     
-    private static func fillExchange(date: Date, modifiedByUser: Bool = false, context: NSManagedObjectContext) -> Exchange {
-        let beginOfDay = Calendar.current.startOfDay(for: date)
-        
-        let exchange = Exchange(context: context)
-        let nowDate = Date()
-        exchange.createDate = nowDate
-        exchange.modifyDate = nowDate
-        exchange.modifiedByUser = modifiedByUser
-        exchange.createdByUser = modifiedByUser
-        exchange.id = UUID()
-        exchange.date = beginOfDay
-        return exchange
+    convenience init(date: Date, createsByUser: Bool = false, createDate: Date = Date(), context: NSManagedObjectContext) {
+        self.init(context: context)
+        self.createDate = createDate
+        self.createdByUser = createsByUser
+        self.modifyDate = createDate
+        self.modifiedByUser = createsByUser
+        self.id = UUID()
+        self.date = Calendar.current.startOfDay(for: date)
     }
     
+    var ratesList: [Rate] {
+        return rates!.allObjects as! [Rate]
+    }
     
     /// This function returns  Exchange for a start of a given `date`.
     ///
     /// - Parameter date: exchange date
-    static func getOrCreateExchange(date: Date, modifiedByUser: Bool = false, context: NSManagedObjectContext) -> Exchange {
+    static func getOrCreateExchange(date: Date, createsByUser: Bool = false, createDate: Date = Date(), context: NSManagedObjectContext) -> Exchange {
         
         let beginOfDay = Calendar.current.startOfDay(for: date)
         
@@ -47,12 +46,12 @@ class ExchangeManager {
                 return exchanges.first!
             }
             else {
-                return fillExchange(date: beginOfDay, modifiedByUser: modifiedByUser, context: context)
+                return Exchange(date: beginOfDay, createsByUser: createsByUser, createDate: createDate, context: context)
             }
         }
         catch let error {
             print("ERROR", error)
-            return fillExchange(date: beginOfDay, modifiedByUser: modifiedByUser, context: context)
+            return Exchange(date: beginOfDay, createsByUser: createsByUser, createDate: createDate, context: context)
         }
     }
     
@@ -95,23 +94,11 @@ class ExchangeManager {
         }
     }
     
-    
-    static func deleteExchange(_ exchange: Exchange, context: NSManagedObjectContext) {
-        (exchange.rates?.allObjects as [Rate]).forEach({ rate in
-            RateManager.deleteRate(rate, context: context)
+    func delete() {
+        self.ratesList.forEach({ rate in
+            rate.delete()
         })
-        context.delete(exchange)
-    }
-    
-    static func deleteAllExchanges(context: NSManagedObjectContext, env: Environment?) throws {
-        guard env == .test else {return}
-        let exchangesFetchRequest : NSFetchRequest<Rate> = NSFetchRequest<Rate>(entityName: Rate.entity().name!)
-        exchangesFetchRequest.sortDescriptors = [NSSortDescriptor(key: "createDate", ascending: true)]
-        
-        let exchanges = try context.fetch(exchangesFetchRequest)
-        exchanges.forEach({
-            context.delete($0)
-        })
+        managedObjectContext?.delete(self)
     }
     
     static func createExchangeRatesFrom(currencyHistoricalData: CurrencyHistoricalDataProtocol, context: NSManagedObjectContext) {
@@ -124,7 +111,7 @@ class ExchangeManager {
             guard let rate = currencyHistoricalData.exchangeRate(pay: accCurrency.code!, forOne: code) else {return}
             guard let currency = try Currency.getCurrencyForCode(code, context: context) else {return}
             do {
-                try RateManager.createRate(rate, forExchange: exchange, withCurrency: currency, context: context)
+                try Rate.create(rate, forExchange: exchange, withCurrency: currency, context: context)
             }
             catch let error {
                 print(#function, error.localizedDescription)
@@ -132,5 +119,3 @@ class ExchangeManager {
         }
     }
 }
-
-

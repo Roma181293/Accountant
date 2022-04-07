@@ -113,8 +113,8 @@ class StartAccountingViewController: UIViewController, CurrencyReceiverDelegate 
                 try SeedDataManager.deleteAllHolders(context: context, env:env)
                 try SeedDataManager.deleteAllBankAccounts(context: context, env: env)
                 try SeedDataManager.deleteAllUBP(context: context, env: env)
-                try RateManager.deleteAllRates(context: context, env: env)
-                try ExchangeManager.deleteAllExchanges(context: context, env: env)
+                try SeedDataManager.deleteAllRates(context: context, env: env)
+                try SeedDataManager.deleteAllExchanges(context: context, env: env)
                 try CoreDataStack.shared.saveContext(context)
             }
             catch let error {

@@ -100,8 +100,8 @@
 		2B80B3C82738328C0037439B /* CurrencyTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B80B3C72738328C0037439B /* CurrencyTableViewController.swift */; };
 		2B8172EF2798B0EC00E6CB20 /* UserBankProfileTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B8172EE2798B0EC00E6CB20 /* UserBankProfileTableViewController.swift */; };
 		2B8172F12798B7B200E6CB20 /* BankAccountTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B8172F02798B7B200E6CB20 /* BankAccountTableViewController.swift */; };
-		2B85D855278F013B0042858B /* ExchangeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B85D854278F013A0042858B /* ExchangeManager.swift */; };
-		2B85D857278F020D0042858B /* RateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B85D856278F020D0042858B /* RateManager.swift */; };
+		2B85D855278F013B0042858B /* Exchange.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B85D854278F013A0042858B /* Exchange.swift */; };
+		2B85D857278F020D0042858B /* Rate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B85D856278F020D0042858B /* Rate.swift */; };
 		2B85D859278F480C0042858B /* ExchangeRatesLoadingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B85D858278F480C0042858B /* ExchangeRatesLoadingService.swift */; };
 		2B85D85B278F63FC0042858B /* ExchangeTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B85D85A278F63FC0042858B /* ExchangeTableViewController.swift */; };
 		2B85FD0927778C5A005A295E /* StatementProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B85FD0827778C5A005A295E /* StatementProtocol.swift */; };
@@ -254,8 +254,8 @@
 		2B80B3C72738328C0037439B /* CurrencyTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyTableViewController.swift; sourceTree = "<group>"; };
 		2B8172EE2798B0EC00E6CB20 /* UserBankProfileTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserBankProfileTableViewController.swift; sourceTree = "<group>"; };
 		2B8172F02798B7B200E6CB20 /* BankAccountTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankAccountTableViewController.swift; sourceTree = "<group>"; };
-		2B85D854278F013A0042858B /* ExchangeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeManager.swift; sourceTree = "<group>"; };
-		2B85D856278F020D0042858B /* RateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RateManager.swift; sourceTree = "<group>"; };
+		2B85D854278F013A0042858B /* Exchange.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Exchange.swift; sourceTree = "<group>"; };
+		2B85D856278F020D0042858B /* Rate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rate.swift; sourceTree = "<group>"; };
 		2B85D858278F480C0042858B /* ExchangeRatesLoadingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeRatesLoadingService.swift; sourceTree = "<group>"; };
 		2B85D85A278F63FC0042858B /* ExchangeTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeTableViewController.swift; sourceTree = "<group>"; };
 		2B85FD0827778C5A005A295E /* StatementProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatementProtocol.swift; sourceTree = "<group>"; };
@@ -363,8 +363,8 @@
 				2B00CAFC27465CC500821FE0 /* Holder.swift */,
 				2B3643BA2753902E007253EB /* UserBankProfile.swift */,
 				2B6561FC2776030500150B35 /* BankAccount.swift */,
-				2B85D854278F013A0042858B /* ExchangeManager.swift */,
-				2B85D856278F020D0042858B /* RateManager.swift */,
+				2B85D854278F013A0042858B /* Exchange.swift */,
+				2B85D856278F020D0042858B /* Rate.swift */,
 				2B1FEA39266BEDA400BF53BD /* CoreDataStack.swift */,
 				2B1FEABB266C41C100BF53BD /* AccountsNameLocalisationManager.swift */,
 				2B1FEB40266D257800BF53BD /* NetworkServices.swift */,
@@ -939,7 +939,7 @@
 				2B1FEAAE266C3AB900BF53BD /* TransactionListViewController.swift in Sources */,
 				2B44C9F426EDFC6E0009976A /* WelcomeViewController.swift in Sources */,
 				2B85FD0D277795DC005A295E /* StatementLoadingService.swift in Sources */,
-				2B85D855278F013B0042858B /* ExchangeManager.swift in Sources */,
+				2B85D855278F013B0042858B /* Exchange.swift in Sources */,
 				2B1FEAE8266CAF6C00BF53BD /* Extension Formatter.swift in Sources */,
 				2B1FEB58266D73DC00BF53BD /* AccountListTableViewController.swift in Sources */,
 				2B1FEAEA266CAF6C00BF53BD /* Extension Double.swift in Sources */,
@@ -1018,7 +1018,7 @@
 				2BA11834276DC6340091569E /* MonobankAccountTableViewCell.swift in Sources */,
 				2B1407AA26F629A600114B95 /* AccountTableViewCell.swift in Sources */,
 				2B104E5226E558F300E67F6A /* SalesBadgeUIView.swift in Sources */,
-				2B85D857278F020D0042858B /* RateManager.swift in Sources */,
+				2B85D857278F020D0042858B /* Rate.swift in Sources */,
 				2B1FEA9F266C349B00BF53BD /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

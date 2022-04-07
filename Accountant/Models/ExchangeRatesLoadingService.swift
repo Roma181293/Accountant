@@ -14,7 +14,7 @@ class ExchangeRatesLoadingService {
         
         var lastExchangeDate: Date = Calendar.current.date(byAdding: .day, value: -10, to: Date())!
         
-        if let lastExchangeDateUnwraped = ExchangeManager.lastExchangeDate(context: context) {
+        if let lastExchangeDateUnwraped = Exchange.lastExchangeDate(context: context) {
             lastExchangeDate = lastExchangeDateUnwraped
         }
         
@@ -27,7 +27,7 @@ class ExchangeRatesLoadingService {
                     do {
                         let backgroundContext = CoreDataStack.shared.persistentContainer.newBackgroundContext()
                         
-                        ExchangeManager.createExchangeRatesFrom(currencyHistoricalData: currencyHistoricalData, context: backgroundContext)
+                        Exchange.createExchangeRatesFrom(currencyHistoricalData: currencyHistoricalData, context: backgroundContext)
                         try backgroundContext.save()
                     }
                     catch let error{
