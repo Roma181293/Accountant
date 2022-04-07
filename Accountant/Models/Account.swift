@@ -11,7 +11,7 @@ import Charts
 
 extension Account {
     
-    convenience init(parent: Account?, name : String, type : AccountType, currency : Currency?, keeper: Keeper?, holder: Holder?, subType : Int16? = nil, createdByUser : Bool = true, createDate: Date = Date(), context: NSManagedObjectContext) {
+    convenience init(parent: Account?, name : String, type : AccountType, currency : Currency?, keeper: Keeper?, holder: Holder?, subType : AccountSubType?, createdByUser : Bool = true, createDate: Date = Date(), context: NSManagedObjectContext) {
         
         self.init(context: context)
         self.id = UUID()
@@ -25,9 +25,7 @@ extension Account {
         self.keeper = keeper
         self.holder = holder
         
-        if let subType = subType {
-            self.subType = subType
-        }
+        self.subType = subType?.rawValue ?? AccountSubType.none.rawValue
         
         if let parent = parent {
             self.parent = parent
@@ -555,7 +553,7 @@ extension Account {
         }
     }
     
-    static func createAndGetAccount(parent: Account?, name : String, type : AccountType, currency : Currency?, keeper: Keeper? = nil, holder: Holder? = nil, subType : Int16? = nil, createdByUser : Bool = true, createDate: Date = Date(), impoted: Bool = false, context: NSManagedObjectContext) throws -> Account {
+    static func createAndGetAccount(parent: Account?, name : String, type : AccountType, currency : Currency?, keeper: Keeper? = nil, holder: Holder? = nil, subType : AccountSubType? = nil, createdByUser : Bool = true, createDate: Date = Date(), impoted: Bool = false, context: NSManagedObjectContext) throws -> Account {
         
         try validateAttributes(parent: parent, name: name, type: type, currency: currency, keeper: keeper, holder: holder, subType: subType, createdByUser: createdByUser, impoted: impoted, context: context)
         
@@ -573,11 +571,11 @@ extension Account {
         return Account(parent: parent, name : name, type : type, currency : currency, keeper: keeper, holder: holder, subType : subType, createdByUser : createdByUser, createDate: createDate, context: context)
     }
     
-    static func createAccount(parent: Account?, name : String, type : AccountType, currency : Currency?, keeper: Keeper? = nil, holder: Holder? = nil, subType : Int16? = nil, createdByUser : Bool = true, impoted: Bool = false, context: NSManagedObjectContext) throws {
+    static func createAccount(parent: Account?, name : String, type : AccountType, currency : Currency?, keeper: Keeper? = nil, holder: Holder? = nil, subType : AccountSubType? = nil, createdByUser : Bool = true, impoted: Bool = false, context: NSManagedObjectContext) throws {
         try createAndGetAccount(parent: parent, name: name, type: type, currency: currency, keeper: keeper, holder: holder, subType: subType, createdByUser: createdByUser, createDate: Date(), impoted: impoted, context: context)
     }
     
-    private static func validateAttributes(parent: Account?, name : String, type : AccountType, currency : Currency?, keeper: Keeper? = nil, holder: Holder? = nil, subType : Int16? = nil, createdByUser : Bool = true, impoted: Bool = false, context: NSManagedObjectContext) throws {
+    private static func validateAttributes(parent: Account?, name : String, type : AccountType, currency : Currency?, keeper: Keeper? = nil, holder: Holder? = nil, subType : AccountSubType? = nil, createdByUser : Bool = true, impoted: Bool = false, context: NSManagedObjectContext) throws {
         
         guard !name.isEmpty else {throw AccountError.emptyName}
         if parent == nil && type == nil {throw AccountError.attributeTypeShouldBeInitializeForRootAccount}

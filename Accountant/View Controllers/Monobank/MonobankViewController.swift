@@ -375,7 +375,7 @@ class MonobankViewController: UIViewController {
                     exchangeRate = rate
                 }
                 
-            let newMoneyAccount = try Account.createAndGetAccount(parent: moneyRootAccount, name: item.maskedPan.last!, type: AccountType(rawValue: moneyRootAccount.type)!, currency: currency, keeper: keeper, holder:holder, subType: AccountSubType.creditCard.rawValue, context: context)
+            let newMoneyAccount = try Account.createAndGetAccount(parent: moneyRootAccount, name: item.maskedPan.last!, type: AccountType(rawValue: moneyRootAccount.type)!, currency: currency, keeper: keeper, holder:holder, subType: AccountSubType.creditCard, context: context)
                 
                 newMoneyAccount.bankAccount = bankAccount
                 

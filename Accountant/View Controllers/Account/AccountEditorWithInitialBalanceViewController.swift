@@ -794,7 +794,7 @@ class AccountEditorWithInitialBalanceViewController: UIViewController {
                         throw AccountWithBalanceError.emptyExchangeRate
                     }
                 }
-                let moneyAccount = try Account.createAndGetAccount(parent: parentAccount, name: accountNameTextField.text!, type: AccountType(rawValue: parentAccount.type) ?? .assets, currency: currency, keeper: keeper, holder:holder, subType: accountSubType.rawValue, context: context)
+                let moneyAccount = try Account.createAndGetAccount(parent: parentAccount, name: accountNameTextField.text!, type: AccountType(rawValue: parentAccount.type) ?? .assets, currency: currency, keeper: keeper, holder:holder, subType: accountSubType, context: context)
                 if balance != 0 {
                     Transaction.addTransactionWith2TranItems(date: datePicker.date, debit: moneyAccount, credit: capitalRootAccount, debitAmount: round(balance*100)/100, creditAmount: round(round(balance*100)/100 * exchangeRate*100)/100, createdByUser : false, context: context)
                 }
@@ -820,7 +820,7 @@ class AccountEditorWithInitialBalanceViewController: UIViewController {
                     }
                 }
                 
-                let newMoneyAccount = try Account.createAndGetAccount(parent: parentAccount, name: accountNameTextField.text!, type: AccountType(rawValue: parentAccount.type) ?? .assets, currency: currency, keeper: keeper, holder:holder, subType: accountSubType.rawValue, context: context)
+                let newMoneyAccount = try Account.createAndGetAccount(parent: parentAccount, name: accountNameTextField.text!, type: AccountType(rawValue: parentAccount.type) ?? .assets, currency: currency, keeper: keeper, holder:holder, subType: accountSubType, context: context)
                 let newCreditAccount = try Account.createAndGetAccount(parent: creditsRootAccount, name: accountNameTextField.text!, type: AccountType(rawValue: creditsRootAccount.type) ?? .liabilities, currency: currency, keeper: keeper, holder:holder, context: context)
                 
                 newMoneyAccount.linkedAccount = newCreditAccount

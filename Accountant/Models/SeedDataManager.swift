@@ -140,10 +140,10 @@ class SeedDataManager {
         let deposit = try? Account.createAndGetAccount(parent: debtors, name: NSLocalizedString("Deposit", comment: ""), type: AccountType.assets, currency: accountingCurrency, keeper: bank1, holder: me, createdByUser: false, context: context)
         let lend = try? Account.createAndGetAccount(parent: debtors, name: NSLocalizedString("Hanna", comment: ""), type: AccountType.assets, currency: accountingCurrency, keeper: hanna, holder: me, createdByUser: false, context: context)
         
-        let salaryCard = try? Account.createAndGetAccount(parent: money, name: NSLocalizedString("Salary card", comment: ""), type: AccountType.assets, currency: accountingCurrency, keeper: bank2, holder: me, subType: AccountSubType.debitCard.rawValue, createdByUser: false, context: context)
-        let cash = try? Account.createAndGetAccount(parent: money, name: NSLocalizedString("Cash", comment: ""), type: AccountType.assets, currency: accountingCurrency, keeper: cashKeeper, holder: kate, subType: AccountSubType.cash.rawValue, createdByUser: false, context: context)
+        let salaryCard = try? Account.createAndGetAccount(parent: money, name: NSLocalizedString("Salary card", comment: ""), type: AccountType.assets, currency: accountingCurrency, keeper: bank2, holder: me, subType: AccountSubType.debitCard, createdByUser: false, context: context)
+        let cash = try? Account.createAndGetAccount(parent: money, name: NSLocalizedString("Cash", comment: ""), type: AccountType.assets, currency: accountingCurrency, keeper: cashKeeper, holder: kate, subType: AccountSubType.cash, createdByUser: false, context: context)
         
-        let creditcard_A = try? Account.createAndGetAccount(parent: money, name: NSLocalizedString("Credit card", comment: ""), type: AccountType.assets, currency: accountingCurrency, keeper: bank1, holder: me, subType: AccountSubType.creditCard.rawValue, createdByUser: false, context: context)
+        let creditcard_A = try? Account.createAndGetAccount(parent: money, name: NSLocalizedString("Credit card", comment: ""), type: AccountType.assets, currency: accountingCurrency, keeper: bank1, holder: me, subType: AccountSubType.creditCard, createdByUser: false, context: context)
         let creditcard_L = try? Account.createAndGetAccount(parent: credits, name: NSLocalizedString("Credit card", comment: ""), type: AccountType.liabilities, currency: accountingCurrency, keeper: bank1, holder: me, createdByUser: false, context: context)
         creditcard_A?.linkedAccount = creditcard_L
         
