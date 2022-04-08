@@ -708,7 +708,7 @@ class SimpleTransactionEditorViewController: UIViewController {//}, GADFullScree
         vc.simpleTransactionEditorVC = self
         vc.showHiddenAccounts = false
         vc.searchBarIsHidden = false
-        vc.typeOfAccountingMethod = .debit
+        vc.transactionItemType = .debit
         vc.isUserHasPaidAccess = isUserHasPaidAccess
         if let debit = debit, transactionTypeSegmentedControl.selectedSegmentIndex != 3 {
             vc.account = debit.rootAccount
@@ -723,7 +723,7 @@ class SimpleTransactionEditorViewController: UIViewController {//}, GADFullScree
         vc.simpleTransactionEditorVC = self
         vc.showHiddenAccounts = false
         vc.searchBarIsHidden = false
-        vc.typeOfAccountingMethod = .credit
+        vc.transactionItemType = .credit
         vc.isUserHasPaidAccess = isUserHasPaidAccess
         if let credit = credit, transactionTypeSegmentedControl.selectedSegmentIndex != 3 {
             vc.account = credit.rootAccount
@@ -744,11 +744,11 @@ class SimpleTransactionEditorViewController: UIViewController {//}, GADFullScree
         var creditAmnt: Double?
         
         for item in transaction.itemsList {
-            if item.type == AccountingMethod.debit.rawValue {
+            if item.type == .debit {
                 debitAcc = item.account
                 debitAmnt = item.amount
             }
-            else if item.type == AccountingMethod.credit.rawValue {
+            else if item.type == .credit {
                 creditAcc = item.account
                 creditAmnt = item.amount
             }

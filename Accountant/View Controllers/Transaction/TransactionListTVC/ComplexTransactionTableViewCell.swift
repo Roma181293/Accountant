@@ -258,10 +258,10 @@ class ComplexTransactionTableViewCell: UITableViewCell {
             accountPathLabel.setContentCompressionResistancePriority(UILayoutPriority.defaultLow, for:.horizontal)
             amountAndCurrencyLabel.setContentHuggingPriority(UILayoutPriority.defaultHigh, for:.horizontal)
             
-            if item.type == AccountingMethod.debit.rawValue {
+            if item.type == .debit {
                 debitItemsStackView.addArrangedSubview(itemView)
             }
-            else if item.type == AccountingMethod.credit.rawValue {
+            else if item.type == .credit {
                 creditItemsStackView.addArrangedSubview(itemView)
             }
             itemViewArray.append(itemView)
@@ -270,10 +270,10 @@ class ComplexTransactionTableViewCell: UITableViewCell {
         setMainView()
 
         if transaction.itemsList.count >= 2 && transaction.applied == true {
-            guard transaction.itemsList.filter({$0.type == AccountingMethod.debit.rawValue})[0].account != nil &&
-                    transaction.itemsList.filter({$0.type == AccountingMethod.credit.rawValue})[0].account != nil else {return}
-            let debitRootName = transaction.itemsList.filter({$0.type == AccountingMethod.debit.rawValue})[0].account!.rootAccount.name
-            let creditRootName = transaction.itemsList.filter({$0.type == AccountingMethod.credit.rawValue})[0].account!.rootAccount.name
+            guard transaction.itemsList.filter({$0.type == .debit})[0].account != nil &&
+                    transaction.itemsList.filter({$0.type == .credit})[0].account != nil else {return}
+            let debitRootName = transaction.itemsList.filter({$0.type == .debit})[0].account!.rootAccount.name
+            let creditRootName = transaction.itemsList.filter({$0.type == .credit})[0].account!.rootAccount.name
             
             if creditRootName == AccountsNameLocalisationManager.getLocalizedAccountName(.income) &&
                 debitRootName == AccountsNameLocalisationManager.getLocalizedAccountName(.money) {

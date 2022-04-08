@@ -39,9 +39,9 @@ class PreTransaction {
         return true
     }
     
-    private func totalAmountForType(_ type : AccountingMethod) -> Double? {
+    private func totalAmountForType(_ type : TransactionItem.TypeEnum) -> Double? {
         var totalAmount: Double = 0
-        for item in transaction.itemsList.filter({if $0.type == type.rawValue {return true} else {return false}}) {
+        for item in transaction.itemsList.filter({if $0.type == type {return true} else {return false}}) {
             if item.amount >= 0 {
                 totalAmount += item.amount
             }

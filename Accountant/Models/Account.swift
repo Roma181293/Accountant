@@ -251,10 +251,10 @@ extension Account{
         
         for account in childrenList + [self] {
             for item in account.appliedTransactionItemsList {
-                if item.type == AccountingMethod.debit.rawValue{
+                if item.type == .debit{
                     debitTotal += item.amount
                 }
-                else if item.type == AccountingMethod.credit.rawValue{
+                else if item.type == .credit{
                     creditTotal += item.amount
                 }
             }
@@ -274,10 +274,10 @@ extension Account{
         
         for account in childrenList + [self]  {
             for item in account.appliedTransactionItemsList.filter{$0.transaction!.date <= date} {
-                if item.type == AccountingMethod.debit.rawValue {
+                if item.type == .debit {
                     debit += item.amount
                 }
-                else if item.type == AccountingMethod.credit.rawValue {
+                else if item.type == .credit {
                     credit += item.amount
                 }
             }
@@ -344,10 +344,10 @@ extension Account{
                     
                     for item in transactionItems {
                         if timeInterval.contains(item.transaction!.date) {
-                            if item.type == AccountingMethod.debit.rawValue{
+                            if item.type == .debit{
                                 debitTotal += item.amount
                             }
-                            else if item.type == AccountingMethod.credit.rawValue{
+                            else if item.type == .credit{
                                 creditTotal += item.amount
                             }
                         }

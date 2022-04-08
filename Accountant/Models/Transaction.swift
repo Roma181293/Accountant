@@ -43,8 +43,8 @@ final class Transaction: NSManagedObject {
     
     static func validateTransactionDataBeforeSave(_ transaction: Transaction) throws {
         
-        func getDataAboutTransactionItems(transaction: Transaction, type: AccountingMethod, amount: inout Double, currency: inout Currency?, itemsCount: inout Int) throws {
-            for item in transaction.itemsList.filter({$0.type == type.rawValue}) {
+        func getDataAboutTransactionItems(transaction: Transaction, type: TransactionItem.TypeEnum, amount: inout Double, currency: inout Currency?, itemsCount: inout Int) throws {
+            for item in transaction.itemsList.filter({$0.type == type}) {
                 itemsCount += 1
                 amount += item.amount
                 if let account = item.account{
@@ -84,8 +84,8 @@ final class Transaction: NSManagedObject {
         var creditItemsCount: Int = 0
         
         //MARK:- Prepare data to check ability to save transaction
-        var debitCurrency: Currency? = transaction.itemsList.filter({$0.type == 1})[0].account?.currency
-        var creditCurrency: Currency? = transaction.itemsList.filter({$0.type == 0})[0].account?.currency
+        var debitCurrency: Currency? = transaction.itemsList.filter({$0.type == .debit})[0].account?.currency
+        var creditCurrency: Currency? = transaction.itemsList.filter({$0.type == .credit})[0].account?.currency
         
         try getDataAboutTransactionItems(transaction: transaction, type: .debit, amount: &debitAmount, currency: &debitCurrency, itemsCount: &debitItemsCount)
         
@@ -121,7 +121,7 @@ final class Transaction: NSManagedObject {
         let transaction = Transaction(date: original.date, comment: original.comment, createdByUser: createdByUser, createDate: createDate, context: context)
         
         for item in original.itemsList {
-            TransactionItem(transaction: transaction, type: AccountingMethod(rawValue: item.type)!, account: item.account!, amount: item.amount, context: context)
+            TransactionItem(transaction: transaction, type: item.type, account: item.account!, amount: item.amount, context: context)
         }
     }
     
@@ -134,13 +134,13 @@ final class Transaction: NSManagedObject {
         
         if statment.getType() == .to {
             TransactionItem(transaction: transaction, type: .debit, account: account, amount: statment.getAmount(), createdByUser:  createdByUser, createDate: createDate, context: context)
-            if let creditAccount = findAccountCandidate(comment: comment, account: account, method: .credit) {
+            if let creditAccount = findAccountCandidate(comment: comment, account: account, transactionItemType: .credit) {
                 TransactionItem(transaction: transaction, type: .credit, account: creditAccount, amount: statment.getAmount(), createdByUser:  createdByUser, createDate: createDate, context: context)
             }
         }
         else {
             TransactionItem(transaction: transaction, type: .credit, account: account, amount: statment.getAmount(), createdByUser:  createdByUser, createDate: createDate, context: context)
-            if let debitAccount = findAccountCandidate(comment: comment, account: account, method: .debit) {
+            if let debitAccount = findAccountCandidate(comment: comment, account: account, transactionItemType: .debit) {
                 TransactionItem(transaction: transaction, type: .debit, account: debitAccount, amount: statment.getAmount(), createdByUser:  createdByUser, createDate: createDate, context: context)
             }
         }
@@ -154,7 +154,7 @@ final class Transaction: NSManagedObject {
         managedObjectContext?.delete(self)
     }
     
-    private static func findAccountCandidate(comment: String, account: Account, method: AccountingMethod) -> Account? {
+    private static func findAccountCandidate(comment: String, account: Account, transactionItemType: TransactionItem.TypeEnum) -> Account? {
 //        print(#function, account.path, "\"" + comment + "\"")
         
         //0. Find all transactionItems for account ciblings
@@ -197,7 +197,7 @@ final class Transaction: NSManagedObject {
         for tran in tr {
             for ti in tran.itemsList {
                 if ti.account != account
-                    && ti.type == method.rawValue
+                    && ti.type == transactionItemType
                     && account.active == true
                     && (account.directChildrenList).isEmpty{
                     zeroIterationCandidatesArray.append((account: ti.account!, transactionDate: tran.date))
@@ -335,10 +335,10 @@ final class Transaction: NSManagedObject {
             
             let transactionItem = TransactionItem(context: context)
             if row[2].uppercased() == "CREDIT" || row[2].uppercased() == "FROM" {
-                transactionItem.type = 0
+                transactionItem.type = .credit
             }
             else if row[2].description.uppercased() == "DEBIT" || row[2].uppercased() == "TO" {
-                transactionItem.type = 1
+                transactionItem.type = .debit
             }
             else {
                 throw TransactionItemError.attributeTypeDidNotSpecified
@@ -380,10 +380,10 @@ final class Transaction: NSManagedObject {
                     
                     export +=  String(describing: formatter.string(from:transaction.date)) + ","
                     var type :String = ""
-                    if item.type == 0 {
+                    if item.type == .credit {
                         type = "Credit"
                     }
-                    else if item.type == 1 {
+                    else if item.type == .debit {
                         type = "Debit"
                     }
                     export +=  type + ","

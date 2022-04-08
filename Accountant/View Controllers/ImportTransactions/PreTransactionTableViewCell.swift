@@ -244,10 +244,10 @@ class PreTransactionTableViewCell: UITableViewCell{
             accountPathLabel.setContentCompressionResistancePriority(UILayoutPriority.defaultLow, for:.horizontal)
             amountAndCurrencyLabel.setContentHuggingPriority(UILayoutPriority.defaultHigh, for:.horizontal)
             
-            if item.type == AccountingMethod.debit.rawValue {
+            if item.type == .debit {
                 debitItemsStackView.addArrangedSubview(itemView)
             }
-            else if item.type == AccountingMethod.credit.rawValue {
+            else if item.type == .credit {
                 creditItemsStackView.addArrangedSubview(itemView)
             }
             itemViewArray.append(itemView)
@@ -255,8 +255,8 @@ class PreTransactionTableViewCell: UITableViewCell{
         
         setMainView()
         
-        guard let debitAccount = transaction.itemsList.filter({$0.type == AccountingMethod.debit.rawValue})[0].account,
-              let creditAccount = transaction.itemsList.filter({$0.type == AccountingMethod.credit.rawValue})[0].account
+        guard let debitAccount = transaction.itemsList.filter({$0.type == .debit}).first?.account,
+              let creditAccount = transaction.itemsList.filter({$0.type == .credit}).first?.account
         else {return}
         
         let debitRootName = debitAccount.rootAccount.name

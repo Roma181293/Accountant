@@ -8,11 +8,6 @@
 
 import Foundation
 
-enum AccountingMethod : Int16 {
-    case debit = 1
-    case credit = 0
-}
-
 enum KeeperType : Int16 {
     case cash = 0
     case bank = 1

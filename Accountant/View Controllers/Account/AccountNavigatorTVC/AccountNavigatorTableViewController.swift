@@ -37,7 +37,7 @@ class AccountNavigatorTableViewController: UITableViewController, AccountManager
     
     //TRANSPORT VARIABLES
     weak var simpleTransactionEditorVC : SimpleTransactionEditorViewController?
-    var typeOfAccountingMethod : AccountingMethod?
+    var transactionItemType : TransactionItem.TypeEnum?
     
     var accountRequestorViewController: AccountRequestor?
     //TRANSPORT VARIABLES
@@ -179,10 +179,10 @@ class AccountNavigatorTableViewController: UITableViewController, AccountManager
         
         if selectedAccount.childrenList.filter({$0.active || $0.active != showHiddenAccounts}).isEmpty {
             if let addTransactionVC = simpleTransactionEditorVC {
-                if typeOfAccountingMethod == .debit {
+                if transactionItemType == .debit {
                     addTransactionVC.debit = selectedAccount
                 }
-                else if typeOfAccountingMethod == .credit {
+                else if transactionItemType == .credit {
                     addTransactionVC.credit = selectedAccount
                 }
                 self.navigationController?.popToViewController(addTransactionVC, animated: true)
@@ -201,7 +201,7 @@ class AccountNavigatorTableViewController: UITableViewController, AccountManager
             vc.showHiddenAccounts = self.showHiddenAccounts
             vc.searchBarIsHidden = self.searchBarIsHidden
             vc.simpleTransactionEditorVC = simpleTransactionEditorVC
-            vc.typeOfAccountingMethod = typeOfAccountingMethod
+            vc.transactionItemType = transactionItemType
             vc.accountRequestorViewController = accountRequestorViewController
             self.navigationController?.pushViewController(vc, animated: true)
         }
