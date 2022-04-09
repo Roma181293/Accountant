@@ -210,10 +210,10 @@ final class Account: NSManagedObject {
             })
             
             if parent?.currency == nil {
-                throw AccountError.cantRemoveAccountThatUsedInTransactionItem(accountListString)
+                throw AccountError.cantRemoveAccountThatUsedInTransactionItem(name: accountListString)
             }
             else {
-                throw AccountError.cantRemoveCategoryThatUsedInTransactionItem(accountListString)
+                throw AccountError.cantRemoveCategoryThatUsedInTransactionItem(name: accountListString)
             }
         }
         

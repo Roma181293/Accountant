@@ -17,15 +17,15 @@ class AccountTests: XCTestCase {
     
     override func setUp() {
         super.setUp()
+        
         coreDataStack = CoreDataStack.shared
         context = coreDataStack.persistentContainer.viewContext
-        SeedDataManager.createDefaultHolders(context: context)
-        SeedDataManager.createDefaultKeepers(context: context)
-        SeedDataManager.addCurrencies(context: context)
+        
         do {
-        let currency = try Currency.getCurrencyForCode("UAH", context: context)!
-        try Currency.changeAccountingCurrency(old: nil, new: currency, context: context)
-        SeedDataManager.addBaseAccounts(accountingCurrency: currency, context: context)
+            try SeedDataManager.createCurrenciesHoldersKeepers(coreDataStack: coreDataStack)
+            let currency = try Currency.getCurrencyForCode("UAH", context: context)!
+            try Currency.changeAccountingCurrency(old: nil, new: currency, context: context)
+            SeedDataManager.addBaseAccounts(accountingCurrency: currency, context: context)
         }
         catch let error{
             print("error", error.localizedDescription)
@@ -121,7 +121,7 @@ class AccountTests: XCTestCase {
             context.rollback()
         })
         XCTAssertNil(account)
-       
+        
         
         XCTAssertThrowsError(account = try Account.createAndGetAccount(parent: nil, name: "Other", type: .assets, currency: nil, createdByUser: true, context: context),
                              "User cannot create account with reserved name",
@@ -165,15 +165,14 @@ class AccountTests: XCTestCase {
         
         Transaction.addTransactionWith2TranItems(date: Date(), debit: account2!, credit: account2!, debitAmount: 10, creditAmount: 10, comment: nil, createdByUser: true, context: context)
         
-        var account4: Account?
-        XCTAssertThrowsError(account4 = try Account.createAndGetAccount(parent: account2, name: "Other", type: .assets, currency: nil, createdByUser: true, context: context),
+        XCTAssertThrowsError(try Account.createAccount(parent: account2, name: "Other", type: .assets, currency: nil, createdByUser: true, context: context),
                              "Account shouldn't be created",
                              {error in XCTAssertEqual(error as? AccountError, AccountError.reservedName(name: "Other"))}
         )
         
         var account5: Account?
         XCTAssertNoThrow(account5 = try Account.createAndGetAccount(parent: account2, name: "Other", type: .assets, currency: nil, createdByUser: false, context: context),
-                             "Account should be created. Coz app can create other account"
+                         "Account should be created. Coz app can create other account"
         )
         XCTAssertNotNil(account5)
         
@@ -206,13 +205,13 @@ class AccountTests: XCTestCase {
         
         var account4: Account?
         XCTAssertNoThrow(account4 = try Account.createAndGetAccount(parent: account2, name: "account4", type: .assets, currency: nil, createdByUser: true, context: context),
-                             "Account should be created"
+                         "Account should be created"
         )
         XCTAssertEqual(other?.transactionItemsList.count,4)
         
         context.rollback()
     }
-   
+    
     
     func testAccountCreatedByAppNotReservedName () {
         let name = "Some name"
@@ -275,13 +274,13 @@ class AccountTests: XCTestCase {
             XCTAssertTrue(false)
         }
     }
-
+    
     
     func testAccountWithParent() {
         let name1 = "Name1"
         let accType = Account.TypeEnum.assets
         let name2 = "Name2"
-      
+        
         do {
             let account1 = try Account.createAndGetAccount(parent: nil, name: name1, type: accType, currency: nil, createdByUser: false, context: context)
             let account2 = try Account.createAndGetAccount(parent: account1, name: name2, type: accType, currency: nil, createdByUser: false, context: context)
@@ -318,24 +317,24 @@ class AccountTests: XCTestCase {
         context.rollback()
     }
     
-//    func testCreateZeroLvlAccountWithCurrency() { // счет нулевого уровня должен иметь валюту = nil или валюте учета (нужно ли ограничение что это долна быть валюта учета?)
-//        let name = "Capital"
-//        let accType = Account.TypeEnum.assets
-//        do {
-//            let currency = try Currency.createAndGet(code: "AUD", iso4217: 036, name: "Австралійський долар", context: context)
-//        try Currency.changeAccountingCurrency(old: nil, new: currency, context: context)
-//
-//        let account = try Account.createAndGetAccount(parent: nil, name: name, type: accType, currency: currency, createdByUser:  false, context: context)
-//
-//        XCTAssertTrue(account.name == name)
-//        XCTAssertTrue(account.type == accType)
-//        XCTAssertNil(account.parent)
-//        XCTAssertTrue(account.currency?.isAccounting == true)
-//        XCTAssertFalse(account.createdByUser)
-//        }
-//        catch {
-//            XCTAssertTrue(false)
-//        }
-//        context.rollback()
-//    }
+    //    func testCreateZeroLvlAccountWithCurrency() { // счет нулевого уровня должен иметь валюту = nil или валюте учета (нужно ли ограничение что это долна быть валюта учета?)
+    //        let name = "Capital"
+    //        let accType = Account.TypeEnum.assets
+    //        do {
+    //            let currency = try Currency.createAndGet(code: "AUD", iso4217: 036, name: "Австралійський долар", context: context)
+    //        try Currency.changeAccountingCurrency(old: nil, new: currency, context: context)
+    //
+    //        let account = try Account.createAndGetAccount(parent: nil, name: name, type: accType, currency: currency, createdByUser:  false, context: context)
+    //
+    //        XCTAssertTrue(account.name == name)
+    //        XCTAssertTrue(account.type == accType)
+    //        XCTAssertNil(account.parent)
+    //        XCTAssertTrue(account.currency?.isAccounting == true)
+    //        XCTAssertFalse(account.createdByUser)
+    //        }
+    //        catch {
+    //            XCTAssertTrue(false)
+    //        }
+    //        context.rollback()
+    //    }
 }

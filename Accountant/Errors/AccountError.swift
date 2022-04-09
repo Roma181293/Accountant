@@ -12,11 +12,11 @@ enum AccountError : AppError, Equatable {
     case attributeTypeShouldBeInitializeForRootAccount
     case accountAlreadyExists(name: String)
     case categoryAlreadyExists(name: String)
-    case cantRemoveAccountThatUsedInTransactionItem(String)
-    case cantRemoveCategoryThatUsedInTransactionItem(String)
+    case cantRemoveAccountThatUsedInTransactionItem(name: String)
+    case cantRemoveCategoryThatUsedInTransactionItem(name: String)
     case creditAccountAlreadyExist(String)  //for cases when creates linked account
     case reservedName(name: String)
-    case accountDoesNotExist(String)
+    case accountDoesNotExist(name: String)
     case accumulativeAccountCannotBeHiddenWithNonZeroAmount(name: String)
     case linkedAccountHasTransactionItem(name: String)
     case emptyName
@@ -33,10 +33,10 @@ extension AccountError: LocalizedError {
         case let .categoryAlreadyExists(name):
             return String(format: NSLocalizedString("Category name \"%@\" is already taken. Please use another name", comment: ""),name)
             
-        case let .cantRemoveAccountThatUsedInTransactionItem(list):
+        case .cantRemoveAccountThatUsedInTransactionItem(_):
             return NSLocalizedString("This account cannot be deleted because of existing transactions", comment: "")
             
-        case let .cantRemoveCategoryThatUsedInTransactionItem(list):
+        case .cantRemoveCategoryThatUsedInTransactionItem(_):
             return NSLocalizedString("This category cannot be deleted because of existing transactions", comment: "")
             
         case let .creditAccountAlreadyExist(name):

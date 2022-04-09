@@ -250,45 +250,13 @@ class SettingsTableViewCell: UITableViewCell {
             do {
                 if sender.isOn {
                     CoreDataStack.shared.switchToDB(.test)
-                    
-                    let context = CoreDataStack.shared.persistentContainer.viewContext
-                    
-                    //remove oldData
-                    let env = CoreDataStack.shared.activeEnviroment()
-                    try SeedDataManager.deleteAllTransactions(context: context, env:env)
-                    try SeedDataManager.deleteAllAccounts(context: context, env:env)
-                    try SeedDataManager.deleteAllCurrencies(context: context, env:env)
-                    try SeedDataManager.deleteAllKeepers(context: context, env:env)
-                    try SeedDataManager.deleteAllHolders(context: context, env:env)
-                    try SeedDataManager.deleteAllBankAccounts(context: context, env: env)
-                    try SeedDataManager.deleteAllUBP(context: context, env: env)
-                    try SeedDataManager.deleteAllRates(context: context, env: env)
-                    try SeedDataManager.deleteAllExchanges(context: context, env: env)
-                    try CoreDataStack.shared.saveContext(context)
-                    
-                    //add testData
-                    SeedDataManager.addCurrencies(context: context)
-                    guard let currency = try Currency.getCurrencyForCode("UAH", context: context) else {return}
-                    try Currency.changeAccountingCurrency(old: nil, new: currency, context: context)
-                    try SeedDataManager.createTestKeepers(context: context)
-                    try SeedDataManager.createTestHolders(context: context)
-                    SeedDataManager.addBaseAccountsTest(accountingCurrency: currency, context: context)
-                    try CoreDataStack.shared.saveContext(context)
+                    //remove old test Data
+                    try SeedDataManager.refreshTestData(coreDataStack: CoreDataStack.shared)
                 }
                 else if !sender.isOn && CoreDataStack.shared.activeEnviroment() == .test {
-                    let context = CoreDataStack.shared.persistentContainer.viewContext
-                    
-                    let env = CoreDataStack.shared.activeEnviroment()
-                    try SeedDataManager.deleteAllTransactions(context: context, env:env)
-                    try SeedDataManager.deleteAllAccounts(context: context, env:env)
-                    try SeedDataManager.deleteAllCurrencies(context: context, env:env)
-                    try SeedDataManager.deleteAllKeepers(context: context, env:env)
-                    try SeedDataManager.deleteAllHolders(context: context, env:env)
-                    try SeedDataManager.deleteAllBankAccounts(context: context, env: env)
-                    try SeedDataManager.deleteAllUBP(context: context, env: env)
-                    try SeedDataManager.deleteAllRates(context: context, env: env)
-                    try SeedDataManager.deleteAllExchanges(context: context, env: env)
-                    try CoreDataStack.shared.saveContext(context)
+                
+                    //remove test Data
+                    try SeedDataManager.clearAllTestData(coreDataStack: CoreDataStack.shared)
                     
                     UserProfile.useMultiItemTransaction(false, environment: .test)
                     

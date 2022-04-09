@@ -437,19 +437,19 @@ class MonobankViewController: UIViewController {
             }
         })
         if moneyRootAccount == nil {
-            throw AccountError.accountDoesNotExist(AccountsNameLocalisationManager.getLocalizedAccountName(.money))
+            throw AccountError.accountDoesNotExist(name: AccountsNameLocalisationManager.getLocalizedAccountName(.money))
         }
         if creditsRootAccount == nil {
-            throw AccountError.accountDoesNotExist(AccountsNameLocalisationManager.getLocalizedAccountName(.credits))
+            throw AccountError.accountDoesNotExist(name: AccountsNameLocalisationManager.getLocalizedAccountName(.credits))
         }
         if debtorsRootAcccount == nil {
-            throw AccountError.accountDoesNotExist(AccountsNameLocalisationManager.getLocalizedAccountName(.debtors))
+            throw AccountError.accountDoesNotExist(name: AccountsNameLocalisationManager.getLocalizedAccountName(.debtors))
         }
         if expenseRootAccount == nil {
-            throw AccountError.accountDoesNotExist(AccountsNameLocalisationManager.getLocalizedAccountName(.expense))
+            throw AccountError.accountDoesNotExist(name: AccountsNameLocalisationManager.getLocalizedAccountName(.expense))
         }
         if capitalRootAccount == nil {
-            throw AccountError.accountDoesNotExist(AccountsNameLocalisationManager.getLocalizedAccountName(.capital))
+            throw AccountError.accountDoesNotExist(name: AccountsNameLocalisationManager.getLocalizedAccountName(.capital))
         }
     }
     

@@ -102,30 +102,17 @@ class StartAccountingViewController: UIViewController, CurrencyReceiverDelegate 
       
         context = CoreDataStack.shared.persistentContainer.viewContext
         
-        //remove Old Data
-        if UserProfile.isAppLaunchedBefore() == false {
-            do {
-                let env = CoreDataStack.shared.activeEnviroment()
-                try SeedDataManager.deleteAllTransactions(context: context, env:env)
-                try SeedDataManager.deleteAllAccounts(context: context, env:env)
-                try SeedDataManager.deleteAllCurrencies(context: context, env:env)
-                try SeedDataManager.deleteAllKeepers(context: context, env:env)
-                try SeedDataManager.deleteAllHolders(context: context, env:env)
-                try SeedDataManager.deleteAllBankAccounts(context: context, env: env)
-                try SeedDataManager.deleteAllUBP(context: context, env: env)
-                try SeedDataManager.deleteAllRates(context: context, env: env)
-                try SeedDataManager.deleteAllExchanges(context: context, env: env)
-                try CoreDataStack.shared.saveContext(context)
+        do {
+            if UserProfile.isAppLaunchedBefore() == false {
+                //remove old test Data
+                try SeedDataManager.clearAllTestData(coreDataStack: CoreDataStack.shared)
             }
-            catch let error {
-                errorHandler(error: error)
-            }
+            //add New Data
+            try SeedDataManager.createCurrenciesHoldersKeepers(coreDataStack: CoreDataStack.shared)
         }
-        
-        //add New Data
-        SeedDataManager.createDefaultHolders(context: context)
-        SeedDataManager.createDefaultKeepers(context: context)
-        SeedDataManager.addCurrencies(context: context)
+        catch let error {
+            errorHandler(error: error)
+        }
         
         addMainView()
         addCurrencyTVC()

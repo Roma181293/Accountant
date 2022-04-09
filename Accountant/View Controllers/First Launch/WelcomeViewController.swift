@@ -135,29 +135,7 @@ class WelcomeViewController: UIViewController {
         CoreDataStack.shared.switchToDB(.test)
         
         do {
-            let context = CoreDataStack.shared.persistentContainer.viewContext
-            
-            //remove old test Data
-            let env = CoreDataStack.shared.activeEnviroment()
-            try SeedDataManager.deleteAllTransactions(context: context, env:env)
-            try SeedDataManager.deleteAllAccounts(context: context, env:env)
-            try SeedDataManager.deleteAllCurrencies(context: context, env:env)
-            try SeedDataManager.deleteAllKeepers(context: context, env:env)
-            try SeedDataManager.deleteAllHolders(context: context, env:env)
-            try SeedDataManager.deleteAllBankAccounts(context: context, env: env)
-            try SeedDataManager.deleteAllUBP(context: context, env: env)
-            try SeedDataManager.deleteAllRates(context: context, env: env)
-            try SeedDataManager.deleteAllExchanges(context: context, env: env)
-            try CoreDataStack.shared.saveContext(context)
-            
-            //add test Data
-            SeedDataManager.addCurrencies(context: context)
-            guard let currency = try Currency.getCurrencyForCode("UAH", context: context) else {return}
-            try Currency.changeAccountingCurrency(old: nil, new: currency, context: context)
-            try SeedDataManager.createTestKeepers(context: context)
-            try SeedDataManager.createTestHolders(context: context)
-            try SeedDataManager.addBaseAccountsTest(accountingCurrency: currency, context: context)
-            try CoreDataStack.shared.saveContext(context)
+            try SeedDataManager.refreshTestData(coreDataStack: CoreDataStack.shared)
             
             let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
             let tabBar = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.tabBarController)
