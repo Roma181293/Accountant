@@ -114,7 +114,7 @@ final class Exchange: NSManagedObject {
     }
     
     static func createExchangeRatesFrom(currencyHistoricalData: CurrencyHistoricalDataProtocol, context: NSManagedObjectContext) {
-        print(#function,currencyHistoricalData.ecxhangeDate(),currencyHistoricalData.listOfCurrencies())
+//        print(#function,currencyHistoricalData.ecxhangeDate(),currencyHistoricalData.listOfCurrencies())
         guard let ecxhangeDate = currencyHistoricalData.ecxhangeDate() else {return}
         guard let accCurrency = Currency.getAccountingCurrency(context: context) else {return}
         let exchange = getOrCreate(date: ecxhangeDate, context: context)

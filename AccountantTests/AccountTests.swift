@@ -19,9 +19,9 @@ class AccountTests: XCTestCase {
         super.setUp()
         coreDataStack = CoreDataStack.shared
         context = coreDataStack.persistentContainer.viewContext
-        Holder.createDefaultHolders(context: context)
-        Keeper.createDefaultKeepers(context: context)
-        Currency.addCurrencies(context: context)
+        SeedDataManager.createDefaultHolders(context: context)
+        SeedDataManager.createDefaultKeepers(context: context)
+        SeedDataManager.addCurrencies(context: context)
         do {
         let currency = try Currency.getCurrencyForCode("UAH", context: context)!
         try Currency.changeAccountingCurrency(old: nil, new: currency, context: context)
@@ -39,32 +39,33 @@ class AccountTests: XCTestCase {
     
     
     func testIsReservedAccountName() {
-        XCTAssertTrue(SeedDataManager.isReservedAccountName("Expenses"))
-        XCTAssertFalse(SeedDataManager.isReservedAccountName("Food"))
+        XCTAssertTrue(Account.isReservedAccountName("Expenses"))
+        XCTAssertFalse(Account.isReservedAccountName("Food"))
     }
     
     func testIsFreeAccountName () {
         let name1 = "Name1"
-        let accType = Account.TypeEnum.assets.rawValue
+        let accType = Account.TypeEnum.assets
         let name2 = "Name2"
         
         //Chkeck for case when parent == nil
-        XCTAssertTrue(SeedDataManager.isFreeAccountName(parent: nil, name: name1, context: context))
+        XCTAssertTrue(Account.isFreeAccountName(parent: nil, name: name1, context: context))
         
         var account1: Account?
-        XCTAssertNoThrow(account1 = try SeedDataManager.createAndGetAccount(parent: nil, name: name1, type: accType, currency: nil, createdByUser: true, context: context), "Account should be created")
+        XCTAssertNoThrow(account1 = try Account.createAndGetAccount(parent: nil, name: name1, type: accType, currency: nil, createdByUser: true, context: context), "Account should be created")
         XCTAssertNotNil(account1)
         
-        XCTAssertFalse(SeedDataManager.isFreeAccountName(parent: nil, name: name1, context: context), "Name should be used by account1")
+        XCTAssertFalse(Account.isFreeAccountName(parent: nil, name: name1, context: context), "Name should be used by account1")
         
         
         //Chkeck for case when parent != nil
-        XCTAssertTrue(SeedDataManager.isFreeAccountName(parent: account1, name: name2, context: context), "Name should be free to use")
+        XCTAssertTrue(Account.isFreeAccountName(parent: account1, name: name2, context: context), "Name should be free to use")
         
         var account2: Account?
-        XCTAssertNoThrow(account2 = try SeedDataManager.createAndGetAccount(parent: account1, name: name2, type: nil, currency: nil, createdByUser: true, context: context), "Account should be created")
+        XCTAssertNoThrow(account2 = try Account.createAndGetAccount(parent: account1, name: name2, type: .liabilities, currency: nil, createdByUser: true, context: context), "Account should be created")
+        XCTAssertTrue(account2?.type == account1?.type)
         XCTAssertNotNil(account2)
-        XCTAssertFalse(SeedDataManager.isFreeAccountName(parent: account1, name: name2, context: context), "Name should be used by account1")
+        XCTAssertFalse(Account.isFreeAccountName(parent: account1, name: name2, context: context), "Name should be used by account1")
         context.rollback()
     }
     
@@ -76,15 +77,15 @@ class AccountTests: XCTestCase {
     func testNotReservedNameAccountCreatedByUser () throws {
         let name1 = "Name1"
         let name2 = "Name2"
-        let accType = Account.TypeEnum.assets.rawValue
-        let subType = AccountSubType.cash.rawValue
+        let accType = Account.TypeEnum.assets
+        let subType = Account.SubTypeEnum.cash
         
         //WO Parent
         var accountWOParent: Account!
-        XCTAssertNoThrow(accountWOParent = try SeedDataManager.createAndGetAccount(parent: nil, name: name, type: accType, currency: nil, subType: subType, createdByUser: true, context: context), "Account should be created")
+        XCTAssertNoThrow(accountWOParent = try Account.createAndGetAccount(parent: nil, name: name1, type: accType, currency: nil, subType: subType, createdByUser: true, context: context), "Account should be created")
         
-        XCTAssertTrue(accountWOParent.name == name)
-        XCTAssertTrue(accountWOParent.path == name)
+        XCTAssertTrue(accountWOParent.name == name1)
+        XCTAssertTrue(accountWOParent.path == name1)
         XCTAssertTrue(accountWOParent.type == accType)
         XCTAssertTrue(accountWOParent.subType == subType)
         XCTAssertNotNil(accountWOParent.type)
@@ -92,21 +93,21 @@ class AccountTests: XCTestCase {
         XCTAssertNil(accountWOParent.currency)
         XCTAssertTrue(accountWOParent.createdByUser)
         XCTAssertTrue(accountWOParent.modifiedByUser)
-        XCTAssertFalse(accountWOParent.isHidden)
+        XCTAssertTrue(accountWOParent.active)
         
         
-        XCTAssertNoThrow(try SeedDataManager.changeAccountIsHiddenStatus(accountWOParent))
-        XCTAssertTrue(accountWOParent.isHidden)
+        XCTAssertNoThrow(try accountWOParent.changeActiveStatus())
+        XCTAssertFalse(accountWOParent.active)
         
         //With Parent
         var accountWithParent: Account!
-        XCTAssertNoThrow(accountWithParent = try SeedDataManager.createAndGetAccount(parent: accountWOParent, name: name2, type: Account.TypeEnum.liabilities.rawValue, currency: nil, createdByUser: true, context: context), "Account should not be created")
+        XCTAssertNoThrow(accountWithParent = try Account.createAndGetAccount(parent: accountWOParent, name: name2, type: .liabilities, currency: nil, createdByUser: true, context: context), "Account should not be created")
         XCTAssertNotNil(accountWithParent)
         
         //Check inherited attributes values
         XCTAssertEqual(accountWithParent.type, accountWOParent.type)
-        XCTAssertEqual(accountWithParent.path, (accountWOParent.path ?? "") + ":" + (accountWithParent.name ?? ""))
-        XCTAssertTrue(accountWithParent.isHidden == true)
+        XCTAssertEqual(accountWithParent.path, accountWOParent.path + ":" + accountWithParent.name)
+        XCTAssertFalse(accountWithParent.active)
         
         context.rollback()
     }
@@ -115,32 +116,29 @@ class AccountTests: XCTestCase {
         
         var account : Account?
         
-        XCTAssertThrowsError(account = try SeedDataManager.createAndGetAccount(parent: nil, name: "", type: nil, currency: nil, createdByUser: true, context: context), "User cannot create empty named account",{error in
+        XCTAssertThrowsError(account = try Account.createAndGetAccount(parent: nil, name: "", type: .assets, currency: nil, createdByUser: true, context: context), "User cannot create empty named account",{error in
             XCTAssertEqual(error as? AccountError, AccountError.emptyName)
             context.rollback()
         })
         XCTAssertNil(account)
        
         
-        XCTAssertThrowsError(account = try SeedDataManager.createAndGetAccount(parent: nil, name: "Other", type: nil, currency: nil, createdByUser: true, context: context), "Attribute type is required for root account",{error in
-            XCTAssertEqual(error as? AccountError, AccountError.attributeTypeShouldBeInitializeForRootAccount)
-            context.rollback()
-        })
+        XCTAssertThrowsError(account = try Account.createAndGetAccount(parent: nil, name: "Other", type: .assets, currency: nil, createdByUser: true, context: context),
+                             "User cannot create account with reserved name",
+                             {error in XCTAssertEqual(error as? AccountError, AccountError.reservedName(name: "Other"))}
+        )
         XCTAssertNil(account)
         
         
-        XCTAssertThrowsError(account = try SeedDataManager.createAndGetAccount(parent: nil, name: "Other", type: Account.TypeEnum.assets.rawValue, currency: nil, createdByUser: true, context: context), "User can not create account with reserved name", {error in
-            XCTAssertEqual(error as? AccountError, AccountError.reservedName(name: "Other"))
-            context.rollback()
-        })
-        XCTAssertNil(account)
-        
-        
-        XCTAssertNoThrow(account = try SeedDataManager.createAndGetAccount(parent: nil, name: "Other", type: Account.TypeEnum.assets.rawValue, currency: nil, createdByUser: false, context: context), "App can create account with reserved name")
+        XCTAssertNoThrow(account = try Account.createAndGetAccount(parent: nil, name: "Other", type: .assets, currency: nil, createdByUser: false, context: context),
+                         "App can create account with reserved name"
+        )
         XCTAssertNotNil(account)
         
         
-        XCTAssertNoThrow(account = try SeedDataManager.createAndGetAccount(parent: nil, name: "Non reserved name", type: Account.TypeEnum.assets.rawValue, currency: nil, createdByUser: false, context: context), "App can create account with non reserved name")
+        XCTAssertNoThrow(account = try Account.createAndGetAccount(parent: nil, name: "Non reserved name", type: .assets, currency: nil, createdByUser: false, context: context),
+                         "App can create account with non reserved name"
+        )
         XCTAssertNotNil(account)
         
         context.rollback()
@@ -150,30 +148,67 @@ class AccountTests: XCTestCase {
     func testDuplicatedOtherAccountDontCreate() {
         
         var account1: Account?
-        XCTAssertNoThrow(account1 = try SeedDataManager.createAndGetAccount(parent: nil, name: "SomeName1", type: Account.TypeEnum.assets.rawValue, currency: nil, createdByUser: true, context: context), "Account should be created")
+        XCTAssertNoThrow(account1 = try Account.createAndGetAccount(parent: nil, name: "account1", type: .assets, currency: nil, createdByUser: true, context: context), "Account should be created")
         XCTAssertNotNil(account1)
         
         var account2: Account?
-        XCTAssertNoThrow(account2 = try SeedDataManager.createAndGetAccount(parent: account1, name: "SomeName2", type: nil, currency: nil, createdByUser: true, context: context), "Account should be created")
+        XCTAssertNoThrow(account2 = try Account.createAndGetAccount(parent: account1, name: "account2", type: .assets, currency: nil, createdByUser: true, context: context), "Account should be created")
         XCTAssertNotNil(account2)
         
         
         Transaction.addTransactionWith2TranItems(date: Date(), debit: account2!, credit: account2!, debitAmount: 10, creditAmount: 10, comment: nil, createdByUser: true, context: context)
         
-        
         var account3: Account?
-        XCTAssertNoThrow(account2 = try SeedDataManager.createAndGetAccount(parent: account2, name: "SomeName3", type: nil, currency: nil, createdByUser: true, context: context), "Account should be created")
-        XCTAssertNotNil(account2)
+        XCTAssertNoThrow(account3 = try Account.createAndGetAccount(parent: account2, name: "account3", type: .assets, currency: nil, createdByUser: true, context: context), "Account should be created")
+        XCTAssertNotNil(account3)
         
         
         Transaction.addTransactionWith2TranItems(date: Date(), debit: account2!, credit: account2!, debitAmount: 10, creditAmount: 10, comment: nil, createdByUser: true, context: context)
         
         var account4: Account?
-        XCTAssertNoThrow(account3 = try SeedDataManager.createAndGetAccount(parent: account2, name: "SomeName4", type: nil, currency: nil, createdByUser: true, context: context), "Account should be created")
+        XCTAssertThrowsError(account4 = try Account.createAndGetAccount(parent: account2, name: "Other", type: .assets, currency: nil, createdByUser: true, context: context),
+                             "Account shouldn't be created",
+                             {error in XCTAssertEqual(error as? AccountError, AccountError.reservedName(name: "Other"))}
+        )
+        
+        var account5: Account?
+        XCTAssertNoThrow(account5 = try Account.createAndGetAccount(parent: account2, name: "Other", type: .assets, currency: nil, createdByUser: false, context: context),
+                             "Account should be created. Coz app can create other account"
+        )
+        XCTAssertNotNil(account5)
+        
+        XCTAssertEqual(account2?.childrenList.count, 3)
+        
+        context.rollback()
+    }
+    
+    func testMoveTransactionItemsFromConsolidatedAccount() {
+        
+        var account1: Account?
+        XCTAssertNoThrow(account1 = try Account.createAndGetAccount(parent: nil, name: "account1", type: .assets, currency: nil, createdByUser: true, context: context), "Account should be created")
+        XCTAssertNotNil(account1)
+        
+        var account2: Account?
+        XCTAssertNoThrow(account2 = try Account.createAndGetAccount(parent: account1, name: "account2", type: .assets, currency: nil, createdByUser: true, context: context), "Account should be created")
         XCTAssertNotNil(account2)
         
         
-        XCTAssertTrue(SeedDataManager.getAllChildrenForAcctount(account2!).count == 3)
+        Transaction.addTransactionWith2TranItems(date: Date(), debit: account2!, credit: account2!, debitAmount: 10, creditAmount: 10, comment: nil, createdByUser: true, context: context)
+        
+        var account3: Account?
+        XCTAssertNoThrow(account3 = try Account.createAndGetAccount(parent: account2, name: "account3", type: .assets, currency: nil, createdByUser: true, context: context), "Account should be created")
+        XCTAssertNotNil(account3)
+        
+        let other = account2?.getSubAccountWith(name: AccountsNameLocalisationManager.getLocalizedAccountName(.other1))
+        XCTAssertEqual(other?.transactionItemsList.count,2)
+        
+        Transaction.addTransactionWith2TranItems(date: Date(), debit: account2!, credit: account2!, debitAmount: 10, creditAmount: 10, comment: nil, createdByUser: true, context: context)
+        
+        var account4: Account?
+        XCTAssertNoThrow(account4 = try Account.createAndGetAccount(parent: account2, name: "account4", type: .assets, currency: nil, createdByUser: true, context: context),
+                             "Account should be created"
+        )
+        XCTAssertEqual(other?.transactionItemsList.count,4)
         
         context.rollback()
     }
@@ -181,13 +216,13 @@ class AccountTests: XCTestCase {
     
     func testAccountCreatedByAppNotReservedName () {
         let name = "Some name"
-        let accType = Account.TypeEnum.assets.rawValue
+        let accType = Account.TypeEnum.assets
         do {
-            let account = try SeedDataManager.createAndGetAccount(parent: nil, name: name, type: accType, currency: nil, createdByUser: false, context: context)
+            let account = try Account.createAndGetAccount(parent: nil, name: name, type: accType, currency: nil, createdByUser: false, context: context)
             XCTAssertTrue(account.name == name)
             XCTAssertTrue(account.path == name)
             XCTAssertTrue(account.type == accType)
-            XCTAssertTrue(account.subType == 0)
+            XCTAssertTrue(account.subType == .none)
             XCTAssertNil(account.parent)
             XCTAssertNil(account.currency)
             XCTAssertFalse(account.createdByUser)
@@ -202,13 +237,13 @@ class AccountTests: XCTestCase {
     
     func testAccountCreatedByAppReservedName () {
         let name = "Expense"
-        let accType = Account.TypeEnum.assets.rawValue
+        let accType = Account.TypeEnum.assets
         do {
-            let account = try SeedDataManager.createAndGetAccount(parent: nil, name: name, type: accType, currency: nil, createdByUser: false, context: context)
+            let account = try Account.createAndGetAccount(parent: nil, name: name, type: accType, currency: nil, createdByUser: false, context: context)
             XCTAssertTrue(account.name == name)
             XCTAssertTrue(account.path == name)
             XCTAssertTrue(account.type == accType)
-            XCTAssertTrue(account.subType == 0)
+            XCTAssertTrue(account.subType == .none)
             XCTAssertNil(account.parent)
             XCTAssertNil(account.currency)
             XCTAssertFalse(account.createdByUser)
@@ -222,10 +257,10 @@ class AccountTests: XCTestCase {
     
     func testCreatMoneyAccount () {
         let name = "Some name"
-        let accType = Account.TypeEnum.assets.rawValue
-        let moneyAccountType = AccountSubType.cash.rawValue
+        let accType = Account.TypeEnum.assets
+        let moneyAccountType = Account.SubTypeEnum.cash
         do {
-            let account = try SeedDataManager.createAndGetAccount(parent: nil, name: name, type: accType, currency: nil, subType: moneyAccountType, createdByUser: false, context: context)
+            let account = try Account.createAndGetAccount(parent: nil, name: name, type: accType, currency: nil, subType: moneyAccountType, createdByUser: false, context: context)
             XCTAssertTrue(account.name == name)
             XCTAssertTrue(account.path == name)
             XCTAssertTrue(account.type == accType)
@@ -244,12 +279,12 @@ class AccountTests: XCTestCase {
     
     func testAccountWithParent() {
         let name1 = "Name1"
-        let accType = Account.TypeEnum.assets.rawValue
+        let accType = Account.TypeEnum.assets
         let name2 = "Name2"
       
         do {
-            let account1 = try SeedDataManager.createAndGetAccount(parent: nil, name: name1, type: accType, currency: nil, createdByUser: false, context: context)
-            let account2 = try SeedDataManager.createAndGetAccount(parent: account1, name: name2, type: nil, currency: nil, createdByUser: false, context: context)
+            let account1 = try Account.createAndGetAccount(parent: nil, name: name1, type: accType, currency: nil, createdByUser: false, context: context)
+            let account2 = try Account.createAndGetAccount(parent: account1, name: name2, type: accType, currency: nil, createdByUser: false, context: context)
             XCTAssertTrue(account2.parent == account1) //создание субсчета 2 для счета 1
             XCTAssertTrue(account2.type == account1.type) //субсчет наследуют тип счета от родителя
             XCTAssertTrue(account1.path == name1)
@@ -264,18 +299,18 @@ class AccountTests: XCTestCase {
     
     func testDuplicatedAccountName() throws {
         let name1 = "Name1"
-        let accType = Account.TypeEnum.assets.rawValue
+        let accType = Account.TypeEnum.assets
         let name2 = "Name2"
         
         var account1: Account?
-        XCTAssertNoThrow(account1 = try SeedDataManager.createAndGetAccount(parent: nil, name: name1, type: accType, currency: nil, createdByUser: true, context: context), "Account should be created")
+        XCTAssertNoThrow(account1 = try Account.createAndGetAccount(parent: nil, name: name1, type: accType, currency: nil, createdByUser: true, context: context), "Account should be created")
         XCTAssertNotNil(account1)
         
         var account2: Account?
-        XCTAssertNoThrow(account2 = try SeedDataManager.createAndGetAccount(parent: account1, name: name2, type: nil, currency: nil, createdByUser: true, context: context), "Account should be created")
+        XCTAssertNoThrow(account2 = try Account.createAndGetAccount(parent: account1, name: name2, type: accType, currency: nil, createdByUser: true, context: context), "Account should be created")
         XCTAssertNotNil(account2)
         
-        XCTAssertThrowsError(try SeedDataManager.createAndGetAccount(parent: account1, name: name2, type: nil, currency: nil, createdByUser: true, context: context), "Duplicated name",{error in
+        XCTAssertThrowsError(try Account.createAndGetAccount(parent: account1, name: name2, type: accType, currency: nil, createdByUser: true, context: context), "Duplicated name",{error in
             XCTAssertEqual(error as? AccountError, AccountError.accountAlreadyExists(name: name2))
             context.rollback()
         })
@@ -283,24 +318,24 @@ class AccountTests: XCTestCase {
         context.rollback()
     }
     
-    func testCreateZeroLvlAccountWithCurrency() { // счет нулевого уровня должен иметь валюту = nil или валюте учета (нужно ли ограничение что это долна быть валюта учета?)
-        let name = "Capital"
-        let accType = Account.TypeEnum.assets.rawValue
-        do {
-            let currency = try Currency.createAndGetCurrency(code: "AUD", iso4217: 036, name: "Австралійський долар", context: context)
-        try Currency.changeAccountingCurrency(old: nil, new: currency, context: context)
-
-        let account = try SeedDataManager.createAndGetAccount(parent: nil, name: name, type: accType, currency: currency, createdByUser:  false, context: context)
-
-        XCTAssertTrue(account.name == name)
-        XCTAssertTrue(account.type == accType)
-        XCTAssertNil(account.parent)
-        XCTAssertTrue(account.currency?.isAccounting == true)
-        XCTAssertFalse(account.createdByUser)
-        }
-        catch {
-            XCTAssertTrue(false)
-        }
-        context.rollback()
-    }
+//    func testCreateZeroLvlAccountWithCurrency() { // счет нулевого уровня должен иметь валюту = nil или валюте учета (нужно ли ограничение что это долна быть валюта учета?)
+//        let name = "Capital"
+//        let accType = Account.TypeEnum.assets
+//        do {
+//            let currency = try Currency.createAndGet(code: "AUD", iso4217: 036, name: "Австралійський долар", context: context)
+//        try Currency.changeAccountingCurrency(old: nil, new: currency, context: context)
+//
+//        let account = try Account.createAndGetAccount(parent: nil, name: name, type: accType, currency: currency, createdByUser:  false, context: context)
+//
+//        XCTAssertTrue(account.name == name)
+//        XCTAssertTrue(account.type == accType)
+//        XCTAssertNil(account.parent)
+//        XCTAssertTrue(account.currency?.isAccounting == true)
+//        XCTAssertFalse(account.createdByUser)
+//        }
+//        catch {
+//            XCTAssertTrue(false)
+//        }
+//        context.rollback()
+//    }
 }

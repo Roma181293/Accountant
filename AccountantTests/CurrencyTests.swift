@@ -38,17 +38,10 @@ class CurrencyTests: XCTestCase {
     func testCreateDublicatedCurrency() throws {
         try Currency.create(code: "XXX", iso4217: 036, name: "XXXX", createdByUser: false, context: context)
         
-        do {
-            try Currency.create(code: "XXX", iso4217: 086, name: "XXXX", createdByUser: false, context: context)
-        }
-        catch let error{
-            if let error = error as? CurrencyError {
-                XCTAssertTrue(error == .thisCurrencyAlreadyExists)
-            }
-            else {
-                XCTAssertTrue(false)
-            }
-        }
+        XCTAssertThrowsError(try Currency.create(code: "XXX", iso4217: 086, name: "XXXX", createdByUser: false, context: context),
+                             "Duplicate",
+                             {error in XCTAssertEqual(error as? CurrencyError, CurrencyError.thisCurrencyAlreadyExists)}
+        )
         
         context.rollback()
     }
@@ -88,30 +81,20 @@ class CurrencyTests: XCTestCase {
     }
     
     
-    func testCantRemoveCurrencyWithLinkToAccount() {
-        let name = "Capital"
-        let accType = Account.TypeEnum.assets.rawValue
-        do {
-            let currency = try Currency.createAndGet(code: "USD", iso4217: 840, name: "USD", context: context)
-            try Currency.changeAccountingCurrency(old: nil, new: currency, context: context)
-            
-            XCTAssertTrue(currency.isAccounting)
-            
-            try SeedDataManager.createAccount(parent: nil, name: name, type: accType, currency: currency, createdByUser:  false, context: context)
-            
-            try Currency.removeCurrency(currency, context: context)
-            XCTAssertNil(currency)
-            
-            context.rollback()
-        }
-        catch let error{
-            if let error = error as? CurrencyError {
-                XCTAssertTrue(error == .thisCurrencyUsedInAccounts)
-            }
-            else {
-                XCTAssertTrue(false)
-            }
-        }
+    func testCantRemoveCurrencyWithLinkToAccount() throws {
+        let currency = try Currency.createAndGet(code: "USD", iso4217: 840, name: "USD", context: context)
+        try Currency.changeAccountingCurrency(old: nil, new: currency, context: context)
+        
+        XCTAssertTrue(currency.isAccounting)
+        
+        try Account.createAccount(parent: nil, name: "Capital", type: .assets, currency: currency, createdByUser:  false, context: context)
+        
+        XCTAssertThrowsError(try currency.delete(),
+                             "This Currency Used In Accounts",
+                             {error in XCTAssertEqual(error as? CurrencyError, CurrencyError.thisCurrencyUsedInAccounts)}
+        )
+        
+        context.rollback()
     }
     
     func testCantRemoveAccountingCurrency() {
@@ -119,7 +102,7 @@ class CurrencyTests: XCTestCase {
             let currency = try Currency.createAndGet(code: "USD", iso4217: 840, name: "USD", context: context)
             try Currency.changeAccountingCurrency(old: nil, new: currency, context: context)
             
-            try Currency.removeCurrency(currency, context: context)
+            try currency.delete()
             XCTAssertNotNil(currency)
             
             context.rollback()

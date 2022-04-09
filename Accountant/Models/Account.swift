@@ -273,7 +273,7 @@ extension Account{
         var credit : Double = 0
         
         for account in childrenList + [self]  {
-            for item in account.appliedTransactionItemsList.filter{$0.transaction!.date <= date} {
+            for item in account.appliedTransactionItemsList.filter({$0.transaction!.date <= date}) {
                 if item.type == .debit {
                     debit += item.amount
                 }
@@ -418,7 +418,7 @@ extension Account {
         var maxValue : Double = 0
         var minValue : Double = 0
         
-        for (index, account) in accountsToShow.enumerated() {
+        for account in accountsToShow {
             var title = ""
             var arrayOfResultsForTmpAccount : [(date: Date, value: Double)] = []
             if account != self {
@@ -565,7 +565,7 @@ extension Account {
             return true
         }
         else {
-            let fetchRequest : NSFetchRequest<Account> = NSFetchRequest<Account>(entityName: Account.entity().name!)
+            let fetchRequest : NSFetchRequest<Account> = fetchRequest()
             fetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: false)]
             fetchRequest.predicate = NSPredicate(format: "parent = nil and name = %@", name)
             do{
@@ -603,13 +603,12 @@ extension Account {
     }
     
     static func createAccount(parent: Account?, name : String, type : TypeEnum, currency : Currency?, keeper: Keeper? = nil, holder: Holder? = nil, subType : SubTypeEnum? = nil, createdByUser : Bool = true, impoted: Bool = false, context: NSManagedObjectContext) throws {
-        try createAndGetAccount(parent: parent, name: name, type: type, currency: currency, keeper: keeper, holder: holder, subType: subType, createdByUser: createdByUser, createDate: Date(), impoted: impoted, context: context)
+        let _ = try createAndGetAccount(parent: parent, name: name, type: type, currency: currency, keeper: keeper, holder: holder, subType: subType, createdByUser: createdByUser, createDate: Date(), impoted: impoted, context: context)
     }
     
     private static func validateAttributes(parent: Account?, name : String, type : TypeEnum, currency : Currency?, keeper: Keeper? = nil, holder: Holder? = nil, subType : SubTypeEnum? = nil, createdByUser : Bool = true, impoted: Bool = false, context: NSManagedObjectContext) throws {
         
         guard !name.isEmpty else {throw AccountError.emptyName}
-        if parent == nil && type == nil {throw AccountError.attributeTypeShouldBeInitializeForRootAccount}
         //        guard parent != nil && type != nil && parent?.type != type else {throw AccountError.accountContainAttribureTypeDifferentFromParent}
         
         // accounts with reserved names can create only app
@@ -645,7 +644,7 @@ extension Account {
     
     
     static func getRootAccountList(context : NSManagedObjectContext) throws -> [Account] {
-        let fetchRequest : NSFetchRequest<Account> = NSFetchRequest<Account>(entityName: Account.entity().name!)
+        let fetchRequest : NSFetchRequest<Account> = fetchRequest()
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
         fetchRequest.predicate = NSPredicate(format: "parent = nil")
         return try context.fetch(fetchRequest)
@@ -653,14 +652,14 @@ extension Account {
     
     
     static func getAccountList(context: NSManagedObjectContext) throws -> [Account] {
-        let accountFetchRequest : NSFetchRequest<Account> = NSFetchRequest<Account>(entityName: Account.entity().name!)
+        let accountFetchRequest : NSFetchRequest<Account> = fetchRequest()
         accountFetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
         return try context.fetch(accountFetchRequest)
     }
     
     
     static func getAccountWithPath(_ path: String, context: NSManagedObjectContext) -> Account? {
-        let fetchRequest : NSFetchRequest<Account> = NSFetchRequest<Account>(entityName: Account.entity().name!)
+        let fetchRequest : NSFetchRequest<Account> = fetchRequest()
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
         do{
             let accounts = try context.fetch(fetchRequest)
@@ -684,7 +683,7 @@ extension Account {
     
     static func exportAccountsToString(context: NSManagedObjectContext) -> String {
         
-        let accountFetchRequest : NSFetchRequest<Account> = NSFetchRequest<Account>(entityName: Account.entity().name!)
+        let accountFetchRequest : NSFetchRequest<Account> = fetchRequest()
         accountFetchRequest.sortDescriptors = [NSSortDescriptor(key: "parent.name", ascending: true),NSSortDescriptor(key: "name", ascending: true)]
         do{
             let storedAccounts = try context.fetch(accountFetchRequest)

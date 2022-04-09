@@ -121,7 +121,7 @@ final class Transaction: NSManagedObject {
         let transaction = Transaction(date: original.date, comment: original.comment, createdByUser: createdByUser, createDate: createDate, context: context)
         
         for item in original.itemsList {
-            TransactionItem(transaction: transaction, type: item.type, account: item.account!, amount: item.amount, context: context)
+            let _ = TransactionItem(transaction: transaction, type: item.type, account: item.account!, amount: item.amount, context: context)
         }
     }
     
@@ -133,15 +133,15 @@ final class Transaction: NSManagedObject {
         transaction.applied = false
         
         if statment.getType() == .to {
-            TransactionItem(transaction: transaction, type: .debit, account: account, amount: statment.getAmount(), createdByUser:  createdByUser, createDate: createDate, context: context)
+            let _ = TransactionItem(transaction: transaction, type: .debit, account: account, amount: statment.getAmount(), createdByUser:  createdByUser, createDate: createDate, context: context)
             if let creditAccount = findAccountCandidate(comment: comment, account: account, transactionItemType: .credit) {
-                TransactionItem(transaction: transaction, type: .credit, account: creditAccount, amount: statment.getAmount(), createdByUser:  createdByUser, createDate: createDate, context: context)
+                let _ = TransactionItem(transaction: transaction, type: .credit, account: creditAccount, amount: statment.getAmount(), createdByUser:  createdByUser, createDate: createDate, context: context)
             }
         }
         else {
-            TransactionItem(transaction: transaction, type: .credit, account: account, amount: statment.getAmount(), createdByUser:  createdByUser, createDate: createDate, context: context)
+            let _ = TransactionItem(transaction: transaction, type: .credit, account: account, amount: statment.getAmount(), createdByUser:  createdByUser, createDate: createDate, context: context)
             if let debitAccount = findAccountCandidate(comment: comment, account: account, transactionItemType: .debit) {
-                TransactionItem(transaction: transaction, type: .debit, account: debitAccount, amount: statment.getAmount(), createdByUser:  createdByUser, createDate: createDate, context: context)
+                let _ = TransactionItem(transaction: transaction, type: .debit, account: debitAccount, amount: statment.getAmount(), createdByUser:  createdByUser, createDate: createDate, context: context)
             }
         }
         return transaction
@@ -303,7 +303,7 @@ final class Transaction: NSManagedObject {
             
             if let pretransaction = getPreTransactionWithId(row[0]) {
                 preTransaction = pretransaction
-                if let date = formatter.date(from: row[1]), preTransaction.transaction.date == nil {
+                if let date = formatter.date(from: row[1]) {
                     preTransaction.transaction.date = date
                 }
             }
@@ -311,7 +311,8 @@ final class Transaction: NSManagedObject {
                 preTransaction = PreTransaction()
                 preTransaction.transaction = Transaction(context: context)
                 preTransaction.id = row[0]
-                preTransaction.transaction.date = formatter.date(from: row[1]) ?? Date()  
+                preTransaction.transaction.date = formatter.date(from: row[1]) ?? Date()
+                
                 if row[5] != "" {
                     preTransaction.transaction.comment = row[5]
                 }
@@ -387,7 +388,7 @@ final class Transaction: NSManagedObject {
                         type = "Debit"
                     }
                     export +=  type + ","
-                    export +=  String(describing: item.account!.path ?? "error") + ","
+                    export +=  String(describing: item.account!.path) + ","
                     export +=  String(describing: item.amount) + ","
                     export +=  "\(transaction.comment ?? "")"
                 }
@@ -403,7 +404,7 @@ final class Transaction: NSManagedObject {
     
     static func importMonobankStatments(_ statments: [MBStatement], for account : Account, context: NSManagedObjectContext) {
         for statment in statments {
-            addTransactionDraft(account: account, statment: statment, createdByUser : false, context: context)
+            let _ = addTransactionDraft(account: account, statment: statment, createdByUser : false, context: context)
         }
     }
     

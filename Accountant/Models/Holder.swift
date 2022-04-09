@@ -14,7 +14,6 @@ final class Holder: NSManagedObject {
         return NSFetchRequest<Holder>(entityName: "Holder")
     }
 
-
     @NSManaged public var id: UUID?
     @NSManaged public var icon: String?
     @NSManaged public var name: String?
