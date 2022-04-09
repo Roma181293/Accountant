@@ -11,12 +11,12 @@ import Charts
 
 final class Account: NSManagedObject {
     
-    @objc enum TypeEnum : Int16 {
+    @objc enum TypeEnum: Int16 {
         case liabilities = 0
         case assets = 1
     }
     
-    @objc enum SubTypeEnum : Int16 {
+    @objc enum SubTypeEnum: Int16 {
         case none = 0
         case cash = 1
         case debitCard = 2

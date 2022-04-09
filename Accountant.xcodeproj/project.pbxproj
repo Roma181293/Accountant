@@ -320,52 +320,11 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		2B1FEA43266BEE6700BF53BD /* Exchange Structures */ = {
+		2B1FEA5D266BEFA500BF53BD /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				2B1FEA47266BEE6700BF53BD /* CurrencyHistoricalDataProtocol.swift */,
-				2B1FEA44266BEE6700BF53BD /* National Bank */,
-				2B1FEA48266BEE6700BF53BD /* Privat Bank */,
-			);
-			path = "Exchange Structures";
-			sourceTree = "<group>";
-		};
-		2B1FEA44266BEE6700BF53BD /* National Bank */ = {
-			isa = PBXGroup;
-			children = (
-				2B1FEA45266BEE6700BF53BD /* CurrencyExhangeNB.swift */,
-				2B1FEA46266BEE6700BF53BD /* CurrencyHistoricalDataNB.swift */,
-			);
-			path = "National Bank";
-			sourceTree = "<group>";
-		};
-		2B1FEA48266BEE6700BF53BD /* Privat Bank */ = {
-			isa = PBXGroup;
-			children = (
-				2B1FEA49266BEE6700BF53BD /* CurrencyExchangePB.swift */,
-				2B1FEA4A266BEE6700BF53BD /* CurrencyHistoricalDataPB.swift */,
-			);
-			path = "Privat Bank";
-			sourceTree = "<group>";
-		};
-		2B1FEA5D266BEFA500BF53BD /* Models */ = {
-			isa = PBXGroup;
-			children = (
-				2B6561F22775F86D00150B35 /* Banking */,
-				2B1FEA43266BEE6700BF53BD /* Exchange Structures */,
 				2B1FEB66266D752200BF53BD /* Visualisation */,
 				2B1FEA69266BF15200BF53BD /* SeedDataManager.swift */,
-				2BDE4F4127D7570A0069624C /* Account.swift */,
-				2B1FEA61266BF03300BF53BD /* Currency.swift */,
-				2B1FEA82266C1D9900BF53BD /* Transaction.swift */,
-				2B0D1D3226ADF1D1003C6394 /* TransactionItem.swift */,
-				2B00CAFA2746514900821FE0 /* Keeper.swift */,
-				2B00CAFC27465CC500821FE0 /* Holder.swift */,
-				2B3643BA2753902E007253EB /* UserBankProfile.swift */,
-				2B6561FC2776030500150B35 /* BankAccount.swift */,
-				2B85D854278F013A0042858B /* Exchange.swift */,
-				2B85D856278F020D0042858B /* Rate.swift */,
-				2B1FEA39266BEDA400BF53BD /* CoreDataStack.swift */,
 				2B1FEABB266C41C100BF53BD /* AccountsNameLocalisationManager.swift */,
 				2B1FEB40266D257800BF53BD /* NetworkServices.swift */,
 				2B1FEA3E266BEDD400BF53BD /* UserProfile.swift */,
@@ -374,7 +333,7 @@
 				2B85FD0C277795DC005A295E /* StatementLoadingService.swift */,
 				2B85D858278F480C0042858B /* ExchangeRatesLoadingService.swift */,
 			);
-			path = Models;
+			path = Services;
 			sourceTree = "<group>";
 		};
 		2B1FEA8F266C334500BF53BD /* View Controllers */ = {
@@ -507,26 +466,6 @@
 				2B1FEAF6266CB2C200BF53BD /* CurrencyTableViewCell.swift */,
 			);
 			path = Currency;
-			sourceTree = "<group>";
-		};
-		2B6561F22775F86D00150B35 /* Banking */ = {
-			isa = PBXGroup;
-			children = (
-				2B85FD0827778C5A005A295E /* StatementProtocol.swift */,
-				2B6561F32775F87F00150B35 /* Monobank */,
-			);
-			path = Banking;
-			sourceTree = "<group>";
-		};
-		2B6561F32775F87F00150B35 /* Monobank */ = {
-			isa = PBXGroup;
-			children = (
-				2B6561F42775F8A000150B35 /* MBUserInfo.swift */,
-				2B6561F62775F8C400150B35 /* MBAccountInfo.swift */,
-				2B6561F82775F92700150B35 /* MBStatement.swift */,
-				2B6561FA2775F95000150B35 /* MBWebHook.swift */,
-			);
-			path = Monobank;
 			sourceTree = "<group>";
 		};
 		2B7AB3FA278D4BC800974156 /* Errors */ = {
@@ -677,12 +616,12 @@
 		2B949BAD2665B4040033383A /* Accountant */ = {
 			isa = PBXGroup;
 			children = (
-				2B949BB72665B4040033383A /* Accountant.xcdatamodeld */,
-				2B7F885727A5D74E00A1B63B /* Migration */,
 				2B949BAE2665B4040033383A /* AppDelegate.swift */,
 				2B949BB02665B4040033383A /* SceneDelegate.swift */,
 				2B7AB3FA278D4BC800974156 /* Errors */,
-				2B1FEA5D266BEFA500BF53BD /* Models */,
+				2B1FEA39266BEDA400BF53BD /* CoreDataStack.swift */,
+				2BDAB0E828021B2400C5AED6 /* Models */,
+				2B1FEA5D266BEFA500BF53BD /* Services */,
 				2B1FEA9D266C347700BF53BD /* Helpers */,
 				2B490DDC26E4B94000967E11 /* Views */,
 				2B1FEA8F266C334500BF53BD /* View Controllers */,
@@ -714,6 +653,83 @@
 				2B949BD52665B4090033383A /* Info.plist */,
 			);
 			path = AccountantUITests;
+			sourceTree = "<group>";
+		};
+		2BDAB0E628021A6300C5AED6 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				2BDE4F4127D7570A0069624C /* Account.swift */,
+				2B1FEA61266BF03300BF53BD /* Currency.swift */,
+				2B1FEA82266C1D9900BF53BD /* Transaction.swift */,
+				2B0D1D3226ADF1D1003C6394 /* TransactionItem.swift */,
+				2B00CAFA2746514900821FE0 /* Keeper.swift */,
+				2B00CAFC27465CC500821FE0 /* Holder.swift */,
+				2B3643BA2753902E007253EB /* UserBankProfile.swift */,
+				2B6561FC2776030500150B35 /* BankAccount.swift */,
+				2B85D854278F013A0042858B /* Exchange.swift */,
+				2B85D856278F020D0042858B /* Rate.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		2BDAB0E828021B2400C5AED6 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				2BDAB0EA28021C6200C5AED6 /* Banking */,
+				2BDAB0E928021B7800C5AED6 /* CoreData */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		2BDAB0E928021B7800C5AED6 /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				2B949BB72665B4040033383A /* Accountant.xcdatamodeld */,
+				2B7F885727A5D74E00A1B63B /* Migration */,
+				2BDAB0E628021A6300C5AED6 /* Models */,
+			);
+			path = CoreData;
+			sourceTree = "<group>";
+		};
+		2BDAB0EA28021C6200C5AED6 /* Banking */ = {
+			isa = PBXGroup;
+			children = (
+				2B1FEA47266BEE6700BF53BD /* CurrencyHistoricalDataProtocol.swift */,
+				2B85FD0827778C5A005A295E /* StatementProtocol.swift */,
+				2BDAB0ED28021C9700C5AED6 /* National Bank */,
+				2BDAB0EC28021C7800C5AED6 /* Privatbank */,
+				2BDAB0EB28021C6C00C5AED6 /* Monobank */,
+			);
+			path = Banking;
+			sourceTree = "<group>";
+		};
+		2BDAB0EB28021C6C00C5AED6 /* Monobank */ = {
+			isa = PBXGroup;
+			children = (
+				2B6561F42775F8A000150B35 /* MBUserInfo.swift */,
+				2B6561F62775F8C400150B35 /* MBAccountInfo.swift */,
+				2B6561F82775F92700150B35 /* MBStatement.swift */,
+				2B6561FA2775F95000150B35 /* MBWebHook.swift */,
+			);
+			path = Monobank;
+			sourceTree = "<group>";
+		};
+		2BDAB0EC28021C7800C5AED6 /* Privatbank */ = {
+			isa = PBXGroup;
+			children = (
+				2B1FEA49266BEE6700BF53BD /* CurrencyExchangePB.swift */,
+				2B1FEA4A266BEE6700BF53BD /* CurrencyHistoricalDataPB.swift */,
+			);
+			path = Privatbank;
+			sourceTree = "<group>";
+		};
+		2BDAB0ED28021C9700C5AED6 /* National Bank */ = {
+			isa = PBXGroup;
+			children = (
+				2B1FEA45266BEE6700BF53BD /* CurrencyExhangeNB.swift */,
+				2B1FEA46266BEE6700BF53BD /* CurrencyHistoricalDataNB.swift */,
+			);
+			path = "National Bank";
 			sourceTree = "<group>";
 		};
 		77D38D658A3E56B26B79298B /* Frameworks */ = {
