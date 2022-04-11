@@ -8,7 +8,7 @@
 import Foundation
 import CoreData
 
-final class TransactionItem: NSManagedObject {
+final class TransactionItem: BaseEntity {
     
     @objc enum TypeEnum : Int16 {
         case credit = 0
@@ -19,26 +19,16 @@ final class TransactionItem: NSManagedObject {
         return NSFetchRequest<TransactionItem>(entityName: "TransactionItem")
     }
     
-    @NSManaged public var id: UUID
     @NSManaged public var amount: Double
     @NSManaged public var type: TypeEnum
     @NSManaged public var account: Account?
     @NSManaged public var transaction: Transaction?
-    @NSManaged public var createDate: Date?
-    @NSManaged public var createdByUser: Bool
-    @NSManaged public var modifyDate: Date?
-    @NSManaged public var modifiedByUser: Bool
     
     convenience init(transaction: Transaction, type: TypeEnum, amount: Double, createdByUser: Bool = true, createDate: Date = Date(), context: NSManagedObjectContext) {
-        self.init(context: context)
-        self.id = UUID()
+        self.init(id: UUID(), createdByUser: createdByUser, createDate: createDate, context: context)
         self.amount = amount
         self.transaction = transaction
         self.type = type
-        self.createdByUser = createdByUser
-        self.createDate = createDate
-        self.modifiedByUser = createdByUser
-        self.modifyDate = createDate
     }
     
     convenience init(transaction: Transaction, type: TypeEnum, account: Account, amount: Double, createdByUser: Bool = true, createDate: Date = Date(), context: NSManagedObjectContext) {

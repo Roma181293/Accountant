@@ -37,13 +37,13 @@ class BankAccountTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return userBankProfile.bankAccounts?.count ?? 0
+        return userBankProfile.bankAccountsList.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell(style: .subtitle , reuseIdentifier: Constants.Cell.userBankProfileCell)
 //        let cell = tableView.dequeueReusableCell(withIdentifier: Constants.Cell.userBankProfileCell, for: indexPath)
-        let ba = (userBankProfile.bankAccounts?.allObjects as! [BankAccount])[indexPath.row]
+        let ba = userBankProfile.bankAccountsList[indexPath.row]
         if ba.active {
             cell.textLabel?.textColor = .label
         }
@@ -80,7 +80,7 @@ class BankAccountTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         
-        let selectedBankAccount = (self.userBankProfile.bankAccounts?.allObjects as! [BankAccount])[indexPath.row]
+        let selectedBankAccount = self.userBankProfile.bankAccountsList[indexPath.row]
         
         let changeLink = UIContextualAction(style: .normal, title: NSLocalizedString("Relink",tableName: Constants.Localizable.bankAccountTVC, value: "Relink", comment: "")) { (contAct, view, complete) in
             

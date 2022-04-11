@@ -141,7 +141,7 @@ class KeeperTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: Constants.Cell.keeperCell, for: indexPath)
         let fetchedItem = fetchedResultsController.object(at: indexPath) as Keeper
-        cell.textLabel?.text = fetchedItem.name!
+        cell.textLabel?.text = fetchedItem.name
         
             if keeper === fetchedItem {
                 cell.accessoryType = .checkmark

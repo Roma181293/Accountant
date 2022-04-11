@@ -120,6 +120,7 @@
 		2BC058B926CD7A9400FE896C /* ComplexTransactionEditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BC058B826CD7A9400FE896C /* ComplexTransactionEditorViewController.swift */; };
 		2BC058BD26CDB63E00FE896C /* TransactionItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BC058BC26CDB63E00FE896C /* TransactionItemTableViewCell.swift */; };
 		2BCC0BDA26ACD79C00E8680E /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BCC0BD926ACD79C00E8680E /* StoreKit.framework */; };
+		2BDAB0EF2804BE2300C5AED6 /* BaseEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BDAB0EE2804BE2300C5AED6 /* BaseEntity.swift */; };
 		2BDB10A126DACD9200D8FE08 /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BDB10A026DACD9200D8FE08 /* Protocols.swift */; };
 		2BDE4F4227D7570A0069624C /* Account.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BDE4F4127D7570A0069624C /* Account.swift */; };
 		2BE2593326BC8E6D0025301F /* AppErrorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE2593226BC8E6D0025301F /* AppErrorProtocol.swift */; };
@@ -281,6 +282,7 @@
 		2BC058B826CD7A9400FE896C /* ComplexTransactionEditorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComplexTransactionEditorViewController.swift; sourceTree = "<group>"; };
 		2BC058BC26CDB63E00FE896C /* TransactionItemTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionItemTableViewCell.swift; sourceTree = "<group>"; };
 		2BCC0BD926ACD79C00E8680E /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		2BDAB0EE2804BE2300C5AED6 /* BaseEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseEntity.swift; sourceTree = "<group>"; };
 		2BDB10A026DACD9200D8FE08 /* Protocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocols.swift; sourceTree = "<group>"; };
 		2BDE4F4127D7570A0069624C /* Account.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Account.swift; sourceTree = "<group>"; };
 		2BE2593226BC8E6D0025301F /* AppErrorProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppErrorProtocol.swift; sourceTree = "<group>"; };
@@ -658,6 +660,7 @@
 		2BDAB0E628021A6300C5AED6 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				2BDAB0EE2804BE2300C5AED6 /* BaseEntity.swift */,
 				2BDE4F4127D7570A0069624C /* Account.swift */,
 				2B1FEA61266BF03300BF53BD /* Currency.swift */,
 				2B1FEA82266C1D9900BF53BD /* Transaction.swift */,
@@ -996,6 +999,7 @@
 				2B3523632746B50300399CF6 /* KeeperTableViewController.swift in Sources */,
 				2B1FEBB6266EE45F00BF53BD /* PreTransactionTableViewCell.swift in Sources */,
 				2B7AB3FE278D4C3E00974156 /* CurrencyError.swift in Sources */,
+				2BDAB0EF2804BE2300C5AED6 /* BaseEntity.swift in Sources */,
 				2BEEC18B2796017F000B210F /* AccountantMigrationPolicy_V1toV2.swift in Sources */,
 				2B6561F72775F8C400150B35 /* MBAccountInfo.swift in Sources */,
 				2B3A260626EA6DD90033E746 /* AccountManagerController.swift in Sources */,

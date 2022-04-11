@@ -20,7 +20,7 @@ final class UserBankProfile: NSManagedObject {
     @NSManaged public var name: String?
     @NSManaged public var active: Bool
     @NSManaged public var xToken: String?
-    @NSManaged public var bankAccounts: NSSet?
+    @NSManaged public var bankAccounts: Set<BankAccount>
     @NSManaged public var keeper: Keeper?
     
     convenience init(name: String, externalId: String?, keeper: Keeper, xToken: String, context: NSManagedObjectContext) {
@@ -34,7 +34,7 @@ final class UserBankProfile: NSManagedObject {
     }
     
     var bankAccountsList: [BankAccount] {
-        return bankAccounts!.allObjects as! [BankAccount]
+        return Array(bankAccounts)
     }
     
     static func isFreeExternalId(_ externalId: String, context: NSManagedObjectContext) -> Bool {
@@ -97,7 +97,7 @@ final class UserBankProfile: NSManagedObject {
     
     func delete(consentText: String) throws {
         if consentText == "MyBudget: Finance keeper" {
-            try (bankAccounts?.allObjects as! [BankAccount]).forEach({
+            try bankAccountsList.forEach({
                 try $0.delete(consentText: consentText)
             })
             managedObjectContext?.delete(self)

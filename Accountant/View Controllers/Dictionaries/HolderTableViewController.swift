@@ -113,7 +113,7 @@ class HolderTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: Constants.Cell.holderCell, for: indexPath)
         let fetchedItem = fetchedResultsController.object(at: indexPath) as Holder
         
-        cell.textLabel?.text = fetchedItem.icon! + "   " + fetchedItem.name!
+        cell.textLabel?.text = fetchedItem.icon + "   " + fetchedItem.name
         
         if holder === fetchedItem {
             cell.accessoryType = .checkmark

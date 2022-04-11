@@ -73,9 +73,9 @@ class NetworkServices {
             }
         }
     }
-
+    
     static func loadStatementsForBankAccount(_ bankAccount: BankAccount, startDate: Date, endDate: Date, compliting: @escaping ([StatementProtocol]?, Error?) -> Void){
-     
+        
         if bankAccount.userBankProfile?.keeper?.name == "Monobank" {
             print("bankAccount.userBankProfile!.xToken!", bankAccount.userBankProfile!.xToken!, "https://api.monobank.ua/personal/statement/\(bankAccount.externalId!)/\(Int(startDate.timeIntervalSince1970))/\(Int(endDate.timeIntervalSince1970))")
             AF.request("https://api.monobank.ua/personal/statement/\(bankAccount.externalId!)/\(Int(startDate.timeIntervalSince1970))/\(Int(endDate.timeIntervalSince1970))",
@@ -95,7 +95,7 @@ class NetworkServices {
     
     //MARK: - Methods below only for test purpose
     private static func loadStatementsForBankAccountWOParse(_ bankAccount: BankAccount, compliting: @escaping ([StatementProtocol]?, Error?) -> Void){
-     
+        
         if bankAccount.userBankProfile?.keeper?.name == "Monobank" {
             let calendar = Calendar.current
             
@@ -104,8 +104,8 @@ class NetworkServices {
             if endDate > Date() {
                 endDate = Date()
             }
-            print(#function, "https://api.monobank.ua/personal/statement/\(bankAccount.id!)/\(Int(startDate.timeIntervalSince1970))/\(Int(endDate.timeIntervalSince1970))")
-            AF.request("https://api.monobank.ua/personal/statement/\(bankAccount.id!)/\(Int(startDate.timeIntervalSince1970))/\(Int(endDate.timeIntervalSince1970))",
+            print(#function, "https://api.monobank.ua/personal/statement/\(bankAccount.externalId ?? "")/\(Int(startDate.timeIntervalSince1970))/\(Int(endDate.timeIntervalSince1970))")
+            AF.request("https://api.monobank.ua/personal/statement/\(bankAccount.id)/\(Int(startDate.timeIntervalSince1970))/\(Int(endDate.timeIntervalSince1970))",
                        headers: ["X-Token" : bankAccount.userBankProfile!.xToken!]
             ).responseJSON(completionHandler: { response in
                 switch response.result {
@@ -116,21 +116,21 @@ class NetworkServices {
                     print(error)
                 }
             })
-            .responseString { response in
-                print("response: \(response)")
-                switch response.result {
-                case .success(let value):
-                    print("value**: \(value)")
-                    
-                case .failure(let error):
-                    print(error)
+                .responseString { response in
+                    print("response: \(response)")
+                    switch response.result {
+                    case .success(let value):
+                        print("value**: \(value)")
+                        
+                    case .failure(let error):
+                        print(error)
+                    }
                 }
-            }
         }
     }
     
     private static func loadStatements(compliting: @escaping ([MBStatement]?, Error?) -> Void){
-     
+        
         AF.request("https://api.monobank.ua/personal/statement/0/1635717600/1637212479187",
                    headers: ["X-Token" : ""]
         ).responseDecodable(of: [MBStatement].self) {(response) in
@@ -146,7 +146,7 @@ class NetworkServices {
     
     
     private static func loadWebHook(compliting: @escaping (MBWebHook?, Error?) -> Void){
-     
+        
         AF.request("https://api.monobank.ua/personal/webhook",
                    method:.post,
                    headers: ["X-Token" : ""]
@@ -166,7 +166,7 @@ class NetworkServices {
     
     
     private static func loadWebHook1(){
-     
+        
         AF.request("https://api.monobank.ua/personal/webhook",
                    method:.post,
                    headers: ["X-Token" : ""]
@@ -179,16 +179,16 @@ class NetworkServices {
             case .failure(let error):
                 print(error)
             }
-    }
-    .responseString { response in
-        print("response: \(response)")
-        switch response.result {
-        case .success(let value):
-            print("value**: \(value)")
-            
-        case .failure(let error):
-            print(error)
         }
-    }
+        .responseString { response in
+            print("response: \(response)")
+            switch response.result {
+            case .success(let value):
+                print("value**: \(value)")
+                
+            case .failure(let error):
+                print(error)
+            }
+        }
     }
 }

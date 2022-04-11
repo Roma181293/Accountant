@@ -8,39 +8,29 @@
 import Foundation
 import CoreData
 
-final class Keeper: NSManagedObject {
+final class Keeper: BaseEntity {
     
     @nonobjc public class func fetchRequest() -> NSFetchRequest<Keeper> {
         return NSFetchRequest<Keeper>(entityName: "Keeper")
     }
 
-    @NSManaged public var id: UUID?
-    @NSManaged public var name: String?
+    @NSManaged public var name: String
     @NSManaged public var type: Int16
-    @NSManaged public var accounts: NSSet?
-    @NSManaged public var userBankProfiles: NSSet?
-    @NSManaged public var createDate: Date?
-    @NSManaged public var createdByUser: Bool
-    @NSManaged public var modifyDate: Date?
-    @NSManaged public var modifiedByUser: Bool
+    @NSManaged public var accounts: Set<Account>
+    @NSManaged public var userBankProfiles: Set<UserBankProfile>
     
     convenience init(name: String, type: KeeperType, createdByUser : Bool = true, createDate: Date = Date(), context: NSManagedObjectContext) {
-        self.init(context: context)
-        self.id = UUID()
+        self.init(id: UUID(), createdByUser: createdByUser, createDate: createDate, context: context)
         self.name = name
         self.type = type.rawValue
-        self.createdByUser = createdByUser
-        self.createDate = createDate
-        self.modifiedByUser = createdByUser
-        self.modifyDate = createDate
     }
     
     var accountsList: [Account] {
-        return self.accounts!.allObjects as! [Account]
+        return Array(accounts)
     }
     
     var userBankProfilesList: [UserBankProfile] {
-        return self.userBankProfiles!.allObjects as! [UserBankProfile]
+        return Array(userBankProfiles)
     }
     
     static func isFreeKeeperName(_ name : String, context: NSManagedObjectContext) -> Bool {

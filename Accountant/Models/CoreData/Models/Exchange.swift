@@ -14,27 +14,18 @@ enum ExchangeError:Error{
     case baseCurrencyCodeNotFound
 }
 
-final class Exchange: NSManagedObject {
+final class Exchange: BaseEntity {
     
     @nonobjc public class func fetchRequest() -> NSFetchRequest<Exchange> {
         return NSFetchRequest<Exchange>(entityName: "Exchange")
     }
 
-    @NSManaged public var id: UUID?
+    
     @NSManaged public var date: Date?
     @NSManaged public var rates: NSSet?
-    @NSManaged public var createDate: Date?
-    @NSManaged public var createdByUser: Bool
-    @NSManaged public var modifyDate: Date?
-    @NSManaged public var modifiedByUser: Bool
     
-    convenience init(date: Date, createsByUser: Bool = false, createDate: Date = Date(), context: NSManagedObjectContext) {
-        self.init(context: context)
-        self.createDate = createDate
-        self.createdByUser = createsByUser
-        self.modifyDate = createDate
-        self.modifiedByUser = createsByUser
-        self.id = UUID()
+    convenience init(date: Date, createsByUser: Bool = false, createdByUser: Bool = false, createDate: Date = Date(), context: NSManagedObjectContext) {
+        self.init(id: UUID(), createdByUser: createdByUser, createDate: createDate, context: context)
         self.date = Calendar.current.startOfDay(for: date)
     }
     

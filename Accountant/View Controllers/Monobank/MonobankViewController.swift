@@ -24,7 +24,7 @@ class MonobankViewController: UIViewController {
     
     var holder: Holder! {
         didSet {
-            holderButton.setTitle(holder.icon! + "-" + holder.name!, for: .normal)
+            holderButton.setTitle(holder.icon + "-" + holder.name, for: .normal)
         }
     }
     

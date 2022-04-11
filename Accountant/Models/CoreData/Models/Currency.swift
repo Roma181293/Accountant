@@ -9,35 +9,25 @@
 import Foundation
 import CoreData
 
-final class Currency: NSManagedObject {
+final class Currency: BaseEntity {
     
     @nonobjc public class func fetchRequest() -> NSFetchRequest<Currency> {
         return NSFetchRequest<Currency>(entityName: "Currency")
     }
     
-    @NSManaged public var id: UUID?
     @NSManaged public var code: String
     @NSManaged public var iso4217: Int16
     @NSManaged public var name: String?
     @NSManaged public var isAccounting: Bool
     @NSManaged public var accounts: Set<Account>!
     @NSManaged public var exchangeRates: Set<Rate>!
-    @NSManaged public var createDate: Date?
-    @NSManaged public var createdByUser: Bool
-    @NSManaged public var modifyDate: Date?
-    @NSManaged public var modifiedByUser: Bool
     
     convenience init(code: String, iso4217: Int16, name: String?, createdByUser : Bool = true, createDate: Date = Date(), context: NSManagedObjectContext) {
-        self.init(context: context)
-        self.id = UUID()
+        self.init(id: UUID(), createdByUser: createdByUser, createDate: createDate, context: context)
         self.code = code  //UAH
         self.iso4217 = iso4217  //980
         self.name = name
         self.isAccounting = false
-        self.createdByUser = createdByUser
-        self.createDate = createDate
-        self.modifiedByUser = createdByUser
-        self.modifyDate = createDate
     }
     
     var accountsList: [Account] {

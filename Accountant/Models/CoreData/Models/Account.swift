@@ -9,7 +9,7 @@ import Foundation
 import CoreData
 import Charts
 
-final class Account: NSManagedObject {
+final class Account: BaseEntity {
     
     @objc enum TypeEnum: Int16 {
         case liabilities = 0
@@ -27,7 +27,6 @@ final class Account: NSManagedObject {
         return NSFetchRequest<Account>(entityName: "Account")
     }
     
-    @NSManaged public var id: UUID
     @NSManaged public var active: Bool
     @NSManaged public var name: String
     @NSManaged public var subType: SubTypeEnum
@@ -40,19 +39,11 @@ final class Account: NSManagedObject {
     @NSManaged public var parent: Account?
     @NSManaged public var directChildren: Set<Account>!
     @NSManaged public var transactionItems: Set<TransactionItem>!
-    @NSManaged public var createDate: Date?
-    @NSManaged public var createdByUser: Bool
-    @NSManaged public var modifyDate: Date?
-    @NSManaged public var modifiedByUser: Bool
     
     convenience init(parent: Account?, name : String, type : TypeEnum, currency : Currency?, keeper: Keeper?, holder: Holder?, subType : SubTypeEnum?, createdByUser : Bool = true, createDate: Date = Date(), context: NSManagedObjectContext) {
         
-        self.init(context: context)
-        self.id = UUID()
-        self.createDate = createDate
-        self.createdByUser = createdByUser
-        self.modifyDate = createDate
-        self.modifiedByUser = createdByUser
+        self.init(id: UUID(), createdByUser: createdByUser, createDate: createDate, context: context)
+        
         self.name = name
         
         self.currency = currency

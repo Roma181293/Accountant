@@ -8,34 +8,24 @@
 import Foundation
 import CoreData
 
-final class Holder: NSManagedObject {
+final class Holder: BaseEntity {
     
     @nonobjc public class func fetchRequest() -> NSFetchRequest<Holder> {
         return NSFetchRequest<Holder>(entityName: "Holder")
     }
 
-    @NSManaged public var id: UUID?
-    @NSManaged public var icon: String?
-    @NSManaged public var name: String?
-    @NSManaged public var accounts: NSSet?
-    @NSManaged public var createDate: Date?
-    @NSManaged public var createdByUser: Bool
-    @NSManaged public var modifyDate: Date?
-    @NSManaged public var modifiedByUser: Bool
+    @NSManaged public var icon: String
+    @NSManaged public var name: String
+    @NSManaged public var accounts: Set<Account>
     
     convenience init(name: String, icon : String, createdByUser : Bool = true, createDate: Date = Date(), context: NSManagedObjectContext) {
-        self.init(context: context)
-        self.id = UUID()
+        self.init(id: UUID(), createdByUser: createdByUser, createDate: createDate, context: context)
         self.name = name
         self.icon = icon
-        self.createdByUser = createdByUser
-        self.createDate = createDate
-        self.modifiedByUser = createdByUser
-        self.modifyDate = createDate
     }
     
     var accountsList: [Account] {
-        return accounts!.allObjects as! [Account]
+        return Array(accounts)
     }
     
     static func isFreePair(_ name : String, icon: String, context: NSManagedObjectContext) -> Bool {

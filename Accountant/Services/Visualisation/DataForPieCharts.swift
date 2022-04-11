@@ -59,7 +59,7 @@ struct DataForPieCharts {
             })
             for key in tmpResults.keys {
                 let dataEntry = PieChartDataEntry(value: tmpResults[key]!)
-                dataEntry.label = key.icon!
+                dataEntry.label = key.icon
                 self.pieChartDataEntries.append(dataEntry)
             }
             
@@ -77,7 +77,7 @@ struct DataForPieCharts {
             })
             for key in tmpResults.keys {
                 let dataEntry = PieChartDataEntry(value: tmpResults[key]!)
-                dataEntry.label = key.name!
+                dataEntry.label = key.name
                 self.pieChartDataEntries.append(dataEntry)
             }
         }

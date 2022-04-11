@@ -51,7 +51,7 @@ class AccountEditorWithInitialBalanceViewController: UIViewController {
     var holder: Holder? {
         didSet {
             guard let holder = holder else {return}
-            holderButton.setTitle(holder.icon! + "-" + holder.name!, for: .normal)
+            holderButton.setTitle(holder.icon + "-" + holder.name, for: .normal)
         }
     }
     

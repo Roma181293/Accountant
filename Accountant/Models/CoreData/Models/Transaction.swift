@@ -9,32 +9,22 @@
 import Foundation
 import CoreData
 
-final class Transaction: NSManagedObject {
+final class Transaction: BaseEntity {
     
     @nonobjc public class func fetchRequest() -> NSFetchRequest<Transaction> {
         return NSFetchRequest<Transaction>(entityName: "Transaction")
     }
     
-    @NSManaged public var id: UUID
     @NSManaged public var date: Date
     @NSManaged public var applied: Bool
     @NSManaged public var comment: String?
     @NSManaged public var items: Set<TransactionItem>
-    @NSManaged public var createDate: Date?
-    @NSManaged public var createdByUser: Bool
-    @NSManaged public var modifyDate: Date?
-    @NSManaged public var modifiedByUser: Bool
     
     convenience init(date : Date, comment : String? = nil, createdByUser : Bool = true, createDate: Date = Date(), context: NSManagedObjectContext){
-        self.init(context: context)
-        self.id = UUID()
+        self.init(id: UUID(), createdByUser: createdByUser, createDate: createDate, context: context)
         self.date = date
         self.comment = comment
         self.applied = true
-        self.createDate = createDate
-        self.createdByUser = createdByUser
-        self.modifyDate = createDate
-        self.modifiedByUser = createdByUser
     }
     
     var itemsList: [TransactionItem] {
