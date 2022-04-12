@@ -126,6 +126,7 @@
 		2BDAB0F82805EE7900C5AED6 /* MigrationPolicy_V1toV3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BDAB0F72805EE7900C5AED6 /* MigrationPolicy_V1toV3.swift */; };
 		2BDB10A126DACD9200D8FE08 /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BDB10A026DACD9200D8FE08 /* Protocols.swift */; };
 		2BDE4F4227D7570A0069624C /* Account.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BDE4F4127D7570A0069624C /* Account.swift */; };
+		2BE0F1A228061E4600FEE3F8 /* MappingModel_V1toV3.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 2BE0F1A128061E4600FEE3F8 /* MappingModel_V1toV3.xcmappingmodel */; };
 		2BE2593326BC8E6D0025301F /* AppErrorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE2593226BC8E6D0025301F /* AppErrorProtocol.swift */; };
 		2BE2955E2746E5CB003A1B36 /* HolderTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE2955D2746E5CB003A1B36 /* HolderTableViewController.swift */; };
 		2BEEC18927960136000B210F /* MappingModel_V1toV2.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 2BEEC18827960136000B210F /* MappingModel_V1toV2.xcmappingmodel */; };
@@ -291,6 +292,7 @@
 		2BDAB0F72805EE7900C5AED6 /* MigrationPolicy_V1toV3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MigrationPolicy_V1toV3.swift; sourceTree = "<group>"; };
 		2BDB10A026DACD9200D8FE08 /* Protocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocols.swift; sourceTree = "<group>"; };
 		2BDE4F4127D7570A0069624C /* Account.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Account.swift; sourceTree = "<group>"; };
+		2BE0F1A128061E4600FEE3F8 /* MappingModel_V1toV3.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = MappingModel_V1toV3.xcmappingmodel; sourceTree = "<group>"; };
 		2BE2593226BC8E6D0025301F /* AppErrorProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppErrorProtocol.swift; sourceTree = "<group>"; };
 		2BE2955D2746E5CB003A1B36 /* HolderTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HolderTableViewController.swift; sourceTree = "<group>"; };
 		2BEEC18827960136000B210F /* MappingModel_V1toV2.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = MappingModel_V1toV2.xcmappingmodel; sourceTree = "<group>"; };
@@ -594,6 +596,7 @@
 			isa = PBXGroup;
 			children = (
 				2BEEC18827960136000B210F /* MappingModel_V1toV2.xcmappingmodel */,
+				2BE0F1A128061E4600FEE3F8 /* MappingModel_V1toV3.xcmappingmodel */,
 				2BDAB0F42804EB2A00C5AED6 /* MappingModel_V2toV3.xcmappingmodel */,
 			);
 			path = "Mapping Models";
@@ -964,6 +967,7 @@
 				2B6561F52775F8A000150B35 /* MBUserInfo.swift in Sources */,
 				2B85D859278F480C0042858B /* ExchangeRatesLoadingService.swift in Sources */,
 				2B00CAF92746095700821FE0 /* MonobankViewController.swift in Sources */,
+				2BE0F1A228061E4600FEE3F8 /* MappingModel_V1toV3.xcmappingmodel in Sources */,
 				2BE2955E2746E5CB003A1B36 /* HolderTableViewController.swift in Sources */,
 				2B1FEA4C266BEE6700BF53BD /* CurrencyHistoricalDataNB.swift in Sources */,
 				2BC058B926CD7A9400FE896C /* ComplexTransactionEditorViewController.swift in Sources */,
