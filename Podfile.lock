@@ -1,0 +1,30 @@
+PODS:
+  - Alamofire (5.4.4)
+  - Charts (3.4.0):
+    - Charts/Core (= 3.4.0)
+  - Charts/Core (3.4.0)
+  - Purchases (3.10.1):
+    - PurchasesCoreSwift (= 3.10.1)
+  - PurchasesCoreSwift (3.10.1)
+
+DEPENDENCIES:
+  - Alamofire (~> 5.2)
+  - Charts (~> 3.4.0)
+  - Purchases (= 3.10.1)
+
+SPEC REPOS:
+  trunk:
+    - Alamofire
+    - Charts
+    - Purchases
+    - PurchasesCoreSwift
+
+SPEC CHECKSUMS:
+  Alamofire: f3b09a368f1582ab751b3fff5460276e0d2cf5c9
+  Charts: 74c9f256eaf0460c0c416522d1cf8c634ea6b286
+  Purchases: 066a754602d2ea5ad4f2b6357560b040c8b15d86
+  PurchasesCoreSwift: 895deec08743781bfc2e0e22345c994ed83bb7ab
+
+PODFILE CHECKSUM: 5dbd3b3204b7af4196faf3249b402fc67fad3d5c
+
+COCOAPODS: 1.11.2
