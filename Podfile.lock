@@ -8,8 +8,8 @@ PODS:
   - PurchasesCoreSwift (3.10.1)
 
 DEPENDENCIES:
-  - Alamofire (~> 5.2)
-  - Charts (~> 3.4.0)
+  - Alamofire (= 5.4.4)
+  - Charts (= 3.4.0)
   - Purchases (= 3.10.1)
 
 SPEC REPOS:
@@ -25,6 +25,6 @@ SPEC CHECKSUMS:
   Purchases: 066a754602d2ea5ad4f2b6357560b040c8b15d86
   PurchasesCoreSwift: 895deec08743781bfc2e0e22345c994ed83bb7ab
 
-PODFILE CHECKSUM: 5dbd3b3204b7af4196faf3249b402fc67fad3d5c
+PODFILE CHECKSUM: cd7996c5fa8de5974106ecb014c917a88b66b1a3
 
 COCOAPODS: 1.11.2
