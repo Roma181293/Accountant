@@ -341,7 +341,7 @@ class MonobankViewController: UIViewController {
         do {
             try getRootAccounts()
             
-            let ubp = UserBankProfile.getOrCreateMonoBankUBP(userInfo, xToken: xToken, context: self.context)
+            let ubp = try UserBankProfile.getOrCreateMonoBankUBP(userInfo, xToken: xToken, context: self.context)
             
             print("userInfo.accounts.count", userInfo.accounts.count)
             for item in userInfo.accounts.filter({return !$0.isExists(context: context)}) {
