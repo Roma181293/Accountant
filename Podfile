@@ -10,6 +10,7 @@ target 'Accountant' do
    pod 'Charts', '=3.4.0'
    pod 'Alamofire', '=5.4.4'
    pod 'Purchases', '=3.10.1'
+   pod 'SwiftLint'
    #pod 'Google-Mobile-Ads-SDK'
 
   #target 'AccountantTests' do
