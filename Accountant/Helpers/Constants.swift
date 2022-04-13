@@ -10,26 +10,25 @@ import UIKit
 import Charts
 
 struct Constants {
-    
     struct Localizable {
         static let settingsVC = "SettingsVCLocalizable"
         static let bankAccountTVC = "BankAccountTVCLocalizable"
         static let userBankProfileTVC = "UserBankProfileTVCLocalizable"
         static let monobankVC = "MonobankVCLocalizable"
     }
-    
+
     struct Storyboard {
         static let welcomeVC = "WelcomeVC_ID"
         static let startAccountingVC = "StartAccountingVC_ID"
         static let instructionVC = "InstructionVC_ID"
-        
+
         static let tabBarController = "TabBarController_ID"
-        
+
         static let bioAuthVC = "BioAuthVC_ID"
         static let authPinAndBioVC = "AuthPinAndBiometricVC_ID"
         
         static let purchaseOfferVC = "PurchaseOfferVC_ID"
-        
+
         static let transactionListVC = "TransactionListVC_ID"
         static let simpleTransactionEditorVC = "SimpleTransactionEditorVC_ID"
         static let complexTransactionEditorVC = "ComplexTransactionEditorVC_ID"
@@ -40,9 +39,9 @@ struct Constants {
         static let addAccountVC = "AddAccountVC_ID"
         static let accountListVC = "AccountListVC_ID"
         static let accountListTableVC = "AccountListTVC_ID"
-        
+
         static let currencyTableVC = "CurrencyTVC_ID"
-        
+
         static let budgetsListVC = "BudgetsListVC_ID"
         static let budgetEditorVC = "BudgetEditorVC_ID"
 
@@ -53,23 +52,23 @@ struct Constants {
         static let keeperTableVC = "KeeperTVC_ID"
         static let holderTableVC = "HolderTVC_ID"
         static let settingsVC = "SettingsVC_ID"
-        
+
         static let monobankVC = "MonobankVC_ID"
     }
 
     struct Cell {
         static let transactionItemTableViewCell = "TransactionItemTableViewCell_ID"
-        
+
         static let complexTransactionCell = "ComplexTransactionCell_ID"
         static let preTransactionTableViewCell = "PreTransactionTableViewCell_ID"
-        
+
         static let accountNavigatorCell = "AccountNavigatorCell_ID"
         static let accountNavigationTableViewCell = "AccountNavigationTableViewCell_ID"
 
         static let accountTableViewCell = "AccountTableViewCell_ID"
 
         static let analyticsCell1 = "AnalyticsCell1_ID"
-        
+
         static let keeperCell = "KeeperCell_ID"
         static let holderCell = "HolderCell_ID"
 
@@ -142,7 +141,9 @@ struct Constants {
                                        NSUIColor(red: 52/255.0, green: 152/255.0, blue: 219/255.0, alpha: 1.0)
         ]
 
-        static let set1: [NSUIColor] = [UIColor.systemBlue, UIColor.systemTeal, UIColor.systemGreen, UIColor.systemYellow, UIColor.systemOrange, UIColor.systemRed]
+        static let set1: [NSUIColor] = [UIColor.systemBlue, UIColor.systemTeal,
+                                        UIColor.systemGreen, UIColor.systemYellow,
+                                        UIColor.systemOrange, UIColor.systemRed]
     }
 }
 
@@ -156,7 +157,6 @@ struct Colors {
         static let darkOrange = UIColor(red: 217/255, green: 104/255, blue: 38/255, alpha: 1)
         static let lightOrange = UIColor(red: 220/255, green: 160/255, blue: 29/255, alpha: 1)
     }
-    
     struct Additional {
         static let lightGreen = UIColor(red: 101/255, green: 200/255, blue: 122/255, alpha: 1)
         static let lightGrey = UIColor(red: 248/255, green: 248/255, blue: 248/255, alpha: 1)
