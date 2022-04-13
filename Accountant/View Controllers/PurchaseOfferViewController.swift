@@ -79,8 +79,8 @@ final class PurchaseOfferViewController: UIViewController {
         return titleLabel
     }()
     
-    let proBadgeView: BadgeUIView = {
-        let view = BadgeUIView()
+    let proBadgeView: BadgeView = {
+        let view = BadgeView()
         view.proBadge()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.layer.cornerRadius = Constants.Size.cornerButtonRadius
@@ -175,7 +175,7 @@ final class PurchaseOfferViewController: UIViewController {
     
     
     var packagesAvailableForPurchase = [Purchases.Package]()
-    var offerViews = [OfferUIView]()
+    var offerViews = [OfferView]()
     var activeOfferTag: Int?
     var topStackConstant = CGFloat(0)
     
@@ -332,7 +332,7 @@ final class PurchaseOfferViewController: UIViewController {
                         let package = self.packagesAvailableForPurchase[i]
                         
                         //Add The Offer View
-                        let offerView = OfferUIView()
+                        let offerView = OfferView()
                         self.offerStackView.addArrangedSubview(offerView)
                         offerView.tag = i
                         let gesture = OfferUITapGestureRecognizer(target: self, action: #selector(self.offerViewTapped(_:)))

@@ -20,8 +20,8 @@ class SettingsTableViewCell: UITableViewCell {
         return imageView
     }()
     
-    let badgeView: BadgeUIView = {
-        let view = BadgeUIView()
+    let badgeView: BadgeView = {
+        let view = BadgeView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.layer.cornerRadius = Constants.Size.cornerButtonRadius
         return view

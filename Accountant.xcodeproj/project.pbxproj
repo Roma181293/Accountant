@@ -11,7 +11,7 @@
 		2B00CAFB2746514900821FE0 /* Keeper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B00CAFA2746514900821FE0 /* Keeper.swift */; };
 		2B00CAFD27465CC500821FE0 /* Holder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B00CAFC27465CC500821FE0 /* Holder.swift */; };
 		2B0D1D3326ADF1D1003C6394 /* TransactionItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B0D1D3226ADF1D1003C6394 /* TransactionItem.swift */; };
-		2B104E5226E558F300E67F6A /* SalesBadgeUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B104E5126E558F300E67F6A /* SalesBadgeUIView.swift */; };
+		2B104E5226E558F300E67F6A /* SalesBadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B104E5126E558F300E67F6A /* SalesBadgeView.swift */; };
 		2B1407A826F5D49B00114B95 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1407A726F5D49B00114B95 /* WebViewController.swift */; };
 		2B1407AA26F629A600114B95 /* AccountTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1407A926F629A600114B95 /* AccountTableViewCell.swift */; };
 		2B1407AC26F931AA00114B95 /* AccountNavigationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1407AB26F931AA00114B95 /* AccountNavigationTableViewCell.swift */; };
@@ -73,9 +73,9 @@
 		2B44C9F626EE86F00009976A /* StartAccountingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B44C9F526EE86F00009976A /* StartAccountingViewController.swift */; };
 		2B490DD726E2911C00967E11 /* Extension Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B490DD626E2911C00967E11 /* Extension Notification.swift */; };
 		2B490DD926E4B8CE00967E11 /* OfferUITapGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B490DD826E4B8CE00967E11 /* OfferUITapGestureRecognizer.swift */; };
-		2B490DDB26E4B92600967E11 /* OfferUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B490DDA26E4B92600967E11 /* OfferUIView.swift */; };
+		2B490DDB26E4B92600967E11 /* OfferView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B490DDA26E4B92600967E11 /* OfferView.swift */; };
 		2B490DDE26E4BA6000967E11 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B490DDD26E4BA6000967E11 /* GradientView.swift */; };
-		2B490DE026E4BB1800967E11 /* BadgeUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B490DDF26E4BB1800967E11 /* BadgeUIView.swift */; };
+		2B490DE026E4BB1800967E11 /* BadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B490DDF26E4BB1800967E11 /* BadgeView.swift */; };
 		2B4976FC26DBE90B00147EAA /* ComplexTransactionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B4976FB26DBE90B00147EAA /* ComplexTransactionTableViewCell.swift */; };
 		2B6561F52775F8A000150B35 /* MBUserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B6561F42775F8A000150B35 /* MBUserInfo.swift */; };
 		2B6561F72775F8C400150B35 /* MBAccountInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B6561F62775F8C400150B35 /* MBAccountInfo.swift */; };
@@ -156,7 +156,7 @@
 		2B00CAFA2746514900821FE0 /* Keeper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keeper.swift; sourceTree = "<group>"; };
 		2B00CAFC27465CC500821FE0 /* Holder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Holder.swift; sourceTree = "<group>"; };
 		2B0D1D3226ADF1D1003C6394 /* TransactionItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionItem.swift; sourceTree = "<group>"; };
-		2B104E5126E558F300E67F6A /* SalesBadgeUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SalesBadgeUIView.swift; sourceTree = "<group>"; };
+		2B104E5126E558F300E67F6A /* SalesBadgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SalesBadgeView.swift; sourceTree = "<group>"; };
 		2B1407A726F5D49B00114B95 /* WebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
 		2B1407A926F629A600114B95 /* AccountTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountTableViewCell.swift; sourceTree = "<group>"; };
 		2B1407AB26F931AA00114B95 /* AccountNavigationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountNavigationTableViewCell.swift; sourceTree = "<group>"; };
@@ -223,9 +223,9 @@
 		2B44C9F526EE86F00009976A /* StartAccountingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartAccountingViewController.swift; sourceTree = "<group>"; };
 		2B490DD626E2911C00967E11 /* Extension Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension Notification.swift"; sourceTree = "<group>"; };
 		2B490DD826E4B8CE00967E11 /* OfferUITapGestureRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfferUITapGestureRecognizer.swift; sourceTree = "<group>"; };
-		2B490DDA26E4B92600967E11 /* OfferUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfferUIView.swift; sourceTree = "<group>"; };
+		2B490DDA26E4B92600967E11 /* OfferView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfferView.swift; sourceTree = "<group>"; };
 		2B490DDD26E4BA6000967E11 /* GradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
-		2B490DDF26E4BB1800967E11 /* BadgeUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeUIView.swift; sourceTree = "<group>"; };
+		2B490DDF26E4BB1800967E11 /* BadgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeView.swift; sourceTree = "<group>"; };
 		2B4976FB26DBE90B00147EAA /* ComplexTransactionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComplexTransactionTableViewCell.swift; sourceTree = "<group>"; };
 		2B52A1EB27F3A93B0056F5D8 /* Accountant 3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Accountant 3.xcdatamodel"; sourceTree = "<group>"; };
 		2B6561F42775F8A000150B35 /* MBUserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MBUserInfo.swift; sourceTree = "<group>"; };
@@ -460,10 +460,10 @@
 		2B490DDC26E4B94000967E11 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				2B490DDA26E4B92600967E11 /* OfferUIView.swift */,
+				2B490DDA26E4B92600967E11 /* OfferView.swift */,
 				2B490DDD26E4BA6000967E11 /* GradientView.swift */,
-				2B490DDF26E4BB1800967E11 /* BadgeUIView.swift */,
-				2B104E5126E558F300E67F6A /* SalesBadgeUIView.swift */,
+				2B490DDF26E4BB1800967E11 /* BadgeView.swift */,
+				2B104E5126E558F300E67F6A /* SalesBadgeView.swift */,
 				2BB780B1272EAB9B002D2098 /* GuideView.swift */,
 			);
 			path = Views;
@@ -1004,7 +1004,7 @@
 				2B1FEAEA266CAF6C00BF53BD /* Extension Double.swift in Sources */,
 				2BDB10A126DACD9200D8FE08 /* Protocols.swift in Sources */,
 				2B1FEA83266C1D9A00BF53BD /* Transaction.swift in Sources */,
-				2B490DE026E4BB1800967E11 /* BadgeUIView.swift in Sources */,
+				2B490DE026E4BB1800967E11 /* BadgeView.swift in Sources */,
 				2B1FEBAC266EE19B00BF53BD /* ImportTransactionViewController.swift in Sources */,
 				2B37CEC327405FAA0000E3EF /* Guide.swift in Sources */,
 				2BC058BD26CDB63E00FE896C /* TransactionItemTableViewCell.swift in Sources */,
@@ -1024,7 +1024,7 @@
 				2B8172F12798B7B200E6CB20 /* BankAccountTableViewController.swift in Sources */,
 				2B2E6D1D26DD960D004A9680 /* TransactionItemTextField.swift in Sources */,
 				2B3A260426E95C780033E746 /* AccessCheckManager.swift in Sources */,
-				2B490DDB26E4B92600967E11 /* OfferUIView.swift in Sources */,
+				2B490DDB26E4B92600967E11 /* OfferView.swift in Sources */,
 				2B44C9F626EE86F00009976A /* StartAccountingViewController.swift in Sources */,
 				2B2E2E8B26E0054400A6CFDD /* AnalyticTableViewCell.swift in Sources */,
 				2B1FEB57266D73DC00BF53BD /* AccountListViewController.swift in Sources */,
@@ -1079,7 +1079,7 @@
 				2B949BB92665B4040033383A /* Accountant.xcdatamodeld in Sources */,
 				2BA11834276DC6340091569E /* MonobankAccountTableViewCell.swift in Sources */,
 				2B1407AA26F629A600114B95 /* AccountTableViewCell.swift in Sources */,
-				2B104E5226E558F300E67F6A /* SalesBadgeUIView.swift in Sources */,
+				2B104E5226E558F300E67F6A /* SalesBadgeView.swift in Sources */,
 				2B85D857278F020D0042858B /* Rate.swift in Sources */,
 				2B1FEA9F266C349B00BF53BD /* Constants.swift in Sources */,
 			);
