@@ -64,7 +64,7 @@ class ExchangeTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if let exchange = exchange {
-            return exchange.rates!.allObjects.count
+            return exchange.ratesList.count
         }
         else {
             return fetchedResultsController.sections?[section].numberOfObjects ?? 1
@@ -75,8 +75,7 @@ class ExchangeTableViewController: UITableViewController {
         var cell = tableView.dequeueReusableCell(withIdentifier: Constants.Cell.exchangeCell, for: indexPath)
         
         if let exchange = exchange {
-            guard let rates = exchange.rates else {return cell}
-            let rate = (rates.allObjects as! [Rate])[indexPath.row]
+            let rate = exchange.ratesList[indexPath.row]
             cell.textLabel?.text = "1 " + rate.currency!.code + " = " + String(rate.amount) + " " + accountingCurrency.code
             cell.detailTextLabel?.text = String(rate.amount)
         }
@@ -87,7 +86,7 @@ class ExchangeTableViewController: UITableViewController {
             dateFormatter.timeStyle = .none
             cell.textLabel?.text = dateFormatter.string(from: fetchedItem.date!)
             cell.detailTextLabel?.isHidden = false
-            cell.detailTextLabel?.text = String(fetchedItem.rates?.count ?? 0)
+            cell.detailTextLabel?.text = String(fetchedItem.ratesList.count)
         }
         return cell
     }
