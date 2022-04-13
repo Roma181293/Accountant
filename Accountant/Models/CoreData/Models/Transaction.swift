@@ -238,7 +238,7 @@ final class Transaction: BaseEntity {
         }
     }
 
-    static func importTransactionList(from data : String, context: NSManagedObjectContext) throws -> [PreTransaction] {
+    static func importTransactionList(from data: String, context: NSManagedObjectContext) throws -> [PreTransaction] {
         var inputMatrix: [[String]] = []
         let rows = data.components(separatedBy: "\n")
         for row in rows {
