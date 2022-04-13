@@ -21,7 +21,7 @@ final class Transaction: BaseEntity {
     @NSManaged public var items: Set<TransactionItem>!
 
     convenience init(date: Date, comment: String? = nil, createdByUser: Bool = true, createDate: Date = Date(),
-                     context: NSManagedObjectContext){
+                     context: NSManagedObjectContext) {
         self.init(id: UUID(), createdByUser: createdByUser, createDate: createDate, context: context)
         self.date = date
         self.comment = comment
@@ -31,9 +31,9 @@ final class Transaction: BaseEntity {
     var itemsList: [TransactionItem] {
         return Array(items)
     }
-    
+
     static func validateTransactionDataBeforeSave(_ transaction: Transaction) throws {
-        
+
         func getDataAboutTransactionItems(transaction: Transaction, type: TransactionItem.TypeEnum,
                                           amount: inout Double, currency: inout Currency?,
                                           itemsCount: inout Int) throws {
@@ -70,7 +70,6 @@ final class Transaction: BaseEntity {
 
         var debitAmount: Double = 0
         var creditAmount: Double = 0
-
         var debitItemsCount: Int = 0
         var creditItemsCount: Int = 0
 
@@ -92,7 +91,6 @@ final class Transaction: BaseEntity {
         if creditItemsCount == 0 {
             throw TransactionError.noCreditTransactionItem
         }
-
         if debitCurrency == creditCurrency {
             if debitAmount != creditAmount {
                 throw TransactionError.differentAmountForSingleCurrecyTransaction
@@ -100,12 +98,12 @@ final class Transaction: BaseEntity {
         }
     }
 
-    static func addTransactionWith2TranItems(date: Date, debit: Account, credit: Account, debitAmount: Double,
-                                             creditAmount: Double, comment: String? = nil, createdByUser: Bool = true,
-                                             context: NSManagedObjectContext) {
+    static func addTransactionWith2TranItems(date: Date, debit: Account, credit: Account, debitAmount: Double = 0,
+                                             creditAmount: Double = 0, comment: String? = nil,
+                                             createdByUser: Bool = true, context: NSManagedObjectContext) {
         let createDate = Date()
-        let transaction = Transaction(date: date, comment: comment, createdByUser: createdByUser, createDate: createDate,
-                                      context: context)
+        let transaction = Transaction(date: date, comment: comment, createdByUser: createdByUser,
+                                      createDate: createDate, context: context)
 
         _ = TransactionItem(transaction: transaction, type: .credit, account: credit, amount: creditAmount,
                             createdByUser: createdByUser, createDate: createDate, context: context)
@@ -124,25 +122,50 @@ final class Transaction: BaseEntity {
         }
     }
 
-    static func addTransactionDraft(account: Account, statment: StatementProtocol, createdByUser: Bool = false, createDate: Date = Date(), context: NSManagedObjectContext) -> Transaction {
+    static func addTransactionDraft(account: Account, statment: StatementProtocol, createdByUser: Bool = false,
+                                    createDate: Date = Date(), context: NSManagedObjectContext) -> Transaction {
         let comment = statment.getComment()
-        let transaction = Transaction(date: statment.getDate(), comment: comment, createdByUser: createdByUser, createDate: createDate, context: context)
+        let transaction = Transaction(date: statment.getDate(), comment: comment, createdByUser: createdByUser,
+                                      createDate: createDate, context: context)
         transaction.applied = false
 
         if statment.getType() == .to {
-            _ = TransactionItem(transaction: transaction, type: .debit, account: account, amount: statment.getAmount(),
-                                createdByUser: createdByUser, createDate: createDate, context: context)
-            if let creditAccount = findAccountCandidate(comment: comment, account: account, transactionItemType: .credit) {
-                _ = TransactionItem(transaction: transaction, type: .credit, account: creditAccount, amount: statment.getAmount(),
-                                    createdByUser: createdByUser, createDate: createDate, context: context)
+            _ = TransactionItem(transaction: transaction,
+                                type: .debit,
+                                account: account,
+                                amount: statment.getAmount(),
+                                createdByUser: createdByUser,
+                                createDate: createDate,
+                                context: context)
+            if let creditAccount = findAccountCandidate(comment: comment,
+                                                        account: account,
+                                                        transactionItemType: .credit) {
+                _ = TransactionItem(transaction: transaction,
+                                    type: .credit,
+                                    account: creditAccount,
+                                    amount: statment.getAmount(),
+                                    createdByUser: createdByUser,
+                                    createDate: createDate,
+                                    context: context)
             }
-        }
-        else {
-            _ = TransactionItem(transaction: transaction, type: .credit, account: account, amount: statment.getAmount(),
-                                createdByUser: createdByUser, createDate: createDate, context: context)
-            if let debitAccount = findAccountCandidate(comment: comment, account: account, transactionItemType: .debit) {
-                _ = TransactionItem(transaction: transaction, type: .debit, account: debitAccount, amount: statment.getAmount(),
-                                    createdByUser: createdByUser, createDate: createDate, context: context)
+        } else {
+            _ = TransactionItem(transaction: transaction,
+                                type: .credit,
+                                account: account,
+                                amount: statment.getAmount(),
+                                createdByUser: createdByUser,
+                                createDate: createDate,
+                                context: context)
+            if let debitAccount = findAccountCandidate(comment: comment,
+                                                       account: account,
+                                                       transactionItemType: .debit) {
+                _ = TransactionItem(transaction: transaction,
+                                    type: .debit,
+                                    account: debitAccount,
+                                    amount: statment.getAmount(),
+                                    createdByUser: createdByUser,
+                                    createDate: createDate,
+                                    context: context)
             }
         }
         return transaction
@@ -171,19 +194,19 @@ final class Transaction: BaseEntity {
         let accountTIs = accountTIs1.filter({$0.transaction?.comment == comment && $0.transaction?.applied == true})
 
         // 2. Find all thansactions for transactionItems from step 1
-        var tr: [Transaction] = []
-        accountTIs.forEach({tr.append($0.transaction!)})
+        var transactions: [Transaction] = []
+        accountTIs.forEach({transactions.append($0.transaction!)})
 
         /* 3. Preperation. Find pairs (account, transactionDate) fot transactions from step 2 where account != account
          from the method signature. create account set
          */
         var zeroIterationCandidatesArray: [(account: Account, transactionDate: Date)] = []
         var accountSet: Set<Account> = []
-        for tran in tr {
-            for ti in tran.itemsList where  ti.account != account && ti.type == transactionItemType
-                    && account.active == true && (account.directChildrenList).isEmpty {
-                    zeroIterationCandidatesArray.append((account: ti.account!, transactionDate: tran.date))
-                    accountSet.insert(ti.account!)
+        for transaction in transactions {
+            for tranItem in transaction.itemsList where  tranItem.account != account
+            && tranItem.type == transactionItemType && account.active == true && (account.directChildrenList).isEmpty {
+                    zeroIterationCandidatesArray.append((account: tranItem.account!, transactionDate: transaction.date))
+                    accountSet.insert(tranItem.account!)
             }
         }
 
