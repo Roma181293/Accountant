@@ -522,7 +522,7 @@ extension MonobankViewController: UITableViewDelegate, UITableViewDataSource {
 extension MonobankViewController: HolderReceiverDelegate {
     @objc func selectHolder() {
         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let holderTableViewController = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.holderTableViewController) as! HolderTableViewController
+        let holderTableViewController = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.holderTableVC) as! HolderTableViewController
         holderTableViewController.delegate = self
         holderTableViewController.holder = holder
         self.navigationController?.pushViewController(holderTableViewController, animated: true)

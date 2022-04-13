@@ -64,7 +64,7 @@ class AnalyticsTableViewController: UITableViewController {
            selectedAccount != account {
             
             let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-            let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.analyticsViewController) as! AnalyticsViewController
+            let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.analyticsVC) as! AnalyticsViewController
             vc.account = selectedAccount
             vc.sortCategoryBy = sortCategoryBy
             vc.dateComponent = dateComponent

@@ -40,13 +40,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //MARK: Check is app launched before
         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         if !UserProfile.isAppLaunchedBefore() {
-            let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.welcomeViewController) as! WelcomeViewController
+            let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.welcomeVC) as! WelcomeViewController
             window = UIWindow(frame: UIScreen.main.bounds)
             window?.makeKeyAndVisible()
             window?.rootViewController = UINavigationController(rootViewController: vc)
         }
         else if UserProfile.getUserAuth() == .bioAuth {
-            let authVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.bioAuthViewController) as! BiometricAuthViewController
+            let authVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.bioAuthVC) as! BiometricAuthViewController
             window = UIWindow(frame: UIScreen.main.bounds)
             window?.makeKeyAndVisible()
             window?.rootViewController = authVC
@@ -83,7 +83,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let userAuthType = UserProfile.getUserAuth()
         if userAuthType == .bioAuth {
             let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-            let authVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.bioAuthViewController) as! BiometricAuthViewController
+            let authVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.bioAuthVC) as! BiometricAuthViewController
             authVC.previousNavigationStack = window?.rootViewController
             window = UIWindow(frame: UIScreen.main.bounds)
             
@@ -105,7 +105,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         else if userAuthType == .appAuth {
             let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-            let authVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.authPinAndBioViewController) as! AuthPinAndBiometricViewController
+            let authVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.authPinAndBioVC) as! AuthPinAndBiometricViewController
             authVC.previousNavigationStack = window?.rootViewController
             window = UIWindow(frame: UIScreen.main.bounds)
             if let appBecomeBackgroundDate = UserProfile.getAppBecomeBackgroundDate() {

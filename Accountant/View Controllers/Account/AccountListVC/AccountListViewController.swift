@@ -158,7 +158,7 @@ class AccountListViewController: UIViewController, UIScrollViewDelegate{
 //        }
         
         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let currencyTableViewController = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.currencyTableViewController) as! CurrencyTableViewController
+        let currencyTableViewController = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.currencyTableVC) as! CurrencyTableViewController
         currencyTableViewController.delegate = self
         currencyTableViewController.currency = currency
         self.navigationController?.pushViewController(currencyTableViewController, animated: true)
@@ -407,7 +407,7 @@ class AccountListViewController: UIViewController, UIScrollViewDelegate{
     
     private func showPurchaseOfferVC() {
         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.purchaseOfferViewController) as! PurchaseOfferViewController
+        let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.purchaseOfferVC) as! PurchaseOfferViewController
         self.present(vc, animated: true, completion: nil)
     }
 }

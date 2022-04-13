@@ -133,7 +133,7 @@ class TransactionListViewController: UIViewController{
     
     @objc func showPurchaseOfferVC() {
         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.purchaseOfferViewController) as! PurchaseOfferViewController
+        let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.purchaseOfferVC) as! PurchaseOfferViewController
         self.present(vc, animated: true, completion: nil)
     }
     
@@ -154,13 +154,13 @@ class TransactionListViewController: UIViewController{
         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         
         if UserProfile.isUseMultiItemTransaction(environment: environment) {
-            let transactioEditorVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.complexTransactionEditorViewController) as! ComplexTransactionEditorViewController
+            let transactioEditorVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.complexTransactionEditorVC) as! ComplexTransactionEditorViewController
             
             transactioEditorVC.context = context
             self.navigationController?.pushViewController(transactioEditorVC, animated: true)
         }
         else {
-            let transactioEditorVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.simpleTransactionEditorViewController) as! SimpleTransactionEditorViewController
+            let transactioEditorVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.simpleTransactionEditorVC) as! SimpleTransactionEditorViewController
             //        transactioEditorVC.interstitial = interstitial
             transactioEditorVC.isUserHasPaidAccess = isUserHasPaidAccess
             self.navigationController?.pushViewController(transactioEditorVC, animated: true)
@@ -287,20 +287,20 @@ extension TransactionListViewController: UITableViewDelegate, UITableViewDataSou
         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
       
         if transaction.itemsList.count > 2 || UserProfile.isUseMultiItemTransaction(environment: environment) {
-            let transactioEditorVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.complexTransactionEditorViewController) as! ComplexTransactionEditorViewController
+            let transactioEditorVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.complexTransactionEditorVC) as! ComplexTransactionEditorViewController
             transactioEditorVC.transaction = transaction
             transactioEditorVC.context = context
             self.navigationController?.pushViewController(transactioEditorVC, animated: true)
         }
         else if transaction.applied == false || UserProfile.isUseMultiItemTransaction(environment: environment) {
-            let transactioEditorVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.complexTransactionEditorViewController) as! ComplexTransactionEditorViewController
+            let transactioEditorVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.complexTransactionEditorVC) as! ComplexTransactionEditorViewController
             transactioEditorVC.transaction = transaction
             transactioEditorVC.mode = .editDraft
             transactioEditorVC.context = context
             self.navigationController?.pushViewController(transactioEditorVC, animated: true)
         }
         else {
-            let transactioEditorVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.simpleTransactionEditorViewController) as! SimpleTransactionEditorViewController
+            let transactioEditorVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.simpleTransactionEditorVC) as! SimpleTransactionEditorViewController
             transactioEditorVC.transaction = transaction
             //        transactioEditorVC.interstitial = interstitial
             transactioEditorVC.isUserHasPaidAccess = isUserHasPaidAccess

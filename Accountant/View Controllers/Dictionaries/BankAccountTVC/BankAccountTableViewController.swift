@@ -93,7 +93,7 @@ class BankAccountTableViewController: UITableViewController {
                 self.bankAccount = selectedBankAccount
                 
                 let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-                let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.accountNavigatorTableViewController) as! AccountNavigatorTableViewController
+                let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.accountNavigatorTableVC) as! AccountNavigatorTableViewController
                 vc.context = self.context
                 vc.showHiddenAccounts = false
                 vc.canModifyAccountStructure = false

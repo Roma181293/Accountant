@@ -73,7 +73,7 @@ class AddAccountViewController: UIViewController {
     
     @IBAction func selectCurrency(_ sender: UIButton){
         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let currencyTableViewController = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.currencyTableViewController) as! CurrencyTableViewController
+        let currencyTableViewController = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.currencyTableVC) as! CurrencyTableViewController
         currencyTableViewController.delegate = self
         currencyTableViewController.currency = currency
         self.navigationController?.pushViewController(currencyTableViewController, animated: true)

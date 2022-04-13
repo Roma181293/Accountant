@@ -124,7 +124,7 @@ class WelcomeViewController: UIViewController {
         testButton.isUserInteractionEnabled = false
         
         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.startAccountingViewController) as! StartAccountingViewController
+        let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.startAccountingVC) as! StartAccountingViewController
         self.navigationController?.pushViewController(vc, animated: true)
     }
     

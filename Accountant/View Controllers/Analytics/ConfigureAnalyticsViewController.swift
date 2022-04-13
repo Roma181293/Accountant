@@ -300,7 +300,7 @@ class ConfigureAnalyticsViewController: UIViewController {
             guard isUserHasPaidAccess || isPurchaseOfferDidShow
             else {
                 let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-                let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.purchaseOfferViewController) as! PurchaseOfferViewController
+                let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.purchaseOfferVC) as! PurchaseOfferViewController
                 analyticsViewController.navigationController?.present(vc, animated: true, completion: nil)
                 isPurchaseOfferDidShow = true
                 analyticsViewController.sortCategoryBy = sortCategoryBy
@@ -319,7 +319,7 @@ class ConfigureAnalyticsViewController: UIViewController {
             guard isUserHasPaidAccess || isPurchaseOfferDidShow
             else {
                 let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-                let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.purchaseOfferViewController) as! PurchaseOfferViewController
+                let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.purchaseOfferVC) as! PurchaseOfferViewController
                 analyticsViewController.navigationController?.present(vc, animated: true, completion: nil)
                 isPurchaseOfferDidShow = true
                 analyticsViewController.transferedDateInterval = dateInterval
@@ -355,7 +355,7 @@ class ConfigureAnalyticsViewController: UIViewController {
 //                }
             case .offer:
                 let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-                let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.purchaseOfferViewController) as! PurchaseOfferViewController
+                let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.purchaseOfferVC) as! PurchaseOfferViewController
                 self.analyticsViewController.navigationController?.present(vc, animated: true, completion: nil)
             default:
                 return

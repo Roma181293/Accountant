@@ -511,7 +511,7 @@ class SimpleTransactionEditorViewController: UIViewController {//}, GADFullScree
                 //                    }
                 case .offer:
                     let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-                    let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.purchaseOfferViewController) as! PurchaseOfferViewController
+                    let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.purchaseOfferVC) as! PurchaseOfferViewController
                     self.navigationController?.present(vc, animated: true, completion: nil)
                 default:
                     return
@@ -704,7 +704,7 @@ class SimpleTransactionEditorViewController: UIViewController {//}, GADFullScree
     
     @objc func selectDebitAccount() {
         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.accountNavigatorTableViewController) as! AccountNavigatorTableViewController
+        let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.accountNavigatorTableVC) as! AccountNavigatorTableViewController
         vc.simpleTransactionEditorVC = self
         vc.showHiddenAccounts = false
         vc.searchBarIsHidden = false
@@ -719,7 +719,7 @@ class SimpleTransactionEditorViewController: UIViewController {//}, GADFullScree
     
     @objc func selectCreditAccount() {
         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.accountNavigatorTableViewController) as! AccountNavigatorTableViewController
+        let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.accountNavigatorTableVC) as! AccountNavigatorTableViewController
         vc.simpleTransactionEditorVC = self
         vc.showHiddenAccounts = false
         vc.searchBarIsHidden = false

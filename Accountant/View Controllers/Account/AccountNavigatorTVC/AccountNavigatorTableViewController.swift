@@ -194,7 +194,7 @@ class AccountNavigatorTableViewController: UITableViewController, AccountManager
         }
         else {
             let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-            let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.accountNavigatorTableViewController) as! AccountNavigatorTableViewController
+            let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.accountNavigatorTableVC) as! AccountNavigatorTableViewController
             vc.account = selectedAccount
             vc.isUserHasPaidAccess = isUserHasPaidAccess
             vc.context = context

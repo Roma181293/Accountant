@@ -217,7 +217,7 @@ extension ImportTransactionViewController: UITableViewDelegate, UITableViewDataS
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let transactioEditorVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.complexTransactionEditorViewController) as! ComplexTransactionEditorViewController
+        let transactioEditorVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.complexTransactionEditorVC) as! ComplexTransactionEditorViewController
         transactioEditorVC.transaction = preTransactionList.filter({if showOlnyErrors && $0.isReadyToSave {return false} else {return true}})[indexPath.row].transaction
         transactioEditorVC.context = context
         transactioEditorVC.mode = .editPreDraft

@@ -30,7 +30,7 @@ class AccountManagerController {
         if AccessCheckManager.checkUserAccessToCreateSubAccountForSelected(account: account, isUserHasPaidAccess: delegate.isUserHasPaidAccess, environment: delegate.environment) {
             guard let account = self.delegate.account else {
                 let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-                let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.addAccountViewController) as! AddAccountViewController
+                let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.addAccountVC) as! AddAccountViewController
                 vc.environment = delegate.environment
                 vc.isUserHasPaidAccess = delegate.isUserHasPaidAccess
                 self.delegate.navigationController?.pushViewController(vc, animated: true)
@@ -69,7 +69,7 @@ class AccountManagerController {
             }
             else {
                 let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-                let accountEditorWithInitialBalanceVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.accountEditorWithInitialBalanceViewController) as! AccountEditorWithInitialBalanceViewController
+                let accountEditorWithInitialBalanceVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.accountEditorWithInitialBalanceVC) as! AccountEditorWithInitialBalanceViewController
                 accountEditorWithInitialBalanceVC.parentAccount = account
                 self.delegate.navigationController?.pushViewController(accountEditorWithInitialBalanceVC, animated: true)
             }
@@ -234,7 +234,7 @@ class AccountManagerController {
             if AccessCheckManager.checkUserAccessToCreateSubAccountForSelected(account: selectedAccount, isUserHasPaidAccess: self.delegate.isUserHasPaidAccess, environment: self.delegate.environment) {
                 if selectedAccount.currency == nil {
                     let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-                    let accountEditorWithInitialBalanceVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.accountEditorWithInitialBalanceViewController) as! AccountEditorWithInitialBalanceViewController
+                    let accountEditorWithInitialBalanceVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.accountEditorWithInitialBalanceVC) as! AccountEditorWithInitialBalanceViewController
                     
                     accountEditorWithInitialBalanceVC.parentAccount = selectedAccount
                     self.delegate.navigationController?.pushViewController(accountEditorWithInitialBalanceVC, animated: true)
@@ -309,7 +309,7 @@ class AccountManagerController {
     func addTransactionWithDebitAccount(indexPath: IndexPath, selectedAccount: Account) -> UIContextualAction {
         let addDebitTransaction = UIContextualAction(style: .normal, title: NSLocalizedString("To",comment: "")) { (contAct, view, complete) in
             let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-            let simpleTransactionEditorVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.simpleTransactionEditorViewController) as! SimpleTransactionEditorViewController
+            let simpleTransactionEditorVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.simpleTransactionEditorVC) as! SimpleTransactionEditorViewController
             simpleTransactionEditorVC.debit = selectedAccount
             simpleTransactionEditorVC.delegate = self.delegate
             self.delegate.navigationController?.pushViewController(simpleTransactionEditorVC, animated: true)
@@ -322,7 +322,7 @@ class AccountManagerController {
     func addTransactionWithCreditAccount(indexPath: IndexPath, selectedAccount: Account) -> UIContextualAction {
         let addCreditTransaction = UIContextualAction(style: .normal, title: NSLocalizedString("From",comment: "")) { (contAct, view, complete) in
             let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-            let simpleTransactionEditorVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.simpleTransactionEditorViewController) as! SimpleTransactionEditorViewController
+            let simpleTransactionEditorVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.simpleTransactionEditorVC) as! SimpleTransactionEditorViewController
             simpleTransactionEditorVC.credit = selectedAccount
             simpleTransactionEditorVC.delegate = self.delegate
             self.delegate.navigationController?.pushViewController(simpleTransactionEditorVC, animated: true)
@@ -335,7 +335,7 @@ class AccountManagerController {
     func editAccount(indexPath: IndexPath, selectedAccount: Account) -> UIContextualAction {
         let editAccount = UIContextualAction(style: .normal, title: NSLocalizedString("Edit",comment: "")) { (contAct, view, complete) in
             let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-            let accountEditorWithInitialBalanceViewController = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.accountEditorWithInitialBalanceViewController) as! AccountEditorWithInitialBalanceViewController
+            let accountEditorWithInitialBalanceViewController = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.accountEditorWithInitialBalanceVC) as! AccountEditorWithInitialBalanceViewController
             accountEditorWithInitialBalanceViewController.parentAccount = selectedAccount.rootAccount
             accountEditorWithInitialBalanceViewController.account = selectedAccount
             self.delegate.navigationController?.pushViewController(accountEditorWithInitialBalanceViewController, animated: true)
@@ -348,7 +348,7 @@ class AccountManagerController {
     
     func showPurchaseOfferVC() {
         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.purchaseOfferViewController) as! PurchaseOfferViewController
+        let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.purchaseOfferVC) as! PurchaseOfferViewController
         self.delegate.present(vc, animated: true, completion: nil)
     }
 }

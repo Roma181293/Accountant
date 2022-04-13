@@ -468,7 +468,7 @@ class AccountEditorWithInitialBalanceViewController: UIViewController {
     
     @objc func selectHolder() {
         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let holderTableViewController = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.holderTableViewController) as! HolderTableViewController
+        let holderTableViewController = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.holderTableVC) as! HolderTableViewController
         holderTableViewController.delegate = self
         holderTableViewController.holder = holder
         self.navigationController?.pushViewController(holderTableViewController, animated: true)
@@ -482,7 +482,7 @@ class AccountEditorWithInitialBalanceViewController: UIViewController {
         //        }
         
         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let keeperTableViewController = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.keeperTableViewController) as! KeeperTableViewController
+        let keeperTableViewController = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.keeperTableVC) as! KeeperTableViewController
         keeperTableViewController.delegate = self
         keeperTableViewController.keeper = keeper
         if parentAccount == moneyRootAccount {
@@ -505,7 +505,7 @@ class AccountEditorWithInitialBalanceViewController: UIViewController {
         }
         
         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let currencyTableViewController = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.currencyTableViewController) as! CurrencyTableViewController
+        let currencyTableViewController = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.currencyTableVC) as! CurrencyTableViewController
         currencyTableViewController.delegate = self
         currencyTableViewController.currency = currency
         self.navigationController?.pushViewController(currencyTableViewController, animated: true)
@@ -543,7 +543,7 @@ class AccountEditorWithInitialBalanceViewController: UIViewController {
     
     private func showPurchaseOfferVC() {
         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.purchaseOfferViewController) as! PurchaseOfferViewController
+        let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.purchaseOfferVC) as! PurchaseOfferViewController
         self.present(vc, animated: true, completion: nil)
     }
     

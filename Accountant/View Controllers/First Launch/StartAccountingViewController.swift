@@ -174,7 +174,7 @@ class StartAccountingViewController: UIViewController, CurrencyReceiverDelegate 
     
     private func addCurrencyTVC() {
         let storyboard = UIStoryboard(name: "Main", bundle: .main)
-        currencyTVC = storyboard.instantiateViewController(identifier: Constants.Storyboard.currencyTableViewController)
+        currencyTVC = storyboard.instantiateViewController(identifier: Constants.Storyboard.currencyTableVC)
             as CurrencyTableViewController
         currencyTVC.delegate = self
         currencyTVC.context = CoreDataStack.shared.persistentContainer.viewContext
@@ -220,7 +220,7 @@ class StartAccountingViewController: UIViewController, CurrencyReceiverDelegate 
     
     private func addAccountNavigatorTVC() {
         let storyboard = UIStoryboard(name: "Main", bundle: .main)
-        accountNavigationTVC = storyboard.instantiateViewController(identifier: Constants.Storyboard.accountNavigatorTableViewController) as AccountNavigatorTableViewController
+        accountNavigationTVC = storyboard.instantiateViewController(identifier: Constants.Storyboard.accountNavigatorTableVC) as AccountNavigatorTableViewController
         
         accountNavigationTVC.account = Account.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.income), context: context)
         accountNavigationTVC.searchBarIsHidden = true

@@ -159,7 +159,7 @@ class SettingsViewController: UIViewController {
     
     func showPurchaseOfferVC() {
         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.purchaseOfferViewController) as! PurchaseOfferViewController
+        let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.purchaseOfferVC) as! PurchaseOfferViewController
         self.navigationController?.present(vc, animated: true, completion: nil)
     }
     
@@ -213,7 +213,7 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
 //            self.navigationController?.pushViewController(vc, animated: true)
             break
         case .accountsManager:
-            let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.accountNavigatorTableViewController) as!
+            let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.accountNavigatorTableVC) as!
                 AccountNavigatorTableViewController
             vc.searchBarIsHidden = false
             vc.isUserHasPaidAccess = isUserHasPaidAccess
@@ -287,12 +287,12 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
             let webVC = WebViewController(url: url!, configuration: config)
             self.present(webVC, animated: true, completion: nil)
         case .startAccounting:
-            let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.startAccountingViewController) as! StartAccountingViewController
+            let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.startAccountingVC) as! StartAccountingViewController
             vc.vc = self.parent
             self.navigationController?.pushViewController(vc, animated: true)
         case .userGuides:
             let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-            let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.instructionViewController) as! InstructionViewController
+            let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.instructionVC) as! InstructionViewController
             self.present(vc, animated: true, completion: nil)
         case .bankProfiles:
             let vc = UserBankProfileTableViewController()
@@ -344,7 +344,7 @@ extension SettingsViewController: UIDocumentPickerDelegate {
         else {
             
             let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-            let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.importTransactionViewController) as! ImportTransactionViewController
+            let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.importTransactionVC) as! ImportTransactionViewController
             vc.dataFromFile = data
             self.navigationController?.pushViewController(vc, animated: true)
             

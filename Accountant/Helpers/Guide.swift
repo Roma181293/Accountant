@@ -27,7 +27,7 @@ struct GuideItem {
     let backgroungColor: UIColor?
     let tintColor: UIColor?
     let text: String
-    
+
     init(image: String, backgroungColor: UIColor, text: String) {
         self.image = image
         self.emoji = nil
@@ -35,6 +35,7 @@ struct GuideItem {
         self.backgroungColor = backgroungColor
         self.text = text
     }
+
     init(image: String, backgroungColor: UIColor, tintColor: UIColor, text: String) {
         self.image = image
         self.emoji = nil
@@ -42,6 +43,7 @@ struct GuideItem {
         self.backgroungColor = backgroungColor
         self.text = text
     }
+
     init(emoji: String, backgroungColor: UIColor, text: String) {
         self.image = nil
         self.emoji = emoji
@@ -49,6 +51,7 @@ struct GuideItem {
         self.tintColor = nil
         self.text = text
     }
+
     init(image: String, text: String) {
         self.image = image
         self.emoji = nil
@@ -56,6 +59,7 @@ struct GuideItem {
         self.tintColor = nil
         self.text = text
     }
+
     init(image: String, tintColor: UIColor, text: String) {
         self.image = image
         self.emoji = nil
@@ -63,6 +67,7 @@ struct GuideItem {
         self.tintColor = tintColor
         self.text = text
     }
+
     init(emoji: String, text: String) {
         self.emoji = emoji
         self.image = nil
@@ -70,6 +75,7 @@ struct GuideItem {
         self.tintColor = nil
         self.text = text
     }
+    
     init(text: String) {
         self.backgroungColor = nil
         self.emoji = nil

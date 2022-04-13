@@ -8,13 +8,13 @@
 
 import Foundation
 
-enum KeeperType : Int16 {
+enum KeeperType: Int16 {
     case cash = 0
     case bank = 1
     case person = 2
 }
 
-enum BaseAccounts : String, CaseIterable {
+enum BaseAccounts: String, CaseIterable {
     case income = "Income"
     case expense = "Expenses"
     case money = "Money"
@@ -26,21 +26,21 @@ enum BaseAccounts : String, CaseIterable {
     case other1 = "Other"
 }
 
-enum SortCategoryType : Int {
+enum SortCategoryType: Int {
     case aToz = 0
     case zToa = 1
     case zeroToNine = 2
     case nineToZero = 3
 }
 
-enum DistributionType : Int {
+enum DistributionType: Int {
     case amount = 0
     case currecy = 1
     case holder = 2
     case keeper = 3
 }
 
-enum AuthType : Int{
+enum AuthType: Int {
     case appAuth = 0
     case bioAuth = 1
     case none = 2
