@@ -163,7 +163,7 @@ class AnalyticsViewController: UIViewController, UIScrollViewDelegate {//}, GADF
             self.present(alert, animated: true, completion: nil)
         }
         
-        presentingData.sortTableData(by: sortCategoryBy)
+        presentingData.sortTableDataBy(sortCategoryBy)
         
         analyticsTableViewController.account = account
         analyticsTableViewController.dateInterval = dateInterval
@@ -181,7 +181,7 @@ class AnalyticsViewController: UIViewController, UIScrollViewDelegate {//}, GADF
     }
     
     func sortTableView (){
-        presentingData.sortTableData(by: sortCategoryBy)
+        presentingData.sortTableDataBy(sortCategoryBy)
         analyticsTableViewController.listOfAccountsToShow = presentingData.tableData
         analyticsTableViewController.tableView.reloadData()
     }

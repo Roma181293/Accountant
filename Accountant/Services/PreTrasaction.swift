@@ -15,44 +15,35 @@ class PreTransaction {
         if transaction.date == nil {
             return false
         }
-    
         for item in transaction.itemsList {
             if item.amount == nil || item.account == nil {
                 return false
             }
         }
-        
         if isSingleCurrency && totalAmountForType(.debit) != totalAmountForType(.credit) {
             return false
         }
         return true
     }
-    
+
     private var isSingleCurrency: Bool {
         for item1 in transaction.itemsList {
-            for item2 in transaction.itemsList {
-                if item1.account?.currency != item2.account?.currency {
-                    return false
-                }
+            for item2 in transaction.itemsList where item1.account?.currency != item2.account?.currency {
+                return false
             }
         }
         return true
     }
-    
-    private func totalAmountForType(_ type : TransactionItem.TypeEnum) -> Double? {
+
+    private func totalAmountForType(_ type: TransactionItem.TypeEnum) -> Double? {
         var totalAmount: Double = 0
         for item in transaction.itemsList.filter({if $0.type == type {return true} else {return false}}) {
             if item.amount >= 0 {
                 totalAmount += item.amount
-            }
-            else {
+            } else {
                 return nil
             }
         }
         return totalAmount
     }
-    
-    func printPreTransaction() {
-    //      //  print(transactionDate, debitAccount?.nativeId, creditAccount?.nativeId, amountInDebitCurrency, amountInCreditCurrency, memo, isReadyToCreateTransaction)
-        }
 }

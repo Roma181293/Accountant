@@ -19,18 +19,16 @@ class ExchangeRatesLoadingService {
         }
         
         var exchangeDate: Date = Calendar.current.date(byAdding: .day, value: 1, to: lastExchangeDate)!
-//        print("exchangeDate [0] ", exchangeDate)
         while exchangeDate <= Calendar.current.startOfDay(for: Date()) {
-//            print(#function, "exchangeDate", exchangeDate)
             NetworkServices.loadCurrency(date: exchangeDate, compliting: { (currencyHistoricalData, error) in
                 if let currencyHistoricalData = currencyHistoricalData {
                     do {
                         let backgroundContext = CoreDataStack.shared.persistentContainer.newBackgroundContext()
                         
-                        Exchange.createExchangeRatesFrom(currencyHistoricalData: currencyHistoricalData, context: backgroundContext)
+                        Exchange.createExchangeRatesFrom(currencyHistoricalData: currencyHistoricalData,
+                                                         context: backgroundContext)
                         try backgroundContext.save()
-                    }
-                    catch let error{
+                    } catch let error {
                         print(error.localizedDescription)
                     }
                 }

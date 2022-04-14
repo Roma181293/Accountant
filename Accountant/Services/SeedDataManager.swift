@@ -20,18 +20,18 @@ class SeedDataManager {
     static func clearAllTestData(coreDataStack: CoreDataStack) throws {
         guard let env = coreDataStack.activeEnviroment(), env == .test else {return}
         let context = coreDataStack.persistentContainer.viewContext
-        try deleteAllTransactions(context: context, env:env)
-        try deleteAllAccounts(context: context, env:env)
-        try deleteAllCurrencies(context: context, env:env)
-        try deleteAllKeepers(context: context, env:env)
-        try deleteAllHolders(context: context, env:env)
+        try deleteAllTransactions(context: context, env: env)
+        try deleteAllAccounts(context: context, env: env)
+        try deleteAllCurrencies(context: context, env: env)
+        try deleteAllKeepers(context: context, env: env)
+        try deleteAllHolders(context: context, env: env)
         try deleteAllBankAccounts(context: context, env: env)
         try deleteAllUBP(context: context, env: env)
         try deleteAllRates(context: context, env: env)
         try deleteAllExchanges(context: context, env: env)
         try CoreDataStack.shared.saveContext(context)
     }
-    
+
     static public func addTestData(coreDataStack: CoreDataStack) throws {
         guard let env = coreDataStack.activeEnviroment(), env == .test else {return}
         let context = coreDataStack.persistentContainer.viewContext
@@ -43,9 +43,8 @@ class SeedDataManager {
         try addTestBaseAccountsWithTransaction(accountingCurrency: currency, context: context)
         try CoreDataStack.shared.saveContext(context)
     }
-    
+
     static public func createCurrenciesHoldersKeepers(coreDataStack: CoreDataStack) throws {
-//        guard let env = coreDataStack.activeEnviroment() else {return}
         let context = coreDataStack.persistentContainer.viewContext
         try addCurrencies(context: context)
         try addHolders(context: context)
@@ -397,12 +396,7 @@ class SeedDataManager {
                                                  debitAmount: 200,
                                                  creditAmount: 200,
                                                  context: context)
-        
-        
-        
-        
-        
-        
+
         Transaction.addTransactionWith2TranItems(date: calendar.date(byAdding: .day, value: -29, to: Date())!,
                                                  debit: food!,
                                                  credit: salaryCard!,

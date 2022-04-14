@@ -34,8 +34,7 @@ struct DataForPieCharts {
                 sum += item.amountInSelectedCurrency
                 if tmpResults[accountCurrency] != nil {
                     tmpResults[accountCurrency] = tmpResults[accountCurrency]! + item.amountInSelectedCurrency
-                }
-                else {
+                } else {
                     tmpResults[accountCurrency] = item.amountInSelectedCurrency
                 }
             })
@@ -46,14 +45,13 @@ struct DataForPieCharts {
             }
             
         case .holder:
-            var tmpResults : [Holder:Double] = [:]
+            var tmpResults: [Holder:Double] = [:]
             accountsData.forEach({ item in
                 guard  let accountHolder = item.account.holder, item.amountInSelectedCurrency > 0 else {return}
                 sum += item.amountInSelectedCurrency
                 if tmpResults[accountHolder] != nil {
                     tmpResults[accountHolder] = tmpResults[accountHolder]! + item.amountInSelectedCurrency
-                }
-                else {
+                } else {
                     tmpResults[accountHolder] = item.amountInSelectedCurrency
                 }
             })
