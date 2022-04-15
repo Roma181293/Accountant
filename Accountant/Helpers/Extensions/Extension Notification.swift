@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 extension Notification.Name {
     static let environmentDidChange = Notification.Name("environmentDidChange")
     static let receivedProAccessData = Notification.Name("receivedProAccessData")
