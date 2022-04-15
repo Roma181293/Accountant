@@ -9,12 +9,12 @@
 import Foundation
 
 protocol CurrencyHistoricalDataProtocol {
-    func exchangeDateStringFormat() -> String?  //dd.MM.yyyy
+    func exchangeDateStringFormat() -> String?  // dd.MM.yyyy
     func ecxhangeDate() -> Date?
-    func exchangeRate(pay: String, forOne curr1 : String) -> Double?
+    func exchangeRate(pay: String, forOne curr1: String) -> Double?
     func listOfCurrencies() -> [String]
-    func listOfCurrenciesWithDescription() -> [(String,String)]
+    func listOfCurrenciesWithDescription() -> [(String, String)]
     func getRateList() -> [(amount: Double, currencyCode: String)]
-    func getBaseCurrencyCode() -> String?  //UAH
-//    func getBaseCurrencyISO4217() -> Int16?  //980
+    func getBaseCurrencyCode() -> String?  // UAH
+//    func getBaseCurrencyISO4217() -> Int16?  // 980
 }

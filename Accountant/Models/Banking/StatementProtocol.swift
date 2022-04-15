@@ -7,9 +7,9 @@
 
 import Foundation
 
-enum StatmentType{
+enum StatmentType {
     case from
-    case to
+    case to // swiftlint:disable:this identifier_name
 }
 protocol StatementProtocol {
     func getAmount() -> Double
