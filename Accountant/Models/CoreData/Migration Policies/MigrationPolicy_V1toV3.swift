@@ -128,7 +128,7 @@ class MigrationPolicy_V1toV3: NSEntityMigrationPolicy { // swiftlint:disable:thi
         try addMe(manager: manager)
     }
 
-    func addKeeper(name: String, type: KeeperType, manager: NSMigrationManager) throws {
+    func addKeeper(name: String, type: Keeper.TypeEnum, manager: NSMigrationManager) throws {
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Keeper")
         fetchRequest.predicate = NSPredicate(format: "name = %@", name)
         let results = try manager.destinationContext.fetch(fetchRequest)

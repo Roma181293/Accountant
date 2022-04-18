@@ -8,11 +8,7 @@
 
 import Foundation
 
-enum KeeperType: Int16 {
-    case cash = 0
-    case bank = 1
-    case person = 2
-}
+
 
 enum BaseAccounts: String, CaseIterable {
     case income = "Income"

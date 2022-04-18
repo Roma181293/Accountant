@@ -26,7 +26,7 @@ struct Constants {
 
         static let bioAuthVC = "BioAuthVC_ID"
         static let authPinAndBioVC = "AuthPinAndBiometricVC_ID"
-        
+
         static let purchaseOfferVC = "PurchaseOfferVC_ID"
 
         static let transactionListVC = "TransactionListVC_ID"

@@ -42,7 +42,7 @@ class AccountNavigatorTableViewController: UITableViewController, AccountManager
     var transactionItemType: TransactionItem.TypeEnum?
     var accountRequestorViewController: AccountRequestor?
     // TRANSPORT VARIABLES
-    
+
     weak var account: Account?
     var excludeAccountList: [Account] = []
 

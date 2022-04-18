@@ -10,20 +10,26 @@ import CoreData
 
 final class Keeper: BaseEntity {
 
+    @objc enum TypeEnum: Int16 {
+        case cash = 0
+        case bank = 1
+        case person = 2
+    }
+
     @nonobjc public class func fetchRequest() -> NSFetchRequest<Keeper> {
         return NSFetchRequest<Keeper>(entityName: "Keeper")
     }
 
     @NSManaged public var name: String
-    @NSManaged public var type: Int16
+    @NSManaged public var type: TypeEnum
     @NSManaged public var accounts: Set<Account>!
     @NSManaged public var userBankProfiles: Set<UserBankProfile>!
 
-    convenience init(name: String, type: KeeperType, createdByUser: Bool = true, createDate: Date = Date(),
+    convenience init(name: String, type: Keeper.TypeEnum, createdByUser: Bool = true, createDate: Date = Date(),
                      context: NSManagedObjectContext) {
         self.init(id: UUID(), createdByUser: createdByUser, createDate: createDate, context: context)
         self.name = name
-        self.type = type.rawValue
+        self.type = type
     }
 
     var accountsList: [Account] {
@@ -51,7 +57,7 @@ final class Keeper: BaseEntity {
         }
     }
 
-    static func createAndGetKeeper(name: String, type: KeeperType, createdByUser: Bool = true,
+    static func createAndGetKeeper(name: String, type: Keeper.TypeEnum, createdByUser: Bool = true,
                                    createDate: Date = Date(), context: NSManagedObjectContext) throws -> Keeper {
         guard isFreeKeeperName(name, context: context) == true else {
             throw KeeperError.thisKeeperAlreadyExists
@@ -59,7 +65,7 @@ final class Keeper: BaseEntity {
         return Keeper(name: name, type: type, createdByUser: createdByUser, createDate: createDate, context: context)
     }
 
-    static func getOrCreate(name: String, type: KeeperType, createdByUser: Bool = true, createDate: Date = Date(),
+    static func getOrCreate(name: String, type: Keeper.TypeEnum, createdByUser: Bool = true, createDate: Date = Date(),
                             context: NSManagedObjectContext) throws -> Keeper {
         let fetchRequest = Keeper.fetchRequest()
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: Schema.Keeper.name.rawValue, ascending: true)]
@@ -72,7 +78,7 @@ final class Keeper: BaseEntity {
         }
     }
 
-    static func create(name: String, type: KeeperType, createdByUser: Bool = true,
+    static func create(name: String, type: Keeper.TypeEnum, createdByUser: Bool = true,
                        context: NSManagedObjectContext) throws {
         _ = try createAndGetKeeper(name: name, type: type, createdByUser: createdByUser, context: context)
     }
@@ -108,7 +114,7 @@ final class Keeper: BaseEntity {
     static func getFirstNonCashKeeper(context: NSManagedObjectContext) throws -> Keeper? {
         let fetchRequest = Keeper.fetchRequest()
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: Schema.Keeper.name.rawValue, ascending: true)]
-        fetchRequest.predicate = NSPredicate(format: "\(Schema.Keeper.type.rawValue) != %i", KeeperType.cash.rawValue)
+        fetchRequest.predicate = NSPredicate(format: "\(Schema.Keeper.type.rawValue) != %i", Keeper.TypeEnum.cash.rawValue)
         let keepers = try context.fetch(fetchRequest)
         if keepers.isEmpty {
             return nil
@@ -120,7 +126,7 @@ final class Keeper: BaseEntity {
     static func getCashKeeper(context: NSManagedObjectContext) throws -> Keeper? {
         let fetchRequest = Keeper.fetchRequest()
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: Schema.Keeper.name.rawValue, ascending: true)]
-        fetchRequest.predicate = NSPredicate(format: "\(Schema.Keeper.type.rawValue) == %i", KeeperType.cash.rawValue)
+        fetchRequest.predicate = NSPredicate(format: "\(Schema.Keeper.type.rawValue) == %i", Keeper.TypeEnum.cash.rawValue)
         let keepers = try context.fetch(fetchRequest)
         if keepers.isEmpty {
             return nil
