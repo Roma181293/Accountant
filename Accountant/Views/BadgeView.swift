@@ -57,7 +57,6 @@ class BadgeView: UIView {
                                                     attribute: NSLayoutConstraint.Attribute.centerY,
                                                     multiplier: 1,
                                                     constant: 0)
-        
         NSLayoutConstraint.activate([horizontalConstraint, verticalConstraint])
     }
     

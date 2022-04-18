@@ -28,7 +28,7 @@ class OfferView: UIView {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         return titleLabel
     }()
-    
+
     let introductoryDurationLabel: UILabel = {
         let titleLabel = UILabel()
         titleLabel.textAlignment = .center
@@ -37,10 +37,10 @@ class OfferView: UIView {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         return titleLabel
     }()
-    
+
     var offerDisclaimerLabel = ""
     var purchaseButonTitle = ""
-    
+
     let periodTitleLabel: UILabel = {
         let titleLabel = UILabel()
         titleLabel.textAlignment = .center
@@ -168,7 +168,7 @@ class OfferView: UIView {
             addSalesViewBadge(discount: discount)
         }
 
-        self.offerDisclaimerLabel = NSLocalizedString("A subscription is automatically renewed unless you cancel it at least 24 hours before the end of the billing cycle. The renewal fee will be charged on the day before the end of the current billing cycle. You can manage or cancel subscription in your iTunes account settings", comment: "")
+        self.offerDisclaimerLabel = NSLocalizedString("A subscription is automatically renewed unless you cancel it at least 24 hours before the end of the billing cycle. The renewal fee will be charged on the day before the end of the current billing cycle. You can manage or cancel subscription in your iTunes account settings", comment: "") // swiftlint:disable:this line_length
 
         self.purchaseButonTitle = NSLocalizedString("Subscribe", comment: "")
 

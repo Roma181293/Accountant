@@ -10,7 +10,7 @@ import UIKit
 
 extension UIScrollView {
     func scrollToLeft(animated: Bool) {
-        let leftOffset = CGPoint(x: -contentInset.left, y:0)
+        let leftOffset = CGPoint(x: -contentInset.left, y: 0)
         setContentOffset(leftOffset, animated: animated)
     }
 }

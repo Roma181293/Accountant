@@ -61,7 +61,6 @@ final class Keeper: BaseEntity {
 
     static func getOrCreate(name: String, type: KeeperType, createdByUser: Bool = true, createDate: Date = Date(),
                             context: NSManagedObjectContext) throws -> Keeper {
-        
         let fetchRequest = Keeper.fetchRequest()
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
         fetchRequest.predicate = NSPredicate(format: "name = %@", name)

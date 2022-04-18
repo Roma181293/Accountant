@@ -106,13 +106,13 @@ final class Account: BaseEntity {
     }
 
     var appliedTransactionItemsList: [TransactionItem] {
-        return transactionItemsList.filter{$0.transaction!.applied == true}
+        return transactionItemsList.filter({$0.transaction!.applied == true})
     }
 
     var isFreeFromTransactionItems: Bool {
         return transactionItemsList.isEmpty
     }
-    
+
     var canBeRenamed: Bool {
         if Account.isReservedAccountName(name) {
             return false
@@ -125,7 +125,7 @@ final class Account: BaseEntity {
         accounts.append(self)
         return accounts.filter({$0.isFreeFromTransactionItems == false})
     }
-    
+
     func getSubAccountWith(name: String) -> Account? {
         for child in childrenList where child.name == name {
             return child
@@ -146,7 +146,7 @@ final class Account: BaseEntity {
         self.active = !oldActive
         self.modifyDate = modifyDate
         self.modifiedByUser = modifiedByUser
-        
+
         if oldActive {// deactivation
             for anc in self.childrenList.filter({$0.active == oldActive}) {
                 anc.active = !oldActive
@@ -178,11 +178,10 @@ final class Account: BaseEntity {
         self.modifyDate = Date()
         self.modifiedByUser = true
     }
-    
+
     func canBeRemoved() throws {
         var accounts = childrenList
         accounts.append(self)
-        
         var accountUsedInTransactionItem: [Account] = []
         for acc in accounts where !acc.isFreeFromTransactionItems {
             accountUsedInTransactionItem.append(acc)
@@ -200,12 +199,11 @@ final class Account: BaseEntity {
                 throw AccountError.cantRemoveCategoryThatUsedInTransactionItem(name: accountListString)
             }
         }
-        
         if let linkedAccount = linkedAccount, !linkedAccount.isFreeFromTransactionItems {
             throw AccountError.linkedAccountHasTransactionItem(name: linkedAccount.path)
         }
     }
-    
+
     func delete(eligibilityChacked: Bool) throws {
         var accounts = childrenList
         accounts.append(self)
@@ -224,7 +222,6 @@ final class Account: BaseEntity {
         }
     }
 }
-
 
 // MARK: - BALANCE
 extension Account {
@@ -363,12 +360,7 @@ extension Account {
 
 // MARK: - method for charts
 extension Account {
-    func prepareDataToShow(dateInterval: DateInterval,
-                           selectedCurrency: Currency,
-                           currencyHistoricalData: CurrencyHistoricalDataProtocol? = nil,
-                           dateComponent: Calendar.Component, isListForAnalytic: Bool,
-                           sortTableDataBy: SortCategoryType,
-                           context: NSManagedObjectContext) throws -> PresentingData {
+    func prepareDataToShow(dateInterval: DateInterval, selectedCurrency: Currency, currencyHistoricalData: CurrencyHistoricalDataProtocol? = nil, dateComponent: Calendar.Component, isListForAnalytic: Bool, sortTableDataBy: SortCategoryType, context: NSManagedObjectContext) throws -> PresentingData {  // swiftlint:disable:this cyclomatic_complexity function_body_length function_parameter_count line_length
 
         var accountsToShow: [Account] = directChildrenList
         if !(rootAccount.name == AccountsNameLocalisationManager.getLocalizedAccountName(.money) ||
@@ -504,7 +496,6 @@ extension Account {
                               sortTableDataBy: sortTableDataBy)
     }
 }
-
 
 // MARK: - Static methods
 extension Account {
@@ -734,7 +725,7 @@ extension Account {
         }
     }
 
-    static func importAccounts(_ data: String, context: NSManagedObjectContext) throws {
+    static func importAccounts(_ data: String, context: NSManagedObjectContext) throws { // swiftlint:disable:this cyclomatic_complexity function_body_length
 
         var accountToBeAdded: [Account] = []
         var inputMatrix: [[String]] = []

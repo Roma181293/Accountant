@@ -10,24 +10,21 @@ import UIKit
 import LocalAuthentication
 
 class BiometricAuthViewController: UIViewController {
-    
-    @IBOutlet weak var biometryAuthButton : UIButton!
-    
-    var previousNavigationStack : UIViewController?
-    
+
+    @IBOutlet weak var biometryAuthButton: UIButton!
+
+    var previousNavigationStack: UIViewController?
+
     var context = LAContext()
-    
+
     /// The current authentication state.
     var state = AuthenticationState.loggedout {
         didSet {
-            if state == .loggedin {
+            if state == .loggedin, let appDelegate = UIApplication.shared.delegate as? AppDelegate {
                 UserProfile.setAppBecomeBackgroundDate(nil)
-                let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                
                 if let previousNavigationStack = previousNavigationStack {
                     appDelegate.window?.rootViewController = previousNavigationStack
-                }
-                else {
+                } else {
                     let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
                     let tabBar = storyBoard.instantiateViewController(withIdentifier: "TabBarController_ID")
                     self.navigationController?.popToRootViewController(animated: false)
@@ -36,41 +33,32 @@ class BiometricAuthViewController: UIViewController {
             }
         }
     }
-   
-    
+
     override func viewWillAppear(_ animated: Bool) {
         if context.canEvaluatePolicy(.deviceOwnerAuthentication, error: nil) {
-            
             if context.biometryType == .faceID {
                 biometryAuthButton.setImage(UIImage(systemName: "faceid"), for: .normal)
-            }
-            else if context.biometryType == .touchID {
+            } else if context.biometryType == .touchID {
                 biometryAuthButton.setImage(UIImage(systemName: "touchid"), for: .normal)
-            }
-            else if context.biometryType == .none{
+            } else if context.biometryType == .none {
                 print(".none")
             }
             biometryAuthButton.isHidden = true
             biometryAuthentication()
         }
     }
-    
-    
-    @IBAction func biometryAuthentication(){
+
+    @IBAction func biometryAuthentication() {
         context.localizedCancelTitle = NSLocalizedString("Cancel", comment: "")
-        
-        // First check if we have the needed hardware support.
         var error: NSError?
         if context.canEvaluatePolicy(.deviceOwnerAuthentication, error: &error) {
             biometryAuthButton.isHidden = true
             let reason = NSLocalizedString("to activate", comment: "")
             context.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: reason ) { success, error in
                 if success {
-                    // Move to the main thread because a state update triggers UI changes.
                     DispatchQueue.main.async { [unowned self] in
                         self.state = .loggedin
                     }
-                    
                 } else {
                     print(error?.localizedDescription ?? "Failed to authenticate")
                     DispatchQueue.main.async { [unowned self] in
@@ -80,10 +68,6 @@ class BiometricAuthViewController: UIViewController {
             }
         } else {
             print(error?.localizedDescription ?? "Can't evaluate policy")
-            
-            // Fall back to a asking for username and password.
-            // ...
         }
     }
 }
-

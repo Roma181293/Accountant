@@ -8,14 +8,14 @@
 import UIKit
 
 class AccountNavigationTableViewCell: UITableViewCell {
-
-    let mainView : UIView = {
+    
+    let mainView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
-    
-    let nameStackView : UIStackView = {
+
+    let nameStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.spacing = 2
@@ -24,7 +24,7 @@ class AccountNavigationTableViewCell: UITableViewCell {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
-    
+
     let nameLabel: UILabel = {
         let label = UILabel()
         label.textColor =  Colors.Main.defaultCellTextColor
@@ -33,7 +33,7 @@ class AccountNavigationTableViewCell: UITableViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
+
     let pathLabel: UILabel = {
         let label = UILabel()
         label.textColor = .systemGray
@@ -44,7 +44,7 @@ class AccountNavigationTableViewCell: UITableViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
+
     let amountLabel: UILabel = {
         let label = UILabel()
         label.textColor = Colors.Main.defaultCellTextColor
@@ -52,66 +52,56 @@ class AccountNavigationTableViewCell: UITableViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
-    func configureCellForAccount(_ account: Account, showPath: Bool = false, showHiddenAccounts: Bool){
-        
-        
-        //MARK:- Main View
+
+    func configureCellForAccount(_ account: Account, showPath: Bool = false, showHiddenAccounts: Bool) {
         contentView.addSubview(mainView)
         mainView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8).isActive = true
         mainView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8).isActive = true
         mainView.safeAreaLayoutGuide.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 2).isActive = true
-        mainView.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -2).isActive = true
+        mainView.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,
+                                                             constant: -2).isActive = true
         mainView.heightAnchor.constraint(greaterThanOrEqualToConstant: 40).isActive = true
-        
-        
+
         mainView.addSubview(nameStackView)
         nameStackView.leadingAnchor.constraint(equalTo: mainView.leadingAnchor).isActive = true
         nameStackView.topAnchor.constraint(equalTo: mainView.topAnchor).isActive = true
         nameStackView.bottomAnchor.constraint(equalTo: mainView.bottomAnchor).isActive = true
-        
-        
+
         nameStackView.addArrangedSubview(nameLabel)
         nameStackView.addArrangedSubview(pathLabel)
         pathLabel.widthAnchor.constraint(lessThanOrEqualTo: nameLabel.widthAnchor).isActive = true
-        
+
         mainView.addSubview(amountLabel)
         amountLabel.trailingAnchor.constraint(equalTo: mainView.trailingAnchor).isActive = true
         amountLabel.centerYAnchor.constraint(equalTo: mainView.centerYAnchor).isActive = true
         amountLabel.bottomAnchor.constraint(equalTo: mainView.bottomAnchor).isActive = true
         amountLabel.leadingAnchor.constraint(equalTo: nameStackView.trailingAnchor, constant: 8).isActive = true
-        
-        nameStackView.setContentCompressionResistancePriority(UILayoutPriority.defaultLow, for:.horizontal)
-        pathLabel.setContentCompressionResistancePriority(UILayoutPriority.defaultLow, for:.horizontal)
-        amountLabel.setContentHuggingPriority(UILayoutPriority.defaultLow, for:.horizontal)
-        
+
+        nameStackView.setContentCompressionResistancePriority(UILayoutPriority.defaultLow, for: .horizontal)
+        pathLabel.setContentCompressionResistancePriority(UILayoutPriority.defaultLow, for: .horizontal)
+        amountLabel.setContentHuggingPriority(UILayoutPriority.defaultLow, for: .horizontal)
+
         if !account.childrenList.filter({$0.active || $0.active != showHiddenAccounts}).isEmpty {
             accessoryType = .disclosureIndicator
-        }
-        else {
+        } else {
             accessoryType = .none
         }
         pathLabel.isHidden = true
         nameLabel.text = account.name
-        
         if showPath {
             pathLabel.text = account.path
             pathLabel.isHidden = false
         }
-        
         if account.active {
             nameLabel.textColor = Colors.Main.defaultCellTextColor
             amountLabel.textColor = Colors.Main.defaultCellTextColor
-        }
-        else {
+        } else {
             nameLabel.textColor = .systemGray
             amountLabel.textColor = .systemGray
         }
-
         if let parent = account.parent, parent.currency == nil {
             amountLabel.text = "\(round(account.balanceOn(date: Date())*100)/100) \(account.currency!.code)"
-        }
-        else {
+        } else {
             amountLabel.text = ""
         }
         

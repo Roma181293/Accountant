@@ -8,7 +8,7 @@
 import Foundation
 
 struct MBStatement: Codable, StatementProtocol {
-    let id : String
+    let id: String
     let time: Int64
     let description: String
     let mcc: Int

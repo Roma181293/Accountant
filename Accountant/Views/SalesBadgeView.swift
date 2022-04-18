@@ -19,7 +19,7 @@ class SalesBadgeView: UIView {
     }()
     
     let height = CGFloat(18)
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.heightAnchor.constraint(equalToConstant: self.height).isActive = true
@@ -28,7 +28,7 @@ class SalesBadgeView: UIView {
         let gradientOrangeView = GradientView(frame: self.bounds, colorTop: .systemPink, colorBottom: .systemRed)
         gradientOrangeView.layer.cornerRadius = height/2
         self.insertSubview(gradientOrangeView, at: 0)
-        self.layer.masksToBounds = false;
+        self.layer.masksToBounds = false
         
         // The Label subview
         gradientOrangeView.addSubview(label)
@@ -48,7 +48,7 @@ class SalesBadgeView: UIView {
                                                     constant: 0)
         NSLayoutConstraint.activate([horizontalConstraint, verticalConstraint])
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

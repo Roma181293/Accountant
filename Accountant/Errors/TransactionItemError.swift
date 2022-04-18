@@ -7,8 +7,7 @@
 
 import Foundation
 
-enum TransactionItemError : AppError, Equatable {
-    
+enum TransactionItemError: AppError, Equatable {
     case invalidAmountInDebitTransactioItem(path: String)
     case invalidAmountInCreditTransactioItem(path: String)
     case attributeTypeDidNotSpecified
@@ -22,7 +21,7 @@ extension TransactionItemError: LocalizedError {
         case let .invalidAmountInCreditTransactioItem(name):
             return String(format: NSLocalizedString("Please check amount value from account/category \"%@\"", comment: ""), name)
         case .attributeTypeDidNotSpecified:
-            return NSLocalizedString("There are one or more thansaction items with incorrect types value. Possible values: \"From\", \"Credit\", \"To\", \"Debit\"",comment: "")
+            return NSLocalizedString("There are one or more thansaction items with incorrect types value. Possible values: \"From\", \"Credit\", \"To\", \"Debit\"", comment: "")
         }
     }
 }

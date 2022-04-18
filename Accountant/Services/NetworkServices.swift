@@ -73,8 +73,8 @@ class NetworkServices {
     static func loadStatementsForBankAccount(_ bankAccount: BankAccount, startDate: Date, endDate: Date,
                                              compliting: @escaping ([StatementProtocol]?, Error?) -> Void) {
         if bankAccount.userBankProfile?.keeper?.name == "Monobank" {
-            
-            AF.request("https://api.monobank.ua/personal/statement/\(bankAccount.externalId!)/\(Int(startDate.timeIntervalSince1970))/\(Int(endDate.timeIntervalSince1970))",
+
+            AF.request("https://api.monobank.ua/personal/statement/\(bankAccount.externalId!)/\(Int(startDate.timeIntervalSince1970))/\(Int(endDate.timeIntervalSince1970))", // swiftlint:disable:this line_length
                        headers: ["X-Token": bankAccount.userBankProfile!.xToken!]
             ).responseDecodable(of: [MBStatement].self) {(response) in
                 if let list = response.value {
@@ -88,8 +88,7 @@ class NetworkServices {
     }
 
     // MARK: - Methods below only for test purpose
-    private static func loadStatementsForBankAccountWOParse(_ bankAccount: BankAccount,
-                                                            compliting: @escaping ([StatementProtocol]?, Error?) -> Void) {
+    private static func loadStatementsForBankAccountWOParse(_ bankAccount: BankAccount, compliting: @escaping ([StatementProtocol]?, Error?) -> Void) { // swiftlint:disable:this line_length
 
         if bankAccount.userBankProfile?.keeper?.name == "Monobank" {
             let calendar = Calendar.current
@@ -99,7 +98,7 @@ class NetworkServices {
             if endDate > Date() {
                 endDate = Date()
             }
-            AF.request("https://api.monobank.ua/personal/statement/\(bankAccount.id)/\(Int(startDate.timeIntervalSince1970))/\(Int(endDate.timeIntervalSince1970))",
+            AF.request("https://api.monobank.ua/personal/statement/\(bankAccount.id)/\(Int(startDate.timeIntervalSince1970))/\(Int(endDate.timeIntervalSince1970))", // swiftlint:disable:this line_length
                        headers: ["X-Token": bankAccount.userBankProfile!.xToken!]
             ).responseJSON(completionHandler: { response in
                 switch response.result {
