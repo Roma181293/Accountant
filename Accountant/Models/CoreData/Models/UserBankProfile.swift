@@ -39,8 +39,8 @@ final class UserBankProfile: NSManagedObject {
 
     static func isFreeExternalId(_ externalId: String, context: NSManagedObjectContext) -> Bool {
         let fetchRequest = UserBankProfile.fetchRequest()
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "id", ascending: true)]
-        fetchRequest.predicate = NSPredicate(format: "externalId = %@", externalId as CVarArg)
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: Schema.UseBankProfile.id.rawValue, ascending: true)]
+        fetchRequest.predicate = NSPredicate(format: "\(Schema.UseBankProfile.externalId.rawValue) = %@", externalId as CVarArg)
         if let count = try? context.count(for: fetchRequest), count == 0 {
             return true
         } else {
@@ -50,8 +50,8 @@ final class UserBankProfile: NSManagedObject {
 
     static func getUBP(_ externalId: String, context: NSManagedObjectContext) -> UserBankProfile? {
         let fetchRequest = UserBankProfile.fetchRequest()
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "id", ascending: true)]
-        fetchRequest.predicate = NSPredicate(format: "externalId = %@", externalId)
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: Schema.UseBankProfile.id.rawValue, ascending: true)]
+        fetchRequest.predicate = NSPredicate(format: "\(Schema.UseBankProfile.externalId.rawValue) = %@", externalId)
         if let ubps = try? context.fetch(fetchRequest), !ubps.isEmpty {
             return ubps.last
         } else {
@@ -62,8 +62,8 @@ final class UserBankProfile: NSManagedObject {
     static func getOrCreateMonoBankUBP(_ mbui: MBUserInfo, xToken: String,
                                        context: NSManagedObjectContext) throws -> UserBankProfile {
         let fetchRequest = UserBankProfile.fetchRequest()
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "id", ascending: true)]
-        fetchRequest.predicate = NSPredicate(format: "externalId = %@", mbui.clientId)
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: Schema.UseBankProfile.id.rawValue, ascending: true)]
+        fetchRequest.predicate = NSPredicate(format: "\(Schema.UseBankProfile.externalId.rawValue) = %@", mbui.clientId)
         if let ubps = try? context.fetch(fetchRequest), ubps.isEmpty == false {
             let ubp = ubps.last!
             ubp.xToken = xToken

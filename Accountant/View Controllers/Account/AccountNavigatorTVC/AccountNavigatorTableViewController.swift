@@ -52,8 +52,7 @@ class AccountNavigatorTableViewController: UITableViewController, AccountManager
     lazy var fetchedResultsController: NSFetchedResultsController<Account> = {
         let fetchRequest = Account.fetchRequest()
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
-        let predicate = NSPredicate(format: "parent = %@ && (active = true || active != %@) && NOT (SELF IN %@)",
-                                    argumentArray: [account, showHiddenAccounts, excludeAccountList])
+        let predicate = NSPredicate(format: "\(Schema.Account.parent.rawValue) = %@ && (\(Schema.Account.active.rawValue) = true || \(Schema.Account.active.rawValue) != %@) && NOT (SELF IN %@)", argumentArray: [account, showHiddenAccounts, excludeAccountList]) // swiftlint:disable:this line_length
         fetchRequest.predicate = predicate
         return NSFetchedResultsController(fetchRequest: fetchRequest,
                                           managedObjectContext: context,
@@ -252,8 +251,7 @@ class AccountNavigatorTableViewController: UITableViewController, AccountManager
     }
 
     func resetPredicate() {
-        let predicate = NSPredicate(format: "parent = %@ && (active = true || active != %@) && NOT (SELF IN %@)",
-                                    argumentArray: [account, showHiddenAccounts, excludeAccountList])
+        let predicate = NSPredicate(format: "\(Schema.Account.parent.rawValue) = %@ && (\(Schema.Account.active.rawValue) = true || \(Schema.Account.active.rawValue) != %@) && NOT (SELF IN %@)", argumentArray: [account, showHiddenAccounts, excludeAccountList]) // swiftlint:disable:this line_length
         fetchedResultsController.fetchRequest.predicate = predicate
     }
 }
@@ -263,13 +261,9 @@ extension AccountNavigatorTableViewController: UISearchResultsUpdating {
         if searchController.searchBar.text!.count != 0 {
             var prdct = NSPredicate()
             if account != nil {
-                prdct = NSPredicate(format: "name CONTAINS[c] %@ && (active = true || active != %@) && NOT (SELF IN %@)",
-                                        argumentArray: [searchController.searchBar.text!, showHiddenAccounts, excludeAccountList])
-
-
+                prdct = NSPredicate(format: "\(Schema.Account.name.rawValue) CONTAINS[c] %@ && (\(Schema.Account.active.rawValue) = true || \(Schema.Account.active.rawValue) != %@) && NOT (SELF IN %@)", argumentArray: [searchController.searchBar.text!, showHiddenAccounts, excludeAccountList]) // swiftlint:disable:this line_length
             } else {
-                prdct = NSPredicate(format: "name CONTAINS[c] %@ && (active = true || active != %@) && NOT (SELF IN %@)",
-                                        argumentArray: [searchController.searchBar.text!,showHiddenAccounts, excludeAccountList])
+                prdct = NSPredicate(format: "\(Schema.Account.name.rawValue) CONTAINS[c] %@ && (\(Schema.Account.active.rawValue) = true || \(Schema.Account.active.rawValue) != %@) && NOT (SELF IN %@)", argumentArray: [searchController.searchBar.text!,showHiddenAccounts, excludeAccountList]) // swiftlint:disable:this line_length
             }
             fetchedResultsController.fetchRequest.predicate = prdct
             isSwipeAvailable = false

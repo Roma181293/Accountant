@@ -551,8 +551,8 @@ extension Account {
             return true
         } else {
             let fetchRequest: NSFetchRequest<Account> = fetchRequest()
-            fetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: false)]
-            fetchRequest.predicate = NSPredicate(format: "parent = nil and name = %@", name)
+            fetchRequest.sortDescriptors = [NSSortDescriptor(key: Schema.Account.name.rawValue, ascending: false)]
+            fetchRequest.predicate = NSPredicate(format: "\(Schema.Account.parent.rawValue) = nil and \(Schema.Account.name.rawValue) = %@", name)
             do {
                 let accounts = try context.fetch(fetchRequest)
                 if accounts.isEmpty {
@@ -647,20 +647,20 @@ extension Account {
 
     static func getRootAccountList(context: NSManagedObjectContext) throws -> [Account] {
         let fetchRequest: NSFetchRequest<Account> = fetchRequest()
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
-        fetchRequest.predicate = NSPredicate(format: "parent = nil")
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: Schema.Account.name.rawValue, ascending: true)]
+        fetchRequest.predicate = NSPredicate(format: "\(Schema.Account.parent.rawValue) = nil")
         return try context.fetch(fetchRequest)
     }
 
     static func getAccountList(context: NSManagedObjectContext) throws -> [Account] {
         let accountFetchRequest: NSFetchRequest<Account> = fetchRequest()
-        accountFetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
+        accountFetchRequest.sortDescriptors = [NSSortDescriptor(key: Schema.Account.name.rawValue, ascending: true)]
         return try context.fetch(accountFetchRequest)
     }
 
     static func getAccountWithPath(_ path: String, context: NSManagedObjectContext) -> Account? {
         let fetchRequest: NSFetchRequest<Account> = fetchRequest()
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: Schema.Account.name.rawValue, ascending: true)]
         do {
             let accounts = try context.fetch(fetchRequest)
             if !accounts.isEmpty {
@@ -679,8 +679,9 @@ extension Account {
 
     static func exportAccountsToString(context: NSManagedObjectContext) -> String {
         let accountFetchRequest: NSFetchRequest<Account> = fetchRequest()
-        accountFetchRequest.sortDescriptors = [NSSortDescriptor(key: "parent.name", ascending: true),
-                                               NSSortDescriptor(key: "name", ascending: true)]
+        let sortDescroptors = [NSSortDescriptor(key: "\(Schema.Account.parent.rawValue).\(Schema.Account.name.rawValue)", ascending: true),
+                               NSSortDescriptor(key: Schema.Account.name.rawValue, ascending: true)]
+        accountFetchRequest.sortDescriptors = sortDescroptors
         do {
             let storedAccounts = try context.fetch(accountFetchRequest)
             var export: String = "ParentAccount_path,Account_name,active,Account_type,Account_currency,Account_SubType,LinkedAccount_path\n"

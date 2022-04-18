@@ -21,7 +21,7 @@ class HolderTableViewController: UITableViewController {
     
     lazy var fetchedResultsController: NSFetchedResultsController<Holder> = {
         let fetchRequest = Holder.fetchRequest()
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: Schema.Holder.name.rawValue, ascending: true)]
         fetchRequest.fetchBatchSize = 20
         return NSFetchedResultsController(fetchRequest: fetchRequest,
                                           managedObjectContext: context,
@@ -39,7 +39,7 @@ class HolderTableViewController: UITableViewController {
             addButton.image = UIImage(systemName: "plus")
             self.navigationItem.rightBarButtonItem = addButton
         }
-        
+
         do {
             try fetchedResultsController.performFetch()
             tableView.reloadData()
@@ -50,7 +50,7 @@ class HolderTableViewController: UITableViewController {
             self.present(alert, animated: true, completion: nil)
         }
     }
-    
+
     @objc func addHolder() {
         let alert = UIAlertController(title: NSLocalizedString("Add Holder", comment: ""),
                                       message: nil, preferredStyle: .alert)
@@ -86,7 +86,7 @@ class HolderTableViewController: UITableViewController {
         alert.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel))
         self.present(alert, animated: true, completion: nil)
     }
-    
+
     // MARK: - Table view data source
     override func numberOfSections(in tableView: UITableView) -> Int {
         return fetchedResultsController.sections?.count ?? 1
@@ -113,7 +113,7 @@ class HolderTableViewController: UITableViewController {
         delegate.setHolder(fetchedResultsController.object(at: indexPath) as Holder)
         self.navigationController?.popViewController(animated: true)
     }
-    
+
     func errorHandler(error: Error) {
         if error is AppError {
             let alert = UIAlertController(title: NSLocalizedString("Warning", comment: ""),
@@ -121,8 +121,7 @@ class HolderTableViewController: UITableViewController {
                                           preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default, handler: nil))
             self.present(alert, animated: true, completion: nil)
-        }
-        else {
+        } else {
             let alert = UIAlertController(title: NSLocalizedString("Error", comment: ""),
                                           message: error.localizedDescription,
                                           preferredStyle: .alert)

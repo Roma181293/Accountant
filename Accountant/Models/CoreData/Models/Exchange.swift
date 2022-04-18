@@ -40,8 +40,8 @@ final class Exchange: BaseEntity {
                             context: NSManagedObjectContext) -> Exchange {
         let beginOfDay = Calendar.current.startOfDay(for: date)
         let fetchRequest = Exchange.fetchRequest()
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "date", ascending: false)]
-        fetchRequest.predicate = NSPredicate(format: "date = %@", beginOfDay as CVarArg)
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: Schema.Exhange.date.rawValue, ascending: false)]
+        fetchRequest.predicate = NSPredicate(format: "\(Schema.Exhange.date.rawValue) = %@", beginOfDay as CVarArg)
         do {
             let exchanges = try context.fetch(fetchRequest)
             if !exchanges.isEmpty {
@@ -58,8 +58,8 @@ final class Exchange: BaseEntity {
 
     private static func isExistExchange(date: Date, context: NSManagedObjectContext) -> Bool {
         let fetchRequest = Exchange.fetchRequest()
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "date", ascending: false)]
-        fetchRequest.predicate = NSPredicate(format: "date = %@",
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: Schema.Exhange.date.rawValue, ascending: false)]
+        fetchRequest.predicate = NSPredicate(format: "\(Schema.Exhange.date.rawValue) = %@",
                                              Calendar.current.startOfDay(for: date) as CVarArg)
         if let count = try? context.count(for: fetchRequest), count == 0 {
             return true
@@ -70,7 +70,7 @@ final class Exchange: BaseEntity {
 
     static func lastExchangeDate(context: NSManagedObjectContext) -> Date? {
         let fetchRequest = Exchange.fetchRequest()
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "date", ascending: false)]
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: Schema.Exhange.date.rawValue, ascending: false)]
         fetchRequest.fetchLimit = 1
         do {
             let exchanges = try context.fetch(fetchRequest)

@@ -30,8 +30,8 @@ class CurrencyTableViewController: UITableViewController {
 
     lazy var fetchedResultsController: NSFetchedResultsController<Currency> = {
         let fetchRequest = Currency.fetchRequest()
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "isAccounting", ascending: false),
-                                        NSSortDescriptor(key: "code", ascending: true)]
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: Schema.Currency.isAccounting.rawValue, ascending: false),
+                                        NSSortDescriptor(key: Schema.Currency.code.rawValue, ascending: true)]
         fetchRequest.fetchBatchSize = 20
         let context = CoreDataStack.shared.persistentContainer.viewContext
         return NSFetchedResultsController(fetchRequest: fetchRequest,

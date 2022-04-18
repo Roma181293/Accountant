@@ -28,14 +28,14 @@ class KeeperTableViewController: UITableViewController {
 
     lazy var fetchedResultsController: NSFetchedResultsController<Keeper> = {
         let fetchRequest = Keeper.fetchRequest()
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: Schema.Keeper.name.rawValue, ascending: true)]
         switch mode {
         case .bank:
-            fetchRequest.predicate = NSPredicate(format: "type == %i", KeeperType.bank.rawValue)
+            fetchRequest.predicate = NSPredicate(format: "\(Schema.Keeper.type.rawValue) == %i", KeeperType.bank.rawValue)
         case .person:
-            fetchRequest.predicate = NSPredicate(format: "type == %i", KeeperType.person.rawValue)
+            fetchRequest.predicate = NSPredicate(format: "\(Schema.Keeper.type.rawValue) == %i", KeeperType.person.rawValue)
         case .nonCash:
-            fetchRequest.predicate = NSPredicate(format: "type != %i", KeeperType.cash.rawValue)
+            fetchRequest.predicate = NSPredicate(format: "\(Schema.Keeper.type.rawValue) != %i", KeeperType.cash.rawValue)
         }
         fetchRequest.fetchBatchSize = 20
         return NSFetchedResultsController(fetchRequest: fetchRequest,

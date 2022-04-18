@@ -36,8 +36,8 @@ final class Keeper: BaseEntity {
 
     static func isFreeKeeperName(_ name: String, context: NSManagedObjectContext) -> Bool {
         let fetchRequest = fetchRequest()
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: false)]
-        fetchRequest.predicate = NSPredicate(format: "name = %@", name)
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: Schema.Keeper.name.rawValue, ascending: false)]
+        fetchRequest.predicate = NSPredicate(format: "\(Schema.Keeper.name.rawValue) = %@", name)
         do {
             let keeper = try context.fetch(fetchRequest)
             if keeper.isEmpty {
@@ -62,8 +62,8 @@ final class Keeper: BaseEntity {
     static func getOrCreate(name: String, type: KeeperType, createdByUser: Bool = true, createDate: Date = Date(),
                             context: NSManagedObjectContext) throws -> Keeper {
         let fetchRequest = Keeper.fetchRequest()
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
-        fetchRequest.predicate = NSPredicate(format: "name = %@", name)
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: Schema.Keeper.name.rawValue, ascending: true)]
+        fetchRequest.predicate = NSPredicate(format: "\(Schema.Keeper.name.rawValue) = %@", name)
         let keepers = try context.fetch(fetchRequest)
         if !keepers.isEmpty {
             return keepers[0]
@@ -95,8 +95,8 @@ final class Keeper: BaseEntity {
 
     static func getKeeperForName(_ name: String, context: NSManagedObjectContext) throws -> Keeper? {
         let fetchRequest = Keeper.fetchRequest()
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
-        fetchRequest.predicate = NSPredicate(format: "name = %@", name)
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: Schema.Keeper.name.rawValue, ascending: true)]
+        fetchRequest.predicate = NSPredicate(format: "\(Schema.Keeper.name.rawValue) = %@", name)
         let keepers = try context.fetch(fetchRequest)
         if keepers.isEmpty {
             return nil
@@ -107,8 +107,8 @@ final class Keeper: BaseEntity {
 
     static func getFirstNonCashKeeper(context: NSManagedObjectContext) throws -> Keeper? {
         let fetchRequest = Keeper.fetchRequest()
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
-        fetchRequest.predicate = NSPredicate(format: "type != %i", KeeperType.cash.rawValue)
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: Schema.Keeper.name.rawValue, ascending: true)]
+        fetchRequest.predicate = NSPredicate(format: "\(Schema.Keeper.type.rawValue) != %i", KeeperType.cash.rawValue)
         let keepers = try context.fetch(fetchRequest)
         if keepers.isEmpty {
             return nil
@@ -119,8 +119,8 @@ final class Keeper: BaseEntity {
 
     static func getCashKeeper(context: NSManagedObjectContext) throws -> Keeper? {
         let fetchRequest = Keeper.fetchRequest()
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
-        fetchRequest.predicate = NSPredicate(format: "type == %i", KeeperType.cash.rawValue)
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: Schema.Keeper.name.rawValue, ascending: true)]
+        fetchRequest.predicate = NSPredicate(format: "\(Schema.Keeper.type.rawValue) == %i", KeeperType.cash.rawValue)
         let keepers = try context.fetch(fetchRequest)
         if keepers.isEmpty {
             return nil

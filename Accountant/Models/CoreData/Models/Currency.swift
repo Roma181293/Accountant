@@ -41,8 +41,8 @@ final class Currency: BaseEntity {
 
     static func isFreeCurrencyCode(_ code: String, context: NSManagedObjectContext) -> Bool {
         let fetchRequest = fetchRequest()
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "code", ascending: false)]
-        fetchRequest.predicate = NSPredicate(format: "code = %@", code)
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: Schema.Currency.code.rawValue, ascending: false)]
+        fetchRequest.predicate = NSPredicate(format: "\(Schema.Currency.code.rawValue) = %@", code)
         do {
             let currencies = try context.fetch(fetchRequest)
             if currencies.isEmpty {
@@ -83,8 +83,8 @@ final class Currency: BaseEntity {
 
     static func getCurrencyForCode(_ code: String, context: NSManagedObjectContext) throws -> Currency? {
         let fetchRequest = fetchRequest()
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "code", ascending: true)]
-        fetchRequest.predicate = NSPredicate(format: "code = %@", code)
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: Schema.Currency.code.rawValue, ascending: false)]
+        fetchRequest.predicate = NSPredicate(format: "\(Schema.Currency.code.rawValue) = %@", code)
         let currencies = try context.fetch(fetchRequest)
         if currencies.isEmpty {
             return nil
@@ -95,8 +95,8 @@ final class Currency: BaseEntity {
 
     static func getCurrencyForISO4217(_ iso4217: Int16, context: NSManagedObjectContext) throws -> Currency? {
         let fetchRequest = fetchRequest()
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "iso4217", ascending: true)]
-        fetchRequest.predicate = NSPredicate(format: "iso4217 = \(iso4217)")
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: Schema.Currency.iso4217.rawValue, ascending: true)]
+        fetchRequest.predicate = NSPredicate(format: "\(Schema.Currency.iso4217.rawValue) = \(iso4217)")
         let currencies = try context.fetch(fetchRequest)
         if currencies.isEmpty {
             return nil
@@ -108,8 +108,8 @@ final class Currency: BaseEntity {
     // FIXME: - need to create new predicate how to check is it awailiable to change accounting currency
     static func accountingCurrencyCanBeChanged(context: NSManagedObjectContext) throws -> Bool {
         let fetchRequest = TransactionItem.fetchRequest()
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "createDate", ascending: true)]
-        fetchRequest.predicate = NSPredicate(format: "account.currency.isAccounting = false")
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: Schema.TransactionItem.createDate.rawValue, ascending: true)]
+        fetchRequest.predicate = NSPredicate(format: "\(Schema.TransactionItem.account.rawValue).\(Schema.Account.currency).\(Schema.Currency.isAccounting.rawValue) = false")
 
         if try context.fetch(fetchRequest).isEmpty {
             return true
@@ -150,8 +150,8 @@ final class Currency: BaseEntity {
 
     static func getAccountingCurrency(context: NSManagedObjectContext) -> Currency? {
         let fetchRequest = fetchRequest()
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "code", ascending: true)]
-        fetchRequest.predicate = NSPredicate(format: "isAccounting = true")
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: Schema.Currency.code.rawValue, ascending: true)]
+        fetchRequest.predicate = NSPredicate(format: "\(Schema.Currency.isAccounting.rawValue) = true")
         do {
             let currencies = try context.fetch(fetchRequest)
             if currencies.isEmpty == false {

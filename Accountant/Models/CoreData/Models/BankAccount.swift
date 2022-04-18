@@ -45,8 +45,8 @@ final class BankAccount: NSManagedObject {
     
     static func isFreeExternalId(_ externalId: String, context: NSManagedObjectContext) -> Bool {
         let fetchRequest = BankAccount.fetchRequest()
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "id", ascending: true)]
-        fetchRequest.predicate = NSPredicate(format: "externalId = %@", externalId)
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: Schema.BankAccount.id.rawValue, ascending: true)]
+        fetchRequest.predicate = NSPredicate(format: "\(Schema.BankAccount.externalId.rawValue) = %@", externalId)
         if let bankAccount = try? context.fetch(fetchRequest), bankAccount.isEmpty {
             return true
         } else {
@@ -72,7 +72,7 @@ final class BankAccount: NSManagedObject {
 
     static func getBankAccountList(context: NSManagedObjectContext) -> [BankAccount] {
         let fetchRequest = BankAccount.fetchRequest()
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "id", ascending: true)]
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: Schema.BankAccount.id.rawValue, ascending: true)]
         do {
             return try context.fetch(fetchRequest)
         } catch {
@@ -82,8 +82,8 @@ final class BankAccount: NSManagedObject {
 
     static func hasActiveBankAccounts(context: NSManagedObjectContext) -> Bool {
         let fetchRequest = BankAccount.fetchRequest()
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "id", ascending: true)]
-        fetchRequest.predicate = NSPredicate(format: "active = true")
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: Schema.BankAccount.id.rawValue, ascending: true)]
+        fetchRequest.predicate = NSPredicate(format: "\(Schema.BankAccount.active.rawValue) = true")
         do {
             return try !context.fetch(fetchRequest).isEmpty
         } catch {
@@ -93,8 +93,8 @@ final class BankAccount: NSManagedObject {
     
     static func getBankAccountByExternalId(_ externalId: String, context: NSManagedObjectContext) -> BankAccount? {
         let fetchRequest = BankAccount.fetchRequest()
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "id", ascending: true)]
-        fetchRequest.predicate = NSPredicate(format: "externalId = %@", externalId)
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: Schema.BankAccount.id.rawValue, ascending: true)]
+        fetchRequest.predicate = NSPredicate(format: "\(Schema.BankAccount.externalId.rawValue) = %@", externalId)
         do {
             return try context.fetch(fetchRequest).last
         } catch {

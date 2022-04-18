@@ -16,7 +16,7 @@ class ExchangeTableViewController: UITableViewController {
 
     lazy var fetchedResultsController: NSFetchedResultsController<Exchange> = {
         let fetchRequest = Exchange.fetchRequest()
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "createDate", ascending: false)]
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: Schema.Exhange.createDate.rawValue, ascending: false)]
         fetchRequest.fetchBatchSize = 20
         return NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context,
                                           sectionNameKeyPath: nil, cacheName: nil)

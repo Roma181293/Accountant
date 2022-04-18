@@ -14,12 +14,12 @@ class UserBankProfileTableViewController: UITableViewController {
 
     lazy var fetchedResultsController: NSFetchedResultsController<UserBankProfile> = {
         let fetchRequest = UserBankProfile.fetchRequest()
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "id", ascending: true)]
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: Schema.UseBankProfile.id.rawValue, ascending: true)]
         fetchRequest.fetchBatchSize = 20
         return NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context,
                                           sectionNameKeyPath: nil, cacheName: nil)
     }()
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: Constants.Cell.userBankProfileCell)

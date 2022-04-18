@@ -250,7 +250,7 @@ final class Transaction: BaseEntity {
         // load accounts from the DB
         context.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
         let accountFetchRequest = Account.fetchRequest()
-        accountFetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: false)]
+        accountFetchRequest.sortDescriptors = [NSSortDescriptor(key: Schema.Account.name.rawValue, ascending: false)]
         let accounts = try context.fetch(accountFetchRequest)
 
         var preTransactionList: [PreTransaction] = []
@@ -327,8 +327,8 @@ final class Transaction: BaseEntity {
 
     static func exportTransactionsToString(context: NSManagedObjectContext) -> String {
         let fetchRequest = fetchRequest()
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "date", ascending: false)]
-        fetchRequest.predicate = NSPredicate(format: "applied = true")
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: Schema.Transaction.date.rawValue, ascending: false)]
+        fetchRequest.predicate = NSPredicate(format: "\(Schema.Transaction.applied.rawValue) = true")
         do {
             let storedTransactions = try context.fetch(fetchRequest)
             var export: String = "Id,Date,Type,Account,Amount,Comment"
@@ -368,7 +368,7 @@ final class Transaction: BaseEntity {
 
     static func getDateForFirstTransaction(context: NSManagedObjectContext) -> Date? {
         let fetchRequest = fetchRequest()
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "date", ascending: true)]
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: Schema.Transaction.date.rawValue, ascending: true)]
         fetchRequest.fetchBatchSize = 1
         do {
             let storedTransactions = try context.fetch(fetchRequest)

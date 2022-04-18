@@ -31,8 +31,8 @@ final class Holder: BaseEntity {
 
     static func isFreePair(_ name: String, icon: String, context: NSManagedObjectContext) -> Bool {
         let fetchRequest = fetchRequest()
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: false)]
-        fetchRequest.predicate = NSPredicate(format: "name = %@ || icon = %@", name, icon)
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: Schema.Holder.name.rawValue, ascending: false)]
+        fetchRequest.predicate = NSPredicate(format: "\(Schema.Holder.name.rawValue) = %@ || \(Schema.Holder.icon.rawValue) = %@", name, icon) // swiftlint:disable:this line_length
         do {
             let holders = try context.fetch(fetchRequest)
             if holders.isEmpty {
@@ -78,8 +78,8 @@ final class Holder: BaseEntity {
 
     static func get(_ name: String, context: NSManagedObjectContext) throws -> Holder? {
         let fetchRequest = Holder.fetchRequest()
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
-        fetchRequest.predicate = NSPredicate(format: "name = %@", name)
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: Schema.Holder.name.rawValue, ascending: true)]
+        fetchRequest.predicate = NSPredicate(format: "\(Schema.Holder.name.rawValue) = %@", name)
         let holders = try context.fetch(fetchRequest)
         if holders.isEmpty {
             return nil
@@ -90,8 +90,8 @@ final class Holder: BaseEntity {
 
     static func getMe(context: NSManagedObjectContext) throws -> Holder? {
         let fetchRequest = Holder.fetchRequest()
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "createDate", ascending: true)]
-        fetchRequest.predicate = NSPredicate(format: "createdByUser = false")
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: Schema.Holder.createDate.rawValue, ascending: true)]
+        fetchRequest.predicate = NSPredicate(format: "\(Schema.Holder.createdByUser.rawValue) = false")
         let holders = try context.fetch(fetchRequest)
         if holders.isEmpty {
             return nil
