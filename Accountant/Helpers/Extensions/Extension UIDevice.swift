@@ -19,7 +19,7 @@ public extension UIDevice {
             return identifier + String(UnicodeScalar(UInt8(value)))
         }
 
-        func mapToDevice(identifier: String) -> String { // swiftlint:disable:this cyclomatic_complexity
+        func mapToDevice(identifier: String) -> String { // swiftlint:disable:this cyclomatic_complexity function_body_length line_length
             #if os(iOS)
             switch identifier {
             case "iPod5,1":                                 return "iPod touch (5th generation)"
@@ -83,14 +83,14 @@ public extension UIDevice {
             case "AppleTV6,2":                              return "Apple TV 4K"
             case "AudioAccessory1,1":                       return "HomePod"
             case "AudioAccessory5,1":                       return "HomePod mini"
-            case "i386", "x86_64":                          return "\(mapToDevice(identifier: ProcessInfo().environment["SIMULATOR_MODEL_IDENTIFIER"] ?? "iOS"))"//"Simulator \(mapToDevice(identifier: ProcessInfo().environment["SIMULATOR_MODEL_IDENTIFIER"] ?? "iOS"))"
+            case "i386", "x86_64":                          return "\(mapToDevice(identifier: ProcessInfo().environment["SIMULATOR_MODEL_IDENTIFIER"] ?? "iOS"))" // swiftlint:disable:this line_length
             default:                                        return identifier
             }
             #elseif os(tvOS)
             switch identifier {
             case "AppleTV5,3": return "Apple TV 4"
             case "AppleTV6,2": return "Apple TV 4K"
-            case "i386", "x86_64": return "Simulator \(mapToDevice(identifier: ProcessInfo().environment["SIMULATOR_MODEL_IDENTIFIER"] ?? "tvOS"))"
+            case "i386", "x86_64": return "Simulator \(mapToDevice(identifier: ProcessInfo().environment["SIMULATOR_MODEL_IDENTIFIER"] ?? "tvOS"))" // swiftlint:disable:this line_length
             default: return identifier
             }
             #endif

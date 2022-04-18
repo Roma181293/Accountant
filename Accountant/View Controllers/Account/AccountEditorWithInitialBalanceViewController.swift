@@ -9,53 +9,52 @@
 import UIKit
 import Purchases
 
-class AccountEditorWithInitialBalanceViewController: UIViewController {
-    
+class AccountEditorWithInitialBalanceViewController: UIViewController { // swiftlint:disable:this type_body_length
+
     var isUserHasPaidAccess: Bool = false
-    
+
     let coreDataStack = CoreDataStack.shared
     let context = CoreDataStack.shared.persistentContainer.viewContext
-    
-    var parentAccount : Account!
-    
+
+    var parentAccount: Account!
+
     var account: Account?
-    
-    var moneyRootAccount : Account!
-    var creditsRootAccount : Account!
-    var debtorsRootAcccount : Account!
-    var expenseRootAccount : Account!
+
+    var moneyRootAccount: Account!
+    var creditsRootAccount: Account!
+    var debtorsRootAcccount: Account!
+    var expenseRootAccount: Account!
     var capitalRootAccount: Account!
     
-    var isFreeNewAccountName : Bool = false
+    var isFreeNewAccountName: Bool = false
     var accountSubType: Account.SubTypeEnum? {
         didSet {
             configureUIForAccontSubType()
         }
     }
-    
-    var accountingCurrency : Currency!
-    
-    var currency : Currency! {
-        didSet{
+
+    var accountingCurrency: Currency!
+
+    var currency: Currency! {
+        didSet {
             configureUIForCurrency()
         }
     }
-    
-    var keeper : Keeper? {
-        didSet{
+
+    var keeper: Keeper? {
+        didSet {
             guard let keeper = keeper else {return}
             keeperButton.setTitle(keeper.name, for: .normal)
         }
     }
-    
+
     var holder: Holder? {
         didSet {
             guard let holder = holder else {return}
             holderButton.setTitle(holder.icon + "-" + holder.name, for: .normal)
         }
     }
-    
-    
+
     let mainScrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.alwaysBounceVertical = true
@@ -65,13 +64,13 @@ class AccountEditorWithInitialBalanceViewController: UIViewController {
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         return scrollView
     }()
-    
-    let mainView : UIView = {
+
+    let mainView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
-    
+
     let mainStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
@@ -81,7 +80,7 @@ class AccountEditorWithInitialBalanceViewController: UIViewController {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
-    
+
     let consolidatedStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
@@ -91,7 +90,7 @@ class AccountEditorWithInitialBalanceViewController: UIViewController {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
-    
+
     let leadingStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
@@ -101,7 +100,7 @@ class AccountEditorWithInitialBalanceViewController: UIViewController {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
-    
+
     let trailingStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
@@ -111,14 +110,14 @@ class AccountEditorWithInitialBalanceViewController: UIViewController {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
-    
+
     let accountSubTypeLabel: UILabel = {
         let label = UILabel()
         label.text = NSLocalizedString("Type", comment: "")
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
+
     let accountSubTypeButton: UIButton = {
         let button = UIButton()
         button.layer.cornerRadius = 5
@@ -127,14 +126,14 @@ class AccountEditorWithInitialBalanceViewController: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
-    
+
     let currencyLabel: UILabel = {
         let label = UILabel()
         label.text = NSLocalizedString("Currency", comment: "")
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
+
     let currencyButton: UIButton = {
         let button = UIButton()
         button.layer.cornerRadius = 5
@@ -143,7 +142,7 @@ class AccountEditorWithInitialBalanceViewController: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
-    
+
     let dateStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
@@ -153,62 +152,60 @@ class AccountEditorWithInitialBalanceViewController: UIViewController {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
-    
+
     let balanceOnDateLabel: UILabel = {
         let label = UILabel()
         label.text = NSLocalizedString("Balance on", comment: "")
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
+
     let datePicker: UIDatePicker = {
         let datePicker = UIDatePicker()
         datePicker.preferredDatePickerStyle = .compact
         datePicker.translatesAutoresizingMaskIntoConstraints = false
         return datePicker
     }()
-    
+
     let nameLabel: UILabel = {
         let label = UILabel()
         label.text = NSLocalizedString("Name", comment: "")
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
+
     let keeperLabel: UILabel = {
         let label = UILabel()
         label.text = NSLocalizedString("Keeper", comment: "")
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
+
     let keeperButton: UIButton = {
         let button = UIButton()
         button.layer.cornerRadius = 5
-//        button.setTitle("Keeper", for: .normal)
         button.backgroundColor = .systemGray5
         button.setTitleColor(.systemBlue, for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
-    
+
     let holderLabel: UILabel = {
         let label = UILabel()
         label.text = NSLocalizedString("Holder", comment: "")
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
+
     let holderButton: UIButton = {
         let button = UIButton()
         button.layer.cornerRadius = 5
-//        button.setTitle("Holder", for: .normal)
         button.backgroundColor = .systemGray5
         button.setTitleColor(.systemBlue, for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
-    
+
     let accountNameTextField: UITextField = {
         let textField = UITextField()
         textField.tag = 100
@@ -224,7 +221,7 @@ class AccountEditorWithInitialBalanceViewController: UIViewController {
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }()
-    
+
     let accountBalanceTextField: UITextField = {
         let textField = UITextField()
         textField.tag = 0
@@ -239,14 +236,14 @@ class AccountEditorWithInitialBalanceViewController: UIViewController {
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }()
-    
+
     let creditLimitLabel: UILabel = {
         let label = UILabel()
         label.text = NSLocalizedString("Credit limit", comment: "")
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
+
     let creditLimitTextField: UITextField = {
         let textField = UITextField()
         textField.tag = 0
@@ -261,7 +258,7 @@ class AccountEditorWithInitialBalanceViewController: UIViewController {
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }()
-    
+
     let exchangeRateStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
@@ -271,13 +268,13 @@ class AccountEditorWithInitialBalanceViewController: UIViewController {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
-    
+
     let exchangeRateLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
+
     let exchangeRateTextField: UITextField = {
         let textField = UITextField()
         textField.tag = 0
@@ -292,12 +289,11 @@ class AccountEditorWithInitialBalanceViewController: UIViewController {
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }()
-    
+
     var confirmButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "checkmark"), for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
-        
         button.backgroundColor = Colors.Main.confirmButton
         button.layer.cornerRadius = 34
         button.layer.shadowColor = UIColor.gray.cgColor
@@ -307,29 +303,28 @@ class AccountEditorWithInitialBalanceViewController: UIViewController {
         button.layer.masksToBounds =  false
         return button
     }()
-    
-    
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        //MARK:- adding NotificationCenter observers
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(self.reloadProAccessData), name: .receivedProAccessData, object: nil)
-        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow),
+                                               name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide),
+                                               name: UIResponder.keyboardWillHideNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.reloadProAccessData),
+                                               name: .receivedProAccessData, object: nil)
+
         mainScrollView.delegate = self
         addMainView()
         reloadProAccessData()
-        
+
         addDoneButtonOnDecimalKeyboard()
-        
+
         accountNameTextField.delegate = self as UITextFieldDelegate
         accountBalanceTextField.delegate = self as UITextFieldDelegate
         creditLimitTextField.delegate = self as UITextFieldDelegate
         exchangeRateTextField.delegate = self as UITextFieldDelegate
-        
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
+
+        let tap = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
         view.addGestureRecognizer(tap)
         do {
             if let account = account {
@@ -339,39 +334,31 @@ class AccountEditorWithInitialBalanceViewController: UIViewController {
                 currency = account.currency
                 configureUI()
                 configureUIForExistAccount(account)
-            }
-            else {
-                
-                
+            } else {
                 self.navigationItem.title = NSLocalizedString("Add account", comment: "")
                 try setDefaultSettings()
                 configureUI()
-                
             }
-        }
-        catch let error{
+        } catch let error {
             errorHandler(error: error)
         }
     }
-    
-    deinit{
+
+    deinit {
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
         NotificationCenter.default.removeObserver(self, name: .receivedProAccessData, object: nil)
         context.rollback()
     }
-    
+
     private func addMainView() {
-        
-        //MARK:- Main Scroll View
+        // Main Scroll View
         view.addSubview(mainScrollView)
-        //        mainScrollView.contentSize = CGSize(width: mainScrollView.frame.width, height: mainScrollView.frame.height)
         mainScrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         mainScrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         mainScrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
         mainScrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
-        
-        //MARK: - Main View
+        // Main View
         mainScrollView.addSubview(mainView)
         mainView.leadingAnchor.constraint(equalTo: mainScrollView.leadingAnchor, constant: 10).isActive = true
         mainView.trailingAnchor.constraint(equalTo: mainScrollView.trailingAnchor, constant: -10).isActive = true
@@ -379,138 +366,111 @@ class AccountEditorWithInitialBalanceViewController: UIViewController {
         mainView.bottomAnchor.constraint(equalTo: mainScrollView.bottomAnchor).isActive = true
         mainView.widthAnchor.constraint(equalTo: mainScrollView.widthAnchor, constant: -20).isActive = true
         mainView.heightAnchor.constraint(equalTo: mainScrollView.heightAnchor).isActive = true
-        
-        //MARK: - Main Stack View
+        // Main Stack View
         mainView.addSubview(mainStackView)
         mainStackView.leadingAnchor.constraint(equalTo: mainView.leadingAnchor).isActive = true
         mainStackView.trailingAnchor.constraint(equalTo: mainView.trailingAnchor).isActive = true
         mainStackView.topAnchor.constraint(equalTo: mainView.topAnchor, constant: 20).isActive = true
-        
-        
         mainStackView.addArrangedSubview(consolidatedStackView)
-        
-        //MARK: - Leading Stack View
+        // Leading Stack View
         consolidatedStackView.addArrangedSubview(leadingStackView)
         leadingStackView.addArrangedSubview(currencyLabel)
         leadingStackView.addArrangedSubview(accountSubTypeLabel)
         leadingStackView.addArrangedSubview(holderLabel)
         leadingStackView.addArrangedSubview(keeperLabel)
         leadingStackView.addArrangedSubview(nameLabel)
-        
         currencyLabel.heightAnchor.constraint(equalToConstant: 34).isActive = true
         accountSubTypeLabel.heightAnchor.constraint(equalToConstant: 34).isActive = true
         holderLabel.heightAnchor.constraint(equalToConstant: 34).isActive = true
         keeperLabel.heightAnchor.constraint(equalToConstant: 34).isActive = true
         nameLabel.heightAnchor.constraint(equalToConstant: 34).isActive = true
-        
-        //MARK: - Trailing Stack View
+        // Trailing Stack View
         consolidatedStackView.addArrangedSubview(trailingStackView)
-//        trailingStackView.widthAnchor.constraint(greaterThanOrEqualToConstant: 150).isActive = true
         trailingStackView.addArrangedSubview(currencyButton)
         trailingStackView.addArrangedSubview(accountSubTypeButton)
         trailingStackView.addArrangedSubview(holderButton)
         trailingStackView.addArrangedSubview(keeperButton)
         trailingStackView.addArrangedSubview(accountNameTextField)
-        
         currencyButton.heightAnchor.constraint(equalToConstant: 34).isActive = true
         accountSubTypeButton.heightAnchor.constraint(equalToConstant: 34).isActive = true
         holderButton.heightAnchor.constraint(equalToConstant: 34).isActive = true
         keeperButton.heightAnchor.constraint(equalToConstant: 34).isActive = true
         accountNameTextField.heightAnchor.constraint(equalToConstant: 34).isActive = true
-        
-        
-        //MARK: - Date Stack View
+        // Date Stack View
         mainStackView.addArrangedSubview(dateStackView)
         dateStackView.addArrangedSubview(balanceOnDateLabel)
         dateStackView.addArrangedSubview(datePicker)
         mainStackView.setCustomSpacing(8, after: dateStackView)
-        
-        //MARK: - Account Balance Text Field
+        // Account Balance Text Field
         mainStackView.addArrangedSubview(accountBalanceTextField)
         accountBalanceTextField.heightAnchor.constraint(equalToConstant: 34).isActive = true
         mainStackView.setCustomSpacing(20, after: accountBalanceTextField)
-        
-        //MARK: - Credit Limit Label
+        // Credit Limit Label
         mainStackView.addArrangedSubview(creditLimitLabel)
         mainStackView.setCustomSpacing(8, after: creditLimitLabel)
-        
-        //MARK: - Credit Limit Text Field
+        // Credit Limit Text Field
         mainStackView.addArrangedSubview(creditLimitTextField)
         creditLimitTextField.heightAnchor.constraint(equalToConstant: 34).isActive = true
         mainStackView.setCustomSpacing(20, after: creditLimitTextField)
-        
-        //MARK: - Exchange Rate Label
+        // Exchange Rate Label
         mainStackView.addArrangedSubview(exchangeRateLabel)
         mainStackView.setCustomSpacing(8, after: exchangeRateLabel)
-        
-        //MARK: - Exchange Rate Text Field
+        // Exchange Rate Text Field
         mainStackView.addArrangedSubview(exchangeRateTextField)
         exchangeRateTextField.heightAnchor.constraint(equalToConstant: 34).isActive = true
         mainStackView.setCustomSpacing(20, after: exchangeRateTextField)
-        
-        
-        //MARK: - Confirm Button
+        // Confirm Button
         view.addSubview(confirmButton)
-        confirmButton.bottomAnchor.constraint(equalTo: mainView.bottomAnchor, constant: -89).isActive = true //49- tabbar heigth
+        confirmButton.bottomAnchor.constraint(equalTo: mainView.bottomAnchor, constant: -89).isActive = true
         confirmButton.trailingAnchor.constraint(equalTo: mainView.trailingAnchor, constant: -40).isActive = true
         confirmButton.heightAnchor.constraint(equalToConstant: 68).isActive = true
         confirmButton.widthAnchor.constraint(equalToConstant: 68).isActive = true
-        
-        
+
         confirmButton.addTarget(self, action: #selector(self.confirmCreation(_:)), for: .touchUpInside)
         currencyButton.addTarget(self, action: #selector(self.selectCurrency), for: .touchUpInside)
         keeperButton.addTarget(self, action: #selector(self.selectkeeper), for: .touchUpInside)
         holderButton.addTarget(self, action: #selector(self.selectHolder), for: .touchUpInside)
         accountSubTypeButton.addTarget(self, action: #selector(self.changeAccountSubType), for: .touchUpInside)
         accountNameTextField.addTarget(self, action: #selector(self.checkName(_:)), for: .editingChanged)
-        
     }
-    
+
     @objc func selectHolder() {
         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let holderTableViewController = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.holderTableViewController) as! HolderTableViewController
+        guard let holderTableViewController = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.holderTableVC) as? HolderTableViewController else {return} // swiftlint:disable:this line_length
         holderTableViewController.delegate = self
         holderTableViewController.holder = holder
         self.navigationController?.pushViewController(holderTableViewController, animated: true)
     }
-    
+
     @objc private func selectkeeper() {
-        //        guard AccessCheckManager.checkUserAccessToCreateAccountInNotAccountingCurrency(environment: coreDataStack.activeEnviroment()!, isUserHasPaidAccess: isUserHasPaidAccess)
-        //        else {
-        //            self.showPurchaseOfferVC()
-        //            return
-        //        }
-        
         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let keeperTableViewController = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.keeperTableViewController) as! KeeperTableViewController
+        guard let keeperTableViewController = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.keeperTableVC) as? KeeperTableViewController else {return} // swiftlint:disable:this line_length
         keeperTableViewController.delegate = self
         keeperTableViewController.keeper = keeper
         if parentAccount == moneyRootAccount {
             keeperTableViewController.mode = .bank
-        }
-        else if parentAccount == debtorsRootAcccount {
+        } else if parentAccount == debtorsRootAcccount {
             keeperTableViewController.mode = .nonCash
-        }
-        else if parentAccount == creditsRootAccount {
+        } else if parentAccount == creditsRootAccount {
             keeperTableViewController.mode = .nonCash
         }
         self.navigationController?.pushViewController(keeperTableViewController, animated: true)
     }
-    
+
     @objc private func selectCurrency() {
-        guard AccessCheckManager.checkUserAccessToCreateAccountInNotAccountingCurrency(environment: coreDataStack.activeEnviroment()!, isUserHasPaidAccess: isUserHasPaidAccess)
+        guard AccessCheckManager.checkUserAccessToCreateAccountInNotAccountingCurrency(environment: coreDataStack.activeEnviroment()!, isUserHasPaidAccess: isUserHasPaidAccess) // swiftlint:disable:this line_length
         else {
             self.showPurchaseOfferVC()
             return
         }
-        
+
         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let currencyTableViewController = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.currencyTableViewController) as! CurrencyTableViewController
+        guard let currencyTableViewController = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.currencyTableVC) as? CurrencyTableViewController else {return} // swiftlint:disable:this line_length
         currencyTableViewController.delegate = self
         currencyTableViewController.currency = currency
         self.navigationController?.pushViewController(currencyTableViewController, animated: true)
     }
-    
+
     @objc private func changeAccountSubType() {
         switch accountSubType {
         case .debitCard:
@@ -522,33 +482,32 @@ class AccountEditorWithInitialBalanceViewController: UIViewController {
             }
         case .cash:
             accountSubType = .debitCard
-            if let keeper = try? Keeper.getFirstNonCashKeeper(context: context){
+            if let keeper = try? Keeper.getFirstNonCashKeeper(context: context) {
                 self.keeper = keeper
             }
         default:
             break
         }
     }
-    
+
     @objc private func reloadProAccessData() {
-        Purchases.shared.purchaserInfo { (purchaserInfo, error) in
+        Purchases.shared.purchaserInfo { (purchaserInfo, _) in
             if purchaserInfo?.entitlements.all["pro"]?.isActive == true {
                 self.isUserHasPaidAccess = true
-            }
-            else if purchaserInfo?.entitlements.all["pro"]?.isActive == false {
+            } else if purchaserInfo?.entitlements.all["pro"]?.isActive == false {
                 self.isUserHasPaidAccess = false
             }
         }
     }
-    
+
     private func showPurchaseOfferVC() {
         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.purchaseOfferViewController) as! PurchaseOfferViewController
-        self.present(vc, animated: true, completion: nil)
+        guard let purchaseOfferVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.purchaseOfferVC) as? PurchaseOfferViewController else {return} // swiftlint:disable:this line_length
+        self.present(purchaseOfferVC, animated: true, completion: nil)
     }
-    
+
     @objc private func confirmCreation(_ sender: UIButton) {
-        do{
+        do {
             if let account = account {
                 account.holder = holder
                 account.keeper = keeper
@@ -558,32 +517,26 @@ class AccountEditorWithInitialBalanceViewController: UIViewController {
                     try coreDataStack.saveContext(context)
                     self.navigationController?.popViewController(animated: true)
                 }
-            }
-            else {
+            } else {
                 if accountNameTextField.text! == "" {
                     throw AccountWithBalanceError.emptyAccountName
-                }
-                else {
-                    guard isFreeNewAccountName else {
-                        throw AccountError.accountAlreadyExists(name: accountNameTextField.text!)
-                    }
-                    
+                } else {
+                    guard isFreeNewAccountName
+                    else {throw AccountError.accountAlreadyExists(name: accountNameTextField.text!)}
                     context.rollback()
                     try createAccountsAndTransactions()
                     try coreDataStack.saveContext(context)
                     self.navigationController?.popViewController(animated: true)
                 }
             }
-        }
-        catch let error{
+        } catch let error {
             self.errorHandler(error: error)
         }
     }
-    
-    private func getRootAccounts() throws {
+
+    private func getRootAccounts() throws { // swiftlint:disable:this cyclomatic_complexity
         let rootAccountList = try Account.getRootAccountList(context: context)
         rootAccountList.forEach({
-            
             switch $0.name {
             case AccountsNameLocalisationManager.getLocalizedAccountName(.money):
                 moneyRootAccount = $0
@@ -615,13 +568,13 @@ class AccountEditorWithInitialBalanceViewController: UIViewController {
             throw AccountError.accountDoesNotExist(name: AccountsNameLocalisationManager.getLocalizedAccountName(.capital))
         }
     }
-    
+
     func setDefaultSettings() throws {
         try getRootAccounts()
-        
+
         accountingCurrency = Currency.getAccountingCurrency(context: context)!
         currency = Currency.getAccountingCurrency(context: context)!
-        
+
         if let keeper = try? Keeper.getFirstNonCashKeeper(context: context) {
             self.keeper = keeper
         }
@@ -629,40 +582,35 @@ class AccountEditorWithInitialBalanceViewController: UIViewController {
             self.holder = holder
         }
     }
-    
+
     private func configureUI() {
-        
         if parentAccount == moneyRootAccount {
             keeperLabel.text = NSLocalizedString("Bank", comment: "")
             accountSubType = .debitCard
             accountSubTypeButton.isHidden = false
             accountSubTypeLabel.isHidden = false
-        }
-        else if parentAccount == debtorsRootAcccount {
+        } else if parentAccount == debtorsRootAcccount {
             keeperLabel.text = NSLocalizedString("Borrower/Bank", comment: "")
             accountSubTypeButton.isHidden = true
             accountSubTypeLabel.isHidden = true
-        }
-        else if parentAccount == creditsRootAccount {
+        } else if parentAccount == creditsRootAccount {
             keeperLabel.text = NSLocalizedString("Creditor", comment: "")
             accountSubTypeButton.isHidden = true
             accountSubTypeLabel.isHidden = true
-        }
-        else {
+        } else {
             accountSubTypeButton.isHidden = true
             accountSubTypeLabel.isHidden = true
         }
-        
+
         creditLimitLabel.isHidden = true
         creditLimitTextField.isHidden = true
-        
+
         if accountSubType == .creditCard {
             creditLimitLabel.isHidden = false
             creditLimitTextField.isHidden = false
         }
     }
-    
-    
+
     private func configureUIForExistAccount(_ acc: Account) {
         accountNameTextField.text = acc.name
         currency = acc.currency!
@@ -672,17 +620,15 @@ class AccountEditorWithInitialBalanceViewController: UIViewController {
         if accountSubType == .cash, let keeper = try? Keeper.getCashKeeper(context: context) {
             self.keeper = keeper
         }
-        
+
         if parentAccount == moneyRootAccount {
             keeperLabel.text = NSLocalizedString("Bank", comment: "")
-        }
-        else if parentAccount == debtorsRootAcccount {
+        } else if parentAccount == debtorsRootAcccount {
             keeperLabel.text = NSLocalizedString("Borrower/Bank", comment: "")
-        }
-        else if parentAccount == creditsRootAccount {
+        } else if parentAccount == creditsRootAccount {
             keeperLabel.text = NSLocalizedString("Creditor", comment: "")
         }
-        
+
         accountSubTypeButton.isEnabled = false
         accountSubTypeButton.isHidden = true
         accountSubTypeLabel.isHidden = true
@@ -700,7 +646,7 @@ class AccountEditorWithInitialBalanceViewController: UIViewController {
         exchangeRateLabel.isHidden = true
         exchangeRateTextField.isHidden = true
     }
-    
+
     private func configureUIForCurrency() {
         currencyButton.setTitle(currency.code, for: .normal)
         if currency == accountingCurrency {
@@ -708,14 +654,13 @@ class AccountEditorWithInitialBalanceViewController: UIViewController {
             exchangeRateTextField.isHidden = true
             exchangeRateLabel.text = ""
             exchangeRateTextField.text = ""
-        }
-        else {
+        } else {
             exchangeRateLabel.isHidden = false
             exchangeRateTextField.isHidden = false
-            exchangeRateLabel.text = NSLocalizedString("Exchange rate", comment: "") + " \(accountingCurrency.code)/\(currency.code)"
+            exchangeRateLabel.text = NSLocalizedString("Exchange rate", comment: "") + " \(accountingCurrency.code)/\(currency.code)" // swiftlint:disable:this line_length
         }
     }
-    
+
     private func configureUIForAccontSubType() {
         guard let accountSubType = accountSubType else {return}
         switch accountSubType {
@@ -744,165 +689,237 @@ class AccountEditorWithInitialBalanceViewController: UIViewController {
             break
         }
     }
-    
-    
-    @objc private func checkName(_ sender: UITextField){
+
+    @objc private func checkName(_ sender: UITextField) {
         if sender.text! == "" {
             isFreeNewAccountName = false
-        }
-        else{
+        } else {
             if parentAccount == moneyRootAccount && accountSubType == .creditCard {
-                if Account.isFreeAccountName(parent: parentAccount, name: accountNameTextField.text!, context: context) &&
-                    Account.isFreeAccountName(parent: creditsRootAccount, name: accountNameTextField.text!, context: context) {
+                if Account.isFreeAccountName(parent: parentAccount,
+                                             name: accountNameTextField.text!,
+                                             context: context) &&
+                    Account.isFreeAccountName(parent: creditsRootAccount,
+                                              name: accountNameTextField.text!,
+                                              context: context) {
                     accountNameTextField.backgroundColor = .systemBackground
                     isFreeNewAccountName = true
-                }
-                else {
-                    accountNameTextField.backgroundColor = UIColor(displayP3Red: 255/255, green: 179/255, blue: 195/255, alpha: 1)
+                } else {
+                    accountNameTextField.backgroundColor = UIColor(displayP3Red: 255/255,
+                                                                   green: 179/255,
+                                                                   blue: 195/255,
+                                                                   alpha: 1)
                     isFreeNewAccountName = false
                 }
-            }
-            else {
-                if Account.isFreeAccountName(parent: parentAccount, name: accountNameTextField.text!, context: context) {
+            } else {
+                if Account.isFreeAccountName(parent: parentAccount,
+                                             name: accountNameTextField.text!,
+                                             context: context) {
                     accountNameTextField.backgroundColor = .systemBackground
                     isFreeNewAccountName = true
-                }
-                else {
-                    accountNameTextField.backgroundColor = UIColor(displayP3Red: 255/255, green: 179/255, blue: 195/255, alpha: 1)
+                } else {
+                    accountNameTextField.backgroundColor = UIColor(displayP3Red: 255/255,
+                                                                   green: 179/255,
+                                                                   blue: 195/255,
+                                                                   alpha: 1)
                     isFreeNewAccountName = false
                 }
             }
         }
     }
-    
-    private func createAccountsAndTransactions() throws {
-        var exchangeRate : Double = 1
-        
-        //Check balance value
-        guard let balance : Double = Double(accountBalanceTextField.text!.replacingOccurrences(of: ",", with: ".")) else {
-            throw AccountWithBalanceError.emptyBalance
-        }
-        
+
+    private func createAccountsAndTransactions() throws { // swiftlint:disable:this cyclomatic_complexity function_body_length line_length
+        var exchangeRate: Double = 1
+        // Check balance value
+        guard let balance: Double = Double(accountBalanceTextField.text!.replacingOccurrences(of: ",", with: "."))
+        else {throw AccountWithBalanceError.emptyBalance}
+
         if parentAccount == moneyRootAccount, let accountSubType = accountSubType {
             if accountSubType == .cash || accountSubType == .debitCard {
-                //Check exchange rate value
+                // Check exchange rate value
                 if currency != accountingCurrency {
-                    if let rate : Double = Double(exchangeRateTextField.text!.replacingOccurrences(of: ",", with: ".")) {
+                    if let rate: Double = Double(exchangeRateTextField.text!.replacingOccurrences(of: ",", with: ".")) {
                         exchangeRate = rate
-                    }
-                    else {
-                        throw AccountWithBalanceError.emptyExchangeRate
-                    }
+                    } else {throw AccountWithBalanceError.emptyExchangeRate}
                 }
-                let moneyAccount = try Account.createAndGetAccount(parent: parentAccount, name: accountNameTextField.text!, type: parentAccount.type, currency: currency, keeper: keeper, holder:holder, subType: accountSubType, context: context)
+                let moneyAccount = try Account.createAndGetAccount(parent: parentAccount,
+                                                                   name: accountNameTextField.text!,
+                                                                   type: parentAccount.type,
+                                                                   currency: currency,
+                                                                   keeper: keeper,
+                                                                   holder: holder, subType: accountSubType,
+                                                                   context: context)
                 if balance != 0 {
-                    Transaction.addTransactionWith2TranItems(date: datePicker.date, debit: moneyAccount, credit: capitalRootAccount, debitAmount: round(balance*100)/100, creditAmount: round(round(balance*100)/100 * exchangeRate*100)/100, createdByUser : false, context: context)
+                    Transaction.addTransactionWith2TranItems(date: datePicker.date,
+                                                             debit: moneyAccount,
+                                                             credit: capitalRootAccount,
+                                                             debitAmount: round(balance*100)/100,
+                                                             creditAmount: round(round(balance*100)/100 * exchangeRate*100)/100, // swiftlint:disable:this line_length
+                                                             createdByUser: false,
+                                                             context: context)
                 }
-            }
-            else if accountSubType == .creditCard {
-                //Check credit account name is free
-                guard Account.isFreeAccountName(parent: creditsRootAccount, name: accountNameTextField.text!, context: context) else {
-                    throw AccountError.creditAccountAlreadyExist(creditsRootAccount.name + ":" + (accountNameTextField.text ?? ""))
-                }
-                
-                //Check credit limit value
-                guard let creditLimit : Double = Double(creditLimitTextField.text!.replacingOccurrences(of: ",", with: ".")) else {
-                    throw AccountWithBalanceError.emptyCreditLimit
-                }
-                
-                //Check exchange rate value
+            } else if accountSubType == .creditCard {
+                // Check credit account name is free
+                guard Account.isFreeAccountName(parent: creditsRootAccount,
+                                                name: accountNameTextField.text!,
+                                                context: context)
+                else {throw AccountError.creditAccountAlreadyExist(creditsRootAccount.name + ":" + (accountNameTextField.text ?? ""))} // swiftlint:disable:this line_length
+
+                // Check credit limit value
+                guard let creditLimit: Double = Double(creditLimitTextField.text!.replacingOccurrences(of: ",", with: ".")) // swiftlint:disable:this line_length
+                else {throw AccountWithBalanceError.emptyCreditLimit}
+
+                // Check exchange rate value
                 if currency != accountingCurrency {
-                    if let rate : Double = Double(exchangeRateTextField.text!.replacingOccurrences(of: ",", with: ".")) {
+                    if let rate: Double = Double(exchangeRateTextField.text!.replacingOccurrences(of: ",", with: ".")) {
                         exchangeRate = rate
-                    }
-                    else {
+                    } else {
                         throw AccountWithBalanceError.emptyExchangeRate
                     }
                 }
-                
-                let newMoneyAccount = try Account.createAndGetAccount(parent: parentAccount, name: accountNameTextField.text!, type: parentAccount.type, currency: currency, keeper: keeper, holder:holder, subType: accountSubType, context: context)
-                let newCreditAccount = try Account.createAndGetAccount(parent: creditsRootAccount, name: accountNameTextField.text!, type: creditsRootAccount.type, currency: currency, keeper: keeper, holder:holder, context: context)
-                
+
+                let newMoneyAccount = try Account.createAndGetAccount(parent: parentAccount,
+                                                                      name: accountNameTextField.text!,
+                                                                      type: parentAccount.type,
+                                                                      currency: currency,
+                                                                      keeper: keeper,
+                                                                      holder: holder,
+                                                                      subType: accountSubType,
+                                                                      context: context)
+                let newCreditAccount = try Account.createAndGetAccount(parent: creditsRootAccount,
+                                                                       name: accountNameTextField.text!,
+                                                                       type: creditsRootAccount.type,
+                                                                       currency: currency,
+                                                                       keeper: keeper,
+                                                                       holder: holder,
+                                                                       context: context)
+
                 newMoneyAccount.linkedAccount = newCreditAccount
-                
+
                 if balance - creditLimit > 0 {
-                    Transaction.addTransactionWith2TranItems(date: datePicker.date, debit: newMoneyAccount, credit: capitalRootAccount, debitAmount: round((balance - creditLimit)*100)/100, creditAmount: round(round((balance - creditLimit)*100)/100 * exchangeRate*100)/100, createdByUser : false, context: context)
-                    Transaction.addTransactionWith2TranItems(date: datePicker.date, debit: newMoneyAccount, credit: newCreditAccount, debitAmount: round(creditLimit*100)/100, creditAmount: round(creditLimit*100)/100, createdByUser : false, context: context)
-                }
-                else if balance - creditLimit == 0 {
-                    if balance == 0 && creditLimit == 0 {
-                        
+                    Transaction.addTransactionWith2TranItems(date: datePicker.date,
+                                                             debit: newMoneyAccount,
+                                                             credit: capitalRootAccount,
+                                                             debitAmount: round((balance - creditLimit)*100)/100,
+                                                             creditAmount: round(round((balance - creditLimit)*100)/100 * exchangeRate*100)/100, // swiftlint:disable:this line_length
+                                                             createdByUser: false,
+                                                             context: context)
+                    Transaction.addTransactionWith2TranItems(date: datePicker.date,
+                                                             debit: newMoneyAccount,
+                                                             credit: newCreditAccount,
+                                                             debitAmount: round(creditLimit*100)/100,
+                                                             creditAmount: round(creditLimit*100)/100,
+                                                             createdByUser: false,
+                                                             context: context)
+                } else if balance - creditLimit == 0 {
+                    if !(balance == 0 && creditLimit == 0) {
+                        Transaction.addTransactionWith2TranItems(date: datePicker.date,
+                                                                 debit: newMoneyAccount,
+                                                                 credit: newCreditAccount,
+                                                                 debitAmount: round(creditLimit*100)/100,
+                                                                 creditAmount: round(creditLimit*100)/100,
+                                                                 createdByUser: false,
+                                                                 context: context)
                     }
-                    else {
-                        Transaction.addTransactionWith2TranItems(date: datePicker.date, debit: newMoneyAccount, credit: newCreditAccount, debitAmount: round(creditLimit*100)/100, creditAmount: round(creditLimit*100)/100, createdByUser : false, context: context)
-                    }
-                }
-                else {
-                    var expenseBeforeAccountingPeriod : Account? = expenseRootAccount.getSubAccountWith(name: AccountsNameLocalisationManager.getLocalizedAccountName(.beforeAccountingPeriod))
-                    
+                } else {
+                    var expenseBeforeAccountingPeriod: Account? = expenseRootAccount.getSubAccountWith(name: AccountsNameLocalisationManager.getLocalizedAccountName(.beforeAccountingPeriod)) // swiftlint:disable:this line_length
                     if expenseBeforeAccountingPeriod == nil {
-                        expenseBeforeAccountingPeriod = try? Account.createAndGetAccount(parent: expenseRootAccount, name: AccountsNameLocalisationManager.getLocalizedAccountName(.beforeAccountingPeriod), type: expenseRootAccount.type, currency: expenseRootAccount.currency, createdByUser: false, context: context)
+                        expenseBeforeAccountingPeriod = try? Account.createAndGetAccount(parent: expenseRootAccount,
+                                                                                         name: AccountsNameLocalisationManager.getLocalizedAccountName(.beforeAccountingPeriod), // swiftlint:disable:this line_length
+                                                                                         type: expenseRootAccount.type,
+                                                                                         currency: expenseRootAccount.currency, // swiftlint:disable:this line_length
+                                                                                         createdByUser: false,
+                                                                                         context: context)
                     }
-                    guard let expenseBeforeAccountingPeriodSafe = expenseBeforeAccountingPeriod else {
-                        throw AccountWithBalanceError.canNotFindBeboreAccountingPeriodAccount
-                    }
-                    
-                    Transaction.addTransactionWith2TranItems(date: datePicker.date,debit: expenseBeforeAccountingPeriodSafe, credit: newMoneyAccount, debitAmount: round(round((creditLimit - balance)*100)/100 * exchangeRate*100)/100, creditAmount: round((creditLimit - balance)*100)/100, createdByUser : false, context: context)
-                    Transaction.addTransactionWith2TranItems(date: datePicker.date, debit: newMoneyAccount, credit: newCreditAccount, debitAmount: round(creditLimit*100)/100, creditAmount: round(creditLimit*100)/100, createdByUser : false, context: context)
+                    guard let expenseBeforeAccountingPeriodSafe = expenseBeforeAccountingPeriod
+                    else {throw AccountWithBalanceError.canNotFindBeboreAccountingPeriodAccount}
+                    Transaction.addTransactionWith2TranItems(date: datePicker.date,
+                                                             debit: expenseBeforeAccountingPeriodSafe,
+                                                             credit: newMoneyAccount,
+                                                             debitAmount: round(round((creditLimit - balance)*100)/100 * exchangeRate*100)/100, // swiftlint:disable:this line_length
+                                                             creditAmount: round((creditLimit - balance)*100)/100,
+                                                             createdByUser: false,
+                                                             context: context)
+                    Transaction.addTransactionWith2TranItems(date: datePicker.date,
+                                                             debit: newMoneyAccount,
+                                                             credit: newCreditAccount,
+                                                             debitAmount: round(creditLimit*100)/100,
+                                                             creditAmount: round(creditLimit*100)/100,
+                                                             createdByUser: false,
+                                                             context: context)
                 }
             }
-        }
-        else if parentAccount == debtorsRootAcccount {
-            //Check exchange rate value
+        } else if parentAccount == debtorsRootAcccount {
+            // Check exchange rate value
             if currency != accountingCurrency {
-                if let rate : Double = Double(exchangeRateTextField.text!.replacingOccurrences(of: ",", with: ".")) {
+                if let rate: Double = Double(exchangeRateTextField.text!.replacingOccurrences(of: ",", with: ".")) { // swiftlint:disable:this line_length
                     exchangeRate = rate
-                }
-                else {
+                } else {
                     throw AccountWithBalanceError.emptyExchangeRate
                 }
             }
-            
-            let newDebtorsAccount = try Account.createAndGetAccount(parent: parentAccount, name: accountNameTextField.text!, type: parentAccount.type, currency: currency, keeper: keeper, holder:holder, context: context)
-            
-            Transaction.addTransactionWith2TranItems(date: datePicker.date, debit: newDebtorsAccount, credit: capitalRootAccount, debitAmount: round(balance*100)/100, creditAmount: round(round(balance*100)/100 * exchangeRate*100)/100, createdByUser : false, context: context)
-        }
-        else if parentAccount == creditsRootAccount {
-            //Check exchange rate value
+            let newDebtorsAccount = try Account.createAndGetAccount(parent: parentAccount,
+                                                                    name: accountNameTextField.text!,
+                                                                    type: parentAccount.type,
+                                                                    currency: currency,
+                                                                    keeper: keeper,
+                                                                    holder: holder,
+                                                                    context: context)
+            Transaction.addTransactionWith2TranItems(date: datePicker.date,
+                                                     debit: newDebtorsAccount,
+                                                     credit: capitalRootAccount,
+                                                     debitAmount: round(balance*100)/100,
+                                                     creditAmount: round(round(balance*100)/100 * exchangeRate*100)/100,
+                                                     createdByUser: false,
+                                                     context: context)
+        } else if parentAccount == creditsRootAccount {
+            // Check exchange rate value
             if currency != accountingCurrency {
-                if let rate : Double = Double(exchangeRateTextField.text!.replacingOccurrences(of: ",", with: ".")) {
+                if let rate: Double = Double(exchangeRateTextField.text!.replacingOccurrences(of: ",", with: ".")) {
                     exchangeRate = rate
-                }
-                else {
+                } else {
                     throw AccountWithBalanceError.emptyExchangeRate
                 }
             }
-            
-            try? Account.createAccount(parent: expenseRootAccount, name: AccountsNameLocalisationManager.getLocalizedAccountName(.beforeAccountingPeriod), type: Account.TypeEnum.assets, currency: expenseRootAccount.currency, createdByUser: false, context: context)
-            
-            let newCreditAccount = try Account.createAndGetAccount(parent: parentAccount, name: accountNameTextField.text!, type: parentAccount.type, currency: currency, keeper: keeper, holder:holder, context: context)
-            
-            guard let expenseBeforeAccountingPeriod : Account = Account.getAccountWithPath("\(AccountsNameLocalisationManager.getLocalizedAccountName(.expense)):\(AccountsNameLocalisationManager.getLocalizedAccountName(.beforeAccountingPeriod))", context: context) else {
-                throw AccountWithBalanceError.canNotFindBeboreAccountingPeriodAccount
-            }
-            
-            Transaction.addTransactionWith2TranItems(date: datePicker.date, debit: expenseBeforeAccountingPeriod, credit: newCreditAccount, debitAmount: (balance * exchangeRate*100)/100, creditAmount: balance, createdByUser : false, context: context)
-        }
-        else {
-            throw AccountWithBalanceError.notSupported
-        }
+            try? Account.createAccount(parent: expenseRootAccount, name: AccountsNameLocalisationManager.getLocalizedAccountName(.beforeAccountingPeriod), // swiftlint:disable:this line_length
+                                       type: Account.TypeEnum.assets,
+                                       currency: expenseRootAccount.currency,
+                                       createdByUser: false,
+                                       context: context)
+            let newCreditAccount = try Account.createAndGetAccount(parent: parentAccount,
+                                                                   name: accountNameTextField.text!,
+                                                                   type: parentAccount.type,
+                                                                   currency: currency,
+                                                                   keeper: keeper,
+                                                                   holder: holder,
+                                                                   context: context)
+            guard let expenseBeforeAccountingPeriod: Account = Account.getAccountWithPath("\(AccountsNameLocalisationManager.getLocalizedAccountName(.expense)):\(AccountsNameLocalisationManager.getLocalizedAccountName(.beforeAccountingPeriod))", context: context) // swiftlint:disable:this line_length
+            else {throw AccountWithBalanceError.canNotFindBeboreAccountingPeriodAccount}
+            Transaction.addTransactionWith2TranItems(date: datePicker.date,
+                                                     debit: expenseBeforeAccountingPeriod,
+                                                     credit: newCreditAccount,
+                                                     debitAmount: (balance * exchangeRate*100)/100,
+                                                     creditAmount: balance,
+                                                     createdByUser: false,
+                                                     context: context)
+        } else {throw AccountWithBalanceError.notSupported}
     }
-    
-    
-    func errorHandler(error : Error) {
+
+    func errorHandler(error: Error) {
         if error is AppError {
-            let alert = UIAlertController(title: NSLocalizedString("Warning", comment: ""), message: error.localizedDescription, preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default, handler: nil))
+            let alert = UIAlertController(title: NSLocalizedString("Warning", comment: ""),
+                                          message: error.localizedDescription,
+                                          preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""),
+                                          style: .default,
+                                          handler: nil))
             self.present(alert, animated: true, completion: nil)
-        }
-        else {
-            let alert = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: error.localizedDescription, preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default, handler: { [self](_) in
+        } else {
+            let alert = UIAlertController(title: NSLocalizedString("Error", comment: ""),
+                                          message: error.localizedDescription,
+                                          preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""),
+                                          style: .default,
+                                          handler: { [self](_) in
                 self.navigationController?.popViewController(animated: true)
             }))
             self.present(alert, animated: true, completion: nil)
@@ -910,68 +927,51 @@ class AccountEditorWithInitialBalanceViewController: UIViewController {
     }
 }
 
-
+// MARK: - Keyboard methods
 extension AccountEditorWithInitialBalanceViewController: UIScrollViewDelegate {
-    // MARK: - Keyboard methods -
-    
     @objc func keyboardWillShow(notification: Notification) {
         let userInfo = notification.userInfo!
         let keyboardSize = (userInfo[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue
         let contentInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: (keyboardSize!.height + 40), right: 0.0)
         self.mainScrollView.contentInset = contentInsets
         self.mainScrollView.scrollIndicatorInsets = contentInsets
-        
-        
-        // **-- Scroll when keyboard shows up
-        let aRect = self.view.frame
-        self.mainScrollView.contentSize = aRect.size
-        
-        /* if((self.activeTextField) != nil)
-         {
-         self.scrollView.scrollRectToVisible(self.activeTextField!.frame, animated: true)
-         }*/
-        
+        self.mainScrollView.contentSize = self.view.frame.size
     }
-    
-    
+
     @objc func keyboardWillHide(notification: Notification) {
         let contentInsets = UIEdgeInsets.zero
         self.mainScrollView.contentInset = contentInsets
         self.mainScrollView.scrollIndicatorInsets = contentInsets
-        
-        // **-- Scroll when keyboard shows up
         self.mainScrollView.contentSize = self.mainView.frame.size
     }
-    
-    
+
     @objc func dismissKeyboard() {
         view.endEditing(true)
     }
-    
-    func textFieldShouldReturn(_ textField : UITextField) -> Bool {
+
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
     }
-    
-    private func addDoneButtonOnDecimalKeyboard(){
-        let doneToolbar: UIToolbar = UIToolbar(frame: CGRect.init(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 50))
+
+    private func addDoneButtonOnDecimalKeyboard() {
+        let doneToolbar: UIToolbar = UIToolbar(frame: CGRect.init(x: 0, y: 0,
+                                                                  width: UIScreen.main.bounds.width,
+                                                                  height: 50))
         doneToolbar.barStyle = .default
-        
         let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        let done: UIBarButtonItem = UIBarButtonItem(title: NSLocalizedString("Done", comment: ""), style: .done, target: self, action: #selector(self.doneButtonAction))
-        
-        let items = [flexSpace, done]
-        doneToolbar.items = items
+        let done = UIBarButtonItem(title: NSLocalizedString("Done", comment: ""),
+                                                    style: .done, target: self,
+                                                    action: #selector(self.doneButtonAction))
+        doneToolbar.items = [flexSpace, done]
         doneToolbar.sizeToFit()
-        
-        
         accountNameTextField.inputAccessoryView = doneToolbar
         accountBalanceTextField.inputAccessoryView = doneToolbar
         creditLimitTextField.inputAccessoryView = doneToolbar
         exchangeRateTextField.inputAccessoryView = doneToolbar
     }
-    
-    @objc func doneButtonAction(){
+
+    @objc func doneButtonAction() {
         accountNameTextField.resignFirstResponder()
         accountBalanceTextField.resignFirstResponder()
         creditLimitTextField.resignFirstResponder()
@@ -979,20 +979,17 @@ extension AccountEditorWithInitialBalanceViewController: UIScrollViewDelegate {
     }
 }
 
-
-extension AccountEditorWithInitialBalanceViewController: CurrencyReceiverDelegate{
+extension AccountEditorWithInitialBalanceViewController: CurrencyReceiverDelegate {
     func setCurrency(_ selectedCurrency: Currency) {
         self.currency = selectedCurrency
     }
 }
-
 
 extension AccountEditorWithInitialBalanceViewController: KeeperReceiverDelegate {
     func setKeeper(_ selectedKeeper: Keeper) {
         self.keeper = selectedKeeper
     }
 }
-
 
 extension AccountEditorWithInitialBalanceViewController: HolderReceiverDelegate {
     func setHolder(_ selectedHolder: Holder) {

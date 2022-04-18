@@ -15,8 +15,9 @@ class BaseEntity: NSManagedObject {
     @NSManaged public var createdByUser: Bool
     @NSManaged public var modifyDate: Date?
     @NSManaged public var modifiedByUser: Bool
-    
-    convenience init(id: UUID, createdByUser: Bool = false, createDate: Date = Date(), context: NSManagedObjectContext) {
+
+    convenience init(id: UUID, createdByUser: Bool = false, createDate: Date = Date(),
+                     context: NSManagedObjectContext) {
         self.init(context: context)
         self.id = id
         self.createDate = createDate

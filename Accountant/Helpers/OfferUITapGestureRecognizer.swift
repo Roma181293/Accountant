@@ -8,5 +8,5 @@
 import UIKit
 
 class OfferUITapGestureRecognizer: UITapGestureRecognizer {
-    var tappedOffer: OfferUIView?
+    var tappedOffer: OfferView?
 }

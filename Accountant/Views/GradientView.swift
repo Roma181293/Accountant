@@ -6,24 +6,21 @@
 //
 
 import Foundation
-
-import Foundation
 import UIKit
 
 class GradientView: UIButton {
 
     private var colorTop: UIColor?
     private var colorBottom: UIColor?
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
-        //Default values for gradient colors
+        // Default values for gradient colors
         self.colorTop = UIColor.white
         self.colorBottom = UIColor.white
         setupView()
     }
-    
+
     init(frame: CGRect, colorTop: UIColor, colorBottom: UIColor) {
         super.init(frame: frame)
         self.colorTop = colorTop

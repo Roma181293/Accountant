@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum HolderError : AppError, Equatable {
+enum HolderError: AppError, Equatable {
     case thisHolderAlreadyExists
     case thisHolderUsedInAccounts
     case emptyName
@@ -18,9 +18,9 @@ extension HolderError: LocalizedError {
     public var errorDescription: String? {
         switch self {
         case .thisHolderAlreadyExists:
-            return NSLocalizedString("Holder with the same name already exists",comment: "")
+            return NSLocalizedString("Holder with the same name already exists", comment: "")
         case .thisHolderUsedInAccounts:
-            return NSLocalizedString("This holder is already used on your accounts",comment: "")
+            return NSLocalizedString("This holder is already used on your accounts", comment: "")
         case .emptyName:
             return NSLocalizedString("Please enter name", comment: "")
         case .emptyIcon:

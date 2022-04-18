@@ -7,6 +7,6 @@
 
 import Foundation
 
-struct MBWebHook:Codable {
+struct MBWebHook: Codable {
     let webHookUrl: String
 }

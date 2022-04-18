@@ -11,7 +11,7 @@ import UniformTypeIdentifiers
 import Purchases
 import SafariServices
 
-enum SettingsDataSource: String, CaseIterable{
+enum SettingsDataSource: String, CaseIterable {
     case offer = "Purchase offer"
     case startAccounting = "Start accounting"
     case auth = "Auth"
@@ -31,24 +31,23 @@ enum SettingsDataSource: String, CaseIterable{
 }
 
 class SettingsViewController: UIViewController {
-    
+
     var isUserHasPaidAccess = false
     var proAccessExpirationDate: Date?
     var environment: Environment = .prod
-    
+
     let coreDataStack = CoreDataStack.shared
     var context = CoreDataStack.shared.persistentContainer.viewContext
-    
+
     var dataSource: [SettingsDataSource] = []
     var isImportAccounts: Bool = true
-    
-    
+
     let tableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()
-    
+
     let versionLabel: UILabel = {
         let label = UILabel()
         label.textColor = .systemGray
@@ -56,7 +55,7 @@ class SettingsViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.tableFooterView = UIView(frame: .zero)
@@ -66,51 +65,54 @@ class SettingsViewController: UIViewController {
 
         addMainView()
         getAppVersion()
-        
+
         if let  environment = CoreDataStack.shared.activeEnviroment() {
             self.environment = environment
         }
-        
-        
-        //MARK:- adding NotificationCenter observers
-        NotificationCenter.default.addObserver(self, selector: #selector(self.environmentDidChange), name: .environmentDidChange, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(self.reloadProAccessData), name: .receivedProAccessData, object: nil)
+
+        NotificationCenter.default.addObserver(self, selector: #selector(self.environmentDidChange),
+                                               name: .environmentDidChange, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.reloadProAccessData),
+                                               name: .receivedProAccessData, object: nil)
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         refreshDataSet()
-     
-        self.tabBarController?.navigationItem.title =  NSLocalizedString("Settings", tableName: Constants.Localizable.settingsVC, bundle: Bundle.main, value: "Settings", comment: "")
+        self.tabBarController?.navigationItem.title =  NSLocalizedString("Settings",
+                                                                         tableName: Constants.Localizable.settingsVC,
+                                                                         bundle: Bundle.main,
+                                                                         comment: "")
         reloadProAccessData()
     }
-    
-    deinit{
+
+    deinit {
         NotificationCenter.default.removeObserver(self, name: .environmentDidChange, object: nil)
         NotificationCenter.default.removeObserver(self, name: .receivedProAccessData, object: nil)
     }
-    
+
     private func addMainView() {
         view.addSubview(versionLabel)
         versionLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        versionLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -5).isActive = true
+        versionLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor,
+                                             constant: -5).isActive = true
         view.addSubview(tableView)
         tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
         tableView.bottomAnchor.constraint(equalTo: versionLabel.topAnchor, constant: -5).isActive = true
     }
-    
+
     private func getAppVersion() {
         guard let dictionary = Bundle.main.infoDictionary,
               let version = dictionary["CFBundleShortVersionString"] as? String,
               let bundle = dictionary["CFBundleVersion"] as? String
         else {return}
-        
-        versionLabel.text = "\(NSLocalizedString("App version", tableName: Constants.Localizable.settingsVC, value: "App version", comment: "")) \(version) (\(bundle))"
+
+        versionLabel.text = "\(NSLocalizedString("App version", tableName: Constants.Localizable.settingsVC, comment: "")) \(version) (\(bundle))" // swiftlint:disable:this line_length
     }
-    
-    @objc func environmentDidChange(){
+
+    @objc func environmentDidChange() {
         if let  environment = CoreDataStack.shared.activeEnviroment() {
             self.environment = environment
             print(environment.rawValue)
@@ -119,18 +121,16 @@ class SettingsViewController: UIViewController {
         refreshDataSet()
         tableView.reloadData()
     }
-    
+
     @objc func reloadProAccessData() {
         Purchases.shared.purchaserInfo { (purchaserInfo, error) in
             if let error = error {
                 self.errorHandler(error: error)
-            }
-            else {
+            } else {
                 if purchaserInfo?.entitlements.all["pro"]?.isActive == true {
                     self.isUserHasPaidAccess = true
                     self.proAccessExpirationDate = purchaserInfo?.expirationDate(forEntitlement: "pro")
-                }
-                else if purchaserInfo?.entitlements.all["pro"]?.isActive == false {
+                } else if purchaserInfo?.entitlements.all["pro"]?.isActive == false {
                     self.isUserHasPaidAccess = false
                     self.proAccessExpirationDate = nil
                 }
@@ -139,8 +139,7 @@ class SettingsViewController: UIViewController {
             self.tableView.reloadData()
         }
     }
-    
-    
+
     func refreshDataSet() {
         dataSource.removeAll()
         for item in SettingsDataSource.allCases {
@@ -150,128 +149,111 @@ class SettingsViewController: UIViewController {
                 || item == .importAccounts
                 || item == .exportAccounts
                 || item == .userGuides
-                || item == .exchangeRates)
-            {
+                || item == .exchangeRates) {
                 dataSource.append(item)
             }
         }
     }
-    
+
     func showPurchaseOfferVC() {
         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.purchaseOfferViewController) as! PurchaseOfferViewController
-        self.navigationController?.present(vc, animated: true, completion: nil)
+        guard let purchaseOfferVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.purchaseOfferVC) as? PurchaseOfferViewController else {return} // swiftlint:disable:this line_length
+        self.navigationController?.present(purchaseOfferVC, animated: true, completion: nil)
     }
-    
+
     func errorHandler(error: Error) {
-        var title = NSLocalizedString("Error", tableName: Constants.Localizable.settingsVC, value: "Error", comment: "")
+        let title = NSLocalizedString("Error", tableName: Constants.Localizable.settingsVC, comment: "")
         let alert = UIAlertController(title: title, message: error.localizedDescription, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: NSLocalizedString("OK", tableName: Constants.Localizable.settingsVC, value: "OK", comment: ""), style: .default))
+        alert.addAction(UIAlertAction(title: NSLocalizedString("OK",
+                                                               tableName: Constants.Localizable.settingsVC,
+                                                               comment: ""),
+                                      style: .default))
         self.present(alert, animated: true, completion: nil)
     }
 }
 
-
-
 extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
-    
-    // MARK: - Table view data source
     func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
         return 1
     }
-    
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
         return dataSource.count
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: Constants.Cell.settingsCell, for: indexPath) as! SettingsTableViewCell
-        cell.configureCell(for: dataSource[indexPath.row] , with: self)
-        
+        let cell = tableView.dequeueReusableCell(withIdentifier: Constants.Cell.settingsCell, for: indexPath) as! SettingsTableViewCell // swiftlint:disable:this force_cast line_length
+        cell.configureCell(for: dataSource[indexPath.row], with: self)
         return cell
     }
-    
+
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 44
     }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) { // swiftlint:disable:this function_body_length cyclomatic_complexity line_length
         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        
         switch dataSource[indexPath.row] {
-        
         case .offer:
             showPurchaseOfferVC()
-        case .auth:
-            break
-        case .envirement:
-            break
-        case .accountingCurrency:
-//            let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.currencyTableViewController) as! CurrencyTableViewController
-//            self.navigationController?.pushViewController(vc, animated: true)
+        case .auth, .envirement, .accountingCurrency:
             break
         case .accountsManager:
-            let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.accountNavigatorTableViewController) as!
-                AccountNavigatorTableViewController
-            vc.searchBarIsHidden = false
-            vc.isUserHasPaidAccess = isUserHasPaidAccess
-            self.navigationController?.pushViewController(vc, animated: true)
+            guard let accNavVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.accountNavigatorTableVC) as? AccountNavigatorTableViewController else {return} // swiftlint:disable:this line_length
+            accNavVC.searchBarIsHidden = false
+            accNavVC.isUserHasPaidAccess = isUserHasPaidAccess
+            self.navigationController?.pushViewController(accNavVC, animated: true)
         case .multiItemTransaction:
             break
         case .importAccounts:
-            if AccessCheckManager.checkUserAccessToImportExportEntities(environment: environment, isUserHasPaidAccess: isUserHasPaidAccess) {
+            if AccessCheckManager.checkUserAccessToImportExportEntities(environment: environment,
+                                                                        isUserHasPaidAccess: isUserHasPaidAccess) {
                 isImportAccounts = true
-                
                 if #available(iOS 14.0, *) {
                     let importMenu = UIDocumentPickerViewController(forOpeningContentTypes: [UTType.text], asCopy: true)
                     importMenu.delegate = self
                     importMenu.modalPresentationStyle = .formSheet
                     self.present(importMenu, animated: true, completion: nil)
-                    
                 } else {
                     let importMenu = UIDocumentPickerViewController(documentTypes: ["text"], in: .import)
                     importMenu.delegate = self
                     importMenu.modalPresentationStyle = .formSheet
                     self.present(importMenu, animated: true, completion: nil)
                 }
-            }
-            else{
+            } else {
                 showPurchaseOfferVC()
             }
         case .importTransactions:
-            if AccessCheckManager.checkUserAccessToImportExportEntities(environment: environment, isUserHasPaidAccess: isUserHasPaidAccess) {
+            if AccessCheckManager.checkUserAccessToImportExportEntities(environment: environment,
+                                                                        isUserHasPaidAccess: isUserHasPaidAccess) {
                 isImportAccounts = false
-                
                 if #available(iOS 14.0, *) {
                     let importMenu = UIDocumentPickerViewController(forOpeningContentTypes: [UTType.text], asCopy: true)
                     importMenu.delegate = self
                     importMenu.modalPresentationStyle = .formSheet
                     self.present(importMenu, animated: true, completion: nil)
-                    
                 } else {
                     let importMenu = UIDocumentPickerViewController(documentTypes: ["text"], in: .import)
                     importMenu.delegate = self
                     importMenu.modalPresentationStyle = .formSheet
                     self.present(importMenu, animated: true, completion: nil)
                 }
-            }
-            else{
+            } else {
                 showPurchaseOfferVC()
             }
         case .exportAccounts:
-            if AccessCheckManager.checkUserAccessToImportExportEntities(environment: environment, isUserHasPaidAccess: isUserHasPaidAccess) {
+            if AccessCheckManager.checkUserAccessToImportExportEntities(environment: environment,
+                                                                        isUserHasPaidAccess: isUserHasPaidAccess) {
                 shareTXTFile(fileName: "AccountList", data: Account.exportAccountsToString(context: context))
-            }
-            else{
+            } else {
                 showPurchaseOfferVC()
             }
         case .exportTransactions:
-            if AccessCheckManager.checkUserAccessToImportExportEntities(environment: environment, isUserHasPaidAccess: isUserHasPaidAccess) {
-                shareTXTFile(fileName: "TransactionList", data: Transaction.exportTransactionsToString(context: context))
-            }
-            else{
+            if AccessCheckManager.checkUserAccessToImportExportEntities(environment: environment,
+                                                                        isUserHasPaidAccess: isUserHasPaidAccess) {
+                shareTXTFile(fileName: "TransactionList",
+                             data: Transaction.exportTransactionsToString(context: context))
+            } else {
                 showPurchaseOfferVC()
             }
         case .termsOfUse:
@@ -287,39 +269,33 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
             let webVC = WebViewController(url: url!, configuration: config)
             self.present(webVC, animated: true, completion: nil)
         case .startAccounting:
-            let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.startAccountingViewController) as! StartAccountingViewController
-            vc.vc = self.parent
-            self.navigationController?.pushViewController(vc, animated: true)
+            guard let startAccountingVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.startAccountingVC) as? StartAccountingViewController else {return} // swiftlint:disable:this line_length
+            startAccountingVC.backToVC = self.parent
+            self.navigationController?.pushViewController(startAccountingVC, animated: true)
         case .userGuides:
-            let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-            let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.instructionViewController) as! InstructionViewController
-            self.present(vc, animated: true, completion: nil)
+            guard let userGuideVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.instructionVC) as? InstructionViewController else {return} // swiftlint:disable:this line_length
+            self.present(userGuideVC, animated: true, completion: nil)
         case .bankProfiles:
-            let vc = UserBankProfileTableViewController()
-            self.navigationController?.pushViewController(vc, animated: true)
-            
-//            let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-//            let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.monobankVC) as! MonobankViewController
-//            self.navigationController?.pushViewController(vc, animated: true)
+            self.navigationController?.pushViewController(UserBankProfileTableViewController(), animated: true)
         case .exchangeRates:
-            let vc = ExchangeTableViewController()
-            self.navigationController?.pushViewController(vc, animated: true)
+            self.navigationController?.pushViewController(ExchangeTableViewController(), animated: true)
         }
         tableView.deselectRow(at: indexPath, animated: true)
     }
 }
 
 extension SettingsViewController {
-    func shareTXTFile (fileName: String, data : String) {
-        let docDirectory = try? FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
+    func shareTXTFile (fileName: String, data: String) {
+        let docDirectory = try? FileManager.default.url(for: .documentDirectory,
+                                                           in: .userDomainMask,
+                                                           appropriateFor: nil,
+                                                           create: true)
         if let fileURL = docDirectory?.appendingPathComponent(fileName).appendingPathExtension("txt") {
             do {
                 try data.write(to: fileURL, atomically: true, encoding: .utf8)
-                
                 let objectsToShare = [fileURL]
                 let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
                 self.present(activityVC, animated: true, completion: nil)
-                
             } catch let error {
                 errorHandler(error: error)
             }
@@ -328,11 +304,9 @@ extension SettingsViewController {
 }
 
 extension SettingsViewController: UIDocumentPickerDelegate {
-    
     public func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
         guard controller.documentPickerMode == .import, let url = urls.first, let data = try? String(contentsOf: url)
         else { return }
-        
         if isImportAccounts {
             do {
                 try Account.importAccounts( data, context: context)
@@ -340,18 +314,15 @@ extension SettingsViewController: UIDocumentPickerDelegate {
             } catch let error {
                 errorHandler(error: error)
             }
-        }
-        else {
-            
+        } else {
             let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-            let vc = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.importTransactionViewController) as! ImportTransactionViewController
-            vc.dataFromFile = data
-            self.navigationController?.pushViewController(vc, animated: true)
-            
+            guard let importTranVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.importTransactionVC) as? ImportTransactionViewController else {return} // swiftlint:disable:this line_length
+            importTranVC.dataFromFile = data
+            self.navigationController?.pushViewController(importTranVC, animated: true)
         }
         controller.dismiss(animated: true)
     }
-    
+
     public func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
         controller.dismiss(animated: true)
     }

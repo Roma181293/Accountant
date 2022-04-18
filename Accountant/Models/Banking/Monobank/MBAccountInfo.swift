@@ -22,7 +22,7 @@ struct MBAccountInfo: Codable {
     func getCurrency(context: NSManagedObjectContext) -> Currency? {
         return try? Currency.getCurrencyForISO4217(currencyCode, context: context)
     }
-    
+
     func isExists(context: NSManagedObjectContext) -> Bool {
         return !BankAccount.isFreeExternalId(id, context: context)
     }

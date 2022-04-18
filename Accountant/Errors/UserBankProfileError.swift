@@ -13,10 +13,9 @@ enum UserBankProfileError: AppError {
 }
 
 extension UserBankProfileError: LocalizedError {
-    
     public var errorDescription: String? {
         switch self {
-        case .alreadyExist: return NSLocalizedString("This user bank profile already exists",comment: "")
+        case .alreadyExist: return NSLocalizedString("This user bank profile already exists", comment: "")
         case let .invalidConsentText(text): return String(format: NSLocalizedString("Consent text %@ is not equal to \"MyBudget: Finance keeper\"", comment: ""), text)
         }
     }

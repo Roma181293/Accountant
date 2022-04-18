@@ -12,51 +12,37 @@ class PresentingData {
     private var dateInterval: DateInterval!
     private var presentingCurrency: Currency!
     var lineChartData: ChartData!
-    var tableData : [AccountData] = []
-    
-    init(dateInterval: DateInterval, presentingCurrency: Currency, lineChartData: ChartData, tableData : [AccountData], sortTableDataBy: SortCategoryType) {
+    var tableData: [AccountData] = []
+
+    init(dateInterval: DateInterval, presentingCurrency: Currency, lineChartData: ChartData, tableData: [AccountData],
+         sortTableDataBy: SortCategoryType) {
         self.dateInterval = dateInterval
         self.presentingCurrency = presentingCurrency
         self.lineChartData = lineChartData
         self.tableData = tableData
-        sortTableData(by: sortTableDataBy)
+        self.sortTableDataBy(sortTableDataBy)
     }
-    
-    
-    func sortTableData(by: SortCategoryType) {
-        var nonNegativeValues  = tableData.filter({
-            if $0.amountInSelectedCurrency >= 0 {
-                return true
-            }
-            else {
-                return false
-            }
-        })
-        
-        switch by {
+
+    func sortTableDataBy(_ sortCategoryType: SortCategoryType) {
+        var nonNegativeValues  = tableData.filter({ $0.amountInSelectedCurrency >= 0 })
+
+        switch sortCategoryType {
         case .aToz:
-            nonNegativeValues = nonNegativeValues.sorted(by:{$0.title < $1.title})
+            nonNegativeValues = nonNegativeValues.sorted(by: {$0.title < $1.title})
         case .zToa:
-            nonNegativeValues = nonNegativeValues.sorted(by:{$0.title > $1.title})
+            nonNegativeValues = nonNegativeValues.sorted(by: {$0.title > $1.title})
         case .zeroToNine:
-            nonNegativeValues = nonNegativeValues.sorted(by:{$0.amountInSelectedCurrency < $1.amountInSelectedCurrency})
+            nonNegativeValues = nonNegativeValues.sorted(by: {$0.amountInSelectedCurrency<$1.amountInSelectedCurrency})
         case .nineToZero:
-            nonNegativeValues = nonNegativeValues.sorted(by:{$0.amountInSelectedCurrency > $1.amountInSelectedCurrency})
+            nonNegativeValues = nonNegativeValues.sorted(by: {$0.amountInSelectedCurrency>$1.amountInSelectedCurrency})
         }
-        
-        let negativeValues  = tableData.filter({
-            if $0.amountInSelectedCurrency < 0 {
-                return true
-            }
-            else {
-                return false
-            }
-        })
-        
+
+        let negativeValues  = tableData.filter({ $0.amountInSelectedCurrency < 0 })
         tableData = negativeValues + nonNegativeValues
     }
-    
+
     func getDataForPieChart(distributionType: DistributionType, showDate: Bool) -> DataForPieCharts {
-        return DataForPieCharts(accountsData: tableData, dateInterval: dateInterval, presentingCurrency: presentingCurrency, distributionType: distributionType, showDate: showDate)
+        return DataForPieCharts(accountsData: tableData, dateInterval: dateInterval, presentingCurrency:
+                                    presentingCurrency, distributionType: distributionType, showDate: showDate)
     }
 }

@@ -9,10 +9,10 @@ import UIKit
 import CoreData
 
 class TransactionItemTableViewCell: UITableViewCell {
-    
+
     unowned var transactionItem: TransactionItem!
     unowned var delegate: ComplexTransactionEditorViewController!
-    
+
     let accountButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -22,9 +22,8 @@ class TransactionItemTableViewCell: UITableViewCell {
         button.setTitleColor(.systemBlue, for: .normal)
         return button
     }()
-    
-    
-    let amountTextField : TransactionItemTextField = {
+
+    let amountTextField: TransactionItemTextField = {
         let textField = TransactionItemTextField()
         textField.placeholder = NSLocalizedString("Amount", comment: "")
         textField.keyboardType = .decimalPad
@@ -37,72 +36,61 @@ class TransactionItemTableViewCell: UITableViewCell {
         textField.tag = 1
         return textField
     }()
-    
-    
+
     func configureCell(for transactionItem: TransactionItem, with delegate: ComplexTransactionEditorViewController) {
         self.transactionItem = transactionItem
         self.delegate = delegate
-        amountTextField.delegate = delegate //as! UITextFieldDelegate
+        amountTextField.delegate = delegate
         addDoneButtonOnDecimalKeyboard()
         amountTextField.transactionItem = transactionItem
-        
+
         if let account = transactionItem.account {
             accountButton.setTitle(account.path, for: .normal)
-        }
-        else {
+        } else {
             accountButton.setTitle(NSLocalizedString("Account", comment: ""), for: .normal)
         }
-        
         if transactionItem.amount > 0 {
             amountTextField.text = String(transactionItem.amount)
-        }
-        else {
+        } else {
             amountTextField.text = ""
         }
         addMainView()
     }
-    
-    
+
     private func addMainView() {
-        //MARK:- Adding Targets
-        accountButton.addTarget(self, action: #selector(TransactionItemTableViewCell.selectAccount(_:)), for: .touchUpInside)
-        
-        //MARK:- Adding constraints
+        accountButton.addTarget(self, action: #selector(TransactionItemTableViewCell.selectAccount(_:)),
+                                for: .touchUpInside)
         contentView.addSubview(amountTextField)
         amountTextField.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -5).isActive = true
         amountTextField.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
         amountTextField.widthAnchor.constraint(equalToConstant: 100).isActive = true
-        
+
         contentView.addSubview(accountButton)
         accountButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 5).isActive = true
         accountButton.trailingAnchor.constraint(equalTo: amountTextField.leadingAnchor, constant: -5).isActive = true
         accountButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
     }
-    
-    
+
     @objc func selectAccount(_ sender: UIButton) {
         delegate.accountRequestingForTransactionItem(transactionItem)
     }
-    
-    
-    func addDoneButtonOnDecimalKeyboard(){
-        let doneToolbar: UIToolbar = UIToolbar(frame: CGRect.init(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 50))
+
+    func addDoneButtonOnDecimalKeyboard() {
+        let doneToolbar: UIToolbar = UIToolbar(frame: CGRect.init(x: 0, y: 0,
+                                                                  width: UIScreen.main.bounds.width,
+                                                                  height: 50))
         doneToolbar.barStyle = .default
-        
         let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        let done: UIBarButtonItem = UIBarButtonItem(title: NSLocalizedString("Done", comment: ""), style: .done, target: self, action: #selector(self.doneButtonAction))
-        
-        let items = [flexSpace, done]
-        doneToolbar.items = items
+        let done: UIBarButtonItem = UIBarButtonItem(title: NSLocalizedString("Done", comment: ""),
+                                                    style: .done,
+                                                    target: self,
+                                                    action: #selector(self.doneButtonAction))
+        doneToolbar.items = [flexSpace, done]
         doneToolbar.sizeToFit()
-        
         amountTextField.inputAccessoryView = doneToolbar
     }
-    
-    @objc func doneButtonAction(){
-//        if let amount = Double(amountTextField.text!.replacingOccurrences(of: ",", with: ".")) {
-//            delegate.setAmount(transactionItem: transactionItem, amount: amount)
-//        }
+
+    @objc func doneButtonAction() {
         amountTextField.resignFirstResponder()
     }
 }

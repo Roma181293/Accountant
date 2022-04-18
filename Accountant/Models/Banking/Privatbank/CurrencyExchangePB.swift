@@ -8,13 +8,13 @@
 
 import Foundation
 
-struct CurrencyExchangePB : Codable {
-    let baseCurrency : String
-    let currency : String
-    let saleRateNB : Double
-    let purchaseRateNB : Double
+struct CurrencyExchangePB: Codable {
+    let baseCurrency: String
+    let currency: String
+    let saleRateNB: Double
+    let purchaseRateNB: Double
     
-    enum CodingKeys : String, CodingKey {
+    enum CodingKeys: String, CodingKey {
         case baseCurrency
         case currency
         case saleRateNB
