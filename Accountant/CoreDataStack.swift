@@ -107,6 +107,8 @@ enum ContextSaveContextualInfo: String {
     case addHolder = "adding Holder"
     case editHolder = "editing Holder"
     case deleteHolder = "deleting Holder"
+    case addCurrency = "adding Currency"
+    case setAccountingCurrency = "setting accounting Currency"
 }
 
 extension NSManagedObjectContext {

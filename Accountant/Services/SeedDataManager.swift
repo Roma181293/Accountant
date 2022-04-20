@@ -36,20 +36,20 @@ class SeedDataManager {
     static public func addTestData(coreDataStack: CoreDataStack) throws {
         guard let env = coreDataStack.activeEnviroment(), env == .test else {return}
         let context = coreDataStack.persistentContainer.viewContext
-        try addCurrencies(context: context)
+        addCurrencies(context: context)
         guard let currency = try Currency.getCurrencyForCode("UAH", context: context) else {return}
-        try Currency.changeAccountingCurrency(old: nil, new: currency, context: context)
-        try addTestKeepers(context: context)
-        try addTestHolders(context: context)
+        try Currency.setAccountingCurrency(currency, context: context)
+        addTestKeepers(context: context)
+        addTestHolders(context: context)
         try addTestBaseAccountsWithTransaction(accountingCurrency: currency, context: context)
         try CoreDataStack.shared.saveContext(context)
     }
 
     static public func createCurrenciesHoldersKeepers(coreDataStack: CoreDataStack) throws {
         let context = coreDataStack.persistentContainer.viewContext
-        try addCurrencies(context: context)
-        try addHolders(context: context)
-        try addKeepers(context: context)
+        addCurrencies(context: context)
+        addHolders(context: context)
+        addKeepers(context: context)
     }
 
     // MARK: - Account
@@ -87,7 +87,8 @@ class SeedDataManager {
     }
 
     // MARK: - Currency
-    private static func addCurrencies(context: NSManagedObjectContext) throws {
+    private static func addCurrencies(context: NSManagedObjectContext) {
+        let dataProvider = CurrencyProvider(with: CoreDataStack.shared.persistentContainer)
         let currencies = [(code: "UAH", iso4217: 980),
                           (code: "AUD", iso4217: 36),
                           (code: "CAD", iso4217: 124),
@@ -145,7 +146,7 @@ class SeedDataManager {
                           (code: "GEL", iso4217: 981),
                           (code: "BRL", iso4217: 986)]
         for item in currencies {
-            try? Currency.create(code: item.code, iso4217: Int16(item.iso4217), name: nil, createdByUser: false, context: context)
+            dataProvider.addCurrency(code: item.code, iso4217: Int16(item.iso4217), name: nil, createdByUser: false, context: context)
         }
     }
 
@@ -160,13 +161,13 @@ class SeedDataManager {
     }
 
     // MARK: - Keeper
-    private static func addKeepers(context: NSManagedObjectContext) throws {
+    private static func addKeepers(context: NSManagedObjectContext) {
         let keeperProvider = KeeperProvider(with: CoreDataStack.shared.persistentContainer, fetchedResultsControllerDelegate: nil, mode: nil)
         keeperProvider.addKeeper(name: NSLocalizedString("Cash", comment: ""), type: .cash, createdByUser: false, context: context)
         keeperProvider.addKeeper(name: NSLocalizedString("Monobank",comment: ""), type: .bank, createdByUser: false, context: context)
     }
     
-    private static func addTestKeepers(context: NSManagedObjectContext) throws {
+    private static func addTestKeepers(context: NSManagedObjectContext) {
         let keeperProvider = KeeperProvider(with: CoreDataStack.shared.persistentContainer, fetchedResultsControllerDelegate: nil, mode: nil)
         keeperProvider.addKeeper(name: NSLocalizedString("Cash", comment: ""), type: .cash, createdByUser: false, context: context)
         keeperProvider.addKeeper(name: NSLocalizedString("Bank1", comment: ""), type: .bank, context: context)
@@ -186,12 +187,12 @@ class SeedDataManager {
     }
 
     // MARK: - Holder
-    private static func addHolders(context: NSManagedObjectContext) throws {
+    private static func addHolders(context: NSManagedObjectContext) {
         let holderProvider = HolderProvider(with: CoreDataStack.shared.persistentContainer, fetchedResultsControllerDelegate: nil)
         holderProvider.addHolder(name: NSLocalizedString("Me", comment: ""), icon: "😎", createdByUser: false, context: context)
     }
 
-    private static func addTestHolders(context: NSManagedObjectContext) throws {
+    private static func addTestHolders(context: NSManagedObjectContext) {
         let holderProvider = HolderProvider(with: CoreDataStack.shared.persistentContainer, fetchedResultsControllerDelegate: nil)
         holderProvider.addHolder(name: NSLocalizedString("Me", comment: ""),icon: "😎", createdByUser: false, context: context)
         holderProvider.addHolder(name: NSLocalizedString("Kate", comment: ""), icon: "👩🏻‍🦰", context: context)

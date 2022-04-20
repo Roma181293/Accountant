@@ -18,7 +18,7 @@ class AccountListViewController: UIViewController, UIScrollViewDelegate { // swi
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var chnageCurrencyButton: UIButton!
     private unowned var moneyAccountListTableViewController: AccountListTableViewController!
-    
+
     private var slides: [UIView] = []
     var isUserHasPaidAccess: Bool = false
     var environment: Environment = .prod
@@ -144,11 +144,8 @@ class AccountListViewController: UIViewController, UIScrollViewDelegate { // swi
         NotificationCenter.default.removeObserver(self, name: .receivedProAccessData, object: nil)
     }
     @IBAction func chnageCurrency(_ sender: Any) {
-        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let currencyTableViewController = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.currencyTableVC) as! CurrencyTableViewController // swiftlint:disable:this force_cast line_length
-        currencyTableViewController.delegate = self
-        currencyTableViewController.currency = currency
-        self.navigationController?.pushViewController(currencyTableViewController, animated: true)
+        let currencyVC = CurrencyViewController(currency: currency, delegate: self, mode: .setCurrency)
+        self.navigationController?.pushViewController(currencyVC, animated: true)
     }
 
     @IBAction func changeAccount(_ sender: UISegmentedControl) {

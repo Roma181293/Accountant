@@ -12,7 +12,7 @@ class StartAccountingViewController: UIViewController { // swiftlint:disable:thi
     var coreDataStack = CoreDataStack.shared
     var context = CoreDataStack.shared.persistentContainer.viewContext
 
-    weak var currencyTVC: CurrencyTableViewController!
+    weak var currencyTVC: CurrencyViewController!
     var accountNavigationTVC: AccountNavigatorTableViewController!
     weak var backToVC: UIViewController?
 
@@ -158,13 +158,8 @@ class StartAccountingViewController: UIViewController { // swiftlint:disable:thi
     }
 
     private func addCurrencyTVC() {
-        let storyboard = UIStoryboard(name: "Main", bundle: .main)
-        currencyTVC = storyboard.instantiateViewController(identifier: Constants.Storyboard.currencyTableVC)
-            as CurrencyTableViewController
-        currencyTVC.delegate = self
-        currencyTVC.context = CoreDataStack.shared.persistentContainer.viewContext
-        currencyTVC.mode = .setAccountingCurrency
-
+        let tempCurrencyTVC = CurrencyViewController(delegate: self, mode: .setAccountingCurrency)
+        currencyTVC = tempCurrencyTVC
         addChild(currencyTVC)
 
         mainView.addSubview(currencyTVC.view)

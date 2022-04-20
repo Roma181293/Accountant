@@ -629,8 +629,8 @@ extension Account {
     }
 
     static func changeCurrencyForBaseAccounts(to currency: Currency, modifyDate: Date = Date(),
-                                              modifiedByUser: Bool = true, context: NSManagedObjectContext) throws {
-        let baseAccounts: [Account] = try getRootAccountList(context: context)
+                                              modifiedByUser: Bool = true, context: NSManagedObjectContext) {
+        let baseAccounts: [Account] = getRootAccountList(context: context)
         var acc: [Account] = []
         for item in baseAccounts {
             if let currency = item.currency, currency.isAccounting == true {
@@ -645,11 +645,11 @@ extension Account {
         }
     }
 
-    static func getRootAccountList(context: NSManagedObjectContext) throws -> [Account] {
+    static func getRootAccountList(context: NSManagedObjectContext) -> [Account] {
         let fetchRequest: NSFetchRequest<Account> = fetchRequest()
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: Schema.Account.name.rawValue, ascending: true)]
         fetchRequest.predicate = NSPredicate(format: "\(Schema.Account.parent.rawValue) = nil")
-        return try context.fetch(fetchRequest)
+        return (try? context.fetch(fetchRequest)) ?? []
     }
 
     static func getAccountList(context: NSManagedObjectContext) throws -> [Account] {

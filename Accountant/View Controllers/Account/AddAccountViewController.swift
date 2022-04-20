@@ -89,11 +89,8 @@ class AddAccountViewController: UIViewController {
     }
 
     @IBAction func selectCurrency(_ sender: UIButton) {
-        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        guard let currencyTableViewController = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.currencyTableVC) as? CurrencyTableViewController else {return} // swiftlint:disable:this line_length
-        currencyTableViewController.delegate = self
-        currencyTableViewController.currency = currency
-        self.navigationController?.pushViewController(currencyTableViewController, animated: true)
+        let currencyVC = CurrencyViewController(currency: currency, delegate: self, mode: .setCurrency)
+        self.navigationController?.pushViewController(currencyVC, animated: true)
     }
 
     @IBAction func refreshCurrency(_ sender: UIButton) {
