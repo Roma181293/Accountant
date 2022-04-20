@@ -70,8 +70,7 @@ final class UserBankProfile: NSManagedObject {
             return ubp
         } else {
             // can be forced unwrapped coz this method shouldnt return error
-            let keeper = try Keeper.getOrCreate(name: NSLocalizedString("Monobank", comment: ""), type: .bank,
-                                                createdByUser: false, context: context)
+            let keeper = try Keeper.getKeeperForName(NSLocalizedString("Monobank", comment: ""), context: context)!
             return UserBankProfile(name: mbui.name, externalId: mbui.clientId, keeper: keeper, xToken: xToken,
                                    context: context)
         }

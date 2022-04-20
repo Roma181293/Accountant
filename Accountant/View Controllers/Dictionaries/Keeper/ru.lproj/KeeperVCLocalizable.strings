@@ -1,0 +1,22 @@
+/* 
+  KeeperVCLocalizable.strings
+  Accountant
+
+  Created by Roman Topchii on 19.04.2022.
+  
+*/
+
+"Add" = "Добавить";
+"Add bank" = "Добавить банк";
+"Add bank or person" = "Добавить банк или человека";
+"Add person" = "Добавить человека";
+"Banks" = "Банки";
+"Banks & Persons" = "Банки и Люди";
+"Cancel" = "Закрыть";
+"Delete" = "Удалить";
+"Name" = "Имя";
+"New name" = "Новое имя";
+"Persons" = "Люди";
+"Rename" = "Переименовать";
+"Save" = "Сохранить";
+"Yes" = "Да";

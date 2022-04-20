@@ -43,8 +43,11 @@ class AccountEditorWithInitialBalanceViewController: UIViewController { // swift
 
     var keeper: Keeper? {
         didSet {
-            guard let keeper = keeper else {return}
-            keeperButton.setTitle(keeper.name, for: .normal)
+            if let keeper = keeper {
+                keeperButton.setTitle(keeper.name, for: .normal)
+            } else {
+                keeperButton.setTitle("", for: .normal)
+            }
         }
     }
 
@@ -444,7 +447,7 @@ class AccountEditorWithInitialBalanceViewController: UIViewController { // swift
 
     @objc private func selectkeeper() {
         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        guard let keeperTableViewController = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.keeperTableVC) as? KeeperTableViewController else {return} // swiftlint:disable:this line_length
+        guard let keeperTableViewController = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.keeperTableVC) as? KeeperViewController else {return} // swiftlint:disable:this line_length
         keeperTableViewController.delegate = self
         keeperTableViewController.keeper = keeper
         if parentAccount == moneyRootAccount {
@@ -986,7 +989,7 @@ extension AccountEditorWithInitialBalanceViewController: CurrencyReceiverDelegat
 }
 
 extension AccountEditorWithInitialBalanceViewController: KeeperReceiverDelegate {
-    func setKeeper(_ selectedKeeper: Keeper) {
+    func setKeeper(_ selectedKeeper: Keeper?) {
         self.keeper = selectedKeeper
     }
 }
@@ -995,4 +998,4 @@ extension AccountEditorWithInitialBalanceViewController: HolderReceiverDelegate 
     func setHolder(_ selectedHolder: Holder) {
         self.holder = selectedHolder
     }
-}
+} // swiftlint:disable:this file_length

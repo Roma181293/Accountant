@@ -161,16 +161,18 @@ class SeedDataManager {
 
     // MARK: - Keeper
     private static func addKeepers(context: NSManagedObjectContext) throws {
-        try? Keeper.create(name: NSLocalizedString("Cash", comment: ""), type: .cash, createdByUser: false, context: context)
-        try? Keeper.create(name: NSLocalizedString("Monobank",comment: ""), type: .bank, createdByUser: false, context: context)
+        let keeperProvider = KeeperProvider(with: CoreDataStack.shared.persistentContainer, fetchedResultsControllerDelegate: nil, mode: nil)
+        keeperProvider.addKeeper(name: NSLocalizedString("Cash", comment: ""), type: .cash, createdByUser: false, context: context)
+        keeperProvider.addKeeper(name: NSLocalizedString("Monobank",comment: ""), type: .bank, createdByUser: false, context: context)
     }
     
     private static func addTestKeepers(context: NSManagedObjectContext) throws {
-        try Keeper.create(name: NSLocalizedString("Cash", comment: ""), type: .cash, createdByUser: false, context: context)
-        try Keeper.create(name: NSLocalizedString("Bank1", comment: ""), type: .bank, context: context)
-        try Keeper.create(name: NSLocalizedString("Bank2", comment: ""), type: .bank, context: context)
-        try Keeper.create(name: NSLocalizedString("Hanna", comment: ""), type: .person, context: context)
-        try Keeper.create(name: NSLocalizedString("Monobank",comment: ""), type: .bank, createdByUser: false, context: context)
+        let keeperProvider = KeeperProvider(with: CoreDataStack.shared.persistentContainer, fetchedResultsControllerDelegate: nil, mode: nil)
+        keeperProvider.addKeeper(name: NSLocalizedString("Cash", comment: ""), type: .cash, createdByUser: false, context: context)
+        keeperProvider.addKeeper(name: NSLocalizedString("Bank1", comment: ""), type: .bank, context: context)
+        keeperProvider.addKeeper(name: NSLocalizedString("Bank2", comment: ""), type: .bank, context: context)
+        keeperProvider.addKeeper(name: NSLocalizedString("Hanna", comment: ""), type: .person, context: context)
+        keeperProvider.addKeeper(name: NSLocalizedString("Monobank",comment: ""), type: .bank, createdByUser: false, context: context)
     }
     
     private static func deleteAllKeepers(context: NSManagedObjectContext, env: Environment?) throws {
