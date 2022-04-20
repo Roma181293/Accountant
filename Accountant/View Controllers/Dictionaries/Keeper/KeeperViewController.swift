@@ -7,7 +7,6 @@
 
 import UIKit
 import CoreData
-import Charts
 
 protocol KeeperReceiverDelegate: AnyObject {
     func setKeeper(_ selectedKeeper: Keeper?)
@@ -102,7 +101,7 @@ extension KeeperViewController {
                 }
                 self.dataProvider.deleteKeeper(at: indexPath)
             }))
-            alert.addAction(UIAlertAction(title: NSLocalizedString("No",
+            alert.addAction(UIAlertAction(title: NSLocalizedString("Cancel",
                                                                    tableName: Constants.Localizable.keeperVC,
                                                                    comment: ""), style: .cancel))
             self.present(alert, animated: true, completion: nil)

@@ -20,9 +20,13 @@ class MonobankViewController: UIViewController { // swiftlint:disable:this type_
     var expenseRootAccount: Account!
     var capitalRootAccount: Account!
 
-    var holder: Holder! {
+    var holder: Holder? {
         didSet {
-            holderButton.setTitle(holder.icon + "-" + holder.name, for: .normal)
+            if let holder = holder {
+                holderButton.setTitle(holder.icon + "-" + holder.name, for: .normal)
+            } else {
+                holderButton.setTitle("", for: .normal)
+            }
         }
     }
 
@@ -192,9 +196,7 @@ class MonobankViewController: UIViewController { // swiftlint:disable:this type_
                                                       comment: "")
         getCurrencyExchangeRate()
 
-        if let holder = try? Holder.getMe(context: context) {
-            self.holder = holder
-        }
+        holder = try? Holder.getMe(context: context)
 
         tokenTextField.delegate = self
 
@@ -593,13 +595,13 @@ extension MonobankViewController: UITableViewDelegate, UITableViewDataSource {
 extension MonobankViewController: HolderReceiverDelegate {
     @objc func selectHolder() {
         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        guard let holderTableViewController = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.holderTableVC) as? HolderTableViewController else {return} // swiftlint:disable:this line_length
+        guard let holderTableViewController = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.holderTableVC) as? HolderViewController else {return} // swiftlint:disable:this line_length
         holderTableViewController.delegate = self
         holderTableViewController.holder = holder
         self.navigationController?.pushViewController(holderTableViewController, animated: true)
     }
 
-    func setHolder(_ selectedHolder: Holder) {
+    func setHolder(_ selectedHolder: Holder?) {
         self.holder = selectedHolder
     }
 }

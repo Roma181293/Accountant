@@ -97,7 +97,6 @@ class CoreDataStack {
     }
 }
 
-
 /**
  Contextual information for handling Core Data context save errors.
  */
@@ -105,6 +104,9 @@ enum ContextSaveContextualInfo: String {
     case addKeeper = "adding Keeper"
     case renameKeeper = "renaming Keeper"
     case deleteKeeper = "deleting Keeper"
+    case addHolder = "adding Holder"
+    case editHolder = "editing Holder"
+    case deleteHolder = "deleting Holder"
 }
 
 extension NSManagedObjectContext {

@@ -29,53 +29,6 @@ final class Holder: BaseEntity {
         return Array(accounts)
     }
 
-    static func isFreePair(_ name: String, icon: String, context: NSManagedObjectContext) -> Bool {
-        let fetchRequest = fetchRequest()
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: Schema.Holder.name.rawValue, ascending: false)]
-        fetchRequest.predicate = NSPredicate(format: "\(Schema.Holder.name.rawValue) = %@ || \(Schema.Holder.icon.rawValue) = %@", name, icon) // swiftlint:disable:this line_length
-        do {
-            let holders = try context.fetch(fetchRequest)
-            if holders.isEmpty {
-                return true
-            } else {
-                return false
-            }
-        } catch let error {
-            print("ERROR", error)
-            return false
-        }
-    }
-
-    static func createAndGet(name: String, icon: String, createdByUser: Bool = true,
-                             createDate: Date = Date(), context: NSManagedObjectContext) throws -> Holder {
-        guard isFreePair(name, icon: icon, context: context) == true else {
-            throw HolderError.thisHolderAlreadyExists
-        }
-        return Holder(name: name, icon: icon, createdByUser: createdByUser, createDate: createDate, context: context)
-    }
-
-    static func create(name: String, icon: String, createdByUser: Bool = true, createDate: Date = Date(),
-                       context: NSManagedObjectContext) throws {
-        _ = try createAndGet(name: name, icon: icon, createdByUser: createdByUser, createDate: createDate,
-                             context: context)
-    }
-
-    func delete() throws {
-        guard accountsList.isEmpty else {
-            throw HolderError.thisHolderUsedInAccounts
-        }
-        managedObjectContext?.delete(self)
-    }
-
-    func update(name: String, icon: String, modifiedByUser: Bool = true, modifyDate: Date = Date(),
-                context: NSManagedObjectContext) throws {
-        guard Holder.isFreePair(name, icon: icon, context: context) else {throw KeeperError.thisKeeperAlreadyExists}
-        self.name = name
-        self.icon = icon
-        self.modifiedByUser = modifiedByUser
-        self.modifyDate = modifyDate
-    }
-
     static func get(_ name: String, context: NSManagedObjectContext) throws -> Holder? {
         let fetchRequest = Holder.fetchRequest()
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: Schema.Holder.name.rawValue, ascending: true)]

@@ -53,8 +53,11 @@ class AccountEditorWithInitialBalanceViewController: UIViewController { // swift
 
     var holder: Holder? {
         didSet {
-            guard let holder = holder else {return}
-            holderButton.setTitle(holder.icon + "-" + holder.name, for: .normal)
+            if let holder = holder {
+                holderButton.setTitle(holder.icon + "-" + holder.name, for: .normal)
+            } else {
+                holderButton.setTitle("", for: .normal)
+            }
         }
     }
 
@@ -439,7 +442,7 @@ class AccountEditorWithInitialBalanceViewController: UIViewController { // swift
 
     @objc func selectHolder() {
         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        guard let holderTableViewController = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.holderTableVC) as? HolderTableViewController else {return} // swiftlint:disable:this line_length
+        guard let holderTableViewController = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.holderTableVC) as? HolderViewController else {return} // swiftlint:disable:this line_length
         holderTableViewController.delegate = self
         holderTableViewController.holder = holder
         self.navigationController?.pushViewController(holderTableViewController, animated: true)
@@ -995,7 +998,7 @@ extension AccountEditorWithInitialBalanceViewController: KeeperReceiverDelegate 
 }
 
 extension AccountEditorWithInitialBalanceViewController: HolderReceiverDelegate {
-    func setHolder(_ selectedHolder: Holder) {
+    func setHolder(_ selectedHolder: Holder?) {
         self.holder = selectedHolder
     }
 } // swiftlint:disable:this file_length

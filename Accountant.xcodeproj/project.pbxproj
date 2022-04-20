@@ -85,6 +85,9 @@
 		2B6561FD2776030500150B35 /* BankAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B6561FC2776030500150B35 /* BankAccount.swift */; };
 		2B6C2363280E114400D84174 /* KeeperProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B6C2362280E114400D84174 /* KeeperProvider.swift */; };
 		2B6C2369280F1B5D00D84174 /* KeeperVCLocalizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2B6C236B280F1B5D00D84174 /* KeeperVCLocalizable.strings */; };
+		2B6C2370280FC93700D84174 /* HolderProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B6C236F280FC93700D84174 /* HolderProvider.swift */; };
+		2B6C2372280FCEB100D84174 /* HolderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B6C2371280FCEB100D84174 /* HolderViewController.swift */; };
+		2B6C23752810021A00D84174 /* HolderVCLocalizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2B6C23772810021A00D84174 /* HolderVCLocalizable.strings */; };
 		2B7AB3F9278C831C00974156 /* Extension UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B7AB3F8278C831C00974156 /* Extension UIViewController.swift */; };
 		2B7AB3FC278D4BEF00974156 /* AccountError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B7AB3FB278D4BEF00974156 /* AccountError.swift */; };
 		2B7AB3FE278D4C3E00974156 /* CurrencyError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B7AB3FD278D4C3E00974156 /* CurrencyError.swift */; };
@@ -131,7 +134,6 @@
 		2BDE4F4227D7570A0069624C /* Account.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BDE4F4127D7570A0069624C /* Account.swift */; };
 		2BE0F1A228061E4600FEE3F8 /* MappingModel_V1toV3.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 2BE0F1A128061E4600FEE3F8 /* MappingModel_V1toV3.xcmappingmodel */; };
 		2BE2593326BC8E6D0025301F /* AppErrorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE2593226BC8E6D0025301F /* AppErrorProtocol.swift */; };
-		2BE2955E2746E5CB003A1B36 /* HolderTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE2955D2746E5CB003A1B36 /* HolderTableViewController.swift */; };
 		2BEEC18927960136000B210F /* MappingModel_V1toV2.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 2BEEC18827960136000B210F /* MappingModel_V1toV2.xcmappingmodel */; };
 		2BEEC18B2796017F000B210F /* MigrationPolicy_V1toV2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BEEC18A2796017F000B210F /* MigrationPolicy_V1toV2.swift */; };
 		38318A9FD81C28716622F93F /* Pods_Accountant.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97FD10DCF67B198D7BE0F270 /* Pods_Accountant.framework */; };
@@ -241,6 +243,11 @@
 		2B6C236A280F1B5D00D84174 /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/KeeperVCLocalizable.strings; sourceTree = "<group>"; };
 		2B6C236C280F1B6100D84174 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/KeeperVCLocalizable.strings; sourceTree = "<group>"; };
 		2B6C236D280F1B6400D84174 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/KeeperVCLocalizable.strings; sourceTree = "<group>"; };
+		2B6C236F280FC93700D84174 /* HolderProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HolderProvider.swift; sourceTree = "<group>"; };
+		2B6C2371280FCEB100D84174 /* HolderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HolderViewController.swift; sourceTree = "<group>"; };
+		2B6C23792810021D00D84174 /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/HolderVCLocalizable.strings; sourceTree = "<group>"; };
+		2B6C237C2810025200D84174 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/HolderVCLocalizable.strings; sourceTree = "<group>"; };
+		2B6C237D2810025400D84174 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/HolderVCLocalizable.strings; sourceTree = "<group>"; };
 		2B7AB3F8278C831C00974156 /* Extension UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension UIViewController.swift"; sourceTree = "<group>"; };
 		2B7AB3FB278D4BEF00974156 /* AccountError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountError.swift; sourceTree = "<group>"; };
 		2B7AB3FD278D4C3E00974156 /* CurrencyError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyError.swift; sourceTree = "<group>"; };
@@ -302,7 +309,6 @@
 		2BDE4F4127D7570A0069624C /* Account.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Account.swift; sourceTree = "<group>"; };
 		2BE0F1A128061E4600FEE3F8 /* MappingModel_V1toV3.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = MappingModel_V1toV3.xcmappingmodel; sourceTree = "<group>"; };
 		2BE2593226BC8E6D0025301F /* AppErrorProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppErrorProtocol.swift; sourceTree = "<group>"; };
-		2BE2955D2746E5CB003A1B36 /* HolderTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HolderTableViewController.swift; sourceTree = "<group>"; };
 		2BEEC18827960136000B210F /* MappingModel_V1toV2.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = MappingModel_V1toV2.xcmappingmodel; sourceTree = "<group>"; };
 		2BEEC18A2796017F000B210F /* MigrationPolicy_V1toV2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MigrationPolicy_V1toV2.swift; sourceTree = "<group>"; };
 		2BFCE545274ABADF0070C35F /* Accountant 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Accountant 2.xcdatamodel"; sourceTree = "<group>"; };
@@ -496,6 +502,16 @@
 			path = Keeper;
 			sourceTree = "<group>";
 		};
+		2B6C236E280FC91600D84174 /* Holder */ = {
+			isa = PBXGroup;
+			children = (
+				2B6C2371280FCEB100D84174 /* HolderViewController.swift */,
+				2B6C236F280FC93700D84174 /* HolderProvider.swift */,
+				2B6C23772810021A00D84174 /* HolderVCLocalizable.strings */,
+			);
+			path = Holder;
+			sourceTree = "<group>";
+		};
 		2B7AB3FA278D4BC800974156 /* Errors */ = {
 			isa = PBXGroup;
 			children = (
@@ -538,7 +554,7 @@
 			isa = PBXGroup;
 			children = (
 				2B6C2364280F0CD100D84174 /* Keeper */,
-				2BE2955D2746E5CB003A1B36 /* HolderTableViewController.swift */,
+				2B6C236E280FC91600D84174 /* Holder */,
 				2B85D85A278F63FC0042858B /* ExchangeTableViewController.swift */,
 				2B7F885127A5D58200A1B63B /* UserBankProfileTVC */,
 				2B7F885227A5D5AD00A1B63B /* BankAccountTVC */,
@@ -908,6 +924,7 @@
 				2B7F884827A5D31800A1B63B /* MonobankVCLocalizable.strings in Resources */,
 				2B949BBB2665B4080033383A /* Assets.xcassets in Resources */,
 				2B6C2369280F1B5D00D84174 /* KeeperVCLocalizable.strings in Resources */,
+				2B6C23752810021A00D84174 /* HolderVCLocalizable.strings in Resources */,
 				2B949BB62665B4040033383A /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -993,6 +1010,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2B6C2372280FCEB100D84174 /* HolderViewController.swift in Sources */,
 				2B80B3C82738328C0037439B /* CurrencyTableViewController.swift in Sources */,
 				2B1FEB70266D752200BF53BD /* ChartsManager.swift in Sources */,
 				2BDAB0F82805EE7900C5AED6 /* MigrationPolicy_V1toV3.swift in Sources */,
@@ -1008,7 +1026,6 @@
 				2B85D859278F480C0042858B /* ExchangeRatesLoadingService.swift in Sources */,
 				2B00CAF92746095700821FE0 /* MonobankViewController.swift in Sources */,
 				2BE0F1A228061E4600FEE3F8 /* MappingModel_V1toV3.xcmappingmodel in Sources */,
-				2BE2955E2746E5CB003A1B36 /* HolderTableViewController.swift in Sources */,
 				2B1FEA4C266BEE6700BF53BD /* CurrencyHistoricalDataNB.swift in Sources */,
 				2BC058B926CD7A9400FE896C /* ComplexTransactionEditorViewController.swift in Sources */,
 				2B1FEA4D266BEE6700BF53BD /* CurrencyHistoricalDataProtocol.swift in Sources */,
@@ -1061,6 +1078,7 @@
 				2B1FEAE6266CAF6C00BF53BD /* Extension UIDevice.swift in Sources */,
 				2B3523632746B50300399CF6 /* KeeperViewController.swift in Sources */,
 				2B1FEBB6266EE45F00BF53BD /* PreTransactionTableViewCell.swift in Sources */,
+				2B6C2370280FC93700D84174 /* HolderProvider.swift in Sources */,
 				2B7AB3FE278D4C3E00974156 /* CurrencyError.swift in Sources */,
 				2BDAB0EF2804BE2300C5AED6 /* BaseEntity.swift in Sources */,
 				2BEEC18B2796017F000B210F /* MigrationPolicy_V1toV2.swift in Sources */,
@@ -1161,6 +1179,16 @@
 				2B6C236D280F1B6400D84174 /* en */,
 			);
 			name = KeeperVCLocalizable.strings;
+			sourceTree = "<group>";
+		};
+		2B6C23772810021A00D84174 /* HolderVCLocalizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2B6C23792810021D00D84174 /* uk */,
+				2B6C237C2810025200D84174 /* ru */,
+				2B6C237D2810025400D84174 /* en */,
+			);
+			name = HolderVCLocalizable.strings;
 			sourceTree = "<group>";
 		};
 		2B7F882A27A52CC700A1B63B /* SettingsVCLocalizable.strings */ = {

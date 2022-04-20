@@ -1,0 +1,21 @@
+/* 
+  HolderVCLocalizable.strings
+  Accountant
+
+  Created by Roman Topchii on 20.04.2022.
+  
+*/
+
+"Holders" = "Holders";
+"Delete" = "Delete";
+"Do you want to delete %@ - %@?" = "Do you want to delete %@ - %@?";
+"Yes" = "Yes";
+"Cancel" = "Cancel";
+"Edit" = "Edit";
+"New name" = "New name";
+"New icon, one symbol (Emoji)" = "New icon, one symbol (🤔)";
+"Save" = "Save";
+"Add holder" = "Add holder";
+"Name" = "Name";
+"Icon, one symbol (Emoji)" = "Icon, one symbol (🤔)";
+"Add" = "Add";

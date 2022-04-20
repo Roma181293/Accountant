@@ -187,12 +187,14 @@ class SeedDataManager {
 
     // MARK: - Holder
     private static func addHolders(context: NSManagedObjectContext) throws {
-        try? Holder.create(name: NSLocalizedString("Me", comment: ""), icon: "😎", createdByUser: false, context: context)
+        let holderProvider = HolderProvider(with: CoreDataStack.shared.persistentContainer, fetchedResultsControllerDelegate: nil)
+        holderProvider.addHolder(name: NSLocalizedString("Me", comment: ""), icon: "😎", createdByUser: false, context: context)
     }
 
     private static func addTestHolders(context: NSManagedObjectContext) throws {
-        try Holder.create(name: NSLocalizedString("Me", comment: ""),icon: "😎", createdByUser: false, context: context)
-        try Holder.create(name: NSLocalizedString("Kate", comment: ""), icon: "👩🏻‍🦰", context: context)
+        let holderProvider = HolderProvider(with: CoreDataStack.shared.persistentContainer, fetchedResultsControllerDelegate: nil)
+        holderProvider.addHolder(name: NSLocalizedString("Me", comment: ""),icon: "😎", createdByUser: false, context: context)
+        holderProvider.addHolder(name: NSLocalizedString("Kate", comment: ""), icon: "👩🏻‍🦰", context: context)
     }
 
     private static func deleteAllHolders(context: NSManagedObjectContext, env: Environment?) throws {

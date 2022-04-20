@@ -8,8 +8,6 @@
 
 import Foundation
 
-
-
 enum BaseAccounts: String, CaseIterable {
     case income = "Income"
     case expense = "Expenses"
