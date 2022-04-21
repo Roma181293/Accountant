@@ -64,7 +64,10 @@ extension CurrencyViewController {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: Constants.Cell.currencyCell, for: indexPath) as! CurrencyTableViewCell // swiftlint:disable:this force_cast line_length
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: Constants.Cell.currencyCell, for: indexPath) as? CurrencyTableViewCell // swiftlint:disable:this force_cast line_length
+        else {
+            fatalError("###\(#function): Failed to dequeue currencyCell")
+        }
         let fetchedCurrency = dataProvider.fetchedResultsController.object(at: indexPath)
         cell.configure(fetchedCurrency, currency: currency, mode: mode)
         return cell
