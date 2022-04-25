@@ -28,6 +28,7 @@ class SimpleTransactionEditorViewController: UIViewController { // swiftlint:dis
             configureUI()
         }
     }
+    var accountRequestorTranItemType: TransactionItem.TypeEnum = .debit
 
     var currencyHistoricalData: CurrencyHistoricalDataProtocol? {
         didSet {
@@ -364,21 +365,21 @@ class SimpleTransactionEditorViewController: UIViewController { // swiftlint:dis
         switch sender.selectedSegmentIndex {
         case 0:
             print("Expense")
-            debit = Account.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.expense),
+            debit = Account.getAccountWithPath(LocalisationManager.getLocalizedName(.expense),
                                                context: context)
-            credit = Account.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.money),
+            credit = Account.getAccountWithPath(LocalisationManager.getLocalizedName(.money),
                                                 context: context)
         case 1:
             print("Income")
-            debit = Account.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.money),
+            debit = Account.getAccountWithPath(LocalisationManager.getLocalizedName(.money),
                                                context: context)
-            credit = Account.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.income),
+            credit = Account.getAccountWithPath(LocalisationManager.getLocalizedName(.income),
                                                 context: context)
         case 2:
             print("Transfer")
-            debit = Account.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.money),
+            debit = Account.getAccountWithPath(LocalisationManager.getLocalizedName(.money),
                                                context: context)
-            credit = Account.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.money),
+            credit = Account.getAccountWithPath(LocalisationManager.getLocalizedName(.money),
                                                 context: context)
         default:
             print("Manual")
@@ -500,21 +501,21 @@ class SimpleTransactionEditorViewController: UIViewController { // swiftlint:dis
                 switch transactionTypeSegmentedControl.selectedSegmentIndex {
                 case 0:
                     print("Expense")
-                    debit = Account.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.expense), // swiftlint:disable:this line_length
+                    debit = Account.getAccountWithPath(LocalisationManager.getLocalizedName(.expense), // swiftlint:disable:this line_length
                                                        context: context)
-                    credit = Account.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.money),
+                    credit = Account.getAccountWithPath(LocalisationManager.getLocalizedName(.money),
                                                         context: context)
                 case 1:
                     print("Income")
-                    debit = Account.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.money),
+                    debit = Account.getAccountWithPath(LocalisationManager.getLocalizedName(.money),
                                                        context: context)
-                    credit = Account.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.income), // swiftlint:disable:this line_length
+                    credit = Account.getAccountWithPath(LocalisationManager.getLocalizedName(.income), // swiftlint:disable:this line_length
                                                         context: context)
                 case 2:
                     print("Transfer")
-                    debit = Account.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.money),
+                    debit = Account.getAccountWithPath(LocalisationManager.getLocalizedName(.money),
                                                        context: context)
-                    credit = Account.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.money),
+                    credit = Account.getAccountWithPath(LocalisationManager.getLocalizedName(.money),
                                                         context: context)
                 default:
                     print("Manual")
@@ -537,10 +538,10 @@ class SimpleTransactionEditorViewController: UIViewController { // swiftlint:dis
         if let credit = credit, let debit = debit {
             if debit.currency == nil
                 || (debit.parent == nil
-                        && debit != Account.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.capital), context: context)) // swiftlint:disable:this line_length
+                        && debit != Account.getAccountWithPath(LocalisationManager.getLocalizedName(.capital), context: context)) // swiftlint:disable:this line_length
                 || credit.currency == nil
                 || (credit.parent == nil
-                        && credit != Account.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.capital), context: context)) {  // swiftlint:disable:this line_length
+                        && credit != Account.getAccountWithPath(LocalisationManager.getLocalizedName(.capital), context: context)) {  // swiftlint:disable:this line_length
                 debitAmountTextField.placeholder = ""
                 debitAmountTextField.isHidden = false
                 debitAmountTextField.text = ""
@@ -679,33 +680,33 @@ class SimpleTransactionEditorViewController: UIViewController { // swiftlint:dis
         }
     }
     @objc func selectDebitAccount() {
-        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        guard let accNavTVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.accountNavigatorTableVC) as? AccountNavigatorTableViewController else {return}  // swiftlint:disable:this line_length
-        accNavTVC.simpleTransactionEditorVC = self
-        accNavTVC.showHiddenAccounts = false
-        accNavTVC.searchBarIsHidden = false
-        accNavTVC.transactionItemType = .debit
-        accNavTVC.isUserHasPaidAccess = isUserHasPaidAccess
+        var account: Account?
         if let debit = debit, transactionTypeSegmentedControl.selectedSegmentIndex != 3 {
-            accNavTVC.account = debit.rootAccount
+            account = debit.rootAccount
         }
+        accountRequestorTranItemType = .debit
+        let accountNavVC = AccountNavigationViewController()
+        accountNavVC.parentAccount = account
+        accountNavVC.delegate = self
+        accountNavVC.showHiddenAccounts = false
+        accountNavVC.searchBarIsHidden = false
         doneButtonAction()
-        self.navigationController?.pushViewController(accNavTVC, animated: true)
+        self.navigationController?.pushViewController(accountNavVC, animated: true)
     }
 
     @objc func selectCreditAccount() {
-        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        guard let accNavTVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.accountNavigatorTableVC) as? AccountNavigatorTableViewController else {return}  // swiftlint:disable:this line_length
-        accNavTVC.simpleTransactionEditorVC = self
-        accNavTVC.showHiddenAccounts = false
-        accNavTVC.searchBarIsHidden = false
-        accNavTVC.transactionItemType = .credit
-        accNavTVC.isUserHasPaidAccess = isUserHasPaidAccess
+        var account: Account?
         if let credit = credit, transactionTypeSegmentedControl.selectedSegmentIndex != 3 {
-            accNavTVC.account = credit.rootAccount
+            account = credit.rootAccount
         }
+        accountRequestorTranItemType = .credit
+        let accountNavVC = AccountNavigationViewController()
+        accountNavVC.parentAccount = account
+        accountNavVC.delegate = self
+        accountNavVC.showHiddenAccounts = false
+        accountNavVC.searchBarIsHidden = false
         doneButtonAction()
-        self.navigationController?.pushViewController(accNavTVC, animated: true)
+        self.navigationController?.pushViewController(accountNavVC, animated: true)
     }
 
     private func fillUIForExistingTransaction() {
@@ -766,7 +767,7 @@ class SimpleTransactionEditorViewController: UIViewController { // swiftlint:dis
 
     private func validation() -> Bool {  // swiftlint:disable:this function_body_length
         if credit?.parent == nil
-            && credit?.name != AccountsNameLocalisationManager.getLocalizedAccountName(.capital) {
+            && credit?.name != LocalisationManager.getLocalizedName(.capital) {
             let alert = UIAlertController(title: NSLocalizedString("Warning", comment: ""),
                                           message: NSLocalizedString("Please select \"From:\" account/category",
                                                                      comment: ""),
@@ -776,7 +777,7 @@ class SimpleTransactionEditorViewController: UIViewController { // swiftlint:dis
             self.present(alert, animated: true, completion: nil)
             return false
         } else if debit?.parent == nil
-                    && debit?.name != AccountsNameLocalisationManager.getLocalizedAccountName(.capital) {
+                    && debit?.name != LocalisationManager.getLocalizedName(.capital) {
             let alert = UIAlertController(title: NSLocalizedString("Warning", comment: ""),
                                           message: NSLocalizedString("Please select \"To:\" account/category",
                                                                      comment: ""),
@@ -863,5 +864,14 @@ class SimpleTransactionEditorViewController: UIViewController { // swiftlint:dis
         debitAmountTextField.resignFirstResponder()
         creditAmountTextField.resignFirstResponder()
         commentTextField.resignFirstResponder()
+    }
+}
+
+extension SimpleTransactionEditorViewController: AccountRequestor {
+    func setAccount(_ account: Account) {
+        switch accountRequestorTranItemType {
+        case .debit: debit = account
+        case .credit: credit = account
+        }
     }
 }

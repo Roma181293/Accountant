@@ -8,7 +8,7 @@
 
 import Foundation
 
-class AccountsNameLocalisationManager {
+class LocalisationManager {
 
     class func createLocalizedAccountName(_ accountName: BaseAccounts) {
         var environment = Environment.prod
@@ -26,7 +26,7 @@ class AccountsNameLocalisationManager {
         }
     }
 
-    static func getLocalizedAccountName(_ accountName: BaseAccounts) -> String {
+    static func getLocalizedName(_ accountName: BaseAccounts) -> String {
         var environment = Environment.prod
         if let environmentValue = CoreDataStack.shared.activeEnviroment() {
             environment = environmentValue

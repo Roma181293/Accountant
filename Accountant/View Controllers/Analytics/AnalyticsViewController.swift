@@ -59,7 +59,7 @@ class AnalyticsViewController: UIViewController, UIScrollViewDelegate {
         accountingCurrency = Currency.getAccountingCurrency(context: context)!
         scrollView.delegate = self
         if account == nil {
-            account = Account.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.expense),
+            account = Account.getAccountWithPath(LocalisationManager.getLocalizedName(.expense),
                                                  context: context)
         }
         if account?.parent != nil {
@@ -93,10 +93,10 @@ class AnalyticsViewController: UIViewController, UIScrollViewDelegate {
     @IBAction func chooseAccount(_ sender: UISegmentedControl) {
         switch sender.selectedSegmentIndex {
         case 0:
-            account = Account.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.income),
+            account = Account.getAccountWithPath(LocalisationManager.getLocalizedName(.income),
                                                  context: context)
         default:
-            account = Account.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.expense),
+            account = Account.getAccountWithPath(LocalisationManager.getLocalizedName(.expense),
                                                  context: context)
         }
         updateUI()
@@ -250,7 +250,7 @@ class AnalyticsViewController: UIViewController, UIScrollViewDelegate {
         context = CoreDataStack.shared.persistentContainer.viewContext
 
         accountingCurrency = Currency.getAccountingCurrency(context: context)!
-        account = Account.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.expense),
+        account = Account.getAccountWithPath(LocalisationManager.getLocalizedName(.expense),
                                              context: context)
         segmentedControl.selectedSegmentIndex = 1
 

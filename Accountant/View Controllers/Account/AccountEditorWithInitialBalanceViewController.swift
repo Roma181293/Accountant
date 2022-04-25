@@ -464,7 +464,7 @@ class AccountEditorWithInitialBalanceViewController: UIViewController { // swift
     }
 
     @objc private func selectCurrency() {
-        guard AccessCheckManager.checkUserAccessToCreateAccountInNotAccountingCurrency(environment: coreDataStack.activeEnviroment()!, isUserHasPaidAccess: isUserHasPaidAccess) // swiftlint:disable:this line_length
+        guard AccessManager.checkUserAccessToCreateAccountInNotAccountingCurrency(environment: coreDataStack.activeEnviroment()!, isUserHasPaidAccess: isUserHasPaidAccess) // swiftlint:disable:this line_length
         else {
             self.showPurchaseOfferVC()
             return
@@ -541,34 +541,34 @@ class AccountEditorWithInitialBalanceViewController: UIViewController { // swift
         let rootAccountList = try Account.getRootAccountList(context: context)
         rootAccountList.forEach({
             switch $0.name {
-            case AccountsNameLocalisationManager.getLocalizedAccountName(.money):
+            case LocalisationManager.getLocalizedName(.money):
                 moneyRootAccount = $0
-            case AccountsNameLocalisationManager.getLocalizedAccountName(.credits):
+            case LocalisationManager.getLocalizedName(.credits):
                 creditsRootAccount = $0
-            case AccountsNameLocalisationManager.getLocalizedAccountName(.debtors):
+            case LocalisationManager.getLocalizedName(.debtors):
                 debtorsRootAcccount = $0
-            case AccountsNameLocalisationManager.getLocalizedAccountName(.expense):
+            case LocalisationManager.getLocalizedName(.expense):
                 expenseRootAccount = $0
-            case AccountsNameLocalisationManager.getLocalizedAccountName(.capital):
+            case LocalisationManager.getLocalizedName(.capital):
                 capitalRootAccount = $0
             default:
                 break
             }
         })
         if moneyRootAccount == nil {
-            throw AccountError.accountDoesNotExist(name: AccountsNameLocalisationManager.getLocalizedAccountName(.money))
+            throw AccountError.accountDoesNotExist(name: LocalisationManager.getLocalizedName(.money))
         }
         if creditsRootAccount == nil {
-            throw AccountError.accountDoesNotExist(name: AccountsNameLocalisationManager.getLocalizedAccountName(.credits))
+            throw AccountError.accountDoesNotExist(name: LocalisationManager.getLocalizedName(.credits))
         }
         if debtorsRootAcccount == nil {
-            throw AccountError.accountDoesNotExist(name: AccountsNameLocalisationManager.getLocalizedAccountName(.debtors))
+            throw AccountError.accountDoesNotExist(name: LocalisationManager.getLocalizedName(.debtors))
         }
         if expenseRootAccount == nil {
-            throw AccountError.accountDoesNotExist(name: AccountsNameLocalisationManager.getLocalizedAccountName(.expense))
+            throw AccountError.accountDoesNotExist(name: LocalisationManager.getLocalizedName(.expense))
         }
         if capitalRootAccount == nil {
-            throw AccountError.accountDoesNotExist(name: AccountsNameLocalisationManager.getLocalizedAccountName(.capital))
+            throw AccountError.accountDoesNotExist(name: LocalisationManager.getLocalizedName(.capital))
         }
     }
 
@@ -824,10 +824,10 @@ class AccountEditorWithInitialBalanceViewController: UIViewController { // swift
                                                                  context: context)
                     }
                 } else {
-                    var expenseBeforeAccountingPeriod: Account? = expenseRootAccount.getSubAccountWith(name: AccountsNameLocalisationManager.getLocalizedAccountName(.beforeAccountingPeriod)) // swiftlint:disable:this line_length
+                    var expenseBeforeAccountingPeriod: Account? = expenseRootAccount.getSubAccountWith(name: LocalisationManager.getLocalizedName(.beforeAccountingPeriod)) // swiftlint:disable:this line_length
                     if expenseBeforeAccountingPeriod == nil {
                         expenseBeforeAccountingPeriod = try? Account.createAndGetAccount(parent: expenseRootAccount,
-                                                                                         name: AccountsNameLocalisationManager.getLocalizedAccountName(.beforeAccountingPeriod), // swiftlint:disable:this line_length
+                                                                                         name: LocalisationManager.getLocalizedName(.beforeAccountingPeriod), // swiftlint:disable:this line_length
                                                                                          type: expenseRootAccount.type,
                                                                                          currency: expenseRootAccount.currency, // swiftlint:disable:this line_length
                                                                                          createdByUser: false,
@@ -883,7 +883,7 @@ class AccountEditorWithInitialBalanceViewController: UIViewController { // swift
                     throw AccountWithBalanceError.emptyExchangeRate
                 }
             }
-            try? Account.createAccount(parent: expenseRootAccount, name: AccountsNameLocalisationManager.getLocalizedAccountName(.beforeAccountingPeriod), // swiftlint:disable:this line_length
+            try? Account.createAccount(parent: expenseRootAccount, name: LocalisationManager.getLocalizedName(.beforeAccountingPeriod), // swiftlint:disable:this line_length
                                        type: Account.TypeEnum.assets,
                                        currency: expenseRootAccount.currency,
                                        createdByUser: false,
@@ -895,7 +895,7 @@ class AccountEditorWithInitialBalanceViewController: UIViewController { // swift
                                                                    keeper: keeper,
                                                                    holder: holder,
                                                                    context: context)
-            guard let expenseBeforeAccountingPeriod: Account = Account.getAccountWithPath("\(AccountsNameLocalisationManager.getLocalizedAccountName(.expense)):\(AccountsNameLocalisationManager.getLocalizedAccountName(.beforeAccountingPeriod))", context: context) // swiftlint:disable:this line_length
+            guard let expenseBeforeAccountingPeriod: Account = Account.getAccountWithPath("\(LocalisationManager.getLocalizedName(.expense)):\(LocalisationManager.getLocalizedName(.beforeAccountingPeriod))", context: context) // swiftlint:disable:this line_length
             else {throw AccountWithBalanceError.canNotFindBeboreAccountingPeriodAccount}
             Transaction.addTransactionWith2TranItems(date: datePicker.date,
                                                      debit: expenseBeforeAccountingPeriod,

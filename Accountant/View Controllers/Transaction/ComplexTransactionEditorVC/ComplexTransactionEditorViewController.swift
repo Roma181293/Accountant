@@ -629,15 +629,14 @@ extension ComplexTransactionEditorViewController: AccountRequestor {
             }
         }
 
-        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        guard let accNavTVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.accountNavigatorTableVC) as? AccountNavigatorTableViewController else {return} // swiftlint:disable:this line_length
-        accNavTVC.context = self.context
-        accNavTVC.showHiddenAccounts = false
-        accNavTVC.canModifyAccountStructure = false
-        accNavTVC.accountRequestorViewController = self
-        accNavTVC.account = rootAccount
-        accNavTVC.excludeAccountList = usedAccountList
-        self.navigationController?.pushViewController(accNavTVC, animated: true)
+        let accountNavVC = AccountNavigationViewController()
+        accountNavVC.parentAccount = rootAccount
+        accountNavVC.delegate = self
+        accountNavVC.showHiddenAccounts = false
+        accountNavVC.searchBarIsHidden = false
+        accountNavVC.canModifyAccountStructure = false
+        accountNavVC.excludeAccountList = usedAccountList
+        self.navigationController?.pushViewController(accountNavVC, animated: true)
     }
 
     func setAccount(_ account: Account) {

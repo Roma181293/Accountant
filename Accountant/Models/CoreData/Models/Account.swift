@@ -61,6 +61,17 @@ final class Account: BaseEntity {
         }
     }
 
+    convenience init(parent: Account, name: String, createdByUser: Bool = true,
+                     createDate: Date = Date(), context: NSManagedObjectContext) {
+
+        self.init(id: UUID(), createdByUser: createdByUser, createDate: createDate, context: context)
+        self.parent = parent
+        self.name = name
+        self.currency = parent.currency
+        self.type = parent.type
+        self.active = parent.active
+    }
+
     var rootAccount: Account {
         if let parent = parent {
             return parent.rootAccount
@@ -204,11 +215,14 @@ final class Account: BaseEntity {
         }
     }
 
-    func delete(eligibilityChacked: Bool) throws {
+    func delete(eligibilityChacked: Bool = false) throws {
         var accounts = childrenList
         accounts.append(self)
         if eligibilityChacked == false {
             try canBeRemoved()
+            if let linkedAccount = linkedAccount {
+                accounts.append(linkedAccount)
+            }
             accounts.forEach({
                 managedObjectContext?.delete($0)
             })
@@ -304,9 +318,9 @@ extension Account {
         }
 
         if accounts.isEmpty == false {
-            if accounts[0].rootAccount.name == AccountsNameLocalisationManager.getLocalizedAccountName(.money) ||
-                accounts[0].rootAccount.name == AccountsNameLocalisationManager.getLocalizedAccountName(.credits) ||
-                accounts[0].rootAccount.name == AccountsNameLocalisationManager.getLocalizedAccountName(.debtors) {
+            if accounts[0].rootAccount.name == LocalisationManager.getLocalizedName(.money) ||
+                accounts[0].rootAccount.name == LocalisationManager.getLocalizedName(.credits) ||
+                accounts[0].rootAccount.name == LocalisationManager.getLocalizedName(.debtors) {
 
                 accounts.forEach({
                     accountSaldoToLeftBorderDate += $0.balanceOn(date: dateInterval.start)
@@ -331,9 +345,9 @@ extension Account {
                 }
                 // TODO: - remove condition below if its unused
                 if true ||
-                    accounts[0].rootAccount.name == AccountsNameLocalisationManager.getLocalizedAccountName(.money) ||
-                    accounts[0].rootAccount.name == AccountsNameLocalisationManager.getLocalizedAccountName(.credits) ||
-                    accounts[0].rootAccount.name == AccountsNameLocalisationManager.getLocalizedAccountName(.debtors) {
+                    accounts[0].rootAccount.name == LocalisationManager.getLocalizedName(.money) ||
+                    accounts[0].rootAccount.name == LocalisationManager.getLocalizedName(.credits) ||
+                    accounts[0].rootAccount.name == LocalisationManager.getLocalizedName(.debtors) {
                     if  accounts[0].type == TypeEnum.assets {
                         result.append((date: timeInterval.end,
                                        value: round((result[index].value + debitTotal - creditTotal)*100)/100))
@@ -363,9 +377,9 @@ extension Account {
     func prepareDataToShow(dateInterval: DateInterval, selectedCurrency: Currency, currencyHistoricalData: CurrencyHistoricalDataProtocol? = nil, dateComponent: Calendar.Component, isListForAnalytic: Bool, sortTableDataBy: SortCategoryType, context: NSManagedObjectContext) throws -> PresentingData {  // swiftlint:disable:this cyclomatic_complexity function_body_length function_parameter_count line_length
 
         var accountsToShow: [Account] = directChildrenList
-        if !(rootAccount.name == AccountsNameLocalisationManager.getLocalizedAccountName(.money) ||
-             rootAccount.name == AccountsNameLocalisationManager.getLocalizedAccountName(.credits) ||
-             rootAccount.name == AccountsNameLocalisationManager.getLocalizedAccountName(.debtors)) {
+        if !(rootAccount.name == LocalisationManager.getLocalizedName(.money) ||
+             rootAccount.name == LocalisationManager.getLocalizedName(.credits) ||
+             rootAccount.name == LocalisationManager.getLocalizedName(.debtors)) {
             accountsToShow.append(self)
         }
 
@@ -402,7 +416,7 @@ extension Account {
                                                               dateComponent: dateComponent,
                                                               calcIncludedAccountsBalances: true)
             } else {
-                title = AccountsNameLocalisationManager.getLocalizedAccountName(.other)
+                title = LocalisationManager.getLocalizedName(.other)
                 arrayOfResultsForTmpAccount = account.balance(dateInterval: dateInterval,
                                                               dateComponent: dateComponent,
                                                               calcIncludedAccountsBalances: false)
@@ -580,10 +594,10 @@ extension Account {
         // Adding "Other" account for cases when parent containts transactions
         if let parent = parent, parent.isFreeFromTransactionItems == false,
            Account.isReservedAccountName(name) == false {
-            var newAccount = parent.getSubAccountWith(name: AccountsNameLocalisationManager.getLocalizedAccountName(.other1))
+            var newAccount = parent.getSubAccountWith(name: LocalisationManager.getLocalizedName(.other1))
             if newAccount == nil {
                 newAccount = try createAndGetAccount(parent: parent,
-                                                     name: AccountsNameLocalisationManager.getLocalizedAccountName(.other1),
+                                                     name: LocalisationManager.getLocalizedName(.other1),
                                                      type: type, currency: currency, keeper: keeper, holder: holder,
                                                      subType: subType, createdByUser: false, createDate: createDate,
                                                      context: context)

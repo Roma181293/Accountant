@@ -27,7 +27,7 @@ class AccountManagerController {
     unowned var delegate: AccountManagerTableViewControllerDelegate!
 
     func addSubAccountTo(account: Account?) {
-        if AccessCheckManager.checkUserAccessToCreateSubAccountForSelected(account: account,
+        if AccessManager.checkCreateSubAccountFor(account: account,
                                                                            isUserHasPaidAccess:
                                                                             delegate.isUserHasPaidAccess,
                                                                            environment: delegate.environment) {
@@ -85,7 +85,7 @@ class AccountManagerController {
     func hideAccount(indexPath: IndexPath, selectedAccount: Account) -> UIContextualAction {
         let hideAction = UIContextualAction(style: .normal,
                                             title: NSLocalizedString("Hide", comment: "")) { _, _, complete in
-            if AccessCheckManager.checkUserAccessToHideAccount(environment: self.delegate.environment,
+            if AccessManager.checkUserAccessToHideAccount(environment: self.delegate.environment,
                                                                isUserHasPaidAccess: self.delegate.isUserHasPaidAccess) {
                 var title = ""
                 var message = ""
@@ -217,7 +217,7 @@ class AccountManagerController {
 
     func addSubAccount(indexPath: IndexPath, selectedAccount: Account) -> UIContextualAction {
         let addSubCategory = UIContextualAction(style: .normal, title: nil) { _, _, complete in
-            if AccessCheckManager.checkUserAccessToCreateSubAccountForSelected(account: selectedAccount,
+            if AccessManager.checkCreateSubAccountFor(account: selectedAccount,
                                                                                isUserHasPaidAccess: self.delegate.isUserHasPaidAccess,
                                                                                environment: self.delegate.environment) {
                 if selectedAccount.currency == nil {
@@ -246,7 +246,7 @@ class AccountManagerController {
                             if !selectedAccount.isFreeFromTransactionItems {
                                 let alert1 = UIAlertController(title: NSLocalizedString("Warning", comment: ""),
                                                                message: String(format: NSLocalizedString("Category \"%@\" contains transactions. All these thansactions will be automatically moved to the new \"%@\" subcategory", comment: ""), // swiftlint:disable:this line_length
-                                                                               selectedAccount.name, AccountsNameLocalisationManager.getLocalizedAccountName(.other1)), // swiftlint:disable:this line_length
+                                                                               selectedAccount.name, LocalisationManager.getLocalizedName(.other1)), // swiftlint:disable:this line_length
                                                                preferredStyle: .alert)
                                 alert1.addAction(UIAlertAction(title: NSLocalizedString("Create and Move", comment: ""),
                                                                style: .default, handler: { (_) in

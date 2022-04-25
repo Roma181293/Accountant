@@ -7,15 +7,15 @@
 
 import UIKit
 
-class AccountNavigationTableViewCell: UITableViewCell {
-    
-    let mainView: UIView = {
+class AccountNavigationCell: UITableViewCell {
+
+    private let mainView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
 
-    let nameStackView: UIStackView = {
+    private let nameStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.spacing = 2
@@ -25,7 +25,7 @@ class AccountNavigationTableViewCell: UITableViewCell {
         return stackView
     }()
 
-    let nameLabel: UILabel = {
+    private let nameLabel: UILabel = {
         let label = UILabel()
         label.textColor =  Colors.Main.defaultCellTextColor
         label.lineBreakMode = .byCharWrapping
@@ -34,7 +34,7 @@ class AccountNavigationTableViewCell: UITableViewCell {
         return label
     }()
 
-    let pathLabel: UILabel = {
+    private let pathLabel: UILabel = {
         let label = UILabel()
         label.textColor = .systemGray
         label.font = UIFont.systemFont(ofSize: 14)
@@ -45,7 +45,7 @@ class AccountNavigationTableViewCell: UITableViewCell {
         return label
     }()
 
-    let amountLabel: UILabel = {
+    private let amountLabel: UILabel = {
         let label = UILabel()
         label.textColor = Colors.Main.defaultCellTextColor
         label.textAlignment = .right
@@ -53,7 +53,8 @@ class AccountNavigationTableViewCell: UITableViewCell {
         return label
     }()
 
-    func configureCellForAccount(_ account: Account, showPath: Bool = false, showHiddenAccounts: Bool) {
+    func configureCellFor(_ account: Account, showPath: Bool = false,
+                                 showHiddenAccounts: Bool) {
         contentView.addSubview(mainView)
         mainView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8).isActive = true
         mainView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8).isActive = true
@@ -104,6 +105,5 @@ class AccountNavigationTableViewCell: UITableViewCell {
         } else {
             amountLabel.text = ""
         }
-        
     }
 }

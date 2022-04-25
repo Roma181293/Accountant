@@ -199,14 +199,13 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
         case .auth, .envirement, .accountingCurrency:
             break
         case .accountsManager:
-            guard let accNavVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.accountNavigatorTableVC) as? AccountNavigatorTableViewController else {return} // swiftlint:disable:this line_length
+            let accNavVC = AccountNavigationViewController()
             accNavVC.searchBarIsHidden = false
-            accNavVC.isUserHasPaidAccess = isUserHasPaidAccess
             self.navigationController?.pushViewController(accNavVC, animated: true)
         case .multiItemTransaction:
             break
         case .importAccounts:
-            if AccessCheckManager.checkUserAccessToImportExportEntities(environment: environment,
+            if AccessManager.checkUserAccessToImportExportEntities(environment: environment,
                                                                         isUserHasPaidAccess: isUserHasPaidAccess) {
                 isImportAccounts = true
                 if #available(iOS 14.0, *) {
@@ -224,7 +223,7 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
                 showPurchaseOfferVC()
             }
         case .importTransactions:
-            if AccessCheckManager.checkUserAccessToImportExportEntities(environment: environment,
+            if AccessManager.checkUserAccessToImportExportEntities(environment: environment,
                                                                         isUserHasPaidAccess: isUserHasPaidAccess) {
                 isImportAccounts = false
                 if #available(iOS 14.0, *) {
@@ -242,14 +241,14 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
                 showPurchaseOfferVC()
             }
         case .exportAccounts:
-            if AccessCheckManager.checkUserAccessToImportExportEntities(environment: environment,
+            if AccessManager.checkUserAccessToImportExportEntities(environment: environment,
                                                                         isUserHasPaidAccess: isUserHasPaidAccess) {
                 shareTXTFile(fileName: "AccountList", data: Account.exportAccountsToString(context: context))
             } else {
                 showPurchaseOfferVC()
             }
         case .exportTransactions:
-            if AccessCheckManager.checkUserAccessToImportExportEntities(environment: environment,
+            if AccessManager.checkUserAccessToImportExportEntities(environment: environment,
                                                                         isUserHasPaidAccess: isUserHasPaidAccess) {
                 shareTXTFile(fileName: "TransactionList",
                              data: Transaction.exportTransactionsToString(context: context))

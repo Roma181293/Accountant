@@ -8,8 +8,8 @@
 import Foundation
 import CoreData
 
-class AccessCheckManager {
-    static func checkUserAccessToCreateSubAccountForSelected(account: Account?, isUserHasPaidAccess: Bool,
+class AccessManager {
+    static func checkCreateSubAccountFor(account: Account?, isUserHasPaidAccess: Bool,
                                                              environment: Environment) -> Bool {
         print(environment)
         if environment == .test ||

@@ -230,7 +230,7 @@ class SettingsTableViewCell: UITableViewCell {
             }
         } else if dataItem == .multiItemTransaction {
             if sender.isOn {
-                if AccessCheckManager.checkUserAccessToSwitchingAppToMultiItemMode(environment: delegate.environment,
+                if AccessManager.checkUserAccessToSwitchingAppToMultiItemMode(environment: delegate.environment,
                                                                                    isUserHasPaidAccess: delegate.isUserHasPaidAccess) { // swiftlint:disable:this line_length
                     UserProfile.useMultiItemTransaction(true, environment: delegate.environment)
                 } else {
@@ -250,7 +250,7 @@ class SettingsTableViewCell: UITableViewCell {
                     try SeedDataManager.refreshTestData(coreDataStack: CoreDataStack.shared)
                 } else if !sender.isOn && CoreDataStack.shared.activeEnviroment() == .test {
                     // remove test Data
-                    try SeedDataManager.clearAllTestData(coreDataStack: CoreDataStack.shared)
+                    try SeedDataManager.clearAllData(coreDataStack: CoreDataStack.shared)
                     UserProfile.useMultiItemTransaction(false, environment: .test)
                     CoreDataStack.shared.switchToDB(.prod)
                 }

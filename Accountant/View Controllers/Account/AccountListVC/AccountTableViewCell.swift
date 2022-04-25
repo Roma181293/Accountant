@@ -194,7 +194,7 @@ class AccountTableViewCell: UITableViewCell {
             systemIconImageView.isHidden = false
             customIconContainerView.isHidden = true
             iconView.isHidden = true
-            if dataToShow.account.parent?.name == AccountsNameLocalisationManager.getLocalizedAccountName(.money),
+            if dataToShow.account.parent?.name == LocalisationManager.getLocalizedName(.money),
                let credit = dataToShow.account.linkedAccount {
                 let amount = round(credit.balance*100)/100
                 if amount >= 0 {

@@ -102,13 +102,13 @@ class AccountListViewController: UIViewController, UIScrollViewDelegate { // swi
         scrollView.delegate = self
         switch segmentedControl.selectedSegmentIndex {
         case 0:
-            account = Account.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.money),
+            account = Account.getAccountWithPath(LocalisationManager.getLocalizedName(.money),
                                                  context: context)
         case 1:
-            account = Account.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.debtors),
+            account = Account.getAccountWithPath(LocalisationManager.getLocalizedName(.debtors),
                                                  context: context)
         default:
-            account = Account.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.credits),
+            account = Account.getAccountWithPath(LocalisationManager.getLocalizedName(.credits),
                                                  context: context)
         }
         moneyAccountListTableViewController.environment = self.environment
@@ -151,13 +151,13 @@ class AccountListViewController: UIViewController, UIScrollViewDelegate { // swi
     @IBAction func changeAccount(_ sender: UISegmentedControl) {
         switch sender.selectedSegmentIndex {
         case 0:
-            account = Account.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.money),
+            account = Account.getAccountWithPath(LocalisationManager.getLocalizedName(.money),
                                                  context: context)
         case 1:
-            account = Account.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.debtors),
+            account = Account.getAccountWithPath(LocalisationManager.getLocalizedName(.debtors),
                                                  context: context)
         default:
-            account = Account.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.credits),
+            account = Account.getAccountWithPath(LocalisationManager.getLocalizedName(.credits),
                                                  context: context)
         }
         updateUI()
@@ -344,7 +344,7 @@ class AccountListViewController: UIViewController, UIScrollViewDelegate { // swi
 
         context = CoreDataStack.shared.persistentContainer.viewContext
         currency = Currency.getAccountingCurrency(context: context)!
-        account = Account.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.money),
+        account = Account.getAccountWithPath(LocalisationManager.getLocalizedName(.money),
                                              context: context)
 
         moneyAccountListTableViewController.context = context

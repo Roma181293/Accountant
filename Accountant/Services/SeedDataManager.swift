@@ -14,12 +14,12 @@ import Charts
 class SeedDataManager {
 
     static func refreshTestData(coreDataStack: CoreDataStack) throws {
-        try SeedDataManager.clearAllTestData(coreDataStack: coreDataStack)
+        try SeedDataManager.clearAllData(coreDataStack: coreDataStack)
         try SeedDataManager.addTestData(coreDataStack: coreDataStack)
     }
     
-    static func clearAllTestData(coreDataStack: CoreDataStack) throws {
-        guard let env = coreDataStack.activeEnviroment(), env == .test else {return}
+    static func clearAllData(coreDataStack: CoreDataStack) throws {
+        guard let env = coreDataStack.activeEnviroment()else {return}
         let context = coreDataStack.persistentContainer.viewContext
         try deleteAllTransactions(context: context, env: env)
         try deleteAllAccounts(context: context, env: env)
@@ -54,14 +54,14 @@ class SeedDataManager {
 
     // MARK: - Account
     static public func addBaseAccounts(accountingCurrency: Currency, context: NSManagedObjectContext) {
-        AccountsNameLocalisationManager.createAllLocalizedAccountName()
+        LocalisationManager.createAllLocalizedAccountName()
 
-        try? Account.createAccount(parent: nil, name: AccountsNameLocalisationManager.getLocalizedAccountName(.money), type: Account.TypeEnum.assets, currency: nil, createdByUser: false, context: context)
-        try? Account.createAccount(parent: nil, name: AccountsNameLocalisationManager.getLocalizedAccountName(.credits), type: Account.TypeEnum.liabilities, currency: nil, createdByUser: false, context: context)
-        try? Account.createAccount(parent: nil, name: AccountsNameLocalisationManager.getLocalizedAccountName(.debtors), type: Account.TypeEnum.assets, currency: nil, createdByUser: false, context: context)
-        try? Account.createAccount(parent: nil, name: AccountsNameLocalisationManager.getLocalizedAccountName(.capital), type: Account.TypeEnum.liabilities, currency: accountingCurrency, createdByUser: false, context: context)
+        try? Account.createAccount(parent: nil, name: LocalisationManager.getLocalizedName(.money), type: Account.TypeEnum.assets, currency: nil, createdByUser: false, context: context)
+        try? Account.createAccount(parent: nil, name: LocalisationManager.getLocalizedName(.credits), type: Account.TypeEnum.liabilities, currency: nil, createdByUser: false, context: context)
+        try? Account.createAccount(parent: nil, name: LocalisationManager.getLocalizedName(.debtors), type: Account.TypeEnum.assets, currency: nil, createdByUser: false, context: context)
+        try? Account.createAccount(parent: nil, name: LocalisationManager.getLocalizedName(.capital), type: Account.TypeEnum.liabilities, currency: accountingCurrency, createdByUser: false, context: context)
 
-        let expense = try? Account.createAndGetAccount(parent: nil, name: AccountsNameLocalisationManager.getLocalizedAccountName(.expense), type: Account.TypeEnum.assets, currency: accountingCurrency, createdByUser: false, context: context)
+        let expense = try? Account.createAndGetAccount(parent: nil, name: LocalisationManager.getLocalizedName(.expense), type: Account.TypeEnum.assets, currency: accountingCurrency, createdByUser: false, context: context)
         try? Account.createAccount(parent: expense, name: NSLocalizedString("Food", comment: ""), type: Account.TypeEnum.assets, currency: accountingCurrency, createdByUser: false, context: context)
         try? Account.createAccount(parent: expense, name: NSLocalizedString("Transport", comment: ""), type: Account.TypeEnum.assets, currency: accountingCurrency, createdByUser: false, context: context)
         try? Account.createAccount(parent: expense, name: NSLocalizedString("Gifts", comment: ""), type: Account.TypeEnum.assets, currency: accountingCurrency, createdByUser: false, context: context)
@@ -70,14 +70,13 @@ class SeedDataManager {
         try? Account.createAccount(parent: home, name: NSLocalizedString("Rent", comment: ""), type: Account.TypeEnum.assets, currency: accountingCurrency, createdByUser: false, context: context)
         try? Account.createAccount(parent: home, name: NSLocalizedString("Renovation", comment: ""), type: Account.TypeEnum.assets, currency: accountingCurrency, createdByUser: false, context: context)
 
-        let income = try? Account.createAndGetAccount(parent: nil, name: AccountsNameLocalisationManager.getLocalizedAccountName(.income), type: Account.TypeEnum.liabilities, currency: accountingCurrency, createdByUser: false, context: context)
+        let income = try? Account.createAndGetAccount(parent: nil, name: LocalisationManager.getLocalizedName(.income), type: Account.TypeEnum.liabilities, currency: accountingCurrency, createdByUser: false, context: context)
         try? Account.createAccount(parent: income, name: NSLocalizedString("Salary", comment: ""), type: Account.TypeEnum.liabilities, currency: accountingCurrency, createdByUser: false, context: context)
         try? Account.createAccount(parent: income, name: NSLocalizedString("Gifts", comment: ""), type: Account.TypeEnum.liabilities, currency: accountingCurrency, createdByUser: false, context: context)
         try? Account.createAccount(parent: income, name: NSLocalizedString("Interest on deposits", comment: ""), type: Account.TypeEnum.liabilities, currency: accountingCurrency, createdByUser: false, context: context)
     }
     
     private static func deleteAllAccounts(context: NSManagedObjectContext, env: Environment?) throws {
-        guard env == .test else {return}
         let fetchRequest = Account.fetchRequest()
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "createDate", ascending: true)]
         let accounts = try context.fetch(fetchRequest)
@@ -150,8 +149,7 @@ class SeedDataManager {
         }
     }
 
-    private static func deleteAllCurrencies(context: NSManagedObjectContext, env: Environment?) throws {
-        guard env == .test else {return}
+    static func deleteAllCurrencies(context: NSManagedObjectContext, env: Environment?) throws {
         let fetchRequest = Currency.fetchRequest()
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "code", ascending: true)]
         let currencies = try context.fetch(fetchRequest)
@@ -177,7 +175,6 @@ class SeedDataManager {
     }
     
     private static func deleteAllKeepers(context: NSManagedObjectContext, env: Environment?) throws {
-        guard env == .test else {return}
         let fetchRequest = Keeper.fetchRequest()
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
         let keepers = try context.fetch(fetchRequest)
@@ -199,7 +196,6 @@ class SeedDataManager {
     }
 
     private static func deleteAllHolders(context: NSManagedObjectContext, env: Environment?) throws {
-        guard env == .test else {return}
         let fetchRequest = Holder.fetchRequest()
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
         let holders = try context.fetch(fetchRequest)
@@ -209,7 +205,6 @@ class SeedDataManager {
     }
     // MARK: - UBP
     private static func deleteAllUBP(context: NSManagedObjectContext, env: Environment?) throws {
-        guard env == .test else {return}
         let fetchRequest = UserBankProfile.fetchRequest()
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "id", ascending: true)]
         let ubp = try context.fetch(fetchRequest)
@@ -220,7 +215,6 @@ class SeedDataManager {
 
     // MARK: - BankAccoutn
     private static func deleteAllBankAccounts(context: NSManagedObjectContext, env: Environment?) throws {
-        guard env == .test else {return}
         let fetchRequest = BankAccount.fetchRequest()
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "id", ascending: true)]
         let bankAccounts = try context.fetch(fetchRequest)
@@ -231,7 +225,6 @@ class SeedDataManager {
 
     // MARK: - Rate
     private static func deleteAllRates(context: NSManagedObjectContext, env: Environment?) throws {
-        guard env == .test else {return}
         let fetchRequest = Rate.fetchRequest()
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "createDate", ascending: true)]
         let rates = try context.fetch(fetchRequest)
@@ -242,7 +235,6 @@ class SeedDataManager {
 
     // MARK: - Exchange
     private static func deleteAllExchanges(context: NSManagedObjectContext, env: Environment?) throws {
-        guard env == .test else {return}
         let fetchRequest = Exchange.fetchRequest()
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "createDate", ascending: true)]
         let exchanges = try context.fetch(fetchRequest)
@@ -253,7 +245,6 @@ class SeedDataManager {
 
     // MARK: - Transaction
     private static func deleteAllTransactions(context: NSManagedObjectContext, env: Environment?) throws {
-        guard env == .test else {return}
         let fetchRequest = Transaction.fetchRequest()
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "createDate", ascending: true)]
         let transactions = try context.fetch(fetchRequest)
@@ -268,7 +259,7 @@ class SeedDataManager {
     // MARK: - Account
     private static func addTestBaseAccountsWithTransaction(accountingCurrency: Currency,
                                                            context: NSManagedObjectContext) throws {
-        AccountsNameLocalisationManager.createAllLocalizedAccountName()
+        LocalisationManager.createAllLocalizedAccountName()
 
         // MARK: - Get keepers
         let bank1 = try? Keeper.getKeeperForName(NSLocalizedString("Bank1", comment: ""), context: context)
@@ -279,11 +270,11 @@ class SeedDataManager {
         let me = try? Holder.get(NSLocalizedString("Me", comment: ""), context: context)
         let kate = try? Holder.get(NSLocalizedString("Kate", comment: ""), context: context)
 
-        let money = try? Account.createAndGetAccount(parent: nil, name: AccountsNameLocalisationManager.getLocalizedAccountName(.money), type: Account.TypeEnum.assets, currency: nil, createdByUser: false, context: context)
+        let money = try? Account.createAndGetAccount(parent: nil, name: LocalisationManager.getLocalizedName(.money), type: Account.TypeEnum.assets, currency: nil, createdByUser: false, context: context)
 
-        let credits = try? Account.createAndGetAccount(parent: nil, name: AccountsNameLocalisationManager.getLocalizedAccountName(.credits), type: Account.TypeEnum.liabilities, currency: nil, createdByUser: false, context: context)
-        let debtors = try? Account.createAndGetAccount(parent: nil, name: AccountsNameLocalisationManager.getLocalizedAccountName(.debtors), type: Account.TypeEnum.assets, currency: nil, createdByUser: false, context: context)
-        let capital = try? Account.createAndGetAccount(parent: nil, name: AccountsNameLocalisationManager.getLocalizedAccountName(.capital), type: Account.TypeEnum.liabilities, currency: accountingCurrency, createdByUser: false, context: context)
+        let credits = try? Account.createAndGetAccount(parent: nil, name: LocalisationManager.getLocalizedName(.credits), type: Account.TypeEnum.liabilities, currency: nil, createdByUser: false, context: context)
+        let debtors = try? Account.createAndGetAccount(parent: nil, name: LocalisationManager.getLocalizedName(.debtors), type: Account.TypeEnum.assets, currency: nil, createdByUser: false, context: context)
+        let capital = try? Account.createAndGetAccount(parent: nil, name: LocalisationManager.getLocalizedName(.capital), type: Account.TypeEnum.liabilities, currency: accountingCurrency, createdByUser: false, context: context)
 
         let deposit = try? Account.createAndGetAccount(parent: debtors, name: NSLocalizedString("Deposit", comment: ""), type: Account.TypeEnum.assets, currency: accountingCurrency, keeper: bank1, holder: me, createdByUser: false, context: context)
         let _ = try? Account.createAndGetAccount(parent: debtors, name: NSLocalizedString("Hanna", comment: ""), type: Account.TypeEnum.assets, currency: accountingCurrency, keeper: hanna, holder: me, createdByUser: false, context: context)
@@ -295,7 +286,7 @@ class SeedDataManager {
         let creditcard_L = try? Account.createAndGetAccount(parent: credits, name: NSLocalizedString("Credit card", comment: ""), type: Account.TypeEnum.liabilities, currency: accountingCurrency, keeper: bank1, holder: me, createdByUser: false, context: context)
         creditcard_A?.linkedAccount = creditcard_L
 
-        let expense = try? Account.createAndGetAccount(parent: nil, name: AccountsNameLocalisationManager.getLocalizedAccountName(.expense), type: Account.TypeEnum.assets, currency: accountingCurrency, createdByUser: false, context: context)
+        let expense = try? Account.createAndGetAccount(parent: nil, name: LocalisationManager.getLocalizedName(.expense), type: Account.TypeEnum.assets, currency: accountingCurrency, createdByUser: false, context: context)
         let food = try? Account.createAndGetAccount(parent: expense, name: NSLocalizedString("Food", comment: ""), type: Account.TypeEnum.assets, currency: accountingCurrency, createdByUser: false, context: context)
         let _ = try? Account.createAndGetAccount(parent: expense, name: NSLocalizedString("Transport", comment: ""), type: Account.TypeEnum.assets, currency: accountingCurrency, createdByUser: false, context: context)
         let gifts_E = try? Account.createAndGetAccount(parent: expense, name: NSLocalizedString("Gifts", comment: ""), type: Account.TypeEnum.assets, currency: accountingCurrency, createdByUser: false, context: context)
@@ -304,7 +295,7 @@ class SeedDataManager {
         let rent = try? Account.createAndGetAccount(parent: home, name: NSLocalizedString("Rent", comment: ""), type: Account.TypeEnum.assets, currency: accountingCurrency, createdByUser: false, context: context)
         let _ = try? Account.createAndGetAccount(parent: home, name: NSLocalizedString("Renovation", comment: ""), type: Account.TypeEnum.assets, currency: accountingCurrency, createdByUser: false, context: context)
 
-        let income = try? Account.createAndGetAccount(parent: nil, name: AccountsNameLocalisationManager.getLocalizedAccountName(.income), type: Account.TypeEnum.liabilities, currency: accountingCurrency, createdByUser: false, context: context)
+        let income = try? Account.createAndGetAccount(parent: nil, name: LocalisationManager.getLocalizedName(.income), type: Account.TypeEnum.liabilities, currency: accountingCurrency, createdByUser: false, context: context)
         let salary = try? Account.createAndGetAccount(parent: income, name: NSLocalizedString("Salary", comment: ""), type: Account.TypeEnum.liabilities, currency: accountingCurrency, createdByUser: false, context: context)
         let _ = try? Account.createAndGetAccount(parent: income, name: NSLocalizedString("Gifts", comment: ""), type: Account.TypeEnum.liabilities, currency: accountingCurrency, createdByUser: false, context: context)
         let interestOnDeposits = try? Account.createAndGetAccount(parent: income, name: NSLocalizedString("Interest on deposits", comment: ""), type: Account.TypeEnum.liabilities, currency: accountingCurrency, createdByUser: false, context: context)

@@ -1,0 +1,33 @@
+/* 
+  AccountNavigationVCLocalizable.strings
+  Accountant
+
+  Created by Roman Topchii on 26.04.2022.
+  
+*/
+
+"Account manager" = "Account manager";
+"Accounts" = "Accounts";
+"Add subcategory" = "Add subcategory";
+"Name" = "Name";
+"Add" = "Add";
+"Warning" = "Warning";
+"Category \"%@\" contains transactions. All these thansactions will be automatically moved to the \"%@\" subcategory" = "Category \"%@\" contains transactions. All these thansactions will be automatically moved to the \"%@\" subcategory";
+"Create and Move" = "Create and Move";
+"Cancel" = "Cancel";
+"Rename" = "Rename";
+"New name" = "New name";
+"Yes" = "Yes";
+"Deactivate" = "Deactivate";
+"Are you sure you want to deactivate account?" = "Are you sure you want to deactivate account?";
+"Activate" = "Activate";
+"Are you sure you want to activate account?" = "Are you sure you want to activate account?";
+"Are you sure you want to deactivate category?" = "Are you sure you want to deactivate category?";
+"Are you sure you want to activate category?" = "Are you sure you want to activate category?";
+"No" = "No";
+"Delete" = "Delete";
+"Are you sure you want to delete account and linked account \"%@\"?" = "Are you sure you want to delete account and linked account \"%@\"?";
+"Are you sure you want to delete account?" = "Are you sure you want to delete account?";
+"Are you sure you want to delete this category and all its subcategories?" = "Are you sure you want to delete this category and all its subcategories?";
+"Error" = "Error";
+"OK" = "OK";

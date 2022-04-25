@@ -257,15 +257,15 @@ class ComplexTransactionTableViewCell: UITableViewCell { // swiftlint:disable:th
             let debitRootName = transaction.itemsList.filter({$0.type == .debit})[0].account!.rootAccount.name
             let creditRootName = transaction.itemsList.filter({$0.type == .credit})[0].account!.rootAccount.name
 
-            if creditRootName == AccountsNameLocalisationManager.getLocalizedAccountName(.income) &&
-                debitRootName == AccountsNameLocalisationManager.getLocalizedAccountName(.money) {
+            if creditRootName == LocalisationManager.getLocalizedName(.income) &&
+                debitRootName == LocalisationManager.getLocalizedName(.money) {
                 cellMainColor = .systemGreen
-            } else  if (creditRootName == AccountsNameLocalisationManager.getLocalizedAccountName(.money) ||
-                      creditRootName == AccountsNameLocalisationManager.getLocalizedAccountName(.credits)) &&
-                        debitRootName == AccountsNameLocalisationManager.getLocalizedAccountName(.expense) {
+            } else  if (creditRootName == LocalisationManager.getLocalizedName(.money) ||
+                      creditRootName == LocalisationManager.getLocalizedName(.credits)) &&
+                        debitRootName == LocalisationManager.getLocalizedName(.expense) {
                 cellMainColor = .systemPink
-            } else  if creditRootName == AccountsNameLocalisationManager.getLocalizedAccountName(.money) &&
-                        debitRootName == AccountsNameLocalisationManager.getLocalizedAccountName(.money) {
+            } else  if creditRootName == LocalisationManager.getLocalizedName(.money) &&
+                        debitRootName == LocalisationManager.getLocalizedName(.money) {
                 cellMainColor = .systemTeal
             } else {
                 cellMainColor = .systemGray

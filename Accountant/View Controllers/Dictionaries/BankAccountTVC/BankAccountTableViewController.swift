@@ -91,13 +91,12 @@ class BankAccountTableViewController: UITableViewController {
                                           style: .default,
                                           handler: { (_) in
                 self.bankAccount = selectedBankAccount
-                let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-                guard let accNavVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.accountNavigatorTableVC) as? AccountNavigatorTableViewController else {return} // swiftlint:disable:this line_length
-                accNavVC.context = self.context
+
+                let accNavVC = AccountNavigationViewController()
                 accNavVC.showHiddenAccounts = false
                 accNavVC.canModifyAccountStructure = false
-                accNavVC.accountRequestorViewController = self
-                accNavVC.account = Account.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.money), // swiftlint:disable:this line_length
+                accNavVC.delegate = self
+                accNavVC.parentAccount = Account.getAccountWithPath(LocalisationManager.getLocalizedName(.money), // swiftlint:disable:this line_length
                                                         context: self.context)
                 accNavVC.excludeAccountList = self.bankAccount.findNotValidAccountCandidateForLinking()
                 self.navigationController?.pushViewController(accNavVC, animated: true)

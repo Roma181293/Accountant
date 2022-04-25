@@ -445,11 +445,11 @@ class MonobankViewController: UIViewController { // swiftlint:disable:this type_
                                                                  context: context)
                     }
                 } else {
-                    var expenseBeforeAccountingPeriod: Account? = expenseRootAccount.getSubAccountWith(name: AccountsNameLocalisationManager.getLocalizedAccountName(.beforeAccountingPeriod))
+                    var expenseBeforeAccountingPeriod: Account? = expenseRootAccount.getSubAccountWith(name: LocalisationManager.getLocalizedName(.beforeAccountingPeriod))
 
                     if expenseBeforeAccountingPeriod == nil {
                         expenseBeforeAccountingPeriod = try? Account.createAndGetAccount(parent: expenseRootAccount,
-                                                                                         name: AccountsNameLocalisationManager.getLocalizedAccountName(.beforeAccountingPeriod),
+                                                                                         name: LocalisationManager.getLocalizedName(.beforeAccountingPeriod),
                                                                                          type: expenseRootAccount.type,
                                                                                          currency: expenseRootAccount.currency,
                                                                                          createdByUser: false,
@@ -487,34 +487,34 @@ class MonobankViewController: UIViewController { // swiftlint:disable:this type_
         rootAccountList.forEach({
 
             switch $0.name {
-            case AccountsNameLocalisationManager.getLocalizedAccountName(.money):
+            case LocalisationManager.getLocalizedName(.money):
                 moneyRootAccount = $0
-            case AccountsNameLocalisationManager.getLocalizedAccountName(.credits):
+            case LocalisationManager.getLocalizedName(.credits):
                 creditsRootAccount = $0
-            case AccountsNameLocalisationManager.getLocalizedAccountName(.debtors):
+            case LocalisationManager.getLocalizedName(.debtors):
                 debtorsRootAcccount = $0
-            case AccountsNameLocalisationManager.getLocalizedAccountName(.expense):
+            case LocalisationManager.getLocalizedName(.expense):
                 expenseRootAccount = $0
-            case AccountsNameLocalisationManager.getLocalizedAccountName(.capital):
+            case LocalisationManager.getLocalizedName(.capital):
                 capitalRootAccount = $0
             default:
                 break
             }
         })
         if moneyRootAccount == nil {
-            throw AccountError.accountDoesNotExist(name: AccountsNameLocalisationManager.getLocalizedAccountName(.money))
+            throw AccountError.accountDoesNotExist(name: LocalisationManager.getLocalizedName(.money))
         }
         if creditsRootAccount == nil {
-            throw AccountError.accountDoesNotExist(name: AccountsNameLocalisationManager.getLocalizedAccountName(.credits))
+            throw AccountError.accountDoesNotExist(name: LocalisationManager.getLocalizedName(.credits))
         }
         if debtorsRootAcccount == nil {
-            throw AccountError.accountDoesNotExist(name: AccountsNameLocalisationManager.getLocalizedAccountName(.debtors))
+            throw AccountError.accountDoesNotExist(name: LocalisationManager.getLocalizedName(.debtors))
         }
         if expenseRootAccount == nil {
-            throw AccountError.accountDoesNotExist(name: AccountsNameLocalisationManager.getLocalizedAccountName(.expense))
+            throw AccountError.accountDoesNotExist(name: LocalisationManager.getLocalizedName(.expense))
         }
         if capitalRootAccount == nil {
-            throw AccountError.accountDoesNotExist(name: AccountsNameLocalisationManager.getLocalizedAccountName(.capital))
+            throw AccountError.accountDoesNotExist(name: LocalisationManager.getLocalizedName(.capital))
         }
     }
 

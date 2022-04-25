@@ -1,0 +1,33 @@
+/* 
+  AccountNavigationVCLocalizable.strings
+  Accountant
+
+  Created by Roman Topchii on 26.04.2022.
+  
+*/
+
+"Account manager" = "Менеджер счетов";
+"Accounts" = "Счета";
+"Add subcategory" = "Добавить подкатегорию";
+"Name" = "Имя";
+"Add" = "Добавить";
+"Warning" = "Внимание";
+"Category \"%@\" contains transactions. All these thansactions will be automatically moved to the \"%@\" subcategory" = "Категория \"%@\" содержит транзакции. Все транзакции будут автоматически перемещены в подкатегорию \"%@\" subcategory";
+"Create and Move" = "Создать и Переместить";
+"Cancel" = "Закрыть";
+"Rename" = "Переименовать";
+"New name" = "Новое имя";
+"Yes" = "Да";
+"Deactivate" = "Деактивировать";
+"Are you sure you want to deactivate account?" = "Вы уверены что хотите деактивировать счет?";
+"Activate" = "Activate";
+"Are you sure you want to activate account?" = "Вы уверены что хотите активировать счет?";
+"Are you sure you want to deactivate category?" = "Вы уверены что хотите деактивировать категорию?";
+"Are you sure you want to activate category?" = "Вы уверены что хотите активировать категорию?";
+"No" = "Нет";
+"Delete" = "Удалить";
+"Are you sure you want to delete account and linked account \"%@\"?" = "Вы действительно хотите удалить счет и связаный с ним счет \"%@\"?";
+"Are you sure you want to delete account?" = "Вы действительно хотите удалить счет?";
+"Are you sure you want to delete this category and all its subcategories?" = "Вы действительно хотите удалить категорию и все её подкатегории?";
+"Error" = "Ошибка";
+"OK" = "OK";

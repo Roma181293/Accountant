@@ -13,7 +13,7 @@ class StartAccountingViewController: UIViewController { // swiftlint:disable:thi
     var context = CoreDataStack.shared.persistentContainer.viewContext
 
     weak var currencyTVC: CurrencyViewController!
-    var accountNavigationTVC: AccountNavigatorTableViewController!
+    var accountNavigationTVC: AccountNavigationViewController!
     weak var backToVC: UIViewController?
 
     var currentStep = 0
@@ -98,7 +98,7 @@ class StartAccountingViewController: UIViewController { // swiftlint:disable:thi
         do {
             if UserProfile.isAppLaunchedBefore() == false {
                 // remove old test Data
-                try SeedDataManager.clearAllTestData(coreDataStack: CoreDataStack.shared)
+                try SeedDataManager.clearAllData(coreDataStack: CoreDataStack.shared)
             }
             // add New Data
             try SeedDataManager.createCurrenciesHoldersKeepers(coreDataStack: CoreDataStack.shared)
@@ -154,7 +154,7 @@ class StartAccountingViewController: UIViewController { // swiftlint:disable:thi
     }
 
     @objc private func addAccount() {
-        accountNavigationTVC.addAccount()
+        accountNavigationTVC.addCategoryOrAccount()
     }
 
     private func addCurrencyTVC() {
@@ -198,8 +198,8 @@ class StartAccountingViewController: UIViewController { // swiftlint:disable:thi
 
     private func addAccountNavigatorTVC() {
         let storyboard = UIStoryboard(name: "Main", bundle: .main)
-        accountNavigationTVC = storyboard.instantiateViewController(identifier: Constants.Storyboard.accountNavigatorTableVC) as AccountNavigatorTableViewController // swiftlint:disable:this line_length
-        accountNavigationTVC.account = Account.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.income), context: context) // swiftlint:disable:this line_length
+        accountNavigationTVC = AccountNavigationViewController()
+        accountNavigationTVC.parentAccount = Account.getAccountWithPath(LocalisationManager.getLocalizedName(.income), context: context) // swiftlint:disable:this line_length
         accountNavigationTVC.searchBarIsHidden = true
         addChild(accountNavigationTVC)
         mainView.addSubview(accountNavigationTVC.view)
@@ -215,7 +215,6 @@ class StartAccountingViewController: UIViewController { // swiftlint:disable:thi
     func configureUIForStep() {
         titleLabel.text = workFlowTitleArray[currentStep]
         accountNavigationTVC.resetPredicate()
-        accountNavigationTVC.fetchData()
     }
 
     @objc private func nextStep() { // swiftlint:disable:this function_body_length cyclomatic_complexity
@@ -250,19 +249,19 @@ class StartAccountingViewController: UIViewController { // swiftlint:disable:thi
             configureUIForStep()
         } else if currentStep == 2 {
             currentStep += 1
-            accountNavigationTVC.account = Account.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.expense), context: context) // swiftlint:disable:this line_length
+            accountNavigationTVC.parentAccount = Account.getAccountWithPath(LocalisationManager.getLocalizedName(.expense), context: context) // swiftlint:disable:this line_length
             configureUIForStep()
         } else if currentStep == 3 {
             currentStep += 1
-            accountNavigationTVC.account = Account.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.money), context: context) // swiftlint:disable:this line_length
+            accountNavigationTVC.parentAccount = Account.getAccountWithPath(LocalisationManager.getLocalizedName(.money), context: context) // swiftlint:disable:this line_length
             configureUIForStep()
         } else if currentStep == 4 {
             currentStep += 1
-            accountNavigationTVC.account = Account.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.debtors), context: context) // swiftlint:disable:this line_length
+            accountNavigationTVC.parentAccount = Account.getAccountWithPath(LocalisationManager.getLocalizedName(.debtors), context: context) // swiftlint:disable:this line_length
             configureUIForStep()
         } else if currentStep == 5 {
             currentStep += 1
-            accountNavigationTVC.account = Account.getAccountWithPath(AccountsNameLocalisationManager.getLocalizedAccountName(.credits), context: context) // swiftlint:disable:this line_length
+            accountNavigationTVC.parentAccount = Account.getAccountWithPath(LocalisationManager.getLocalizedName(.credits), context: context) // swiftlint:disable:this line_length
             configureUIForStep()
             nextButton.setImage(UIImage(systemName: "checkmark"), for: .normal)
         } else if currentStep == 6 {

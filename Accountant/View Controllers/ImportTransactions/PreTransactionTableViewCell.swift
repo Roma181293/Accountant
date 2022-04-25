@@ -171,15 +171,15 @@ class PreTransactionTableViewCell: UITableViewCell {
         let debitRootName = debitAccount.rootAccount.name
         let creditRootName = creditAccount.rootAccount.name
 
-        if creditRootName == AccountsNameLocalisationManager.getLocalizedAccountName(.income) &&
-            debitRootName == AccountsNameLocalisationManager.getLocalizedAccountName(.money) {
+        if creditRootName == LocalisationManager.getLocalizedName(.income) &&
+            debitRootName == LocalisationManager.getLocalizedName(.money) {
             cellMainColor = .systemGreen
-        } else if (creditRootName == AccountsNameLocalisationManager.getLocalizedAccountName(.money) ||
-                    creditRootName == AccountsNameLocalisationManager.getLocalizedAccountName(.credits)) &&
-                    debitRootName == AccountsNameLocalisationManager.getLocalizedAccountName(.expense) {
+        } else if (creditRootName == LocalisationManager.getLocalizedName(.money) ||
+                    creditRootName == LocalisationManager.getLocalizedName(.credits)) &&
+                    debitRootName == LocalisationManager.getLocalizedName(.expense) {
             cellMainColor = .systemPink
-        } else if creditRootName == AccountsNameLocalisationManager.getLocalizedAccountName(.money) &&
-                    debitRootName == AccountsNameLocalisationManager.getLocalizedAccountName(.money) {
+        } else if creditRootName == LocalisationManager.getLocalizedName(.money) &&
+                    debitRootName == LocalisationManager.getLocalizedName(.money) {
             cellMainColor = .systemTeal
         } else {
             cellMainColor = .systemGray
