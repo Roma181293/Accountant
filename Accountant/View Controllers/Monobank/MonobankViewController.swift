@@ -595,10 +595,10 @@ extension MonobankViewController: UITableViewDelegate, UITableViewDataSource {
 extension MonobankViewController: HolderReceiverDelegate {
     @objc func selectHolder() {
         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        guard let holderTableViewController = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.holderTableVC) as? HolderViewController else {return} // swiftlint:disable:this line_length
-        holderTableViewController.delegate = self
-        holderTableViewController.holder = holder
-        self.navigationController?.pushViewController(holderTableViewController, animated: true)
+        let holderVC = HolderViewController()
+        holderVC.delegate = self
+        holderVC.holder = holder
+        self.navigationController?.pushViewController(holderVC, animated: true)
     }
 
     func setHolder(_ selectedHolder: Holder?) {

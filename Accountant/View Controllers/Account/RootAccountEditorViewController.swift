@@ -8,7 +8,7 @@
 
 import UIKit
 
-class AddAccountViewController: UIViewController {
+class RootAccountEditorViewController: UIViewController {
 
     @IBOutlet weak var segmentedControl: UISegmentedControl!
     @IBOutlet weak var nameTextField: UITextField!
@@ -85,7 +85,7 @@ class AddAccountViewController: UIViewController {
         addButton.layer.shadowOpacity = 0.5
         addButton.layer.shadowRadius = 3
         addButton.layer.masksToBounds =  false
-        addButton.addTarget(self, action: #selector(AddAccountViewController.save(_:)), for: .touchUpInside)
+        addButton.addTarget(self, action: #selector(RootAccountEditorViewController.save(_:)), for: .touchUpInside)
     }
 
     @IBAction func selectCurrency(_ sender: UIButton) {
@@ -134,7 +134,7 @@ class AddAccountViewController: UIViewController {
     }
 }
 
-extension AddAccountViewController: CurrencyReceiverDelegate {
+extension RootAccountEditorViewController: CurrencyReceiverDelegate {
     func setCurrency(_ selectedCurrency: Currency) {
         self.currency = selectedCurrency
         currencyButton.setTitle(selectedCurrency.code, for: .normal)

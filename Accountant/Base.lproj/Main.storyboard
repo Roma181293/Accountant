@@ -139,62 +139,6 @@
             </objects>
             <point key="canvasLocation" x="-6042" y="3522"/>
         </scene>
-        <!--Keeper View Controller-->
-        <scene sceneID="Och-33-YzV">
-            <objects>
-                <tableViewController storyboardIdentifier="KeeperTVC_ID" id="D3f-Ij-nlZ" customClass="KeeperViewController" customModule="Accountant" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="z4m-8a-h4y">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="IK7-4V-Zqd">
-                                <rect key="frame" x="0.0" y="44.5" width="414" height="43.5"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="IK7-4V-Zqd" id="Ufi-PO-hF5">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </tableViewCellContentView>
-                            </tableViewCell>
-                        </prototypes>
-                        <connections>
-                            <outlet property="dataSource" destination="D3f-Ij-nlZ" id="OVd-gr-FB5"/>
-                            <outlet property="delegate" destination="D3f-Ij-nlZ" id="tnm-0G-qXK"/>
-                        </connections>
-                    </tableView>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="HXy-10-eal" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-6042" y="4227"/>
-        </scene>
-        <!--Holder View Controller-->
-        <scene sceneID="VRR-Sw-EKy">
-            <objects>
-                <tableViewController storyboardIdentifier="HolderTVC_ID" id="Ccw-JO-mPr" customClass="HolderViewController" customModule="Accountant" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="TCT-Zr-15w">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="jwb-wW-lff">
-                                <rect key="frame" x="0.0" y="44.5" width="414" height="43.5"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="jwb-wW-lff" id="H8I-3v-KoE">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </tableViewCellContentView>
-                            </tableViewCell>
-                        </prototypes>
-                        <connections>
-                            <outlet property="dataSource" destination="Ccw-JO-mPr" id="pvl-eb-cDO"/>
-                            <outlet property="delegate" destination="Ccw-JO-mPr" id="NNc-mU-pzt"/>
-                        </connections>
-                    </tableView>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="kbU-H8-w3B" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-5204" y="4227"/>
-        </scene>
         <!--Import Transaction View Controller-->
         <scene sceneID="zoc-Cq-2Ah">
             <objects>
@@ -249,21 +193,6 @@
             </objects>
             <point key="canvasLocation" x="-265" y="1705"/>
         </scene>
-        <!--Account Editor With Initial Balance View Controller-->
-        <scene sceneID="ZtP-fx-vuw">
-            <objects>
-                <viewController storyboardIdentifier="AccountEditorWithInitialBalanceVC_ID" id="AJ9-Jc-FMH" customClass="AccountEditorWithInitialBalanceViewController" customModule="Accountant" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="nYK-6O-MRd">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <viewLayoutGuide key="safeArea" id="HYe-ak-7Ck"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="PTg-6L-dhJ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="703" y="1892"/>
-        </scene>
         <!--Complex Transaction Editor View Controller-->
         <scene sceneID="PWP-T9-LY7">
             <objects>
@@ -279,10 +208,10 @@
             </objects>
             <point key="canvasLocation" x="-261" y="404"/>
         </scene>
-        <!--Add Account View Controller-->
+        <!--Root Account Editor View Controller-->
         <scene sceneID="Xha-nC-Oqc">
             <objects>
-                <viewController storyboardIdentifier="AddAccountVC_ID" id="I4t-Wg-0bb" customClass="AddAccountViewController" customModule="Accountant" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="AddAccountVC_ID" id="I4t-Wg-0bb" customClass="RootAccountEditorViewController" customModule="Accountant" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="VZa-oG-Peg">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

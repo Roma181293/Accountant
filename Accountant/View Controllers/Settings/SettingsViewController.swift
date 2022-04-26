@@ -205,7 +205,7 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
         case .multiItemTransaction:
             break
         case .importAccounts:
-            if AccessManager.checkUserAccessToImportExportEntities(environment: environment,
+            if AccessManager.canImportExportEntities(environment: environment,
                                                                         isUserHasPaidAccess: isUserHasPaidAccess) {
                 isImportAccounts = true
                 if #available(iOS 14.0, *) {
@@ -223,7 +223,7 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
                 showPurchaseOfferVC()
             }
         case .importTransactions:
-            if AccessManager.checkUserAccessToImportExportEntities(environment: environment,
+            if AccessManager.canImportExportEntities(environment: environment,
                                                                         isUserHasPaidAccess: isUserHasPaidAccess) {
                 isImportAccounts = false
                 if #available(iOS 14.0, *) {
@@ -241,14 +241,14 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
                 showPurchaseOfferVC()
             }
         case .exportAccounts:
-            if AccessManager.checkUserAccessToImportExportEntities(environment: environment,
+            if AccessManager.canImportExportEntities(environment: environment,
                                                                         isUserHasPaidAccess: isUserHasPaidAccess) {
                 shareTXTFile(fileName: "AccountList", data: Account.exportAccountsToString(context: context))
             } else {
                 showPurchaseOfferVC()
             }
         case .exportTransactions:
-            if AccessManager.checkUserAccessToImportExportEntities(environment: environment,
+            if AccessManager.canImportExportEntities(environment: environment,
                                                                         isUserHasPaidAccess: isUserHasPaidAccess) {
                 shareTXTFile(fileName: "TransactionList",
                              data: Transaction.exportTransactionsToString(context: context))

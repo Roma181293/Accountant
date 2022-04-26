@@ -198,7 +198,7 @@ extension AccountNavigationViewController {
 // MARK: - UIContextualAction methods
 extension AccountNavigationViewController {
     private func addCategotyTo(_ account: Account?) { //swiftlint:disable:this function_body_length
-        if AccessManager.checkCreateSubAccountFor(account: account,
+        if AccessManager.canCreateSubAccountFor(account: account,
                                                   isUserHasPaidAccess: self.isUserHasPaidAccess,
                                                   environment: CoreDataStack.shared.activeEnviroment()!) {
             if let account = account {
@@ -310,7 +310,7 @@ extension AccountNavigationViewController {
         let account = dataProvider.fetchedResultsController.object(at: indexPath)
         let hideAction = UIContextualAction(style: .normal,
                                             title: NSLocalizedString("Deactivate", tableName: Constants.Localizable.accountNavigationVC, comment: "")) { _, _, complete in
-            if AccessManager.checkUserAccessToHideAccount(environment: CoreDataStack.shared.activeEnviroment()!,
+            if AccessManager.canHideAccount(environment: CoreDataStack.shared.activeEnviroment()!,
                                                           isUserHasPaidAccess: self.isUserHasPaidAccess) {
                 var title = ""
                 var message = ""
@@ -436,15 +436,14 @@ extension AccountNavigationViewController {
     }
 
     private func goToAccountEditorWithInitialBalanceVC(account: Account) {
-        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        guard let accountEditorWithInitialBalanceVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.accountEditorWithInitialBalanceVC) as? AccountEditorWithInitialBalanceViewController else {return} // swiftlint:disable:this line_length
-        accountEditorWithInitialBalanceVC.parentAccount = account
-        self.navigationController?.pushViewController(accountEditorWithInitialBalanceVC, animated: true) // swiftlint:disable:this line_length
+        let accountEditorVC = AccountEditorViewController()
+        accountEditorVC.parentAccount = account
+        self.navigationController?.pushViewController(accountEditorVC, animated: true)
     }
 
     private func goToRootAccountEditorVC() {
         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        guard let addAccountVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.addAccountVC) as? AddAccountViewController else {return} // swiftlint:disable:this line_length
+        guard let addAccountVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.addAccountVC) as? RootAccountEditorViewController else {return} // swiftlint:disable:this line_length
         addAccountVC.isUserHasPaidAccess = isUserHasPaidAccess
         self.navigationController?.pushViewController(addAccountVC, animated: true)
     }

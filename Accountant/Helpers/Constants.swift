@@ -19,6 +19,7 @@ struct Constants {
         static let holderVC = "HolderVCLocalizable"
         static let currencyVC = "CurrencyVCLocalizable"
         static let accountNavigationVC = "AccountNavigationVCLocalizable"
+        static let accountEditorVC = "AccountEditorVCLocalizable"
     }
 
     struct Storyboard {
@@ -38,23 +39,14 @@ struct Constants {
         static let complexTransactionEditorVC = "ComplexTransactionEditorVC_ID"
         static let importTransactionVC = "ImportTransactionVC_ID"
 
-        static let accountNavigatorTableVC = "AccountNavigatorTVC_ID"
-        static let accountEditorWithInitialBalanceVC = "AccountEditorWithInitialBalanceVC_ID"
         static let addAccountVC = "AddAccountVC_ID"
         static let accountListVC = "AccountListVC_ID"
         static let accountListTableVC = "AccountListTVC_ID"
-
-        static let currencyTableVC = "CurrencyTVC_ID"
-
-        static let budgetsListVC = "BudgetsListVC_ID"
-        static let budgetEditorVC = "BudgetEditorVC_ID"
 
         static let analyticsVC = "AnalyticsVC_ID"
         static let analyticsTableVC = "AnalyticsTVC_ID"
         static let configureAnalyticsVC = "ConfigureAnalyticsVC_ID"
 
-        static let keeperTableVC = "KeeperTVC_ID"
-        static let holderTableVC = "HolderTVC_ID"
         static let settingsVC = "SettingsVC_ID"
 
         static let monobankVC = "MonobankVC_ID"

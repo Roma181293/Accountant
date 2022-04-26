@@ -230,7 +230,7 @@ class SettingsTableViewCell: UITableViewCell {
             }
         } else if dataItem == .multiItemTransaction {
             if sender.isOn {
-                if AccessManager.checkUserAccessToSwitchingAppToMultiItemMode(environment: delegate.environment,
+                if AccessManager.canSwitchingAppToMultiItemMode(environment: delegate.environment,
                                                                                    isUserHasPaidAccess: delegate.isUserHasPaidAccess) { // swiftlint:disable:this line_length
                     UserProfile.useMultiItemTransaction(true, environment: delegate.environment)
                 } else {

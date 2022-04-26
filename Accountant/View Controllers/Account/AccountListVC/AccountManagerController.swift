@@ -27,13 +27,13 @@ class AccountManagerController {
     unowned var delegate: AccountManagerTableViewControllerDelegate!
 
     func addSubAccountTo(account: Account?) {
-        if AccessManager.checkCreateSubAccountFor(account: account,
+        if AccessManager.canCreateSubAccountFor(account: account,
                                                                            isUserHasPaidAccess:
                                                                             delegate.isUserHasPaidAccess,
                                                                            environment: delegate.environment) {
             guard let account = self.delegate.account else {
                 let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-                guard let addAccountVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.addAccountVC) as? AddAccountViewController else {return} // swiftlint:disable:this line_length
+                guard let addAccountVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.addAccountVC) as? RootAccountEditorViewController else {return} // swiftlint:disable:this line_length
                 addAccountVC.environment = delegate.environment
                 addAccountVC.isUserHasPaidAccess = delegate.isUserHasPaidAccess
                 self.delegate.navigationController?.pushViewController(addAccountVC, animated: true)
@@ -71,10 +71,9 @@ class AccountManagerController {
                                               style: .cancel))
                 self.delegate.present(alert, animated: true, completion: nil)
             } else {
-                let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-                guard let accountEditorWithInitialBalanceVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.accountEditorWithInitialBalanceVC) as? AccountEditorWithInitialBalanceViewController else {return} // swiftlint:disable:this line_length
-                accountEditorWithInitialBalanceVC.parentAccount = account
-                self.delegate.navigationController?.pushViewController(accountEditorWithInitialBalanceVC,
+                let accountEditorVC = AccountEditorViewController()
+                accountEditorVC.parentAccount = account
+                self.delegate.navigationController?.pushViewController(accountEditorVC,
                                                                        animated: true)
             }
         } else {
@@ -85,7 +84,7 @@ class AccountManagerController {
     func hideAccount(indexPath: IndexPath, selectedAccount: Account) -> UIContextualAction {
         let hideAction = UIContextualAction(style: .normal,
                                             title: NSLocalizedString("Hide", comment: "")) { _, _, complete in
-            if AccessManager.checkUserAccessToHideAccount(environment: self.delegate.environment,
+            if AccessManager.canHideAccount(environment: self.delegate.environment,
                                                                isUserHasPaidAccess: self.delegate.isUserHasPaidAccess) {
                 var title = ""
                 var message = ""
@@ -217,14 +216,13 @@ class AccountManagerController {
 
     func addSubAccount(indexPath: IndexPath, selectedAccount: Account) -> UIContextualAction {
         let addSubCategory = UIContextualAction(style: .normal, title: nil) { _, _, complete in
-            if AccessManager.checkCreateSubAccountFor(account: selectedAccount,
+            if AccessManager.canCreateSubAccountFor(account: selectedAccount,
                                                                                isUserHasPaidAccess: self.delegate.isUserHasPaidAccess,
                                                                                environment: self.delegate.environment) {
                 if selectedAccount.currency == nil {
-                    let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-                    guard let accountEditorWithInitialBalanceVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.accountEditorWithInitialBalanceVC) as? AccountEditorWithInitialBalanceViewController else {return} // swiftlint:disable:this line_length
-                    accountEditorWithInitialBalanceVC.parentAccount = selectedAccount
-                    self.delegate.navigationController?.pushViewController(accountEditorWithInitialBalanceVC, animated: true) // swiftlint:disable:this line_length
+                    let accountEditorVC = AccountEditorViewController()
+                    accountEditorVC.parentAccount = selectedAccount
+                    self.delegate.navigationController?.pushViewController(accountEditorVC, animated: true)
                 } else {
                     let alert = UIAlertController(title: NSLocalizedString("Add subcategory", comment: ""),
                                                   message: nil, preferredStyle: .alert)
@@ -323,11 +321,10 @@ class AccountManagerController {
     func editAccount(indexPath: IndexPath, selectedAccount: Account) -> UIContextualAction {
         let editAccount = UIContextualAction(style: .normal,
                                              title: NSLocalizedString("Edit", comment: "")) { (_, _, complete) in
-            let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-            guard let accEditWithInitBalVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.accountEditorWithInitialBalanceVC) as? AccountEditorWithInitialBalanceViewController else {return} // swiftlint:disable:this line_length
-            accEditWithInitBalVC.parentAccount = selectedAccount.rootAccount
-            accEditWithInitBalVC.account = selectedAccount
-            self.delegate.navigationController?.pushViewController(accEditWithInitBalVC, animated: true) // swiftlint:disable:this line_length
+            let accountEditorVC = AccountEditorViewController()
+            accountEditorVC.parentAccount = selectedAccount.rootAccount
+            accountEditorVC.account = selectedAccount
+            self.delegate.navigationController?.pushViewController(accountEditorVC, animated: true)
             complete(true)
         }
         editAccount.backgroundColor = .systemPink

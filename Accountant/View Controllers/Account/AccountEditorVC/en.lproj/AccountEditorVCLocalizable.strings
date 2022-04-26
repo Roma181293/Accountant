@@ -1,0 +1,29 @@
+/* 
+  AccountEditorVCLocalizable.strings
+  Accountant
+
+  Created by Roman Topchii on 27.04.2022.
+  
+*/
+
+//Controller
+"Warning" = "Warning";
+"Error" = "Error";
+"OK" = "OK";
+"Edit account" = "Edit account";
+"Add account" = "Add account";
+
+//View
+"Type" = "Type";
+"Currency" = "Currency";
+"Balance on" = "Balance on";
+"Name" = "Name";
+"Keeper" = "Keeper";
+"Holder" = "Holder";
+"Example: John BankName salary" = "Ex: John Bank Salary                ";
+"Credit limit" = "Credit limit";
+"Bank" = "Bank";
+"Borrower" = "Borrower";
+"Creditor" = "Creditor";
+"Exchange rate" = "Exchange rate";
+"Done" = "Done";
