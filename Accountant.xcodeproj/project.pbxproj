@@ -382,12 +382,12 @@
 				2B1FEAD8266C48E400BF53BD /* Account */,
 				2B1FEB80266EC3A200BF53BD /* Analytics */,
 				2B1FEACA266C433800BF53BD /* Auth */,
-				2B1FEAA3266C368100BF53BD /* First Launch */,
-				2B1FEAB7266C3D7900BF53BD /* Transaction */,
-				2B7F884D27A5D3E400A1B63B /* Settings */,
 				2B7F884E27A5D41C00A1B63B /* Dictionaries */,
+				2B1FEAA3266C368100BF53BD /* First Launch */,
 				2B7F884F27A5D46F00A1B63B /* ImportTransactions */,
+				2B7F884D27A5D3E400A1B63B /* Settings */,
 				2B7F883C27A5D15500A1B63B /* Monobank */,
+				2B1FEAB7266C3D7900BF53BD /* Transaction */,
 				2BB780AF272D71D3002D2098 /* InstructionViewController.swift */,
 				2B1FEB4B266D25EE00BF53BD /* PurchaseOfferViewController.swift */,
 				2B1407A726F5D49B00114B95 /* WebViewController.swift */,
@@ -419,9 +419,9 @@
 		2B1FEAB7266C3D7900BF53BD /* Transaction */ = {
 			isa = PBXGroup;
 			children = (
-				2B1FEAA7266C3AB800BF53BD /* SimpleTransactionEditorViewController.swift */,
-				2B7F885427A5D66500A1B63B /* ComplexTransactionEditorVC */,
-				2B7F885327A5D63100A1B63B /* TransactionListTVC */,
+				2B6C239E2819444700D84174 /* SimpleTransactionEditor */,
+				2B7F885427A5D66500A1B63B /* ComplexTransactionEditor */,
+				2B7F885327A5D63100A1B63B /* TransactionList */,
 			);
 			path = Transaction;
 			sourceTree = "<group>";
@@ -438,8 +438,8 @@
 		2B1FEAD8266C48E400BF53BD /* Account */ = {
 			isa = PBXGroup;
 			children = (
-				2B7F885627A5D6AD00A1B63B /* AccountNavigationVC */,
-				2B6C2394281764DF00D84174 /* AccountEditorVC */,
+				2B7F885627A5D6AD00A1B63B /* AccountNavigation */,
+				2B6C2394281764DF00D84174 /* AccountEditor */,
 				2B1FEAD9266CAEC100BF53BD /* RootAccountEditorViewController.swift */,
 				2B7F885527A5D69C00A1B63B /* AccountListVC */,
 			);
@@ -527,14 +527,22 @@
 			path = Holder;
 			sourceTree = "<group>";
 		};
-		2B6C2394281764DF00D84174 /* AccountEditorVC */ = {
+		2B6C2394281764DF00D84174 /* AccountEditor */ = {
 			isa = PBXGroup;
 			children = (
 				2B1FEADA266CAEC200BF53BD /* AccountEditorViewController.swift */,
 				2B6C23952817650000D84174 /* AccountEditorView.swift */,
 				2B6C239B2818A76100D84174 /* AccountEditorVCLocalizable.strings */,
 			);
-			path = AccountEditorVC;
+			path = AccountEditor;
+			sourceTree = "<group>";
+		};
+		2B6C239E2819444700D84174 /* SimpleTransactionEditor */ = {
+			isa = PBXGroup;
+			children = (
+				2B1FEAA7266C3AB800BF53BD /* SimpleTransactionEditorViewController.swift */,
+			);
+			path = SimpleTransactionEditor;
 			sourceTree = "<group>";
 		};
 		2B7AB3FA278D4BC800974156 /* Errors */ = {
@@ -615,22 +623,22 @@
 			path = BankAccountTVC;
 			sourceTree = "<group>";
 		};
-		2B7F885327A5D63100A1B63B /* TransactionListTVC */ = {
+		2B7F885327A5D63100A1B63B /* TransactionList */ = {
 			isa = PBXGroup;
 			children = (
 				2B1FEAAA266C3AB800BF53BD /* TransactionListViewController.swift */,
 				2B4976FB26DBE90B00147EAA /* ComplexTransactionTableViewCell.swift */,
 			);
-			path = TransactionListTVC;
+			path = TransactionList;
 			sourceTree = "<group>";
 		};
-		2B7F885427A5D66500A1B63B /* ComplexTransactionEditorVC */ = {
+		2B7F885427A5D66500A1B63B /* ComplexTransactionEditor */ = {
 			isa = PBXGroup;
 			children = (
 				2BC058B826CD7A9400FE896C /* ComplexTransactionEditorViewController.swift */,
 				2BC058BC26CDB63E00FE896C /* TransactionItemTableViewCell.swift */,
 			);
-			path = ComplexTransactionEditorVC;
+			path = ComplexTransactionEditor;
 			sourceTree = "<group>";
 		};
 		2B7F885527A5D69C00A1B63B /* AccountListVC */ = {
@@ -644,7 +652,7 @@
 			path = AccountListVC;
 			sourceTree = "<group>";
 		};
-		2B7F885627A5D6AD00A1B63B /* AccountNavigationVC */ = {
+		2B7F885627A5D6AD00A1B63B /* AccountNavigation */ = {
 			isa = PBXGroup;
 			children = (
 				2B6C238B2811BCF700D84174 /* AccountProvider.swift */,
@@ -652,7 +660,7 @@
 				2B6C23912817467500D84174 /* AccountNavigationVCLocalizable.strings */,
 				2B1407AB26F931AA00114B95 /* AccountNavigationCell.swift */,
 			);
-			path = AccountNavigationVC;
+			path = AccountNavigation;
 			sourceTree = "<group>";
 		};
 		2B7F885727A5D74E00A1B63B /* Mapping Models */ = {
