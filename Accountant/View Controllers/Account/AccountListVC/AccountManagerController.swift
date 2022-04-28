@@ -293,8 +293,7 @@ class AccountManagerController {
     func addTransactionWithDebitAccount(indexPath: IndexPath, selectedAccount: Account) -> UIContextualAction {
         let addDebitTransaction = UIContextualAction(style: .normal,
                                                      title: NSLocalizedString("To", comment: "")) { (_, _, complete) in
-            let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-            guard let simpleTransactionEditorVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.simpleTransactionEditorVC) as? SimpleTransactionEditorViewController else {return} // swiftlint:disable:this line_length
+            let simpleTransactionEditorVC = SimpleTransactionEditorViewController()
             simpleTransactionEditorVC.debit = selectedAccount
             simpleTransactionEditorVC.delegate = self.delegate
             self.delegate.navigationController?.pushViewController(simpleTransactionEditorVC, animated: true)
@@ -307,8 +306,7 @@ class AccountManagerController {
     func addTransactionWithCreditAccount(indexPath: IndexPath, selectedAccount: Account) -> UIContextualAction {
         let addCreditTransaction = UIContextualAction(style: .normal,
                                                       title: NSLocalizedString("From", comment: "")) { (_, _, complete) in
-            let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-            guard let simpleTransactionEditorVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.simpleTransactionEditorVC) as? SimpleTransactionEditorViewController else {return} // swiftlint:disable:this line_length
+            let simpleTransactionEditorVC = SimpleTransactionEditorViewController()
             simpleTransactionEditorVC.credit = selectedAccount
             simpleTransactionEditorVC.delegate = self.delegate
             self.delegate.navigationController?.pushViewController(simpleTransactionEditorVC, animated: true)

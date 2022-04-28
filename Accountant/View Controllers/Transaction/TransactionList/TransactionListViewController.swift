@@ -144,9 +144,7 @@ class TransactionListViewController: UIViewController {
             transactioEditorVC.context = context
             self.navigationController?.pushViewController(transactioEditorVC, animated: true)
         } else {
-            guard let transactioEditorVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.simpleTransactionEditorVC) as? SimpleTransactionEditorViewController else {return} // swiftlint:disable:this line_length
-            transactioEditorVC.isUserHasPaidAccess = isUserHasPaidAccess
-            self.navigationController?.pushViewController(transactioEditorVC, animated: true)
+            self.navigationController?.pushViewController(SimpleTransactionEditorViewController(), animated: true)
         }
     }
 
@@ -270,9 +268,8 @@ extension TransactionListViewController: UITableViewDelegate, UITableViewDataSou
             transactioEditorVC.context = context
             self.navigationController?.pushViewController(transactioEditorVC, animated: true)
         } else {
-            guard let transactioEditorVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.simpleTransactionEditorVC) as? SimpleTransactionEditorViewController else {return} // swiftlint:disable:this line_length
+            let transactioEditorVC = SimpleTransactionEditorViewController()
             transactioEditorVC.transaction = transaction
-            transactioEditorVC.isUserHasPaidAccess = isUserHasPaidAccess
             self.navigationController?.pushViewController(transactioEditorVC, animated: true)
         }
     }

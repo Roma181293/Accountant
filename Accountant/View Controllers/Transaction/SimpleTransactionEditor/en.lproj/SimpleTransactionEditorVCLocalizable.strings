@@ -1,0 +1,35 @@
+/* 
+  SimpleTransactionEditorVCLocalizable.strings
+  Accountant
+
+  Created by Roman Topchii on 29.04.2022.
+  
+*/
+
+"Save" = "Save";
+"Do you want to save changes?" = "Do you want to save changes?";
+"Yes" = "Yes";
+"No" = "No";
+"Edit transaction" = "Edit transaction";
+"Add transaction" = "Add transaction";
+"Error" = "Error";
+"OK" = "OK";
+"Warning" = "Warning";
+"Please select \"From:\" account/category" = "Please select \"From:\" account/category";
+"Please select \"To:\" account/category" = "Please select \"To:\" account/category";
+"Please check the amount value" = "Please check the amount value";
+"Please check the \"From:\" amount value" = "Please check the \"From:\" amount value";
+"Please check the \"To:\" amount value" = "Please check the \"To:\" amount value";
+
+//View
+"Expense" = "Expense";
+"Income" = "Income";
+"Transfer" = "Transfer";
+"Manual" = "Manual";
+"Comment" = "Comment";
+"Use exchange rate" = "Use exchange rate";
+"From:" = "From:";
+"From: Account" = "From: Account/Category";
+"To:" = "To:";
+"To: Account" = "To: Account/Category";
+"Done" = "Done";

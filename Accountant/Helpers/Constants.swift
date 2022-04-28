@@ -20,6 +20,7 @@ struct Constants {
         static let currencyVC = "CurrencyVCLocalizable"
         static let accountNavigationVC = "AccountNavigationVCLocalizable"
         static let accountEditorVC = "AccountEditorVCLocalizable"
+        static let simpleTransactionEditorVC = "SimpleTransactionEditorVCLocalizable"
     }
 
     struct Storyboard {
@@ -35,7 +36,6 @@ struct Constants {
         static let purchaseOfferVC = "PurchaseOfferVC_ID"
 
         static let transactionListVC = "TransactionListVC_ID"
-        static let simpleTransactionEditorVC = "SimpleTransactionEditorVC_ID"
         static let complexTransactionEditorVC = "ComplexTransactionEditorVC_ID"
         static let importTransactionVC = "ImportTransactionVC_ID"
 
@@ -84,7 +84,6 @@ struct Constants {
 
     struct APIKey {
         static let revenueCat = "WtNuPdTrjjiiOwUaTogcvKOAbeydXpNx"
-        static let googleAD = "ca-app-pub-3940256099942544/4411468910"
     }
 
     struct URL {

@@ -47,22 +47,6 @@
             </objects>
             <point key="canvasLocation" x="-1217" y="769"/>
         </scene>
-        <!--Simple Transaction Editor View Controller-->
-        <scene sceneID="LUl-1Y-ske">
-            <objects>
-                <viewController storyboardIdentifier="SimpleTransactionEditorVC_ID" id="oeU-ui-djC" customClass="SimpleTransactionEditorViewController" customModule="Accountant" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="sVt-dY-m5b">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <viewLayoutGuide key="safeArea" id="CPy-x5-NiD"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="Aul-xM-A91"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="QRd-Ps-buu" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-265" y="1092"/>
-        </scene>
         <!--Navigation Controller-->
         <scene sceneID="9mz-Oo-qbJ">
             <objects>

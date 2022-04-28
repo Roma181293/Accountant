@@ -95,6 +95,7 @@
 		2B6C238F2817467500D84174 /* AccountNavigationVCLocalizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2B6C23912817467500D84174 /* AccountNavigationVCLocalizable.strings */; };
 		2B6C23962817650000D84174 /* AccountEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B6C23952817650000D84174 /* AccountEditorView.swift */; };
 		2B6C23992818A76100D84174 /* AccountEditorVCLocalizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2B6C239B2818A76100D84174 /* AccountEditorVCLocalizable.strings */; };
+		2B6C23A02819477900D84174 /* SimpleTransactionEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B6C239F2819477900D84174 /* SimpleTransactionEditorView.swift */; };
 		2B7AB3F9278C831C00974156 /* Extension UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B7AB3F8278C831C00974156 /* Extension UIViewController.swift */; };
 		2B7AB3FC278D4BEF00974156 /* AccountError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B7AB3FB278D4BEF00974156 /* AccountError.swift */; };
 		2B7AB3FE278D4C3E00974156 /* CurrencyError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B7AB3FD278D4C3E00974156 /* CurrencyError.swift */; };
@@ -141,6 +142,7 @@
 		2BE2593326BC8E6D0025301F /* AppErrorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE2593226BC8E6D0025301F /* AppErrorProtocol.swift */; };
 		2BEEC18927960136000B210F /* MappingModel_V1toV2.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 2BEEC18827960136000B210F /* MappingModel_V1toV2.xcmappingmodel */; };
 		2BEEC18B2796017F000B210F /* MigrationPolicy_V1toV2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BEEC18A2796017F000B210F /* MigrationPolicy_V1toV2.swift */; };
+		2BFACB69281B4D9C00B2B1CE /* SimpleTransactionEditorVCLocalizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2BFACB6B281B4D9C00B2B1CE /* SimpleTransactionEditorVCLocalizable.strings */; };
 		38318A9FD81C28716622F93F /* Pods_Accountant.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97FD10DCF67B198D7BE0F270 /* Pods_Accountant.framework */; };
 /* End PBXBuildFile section */
 
@@ -266,6 +268,7 @@
 		2B6C239A2818A76100D84174 /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/AccountEditorVCLocalizable.strings; sourceTree = "<group>"; };
 		2B6C239C2818A76400D84174 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/AccountEditorVCLocalizable.strings; sourceTree = "<group>"; };
 		2B6C239D2818A76500D84174 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/AccountEditorVCLocalizable.strings; sourceTree = "<group>"; };
+		2B6C239F2819477900D84174 /* SimpleTransactionEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleTransactionEditorView.swift; sourceTree = "<group>"; };
 		2B7AB3F8278C831C00974156 /* Extension UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension UIViewController.swift"; sourceTree = "<group>"; };
 		2B7AB3FB278D4BEF00974156 /* AccountError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountError.swift; sourceTree = "<group>"; };
 		2B7AB3FD278D4C3E00974156 /* CurrencyError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyError.swift; sourceTree = "<group>"; };
@@ -327,6 +330,9 @@
 		2BE2593226BC8E6D0025301F /* AppErrorProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppErrorProtocol.swift; sourceTree = "<group>"; };
 		2BEEC18827960136000B210F /* MappingModel_V1toV2.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = MappingModel_V1toV2.xcmappingmodel; sourceTree = "<group>"; };
 		2BEEC18A2796017F000B210F /* MigrationPolicy_V1toV2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MigrationPolicy_V1toV2.swift; sourceTree = "<group>"; };
+		2BFACB6A281B4D9C00B2B1CE /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/SimpleTransactionEditorVCLocalizable.strings; sourceTree = "<group>"; };
+		2BFACB6C281B4D9E00B2B1CE /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/SimpleTransactionEditorVCLocalizable.strings; sourceTree = "<group>"; };
+		2BFACB6D281B4D9E00B2B1CE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/SimpleTransactionEditorVCLocalizable.strings; sourceTree = "<group>"; };
 		2BFCE545274ABADF0070C35F /* Accountant 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Accountant 2.xcdatamodel"; sourceTree = "<group>"; };
 		97FD10DCF67B198D7BE0F270 /* Pods_Accountant.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Accountant.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A51B83286AAA2CAF601DDC80 /* Pods-Accountant.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Accountant.debug.xcconfig"; path = "Target Support Files/Pods-Accountant/Pods-Accountant.debug.xcconfig"; sourceTree = "<group>"; };
@@ -541,6 +547,8 @@
 			isa = PBXGroup;
 			children = (
 				2B1FEAA7266C3AB800BF53BD /* SimpleTransactionEditorViewController.swift */,
+				2B6C239F2819477900D84174 /* SimpleTransactionEditorView.swift */,
+				2BFACB6B281B4D9C00B2B1CE /* SimpleTransactionEditorVCLocalizable.strings */,
 			);
 			path = SimpleTransactionEditor;
 			sourceTree = "<group>";
@@ -955,6 +963,7 @@
 			files = (
 				2B949BBE2665B4080033383A /* LaunchScreen.storyboard in Resources */,
 				2B7F882827A52CC700A1B63B /* SettingsVCLocalizable.strings in Resources */,
+				2BFACB69281B4D9C00B2B1CE /* SimpleTransactionEditorVCLocalizable.strings in Resources */,
 				2B3F0D0E26A0EFA000AA514B /* Localizable.strings in Resources */,
 				2B7F883027A56BEA00A1B63B /* BankAccountTVCLocalizable.strings in Resources */,
 				2B7F883727A5CDE700A1B63B /* UserBankProfileTVCLocalizable.strings in Resources */,
@@ -1140,6 +1149,7 @@
 				2B1407A826F5D49B00114B95 /* WebViewController.swift in Sources */,
 				2B1FEAF7266CB2C200BF53BD /* CurrencyTableViewCell.swift in Sources */,
 				2B1FEB7B266EC39800BF53BD /* AnalyticsTableViewController.swift in Sources */,
+				2B6C23A02819477900D84174 /* SimpleTransactionEditorView.swift in Sources */,
 				2B8172EF2798B0EC00E6CB20 /* UserBankProfileTableViewController.swift in Sources */,
 				2B4976FC26DBE90B00147EAA /* ComplexTransactionTableViewCell.swift in Sources */,
 				2B7AB408278D4D1000974156 /* MonoBankError.swift in Sources */,
@@ -1321,6 +1331,16 @@
 				2B9E7BC12705923500FBE5B2 /* ru */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		2BFACB6B281B4D9C00B2B1CE /* SimpleTransactionEditorVCLocalizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2BFACB6A281B4D9C00B2B1CE /* uk */,
+				2BFACB6C281B4D9E00B2B1CE /* ru */,
+				2BFACB6D281B4D9E00B2B1CE /* en */,
+			);
+			name = SimpleTransactionEditorVCLocalizable.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
