@@ -32,6 +32,11 @@ class TransactionListViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        if let environment = coreDataStack.activeEnviroment() {
+            self.environment = environment
+        }
+
         addButtonToViewController()
         // Set black color under cells in dark mode
         let backView = UIView(frame: self.tableView.bounds)
