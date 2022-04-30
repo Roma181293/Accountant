@@ -1,5 +1,5 @@
 //
-//  MainViewController.swift
+//  TransactionListViewController.swift
 //  Accounting
 //
 //  Created by Roman Topchii on 04.03.2020.
@@ -19,15 +19,8 @@ class TransactionListViewController: UIViewController {
     var environment = Environment.prod
     var resultSearchController = UISearchController()
 
-    lazy var fetchedResultsController: NSFetchedResultsController<Transaction> = {
-        let fetchRequest = Transaction.fetchRequest()
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: Schema.Transaction.date.rawValue, ascending: false),
-                                        NSSortDescriptor(key: "\(Schema.Transaction.createDate.rawValue)", ascending: false)]
-        fetchRequest.fetchBatchSize = 20
-        return NSFetchedResultsController(fetchRequest: fetchRequest,
-                                          managedObjectContext: context,
-                                          sectionNameKeyPath: nil,
-                                          cacheName: nil)
+    private lazy var dataProvider: TransactionListProvider = {
+        return TransactionListProvider(with: coreDataStack.persistentContainer, fetchedResultsControllerDelegate: self)
     }()
 
     override func viewDidLoad() {
@@ -45,7 +38,7 @@ class TransactionListViewController: UIViewController {
 
         reloadProAccessData()
 
-        tableView.register(ComplexTransactionTableViewCell.self,
+        tableView.register(TransactionCell.self,
                            forCellReuseIdentifier: Constants.Cell.complexTransactionCell)
 
         resultSearchController = ({
@@ -95,7 +88,6 @@ class TransactionListViewController: UIViewController {
             self.tabBarController?.navigationItem.leftBarButtonItem = item
         }
         context.rollback()   // needs to avoid fatal error when user add transactionItem wo account and click <Back
-        fetchData()
     }
 
     override func viewDidDisappear(_ animated: Bool) {
@@ -130,7 +122,7 @@ class TransactionListViewController: UIViewController {
 
     private func fetchData() {
         do {
-            try fetchedResultsController.performFetch()
+            try dataProvider.fetchedResultsController.performFetch()
             tableView.reloadData()
         } catch {
             let alert = UIAlertController(title: NSLocalizedString("Error", comment: ""),
@@ -159,14 +151,7 @@ class TransactionListViewController: UIViewController {
         if let environment = coreDataStack.activeEnviroment() {
             self.environment = environment
         }
-        fetchedResultsController = {
-            let fetchRequest = Transaction.fetchRequest()
-            fetchRequest.sortDescriptors = [NSSortDescriptor(key: "date", ascending: false)]
-            fetchRequest.fetchBatchSize = 20
-            return NSFetchedResultsController(fetchRequest: fetchRequest,
-                                              managedObjectContext: coreDataStack.persistentContainer.viewContext,
-                                              sectionNameKeyPath: nil, cacheName: nil)
-        }()
+        dataProvider = TransactionListProvider(with: coreDataStack.persistentContainer, fetchedResultsControllerDelegate: self)
 
         // clear resultSearchController
         resultSearchController.searchBar.text = ""
@@ -243,23 +228,20 @@ extension TransactionListViewController: UITableViewDelegate, UITableViewDataSou
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if let count = fetchedResultsController.sections?[section].numberOfObjects {
-            return count
-        }
-        return 0
+        return dataProvider.fetchedResultsController.sections?[section].numberOfObjects ?? 0
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: Constants.Cell.complexTransactionCell,
-                                                 for: indexPath) as! ComplexTransactionTableViewCell // swiftlint:disable:this force_cast line_length
-        let transaction  = fetchedResultsController.object(at: indexPath) as Transaction
+                                                 for: indexPath) as! TransactionCell // swiftlint:disable:this force_cast line_length
+        let transaction = dataProvider.fetchedResultsController.object(at: indexPath) as Transaction
         cell.setTransaction(transaction)
         return cell
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        let transaction = fetchedResultsController.object(at: indexPath) as Transaction
+        let transaction = dataProvider.fetchedResultsController.object(at: indexPath) as Transaction
         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         if transaction.itemsList.count > 2 || UserProfile.isUseMultiItemTransaction(environment: environment) {
             guard let transactioEditorVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.complexTransactionEditorVC) as? ComplexTransactionEditorViewController else {return} // swiftlint:disable:this line_length
@@ -288,68 +270,50 @@ extension TransactionListViewController: UITableViewDelegate, UITableViewDataSou
             alert.addAction(UIAlertAction(title: NSLocalizedString("Yes", comment: ""),
                                           style: .destructive,
                                           handler: {(_) in
-                let tran = self.fetchedResultsController.object(at: indexPath)
-                tran.delete()
-                do {
-                    try self.coreDataStack.saveContext(self.context)
-                    try self.fetchedResultsController.performFetch()
-                    tableView.deleteRows(at: [indexPath], with: .fade)
-                } catch {
-                    let alert = UIAlertController(title: NSLocalizedString("Error", comment: ""),
-                                                  message: "\(error.localizedDescription)",
-                                                  preferredStyle: .alert)
-                    alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""),
-                                                  style: .default))
-                    self.present(alert, animated: true, completion: nil)
-                }
+
+                self.dataProvider.deleteTransaction(at: indexPath)
             }))
             alert.addAction(UIAlertAction(title: NSLocalizedString("No", comment: ""), style: .cancel))
             self.present(alert, animated: true, completion: nil)
             complete(true)
         }
+        delete.backgroundColor = .systemRed
+        delete.image = UIImage(systemName: "trash")
 
         let duplicate = UIContextualAction(style: .normal,
                                            title: NSLocalizedString("Duplicate", comment: "")) { _, _, complete in
-            do {
-                if self.isUserHasPaidAccess || self.coreDataStack.activeEnviroment() == .test {
-                    let transaction = self.fetchedResultsController.object(at: indexPath) as Transaction
-                    Transaction.duplicateTransaction(transaction, context: self.context)
-                    try self.coreDataStack.saveContext(self.context)
-                    try self.fetchedResultsController.performFetch()
-                    self.tableView.reloadData()
-                } else {
-                    self.showPurchaseOfferVC()
-                }
-            } catch {
-                let alert = UIAlertController(title: NSLocalizedString("Error", comment: ""),
-                                              message: "\(error.localizedDescription)",
-                                              preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""),
-                                              style: .default))
-                self.present(alert, animated: true, completion: nil)
+            if self.isUserHasPaidAccess || self.coreDataStack.activeEnviroment() == .test {
+                self.dataProvider.duplicateTransaction(at: indexPath)
+            } else {
+                self.showPurchaseOfferVC()
             }
             complete(true)
         }
+        duplicate.backgroundColor = .systemBlue
+        duplicate.image = UIImage(systemName: "doc.on.doc")
 
-        let configuration: UISwipeActionsConfiguration? = UISwipeActionsConfiguration(actions: [delete, duplicate])
-        configuration?.actions[0].backgroundColor = .systemRed
-        configuration?.actions[0].image = UIImage(systemName: "trash")
-        configuration?.actions[1].backgroundColor = .systemBlue
-        configuration?.actions[1].image = UIImage(systemName: "doc.on.doc")
-        return configuration
+        return UISwipeActionsConfiguration(actions: [delete, duplicate])
     }
 }
 
+// MARK: - UISearchResultsUpdating
 extension TransactionListViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         if searchController.searchBar.text!.count != 0 {
-            let predicate = NSPredicate(format: "items.account.path CONTAINS[c] %@ || comment CONTAINS[c] %@",
+            let predicate = NSPredicate(format: "\(Schema.Transaction.items).\(Schema.TransactionItem.account).\(Schema.Account.name) CONTAINS[c] %@ || comment CONTAINS[c] %@",
                                         argumentArray: [searchController.searchBar.text!,
                                                         searchController.searchBar.text!])
-            fetchedResultsController.fetchRequest.predicate = predicate
+            dataProvider.fetchedResultsController.fetchRequest.predicate = predicate
         } else {
-            fetchedResultsController.fetchRequest.predicate = nil
+            dataProvider.fetchedResultsController.fetchRequest.predicate = nil
         }
         fetchData()
+    }
+}
+
+// MARK: - NSFetchedResultsControllerDelegate
+extension TransactionListViewController: NSFetchedResultsControllerDelegate {
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        tableView.reloadData()
     }
 }

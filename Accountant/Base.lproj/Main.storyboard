@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="gmG-ob-mZ7">
-    <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
         <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -15,11 +13,11 @@
             <objects>
                 <viewController storyboardIdentifier="TransactionListVC_ID" id="xRa-eE-QKN" customClass="TransactionListViewController" customModule="Accountant" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="BJT-QN-IoE">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="HVd-WN-TxD">
-                                <rect key="frame" x="0.0" y="88" width="414" height="725"/>
+                                <rect key="frame" x="0.0" y="44" width="600" height="507"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <connections>
                                     <outlet property="dataSource" destination="xRa-eE-QKN" id="u84-mg-tcT"/>
@@ -68,7 +66,7 @@
             <objects>
                 <viewController storyboardIdentifier="WelcomeVC_ID" id="r02-Sd-Wwh" customClass="WelcomeViewController" customModule="Accountant" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="4ut-hc-UGO">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="B8H-eF-kEg"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -83,7 +81,7 @@
             <objects>
                 <viewController storyboardIdentifier="StartAccountingVC_ID" id="hW9-3h-aGy" customClass="StartAccountingViewController" customModule="Accountant" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="X1u-9Z-vKe">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="iZw-Fn-afc"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -98,7 +96,7 @@
             <objects>
                 <viewController storyboardIdentifier="PurchaseOfferVC_ID" id="VFf-xL-pCV" customClass="PurchaseOfferViewController" customModule="Accountant" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="wHD-8p-9py">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="r8s-WY-pHC"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -113,7 +111,7 @@
             <objects>
                 <viewController storyboardIdentifier="MonobankVC_ID" id="Djz-Fn-Vnu" customClass="MonobankViewController" customModule="Accountant" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="MlU-62-B9t">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="THD-2Z-14u"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -128,7 +126,7 @@
             <objects>
                 <viewController storyboardIdentifier="ImportTransactionVC_ID" id="wxV-l8-1jL" customClass="ImportTransactionViewController" customModule="Accountant" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="QUk-FX-ZJc">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="tVp-PV-i3w"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -182,7 +180,7 @@
             <objects>
                 <viewController storyboardIdentifier="ComplexTransactionEditorVC_ID" id="KAa-v9-vy8" customClass="ComplexTransactionEditorViewController" customModule="Accountant" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="UFr-Vl-tQA">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="qot-gL-Ujg"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -197,11 +195,11 @@
             <objects>
                 <viewController storyboardIdentifier="AddAccountVC_ID" id="I4t-Wg-0bb" customClass="RootAccountEditorViewController" customModule="Accountant" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="VZa-oG-Peg">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="6" translatesAutoresizingMaskIntoConstraints="NO" id="wgM-ga-sNd">
-                                <rect key="frame" x="20" y="324.5" width="374" height="107"/>
+                                <rect key="frame" x="20" y="176.5" width="560" height="107"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" alignment="top" spacing="6" translatesAutoresizingMaskIntoConstraints="NO" id="zbi-WI-34y">
                                         <rect key="frame" x="0.0" y="0.0" width="75" height="107"/>
@@ -230,32 +228,32 @@
                                         </constraints>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="6" translatesAutoresizingMaskIntoConstraints="NO" id="M3t-gD-CRC">
-                                        <rect key="frame" x="81" y="0.0" width="293" height="107"/>
+                                        <rect key="frame" x="81" y="0.0" width="479" height="107"/>
                                         <subviews>
                                             <textField opaque="NO" tag="100" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="yFx-rj-CFP">
-                                                <rect key="frame" x="0.0" y="0.0" width="293" height="34"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="479" height="34"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits"/>
                                             </textField>
                                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Tmz-Ha-1oR">
-                                                <rect key="frame" x="0.0" y="40" width="293" height="32"/>
+                                                <rect key="frame" x="0.0" y="40" width="479" height="32"/>
                                                 <segments>
                                                     <segment title="Assets"/>
                                                     <segment title="Liabilities"/>
                                                 </segments>
                                             </segmentedControl>
                                             <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="qWH-7B-MGG">
-                                                <rect key="frame" x="0.0" y="77" width="293" height="30"/>
+                                                <rect key="frame" x="0.0" y="77" width="479" height="30"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9d3-vf-M3w">
-                                                        <rect key="frame" x="0.0" y="0.0" width="255" height="30"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="441" height="30"/>
                                                         <state key="normal" title="Multicurrency"/>
                                                         <connections>
                                                             <action selector="selectCurrency:" destination="I4t-Wg-0bb" eventType="touchUpInside" id="Q15-Q0-qHS"/>
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jau-Ld-j4M">
-                                                        <rect key="frame" x="263" y="0.0" width="30" height="30"/>
+                                                        <rect key="frame" x="449" y="0.0" width="30" height="30"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="30" id="N2C-4t-zfG"/>
                                                             <constraint firstAttribute="width" constant="30" id="f8v-AD-kaL"/>
@@ -299,14 +297,14 @@
             <objects>
                 <viewController storyboardIdentifier="AccountListVC_ID" id="cG4-t1-4hJ" customClass="AccountListViewController" customModule="Accountant" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Z76-aL-6fa">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8rl-2V-0Em">
-                                <rect key="frame" x="0.0" y="448" width="414" height="26"/>
+                                <rect key="frame" x="0.0" y="300" width="600" height="26"/>
                                 <subviews>
                                     <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="2" translatesAutoresizingMaskIntoConstraints="NO" id="8GV-uh-bhl">
-                                        <rect key="frame" x="28" y="1" width="358" height="24"/>
+                                        <rect key="frame" x="28" y="1" width="544" height="24"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="24" id="Qd9-EP-jSq"/>
                                         </constraints>
@@ -314,7 +312,7 @@
                                         <color key="currentPageIndicatorTintColor" systemColor="scrollViewTexturedBackgroundColor"/>
                                     </pageControl>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BhX-Sv-RHM">
-                                        <rect key="frame" x="406" y="13" width="0.0" height="0.0"/>
+                                        <rect key="frame" x="592" y="13" width="0.0" height="0.0"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
@@ -338,13 +336,13 @@
                                 <viewLayoutGuide key="frameLayoutGuide" id="cOK-WO-ZM7"/>
                             </scrollView>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Vq5-It-EGY">
-                                <rect key="frame" x="0.0" y="473" width="414" height="340"/>
+                                <rect key="frame" x="0.0" y="325" width="600" height="226"/>
                                 <connections>
                                     <segue destination="sUx-Aq-9MD" kind="embed" identifier="goToMoneyAccountListTVC_ID" id="zwP-mr-pPH"/>
                                 </connections>
                             </containerView>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="08D-Cc-lzg">
-                                <rect key="frame" x="92" y="101" width="230" height="32"/>
+                                <rect key="frame" x="185" y="57" width="230" height="32"/>
                                 <segments>
                                     <segment title="Money"/>
                                     <segment title="Debtors"/>
@@ -355,7 +353,7 @@
                                 </connections>
                             </segmentedControl>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="q4g-u3-3ig">
-                                <rect key="frame" x="368" y="105" width="46" height="22"/>
+                                <rect key="frame" x="554" y="61" width="46" height="22"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="46" id="NOf-iJ-rlv"/>
                                     <constraint firstAttribute="height" constant="22" id="T0v-4E-b8o"/>
@@ -407,7 +405,7 @@
             <objects>
                 <viewController storyboardIdentifier="InstructionVC_ID" id="Dck-8V-TBm" customClass="InstructionViewController" customModule="Accountant" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="dEU-oS-jA6">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="3cQ-Bs-fu3"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -422,7 +420,7 @@
             <objects>
                 <viewController storyboardIdentifier="SettingsVC_ID" id="wC1-ZT-jvo" customClass="SettingsViewController" customModule="Accountant" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="GEb-kv-c9n">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="7dg-EV-TCH"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -438,7 +436,7 @@
             <objects>
                 <viewController id="3N9-m2-e5M" customClass="LogoViewController" customModule="Accountant" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="i8I-XJ-PVZ">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="R3g-9b-hgY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -454,7 +452,7 @@
             <objects>
                 <viewController storyboardIdentifier="AnalyticsVC_ID" id="iUb-tQ-GKn" customClass="AnalyticsViewController" customModule="Accountant" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="0VD-KM-e01">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9Qx-ZA-Ve2">
@@ -466,7 +464,7 @@
                                 <viewLayoutGuide key="frameLayoutGuide" id="2vN-aQ-IqO"/>
                             </scrollView>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="1" translatesAutoresizingMaskIntoConstraints="NO" id="waj-9n-cEF">
-                                <rect key="frame" x="135.5" y="101" width="143" height="32"/>
+                                <rect key="frame" x="228.5" y="57" width="143" height="32"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="31" id="yw9-YD-9Yq"/>
                                 </constraints>
@@ -479,7 +477,7 @@
                                 </connections>
                             </segmentedControl>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="W51-r5-jlS">
-                                <rect key="frame" x="368" y="105" width="46" height="22"/>
+                                <rect key="frame" x="554" y="61" width="46" height="22"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="46" id="0mn-aH-ifw"/>
                                     <constraint firstAttribute="height" constant="22" id="jiu-TH-JMT"/>
@@ -489,8 +487,8 @@
                                     <segue destination="Ifm-65-ZPx" kind="presentation" identifier="goToConfigurationVC_ID" modalPresentationStyle="overCurrentContext" modalTransitionStyle="crossDissolve" id="1ge-G3-u05"/>
                                 </connections>
                             </button>
-                            <containerView opaque="NO" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Xvl-gp-9RB">
-                                <rect key="frame" x="0.0" y="451" width="414" height="100"/>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Xvl-gp-9RB">
+                                <rect key="frame" x="0.0" y="451" width="600" height="100"/>
                                 <constraints>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="100" id="Obl-0y-if3"/>
                                     <constraint firstAttribute="height" relation="lessThanOrEqual" priority="999" constant="240" id="XwJ-Ie-Tod"/>
@@ -499,7 +497,7 @@
                                     <segue destination="jL2-au-Yzq" kind="embed" identifier="goToAnalyticsTVC_ID" id="BbH-1e-sdP"/>
                                 </connections>
                             </containerView>
-                            <pageControl opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="Swn-e2-1Tk">
+                            <pageControl opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="Swn-e2-1Tk">
                                 <rect key="frame" x="146" y="546" width="122.99999999999997" height="28"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="24" id="zpl-5u-Ody"/>
@@ -561,7 +559,7 @@
             <objects>
                 <viewController storyboardIdentifier="ConfigureAnalyticsVC_ID" id="Ifm-65-ZPx" customClass="ConfigureAnalyticsViewController" customModule="Accountant" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="zYe-Wv-IaC">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="sh4-nD-uIe"/>
                         <color key="backgroundColor" white="1" alpha="0.72964348590000006" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -576,11 +574,11 @@
             <objects>
                 <viewController storyboardIdentifier="AuthPinAndBiometricVC_ID" id="bHy-Vs-rpF" customClass="AuthPinAndBiometricViewController" customModule="Accountant" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="0fd-93-NIy">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="lAw-XA-0fV">
-                                <rect key="frame" x="30" y="330" width="354" height="472"/>
+                                <rect key="frame" x="30" y="68" width="354" height="472"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="vGt-zi-JKi">
                                         <rect key="frame" x="0.0" y="0.0" width="354" height="95.5"/>
@@ -698,7 +696,7 @@
                                 </constraints>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="zGf-pn-QWZ">
-                                <rect key="frame" x="152" y="267" width="110" height="20"/>
+                                <rect key="frame" x="245" y="5" width="110" height="20"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NbY-Qg-GpX">
                                         <rect key="frame" x="0.0" y="0.0" width="20" height="20"/>
@@ -789,17 +787,17 @@
             <objects>
                 <viewController storyboardIdentifier="BioAuthVC_ID" id="lXa-lN-w01" customClass="BiometricAuthViewController" customModule="Accountant" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="WeL-D3-piz">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="MyBudget" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sfm-lf-YZn">
-                                <rect key="frame" x="111.5" y="422" width="191" height="52"/>
+                                <rect key="frame" x="204.5" y="274" width="191" height="52"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="43"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XWr-qX-5fL">
-                                <rect key="frame" x="158" y="674" width="98" height="98"/>
+                                <rect key="frame" x="251" y="412" width="98" height="98"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="98" id="EMI-1F-NtZ"/>
                                     <constraint firstAttribute="height" constant="98" id="ZdY-mJ-qVE"/>

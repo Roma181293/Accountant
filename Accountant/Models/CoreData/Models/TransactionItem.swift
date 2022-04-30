@@ -32,18 +32,13 @@ final class TransactionItem: BaseEntity {
         self.type = type
     }
 
-    convenience init(transaction: Transaction, type: TypeEnum, account: Account, amount: Double,
+    convenience init(transaction: Transaction, type: TypeEnum, account: Account?, amount: Double,
                      createdByUser: Bool = true, createDate: Date = Date(), context: NSManagedObjectContext) {
-        self.init(context: context)
-        self.id = UUID()
+        self.init(id: UUID(), createdByUser: createdByUser, createDate: createDate, context: context)
         self.account = account
         self.amount = amount
         self.transaction = transaction
         self.type = type
-        self.createdByUser = createdByUser
-        self.createDate = createDate
-        self.modifiedByUser = createdByUser
-        self.modifyDate = createDate
     }
 
     static func moveTransactionItemsFrom(oldAccount: Account, newAccount: Account, modifiedByUser: Bool = true,

@@ -22,7 +22,7 @@ class CoreDataStack {
 
     private init() {}
 
-    public lazy var persistentContainer: NSPersistentContainer = {
+    public lazy var persistentContainer: PersistentContainer = {
 
         let defaultDirectoryURL = NSPersistentContainer.defaultDirectoryURL()
         let storeURL = defaultDirectoryURL.appendingPathComponent("Production.sqlite")
@@ -32,13 +32,15 @@ class CoreDataStack {
         storeDescription.shouldMigrateStoreAutomatically = true
         storeDescription.shouldInferMappingModelAutomatically = false
 
-        let container = NSPersistentContainer(name: CoreDataStack.modelName, managedObjectModel: CoreDataStack.model)
+        let container = PersistentContainer(name: CoreDataStack.modelName,
+                                            managedObjectModel: CoreDataStack.model,
+                                            environment: .prod)
         container.persistentStoreDescriptions = [storeDescription]
         container.loadPersistentStores(completionHandler: { (_, error) in
-            /*
+
             guard let error = error as NSError? else { return }
             fatalError("###\(#function): Failed to load persistent stores:\(error)")
-            */
+
         })
         container.viewContext.automaticallyMergesChangesFromParent = true
         return container
@@ -54,8 +56,9 @@ class CoreDataStack {
             storeDescription.shouldMigrateStoreAutomatically = true
             storeDescription.shouldInferMappingModelAutomatically = false
 
-            let container = NSPersistentContainer(name: CoreDataStack.modelName,
-                                                  managedObjectModel: CoreDataStack.model)
+            let container = PersistentContainer(name: CoreDataStack.modelName,
+                                                managedObjectModel: CoreDataStack.model,
+                                                environment: environment)
             container.persistentStoreDescriptions = [storeDescription]
             container.loadPersistentStores(completionHandler: { (_, error) in
                 /*
@@ -87,11 +90,11 @@ class CoreDataStack {
                 UserProfile.setDateOfLastChangesInDB(Date())
             } catch let error {
                 context.rollback()
-                throw error
-                /*
+//                throw error
+
                 let nserror = error as NSError
                 fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
-                */
+
             }
         }
     }
@@ -113,6 +116,8 @@ enum ContextSaveContextualInfo: String {
     case renameAccount = "renaming Account"
     case changeAccountActiveStatus = "changing account active status"
     case deleteAccount = "deleting Account"
+    case duplicateTransaction = "duplicating Transaction"
+    case deleteTransaction = "deleting Transaction"
 }
 
 extension NSManagedObjectContext {
@@ -152,5 +157,14 @@ extension NSManagedObjectContext {
         } catch {
             handleSavingError(error, contextualInfo: contextualInfo)
         }
+    }
+}
+
+class PersistentContainer: NSPersistentContainer {
+    let environment: Environment
+
+    required init(name: String, managedObjectModel: NSManagedObjectModel, environment: Environment) {
+        self.environment = environment
+        super.init(name: name, managedObjectModel: managedObjectModel)
     }
 }

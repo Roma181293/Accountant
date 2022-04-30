@@ -1,5 +1,5 @@
 //
-//  ComplexTransactionTableViewCell.swift
+//  TransactionCell.swift
 //  Accountant
 //
 //  Created by Roman Topchii on 29.08.2021.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ComplexTransactionTableViewCell: UITableViewCell { // swiftlint:disable:this type_body_length
+class TransactionCell: UITableViewCell { // swiftlint:disable:this type_body_length
 
     private unowned var transaction: Transaction!
 

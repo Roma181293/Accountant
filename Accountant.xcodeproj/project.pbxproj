@@ -75,7 +75,7 @@
 		2B490DDB26E4B92600967E11 /* OfferView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B490DDA26E4B92600967E11 /* OfferView.swift */; };
 		2B490DDE26E4BA6000967E11 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B490DDD26E4BA6000967E11 /* GradientView.swift */; };
 		2B490DE026E4BB1800967E11 /* BadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B490DDF26E4BB1800967E11 /* BadgeView.swift */; };
-		2B4976FC26DBE90B00147EAA /* ComplexTransactionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B4976FB26DBE90B00147EAA /* ComplexTransactionTableViewCell.swift */; };
+		2B4976FC26DBE90B00147EAA /* TransactionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B4976FB26DBE90B00147EAA /* TransactionCell.swift */; };
 		2B50DAD6280DF15D0064D71B /* Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B50DAD5280DF15D0064D71B /* Schema.swift */; };
 		2B6561F52775F8A000150B35 /* MBUserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B6561F42775F8A000150B35 /* MBUserInfo.swift */; };
 		2B6561F72775F8C400150B35 /* MBAccountInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B6561F62775F8C400150B35 /* MBAccountInfo.swift */; };
@@ -143,6 +143,7 @@
 		2BEEC18927960136000B210F /* MappingModel_V1toV2.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 2BEEC18827960136000B210F /* MappingModel_V1toV2.xcmappingmodel */; };
 		2BEEC18B2796017F000B210F /* MigrationPolicy_V1toV2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BEEC18A2796017F000B210F /* MigrationPolicy_V1toV2.swift */; };
 		2BFACB69281B4D9C00B2B1CE /* SimpleTransactionEditorVCLocalizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2BFACB6B281B4D9C00B2B1CE /* SimpleTransactionEditorVCLocalizable.strings */; };
+		2BFACB6F281C948000B2B1CE /* TransactionListProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BFACB6E281C948000B2B1CE /* TransactionListProvider.swift */; };
 		38318A9FD81C28716622F93F /* Pods_Accountant.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97FD10DCF67B198D7BE0F270 /* Pods_Accountant.framework */; };
 /* End PBXBuildFile section */
 
@@ -237,7 +238,7 @@
 		2B490DDA26E4B92600967E11 /* OfferView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfferView.swift; sourceTree = "<group>"; };
 		2B490DDD26E4BA6000967E11 /* GradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
 		2B490DDF26E4BB1800967E11 /* BadgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeView.swift; sourceTree = "<group>"; };
-		2B4976FB26DBE90B00147EAA /* ComplexTransactionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComplexTransactionTableViewCell.swift; sourceTree = "<group>"; };
+		2B4976FB26DBE90B00147EAA /* TransactionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionCell.swift; sourceTree = "<group>"; };
 		2B50DAD5280DF15D0064D71B /* Schema.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Schema.swift; sourceTree = "<group>"; };
 		2B52A1EB27F3A93B0056F5D8 /* Accountant 3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Accountant 3.xcdatamodel"; sourceTree = "<group>"; };
 		2B6561F42775F8A000150B35 /* MBUserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MBUserInfo.swift; sourceTree = "<group>"; };
@@ -333,6 +334,7 @@
 		2BFACB6A281B4D9C00B2B1CE /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/SimpleTransactionEditorVCLocalizable.strings; sourceTree = "<group>"; };
 		2BFACB6C281B4D9E00B2B1CE /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/SimpleTransactionEditorVCLocalizable.strings; sourceTree = "<group>"; };
 		2BFACB6D281B4D9E00B2B1CE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/SimpleTransactionEditorVCLocalizable.strings; sourceTree = "<group>"; };
+		2BFACB6E281C948000B2B1CE /* TransactionListProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionListProvider.swift; sourceTree = "<group>"; };
 		2BFCE545274ABADF0070C35F /* Accountant 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Accountant 2.xcdatamodel"; sourceTree = "<group>"; };
 		97FD10DCF67B198D7BE0F270 /* Pods_Accountant.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Accountant.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A51B83286AAA2CAF601DDC80 /* Pods-Accountant.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Accountant.debug.xcconfig"; path = "Target Support Files/Pods-Accountant/Pods-Accountant.debug.xcconfig"; sourceTree = "<group>"; };
@@ -635,7 +637,8 @@
 			isa = PBXGroup;
 			children = (
 				2B1FEAAA266C3AB800BF53BD /* TransactionListViewController.swift */,
-				2B4976FB26DBE90B00147EAA /* ComplexTransactionTableViewCell.swift */,
+				2BFACB6E281C948000B2B1CE /* TransactionListProvider.swift */,
+				2B4976FB26DBE90B00147EAA /* TransactionCell.swift */,
 			);
 			path = TransactionList;
 			sourceTree = "<group>";
@@ -1114,6 +1117,7 @@
 				2B8172F12798B7B200E6CB20 /* BankAccountTableViewController.swift in Sources */,
 				2B2E6D1D26DD960D004A9680 /* TransactionItemTextField.swift in Sources */,
 				2B3A260426E95C780033E746 /* AccessManager.swift in Sources */,
+				2BFACB6F281C948000B2B1CE /* TransactionListProvider.swift in Sources */,
 				2B490DDB26E4B92600967E11 /* OfferView.swift in Sources */,
 				2B6C2363280E114400D84174 /* KeeperProvider.swift in Sources */,
 				2B44C9F626EE86F00009976A /* StartAccountingViewController.swift in Sources */,
@@ -1151,7 +1155,7 @@
 				2B1FEB7B266EC39800BF53BD /* AnalyticsTableViewController.swift in Sources */,
 				2B6C23A02819477900D84174 /* SimpleTransactionEditorView.swift in Sources */,
 				2B8172EF2798B0EC00E6CB20 /* UserBankProfileTableViewController.swift in Sources */,
-				2B4976FC26DBE90B00147EAA /* ComplexTransactionTableViewCell.swift in Sources */,
+				2B4976FC26DBE90B00147EAA /* TransactionCell.swift in Sources */,
 				2B7AB408278D4D1000974156 /* MonoBankError.swift in Sources */,
 				2B7AB402278D4C9800974156 /* HolderError.swift in Sources */,
 				2B1FEB8E266EC44600BF53BD /* ConfigureAnalyticsViewController.swift in Sources */,
