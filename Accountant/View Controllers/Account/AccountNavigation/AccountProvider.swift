@@ -19,8 +19,10 @@ class AccountProvider {
 
     var parent: Account? {
         didSet {
-            resetPredicate()
-            reloadData()
+            if oldValue != nil {
+                resetPredicate()
+                reloadData()
+            }
         }
     }
     var excludeAccountList: [Account] = []
@@ -45,8 +47,12 @@ class AccountProvider {
 
     lazy var fetchedResultsController: NSFetchedResultsController<Account> = {
         let fetchRequest = Account.fetchRequest()
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
-        let predicate = NSPredicate(format: "\(Schema.Account.parent.rawValue) = %@ && (\(Schema.Account.active.rawValue) = true || \(Schema.Account.active.rawValue) != %@) && NOT (SELF IN %@)", argumentArray: [parent, showHiddenAccounts, excludeAccountList]) // swiftlint:disable:this line_length
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: Schema.Account.path.rawValue, ascending: true)]
+        let predicate = NSPredicate(format: "NOT (SELF IN %@) && "
+                                    + "\(Schema.Account.parent.rawValue) = %@ && "
+                                    + "(\(Schema.Account.active.rawValue) = true "
+                                    + "|| \(Schema.Account.active.rawValue) != %@)",
+                                    argumentArray: [excludeAccountList, parent, showHiddenAccounts])
         fetchRequest.predicate = predicate
 
         let controller = NSFetchedResultsController(fetchRequest: fetchRequest,
@@ -120,8 +126,13 @@ class AccountProvider {
 
         context.performAndWait {
             account.name = newName
+            account.path = account.pathCalc
             account.modifyDate = Date()
             account.modifiedByUser = true
+
+            for child in account.childrenList {
+                child.path = child.pathCalc
+            }
 
             if shouldSave {
                 context.save(with: .renameAccount)
@@ -170,8 +181,6 @@ class AccountProvider {
         }
 
         context.performAndWait {
-
-
 
             let oldActive = account.active
 
@@ -264,14 +273,31 @@ class AccountProvider {
     }
 
     func resetPredicate() {
-        let predicate = NSPredicate(format: "\(Schema.Account.parent.rawValue) = %@ && (\(Schema.Account.active.rawValue) = true || \(Schema.Account.active.rawValue) != %@) && NOT (SELF IN %@)", argumentArray: [parent, showHiddenAccounts, excludeAccountList]) // swiftlint:disable:this line_length
+        let predicate = NSPredicate(format: "NOT (SELF IN %@) && "
+                                    + "\(Schema.Account.parent.rawValue) = %@ && "
+                                    + "(\(Schema.Account.active.rawValue) = true "
+                                    + "|| \(Schema.Account.active.rawValue) != %@)",
+                                    argumentArray: [excludeAccountList, parent, showHiddenAccounts])
         fetchedResultsController.fetchRequest.predicate = predicate
     }
 
     func search(_ text: String) {
         if text.count != 0 {
-            var prdct = NSPredicate(format: "\(Schema.Account.name.rawValue) CONTAINS[c] %@ && (\(Schema.Account.active.rawValue) = true || \(Schema.Account.active.rawValue) != %@) && NOT (SELF IN %@)", argumentArray: [text, showHiddenAccounts, excludeAccountList]) // swiftlint:disable:this line_length
-
+            var prdct = NSPredicate()
+            if let parent = parent {
+                prdct = NSPredicate(format: "SELF != %@ && NOT (SELF IN %@)"
+                                    + "&& \(Schema.Account.path.rawValue) CONTAINS[c] %@ "
+                                    + "&& \(Schema.Account.path.rawValue) CONTAINS[c] %@ "
+                                    + "&& (\(Schema.Account.active.rawValue) = true "
+                                    + "|| \(Schema.Account.active.rawValue) != %@)",
+                                    argumentArray: [parent, excludeAccountList, parent.path, text, showHiddenAccounts])
+            } else {
+                prdct = NSPredicate(format: "\(Schema.Account.path.rawValue) CONTAINS[c] %@ && "
+                                    + "(\(Schema.Account.active.rawValue) = true "
+                                    + "|| \(Schema.Account.active.rawValue) != %@) "
+                                    + "&& NOT (SELF IN %@)",
+                                    argumentArray: [text, showHiddenAccounts, excludeAccountList])
+            }
             fetchedResultsController.fetchRequest.predicate = prdct
             isSwipeAvailable = false
         } else {

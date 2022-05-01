@@ -300,7 +300,7 @@ extension TransactionListViewController: UITableViewDelegate, UITableViewDataSou
 extension TransactionListViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         if searchController.searchBar.text!.count != 0 {
-            let predicate = NSPredicate(format: "\(Schema.Transaction.items).\(Schema.TransactionItem.account).\(Schema.Account.name) CONTAINS[c] %@ || comment CONTAINS[c] %@",
+            let predicate = NSPredicate(format: "\(Schema.Transaction.items).\(Schema.TransactionItem.account).\(Schema.Account.path) CONTAINS[c] %@ || comment CONTAINS[c] %@",
                                         argumentArray: [searchController.searchBar.text!,
                                                         searchController.searchBar.text!])
             dataProvider.fetchedResultsController.fetchRequest.predicate = predicate

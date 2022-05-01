@@ -16,6 +16,7 @@ enum Schema {
         case modifyDate
         case modifiedByUser
         case name
+        case path
         case active
         case type
         case subType

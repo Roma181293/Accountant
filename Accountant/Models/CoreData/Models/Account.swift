@@ -29,6 +29,7 @@ final class Account: BaseEntity {
 
     @NSManaged public var active: Bool
     @NSManaged public var name: String
+    @NSManaged public var path: String
     @NSManaged public var subType: SubTypeEnum
     @NSManaged public var type: TypeEnum
     @NSManaged public var bankAccount: BankAccount?
@@ -45,12 +46,6 @@ final class Account: BaseEntity {
                      createDate: Date = Date(), context: NSManagedObjectContext) {
 
         self.init(id: UUID(), createdByUser: createdByUser, createDate: createDate, context: context)
-        self.name = name
-        self.currency = currency
-        self.keeper = keeper
-        self.holder = holder
-        self.subType = subType ?? .none
-
         if let parent = parent {
             self.parent = parent
             self.type = parent.type
@@ -59,6 +54,12 @@ final class Account: BaseEntity {
             self.type = type
             self.active = true
         }
+        self.name = name
+        self.path = pathCalc
+        self.currency = currency
+        self.keeper = keeper
+        self.holder = holder
+        self.subType = subType ?? .none
     }
 
     convenience init(parent: Account, name: String, createdByUser: Bool = true,
@@ -67,6 +68,7 @@ final class Account: BaseEntity {
         self.init(id: UUID(), createdByUser: createdByUser, createDate: createDate, context: context)
         self.parent = parent
         self.name = name
+        self.path = pathCalc
         self.currency = parent.currency
         self.type = parent.type
         self.active = parent.active
@@ -86,7 +88,7 @@ final class Account: BaseEntity {
         return []
     }
 
-    var path: String {
+    var pathCalc: String {
         if let parent = parent {
             return parent.path + ":" + name
         }

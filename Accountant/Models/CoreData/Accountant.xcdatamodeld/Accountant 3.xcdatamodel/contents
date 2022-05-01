@@ -8,6 +8,7 @@
         <attribute name="modifiedByUser" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES"/>
         <attribute name="modifyDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="name" attributeType="String"/>
+        <attribute name="path" attributeType="String"/>
         <attribute name="subType" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="type" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="bankAccount" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="BankAccount" inverseName="account" inverseEntity="BankAccount"/>
@@ -141,7 +142,7 @@
         <memberEntity name="Rate"/>
     </configuration>
     <elements>
-        <element name="Account" positionX="-42.123046875" positionY="-164.82861328125" width="128" height="284"/>
+        <element name="Account" positionX="-42.123046875" positionY="-164.82861328125" width="128" height="299"/>
         <element name="BankAccount" positionX="-206.14111328125" positionY="131.3073120117188" width="128" height="194"/>
         <element name="Currency" positionX="-211.5383911132812" positionY="-164.9677276611328" width="128" height="194"/>
         <element name="Exchange" positionX="-446.8429565429688" positionY="-160.6744995117188" width="128" height="134"/>

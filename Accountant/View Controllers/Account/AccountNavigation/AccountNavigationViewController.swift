@@ -24,7 +24,7 @@ class AccountNavigationViewController: UITableViewController {
     var excludeAccountList: [Account] = []
     var showHiddenAccounts: Bool = true
     var canModifyAccountStructure: Bool = true
-    var searchBarIsHidden = true
+    var searchBarIsHidden = false
 
     weak var delegate: AccountRequestor?
 
@@ -38,11 +38,21 @@ class AccountNavigationViewController: UITableViewController {
         accountProvider.canModifyAccountStructure = canModifyAccountStructure
         return accountProvider
     }()
-    private var resultSearchController = UISearchController()
+
+    private lazy var resultSearchController: UISearchController = {
+        let controller = UISearchController(searchResultsController: nil)
+        controller.searchResultsUpdater = self
+        controller.searchBar.sizeToFit()
+        controller.obscuresBackgroundDuringPresentation = false
+        controller.hidesNavigationBarDuringPresentation = false
+        tableView.tableHeaderView = controller.searchBar
+        return controller
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         reloadProAccessData()
+        print("searchBarIsHidden", searchBarIsHidden)
         // adding NotificationCenter observers
         NotificationCenter.default.addObserver(self, selector: #selector(self.reloadProAccessData),
                                                name: .receivedProAccessData, object: nil)
@@ -116,15 +126,6 @@ extension AccountNavigationViewController {
             resultSearchController.isActive = false
         } else {
             resultSearchController.isActive = true
-            resultSearchController = ({
-                let controller = UISearchController(searchResultsController: nil)
-                controller.searchResultsUpdater = self
-                controller.searchBar.sizeToFit()
-                controller.obscuresBackgroundDuringPresentation = false
-                controller.hidesNavigationBarDuringPresentation = false
-                tableView.tableHeaderView = controller.searchBar
-                return controller
-            })()
         }
         tableView.tableFooterView = UIView(frame: .zero)
     }
@@ -431,6 +432,7 @@ extension AccountNavigationViewController {
         accountNavigatorVC.excludeAccountList = excludeAccountList
         accountNavigatorVC.showHiddenAccounts = showHiddenAccounts
         accountNavigatorVC.canModifyAccountStructure = canModifyAccountStructure
+        print("searchBarIsHidden", searchBarIsHidden)
         accountNavigatorVC.searchBarIsHidden = searchBarIsHidden
         self.navigationController?.pushViewController(accountNavigatorVC, animated: true)
     }

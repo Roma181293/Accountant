@@ -135,13 +135,13 @@
 		2BCC0BDA26ACD79C00E8680E /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BCC0BD926ACD79C00E8680E /* StoreKit.framework */; };
 		2BDAB0EF2804BE2300C5AED6 /* BaseEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BDAB0EE2804BE2300C5AED6 /* BaseEntity.swift */; };
 		2BDAB0F32804D60200C5AED6 /* MigrationPolicy_V2toV3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BDAB0F22804D60200C5AED6 /* MigrationPolicy_V2toV3.swift */; };
-		2BDAB0F52804EB2A00C5AED6 /* MappingModel_V2toV3.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 2BDAB0F42804EB2A00C5AED6 /* MappingModel_V2toV3.xcmappingmodel */; };
 		2BDAB0F82805EE7900C5AED6 /* MigrationPolicy_V1toV3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BDAB0F72805EE7900C5AED6 /* MigrationPolicy_V1toV3.swift */; };
 		2BDE4F4227D7570A0069624C /* Account.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BDE4F4127D7570A0069624C /* Account.swift */; };
-		2BE0F1A228061E4600FEE3F8 /* MappingModel_V1toV3.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 2BE0F1A128061E4600FEE3F8 /* MappingModel_V1toV3.xcmappingmodel */; };
 		2BE2593326BC8E6D0025301F /* AppErrorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE2593226BC8E6D0025301F /* AppErrorProtocol.swift */; };
 		2BEEC18927960136000B210F /* MappingModel_V1toV2.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 2BEEC18827960136000B210F /* MappingModel_V1toV2.xcmappingmodel */; };
 		2BEEC18B2796017F000B210F /* MigrationPolicy_V1toV2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BEEC18A2796017F000B210F /* MigrationPolicy_V1toV2.swift */; };
+		2BF23E7E281DC3C300620109 /* MappingModel_V2toV3.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 2BF23E7D281DC3C300620109 /* MappingModel_V2toV3.xcmappingmodel */; };
+		2BF23E80281DC56F00620109 /* MappingModel_V1toV3.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 2BF23E7F281DC56F00620109 /* MappingModel_V1toV3.xcmappingmodel */; };
 		2BFACB69281B4D9C00B2B1CE /* SimpleTransactionEditorVCLocalizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2BFACB6B281B4D9C00B2B1CE /* SimpleTransactionEditorVCLocalizable.strings */; };
 		2BFACB6F281C948000B2B1CE /* TransactionListProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BFACB6E281C948000B2B1CE /* TransactionListProvider.swift */; };
 		38318A9FD81C28716622F93F /* Pods_Accountant.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97FD10DCF67B198D7BE0F270 /* Pods_Accountant.framework */; };
@@ -324,13 +324,13 @@
 		2BCC0BD926ACD79C00E8680E /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		2BDAB0EE2804BE2300C5AED6 /* BaseEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseEntity.swift; sourceTree = "<group>"; };
 		2BDAB0F22804D60200C5AED6 /* MigrationPolicy_V2toV3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MigrationPolicy_V2toV3.swift; sourceTree = "<group>"; };
-		2BDAB0F42804EB2A00C5AED6 /* MappingModel_V2toV3.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = MappingModel_V2toV3.xcmappingmodel; sourceTree = "<group>"; };
 		2BDAB0F72805EE7900C5AED6 /* MigrationPolicy_V1toV3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MigrationPolicy_V1toV3.swift; sourceTree = "<group>"; };
 		2BDE4F4127D7570A0069624C /* Account.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Account.swift; sourceTree = "<group>"; };
-		2BE0F1A128061E4600FEE3F8 /* MappingModel_V1toV3.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = MappingModel_V1toV3.xcmappingmodel; sourceTree = "<group>"; };
 		2BE2593226BC8E6D0025301F /* AppErrorProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppErrorProtocol.swift; sourceTree = "<group>"; };
 		2BEEC18827960136000B210F /* MappingModel_V1toV2.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = MappingModel_V1toV2.xcmappingmodel; sourceTree = "<group>"; };
 		2BEEC18A2796017F000B210F /* MigrationPolicy_V1toV2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MigrationPolicy_V1toV2.swift; sourceTree = "<group>"; };
+		2BF23E7D281DC3C300620109 /* MappingModel_V2toV3.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = MappingModel_V2toV3.xcmappingmodel; sourceTree = "<group>"; };
+		2BF23E7F281DC56F00620109 /* MappingModel_V1toV3.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = MappingModel_V1toV3.xcmappingmodel; sourceTree = "<group>"; };
 		2BFACB6A281B4D9C00B2B1CE /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/SimpleTransactionEditorVCLocalizable.strings; sourceTree = "<group>"; };
 		2BFACB6C281B4D9E00B2B1CE /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/SimpleTransactionEditorVCLocalizable.strings; sourceTree = "<group>"; };
 		2BFACB6D281B4D9E00B2B1CE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/SimpleTransactionEditorVCLocalizable.strings; sourceTree = "<group>"; };
@@ -678,8 +678,8 @@
 			isa = PBXGroup;
 			children = (
 				2BEEC18827960136000B210F /* MappingModel_V1toV2.xcmappingmodel */,
-				2BE0F1A128061E4600FEE3F8 /* MappingModel_V1toV3.xcmappingmodel */,
-				2BDAB0F42804EB2A00C5AED6 /* MappingModel_V2toV3.xcmappingmodel */,
+				2BF23E7F281DC56F00620109 /* MappingModel_V1toV3.xcmappingmodel */,
+				2BF23E7D281DC3C300620109 /* MappingModel_V2toV3.xcmappingmodel */,
 			);
 			path = "Mapping Models";
 			sourceTree = "<group>";
@@ -1079,7 +1079,6 @@
 				2B85D859278F480C0042858B /* ExchangeRatesLoadingService.swift in Sources */,
 				2B00CAF92746095700821FE0 /* MonobankViewController.swift in Sources */,
 				2B6C23812810943D00D84174 /* CurrencyProvider.swift in Sources */,
-				2BE0F1A228061E4600FEE3F8 /* MappingModel_V1toV3.xcmappingmodel in Sources */,
 				2B1FEA4C266BEE6700BF53BD /* CurrencyHistoricalDataNB.swift in Sources */,
 				2BC058B926CD7A9400FE896C /* ComplexTransactionEditorViewController.swift in Sources */,
 				2B1FEA4D266BEE6700BF53BD /* CurrencyHistoricalDataProtocol.swift in Sources */,
@@ -1129,11 +1128,13 @@
 				2B1FEB41266D257900BF53BD /* NetworkServices.swift in Sources */,
 				2B7AB400278D4C6900974156 /* KeeperError.swift in Sources */,
 				2B7AB406278D4CED00974156 /* AccountWithBalanceError.swift in Sources */,
+				2BF23E80281DC56F00620109 /* MappingModel_V1toV3.xcmappingmodel in Sources */,
 				2B7AB3F9278C831C00974156 /* Extension UIViewController.swift in Sources */,
 				2B1FEAE6266CAF6C00BF53BD /* Extension UIDevice.swift in Sources */,
 				2B6C23962817650000D84174 /* AccountEditorView.swift in Sources */,
 				2B3523632746B50300399CF6 /* KeeperViewController.swift in Sources */,
 				2B1FEBB6266EE45F00BF53BD /* PreTransactionTableViewCell.swift in Sources */,
+				2BF23E7E281DC3C300620109 /* MappingModel_V2toV3.xcmappingmodel in Sources */,
 				2B6C2370280FC93700D84174 /* HolderProvider.swift in Sources */,
 				2B7AB3FE278D4C3E00974156 /* CurrencyError.swift in Sources */,
 				2BDAB0EF2804BE2300C5AED6 /* BaseEntity.swift in Sources */,
@@ -1171,7 +1172,6 @@
 				2B490DD726E2911C00967E11 /* Extension Notification.swift in Sources */,
 				2B1FEA4B266BEE6700BF53BD /* CurrencyExhangeNB.swift in Sources */,
 				2B7AB404278D4CCF00974156 /* TransactionError.swift in Sources */,
-				2BDAB0F52804EB2A00C5AED6 /* MappingModel_V2toV3.xcmappingmodel in Sources */,
 				2B1FEA54266BEEC000BF53BD /* Enums.swift in Sources */,
 				2B949BB92665B4040033383A /* Accountant.xcdatamodeld in Sources */,
 				2BA11834276DC6340091569E /* MonobankAccountTableViewCell.swift in Sources */,
