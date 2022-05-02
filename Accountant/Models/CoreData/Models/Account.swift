@@ -34,11 +34,11 @@ final class Account: BaseEntity {
     @NSManaged public var type: TypeEnum
     @NSManaged public var bankAccount: BankAccount?
     @NSManaged public var currency: Currency?
+    @NSManaged public var directChildren: Set<Account>!
     @NSManaged public var holder: Holder?
     @NSManaged public var keeper: Keeper?
     @NSManaged public var linkedAccount: Account?
     @NSManaged public var parent: Account?
-    @NSManaged public var directChildren: Set<Account>!
     @NSManaged public var transactionItems: Set<TransactionItem>!
 
     convenience init(parent: Account?, name: String, type: TypeEnum, currency: Currency?, keeper: Keeper?,
@@ -90,7 +90,7 @@ final class Account: BaseEntity {
 
     var pathCalc: String {
         if let parent = parent {
-            return parent.path + ":" + name
+            return parent.pathCalc + ":" + name
         }
         return name
     }
@@ -176,9 +176,7 @@ final class Account: BaseEntity {
     }
 
     func rename(to newName: String, context: NSManagedObjectContext) throws {
-        guard Account.isReservedAccountName(newName) == false
-        else {throw AccountError.reservedName(name: newName)}
-
+        guard Account.isReservedAccountName(newName) == false else {throw AccountError.reservedName(name: newName)}
         guard Account.isFreeAccountName(parent: self.parent, name: newName, context: context)
         else {
             if self.parent?.currency == nil {
