@@ -60,7 +60,6 @@
 		2B1FEBB1266EE1D500BF53BD /* PreTrasaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1FEBB0266EE1D500BF53BD /* PreTrasaction.swift */; };
 		2B1FEBB6266EE45F00BF53BD /* PreTransactionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1FEBB5266EE45F00BF53BD /* PreTransactionTableViewCell.swift */; };
 		2B2E2E8B26E0054400A6CFDD /* AnalyticTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B2E2E8A26E0054400A6CFDD /* AnalyticTableViewCell.swift */; };
-		2B2E6D1D26DD960D004A9680 /* TransactionItemTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B2E6D1C26DD960D004A9680 /* TransactionItemTextField.swift */; };
 		2B3523632746B50300399CF6 /* KeeperViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B3523622746B50300399CF6 /* KeeperViewController.swift */; };
 		2B3643BB2753902E007253EB /* UserBankProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B3643BA2753902E007253EB /* UserBankProfile.swift */; };
 		2B37CEC327405FAA0000E3EF /* Guide.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B37CEC227405FAA0000E3EF /* Guide.swift */; };
@@ -77,6 +76,8 @@
 		2B490DE026E4BB1800967E11 /* BadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B490DDF26E4BB1800967E11 /* BadgeView.swift */; };
 		2B4976FC26DBE90B00147EAA /* TransactionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B4976FB26DBE90B00147EAA /* TransactionCell.swift */; };
 		2B50DAD6280DF15D0064D71B /* Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B50DAD5280DF15D0064D71B /* Schema.swift */; };
+		2B56A99528208BA60001370E /* ComplexTransactionEditorVCLocalizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2B56A99728208BA60001370E /* ComplexTransactionEditorVCLocalizable.strings */; };
+		2B56A99B28208FFC0001370E /* ComplexTransactionEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B56A99A28208FFC0001370E /* ComplexTransactionEditorView.swift */; };
 		2B6561F52775F8A000150B35 /* MBUserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B6561F42775F8A000150B35 /* MBUserInfo.swift */; };
 		2B6561F72775F8C400150B35 /* MBAccountInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B6561F62775F8C400150B35 /* MBAccountInfo.swift */; };
 		2B6561F92775F92700150B35 /* MBStatement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B6561F82775F92700150B35 /* MBStatement.swift */; };
@@ -218,7 +219,6 @@
 		2B1FEBB0266EE1D500BF53BD /* PreTrasaction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreTrasaction.swift; sourceTree = "<group>"; };
 		2B1FEBB5266EE45F00BF53BD /* PreTransactionTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreTransactionTableViewCell.swift; sourceTree = "<group>"; };
 		2B2E2E8A26E0054400A6CFDD /* AnalyticTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticTableViewCell.swift; sourceTree = "<group>"; };
-		2B2E6D1C26DD960D004A9680 /* TransactionItemTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionItemTextField.swift; sourceTree = "<group>"; };
 		2B3523622746B50300399CF6 /* KeeperViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeeperViewController.swift; sourceTree = "<group>"; };
 		2B3643BA2753902E007253EB /* UserBankProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserBankProfile.swift; sourceTree = "<group>"; };
 		2B37CEC227405FAA0000E3EF /* Guide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Guide.swift; sourceTree = "<group>"; };
@@ -241,6 +241,10 @@
 		2B4976FB26DBE90B00147EAA /* TransactionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionCell.swift; sourceTree = "<group>"; };
 		2B50DAD5280DF15D0064D71B /* Schema.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Schema.swift; sourceTree = "<group>"; };
 		2B52A1EB27F3A93B0056F5D8 /* Accountant 3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Accountant 3.xcdatamodel"; sourceTree = "<group>"; };
+		2B56A99628208BA60001370E /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/ComplexTransactionEditorVCLocalizable.strings; sourceTree = "<group>"; };
+		2B56A99828208BA80001370E /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/ComplexTransactionEditorVCLocalizable.strings; sourceTree = "<group>"; };
+		2B56A99928208BA90001370E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/ComplexTransactionEditorVCLocalizable.strings; sourceTree = "<group>"; };
+		2B56A99A28208FFC0001370E /* ComplexTransactionEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComplexTransactionEditorView.swift; sourceTree = "<group>"; };
 		2B6561F42775F8A000150B35 /* MBUserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MBUserInfo.swift; sourceTree = "<group>"; };
 		2B6561F62775F8C400150B35 /* MBAccountInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MBAccountInfo.swift; sourceTree = "<group>"; };
 		2B6561F82775F92700150B35 /* MBStatement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MBStatement.swift; sourceTree = "<group>"; };
@@ -462,7 +466,6 @@
 				2B1FEAE3266CAF6C00BF53BD /* Extension Formatter.swift */,
 				2B1FEAE4266CAF6C00BF53BD /* Extension UIResponder.swift */,
 				2B1FEAE5266CAF6C00BF53BD /* Extension Double.swift */,
-				2B2E6D1C26DD960D004A9680 /* TransactionItemTextField.swift */,
 				2B490DD626E2911C00967E11 /* Extension Notification.swift */,
 				2B7AB3F8278C831C00974156 /* Extension UIViewController.swift */,
 			);
@@ -647,7 +650,9 @@
 			isa = PBXGroup;
 			children = (
 				2BC058B826CD7A9400FE896C /* ComplexTransactionEditorViewController.swift */,
+				2B56A99A28208FFC0001370E /* ComplexTransactionEditorView.swift */,
 				2BC058BC26CDB63E00FE896C /* TransactionItemTableViewCell.swift */,
+				2B56A99728208BA60001370E /* ComplexTransactionEditorVCLocalizable.strings */,
 			);
 			path = ComplexTransactionEditor;
 			sourceTree = "<group>";
@@ -966,6 +971,7 @@
 			files = (
 				2B949BBE2665B4080033383A /* LaunchScreen.storyboard in Resources */,
 				2B7F882827A52CC700A1B63B /* SettingsVCLocalizable.strings in Resources */,
+				2B56A99528208BA60001370E /* ComplexTransactionEditorVCLocalizable.strings in Resources */,
 				2BFACB69281B4D9C00B2B1CE /* SimpleTransactionEditorVCLocalizable.strings in Resources */,
 				2B3F0D0E26A0EFA000AA514B /* Localizable.strings in Resources */,
 				2B7F883027A56BEA00A1B63B /* BankAccountTVCLocalizable.strings in Resources */,
@@ -1114,10 +1120,10 @@
 				2B1FEA4F266BEE6700BF53BD /* CurrencyHistoricalDataPB.swift in Sources */,
 				2B6C238C2811BCF700D84174 /* AccountProvider.swift in Sources */,
 				2B8172F12798B7B200E6CB20 /* BankAccountTableViewController.swift in Sources */,
-				2B2E6D1D26DD960D004A9680 /* TransactionItemTextField.swift in Sources */,
 				2B3A260426E95C780033E746 /* AccessManager.swift in Sources */,
 				2BFACB6F281C948000B2B1CE /* TransactionListProvider.swift in Sources */,
 				2B490DDB26E4B92600967E11 /* OfferView.swift in Sources */,
+				2B56A99B28208FFC0001370E /* ComplexTransactionEditorView.swift in Sources */,
 				2B6C2363280E114400D84174 /* KeeperProvider.swift in Sources */,
 				2B44C9F626EE86F00009976A /* StartAccountingViewController.swift in Sources */,
 				2B2E2E8B26E0054400A6CFDD /* AnalyticTableViewCell.swift in Sources */,
@@ -1225,6 +1231,16 @@
 				2B9E7BC22705923500FBE5B2 /* ru */,
 			);
 			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		2B56A99728208BA60001370E /* ComplexTransactionEditorVCLocalizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2B56A99628208BA60001370E /* uk */,
+				2B56A99828208BA80001370E /* ru */,
+				2B56A99928208BA90001370E /* en */,
+			);
+			name = ComplexTransactionEditorVCLocalizable.strings;
 			sourceTree = "<group>";
 		};
 		2B6C236B280F1B5D00D84174 /* KeeperVCLocalizable.strings */ = {

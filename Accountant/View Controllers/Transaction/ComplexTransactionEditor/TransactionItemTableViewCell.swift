@@ -10,10 +10,10 @@ import CoreData
 
 class TransactionItemTableViewCell: UITableViewCell {
 
-    unowned var transactionItem: TransactionItem!
-    unowned var delegate: ComplexTransactionEditorViewController!
+    private unowned var transactionItem: TransactionItem!
+    private unowned var delegate: ComplexTransactionEditorViewController!
 
-    let accountButton: UIButton = {
+    private let accountButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.backgroundColor = UIColor(displayP3Red: 242/255, green: 242/255, blue: 243/255, alpha: 1)
@@ -23,9 +23,11 @@ class TransactionItemTableViewCell: UITableViewCell {
         return button
     }()
 
-    let amountTextField: TransactionItemTextField = {
-        let textField = TransactionItemTextField()
-        textField.placeholder = NSLocalizedString("Amount", comment: "")
+    private let amountTextField: UITextField = {
+        let textField = UITextField()
+        textField.placeholder = NSLocalizedString("Amount",
+                                                  tableName: Constants.Localizable.complexTransactionEditorVC,
+                                                  comment: "")
         textField.keyboardType = .decimalPad
         textField.returnKeyType = UIReturnKeyType.done
         textField.autocorrectionType = UITextAutocorrectionType.no
@@ -40,26 +42,26 @@ class TransactionItemTableViewCell: UITableViewCell {
     func configureCell(for transactionItem: TransactionItem, with delegate: ComplexTransactionEditorViewController) {
         self.transactionItem = transactionItem
         self.delegate = delegate
-        amountTextField.delegate = delegate
+        amountTextField.delegate = self
         addDoneButtonOnDecimalKeyboard()
-        amountTextField.transactionItem = transactionItem
 
         if let account = transactionItem.account {
             accountButton.setTitle(account.path, for: .normal)
         } else {
-            accountButton.setTitle(NSLocalizedString("Account", comment: ""), for: .normal)
+            accountButton.setTitle(NSLocalizedString("Account/Category",
+                                                     tableName: Constants.Localizable.complexTransactionEditorVC,
+                                                     comment: ""),
+                                   for: .normal)
         }
         if transactionItem.amount > 0 {
             amountTextField.text = String(transactionItem.amount)
         } else {
             amountTextField.text = ""
         }
-        addMainView()
-    }
 
-    private func addMainView() {
-        accountButton.addTarget(self, action: #selector(TransactionItemTableViewCell.selectAccount(_:)),
+        accountButton.addTarget(self, action: #selector(TransactionItemTableViewCell.selectAccount),
                                 for: .touchUpInside)
+
         contentView.addSubview(amountTextField)
         amountTextField.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -5).isActive = true
         amountTextField.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
@@ -71,26 +73,35 @@ class TransactionItemTableViewCell: UITableViewCell {
         accountButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
     }
 
-    @objc func selectAccount(_ sender: UIButton) {
+    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
+        if textField.tag == 1, let text = textField.text,
+            let amount = Double(text.replacingOccurrences(of: ",", with: ".")) {
+            delegate.setAmount(for: self.transactionItem, amount: amount)
+        }
+        return true
+    }
+
+    @objc private func selectAccount() {
         delegate.accountRequestingForTransactionItem(transactionItem)
     }
 
-    func addDoneButtonOnDecimalKeyboard() {
+    private func addDoneButtonOnDecimalKeyboard() {
+        let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let title = NSLocalizedString("Done",
+                                      tableName: Constants.Localizable.complexTransactionEditorVC,
+                                      comment: "")
+        let done: UIBarButtonItem = UIBarButtonItem(title: title, style: .done, target: self,
+                                                    action: #selector(self.doneButtonAction))
         let doneToolbar: UIToolbar = UIToolbar(frame: CGRect.init(x: 0, y: 0,
                                                                   width: UIScreen.main.bounds.width,
                                                                   height: 50))
         doneToolbar.barStyle = .default
-        let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        let done: UIBarButtonItem = UIBarButtonItem(title: NSLocalizedString("Done", comment: ""),
-                                                    style: .done,
-                                                    target: self,
-                                                    action: #selector(self.doneButtonAction))
         doneToolbar.items = [flexSpace, done]
         doneToolbar.sizeToFit()
         amountTextField.inputAccessoryView = doneToolbar
     }
 
-    @objc func doneButtonAction() {
+    @objc private func doneButtonAction() {
         amountTextField.resignFirstResponder()
     }
 }

@@ -138,7 +138,6 @@ class TransactionListViewController: UIViewController {
         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         if UserProfile.isUseMultiItemTransaction(environment: environment) {
             guard let transactioEditorVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.complexTransactionEditorVC) as? ComplexTransactionEditorViewController else {return} // swiftlint:disable:this line_length
-            transactioEditorVC.context = context
             self.navigationController?.pushViewController(transactioEditorVC, animated: true)
         } else {
             self.navigationController?.pushViewController(SimpleTransactionEditorViewController(), animated: true)
@@ -246,13 +245,11 @@ extension TransactionListViewController: UITableViewDelegate, UITableViewDataSou
         if transaction.itemsList.count > 2 || UserProfile.isUseMultiItemTransaction(environment: environment) {
             guard let transactioEditorVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.complexTransactionEditorVC) as? ComplexTransactionEditorViewController else {return} // swiftlint:disable:this line_length
             transactioEditorVC.transaction = transaction
-            transactioEditorVC.context = context
             self.navigationController?.pushViewController(transactioEditorVC, animated: true)
         } else if transaction.applied == false || UserProfile.isUseMultiItemTransaction(environment: environment) {
             guard let transactioEditorVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.complexTransactionEditorVC) as? ComplexTransactionEditorViewController else {return} // swiftlint:disable:this line_length
             transactioEditorVC.transaction = transaction
             transactioEditorVC.mode = .editDraft
-            transactioEditorVC.context = context
             self.navigationController?.pushViewController(transactioEditorVC, animated: true)
         } else {
             let transactioEditorVC = SimpleTransactionEditorViewController()

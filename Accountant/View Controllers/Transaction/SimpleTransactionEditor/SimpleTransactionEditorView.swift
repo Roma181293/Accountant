@@ -298,8 +298,8 @@ class SimpleTransactionEditorView: UIView { // swiftlint:disable:this type_body_
         mainScrollView.bottomAnchor.constraint(equalTo: controller.view.safeAreaLayoutGuide.bottomAnchor).isActive = true
 
         mainScrollView.addSubview(mainView)
-        mainView.leadingAnchor.constraint(equalTo: mainScrollView.leadingAnchor, constant: 10).isActive = true
-        mainView.trailingAnchor.constraint(equalTo: mainScrollView.trailingAnchor, constant: -10).isActive = true
+        mainView.leadingAnchor.constraint(equalTo: mainScrollView.leadingAnchor, constant: 8).isActive = true
+        mainView.trailingAnchor.constraint(equalTo: mainScrollView.trailingAnchor, constant: -8).isActive = true
         mainView.topAnchor.constraint(equalTo: mainScrollView.topAnchor).isActive = true
         mainView.bottomAnchor.constraint(equalTo: mainScrollView.bottomAnchor).isActive = true
         mainView.widthAnchor.constraint(equalTo: mainScrollView.widthAnchor, constant: -20).isActive = true
@@ -344,14 +344,26 @@ class SimpleTransactionEditorView: UIView { // swiftlint:disable:this type_body_
 
     func setAccountNameToButtons() {
         if let credit = controller.credit {
-            creditButton.setTitle("\(NSLocalizedString("From:", tableName: Constants.Localizable.simpleTransactionEditorVC, comment: "")) \(credit.path)", for: .normal)
+            let title = NSLocalizedString("From:",
+                                          tableName: Constants.Localizable.simpleTransactionEditorVC,
+                                          comment: "") + " \(credit.path)"
+            creditButton.setTitle(title, for: .normal)
         } else {
-            creditButton.setTitle(NSLocalizedString("From: Account", tableName: Constants.Localizable.simpleTransactionEditorVC, comment: ""), for: .normal)
+            creditButton.setTitle(NSLocalizedString("From: Account",
+                                                    tableName: Constants.Localizable.simpleTransactionEditorVC,
+                                                    comment: ""),
+                                  for: .normal)
         }
         if let debit = controller.debit {
-            debitButton.setTitle("\(NSLocalizedString("To:", tableName: Constants.Localizable.simpleTransactionEditorVC, comment: "")) \(debit.path)", for: .normal)
+            let title = NSLocalizedString("To:",
+                                          tableName: Constants.Localizable.simpleTransactionEditorVC,
+                                          comment: "") + " \(debit.path)"
+            debitButton.setTitle(title, for: .normal)
         } else {
-            debitButton.setTitle(NSLocalizedString("To: Account", tableName: Constants.Localizable.simpleTransactionEditorVC, comment: ""), for: .normal)
+            debitButton.setTitle(NSLocalizedString("To: Account",
+                                                   tableName: Constants.Localizable.simpleTransactionEditorVC,
+                                                   comment: ""),
+                                 for: .normal)
         }
     }
 
@@ -476,19 +488,16 @@ class SimpleTransactionEditorView: UIView { // swiftlint:disable:this type_body_
     }
 
     private func addDoneButtonOnDecimalKeyboard() {
+        let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let title = NSLocalizedString("Done",
+                                      tableName: Constants.Localizable.simpleTransactionEditorVC,
+                                      comment: "")
+        let done: UIBarButtonItem = UIBarButtonItem(title: title, style: .done, target: self,
+                                                    action: #selector(self.doneButtonAction))
         let doneToolbar: UIToolbar = UIToolbar(frame: CGRect.init(x: 0, y: 0,
                                                                   width: UIScreen.main.bounds.width,
                                                                   height: 50))
         doneToolbar.barStyle = .default
-        let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace,
-                                        target: nil,
-                                        action: nil)
-        let done: UIBarButtonItem = UIBarButtonItem(title: NSLocalizedString("Done",
-                                                                             tableName: Constants.Localizable.simpleTransactionEditorVC,
-                                                                             comment: ""),
-                                                    style: .done,
-                                                    target: self,
-                                                    action: #selector(self.doneButtonAction))
         doneToolbar.items = [flexSpace, done]
         doneToolbar.sizeToFit()
 

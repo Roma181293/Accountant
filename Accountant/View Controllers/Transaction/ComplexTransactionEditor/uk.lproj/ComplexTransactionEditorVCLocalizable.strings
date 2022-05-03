@@ -1,0 +1,29 @@
+/* 
+  ComplexTransactionEditorVCLocalizable.strings
+  Accountant
+
+  Created by Roman Topchii on 03.05.2022.
+  
+*/
+
+//Controller
+"Edit transaction" = "Редагувати транзакцію";
+"Add transaction" = "Створити транзакцію";
+"Save" = "Зберегти";
+"Do you want to save changes?" = "Хочете зберегти зміни?";
+"Yes" = "Так";
+"Cancel" = "Закрити";
+"Error" = "Помилка";
+"Warning" = "Увага";
+"OK" = "OK";
+"Delete" = "Видалити";
+
+//View
+"To:" = "До:";
+"From:" = "З:";
+"Comment" = "Коментар";
+
+//Cell
+"Amount" = "Сума";
+"Account/Category" = "Рахунок/Категорія";
+"Done" = "Застосувати";

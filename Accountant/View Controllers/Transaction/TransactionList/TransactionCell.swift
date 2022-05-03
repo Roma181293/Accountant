@@ -194,7 +194,7 @@ class TransactionCell: UITableViewCell { // swiftlint:disable:this type_body_len
 
         dateLabel.text = formatter.string(from: transaction.date)
 
-        if let comment = transaction.comment {
+        if let comment = transaction.comment, !comment.isEmpty {
             commentStackView.isHidden = false
             commentContentLabel.text = comment
         } else {
