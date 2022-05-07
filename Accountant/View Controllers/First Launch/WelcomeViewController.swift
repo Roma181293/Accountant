@@ -80,8 +80,8 @@ class WelcomeViewController: UIViewController {
         startAccountingButton.widthAnchor.constraint(equalToConstant: widthBtn).isActive = true
         startAccountingButton.layer.cornerRadius = Constants.Size.cornerButtonRadius
         let gradientPinkView = GradientView(frame: startAccountingButton.bounds,
-                                            colorTop: .systemPink,
-                                            colorBottom: .systemRed)
+                                            colorTop: .systemBlue,
+                                            colorBottom: .systemPurple)
         gradientPinkView.layer.cornerRadius = Constants.Size.cornerButtonRadius
         startAccountingButton.insertSubview(gradientPinkView, at: 0)
         startAccountingButton.layer.masksToBounds = false

@@ -31,16 +31,14 @@ class BadgeView: UIView {
 
     func proBadge() {
         label.text = "PRO".uppercased()
-        
         // The Gradient subview
         if gradientView != nil {
             gradientView.removeFromSuperview()
         }
-        self.gradientView = GradientView(frame: self.bounds, colorTop: .systemPink, colorBottom: .systemRed)
+        self.gradientView = GradientView(frame: self.bounds, colorTop: .systemBlue, colorBottom: .systemPurple)
         self.gradientView.layer.cornerRadius = height/2
         self.insertSubview(gradientView, at: 0)
         self.layer.masksToBounds = false
-        
         // The Label subview
         gradientView.addSubview(label)
         let horizontalConstraint = NSLayoutConstraint(item: label,
@@ -59,7 +57,7 @@ class BadgeView: UIView {
                                                     constant: 0)
         NSLayoutConstraint.activate([horizontalConstraint, verticalConstraint])
     }
-    
+
     func monoBadge() {
         label.text = "Mono"
         label.font = UIFont.boldSystemFont(ofSize: 10)
@@ -89,7 +87,6 @@ class BadgeView: UIView {
                                                     attribute: NSLayoutConstraint.Attribute.centerY,
                                                     multiplier: 1,
                                                     constant: 0)
-        
         NSLayoutConstraint.activate([horizontalConstraint, verticalConstraint])
     }
 

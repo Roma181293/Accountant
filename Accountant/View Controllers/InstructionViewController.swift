@@ -54,7 +54,7 @@ class InstructionViewController: UIViewController, UIScrollViewDelegate {
         }
         self.dismiss(animated: true, completion: nil)
     }
-    
+
     var showSkipButton = true
 
     override func viewDidLoad() {

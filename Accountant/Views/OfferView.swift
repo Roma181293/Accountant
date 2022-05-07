@@ -51,7 +51,7 @@ class OfferView: UIView {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         return titleLabel
     }()
-    
+
     let additionalSaleLabel: UILabel = {
         let titleLabel = UILabel()
         titleLabel.textAlignment = .center
@@ -88,7 +88,7 @@ class OfferView: UIView {
         return view
     }()
 
-    let activeBorderColor = UIColor.red
+    let activeBorderColor = UIColor.systemPurple
     let inactiveBorderColor = UIColor.systemGray3
     var packageForPurchase: Purchases.Package?
     private var isEligible = false

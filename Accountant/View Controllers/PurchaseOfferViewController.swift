@@ -59,7 +59,7 @@ final class PurchaseOfferViewController: UIViewController { // swiftlint:disable
         let titleLabel = UILabel()
         titleLabel.textAlignment = .center
         titleLabel.text = NSLocalizedString("Terms of use", comment: "")
-        titleLabel.textColor = UIColor.lightGray
+        titleLabel.textColor = UIColor.systemBlue
         titleLabel.font = UIFont.systemFont(ofSize: 12.0)
         titleLabel.lineBreakMode = .byWordWrapping
         titleLabel.numberOfLines = 0
@@ -71,7 +71,7 @@ final class PurchaseOfferViewController: UIViewController { // swiftlint:disable
         let titleLabel = UILabel()
         titleLabel.textAlignment = .center
         titleLabel.text = NSLocalizedString("Privacy policy", comment: "")
-        titleLabel.textColor = UIColor.lightGray
+        titleLabel.textColor = UIColor.systemBlue
         titleLabel.font = UIFont.systemFont(ofSize: 12.0)
         titleLabel.lineBreakMode = .byWordWrapping
         titleLabel.numberOfLines = 0
@@ -358,7 +358,7 @@ final class PurchaseOfferViewController: UIViewController { // swiftlint:disable
         purchaseButon.widthAnchor.constraint(equalToConstant: widthBtn).isActive = true
         purchaseButon.layer.cornerRadius = Constants.Size.cornerButtonRadius
 
-        let gradientPinkView = GradientView(frame: purchaseButon.bounds, colorTop: .systemPink, colorBottom: .systemRed)
+        let gradientPinkView = GradientView(frame: purchaseButon.bounds, colorTop: .systemBlue, colorBottom: .systemPurple)
         gradientPinkView.layer.cornerRadius = Constants.Size.cornerButtonRadius
 
         // Add the activity indicator to the button
@@ -390,7 +390,7 @@ final class PurchaseOfferViewController: UIViewController { // swiftlint:disable
     func addBottomDescription() {
         mainStackView.addArrangedSubview(subscriptionLabel)
         mainStackView.addArrangedSubview(termsLabel)
-        mainStackView.setCustomSpacing(5, after: termsLabel)
+        mainStackView.setCustomSpacing(10, after: termsLabel)
         mainStackView.addArrangedSubview(policyLabel)
 
         let termsTap = UITapGestureRecognizer(target: self, action: #selector(self.termsLabelTapped(_:)))

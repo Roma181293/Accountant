@@ -75,7 +75,7 @@ struct GuideItem {
         self.tintColor = nil
         self.text = text
     }
-    
+
     init(text: String) {
         self.backgroungColor = nil
         self.emoji = nil

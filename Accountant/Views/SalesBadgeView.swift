@@ -17,7 +17,7 @@ class SalesBadgeView: UIView {
         label.textAlignment = .center
         return label
     }()
-    
+
     let height = CGFloat(18)
 
     override init(frame: CGRect) {
@@ -25,7 +25,7 @@ class SalesBadgeView: UIView {
         self.heightAnchor.constraint(equalToConstant: self.height).isActive = true
 
         // The Gradient subview
-        let gradientOrangeView = GradientView(frame: self.bounds, colorTop: .systemPink, colorBottom: .systemRed)
+        let gradientOrangeView = GradientView(frame: self.bounds, colorTop: .systemBlue, colorBottom: .systemPurple)
         gradientOrangeView.layer.cornerRadius = height/2
         self.insertSubview(gradientOrangeView, at: 0)
         self.layer.masksToBounds = false
