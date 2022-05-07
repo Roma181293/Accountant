@@ -1,0 +1,22 @@
+/* 
+  StartAccountingVCLocalizable.strings
+  Accountant
+
+  Created by Roman Topchii on 07.05.2022.
+  
+*/
+
+//View
+"Go to bank profiles" = "Go to bank profiles";
+
+//Controller
+"Choose currecy for Income and Expenses categories. This currency cannot be changed in the future" = "Choose currecy for Income and Expenses categories. This currency cannot be changed in the future";
+"Add Monobank bank profile, to sync statements data. All the data stores only on this device locally" = "Add Monobank bank profile, to sync statements data. All the data stores only on this device locally";
+"Please add income categories" = "Please add income categories";
+"Please add expense categories" = "Please add expense categories";
+"Please add money accounts (Cash and bank cards). \nDo NOT enter secure info about bank cards(full card number and CV2 code)" = "Please add money accounts (Cash and bank cards). \nDo NOT enter secure info about bank cards (full card number and CV2 code)";
+"Please add debtors. Debtors also include bank deposits" = "Please add debtors. Debtors also include bank deposits";
+"Please add credits. Credit card limits are automatically added to credits" = "Please add credits. Credit card limits are automatically added to credits";
+"Accounting start" = "Accounting start";
+"Error" = "Error";
+"OK" = "OK";

@@ -1,16 +1,17 @@
 //
-//  WelcomeViewController.swift
+//  WelcomeView.swift
 //  Accountant
 //
-//  Created by Roman Topchii on 12.09.2021.
+//  Created by Roman Topchii on 07.05.2022.
 //
 
 import UIKit
 
-class WelcomeViewController: UIViewController {
+class WelcomeView: UIView {
 
     let mainView: UIView = {
         let view = UIView()
+        view.backgroundColor = .systemBackground
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -29,7 +30,7 @@ class WelcomeViewController: UIViewController {
     let titleLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
-        label.text = NSLocalizedString("Welcome", comment: "").uppercased()
+        label.text = NSLocalizedString("Welcome", tableName: Constants.Localizable.welcomeVC, comment: "").uppercased()
         label.font = UIFont.boldSystemFont(ofSize: 30.0)
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -38,7 +39,7 @@ class WelcomeViewController: UIViewController {
 
     let startAccountingButton: UIButton = {
         let button = UIButton()
-        button.setTitle(NSLocalizedString("Start accounting", comment: "").uppercased(), for: .normal)
+        button.setTitle(NSLocalizedString("Start accounting", tableName: Constants.Localizable.welcomeVC, comment: "").uppercased(), for: .normal)
         button.backgroundColor = UIColor.systemIndigo
         button.setTitleColor(UIColor.white, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 15.0)
@@ -48,7 +49,7 @@ class WelcomeViewController: UIViewController {
 
     let testButton: UIButton = {
         let button = UIButton()
-        button.setTitle(NSLocalizedString("Try functionality", comment: "").uppercased(), for: .normal)
+        button.setTitle(NSLocalizedString("Try functionality", tableName: Constants.Localizable.welcomeVC, comment: "").uppercased(), for: .normal)
         button.backgroundColor = UIColor.systemIndigo
         button.setTitleColor(UIColor.white, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 15.0)
@@ -56,14 +57,25 @@ class WelcomeViewController: UIViewController {
         return button
     }()
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    unowned var controller: WelcomeViewController
 
-        view.addSubview(mainView)
-        mainView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
-        mainView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
-        mainView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
-        mainView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
+    required init(controller: WelcomeViewController) {
+        self.controller = controller
+        super.init(frame: CGRect.zero)
+        addUIComponents()
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    private func addUIComponents() {
+
+        controller.view.addSubview(mainView)
+        mainView.leadingAnchor.constraint(equalTo: controller.view.safeAreaLayoutGuide.leadingAnchor).isActive = true
+        mainView.trailingAnchor.constraint(equalTo: controller.view.safeAreaLayoutGuide.trailingAnchor).isActive = true
+        mainView.topAnchor.constraint(equalTo: controller.view.safeAreaLayoutGuide.topAnchor).isActive = true
+        mainView.bottomAnchor.constraint(equalTo: controller.view.safeAreaLayoutGuide.bottomAnchor).isActive = true
 
         // Main Stack View
         mainView.addSubview(mainStackView)
@@ -86,7 +98,7 @@ class WelcomeViewController: UIViewController {
         startAccountingButton.insertSubview(gradientPinkView, at: 0)
         startAccountingButton.layer.masksToBounds = false
         mainStackView.addArrangedSubview(startAccountingButton)
-        gradientPinkView.addTarget(self, action: #selector(startAccounting), for: .touchUpInside)
+        gradientPinkView.addTarget(controller, action: #selector(controller.startAccounting), for: .touchUpInside)
 
         // Test Accounting Button
         testButton.heightAnchor.constraint(equalToConstant: 44.0).isActive = true
@@ -102,45 +114,6 @@ class WelcomeViewController: UIViewController {
         testButton.layer.masksToBounds = false
 
         mainStackView.addArrangedSubview(testButton)
-        gradientOrangeView.addTarget(self, action: #selector(tryFunctionality), for: .touchUpInside)
-    }
-
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
-        startAccountingButton.isUserInteractionEnabled = true
-        testButton.isUserInteractionEnabled = true
-    }
-
-    @objc private func startAccounting(_ sender: UIButton) {
-        startAccountingButton.isUserInteractionEnabled = false
-        testButton.isUserInteractionEnabled = false
-        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        guard let startAccVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.startAccountingVC) as? StartAccountingViewController else {return} // swiftlint:disable:this line_length
-        self.navigationController?.pushViewController(startAccVC, animated: true)
-    }
-
-    @objc private func tryFunctionality(_ sender: UIButton) {
-        startAccountingButton.isUserInteractionEnabled = false
-        testButton.isUserInteractionEnabled = false
-        CoreDataStack.shared.switchToDB(.test)
-        do {
-            try SeedDataManager.refreshTestData(coreDataStack: CoreDataStack.shared)
-            let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-            let tabBar = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.tabBarController)
-            self.navigationController?.popToRootViewController(animated: false)
-
-            guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {return}
-            appDelegate.window?.rootViewController = UINavigationController(rootViewController: tabBar)
-        } catch let error {
-            errorHandler(error: error)
-        }
-    }
-
-    func errorHandler(error: Error) {
-        let alert = UIAlertController(title: NSLocalizedString("Error", comment: ""),
-                                      message: error.localizedDescription,
-                                      preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default))
-        self.present(alert, animated: true, completion: nil)
+        gradientOrangeView.addTarget(controller, action: #selector(controller.tryFunctionality), for: .touchUpInside)
     }
 }

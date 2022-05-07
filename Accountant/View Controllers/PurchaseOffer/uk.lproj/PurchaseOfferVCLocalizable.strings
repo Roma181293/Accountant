@@ -1,0 +1,37 @@
+/* 
+  PurchaseOfferVCLocalizable.strings
+  Accountant
+
+  Created by Roman Topchii on 07.05.2022.
+  
+*/
+
+//PurchaseOfferViewController
+"Unlimited number of accounts, categories and subcategories" = "Необмежена кількість рахунків, категорій та підкатегорій";
+"Subcategories. Create income and expense strucrure" = "Підкатегорії. Створення структури доходів і витрат";
+"Account creation in currencies different from accounting currency" = "Створення рахунків у валютах відмінних від валюти обліку";
+"Hide accounts and categories" = "Деактивація рахунків та категорій";
+"Create multi item transactions" = "Створення багатоелементних транзакцій";
+"Duplicate transactions" = "Дублювання транзакцій";
+"Export and import of transactions" = "Експорт та імпорт транзакцій";
+"Security" = "Безпека";
+"No ads" = "Ні рекламі";
+"Terms of use" = "Умови використання";
+"Privacy policy" = "Політика конфіденційності";
+"Subscribe" = "Оформити підписку";
+
+//OfferView
+"per 3 days" = "за 3 дня";
+"per 7 days" = "за 7 днів";
+"per week" = "за тиждень";
+"per 14 days" = "за 14 днів";
+"per month" = "за місяць";
+"per 2 months" = "за 2 місяці";
+"per 3 months" = "за 3 місяців";
+"per 6 months" = "за 6 місяців";
+"per year" = "за рік";
+"A subscription is automatically renewed unless you cancel it at least 24 hours before the end of the billing cycle. The renewal fee will be charged on the day before the end of the current billing cycle. You can manage or cancel subscription in your iTunes account settings" = "Підписка подовжується автоматично, якщо ви не скасували її принаймі за 24 години до завершення поточного періоду. Оплата за подовження буде списано протягом доби, що передує даті завершення поточного періоду. Керувати підпискою та скасувати її можна в налаштуваннях облікового запису iTunes";
+"Subscribe" = "Оформити підписку";
+"for free" = "безкоштовно";
+"after" = "після";
+"Discount" = "Знижка";

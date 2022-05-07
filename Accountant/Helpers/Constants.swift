@@ -23,6 +23,9 @@ struct Constants {
         static let simpleTransactionEditorVC = "SimpleTransactionEditorVCLocalizable"
         static let complexTransactionEditorVC = "ComplexTransactionEditorVCLocalizable"
         static let transactionListVC = "TransactionListVCLocalizable"
+        static let welcomeVC = "WelcomeVCLocalizable"
+        static let startAccountingVC = "StartAccountingVCLocalizable"
+        static let purchaseOfferVC = "PurchaseOfferVCLocalizable"
     }
 
     struct Storyboard {

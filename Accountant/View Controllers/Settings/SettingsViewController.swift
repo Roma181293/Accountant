@@ -269,7 +269,7 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
             self.present(webVC, animated: true, completion: nil)
         case .startAccounting:
             guard let startAccountingVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.startAccountingVC) as? StartAccountingViewController else {return} // swiftlint:disable:this line_length
-            startAccountingVC.backToVC = self.parent
+            startAccountingVC.parentVC = self.parent
             self.navigationController?.pushViewController(startAccountingVC, animated: true)
         case .userGuides:
             guard let userGuideVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.instructionVC) as? InstructionViewController else {return} // swiftlint:disable:this line_length

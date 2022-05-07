@@ -67,7 +67,7 @@ class OfferView: UIView {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.image = UIImage(systemName: "checkmark")
         imageView.contentMode = .scaleAspectFill
-        imageView.tintColor = .systemPink
+        imageView.tintColor = .systemPurple
         imageView.alpha = 0
         return imageView
     }()
@@ -141,19 +141,19 @@ class OfferView: UIView {
         var duration = ""
         switch (product.subscriptionPeriod!.unit, product.subscriptionPeriod!.numberOfUnits) {
         case (.day, 7):
-            duration = NSLocalizedString("per week", comment: "")
+            duration = NSLocalizedString("per week", tableName: Constants.Localizable.purchaseOfferVC, comment: "")
         case (.week, 1):
-            duration = NSLocalizedString("per week", comment: "")
+            duration = NSLocalizedString("per week", tableName: Constants.Localizable.purchaseOfferVC, comment: "")
         case (.month, 1):
-            duration = NSLocalizedString("per month", comment: "")
+            duration = NSLocalizedString("per month", tableName: Constants.Localizable.purchaseOfferVC, comment: "")
         case (.month, 2):
-            duration = NSLocalizedString("per 2 months", comment: "")
+            duration = NSLocalizedString("per 2 months", tableName: Constants.Localizable.purchaseOfferVC, comment: "")
         case (.month, 3):
-            duration = NSLocalizedString("per 3 months", comment: "")
+            duration = NSLocalizedString("per 3 months", tableName: Constants.Localizable.purchaseOfferVC, comment: "")
         case (.month, 6):
-            duration = NSLocalizedString("per 6 months", comment: "")
+            duration = NSLocalizedString("per 6 months", tableName: Constants.Localizable.purchaseOfferVC, comment: "")
         case (.year, 1):
-            duration = NSLocalizedString("per year", comment: "")
+            duration = NSLocalizedString("per year", tableName: Constants.Localizable.purchaseOfferVC, comment: "")
             self.isActive = true
             makeViewActive()
         default:
@@ -168,35 +168,35 @@ class OfferView: UIView {
             addSalesViewBadge(discount: discount)
         }
 
-        self.offerDisclaimerLabel = NSLocalizedString("A subscription is automatically renewed unless you cancel it at least 24 hours before the end of the billing cycle. The renewal fee will be charged on the day before the end of the current billing cycle. You can manage or cancel subscription in your iTunes account settings", comment: "") // swiftlint:disable:this line_length
+        self.offerDisclaimerLabel = NSLocalizedString("A subscription is automatically renewed unless you cancel it at least 24 hours before the end of the billing cycle. The renewal fee will be charged on the day before the end of the current billing cycle. You can manage or cancel subscription in your iTunes account settings", tableName: Constants.Localizable.purchaseOfferVC, comment: "") // swiftlint:disable:this line_length
 
-        self.purchaseButonTitle = NSLocalizedString("Subscribe", comment: "")
+        self.purchaseButonTitle = NSLocalizedString("Subscribe", tableName: Constants.Localizable.purchaseOfferVC, comment: "")
 
         if isEligible && product.introductoryPrice?.type == .introductory {
-            self.purchaseButonTitle = NSLocalizedString("Try for free", comment: "")
+            self.purchaseButonTitle = NSLocalizedString("Try for free", tableName: Constants.Localizable.purchaseOfferVC, comment: "")
             var trialDuration = ""
             switch (product.introductoryPrice?.subscriptionPeriod.unit,
                     product.introductoryPrice?.numberOfPeriods) {
             case (.day, 3):
-                trialDuration = NSLocalizedString("per 3 days", comment: "")
+                trialDuration = NSLocalizedString("per 3 days", tableName: Constants.Localizable.purchaseOfferVC, comment: "")
             case (.week, 1):
-                trialDuration = NSLocalizedString("per 7 days", comment: "")
+                trialDuration = NSLocalizedString("per 7 days", tableName: Constants.Localizable.purchaseOfferVC, comment: "")
             case (.week, 2):
-                trialDuration = NSLocalizedString("per 14 days", comment: "")
+                trialDuration = NSLocalizedString("per 14 days", tableName: Constants.Localizable.purchaseOfferVC, comment: "")
             case (.month, 1):
-                trialDuration = NSLocalizedString("per month", comment: "")
+                trialDuration = NSLocalizedString("per month", tableName: Constants.Localizable.purchaseOfferVC, comment: "")
             case (.month, 3):
-                trialDuration = NSLocalizedString("per 3 months", comment: "")
+                trialDuration = NSLocalizedString("per 3 months", tableName: Constants.Localizable.purchaseOfferVC, comment: "")
             case (.month, 6):
-                trialDuration = NSLocalizedString("per 6 months", comment: "")
+                trialDuration = NSLocalizedString("per 6 months", tableName: Constants.Localizable.purchaseOfferVC, comment: "")
             case (.year, 1):
-                trialDuration = NSLocalizedString("per year", comment: "")
+                trialDuration = NSLocalizedString("per year", tableName: Constants.Localizable.purchaseOfferVC, comment: "")
             default:
                 trialDuration = ""
             }
-            introductoryDurationLabel.text = trialDuration + NSLocalizedString("for free", comment: "")
+            introductoryDurationLabel.text = trialDuration + NSLocalizedString("for free", tableName: Constants.Localizable.purchaseOfferVC, comment: "")
 
-            priceTitleLabel.text = "\(NSLocalizedString("after", comment: "")) \(price) \(duration)"
+            priceTitleLabel.text = "\(NSLocalizedString("after", tableName: Constants.Localizable.purchaseOfferVC, comment: "")) \(price) \(duration)"
             priceTitleLabel.textColor = self.activeBorderColor
 
             titleStackView.addArrangedSubview(introductoryDurationLabel)
@@ -237,7 +237,7 @@ class OfferView: UIView {
 
     func addSalesViewBadge(discount: Int) {
         self.insertSubview(salesBadgeView, at: 0)
-        salesBadgeView.label.text = "\(NSLocalizedString("Discount", comment: "")) \(discount)%"
+        salesBadgeView.label.text = "\(NSLocalizedString("Discount", tableName: Constants.Localizable.purchaseOfferVC, comment: "")) \(discount)%"
         let badgeWidth = salesBadgeView.label.intrinsicContentSize.width + 6
         salesBadgeView.widthAnchor.constraint(equalToConstant: badgeWidth).isActive = true
         salesBadgeView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 5).isActive = true
