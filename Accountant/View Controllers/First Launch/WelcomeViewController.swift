@@ -88,7 +88,7 @@ class WelcomeViewController: UIViewController {
         mainStackView.addArrangedSubview(startAccountingButton)
         gradientPinkView.addTarget(self, action: #selector(startAccounting), for: .touchUpInside)
 
-        // Start Accounting Button
+        // Test Accounting Button
         testButton.heightAnchor.constraint(equalToConstant: 44.0).isActive = true
         testButton.widthAnchor.constraint(equalToConstant: widthBtn).isActive = true
         testButton.layer.cornerRadius = Constants.Size.cornerButtonRadius
