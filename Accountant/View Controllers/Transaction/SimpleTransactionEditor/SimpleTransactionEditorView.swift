@@ -302,7 +302,7 @@ class SimpleTransactionEditorView: UIView { // swiftlint:disable:this type_body_
         mainView.trailingAnchor.constraint(equalTo: mainScrollView.trailingAnchor, constant: -8).isActive = true
         mainView.topAnchor.constraint(equalTo: mainScrollView.topAnchor).isActive = true
         mainView.bottomAnchor.constraint(equalTo: mainScrollView.bottomAnchor).isActive = true
-        mainView.widthAnchor.constraint(equalTo: mainScrollView.widthAnchor, constant: -20).isActive = true
+        mainView.widthAnchor.constraint(equalTo: mainScrollView.widthAnchor, constant: -16).isActive = true
         mainView.heightAnchor.constraint(equalTo: mainScrollView.heightAnchor).isActive = true
 
         mainView.addSubview(mainStackView)
@@ -337,7 +337,7 @@ class SimpleTransactionEditorView: UIView { // swiftlint:disable:this type_body_
         addButton.bottomAnchor.constraint(equalTo: mainView.bottomAnchor,
                                           constant: -89).isActive = true
         addButton.trailingAnchor.constraint(equalTo: mainView.trailingAnchor,
-                                            constant: -40).isActive = true
+                                            constant: -40+8).isActive = true
         addButton.heightAnchor.constraint(equalToConstant: 68).isActive = true
         addButton.widthAnchor.constraint(equalToConstant: 68).isActive = true
     }

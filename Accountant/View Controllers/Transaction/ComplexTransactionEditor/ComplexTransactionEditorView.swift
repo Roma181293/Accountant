@@ -194,7 +194,7 @@ class ComplexTransactionEditorView: UIView {
         confirmButton.bottomAnchor.constraint(equalTo: mainView.safeAreaLayoutGuide.bottomAnchor,
                                               constant: -89).isActive = true
         confirmButton.trailingAnchor.constraint(equalTo: mainView.safeAreaLayoutGuide.trailingAnchor,
-                                                constant: -40).isActive = true
+                                                constant: -40+8).isActive = true
         confirmButton.heightAnchor.constraint(equalToConstant: 68).isActive = true
         confirmButton.widthAnchor.constraint(equalToConstant: 68).isActive = true
 

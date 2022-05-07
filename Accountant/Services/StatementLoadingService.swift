@@ -24,7 +24,7 @@ class StatementLoadingService {
             if Date() > calendar.date(byAdding: .second, value: 60, to: bankAccount.lastLoadDate!)! {
 
                 bankAccount.locked = true
-                bankAccount.lastLoadDate = Date()
+//                bankAccount.lastLoadDate = Date()
                 do {
                     try newContext.save()
                 } catch let errorr {
@@ -47,6 +47,8 @@ class StatementLoadingService {
                                                                                     statment: $0, context: newContext))
                             })
                             bankAccount.lastTransactionDate = endDate
+                            bankAccount.locked = false
+                            bankAccount.lastLoadDate = Date()
                             try newContext.save()
                             compliting(true, nil)
                         } catch let errorr {

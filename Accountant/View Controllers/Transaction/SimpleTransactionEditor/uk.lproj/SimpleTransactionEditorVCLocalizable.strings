@@ -7,7 +7,7 @@
 */
 
 "Save" = "Зберегти";
-"Do you want to save changes?" = "Ви дійсно хочете зберегти?";
+"Do you want to save changes?" = "Хочете зберегти зміни?";
 "Yes" = "Так";
 "No" = "Ні";
 "Edit transaction" = "Редагувати транзакцію";

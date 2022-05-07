@@ -76,6 +76,7 @@
 		2B490DE026E4BB1800967E11 /* BadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B490DDF26E4BB1800967E11 /* BadgeView.swift */; };
 		2B4976FC26DBE90B00147EAA /* TransactionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B4976FB26DBE90B00147EAA /* TransactionCell.swift */; };
 		2B50DAD6280DF15D0064D71B /* Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B50DAD5280DF15D0064D71B /* Schema.swift */; };
+		2B5546812825D8F200D456DE /* TransactionListVCLocalizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2B5546832825D8F200D456DE /* TransactionListVCLocalizable.strings */; };
 		2B56A99528208BA60001370E /* ComplexTransactionEditorVCLocalizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2B56A99728208BA60001370E /* ComplexTransactionEditorVCLocalizable.strings */; };
 		2B56A99B28208FFC0001370E /* ComplexTransactionEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B56A99A28208FFC0001370E /* ComplexTransactionEditorView.swift */; };
 		2B6561F52775F8A000150B35 /* MBUserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B6561F42775F8A000150B35 /* MBUserInfo.swift */; };
@@ -241,6 +242,9 @@
 		2B4976FB26DBE90B00147EAA /* TransactionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionCell.swift; sourceTree = "<group>"; };
 		2B50DAD5280DF15D0064D71B /* Schema.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Schema.swift; sourceTree = "<group>"; };
 		2B52A1EB27F3A93B0056F5D8 /* Accountant 3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Accountant 3.xcdatamodel"; sourceTree = "<group>"; };
+		2B5546822825D8F200D456DE /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/TransactionListVCLocalizable.strings; sourceTree = "<group>"; };
+		2B5546842825D8F400D456DE /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/TransactionListVCLocalizable.strings; sourceTree = "<group>"; };
+		2B5546852825D8F500D456DE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/TransactionListVCLocalizable.strings; sourceTree = "<group>"; };
 		2B56A99628208BA60001370E /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/ComplexTransactionEditorVCLocalizable.strings; sourceTree = "<group>"; };
 		2B56A99828208BA80001370E /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/ComplexTransactionEditorVCLocalizable.strings; sourceTree = "<group>"; };
 		2B56A99928208BA90001370E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/ComplexTransactionEditorVCLocalizable.strings; sourceTree = "<group>"; };
@@ -507,7 +511,7 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
-		2B497D322703CB01007A31AB /* Currency */ = {
+		2B497D322703CB01007A31AB /* CurrencyList */ = {
 			isa = PBXGroup;
 			children = (
 				2B6C237E281093A400D84174 /* CurrencyViewController.swift */,
@@ -515,27 +519,27 @@
 				2B1FEAF6266CB2C200BF53BD /* CurrencyTableViewCell.swift */,
 				2B6C23862810BEB800D84174 /* CurrencyVCLocalizable.strings */,
 			);
-			path = Currency;
+			path = CurrencyList;
 			sourceTree = "<group>";
 		};
-		2B6C2364280F0CD100D84174 /* Keeper */ = {
+		2B6C2364280F0CD100D84174 /* KeeperList */ = {
 			isa = PBXGroup;
 			children = (
 				2B3523622746B50300399CF6 /* KeeperViewController.swift */,
 				2B6C2362280E114400D84174 /* KeeperProvider.swift */,
 				2B6C236B280F1B5D00D84174 /* KeeperVCLocalizable.strings */,
 			);
-			path = Keeper;
+			path = KeeperList;
 			sourceTree = "<group>";
 		};
-		2B6C236E280FC91600D84174 /* Holder */ = {
+		2B6C236E280FC91600D84174 /* HolderList */ = {
 			isa = PBXGroup;
 			children = (
 				2B6C2371280FCEB100D84174 /* HolderViewController.swift */,
 				2B6C236F280FC93700D84174 /* HolderProvider.swift */,
 				2B6C23772810021A00D84174 /* HolderVCLocalizable.strings */,
 			);
-			path = Holder;
+			path = HolderList;
 			sourceTree = "<group>";
 		};
 		2B6C2394281764DF00D84174 /* AccountEditor */ = {
@@ -599,10 +603,10 @@
 		2B7F884E27A5D41C00A1B63B /* Dictionaries */ = {
 			isa = PBXGroup;
 			children = (
-				2B7F885227A5D5AD00A1B63B /* BankAccountTVC */,
-				2B497D322703CB01007A31AB /* Currency */,
-				2B6C236E280FC91600D84174 /* Holder */,
-				2B6C2364280F0CD100D84174 /* Keeper */,
+				2B7F885227A5D5AD00A1B63B /* BankAccountList */,
+				2B497D322703CB01007A31AB /* CurrencyList */,
+				2B6C236E280FC91600D84174 /* HolderList */,
+				2B6C2364280F0CD100D84174 /* KeeperList */,
 				2B85D85A278F63FC0042858B /* ExchangeTableViewController.swift */,
 				2B7F885127A5D58200A1B63B /* UserBankProfileTVC */,
 			);
@@ -627,13 +631,13 @@
 			path = UserBankProfileTVC;
 			sourceTree = "<group>";
 		};
-		2B7F885227A5D5AD00A1B63B /* BankAccountTVC */ = {
+		2B7F885227A5D5AD00A1B63B /* BankAccountList */ = {
 			isa = PBXGroup;
 			children = (
 				2B8172F02798B7B200E6CB20 /* BankAccountTableViewController.swift */,
 				2B7F883227A56BEA00A1B63B /* BankAccountTVCLocalizable.strings */,
 			);
-			path = BankAccountTVC;
+			path = BankAccountList;
 			sourceTree = "<group>";
 		};
 		2B7F885327A5D63100A1B63B /* TransactionList */ = {
@@ -642,6 +646,7 @@
 				2B1FEAAA266C3AB800BF53BD /* TransactionListViewController.swift */,
 				2BFACB6E281C948000B2B1CE /* TransactionListProvider.swift */,
 				2B4976FB26DBE90B00147EAA /* TransactionCell.swift */,
+				2B5546832825D8F200D456DE /* TransactionListVCLocalizable.strings */,
 			);
 			path = TransactionList;
 			sourceTree = "<group>";
@@ -978,6 +983,7 @@
 				2B7F883727A5CDE700A1B63B /* UserBankProfileTVCLocalizable.strings in Resources */,
 				2B7F884827A5D31800A1B63B /* MonobankVCLocalizable.strings in Resources */,
 				2B949BBB2665B4080033383A /* Assets.xcassets in Resources */,
+				2B5546812825D8F200D456DE /* TransactionListVCLocalizable.strings in Resources */,
 				2B6C2369280F1B5D00D84174 /* KeeperVCLocalizable.strings in Resources */,
 				2B6C23752810021A00D84174 /* HolderVCLocalizable.strings in Resources */,
 				2B6C23842810BEB800D84174 /* CurrencyVCLocalizable.strings in Resources */,
@@ -1231,6 +1237,16 @@
 				2B9E7BC22705923500FBE5B2 /* ru */,
 			);
 			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		2B5546832825D8F200D456DE /* TransactionListVCLocalizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2B5546822825D8F200D456DE /* uk */,
+				2B5546842825D8F400D456DE /* ru */,
+				2B5546852825D8F500D456DE /* en */,
+			);
+			name = TransactionListVCLocalizable.strings;
 			sourceTree = "<group>";
 		};
 		2B56A99728208BA60001370E /* ComplexTransactionEditorVCLocalizable.strings */ = {

@@ -18,14 +18,14 @@ class TransactionCell: UITableViewCell { // swiftlint:disable:this type_body_len
     private let labelsAlpha: CGFloat = 0.15
     private let backGroundAlpha: CGFloat = 0.2
 
-    let mainView: UIView = {
+    private let mainView: UIView = {
         let mainView = UIView()
         mainView.layer.cornerRadius = 10
         mainView.translatesAutoresizingMaskIntoConstraints = false
         return mainView
     }()
 
-    let mainStackView: UIStackView = {
+    private let mainStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.spacing = 5.0
@@ -35,7 +35,7 @@ class TransactionCell: UITableViewCell { // swiftlint:disable:this type_body_len
         return stackView
     }()
 
-    let dateLabel: UILabel = {
+    private let dateLabel: UILabel = {
         let label = UILabel()
         label.textColor = UIColor(named: "blackGrayColor")
         label.alpha = 1
@@ -43,7 +43,7 @@ class TransactionCell: UITableViewCell { // swiftlint:disable:this type_body_len
         return label
     }()
 
-    let debitStackView: UIStackView = {
+    private let debitStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.alignment = .leading
@@ -53,7 +53,7 @@ class TransactionCell: UITableViewCell { // swiftlint:disable:this type_body_len
         return stackView
     }()
 
-    let creditStackView: UIStackView = {
+    private let creditStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.alignment = .leading
@@ -63,7 +63,7 @@ class TransactionCell: UITableViewCell { // swiftlint:disable:this type_body_len
         return stackView
     }()
 
-    let commentStackView: UIStackView = {
+    private let commentStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.alignment = .leading
@@ -73,7 +73,7 @@ class TransactionCell: UITableViewCell { // swiftlint:disable:this type_body_len
         return stackView
     }()
 
-    let debitItemsStackView: UIStackView = {
+    private let debitItemsStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.alignment = .fill
@@ -83,7 +83,7 @@ class TransactionCell: UITableViewCell { // swiftlint:disable:this type_body_len
         return stackView
     }()
 
-    let creditItemsStackView: UIStackView = {
+    private let creditItemsStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.alignment = .fill
@@ -93,20 +93,9 @@ class TransactionCell: UITableViewCell { // swiftlint:disable:this type_body_len
         return stackView
     }()
 
-    let debitLabel: UILabel = {
+    private let debitLabel: UILabel = {
         let label = UILabel()
-        label.text = "  " + NSLocalizedString("To:", comment: "")
-        label.textColor = UIColor(named: "blackGrayColor")
-        label.textAlignment = .left
-        label.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
-        label.layer.cornerRadius = 8
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
-    let creditLabel: UILabel = {
-        let label = UILabel()
-        label.text = "  " + NSLocalizedString("From:", comment: "")
+        label.text = "  " + NSLocalizedString("To:", tableName: Constants.Localizable.transactionListVC, comment: "")
         label.textColor = UIColor(named: "blackGrayColor")
         label.textAlignment = .left
         label.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
@@ -115,9 +104,9 @@ class TransactionCell: UITableViewCell { // swiftlint:disable:this type_body_len
         return label
     }()
 
-    let commentLabel: UILabel = {
+    private let creditLabel: UILabel = {
         let label = UILabel()
-        label.text = "  " + NSLocalizedString("Comment:", comment: "") + "  "
+        label.text = "  " + NSLocalizedString("From:", tableName: Constants.Localizable.transactionListVC, comment: "")
         label.textColor = UIColor(named: "blackGrayColor")
         label.textAlignment = .left
         label.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
@@ -126,7 +115,18 @@ class TransactionCell: UITableViewCell { // swiftlint:disable:this type_body_len
         return label
     }()
 
-    let commentContentLabel: UILabel = {
+    private let commentLabel: UILabel = {
+        let label = UILabel()
+        label.text = "  " + NSLocalizedString("Comment:", tableName: Constants.Localizable.transactionListVC, comment: "") + "  "
+        label.textColor = UIColor(named: "blackGrayColor")
+        label.textAlignment = .left
+        label.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
+        label.layer.cornerRadius = 8
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+
+    private let commentContentLabel: UILabel = {
         let label = UILabel()
         label.textColor = UIColor(named: "blackGrayColor")
         label.numberOfLines = 0

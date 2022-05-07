@@ -10,7 +10,7 @@ import CoreData
 
 class TransactionListProvider {
 
-    private(set) var persistentContainer: PersistentContainer
+    private(set) unowned var persistentContainer: PersistentContainer
     private(set) weak var fetchedResultsControllerDelegate: NSFetchedResultsControllerDelegate?
 
     init(with persistentContainer: PersistentContainer,
@@ -75,6 +75,23 @@ class TransactionListProvider {
             context.delete(transaction)
 
             context.save(with: .deleteTransaction)
+        }
+    }
+
+    func search(text: String) {
+        var predicate: NSPredicate?
+        if !text.isEmpty {
+            predicate = NSPredicate(format: "\(Schema.Transaction.items).\(Schema.TransactionItem.account).\(Schema.Account.path) CONTAINS[c] %@ || comment CONTAINS[c] %@",
+                                        argumentArray: [text, text])
+        } else {
+            predicate = nil
+        }
+        fetchedResultsController.fetchRequest.predicate = predicate
+        do {
+            try fetchedResultsController.performFetch()
+        } catch {
+            let nserror = error as NSError
+            fatalError("###\(#function): Failed to performFetch: \(nserror), \(nserror.userInfo)")
         }
     }
 }

@@ -15,7 +15,7 @@
 "Cancel" = "Cancel";
 "Deactivate" = "Deactivate";
 "Delete" = "Delete";
-"Do you really want to change linked account?" = "Do you really want to change linked account?";
+"Do you want to change linked account?" = "Do you want to change linked account?";
 "Do you want activate this bank account in the app?" = "Do you want activate this bank account in the app?";
 "Do you want deactivate this bank account in the app?" = "Do you want deactivate this bank account in the app? Statements doesn't loads for inactive bank accounts";
 "Do you want delete this bank account in the app? All transactions related to this bank account will be kept. Please enter \"MyBudget: Finance keeper\" to confirm this action" = "Do you want delete this bank account from the app? All transactions related to this bank account will be kept. Please enter \"MyBudget: Finance keeper\" to confirm this action";

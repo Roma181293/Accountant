@@ -186,7 +186,7 @@ class ComplexTransactionEditorViewController: UIViewController {
                 try Transaction.validateTransactionDataBeforeSave(transaction)
                 let saveTitle = NSLocalizedString("Save", tableName: Constants.Localizable.complexTransactionEditorVC,
                                                   comment: "")
-                let message = NSLocalizedString("Do you want to save changes?",
+                let message = NSLocalizedString("Save changes?",
                                                 tableName: Constants.Localizable.complexTransactionEditorVC,
                                                 comment: "")
                 let alert = UIAlertController(title: saveTitle,

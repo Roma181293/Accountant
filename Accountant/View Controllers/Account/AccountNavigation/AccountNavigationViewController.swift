@@ -320,13 +320,13 @@ extension AccountNavigationViewController {
                         title = NSLocalizedString("Deactivate",
                                                   tableName: Constants.Localizable.accountNavigationVC,
                                                   comment: "")
-                        message = NSLocalizedString("Are you sure you want to deactivate account?",
+                        message = NSLocalizedString("Deactivate account?",
                                                     tableName: Constants.Localizable.accountNavigationVC,
                                                     comment: "")
                     } else {
                         title = NSLocalizedString("Activate", tableName: Constants.Localizable.accountNavigationVC,
                                                   comment: "")
-                        message = NSLocalizedString("Are you sure you want to activate account?",
+                        message = NSLocalizedString("Activate account?",
                                                     tableName: Constants.Localizable.accountNavigationVC,
                                                     comment: "")
                     }
@@ -335,14 +335,14 @@ extension AccountNavigationViewController {
                         title = NSLocalizedString("Deactivate",
                                                   tableName: Constants.Localizable.accountNavigationVC,
                                                   comment: "")
-                        message = NSLocalizedString("Are you sure you want to deactivate category?",
+                        message = NSLocalizedString("Deactivate category?",
                                                     tableName: Constants.Localizable.accountNavigationVC,
                                                     comment: "")
                     } else {
                         title = NSLocalizedString("Activate",
                                                   tableName: Constants.Localizable.accountNavigationVC,
                                                   comment: "")
-                        message = NSLocalizedString("Are you sure you want to activate category?",
+                        message = NSLocalizedString("Activate category?",
                                                     tableName: Constants.Localizable.accountNavigationVC,
                                                     comment: "")
                     }
@@ -390,12 +390,12 @@ extension AccountNavigationViewController {
                 var message = ""
                 if account.parent?.currency == nil {
                     if let linkedAccount = account.linkedAccount {
-                        message =  String(format: NSLocalizedString("Are you sure you want to delete account and linked account \"%@\"?", tableName: Constants.Localizable.accountNavigationVC, comment: ""), linkedAccount.path) // swiftlint:disable:this line_length
+                        message =  String(format: NSLocalizedString("Do you want to delete account and linked account \"%@\"?", tableName: Constants.Localizable.accountNavigationVC, comment: ""), linkedAccount.path) // swiftlint:disable:this line_length
                     } else {
-                        message = NSLocalizedString("Are you sure you want to delete account?", tableName: Constants.Localizable.accountNavigationVC, comment: "")
+                        message = NSLocalizedString("Do you want to delete account?", tableName: Constants.Localizable.accountNavigationVC, comment: "")
                     }
                 } else {
-                    message = NSLocalizedString("Are you sure you want to delete this category and all its subcategories?", tableName: Constants.Localizable.accountNavigationVC, comment: "")
+                    message = NSLocalizedString("Do you want to delete this category and all its subcategories?", tableName: Constants.Localizable.accountNavigationVC, comment: "")
                 }
                 let alert = UIAlertController(title: NSLocalizedString("Delete", tableName: Constants.Localizable.accountNavigationVC, comment: ""),
                                               message: message,

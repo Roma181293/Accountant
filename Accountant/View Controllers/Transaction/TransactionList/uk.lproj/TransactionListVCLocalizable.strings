@@ -1,0 +1,23 @@
+/* 
+  TransactionListVCLocalizable.strings
+  Accountant
+
+  Created by Roman Topchii on 07.05.2022.
+  
+*/
+
+"Transactions" = "Транзакції";
+"Get PRO" = "PRO";
+"Error" = "Помилка";
+"Warning" = "Увага";
+"OK" = "OK";
+"Delete" = "Видалити";
+"Do you want to delete transaction?" = "Видалити транзакцію?";
+"Yes" = "Так";
+"No" = "Ні";
+"Duplicate" = "Дублювати";
+
+//Cell
+"To:" = "До:";
+"From:" = "З:";
+"Comment:" = "Коментар:";

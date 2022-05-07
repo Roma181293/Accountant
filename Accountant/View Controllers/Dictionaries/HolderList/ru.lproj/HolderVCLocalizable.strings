@@ -8,7 +8,7 @@
 
 "Holders" = "Владельцы";
 "Delete" = "Удалить";
-"Do you want to delete %@ - %@?" = "Хотите удалить %@ - %@?";
+"Do you want to delete %@ - %@?" = "Удалить %@ - %@?";
 "Yes" = "Да";
 "Cancel" = "Закрыть";
 "Edit" = "Редактировать";

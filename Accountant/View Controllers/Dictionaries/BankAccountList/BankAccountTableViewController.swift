@@ -81,7 +81,7 @@ class BankAccountTableViewController: UITableViewController {
                 title: NSLocalizedString("Relink",
                                          tableName: Constants.Localizable.bankAccountTVC,
                                          comment: ""),
-                message: NSLocalizedString("Do you really want to change linked account?",
+                message: NSLocalizedString("Do you want to change linked account?",
                                            tableName: Constants.Localizable.bankAccountTVC,
                                            comment: ""),
                 preferredStyle: .alert)

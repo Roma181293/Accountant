@@ -10,7 +10,7 @@
 "Edit transaction" = "Редактировать транзакцию";
 "Add transaction" = "Создать транзакцию";
 "Save" = "Сохранить";
-"Do you want to save changes?" = "Вы хотите сохранить изменения?";
+"Save changes?" = "Сохранить изменения?";
 "Yes" = "Да";
 "Cancel" = "Закрыть";
 "Error" = "Ошибка";

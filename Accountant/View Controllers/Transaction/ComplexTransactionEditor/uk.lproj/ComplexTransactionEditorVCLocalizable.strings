@@ -10,7 +10,7 @@
 "Edit transaction" = "Редагувати транзакцію";
 "Add transaction" = "Створити транзакцію";
 "Save" = "Зберегти";
-"Do you want to save changes?" = "Хочете зберегти зміни?";
+"Save changes?" = "Зберегти зміни?";
 "Yes" = "Так";
 "Cancel" = "Закрити";
 "Error" = "Помилка";

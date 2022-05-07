@@ -8,7 +8,7 @@
 
 "Account manager" = "Менеджер рахунків";
 "Accounts" = "Рахунки";
-"Add subcategory" = "Додати підкатегорію";
+"Add subcategory" = "Створити підкатегорію";
 "Name" = "Ім'я";
 "Add" = "Додати";
 "Warning" = "Увага";
@@ -19,15 +19,15 @@
 "New name" = "Нове ім'я";
 "Yes" = "Так";
 "Deactivate" = "Деактивувати";
-"Are you sure you want to deactivate account?" = "Ви дійсно хочете деактивувати рахунок?";
-"Activate" = "Activate";
-"Are you sure you want to activate account?" = "Ви дійсно хочете активувати рахунок?";
-"Are you sure you want to deactivate category?" = "Ви дійсно хочете деактивувати категорію?";
-"Are you sure you want to activate category?" = "Ви дійсно хочете деактивувати категорію?";
+"Deactivate account?" = "Деактивувати рахунок?";
+"Activate" = "Активувати";
+"Activate account?" = "Активувати рахунок?";
+"Deactivate category?" = "Деактивувати категорію?";
+"Activate category?" = "Активувати категорію?";
 "No" = "Ні";
 "Delete" = "Видалити";
-"Are you sure you want to delete account and linked account \"%@\"?" = "Ви дійсно хочете видалити рахунок і пов'язаний з ним рахунок \"%@\"?";
-"Are you sure you want to delete account?" = "Ви дійсно хочете видалити рахунок?";
-"Are you sure you want to delete this category and all its subcategories?" = "Ви дійсно хочете видалити категорію та всі її підкатегорії?";
+"Do you want to delete account and linked account \"%@\"?" = "Видалити рахунок і пов'язаний з ним рахунок \"%@\"?";
+"Do you want to delete account?" = "Видалити рахунок?";
+"Do you want to delete this category and all its subcategories?" = "Видалити категорію та всі її підкатегорії?";
 "Error" = "Помилка";
 "OK" = "OK";
