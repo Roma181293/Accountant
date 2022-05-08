@@ -35,7 +35,6 @@ enum DistributionType: Int {
 }
 
 enum AuthType: Int {
-    case appAuth = 0
     case bioAuth = 1
     case none = 2
 }

@@ -11,36 +11,35 @@ import UniformTypeIdentifiers
 import Purchases
 import SafariServices
 
-enum SettingsDataSource: String, CaseIterable {
-    case offer = "Purchase offer"
-    case startAccounting = "Start accounting"
-    case auth = "Auth"
-    case envirement = "Test mode"
-    case accountingCurrency = "Accounting currency"
-    case accountsManager = "Account manager"
-    case multiItemTransaction = "Multi item transaction"
-    case bankProfiles = "Bank profiles"
-    case exchangeRates = "Exchange rates"
-    case importAccounts = "Import account list"
-    case importTransactions = "Import transaction list"
-    case exportAccounts = "Export account list"
-    case exportTransactions = "Export transaction list"
-    case userGuides = "User guides"
-    case termsOfUse = "Terms of use"
-    case privacyPolicy = "Privacy policy"
-}
-
 class SettingsViewController: UIViewController {
 
-    var isUserHasPaidAccess = false
-    var proAccessExpirationDate: Date?
-    var environment: Environment = .prod
+    enum DataSource: String, CaseIterable {
+        case offer = "Purchase offer"
+        case startAccounting = "Start accounting"
+        case auth = "Auth"
+        case envirement = "Test mode"
+        case accountingCurrency = "Accounting currency"
+        case accountsManager = "Account manager"
+        case multiItemTransaction = "Multi item transaction"
+        case bankProfiles = "Bank profiles"
+        case exchangeRates = "Exchange rates"
+        case importAccounts = "Import account list"
+        case importTransactions = "Import transaction list"
+        case exportAccounts = "Export account list"
+        case exportTransactions = "Export transaction list"
+        case userGuides = "User guides"
+        case termsOfUse = "Terms of use"
+        case privacyPolicy = "Privacy policy"
+    }
+    private(set) var isUserHasPaidAccess = false
+    private(set) var proAccessExpirationDate: Date?
+    private(set) var environment: Environment = .prod
 
-    let coreDataStack = CoreDataStack.shared
-    var context = CoreDataStack.shared.persistentContainer.viewContext
+    private let coreDataStack = CoreDataStack.shared
+    private(set) var context = CoreDataStack.shared.persistentContainer.viewContext
 
-    var dataSource: [SettingsDataSource] = []
-    var isImportAccounts: Bool = true
+    private var dataSource: [DataSource] = []
+    private var isImportAccounts: Bool = true
 
     let tableView: UITableView = {
         let tableView = UITableView()
@@ -142,7 +141,7 @@ class SettingsViewController: UIViewController {
 
     func refreshDataSet() {
         dataSource.removeAll()
-        for item in SettingsDataSource.allCases {
+        for item in DataSource.allCases {
             if !((item == .envirement && UserProfile.isAppLaunchedBefore() == false)
                 || (item == .startAccounting && UserProfile.isAppLaunchedBefore() == true)
                 || (item == .auth && isUserHasPaidAccess == false)
@@ -268,7 +267,7 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
             let webVC = WebViewController(url: url!, configuration: config)
             self.present(webVC, animated: true, completion: nil)
         case .startAccounting:
-            guard let startAccountingVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.startAccountingVC) as? StartAccountingViewController else {return} // swiftlint:disable:this line_length
+            let startAccountingVC = StartAccountingViewController()
             startAccountingVC.parentVC = self.parent
             self.navigationController?.pushViewController(startAccountingVC, animated: true)
         case .userGuides:

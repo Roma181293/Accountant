@@ -95,25 +95,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 window?.makeKeyAndVisible()
                 window?.rootViewController = authVC
             }
-        } else if userAuthType == .appAuth {
-            let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-            guard let authVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.authPinAndBioVC) as? AuthPinAndBiometricViewController  else {return} // swiftlint:disable:this line_length
-            authVC.previousNavigationStack = window?.rootViewController
-            window = UIWindow(frame: UIScreen.main.bounds)
-            if let appBecomeBackgroundDate = UserProfile.getAppBecomeBackgroundDate() {
-                if let secureDate = calendar.date(byAdding: .second, value: 120, to:
-                                                    appBecomeBackgroundDate), secureDate < Date() {
-                    window?.makeKeyAndVisible()
-                    window?.rootViewController = authVC
-                } else {
-                    let tabBar = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.tabBarController) // swiftlint:disable:this line_length
-                    window?.makeKeyAndVisible()
-                    window?.rootViewController = UINavigationController(rootViewController: tabBar)
-                }
-            } else {
-                window?.makeKeyAndVisible()
-                window?.rootViewController = authVC
-            }
         }
     }
 }

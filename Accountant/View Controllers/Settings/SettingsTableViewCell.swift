@@ -10,7 +10,7 @@ import LocalAuthentication
 
 class SettingsTableViewCell: UITableViewCell {
 
-    var dataItem: SettingsDataSource!
+    var dataItem: SettingsViewController.DataSource!
     var delegate: SettingsViewController!
 
     let iconImangeView: UIImageView = {
@@ -63,7 +63,7 @@ class SettingsTableViewCell: UITableViewCell {
         accessoryType = .none
     }
 
-    func configureCell(for dataItem: SettingsDataSource, with delegate: SettingsViewController) { // swiftlint:disable:this cyclomatic_complexity function_body_length line_length
+    func configureCell(for dataItem: SettingsViewController.DataSource, with delegate: SettingsViewController) { // swiftlint:disable:this cyclomatic_complexity function_body_length line_length
         self.delegate = delegate
         self.dataItem = dataItem
 
@@ -115,8 +115,6 @@ class SettingsTableViewCell: UITableViewCell {
                 }
 
                 switch UserProfile.getUserAuth() {
-                case .appAuth:
-                    break
                 case .bioAuth:
                     switcher.isOn = true
                 case .none:
@@ -141,7 +139,6 @@ class SettingsTableViewCell: UITableViewCell {
             }
             iconImangeView.image = UIImage(systemName: "dollarsign.circle")
             iconImangeView.tintColor = .systemGreen
-//            accessoryType = .disclosureIndicator
         case .accountsManager:
             iconImangeView.image = UIImage(systemName: "list.bullet.indent")
             iconImangeView.tintColor = .systemRed
