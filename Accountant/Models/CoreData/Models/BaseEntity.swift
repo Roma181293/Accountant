@@ -9,7 +9,7 @@ import Foundation
 import CoreData
 
 class BaseEntity: NSManagedObject {
-    
+
     @NSManaged public var id: UUID
     @NSManaged public var createDate: Date?
     @NSManaged public var createdByUser: Bool

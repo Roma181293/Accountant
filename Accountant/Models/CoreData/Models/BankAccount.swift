@@ -42,7 +42,7 @@ final class BankAccount: NSManagedObject {
         self.lastTransactionDate = lastTransactionDate // calendar.date(byAdding: .day, value: -90, to: Date())!
         self.lastLoadDate = calendar.date(byAdding: .second, value: -60, to: lastTransactionDate)!
     }
-    
+
     static func isFreeExternalId(_ externalId: String, context: NSManagedObjectContext) -> Bool {
         let fetchRequest = BankAccount.fetchRequest()
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: Schema.BankAccount.id.rawValue, ascending: true)]
@@ -90,7 +90,7 @@ final class BankAccount: NSManagedObject {
             return false
         }
     }
-    
+
     static func getBankAccountByExternalId(_ externalId: String, context: NSManagedObjectContext) -> BankAccount? {
         let fetchRequest = BankAccount.fetchRequest()
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: Schema.BankAccount.id.rawValue, ascending: true)]

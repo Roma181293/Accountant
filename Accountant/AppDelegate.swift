@@ -54,7 +54,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
 
-    func applicationWillEnterForeground(_ application: UIApplication) { // swiftlint:disable:this function_body_length
+    func applicationWillEnterForeground(_ application: UIApplication) {
         let calendar = Calendar.current
 
         // MARK: - GET PURCHASER INFO
