@@ -9,13 +9,13 @@
 "Add accounts" = "Получить счета";
 "API documentation" = "API документация";
 "Error" = "Ошибка";
-"Get data" = "Получить информацию";
+"Get data" = "Получить данные";
 "Get token" = "Получить токен";
 "Holder" = "Владелец";
 "Monobank" = "Monobank";
 "OK" = "OK";
 "Please enter Token" = "Пожалуйста введите Токен";
-"To automatically adding your transactions from the Monobank accounts please enter Token in the field below" = "Для автоматической загрузки операций со счетов Monobank пожалуйста введите Токен в поле ниже";
+"To automatically adding your transactions from the Monobank accounts please enter Token in the field below" = "Для автоматической загрузки транзакций со счетов Monobank пожалуйста введите Токен в поле ниже";
 "Token" = "Токен";
 "Token has been successfully updated" = "Токен было успешно обновлено";
 "Warning" = "Внимание";
