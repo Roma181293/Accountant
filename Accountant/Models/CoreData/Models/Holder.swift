@@ -41,15 +41,10 @@ final class Holder: BaseEntity {
         }
     }
 
-    static func getMe(context: NSManagedObjectContext) throws -> Holder? {
+    static func getMe(context: NSManagedObjectContext) -> Holder? {
         let fetchRequest = Holder.fetchRequest()
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: Schema.Holder.createDate.rawValue, ascending: true)]
         fetchRequest.predicate = NSPredicate(format: "\(Schema.Holder.createdByUser.rawValue) = false")
-        let holders = try context.fetch(fetchRequest)
-        if holders.isEmpty {
-            return nil
-        } else {
-            return holders[0]
-        }
+        return try? context.fetch(fetchRequest).first
     }
 }

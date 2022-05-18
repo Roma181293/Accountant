@@ -71,7 +71,7 @@ class AccountListTableViewController: UITableViewController, AccountManagerTable
     override  func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let selectedAccount: Account = self.listOfAccountsToShow[indexPath.row].account
         var tmpConfiguration: [UIContextualAction] = []
-        tmpConfiguration.append(accountManagerController.addTransactionWithDebitAccount(indexPath: indexPath, selectedAccount: selectedAccount))
+//        tmpConfiguration.append(accountManagerController.addTransactionWithDebitAccount(indexPath: indexPath, selectedAccount: selectedAccount))
         if selectedAccount.canBeRenamed {
             tmpConfiguration.append(accountManagerController.renameAccount(indexPath: indexPath, selectedAccount: selectedAccount))
             tmpConfiguration.append(accountManagerController.removeAccount(indexPath: indexPath, selectedAccount: selectedAccount))
@@ -83,11 +83,11 @@ class AccountListTableViewController: UITableViewController, AccountManagerTable
         return UISwipeActionsConfiguration(actions: tmpConfiguration)
     }
 
-    override func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let selectedAccount: Account = self.listOfAccountsToShow[indexPath.row].account
-        return UISwipeActionsConfiguration(actions: [accountManagerController.addTransactionWithCreditAccount(indexPath: indexPath, selectedAccount: selectedAccount),
-                                                     accountManagerController.editAccount(indexPath: indexPath, selectedAccount: selectedAccount)])
-    }
+//    override func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+//        let selectedAccount: Account = self.listOfAccountsToShow[indexPath.row].account
+//        return UISwipeActionsConfiguration(actions: [accountManagerController.addTransactionWithCreditAccount(indexPath: indexPath, selectedAccount: selectedAccount),
+//                                                     accountManagerController.editAccount(indexPath: indexPath, selectedAccount: selectedAccount)])
+//    }
     // swiftlint:enable line_length
 
     func errorHandlerMethod(error: Error) {

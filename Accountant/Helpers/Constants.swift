@@ -94,7 +94,7 @@ struct Constants {
     struct URL {
         static let privacyPolicy = "https://drive.google.com/file/d/1H3CZXn03YgGGM2uThEQ1yQ1G5PCvt3SB/view?usp=sharing"
         static let termsOfUse = "https://drive.google.com/file/d/1jGybkl74yTbOfzcFtGSySw8k86GjTP5N/view?usp=sharing"
-        static let monoAPIDoc = "https://api.monobank.ua/docs"
+        static let monoAPIDoc = "https://api.monobank.ua/docs/"
         static let monoToken = "https://api.monobank.ua"
     }
 

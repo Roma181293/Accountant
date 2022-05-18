@@ -1,5 +1,5 @@
 //
-//  MonobankAccountTableViewCell.swift
+//  MonobankAccountCell.swift
 //  Accountant
 //
 //  Created by Roman Topchii on 18.12.2021.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class MonobankAccountTableViewCell: UITableViewCell {
+class MonobankAccountCell: UITableViewCell {
 
     let mainStackView : UIStackView = {
         let stackView = UIStackView()
@@ -58,7 +58,7 @@ class MonobankAccountTableViewCell: UITableViewCell {
     }()
     
     
-    func configureCell(_ mbba: MBAccountInfo, isAdded: Bool){
+    func configureCell(_ mbba: MBAccountInfo){
         contentView.addSubview(mainStackView)
         mainStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10).isActive = true
         mainStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10).isActive = true
@@ -74,7 +74,7 @@ class MonobankAccountTableViewCell: UITableViewCell {
         
         let currency = mbba.getCurrency(context: CoreDataStack.shared.persistentContainer.viewContext)?.code ?? "Unknown currency"
         
-        if isAdded {
+        if mbba.isExists() {
             statusLabel.text = "  " + NSLocalizedString("Already added", tableName: Constants.Localizable.monobankVC, comment: "") + "  "
             statusLabel.layer.backgroundColor = UIColor.green.cgColor
         }

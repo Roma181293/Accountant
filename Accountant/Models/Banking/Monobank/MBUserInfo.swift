@@ -15,7 +15,19 @@ struct MBUserInfo: Codable {
     let permissions: String
     let accounts: [MBAccountInfo]
 
+    func isAnyAccountToAdd() -> Bool {
+        for account in accounts where !account.isExists() {
+            return true
+        }
+        return false
+    }
+
     func isExists(context: NSManagedObjectContext) -> Bool {
+        return !UserBankProfile.isFreeExternalId(clientId, context: context)
+    }
+
+    func isExists() -> Bool {
+        let context = CoreDataStack.shared.persistentContainer.newBackgroundContext()
         return !UserBankProfile.isFreeExternalId(clientId, context: context)
     }
 

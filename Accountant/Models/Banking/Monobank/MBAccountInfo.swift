@@ -26,4 +26,9 @@ struct MBAccountInfo: Codable {
     func isExists(context: NSManagedObjectContext) -> Bool {
         return !BankAccount.isFreeExternalId(id, context: context)
     }
+
+    func isExists() -> Bool {
+        let context = CoreDataStack.shared.persistentContainer.newBackgroundContext()
+        return !BankAccount.isFreeExternalId(id, context: context)
+    }
 }

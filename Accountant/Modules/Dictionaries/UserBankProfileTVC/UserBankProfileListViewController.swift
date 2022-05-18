@@ -44,9 +44,7 @@ class UserBankProfileListViewController: UITableViewController {
     }
 
     @objc func addUserBankProfile() {
-        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        guard let monobankVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.monobankVC) as? MonobankViewController else {return} // swiftlint:disable:this line_length
-        self.navigationController?.pushViewController(monobankVC, animated: true)
+        self.navigationController?.pushViewController(MonobankUBPViewController(), animated: true)
     }
 
     // MARK: - Table view data source
@@ -136,8 +134,9 @@ class UserBankProfileListViewController: UITableViewController {
                           let textField = textFields.first
                     else {return}
                     try selectedUBP.delete(consentText: textField.text!)
+                    try self.fetchedResultsController.performFetch()
+                    tableView.deleteRows(at: [indexPath], with: .fade)
                     try CoreDataStack.shared.saveContext(self.context)
-                    tableView.reloadData()
                 } catch let error {
                     self.errorHandler(error: error)
                 }

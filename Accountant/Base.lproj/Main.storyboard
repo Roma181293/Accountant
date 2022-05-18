@@ -93,10 +93,10 @@
             </objects>
             <point key="canvasLocation" x="-5204" y="1892"/>
         </scene>
-        <!--Monobank View Controller-->
+        <!--MonobankUBP View Controller-->
         <scene sceneID="B2T-Tw-32h">
             <objects>
-                <viewController storyboardIdentifier="MonobankVC_ID" id="Djz-Fn-Vnu" customClass="MonobankViewController" customModule="Accountant" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MonobankVC_ID" id="Djz-Fn-Vnu" customClass="MonobankUBPViewController" customModule="Accountant" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="MlU-62-B9t">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
