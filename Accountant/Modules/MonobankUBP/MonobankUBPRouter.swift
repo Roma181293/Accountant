@@ -28,7 +28,6 @@ class MonobankUBPRouter: MonobankUBPRouterProtocol {
         holderVC.delegate = delegate
         holderVC.holder = selected
         viewController.navigationController?.pushViewController(holderVC, animated: true)
-
     }
 
     func openWeb(url: URL) {

@@ -144,18 +144,22 @@ class StartAccountingViewController: UIViewController {
         } else if currentStep == 2 {
             currentStep += 1
             accountNavigationTVC.parentAccount = Account.getAccountWithPath(LocalisationManager.getLocalizedName(.expense), context: context) // swiftlint:disable:this line_length
+            accountNavigationTVC.refreshDataForNewParent()
             configureUIForStep()
         } else if currentStep == 3 {
             currentStep += 1
             accountNavigationTVC.parentAccount = Account.getAccountWithPath(LocalisationManager.getLocalizedName(.money), context: context) // swiftlint:disable:this line_length
+            accountNavigationTVC.refreshDataForNewParent()
             configureUIForStep()
         } else if currentStep == 4 {
             currentStep += 1
             accountNavigationTVC.parentAccount = Account.getAccountWithPath(LocalisationManager.getLocalizedName(.debtors), context: context) // swiftlint:disable:this line_length
+            accountNavigationTVC.refreshDataForNewParent()
             configureUIForStep()
         } else if currentStep == 5 {
             currentStep += 1
             accountNavigationTVC.parentAccount = Account.getAccountWithPath(LocalisationManager.getLocalizedName(.credits), context: context) // swiftlint:disable:this line_length
+            accountNavigationTVC.refreshDataForNewParent()
             configureUIForStep()
             mainView.continueButton.setImage(UIImage(systemName: "checkmark"), for: .normal)
         } else if currentStep == 6 {

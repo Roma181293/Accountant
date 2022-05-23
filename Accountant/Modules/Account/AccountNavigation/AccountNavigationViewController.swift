@@ -15,12 +15,7 @@ protocol AccountRequestor: UIViewController {
 
 class AccountNavigationViewController: UITableViewController {
 
-    var parentAccount: Account? {
-        didSet {
-            dataProvider.parent = parentAccount
-            tableView.reloadData()
-        }
-    }
+    var parentAccount: Account?
     var excludeAccountList: [Account] = []
     var showHiddenAccounts: Bool = true
     var canModifyAccountStructure: Bool = true
@@ -45,6 +40,8 @@ class AccountNavigationViewController: UITableViewController {
         controller.searchBar.sizeToFit()
         controller.obscuresBackgroundDuringPresentation = false
         controller.hidesNavigationBarDuringPresentation = false
+        controller.automaticallyShowsSearchResultsController = false
+        controller.automaticallyShowsCancelButton = false
         tableView.tableHeaderView = controller.searchBar
         return controller
     }()
@@ -52,7 +49,7 @@ class AccountNavigationViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         reloadProAccessData()
-        print("searchBarIsHidden", searchBarIsHidden)
+        
         // adding NotificationCenter observers
         NotificationCenter.default.addObserver(self, selector: #selector(self.reloadProAccessData),
                                                name: .receivedProAccessData, object: nil)
@@ -81,6 +78,13 @@ class AccountNavigationViewController: UITableViewController {
 
     func resetPredicate() {
         dataProvider.resetPredicate()
+    }
+
+    func refreshDataForNewParent() {
+        dataProvider.parent = parentAccount
+        dataProvider.resetPredicate()
+        dataProvider.reloadData()
+        tableView.reloadData()
     }
 }
 

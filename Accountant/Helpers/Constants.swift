@@ -13,7 +13,7 @@ struct Constants {
     struct Localizable {
         static let settingsVC = "SettingsVCLocalizable"
         static let bankAccountTVC = "BankAccountTVCLocalizable"
-        static let userBankProfileTVC = "UserBankProfileTVCLocalizable"
+        static let userBankProfileListVC = "UserBankProfileListVCLocalizable"
         static let monobankVC = "MonobankVCLocalizable"
         static let keeperVC = "KeeperVCLocalizable"
         static let holderVC = "HolderVCLocalizable"

@@ -20,7 +20,7 @@ protocol MonobankUBPView: AnyObject {
 class MonobankUBPViewController: UIViewController {
 
     var presenter: MonobankUBPPresenterProtocol!
-    let configurator: MonobankUBPConfiguratorProtocal = MonobankUBPConfigurator()
+    let configurator: MonobankUBPConfiguratorProtocol = MonobankUBPConfigurator()
 
     let mainView: UIView = {
         let view = UIView()

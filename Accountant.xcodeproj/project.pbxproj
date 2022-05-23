@@ -117,7 +117,7 @@
 		2B7AB40E278D50EA00974156 /* TransactionItemError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B7AB40D278D50EA00974156 /* TransactionItemError.swift */; };
 		2B7F882827A52CC700A1B63B /* SettingsVCLocalizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2B7F882A27A52CC700A1B63B /* SettingsVCLocalizable.strings */; };
 		2B7F883027A56BEA00A1B63B /* BankAccountTVCLocalizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2B7F883227A56BEA00A1B63B /* BankAccountTVCLocalizable.strings */; };
-		2B7F883727A5CDE700A1B63B /* UserBankProfileTVCLocalizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2B7F883927A5CDE700A1B63B /* UserBankProfileTVCLocalizable.strings */; };
+		2B7F883727A5CDE700A1B63B /* UserBankProfileListVCLocalizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2B7F883927A5CDE700A1B63B /* UserBankProfileListVCLocalizable.strings */; };
 		2B7F884827A5D31800A1B63B /* MonobankVCLocalizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2B7F884A27A5D31800A1B63B /* MonobankVCLocalizable.strings */; };
 		2B8172EF2798B0EC00E6CB20 /* UserBankProfileListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B8172EE2798B0EC00E6CB20 /* UserBankProfileListViewController.swift */; };
 		2B8172F12798B7B200E6CB20 /* BankAccountTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B8172F02798B7B200E6CB20 /* BankAccountTableViewController.swift */; };
@@ -127,6 +127,10 @@
 		2B85D85B278F63FC0042858B /* ExchangeTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B85D85A278F63FC0042858B /* ExchangeTableViewController.swift */; };
 		2B85FD0927778C5A005A295E /* StatementProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B85FD0827778C5A005A295E /* StatementProtocol.swift */; };
 		2B85FD0D277795DC005A295E /* StatementLoadingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B85FD0C277795DC005A295E /* StatementLoadingService.swift */; };
+		2B8A9E6F283582D700329091 /* UserBankProfileListPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B8A9E6E283582D700329091 /* UserBankProfileListPresenter.swift */; };
+		2B8A9E71283582EA00329091 /* UserBankProfileListInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B8A9E70283582EA00329091 /* UserBankProfileListInteractor.swift */; };
+		2B8A9E73283582F900329091 /* UserBankProfileListConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B8A9E72283582F900329091 /* UserBankProfileListConfigurator.swift */; };
+		2B8A9E752835830700329091 /* UserBankProfileListRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B8A9E742835830700329091 /* UserBankProfileListRouter.swift */; };
 		2B949BAF2665B4040033383A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B949BAE2665B4040033383A /* AppDelegate.swift */; };
 		2B949BB12665B4040033383A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B949BB02665B4040033383A /* SceneDelegate.swift */; };
 		2B949BB62665B4040033383A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2B949BB42665B4040033383A /* Main.storyboard */; };
@@ -317,9 +321,9 @@
 		2B7F883127A56BEA00A1B63B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/BankAccountTVCLocalizable.strings; sourceTree = "<group>"; };
 		2B7F883327A56BED00A1B63B /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/BankAccountTVCLocalizable.strings; sourceTree = "<group>"; };
 		2B7F883427A56BF100A1B63B /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/BankAccountTVCLocalizable.strings; sourceTree = "<group>"; };
-		2B7F883827A5CDE700A1B63B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/UserBankProfileTVCLocalizable.strings; sourceTree = "<group>"; };
-		2B7F883A27A5CDE900A1B63B /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/UserBankProfileTVCLocalizable.strings; sourceTree = "<group>"; };
-		2B7F883B27A5CDEA00A1B63B /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/UserBankProfileTVCLocalizable.strings; sourceTree = "<group>"; };
+		2B7F883827A5CDE700A1B63B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/UserBankProfileListVCLocalizable.strings; sourceTree = "<group>"; };
+		2B7F883A27A5CDE900A1B63B /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/UserBankProfileListVCLocalizable.strings; sourceTree = "<group>"; };
+		2B7F883B27A5CDEA00A1B63B /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/UserBankProfileListVCLocalizable.strings; sourceTree = "<group>"; };
 		2B7F884927A5D31800A1B63B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/MonobankVCLocalizable.strings; sourceTree = "<group>"; };
 		2B7F884B27A5D31A00A1B63B /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/MonobankVCLocalizable.strings; sourceTree = "<group>"; };
 		2B7F884C27A5D31B00A1B63B /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/MonobankVCLocalizable.strings; sourceTree = "<group>"; };
@@ -331,6 +335,10 @@
 		2B85D85A278F63FC0042858B /* ExchangeTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeTableViewController.swift; sourceTree = "<group>"; };
 		2B85FD0827778C5A005A295E /* StatementProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatementProtocol.swift; sourceTree = "<group>"; };
 		2B85FD0C277795DC005A295E /* StatementLoadingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatementLoadingService.swift; sourceTree = "<group>"; };
+		2B8A9E6E283582D700329091 /* UserBankProfileListPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserBankProfileListPresenter.swift; sourceTree = "<group>"; };
+		2B8A9E70283582EA00329091 /* UserBankProfileListInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserBankProfileListInteractor.swift; sourceTree = "<group>"; };
+		2B8A9E72283582F900329091 /* UserBankProfileListConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserBankProfileListConfigurator.swift; sourceTree = "<group>"; };
+		2B8A9E742835830700329091 /* UserBankProfileListRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserBankProfileListRouter.swift; sourceTree = "<group>"; };
 		2B949BAB2665B4040033383A /* Accountant.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Accountant.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2B949BAE2665B4040033383A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2B949BB02665B4040033383A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -660,7 +668,7 @@
 				2B6C236E280FC91600D84174 /* HolderList */,
 				2B6C2364280F0CD100D84174 /* KeeperList */,
 				2B85D85A278F63FC0042858B /* ExchangeTableViewController.swift */,
-				2B7F885127A5D58200A1B63B /* UserBankProfileTVC */,
+				2B7F885127A5D58200A1B63B /* UserBankProfileList */,
 			);
 			path = Dictionaries;
 			sourceTree = "<group>";
@@ -674,13 +682,17 @@
 			path = ImportTransactions;
 			sourceTree = "<group>";
 		};
-		2B7F885127A5D58200A1B63B /* UserBankProfileTVC */ = {
+		2B7F885127A5D58200A1B63B /* UserBankProfileList */ = {
 			isa = PBXGroup;
 			children = (
 				2B8172EE2798B0EC00E6CB20 /* UserBankProfileListViewController.swift */,
-				2B7F883927A5CDE700A1B63B /* UserBankProfileTVCLocalizable.strings */,
+				2B8A9E6E283582D700329091 /* UserBankProfileListPresenter.swift */,
+				2B8A9E70283582EA00329091 /* UserBankProfileListInteractor.swift */,
+				2B8A9E72283582F900329091 /* UserBankProfileListConfigurator.swift */,
+				2B8A9E742835830700329091 /* UserBankProfileListRouter.swift */,
+				2B7F883927A5CDE700A1B63B /* UserBankProfileListVCLocalizable.strings */,
 			);
-			path = UserBankProfileTVC;
+			path = UserBankProfileList;
 			sourceTree = "<group>";
 		};
 		2B7F885227A5D5AD00A1B63B /* BankAccountList */ = {
@@ -730,8 +742,8 @@
 			children = (
 				2B6C238B2811BCF700D84174 /* AccountProvider.swift */,
 				2B6C23892811BCD800D84174 /* AccountNavigationViewController.swift */,
-				2B6C23912817467500D84174 /* AccountNavigationVCLocalizable.strings */,
 				2B1407AB26F931AA00114B95 /* AccountNavigationCell.swift */,
+				2B6C23912817467500D84174 /* AccountNavigationVCLocalizable.strings */,
 			);
 			path = AccountNavigation;
 			sourceTree = "<group>";
@@ -1035,7 +1047,7 @@
 				2B6D8E772826DF07006896EF /* WelcomeVCLocalizable.strings in Resources */,
 				2B6D8E862826F20A006896EF /* PurchaseOfferVCLocalizable.strings in Resources */,
 				2B7F883027A56BEA00A1B63B /* BankAccountTVCLocalizable.strings in Resources */,
-				2B7F883727A5CDE700A1B63B /* UserBankProfileTVCLocalizable.strings in Resources */,
+				2B7F883727A5CDE700A1B63B /* UserBankProfileListVCLocalizable.strings in Resources */,
 				2B7F884827A5D31800A1B63B /* MonobankVCLocalizable.strings in Resources */,
 				2B949BBB2665B4080033383A /* Assets.xcassets in Resources */,
 				2B5546812825D8F200D456DE /* TransactionListVCLocalizable.strings in Resources */,
@@ -1173,6 +1185,7 @@
 				2BB780B2272EAB9B002D2098 /* GuideView.swift in Sources */,
 				2B7AB40C278D4D5500974156 /* UserBankProfileError.swift in Sources */,
 				2B1407AC26F931AA00114B95 /* AccountNavigationCell.swift in Sources */,
+				2B8A9E73283582F900329091 /* UserBankProfileListConfigurator.swift in Sources */,
 				2B1FEA6A266BF15200BF53BD /* SeedDataManager.swift in Sources */,
 				2B00CAFB2746514900821FE0 /* Keeper.swift in Sources */,
 				2B1FEAC6266C433200BF53BD /* BiometricAuthViewController.swift in Sources */,
@@ -1198,6 +1211,7 @@
 				2B7AB400278D4C6900974156 /* KeeperError.swift in Sources */,
 				2B7AB406278D4CED00974156 /* AccountWithBalanceError.swift in Sources */,
 				2BF23E80281DC56F00620109 /* MappingModel_V1toV3.xcmappingmodel in Sources */,
+				2B8A9E71283582EA00329091 /* UserBankProfileListInteractor.swift in Sources */,
 				2BE53D53282F170C004CBD84 /* MonobankUBPInteractor.swift in Sources */,
 				2B7AB3F9278C831C00974156 /* Extension UIViewController.swift in Sources */,
 				2BE53D51282F166E004CBD84 /* MonobankUBPRouter.swift in Sources */,
@@ -1226,6 +1240,7 @@
 				2B6D8E74282660FF006896EF /* WelcomeView.swift in Sources */,
 				2B1FEAF7266CB2C200BF53BD /* CurrencyTableViewCell.swift in Sources */,
 				2B1FEB7B266EC39800BF53BD /* AnalyticsTableViewController.swift in Sources */,
+				2B8A9E752835830700329091 /* UserBankProfileListRouter.swift in Sources */,
 				2B6C23A02819477900D84174 /* SimpleTransactionEditorView.swift in Sources */,
 				2B8172EF2798B0EC00E6CB20 /* UserBankProfileListViewController.swift in Sources */,
 				2B4976FC26DBE90B00147EAA /* TransactionCell.swift in Sources */,
@@ -1241,6 +1256,7 @@
 				2BE53D4F282F1569004CBD84 /* MonobankUBPPresenter.swift in Sources */,
 				2BE53D4D282F14A7004CBD84 /* MonobankUBPConfigurator.swift in Sources */,
 				2B1FEB6E266D752200BF53BD /* PresentingData.swift in Sources */,
+				2B8A9E6F283582D700329091 /* UserBankProfileListPresenter.swift in Sources */,
 				2BDE4F4227D7570A0069624C /* Account.swift in Sources */,
 				2B490DD726E2911C00967E11 /* Extension Notification.swift in Sources */,
 				2B1FEA4B266BEE6700BF53BD /* CurrencyExhangeNB.swift in Sources */,
@@ -1421,14 +1437,14 @@
 			name = BankAccountTVCLocalizable.strings;
 			sourceTree = "<group>";
 		};
-		2B7F883927A5CDE700A1B63B /* UserBankProfileTVCLocalizable.strings */ = {
+		2B7F883927A5CDE700A1B63B /* UserBankProfileListVCLocalizable.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
 				2B7F883827A5CDE700A1B63B /* en */,
 				2B7F883A27A5CDE900A1B63B /* ru */,
 				2B7F883B27A5CDEA00A1B63B /* uk */,
 			);
-			name = UserBankProfileTVCLocalizable.strings;
+			name = UserBankProfileListVCLocalizable.strings;
 			sourceTree = "<group>";
 		};
 		2B7F884A27A5D31800A1B63B /* MonobankVCLocalizable.strings */ = {

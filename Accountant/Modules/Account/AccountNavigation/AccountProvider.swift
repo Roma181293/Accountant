@@ -17,14 +17,7 @@ class AccountProvider {
         case changeActiveStatus
     }
 
-    var parent: Account? {
-        didSet {
-            if oldValue != nil {
-                resetPredicate()
-                reloadData()
-            }
-        }
-    }
+    var parent: Account?
     var excludeAccountList: [Account] = []
     var showHiddenAccounts: Bool = true
     var canModifyAccountStructure: Bool = true
@@ -48,11 +41,11 @@ class AccountProvider {
     lazy var fetchedResultsController: NSFetchedResultsController<Account> = {
         let fetchRequest = Account.fetchRequest()
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: Schema.Account.path.rawValue, ascending: true)]
-        let predicate = NSPredicate(format: "NOT (SELF IN %@) && "
-                                    + "\(Schema.Account.parent.rawValue) = %@ && "
-                                    + "(\(Schema.Account.active.rawValue) = true "
+        let predicate = NSPredicate(format: "\(Schema.Account.parent.rawValue) = %@ && "
+                                    + "NOT (SELF IN %@) && "
+                                    +  "(\(Schema.Account.active.rawValue) = true "
                                     + "|| \(Schema.Account.active.rawValue) != %@)",
-                                    argumentArray: [excludeAccountList, parent, showHiddenAccounts])
+                                    argumentArray: [parent, excludeAccountList, showHiddenAccounts])
         fetchRequest.predicate = predicate
 
         let controller = NSFetchedResultsController(fetchRequest: fetchRequest,
@@ -70,6 +63,13 @@ class AccountProvider {
 
     func addCategoty(parent: Account, name: String, createdByUser: Bool = true,
                      createDate: Date = Date(), shouldSave: Bool = true) throws {
+        let backgroundContext = persistentContainer.newBackgroundContext()
+
+        let fetchRequest: NSFetchRequest<Account> = Account.fetchRequest()
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: Schema.Account.name.rawValue, ascending: false)]
+        fetchRequest.predicate = NSPredicate(format: "\(Schema.Account.id.rawValue) = %@", parent.id as CVarArg)
+
+        guard let parent = try backgroundContext.fetch(fetchRequest).first else {return}
 
         guard !name.isEmpty else {throw AccountError.emptyName}
 
@@ -77,7 +77,7 @@ class AccountProvider {
         guard createdByUser == false || Account.isReservedAccountName(name) == false
         else {throw AccountError.reservedName(name: name)}
 
-        guard Account.isFreeAccountName(parent: parent, name: name, context: context) == true else {
+        guard Account.isFreeAccountName(parent: parent, name: name, context: backgroundContext) == true else {
             if parent.currency == nil {
                 throw AccountError.accountAlreadyExists(name: name)
             } else {
@@ -86,7 +86,7 @@ class AccountProvider {
         }
 
         guard parent.rootAccount.currency != nil else {return}
-        context.performAndWait {
+        backgroundContext.performAndWait {
             // Adding "Other" account for cases when parent containts transactions
             if parent.isFreeFromTransactionItems == false,
                Account.isReservedAccountName(name) == false {
@@ -94,7 +94,7 @@ class AccountProvider {
                 if newAccount == nil {
                     newAccount = Account(parent: parent,
                                          name: LocalisationManager.getLocalizedName(.other1),
-                                         context: context)
+                                         context: backgroundContext)
                 }
                 if newAccount != nil {
                     TransactionItem.moveTransactionItemsFrom(oldAccount: parent, newAccount: newAccount!,
@@ -102,9 +102,9 @@ class AccountProvider {
                 }
             }
             _ = Account(parent: parent, name: name, createdByUser: createdByUser,
-                        createDate: createDate, context: context)
+                        createDate: createDate, context: backgroundContext)
             if shouldSave {
-                context.save(with: .addAccount)
+                backgroundContext.save(with: .addAccount)
             }
         }
     }
@@ -124,18 +124,24 @@ class AccountProvider {
             }
         }
 
-        context.performAndWait {
-            account.name = newName
-            account.path = account.pathCalc
-            account.modifyDate = Date()
-            account.modifiedByUser = true
+        let objectID  = fetchedResultsController.object(at: indexPath).objectID
+        let backgroundContext = persistentContainer.newBackgroundContext()
+        backgroundContext.performAndWait {
 
-            for child in account.childrenList {
+            guard let accountInBackgroundContext = backgroundContext.object(with: objectID) as? Account else {
+                fatalError("###\(#function): Failed to cast object to Account")
+            }
+            accountInBackgroundContext.name = newName
+            accountInBackgroundContext.path = account.pathCalc
+            accountInBackgroundContext.modifyDate = Date()
+            accountInBackgroundContext.modifiedByUser = true
+
+            for child in accountInBackgroundContext.childrenList {
                 child.path = child.pathCalc
             }
 
             if shouldSave {
-                context.save(with: .renameAccount)
+                backgroundContext.save(with: .renameAccount)
             }
         }
     }
@@ -180,22 +186,28 @@ class AccountProvider {
             throw AccountError.accumulativeAccountCannotBeHiddenWithNonZeroAmount(name: account.path)
         }
 
-        context.performAndWait {
+        let objectID  = fetchedResultsController.object(at: indexPath).objectID
+        let backgroundContext = persistentContainer.newBackgroundContext()
+        backgroundContext.performAndWait {
 
-            let oldActive = account.active
+            guard let accountInBackgroundContext = backgroundContext.object(with: objectID) as? Account else {
+                fatalError("###\(#function): Failed to cast object to Account")
+            }
 
-            account.active = !oldActive
-            account.modifyDate = modifyDate
-            account.modifiedByUser = modifiedByUser
+            let oldActive = accountInBackgroundContext.active
+
+            accountInBackgroundContext.active = !oldActive
+            accountInBackgroundContext.modifyDate = modifyDate
+            accountInBackgroundContext.modifiedByUser = modifiedByUser
 
             if oldActive {// deactivation
-                for anc in account.childrenList.filter({$0.active == oldActive}) {
+                for anc in accountInBackgroundContext.childrenList.filter({$0.active == oldActive}) {
                     anc.active = !oldActive
                     anc.modifyDate = modifyDate
                     anc.modifiedByUser = modifiedByUser
                 }
             } else {// activation
-                for anc in account.ancestorList.filter({$0.active == oldActive}) {
+                for anc in accountInBackgroundContext.ancestorList.filter({$0.active == oldActive}) {
                     anc.active = !oldActive
                     anc.modifyDate = modifyDate
                     anc.modifiedByUser = modifiedByUser
@@ -203,7 +215,7 @@ class AccountProvider {
             }
 
             if shouldSave {
-                context.save(with: .changeAccountActiveStatus)
+                backgroundContext.save(with: .changeAccountActiveStatus)
             }
         }
     }
@@ -234,16 +246,23 @@ class AccountProvider {
             throw AccountError.linkedAccountHasTransactionItem(name: linkedAccount.path)
         }
 
-        context.performAndWait {
-            if let linkedAccount = account.linkedAccount {
-                context.delete(linkedAccount)
+        let objectID  = fetchedResultsController.object(at: indexPath).objectID
+        let backgroundContext = persistentContainer.newBackgroundContext()
+        backgroundContext.performAndWait {
+
+            guard let accountInBackgroundContext = backgroundContext.object(with: objectID) as? Account else {
+                fatalError("###\(#function): Failed to cast object to Account")
             }
-            account.childrenList.forEach({
-                context.delete($0)
+
+            if let linkedAccount = accountInBackgroundContext.linkedAccount {
+                backgroundContext.delete(linkedAccount)
+            }
+            accountInBackgroundContext.childrenList.forEach({
+                backgroundContext.delete($0)
             })
-            context.delete(account)
+            backgroundContext.delete(accountInBackgroundContext)
             if shouldSave {
-                context.save(with: .deleteAccount)
+                backgroundContext.save(with: .deleteAccount)
             }
         }
     }

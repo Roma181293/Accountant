@@ -7,11 +7,11 @@
 
 import Foundation
 
-protocol MonobankUBPConfiguratorProtocal: AnyObject {
+protocol MonobankUBPConfiguratorProtocol: AnyObject {
     func configure(with viewController: MonobankUBPViewController)
 }
 
-class MonobankUBPConfigurator: MonobankUBPConfiguratorProtocal {
+class MonobankUBPConfigurator: MonobankUBPConfiguratorProtocol {
     func configure(with viewController: MonobankUBPViewController) {
         let presenter = MonobankUBPPresenter(view: viewController)
         let interactor = MonobankUBPInteractor(presenter: presenter)

@@ -112,11 +112,13 @@ class BankAccountTableViewController: UITableViewController {
         changeLink.image = UIImage(systemName: "link")
 
         let changeActiveStatus = UIContextualAction(style: .normal, title: nil) { (_, _, complete) in
-            var title = NSLocalizedString("Activate", comment: "")
+            var title = NSLocalizedString("Activate",
+                                          tableName: Constants.Localizable.bankAccountTVC, comment: "")
             var message = NSLocalizedString("Do you want activate this bank account in the app?",
                                             tableName: Constants.Localizable.bankAccountTVC, comment: "")
             if selectedBankAccount.active {
-                title = NSLocalizedString("Deactivate", comment: "")
+                title = NSLocalizedString("Deactivate",
+                                          tableName: Constants.Localizable.bankAccountTVC, comment: "")
                 message = NSLocalizedString("Do you want deactivate this bank account in the app?",
                                             tableName: Constants.Localizable.bankAccountTVC, comment: "")
             }

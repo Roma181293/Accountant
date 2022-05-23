@@ -391,7 +391,7 @@ extension ComplexTransactionEditorViewController: AccountRequestor {
         accountNavVC.delegate = self
         accountNavVC.showHiddenAccounts = false
         accountNavVC.searchBarIsHidden = false
-        accountNavVC.canModifyAccountStructure = false
+//        accountNavVC.canModifyAccountStructure = false
         accountNavVC.excludeAccountList = usedAccountList
         self.navigationController?.pushViewController(accountNavVC, animated: true)
     }
