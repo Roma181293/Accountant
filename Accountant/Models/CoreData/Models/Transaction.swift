@@ -92,7 +92,7 @@ final class Transaction: BaseEntity {
             throw TransactionError.noCreditTransactionItem
         }
         if debitCurrency == creditCurrency {
-            if debitAmount != creditAmount {
+            if round(debitAmount*100) != round(creditAmount*100) {
                 throw TransactionError.differentAmountForSingleCurrecyTransaction
             }
         }
