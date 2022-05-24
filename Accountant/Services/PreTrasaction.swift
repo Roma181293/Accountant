@@ -20,7 +20,11 @@ class PreTransaction {
                 return false
             }
         }
-        if isSingleCurrency && totalAmountForType(.debit) != totalAmountForType(.credit) {
+        if isSingleCurrency,
+           let debit = totalAmountForType(.debit),
+           let credit = totalAmountForType(.credit),
+           round(debit*100) != round(credit*100) {
+            print(debit, credit)
             return false
         }
         return true
