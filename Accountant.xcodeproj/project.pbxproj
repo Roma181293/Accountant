@@ -853,9 +853,9 @@
 			isa = PBXGroup;
 			children = (
 				2B949BB72665B4040033383A /* Accountant.xcdatamodeld */,
-				2BDAB0E628021A6300C5AED6 /* Models */,
 				2B7F885727A5D74E00A1B63B /* Mapping Models */,
 				2BDAB0F62805EDE800C5AED6 /* Migration Policies */,
+				2BDAB0E628021A6300C5AED6 /* Models */,
 				2B50DAD5280DF15D0064D71B /* Schema.swift */,
 			);
 			path = CoreData;

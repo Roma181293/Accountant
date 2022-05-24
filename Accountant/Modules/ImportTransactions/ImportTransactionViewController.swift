@@ -180,7 +180,6 @@ class ImportTransactionViewController: UIViewController {
                 }))
                 self.present(alert, animated: true, completion: nil)
             } else {
-                try coreDataStack.saveContext(context)
                 let alert = UIAlertController(title: NSLocalizedString("Warning", comment: ""),
                                               message: NSLocalizedString("Please fix all errors in transaction list",
                                                                          comment: ""),
