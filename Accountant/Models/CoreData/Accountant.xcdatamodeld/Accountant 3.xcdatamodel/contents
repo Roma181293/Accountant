@@ -87,7 +87,6 @@
         <relationship name="exchange" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Exchange" inverseName="rates" inverseEntity="Exchange"/>
     </entity>
     <entity name="Transaction" representedClassName=".Transaction" syncable="YES">
-        <attribute name="applied" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES"/>
         <attribute name="comment" optional="YES" attributeType="String"/>
         <attribute name="createDate" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="createdByUser" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES"/>
@@ -95,6 +94,7 @@
         <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="modifiedByUser" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES"/>
         <attribute name="modifyDate" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="status" attributeType="Integer 16" defaultValueString="YES" usesScalarValueType="YES"/>
         <relationship name="items" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="TransactionItem" inverseName="transaction" inverseEntity="TransactionItem"/>
     </entity>
     <entity name="TransactionItem" representedClassName=".TransactionItem" syncable="YES">
@@ -142,15 +142,15 @@
         <memberEntity name="Rate"/>
     </configuration>
     <elements>
-        <element name="Account" positionX="-42.123046875" positionY="-164.82861328125" width="128" height="299"/>
-        <element name="BankAccount" positionX="-206.14111328125" positionY="131.3073120117188" width="128" height="194"/>
-        <element name="Currency" positionX="-211.5383911132812" positionY="-164.9677276611328" width="128" height="194"/>
-        <element name="Exchange" positionX="-446.8429565429688" positionY="-160.6744995117188" width="128" height="134"/>
-        <element name="Holder" positionX="309.6853332519531" positionY="32.04922485351562" width="128" height="149"/>
-        <element name="Keeper" positionX="-68.74896240234375" positionY="326.0362243652344" width="128" height="164"/>
-        <element name="Rate" positionX="-450.84716796875" positionY="-15.75723266601562" width="128" height="149"/>
-        <element name="Transaction" positionX="362.8795166015626" positionY="-143.0828552246094" width="128" height="164"/>
-        <element name="TransactionItem" positionX="165.4147949218749" positionY="-181.9701385498047" width="128" height="164"/>
-        <element name="UserBankProfile" positionX="-394.6514282226562" positionY="204.031982421875" width="128" height="134"/>
+        <element name="Account" positionX="0" positionY="0" width="128" height="299"/>
+        <element name="BankAccount" positionX="0" positionY="0" width="128" height="194"/>
+        <element name="Currency" positionX="0" positionY="0" width="128" height="194"/>
+        <element name="Exchange" positionX="0" positionY="0" width="128" height="134"/>
+        <element name="Holder" positionX="0" positionY="0" width="128" height="149"/>
+        <element name="Keeper" positionX="0" positionY="0" width="128" height="164"/>
+        <element name="Rate" positionX="0" positionY="0" width="128" height="149"/>
+        <element name="Transaction" positionX="0" positionY="0" width="128" height="164"/>
+        <element name="TransactionItem" positionX="0" positionY="0" width="128" height="164"/>
+        <element name="UserBankProfile" positionX="0" positionY="0" width="128" height="134"/>
     </elements>
 </model>

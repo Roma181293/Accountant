@@ -105,7 +105,7 @@ class MigrationPolicy_V1toV3: NSEntityMigrationPolicy { // swiftlint:disable:thi
                                                            sourceInstances: [sInstance])
             if let destResults = destResults.last {
                 destResults.setValue(UUID(), forKey: "id")
-                destResults.setValue(true, forKey: "applied")
+                destResults.setValue(3, forKey: "status")
                 destResults.setValue(false, forKey: "modifiedByUser")
                 destResults.setValue(Date(), forKey: "modifyDate")
             }

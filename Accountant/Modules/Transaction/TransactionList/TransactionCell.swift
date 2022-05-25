@@ -251,7 +251,7 @@ class TransactionCell: UITableViewCell { // swiftlint:disable:this type_body_len
 
         setMainView()
 
-        if transaction.itemsList.count >= 2 && transaction.applied == true {
+        if transaction.itemsList.count >= 2 && transaction.status == .applied {
             guard transaction.itemsList.filter({$0.type == .debit})[0].account != nil &&
                     transaction.itemsList.filter({$0.type == .credit})[0].account != nil else {return}
             let debitRootName = transaction.itemsList.filter({$0.type == .debit})[0].account!.rootAccount.name

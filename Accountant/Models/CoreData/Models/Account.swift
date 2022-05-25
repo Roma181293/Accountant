@@ -119,7 +119,7 @@ final class Account: BaseEntity {
     }
 
     var appliedTransactionItemsList: [TransactionItem] {
-        return transactionItemsList.filter({$0.transaction!.applied == true})
+        return transactionItemsList.filter({$0.transaction!.status == .applied})
     }
 
     var isFreeFromTransactionItems: Bool {
@@ -332,7 +332,7 @@ extension Account {
                 var creditTotal: Double = 0
 
                 for account in accounts {
-                    let transactionItems = account.transactionItemsList.filter({$0.transaction!.applied == true})
+                    let transactionItems = account.transactionItemsList.filter({$0.transaction!.status == .applied})
                     for item in transactionItems {
                         if timeInterval.contains(item.transaction!.date) {
                             if item.type == .debit {

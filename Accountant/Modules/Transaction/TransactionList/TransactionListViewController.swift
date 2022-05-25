@@ -49,6 +49,8 @@ class TransactionListViewController: UIViewController {
             self.environment = environment
         }
 
+        TransactionItem.clearItemsWOLinkToTransaction()
+
         reloadProAccessData()
         // adding NotificationCenter observers
         NotificationCenter.default.addObserver(self, selector: #selector(self.environmentDidChange),
@@ -221,10 +223,10 @@ extension TransactionListViewController: UITableViewDelegate, UITableViewDataSou
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let transaction = dataProvider.fetchedResultsController.object(at: indexPath) as Transaction
-        if transaction.itemsList.count != 2 || !transaction.applied || UserProfile.isUseMultiItemTransaction(environment: environment) {
+        if transaction.itemsList.count != 2 || transaction.status != .applied || UserProfile.isUseMultiItemTransaction(environment: environment) {
             let transactioEditorVC = ComplexTransactionEditorViewController()
             transactioEditorVC.transaction = transaction
-            if !transaction.applied {
+            if transaction.status != .applied {
                 transactioEditorVC.mode = .editDraft
             }
             self.navigationController?.pushViewController(transactioEditorVC, animated: true)

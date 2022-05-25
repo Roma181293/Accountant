@@ -210,7 +210,7 @@ class ComplexTransactionEditorViewController: UIViewController {
                 self.present(alert, animated: true, completion: nil)
             } else if mode != .default {
                 transaction.date = mainView.datePicker.date
-                transaction.applied = true
+                transaction.status = .applied
                 try Transaction.validateTransactionDataBeforeSave(transaction)
                 try self.coreDataStack.saveContext(self.context)
                 self.navigationController?.popViewController(animated: true)

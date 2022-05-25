@@ -49,4 +49,16 @@ final class TransactionItem: BaseEntity {
             item.modifiedByUser = modifiedByUser
         }
     }
+
+    static func clearItemsWOLinkToTransaction() {
+        let context = CoreDataStack.shared.persistentContainer.newBackgroundContext()
+        let request = TransactionItem.fetchRequest()
+        request.predicate = NSPredicate(format: "transaction == nil")
+        request.sortDescriptors = [NSSortDescriptor(key: "createDate", ascending: true)]
+        guard let items = try? context.fetch(request) else {return}
+        for item in items {
+            context.delete(item)
+        }
+        try? context.save()
+    }
 }

@@ -11,21 +11,28 @@ import CoreData
 
 final class Transaction: BaseEntity {
 
+    @objc enum Status: Int16 {
+        case predraft = 0
+        case draft = 1
+        case approved = 2
+        case applied = 3
+    }
+
     @nonobjc public class func fetchRequest() -> NSFetchRequest<Transaction> {
         return NSFetchRequest<Transaction>(entityName: "Transaction")
     }
 
     @NSManaged public var date: Date
-    @NSManaged public var applied: Bool
+    @NSManaged public var status: Status
     @NSManaged public var comment: String?
     @NSManaged public var items: Set<TransactionItem>!
 
-    convenience init(date: Date, comment: String? = nil, createdByUser: Bool = true, createDate: Date = Date(),
+    convenience init(date: Date, status: Status = .applied, comment: String? = nil, createdByUser: Bool = true, createDate: Date = Date(),
                      context: NSManagedObjectContext) {
         self.init(id: UUID(), createdByUser: createdByUser, createDate: createDate, context: context)
         self.date = date
+        self.status = status
         self.comment = comment
-        self.applied = true
     }
     
     var itemsList: [TransactionItem] {
@@ -127,7 +134,7 @@ final class Transaction: BaseEntity {
         let comment = statment.getComment()
         let transaction = Transaction(date: statment.getDate(), comment: comment, createdByUser: createdByUser,
                                       createDate: createDate, context: context)
-        transaction.applied = false
+        transaction.status = .draft
 
         if statment.getType() == .to {
             _ = TransactionItem(transaction: transaction,
@@ -191,7 +198,7 @@ final class Transaction: BaseEntity {
         })
 
         // 1. Find all transactionItems there transaction has equal comment and applied status
-        let accountTIs = accountTIs1.filter({$0.transaction?.comment == comment && $0.transaction?.applied == true})
+        let accountTIs = accountTIs1.filter({$0.transaction?.comment == comment && $0.transaction?.status == .applied})
 
         // 2. Find all thansactions for transactionItems from step 1
         var transactions: [Transaction] = []

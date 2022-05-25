@@ -104,6 +104,8 @@
 		2B6D8E862826F20A006896EF /* PurchaseOfferVCLocalizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2B6D8E882826F20A006896EF /* PurchaseOfferVCLocalizable.strings */; };
 		2B6D8E8C2827FE7F006896EF /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B6D8E8B2827FE7F006896EF /* Route.swift */; };
 		2B6D8E8E2827FECB006896EF /* SettingsRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B6D8E8D2827FECB006896EF /* SettingsRouter.swift */; };
+		2B70CF9E283EBF750073EFB4 /* MappingModel_V2toV3.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 2B70CF9D283EBF750073EFB4 /* MappingModel_V2toV3.xcmappingmodel */; };
+		2B70CFA0283EC57F0073EFB4 /* MappingModel_V1toV3.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 2B70CF9F283EC57F0073EFB4 /* MappingModel_V1toV3.xcmappingmodel */; };
 		2B7AB3F9278C831C00974156 /* Extension UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B7AB3F8278C831C00974156 /* Extension UIViewController.swift */; };
 		2B7AB3FC278D4BEF00974156 /* AccountError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B7AB3FB278D4BEF00974156 /* AccountError.swift */; };
 		2B7AB3FE278D4C3E00974156 /* CurrencyError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B7AB3FD278D4C3E00974156 /* CurrencyError.swift */; };
@@ -156,8 +158,6 @@
 		2BE53D53282F170C004CBD84 /* MonobankUBPInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE53D52282F170C004CBD84 /* MonobankUBPInteractor.swift */; };
 		2BEEC18927960136000B210F /* MappingModel_V1toV2.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 2BEEC18827960136000B210F /* MappingModel_V1toV2.xcmappingmodel */; };
 		2BEEC18B2796017F000B210F /* MigrationPolicy_V1toV2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BEEC18A2796017F000B210F /* MigrationPolicy_V1toV2.swift */; };
-		2BF23E7E281DC3C300620109 /* MappingModel_V2toV3.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 2BF23E7D281DC3C300620109 /* MappingModel_V2toV3.xcmappingmodel */; };
-		2BF23E80281DC56F00620109 /* MappingModel_V1toV3.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 2BF23E7F281DC56F00620109 /* MappingModel_V1toV3.xcmappingmodel */; };
 		2BFACB69281B4D9C00B2B1CE /* SimpleTransactionEditorVCLocalizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2BFACB6B281B4D9C00B2B1CE /* SimpleTransactionEditorVCLocalizable.strings */; };
 		2BFACB6F281C948000B2B1CE /* TransactionListProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BFACB6E281C948000B2B1CE /* TransactionListProvider.swift */; };
 		38318A9FD81C28716622F93F /* Pods_Accountant.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97FD10DCF67B198D7BE0F270 /* Pods_Accountant.framework */; };
@@ -304,6 +304,8 @@
 		2B6D8E8A2826F20C006896EF /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/PurchaseOfferVCLocalizable.strings; sourceTree = "<group>"; };
 		2B6D8E8B2827FE7F006896EF /* Route.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Route.swift; sourceTree = "<group>"; };
 		2B6D8E8D2827FECB006896EF /* SettingsRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsRouter.swift; sourceTree = "<group>"; };
+		2B70CF9D283EBF750073EFB4 /* MappingModel_V2toV3.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = MappingModel_V2toV3.xcmappingmodel; sourceTree = "<group>"; };
+		2B70CF9F283EC57F0073EFB4 /* MappingModel_V1toV3.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = MappingModel_V1toV3.xcmappingmodel; sourceTree = "<group>"; };
 		2B7AB3F8278C831C00974156 /* Extension UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension UIViewController.swift"; sourceTree = "<group>"; };
 		2B7AB3FB278D4BEF00974156 /* AccountError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountError.swift; sourceTree = "<group>"; };
 		2B7AB3FD278D4C3E00974156 /* CurrencyError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyError.swift; sourceTree = "<group>"; };
@@ -371,8 +373,6 @@
 		2BE53D52282F170C004CBD84 /* MonobankUBPInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonobankUBPInteractor.swift; sourceTree = "<group>"; };
 		2BEEC18827960136000B210F /* MappingModel_V1toV2.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = MappingModel_V1toV2.xcmappingmodel; sourceTree = "<group>"; };
 		2BEEC18A2796017F000B210F /* MigrationPolicy_V1toV2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MigrationPolicy_V1toV2.swift; sourceTree = "<group>"; };
-		2BF23E7D281DC3C300620109 /* MappingModel_V2toV3.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = MappingModel_V2toV3.xcmappingmodel; sourceTree = "<group>"; };
-		2BF23E7F281DC56F00620109 /* MappingModel_V1toV3.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = MappingModel_V1toV3.xcmappingmodel; sourceTree = "<group>"; };
 		2BFACB6A281B4D9C00B2B1CE /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/SimpleTransactionEditorVCLocalizable.strings; sourceTree = "<group>"; };
 		2BFACB6C281B4D9E00B2B1CE /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/SimpleTransactionEditorVCLocalizable.strings; sourceTree = "<group>"; };
 		2BFACB6D281B4D9E00B2B1CE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/SimpleTransactionEditorVCLocalizable.strings; sourceTree = "<group>"; };
@@ -752,8 +752,8 @@
 			isa = PBXGroup;
 			children = (
 				2BEEC18827960136000B210F /* MappingModel_V1toV2.xcmappingmodel */,
-				2BF23E7F281DC56F00620109 /* MappingModel_V1toV3.xcmappingmodel */,
-				2BF23E7D281DC3C300620109 /* MappingModel_V2toV3.xcmappingmodel */,
+				2B70CF9F283EC57F0073EFB4 /* MappingModel_V1toV3.xcmappingmodel */,
+				2B70CF9D283EBF750073EFB4 /* MappingModel_V2toV3.xcmappingmodel */,
 			);
 			path = "Mapping Models";
 			sourceTree = "<group>";
@@ -906,8 +906,8 @@
 			isa = PBXGroup;
 			children = (
 				2BEEC18A2796017F000B210F /* MigrationPolicy_V1toV2.swift */,
-				2BDAB0F22804D60200C5AED6 /* MigrationPolicy_V2toV3.swift */,
 				2BDAB0F72805EE7900C5AED6 /* MigrationPolicy_V1toV3.swift */,
+				2BDAB0F22804D60200C5AED6 /* MigrationPolicy_V2toV3.swift */,
 			);
 			path = "Migration Policies";
 			sourceTree = "<group>";
@@ -1195,6 +1195,7 @@
 				2B1FEB98266EDE5000BF53BD /* SettingsViewController.swift in Sources */,
 				2B1FEA4F266BEE6700BF53BD /* CurrencyHistoricalDataPB.swift in Sources */,
 				2B6C238C2811BCF700D84174 /* AccountProvider.swift in Sources */,
+				2B70CFA0283EC57F0073EFB4 /* MappingModel_V1toV3.xcmappingmodel in Sources */,
 				2B8172F12798B7B200E6CB20 /* BankAccountTableViewController.swift in Sources */,
 				2B3A260426E95C780033E746 /* AccessManager.swift in Sources */,
 				2BFACB6F281C948000B2B1CE /* TransactionListProvider.swift in Sources */,
@@ -1210,7 +1211,6 @@
 				2B1FEB41266D257900BF53BD /* NetworkServices.swift in Sources */,
 				2B7AB400278D4C6900974156 /* KeeperError.swift in Sources */,
 				2B7AB406278D4CED00974156 /* AccountWithBalanceError.swift in Sources */,
-				2BF23E80281DC56F00620109 /* MappingModel_V1toV3.xcmappingmodel in Sources */,
 				2B8A9E71283582EA00329091 /* UserBankProfileListInteractor.swift in Sources */,
 				2BE53D53282F170C004CBD84 /* MonobankUBPInteractor.swift in Sources */,
 				2B7AB3F9278C831C00974156 /* Extension UIViewController.swift in Sources */,
@@ -1219,7 +1219,6 @@
 				2B6C23962817650000D84174 /* AccountEditorView.swift in Sources */,
 				2B3523632746B50300399CF6 /* KeeperViewController.swift in Sources */,
 				2B1FEBB6266EE45F00BF53BD /* PreTransactionTableViewCell.swift in Sources */,
-				2BF23E7E281DC3C300620109 /* MappingModel_V2toV3.xcmappingmodel in Sources */,
 				2B6C2370280FC93700D84174 /* HolderProvider.swift in Sources */,
 				2B7AB3FE278D4C3E00974156 /* CurrencyError.swift in Sources */,
 				2BDAB0EF2804BE2300C5AED6 /* BaseEntity.swift in Sources */,
@@ -1259,6 +1258,7 @@
 				2B8A9E6F283582D700329091 /* UserBankProfileListPresenter.swift in Sources */,
 				2BDE4F4227D7570A0069624C /* Account.swift in Sources */,
 				2B490DD726E2911C00967E11 /* Extension Notification.swift in Sources */,
+				2B70CF9E283EBF750073EFB4 /* MappingModel_V2toV3.xcmappingmodel in Sources */,
 				2B1FEA4B266BEE6700BF53BD /* CurrencyExhangeNB.swift in Sources */,
 				2B7AB404278D4CCF00974156 /* TransactionError.swift in Sources */,
 				2B5546882825FD7E00D456DE /* StartAccountingView.swift in Sources */,
