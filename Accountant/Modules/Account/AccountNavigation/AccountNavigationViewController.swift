@@ -9,8 +9,11 @@ import UIKit
 import CoreData
 import Purchases
 
-protocol AccountRequestor: UIViewController {
+protocol AccountRequestor {
     func setAccount(_ account: Account)
+}
+
+protocol AccountNavigationDelegate: UIViewController {
 }
 
 class AccountNavigationViewController: UITableViewController {
@@ -21,7 +24,8 @@ class AccountNavigationViewController: UITableViewController {
     var canModifyAccountStructure: Bool = true
     var searchBarIsHidden = false
 
-    weak var delegate: AccountRequestor?
+    var requestor: AccountRequestor?
+    weak var delegate: AccountNavigationDelegate?
 
     private var isUserHasPaidAccess = false
     private lazy var dataProvider: AccountProvider = {
@@ -177,8 +181,8 @@ extension AccountNavigationViewController {
         tableView.deselectRow(at: indexPath, animated: true)
         let selectedAccount = dataProvider.fetchedResultsController.object(at: indexPath) as Account
         if selectedAccount.childrenList.filter({$0.active || $0.active != dataProvider.showHiddenAccounts}).isEmpty {
-            if let delegate = delegate {
-                delegate.setAccount(selectedAccount)
+            if let requestor = requestor, let delegate = delegate {
+                requestor.setAccount(selectedAccount)
                 self.navigationController?.popToViewController(delegate, animated: true)
             }
         } else {
@@ -431,6 +435,7 @@ extension AccountNavigationViewController {
 
     private func goToAccountNavigationVC(account: Account) {
         let accountNavigatorVC = AccountNavigationViewController()
+        accountNavigatorVC.requestor = requestor
         accountNavigatorVC.delegate = delegate
         accountNavigatorVC.parentAccount = account
         accountNavigatorVC.excludeAccountList = excludeAccountList

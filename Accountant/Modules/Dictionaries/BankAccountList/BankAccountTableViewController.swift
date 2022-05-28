@@ -8,7 +8,7 @@
 import UIKit
 import CoreData
 
-class BankAccountTableViewController: UITableViewController {
+class BankAccountTableViewController: UITableViewController, AccountNavigationDelegate {
 
     var context: NSManagedObjectContext = CoreDataStack.shared.persistentContainer.viewContext
     var userBankProfile: UserBankProfile!
@@ -29,7 +29,7 @@ class BankAccountTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return userBankProfile.bankAccountsList.count
     }
-    
+
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell(style: .subtitle, reuseIdentifier: Constants.Cell.userBankProfileCell)
         let bankAccount = userBankProfile.bankAccountsList[indexPath.row]
@@ -95,6 +95,7 @@ class BankAccountTableViewController: UITableViewController {
                 let accNavVC = AccountNavigationViewController()
                 accNavVC.showHiddenAccounts = false
                 accNavVC.canModifyAccountStructure = false
+                accNavVC.requestor = self
                 accNavVC.delegate = self
                 accNavVC.parentAccount = Account.getAccountWithPath(LocalisationManager.getLocalizedName(.money), // swiftlint:disable:this line_length
                                                         context: self.context)

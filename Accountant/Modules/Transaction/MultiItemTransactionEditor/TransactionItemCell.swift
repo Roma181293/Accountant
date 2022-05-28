@@ -1,5 +1,5 @@
 //
-//  TransactionItemTableViewCell.swift
+//  TransactionItemCell.swift
 //  Accountant
 //
 //  Created by Roman Topchii on 19.08.2021.
@@ -8,10 +8,10 @@
 import UIKit
 import CoreData
 
-class TransactionItemTableViewCell: UITableViewCell {
+class TransactionItemCell: UITableViewCell {
 
-    private unowned var transactionItem: TransactionItem!
-    private unowned var delegate: ComplexTransactionEditorViewController!
+    var transactionItem: TransactionItemViewModel!
+    private unowned var delegate: TransactionItemDelegate!
 
     private let accountButton: UIButton = {
         let button = UIButton()
@@ -26,7 +26,7 @@ class TransactionItemTableViewCell: UITableViewCell {
     private let amountTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = NSLocalizedString("Amount",
-                                                  tableName: Constants.Localizable.complexTransactionEditorVC,
+                                                  tableName: Constants.Localizable.mITransactionEditorVC,
                                                   comment: "")
         textField.keyboardType = .decimalPad
         textField.returnKeyType = UIReturnKeyType.done
@@ -39,27 +39,16 @@ class TransactionItemTableViewCell: UITableViewCell {
         return textField
     }()
 
-    func configureCell(for transactionItem: TransactionItem, with delegate: ComplexTransactionEditorViewController) {
+    func configureCell(for transactionItem: TransactionItemViewModel, with delegate: TransactionItemDelegate) {
         self.transactionItem = transactionItem
         self.delegate = delegate
         amountTextField.delegate = self
         addDoneButtonOnDecimalKeyboard()
 
-        if let account = transactionItem.account {
-            accountButton.setTitle(account.path, for: .normal)
-        } else {
-            accountButton.setTitle(NSLocalizedString("Account/Category",
-                                                     tableName: Constants.Localizable.complexTransactionEditorVC,
-                                                     comment: ""),
-                                   for: .normal)
-        }
-        if transactionItem.amount > 0 {
-            amountTextField.text = String(transactionItem.amount)
-        } else {
-            amountTextField.text = ""
-        }
+        accountButton.setTitle(transactionItem.path, for: .normal)
+        amountTextField.text = transactionItem.amount
 
-        accountButton.addTarget(self, action: #selector(TransactionItemTableViewCell.selectAccount),
+        accountButton.addTarget(self, action: #selector(TransactionItemCell.selectAccount),
                                 for: .touchUpInside)
 
         contentView.addSubview(amountTextField)
@@ -75,20 +64,20 @@ class TransactionItemTableViewCell: UITableViewCell {
 
     func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
         if textField.tag == 1, let text = textField.text,
-            let amount = Double(text.replacingOccurrences(of: ",", with: ".")) {
-            delegate.setAmount(for: self.transactionItem, amount: amount)
+           let amount = Double(text.replacingOccurrences(of: ",", with: ".")) {
+            delegate.setAmount(forTrasactionItem: transactionItem.id, amount: amount)
         }
         return true
     }
 
     @objc private func selectAccount() {
-        delegate.accountRequestingForTransactionItem(transactionItem)
+        delegate.accountRequestingForTransactionItem(id: transactionItem.id)
     }
 
     private func addDoneButtonOnDecimalKeyboard() {
         let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         let title = NSLocalizedString("Done",
-                                      tableName: Constants.Localizable.complexTransactionEditorVC,
+                                      tableName: Constants.Localizable.mITransactionEditorVC,
                                       comment: "")
         let done: UIBarButtonItem = UIBarButtonItem(title: title, style: .done, target: self,
                                                     action: #selector(self.doneButtonAction))

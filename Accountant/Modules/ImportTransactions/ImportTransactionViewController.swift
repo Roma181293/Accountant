@@ -51,6 +51,14 @@ class ImportTransactionViewController: UIViewController {
         return tableView
     }()
 
+    let activityIndicator: UIActivityIndicatorView = {
+        let activityIndicator = UIActivityIndicatorView()
+        activityIndicator.style = .large
+        activityIndicator.startAnimating()
+        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+        return activityIndicator
+    }()
+
     let confirmButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = UIColor(displayP3Red: 242/255, green: 242/255, blue: 243/255, alpha: 1)
@@ -111,6 +119,10 @@ class ImportTransactionViewController: UIViewController {
         tableView.topAnchor.constraint(equalTo: stackView.bottomAnchor, constant: 8).isActive = true
         tableView.bottomAnchor.constraint(equalTo: mainView.bottomAnchor).isActive = true
 
+        mainView.addSubview(activityIndicator)
+        activityIndicator.centerYAnchor.constraint(equalTo: mainView.centerYAnchor).isActive = true
+        activityIndicator.centerXAnchor.constraint(equalTo: mainView.centerXAnchor).isActive = true
+
         // MARK: - Configure TableView
         tableView.tableFooterView = UIView(frame: .zero)
         tableView.delegate = self
@@ -119,12 +131,18 @@ class ImportTransactionViewController: UIViewController {
                            forCellReuseIdentifier: Constants.Cell.preTransactionTableViewCell)
         tableView.keyboardDismissMode = .onDrag
 
-        do {
-            guard let data = try? String(contentsOf: fileURL) else {return}
-            preTransactionList = try Transaction.importTransactionList(from: data, context: context)
-        } catch let error {
-            context.rollback()
-            errorHandler(error: error)
+        DispatchQueue.main.async {
+            do {
+                guard let data = try? String(contentsOf: self.fileURL) else {return}
+                self.preTransactionList = try Transaction.importTransactionList(from: data, context: self.context)
+                _ = self.isReadyToSave()
+                self.tableView.reloadData()
+                self.activityIndicator.stopAnimating()
+                self.activityIndicator.removeFromSuperview()
+            } catch let error {
+                self.context.rollback()
+                self.errorHandler(error: error)
+            }
         }
     }
 
@@ -168,6 +186,13 @@ class ImportTransactionViewController: UIViewController {
     @objc func save() {
         do {
             if isReadyToSave() {
+                preTransactionList.forEach({
+                    if $0.transaction.date < Date() {
+                        $0.transaction.status = .applied
+                    } else {
+                        $0.transaction.status = .approved
+                    }
+                })
                 try coreDataStack.saveContext(context)
                 let alert = UIAlertController(title: NSLocalizedString("Success", comment: ""),
                                               message: NSLocalizedString("All transactions successfully added",
@@ -224,10 +249,10 @@ extension ImportTransactionViewController: UITableViewDelegate, UITableViewDataS
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let transactioEditorVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.complexTransactionEditorVC) as! ComplexTransactionEditorViewController // swiftlint:disable:this force_cast line_length
-        transactioEditorVC.transaction = preTransactionList.filter({!(showOlnyErrors && $0.isReadyToSave)})[indexPath.row].transaction // swiftlint:disable:this line_length
-        transactioEditorVC.mode = .editPreDraft
-        self.navigationController?.pushViewController(transactioEditorVC, animated: true)
+        guard let navigationController = navigationController else { return }
+        let multiItemTransactionEditorRouter: MITransactionEditorCreator = MITransactionEditorRouter()
+        let transaction = preTransactionList.filter({!(showOlnyErrors && $0.isReadyToSave)})[indexPath.row].transaction
+        multiItemTransactionEditorRouter.transaction = transaction
+        multiItemTransactionEditorRouter.present(navigationController: navigationController)
     }
 }

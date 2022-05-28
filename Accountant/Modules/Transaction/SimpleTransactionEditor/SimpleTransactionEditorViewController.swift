@@ -9,7 +9,7 @@ import UIKit
 import CoreData
 import Purchases
 
-class SimpleTransactionEditorViewController: UIViewController { // swiftlint:disable:this type_body_length
+class SimpleTransactionEditorViewController: UIViewController, AccountNavigationDelegate { // swiftlint:disable:this type_body_length
 
     var debit: Account? {
         didSet {
@@ -447,7 +447,7 @@ extension SimpleTransactionEditorViewController {
         accountRequestorTranItemType = .debit
         let accountNavVC = AccountNavigationViewController()
         accountNavVC.parentAccount = account
-        accountNavVC.delegate = self
+        accountNavVC.requestor = self
         accountNavVC.showHiddenAccounts = false
         accountNavVC.searchBarIsHidden = false
         mainView.doneButtonAction()
@@ -462,6 +462,7 @@ extension SimpleTransactionEditorViewController {
         accountRequestorTranItemType = .credit
         let accountNavVC = AccountNavigationViewController()
         accountNavVC.parentAccount = account
+        accountNavVC.requestor = self
         accountNavVC.delegate = self
         accountNavVC.showHiddenAccounts = false
         accountNavVC.searchBarIsHidden = false

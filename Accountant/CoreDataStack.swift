@@ -120,6 +120,8 @@ enum ContextSaveContextualInfo: String {
     case deleteTransaction = "deleting Transaction"
     case deleteUserBankProfile = "deleting User Bank Profile"
     case changeUBPActiveStatus = "changing User Bank Profile active status"
+    case addMultiItemTransaction = "adding Multi Item Transaction"
+    case editMultiItemTransaction = "editing Multi Item Transaction"
 }
 
 extension NSManagedObjectContext {

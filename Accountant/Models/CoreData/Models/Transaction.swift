@@ -12,7 +12,7 @@ import CoreData
 final class Transaction: BaseEntity {
 
     @objc enum Status: Int16 {
-        case predraft = 0
+        case preDraft = 0
         case draft = 1
         case approved = 2
         case applied = 3
@@ -27,14 +27,14 @@ final class Transaction: BaseEntity {
     @NSManaged public var comment: String?
     @NSManaged public var items: Set<TransactionItem>!
 
-    convenience init(date: Date, status: Status = .applied, comment: String? = nil, createdByUser: Bool = true, createDate: Date = Date(),
-                     context: NSManagedObjectContext) {
+    convenience init(date: Date, status: Status = .applied, comment: String? = nil, createdByUser: Bool = true,
+                     createDate: Date = Date(), context: NSManagedObjectContext) {
         self.init(id: UUID(), createdByUser: createdByUser, createDate: createDate, context: context)
         self.date = date
         self.status = status
         self.comment = comment
     }
-    
+
     var itemsList: [TransactionItem] {
         return Array(items)
     }
@@ -56,7 +56,7 @@ final class Transaction: BaseEntity {
                         throw TransactionError.multicurrencyAccount(name: account.path)
                     }
 
-                    if item.amount < 0 {
+                    if item.amount <= 0 {
                         switch type {
                         case .debit:
                             throw TransactionItemError.invalidAmountInDebitTransactioItem(path: account.path)
@@ -80,17 +80,15 @@ final class Transaction: BaseEntity {
         var debitItemsCount: Int = 0
         var creditItemsCount: Int = 0
 
-        // MARK: - Prepare data to check ability to save transaction
-        var debitCurrency: Currency? = transaction.itemsList.filter({$0.type == .debit})[0].account?.currency
-        var creditCurrency: Currency? = transaction.itemsList.filter({$0.type == .credit})[0].account?.currency
-
-        try getDataAboutTransactionItems(transaction: transaction, type: .debit, amount: &debitAmount,
-                                         currency: &debitCurrency, itemsCount: &debitItemsCount)
+        //  Prepare data to check ability for save transaction
+        var creditCurrency: Currency? = transaction.itemsList.filter({$0.type == .credit}).first?.account?.currency
+        var debitCurrency: Currency? = transaction.itemsList.filter({$0.type == .debit}).first?.account?.currency
 
         try getDataAboutTransactionItems(transaction: transaction, type: .credit, amount: &creditAmount,
                                          currency: &creditCurrency, itemsCount: &creditItemsCount)
-
-        // MARK: - Check ability to save transaction
+        try getDataAboutTransactionItems(transaction: transaction, type: .debit, amount: &debitAmount,
+                                         currency: &debitCurrency, itemsCount: &debitItemsCount)
+        // Check ability to save transaction
 
         if debitItemsCount == 0 {
             throw TransactionError.noDebitTransactionItem
@@ -296,6 +294,7 @@ final class Transaction: BaseEntity {
                 preTransaction.transaction.modifyDate = Date()
                 preTransaction.transaction.createdByUser = true
                 preTransaction.transaction.modifiedByUser = true
+                preTransaction.transaction.status = .preDraft
                 preTransaction.transaction.id = UUID()
                 preTransactionList.append(preTransaction)
             }

@@ -1,12 +1,12 @@
 /* 
-  ComplexTransactionEditorVCLocalizable.strings
+  MITransactionEditorVCLocalizable.strings
   Accountant
 
   Created by Roman Topchii on 03.05.2022.
   
 */
 
-//Controller
+//ViewController
 "Edit transaction" = "Edit transaction";
 "Add transaction" = "Add transaction";
 "Save" = "Save";
@@ -17,8 +17,6 @@
 "Warning" = "Warning";
 "OK" = "OK";
 "Delete" = "Delete";
-
-//View
 "To:" = "To:";
 "From:" = "From:";
 "Comment" = "Comment";
