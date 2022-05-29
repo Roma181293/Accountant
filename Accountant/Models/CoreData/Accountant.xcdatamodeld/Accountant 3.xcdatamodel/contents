@@ -11,6 +11,7 @@
         <attribute name="path" attributeType="String"/>
         <attribute name="subType" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="type" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="accountType" maxCount="1" deletionRule="Nullify" destinationEntity="AccountType" inverseName="accounts" inverseEntity="AccountType"/>
         <relationship name="bankAccount" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="BankAccount" inverseName="account" inverseEntity="BankAccount"/>
         <relationship name="currency" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Currency" inverseName="accounts" inverseEntity="Currency"/>
         <relationship name="directChildren" toMany="YES" deletionRule="Nullify" destinationEntity="Account" inverseName="parent" inverseEntity="Account"/>
@@ -19,6 +20,28 @@
         <relationship name="linkedAccount" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Account" inverseName="linkedAccount" inverseEntity="Account"/>
         <relationship name="parent" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Account" inverseName="directChildren" inverseEntity="Account"/>
         <relationship name="transactionItems" toMany="YES" deletionRule="Nullify" destinationEntity="TransactionItem" inverseName="account" inverseEntity="TransactionItem"/>
+    </entity>
+    <entity name="AccountType" representedClassName="AccountType" syncable="YES" codeGenerationType="class">
+        <attribute name="balanceCalcFullTime" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="canBeCreatedByUser" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="canBeDeleted" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="canBeRenamed" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="canChangeActiveStatus" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="checkAmountBeforDeactivate" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="createDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="createdByUser" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="hasCurrency" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="hasHolder" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="hasKeeper" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="hasLinkedAccount" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="modifiedByUser" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="modifyDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="name" attributeType="String"/>
+        <attribute name="priopity" attributeType="Integer 16" defaultValueString="1" usesScalarValueType="YES"/>
+        <relationship name="accounts" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Account" inverseName="accountType" inverseEntity="Account"/>
+        <relationship name="children" toMany="YES" deletionRule="Nullify" destinationEntity="AccountType" inverseName="parents" inverseEntity="AccountType"/>
+        <relationship name="parents" toMany="YES" deletionRule="Nullify" destinationEntity="AccountType" inverseName="children" inverseEntity="AccountType"/>
     </entity>
     <entity name="BankAccount" representedClassName=".BankAccount" syncable="YES">
         <attribute name="active" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES"/>
@@ -128,6 +151,7 @@
         <memberEntity name="UserBankProfile"/>
         <memberEntity name="Exchange"/>
         <memberEntity name="Rate"/>
+        <memberEntity name="AccountType"/>
     </configuration>
     <configuration name="Test">
         <memberEntity name="Account"/>
@@ -140,9 +164,10 @@
         <memberEntity name="UserBankProfile"/>
         <memberEntity name="Exchange"/>
         <memberEntity name="Rate"/>
+        <memberEntity name="AccountType"/>
     </configuration>
     <elements>
-        <element name="Account" positionX="0" positionY="0" width="128" height="299"/>
+        <element name="Account" positionX="0" positionY="0" width="128" height="328"/>
         <element name="BankAccount" positionX="0" positionY="0" width="128" height="194"/>
         <element name="Currency" positionX="0" positionY="0" width="128" height="194"/>
         <element name="Exchange" positionX="0" positionY="0" width="128" height="134"/>
@@ -152,5 +177,6 @@
         <element name="Transaction" positionX="0" positionY="0" width="128" height="164"/>
         <element name="TransactionItem" positionX="0" positionY="0" width="128" height="164"/>
         <element name="UserBankProfile" positionX="0" positionY="0" width="128" height="134"/>
+        <element name="AccountType" positionX="9" positionY="144" width="128" height="329"/>
     </elements>
 </model>

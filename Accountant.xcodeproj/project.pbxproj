@@ -145,6 +145,7 @@
 		2B949BBE2665B4080033383A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2B949BBC2665B4080033383A /* LaunchScreen.storyboard */; };
 		2B949BC92665B4090033383A /* AccountantTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B949BC82665B4090033383A /* AccountantTests.swift */; };
 		2B949BD42665B4090033383A /* AccountantUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B949BD32665B4090033383A /* AccountantUITests.swift */; };
+		2B9A523A2843674000C53D27 /* AccountType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B9A52392843674000C53D27 /* AccountType.swift */; };
 		2BA11834276DC6340091569E /* MonobankAccountCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BA11833276DC6340091569E /* MonobankAccountCell.swift */; };
 		2BB780B0272D71D3002D2098 /* InstructionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BB780AF272D71D3002D2098 /* InstructionViewController.swift */; };
 		2BB780B2272EAB9B002D2098 /* GuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BB780B1272EAB9B002D2098 /* GuideView.swift */; };
@@ -360,6 +361,7 @@
 		2B949BCF2665B4090033383A /* AccountantUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AccountantUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2B949BD32665B4090033383A /* AccountantUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountantUITests.swift; sourceTree = "<group>"; };
 		2B949BD52665B4090033383A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2B9A52392843674000C53D27 /* AccountType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountType.swift; sourceTree = "<group>"; };
 		2B9E7BC02705923500FBE5B2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Main.strings; sourceTree = "<group>"; };
 		2B9E7BC12705923500FBE5B2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		2B9E7BC22705923500FBE5B2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -834,17 +836,18 @@
 		2BDAB0E628021A6300C5AED6 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				2BDAB0EE2804BE2300C5AED6 /* BaseEntity.swift */,
 				2BDE4F4127D7570A0069624C /* Account.swift */,
+				2B9A52392843674000C53D27 /* AccountType.swift */,
+				2B6561FC2776030500150B35 /* BankAccount.swift */,
+				2BDAB0EE2804BE2300C5AED6 /* BaseEntity.swift */,
 				2B1FEA61266BF03300BF53BD /* Currency.swift */,
+				2B85D854278F013A0042858B /* Exchange.swift */,
+				2B00CAFC27465CC500821FE0 /* Holder.swift */,
+				2B00CAFA2746514900821FE0 /* Keeper.swift */,
+				2B85D856278F020D0042858B /* Rate.swift */,
 				2B1FEA82266C1D9900BF53BD /* Transaction.swift */,
 				2B0D1D3226ADF1D1003C6394 /* TransactionItem.swift */,
-				2B00CAFA2746514900821FE0 /* Keeper.swift */,
-				2B00CAFC27465CC500821FE0 /* Holder.swift */,
 				2B3643BA2753902E007253EB /* UserBankProfile.swift */,
-				2B6561FC2776030500150B35 /* BankAccount.swift */,
-				2B85D854278F013A0042858B /* Exchange.swift */,
-				2B85D856278F020D0042858B /* Rate.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1193,6 +1196,7 @@
 				2B1FEB6C266D752200BF53BD /* ChartData.swift in Sources */,
 				2B1FEA3A266BEDA400BF53BD /* CoreDataStack.swift in Sources */,
 				2BB780B2272EAB9B002D2098 /* GuideView.swift in Sources */,
+				2B9A523A2843674000C53D27 /* AccountType.swift in Sources */,
 				2B7AB40C278D4D5500974156 /* UserBankProfileError.swift in Sources */,
 				2B70CFA9283ED3050073EFB4 /* MITransactionEditorPresenter.swift in Sources */,
 				2B1407AC26F931AA00114B95 /* AccountNavigationCell.swift in Sources */,
