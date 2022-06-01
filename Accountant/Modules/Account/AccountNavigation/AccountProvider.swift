@@ -41,11 +41,20 @@ class AccountProvider {
     lazy var fetchedResultsController: NSFetchedResultsController<Account> = {
         let fetchRequest = Account.fetchRequest()
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: Schema.Account.path.rawValue, ascending: true)]
-        let predicate = NSPredicate(format: "\(Schema.Account.parent.rawValue) = %@ && "
+        var predicate = NSPredicate()
+        if let parent = parent {
+            predicate = NSPredicate(format: "\(Schema.Account.parent.rawValue) = %@ && "
                                     + "NOT (SELF IN %@) && "
                                     +  "(\(Schema.Account.active.rawValue) = true "
                                     + "|| \(Schema.Account.active.rawValue) != %@)",
                                     argumentArray: [parent, excludeAccountList, showHiddenAccounts])
+        } else {
+            predicate = NSPredicate(format: "\(Schema.Account.parent.rawValue).\(Schema.Account.name) = %@ && "
+                                    + "NOT (SELF IN %@) && "
+                                    +  "(\(Schema.Account.active.rawValue) = true "
+                                    + "|| \(Schema.Account.active.rawValue) != %@)",
+                                    argumentArray: ["Accounts", excludeAccountList, showHiddenAccounts])
+        }
         fetchRequest.predicate = predicate
 
         let controller = NSFetchedResultsController(fetchRequest: fetchRequest,
@@ -90,19 +99,24 @@ class AccountProvider {
             // Adding "Other" account for cases when parent containts transactions
             if parent.isFreeFromTransactionItems == false,
                Account.isReservedAccountName(name) == false {
-                var newAccount = parent.getSubAccountWith(name: LocalisationManager.getLocalizedName(.other1))
-                if newAccount == nil {
-                    newAccount = Account(parent: parent,
+                var otherAccount = parent.getSubAccountWith(name: LocalisationManager.getLocalizedName(.other1))
+                if otherAccount == nil {
+                    otherAccount = Account(parent: parent,
                                          name: LocalisationManager.getLocalizedName(.other1),
                                          context: backgroundContext)
                 }
-                if newAccount != nil {
-                    TransactionItem.moveTransactionItemsFrom(oldAccount: parent, newAccount: newAccount!,
+                if let otherAccount = otherAccount {
+                    TransactionItem.moveTransactionItemsFrom(oldAccount: parent, newAccount: otherAccount,
                                                              modifiedByUser: createdByUser, modifyDate: createDate)
                 }
             }
-            _ = Account(parent: parent, name: name, createdByUser: createdByUser,
+            let newAccount = Account(parent: parent, name: name, createdByUser: createdByUser,
                         createDate: createDate, context: backgroundContext)
+            if let defultChildType = parent.type.defultChildType {
+                newAccount.type = defultChildType
+            } else {
+                fatalError("parent.type.defultChildType should return value")
+            }
             if shouldSave {
                 backgroundContext.save(with: .addAccount)
             }
@@ -292,11 +306,20 @@ class AccountProvider {
     }
 
     func resetPredicate() {
-        let predicate = NSPredicate(format: "NOT (SELF IN %@) && "
-                                    + "\(Schema.Account.parent.rawValue) = %@ && "
-                                    + "(\(Schema.Account.active.rawValue) = true "
+        var predicate = NSPredicate()
+        if let parent = parent {
+            predicate = NSPredicate(format: "\(Schema.Account.parent.rawValue) = %@ && "
+                                    + "NOT (SELF IN %@) && "
+                                    +  "(\(Schema.Account.active.rawValue) = true "
                                     + "|| \(Schema.Account.active.rawValue) != %@)",
-                                    argumentArray: [excludeAccountList, parent, showHiddenAccounts])
+                                    argumentArray: [parent, excludeAccountList, showHiddenAccounts])
+        } else {
+            predicate = NSPredicate(format: "\(Schema.Account.parent.rawValue).\(Schema.Account.name) = %@ && "
+                                    + "NOT (SELF IN %@) && "
+                                    +  "(\(Schema.Account.active.rawValue) = true "
+                                    + "|| \(Schema.Account.active.rawValue) != %@)",
+                                    argumentArray: ["Accounts", excludeAccountList, showHiddenAccounts])
+        }
         fetchedResultsController.fetchRequest.predicate = predicate
     }
 

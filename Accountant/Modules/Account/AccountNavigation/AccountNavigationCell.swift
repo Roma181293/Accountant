@@ -100,10 +100,7 @@ class AccountNavigationCell: UITableViewCell {
             nameLabel.textColor = .systemGray
             amountLabel.textColor = .systemGray
         }
-        if let parent = account.parent, parent.currency == nil {
-            amountLabel.text = "\(round(account.balanceOn(date: Date())*100)/100) \(account.currency!.code)"
-        } else {
-            amountLabel.text = ""
-        }
+
+        amountLabel.text = ""
     }
 }

@@ -62,7 +62,7 @@ class AnalyticsViewController: UIViewController, UIScrollViewDelegate {
             account = Account.getAccountWithPath(LocalisationManager.getLocalizedName(.expense),
                                                  context: context)
         }
-        if account?.parent != nil {
+        if let level = account?.level, level > 1 {
             segmentedControl.isHidden = true
         }
         scrollView.addConstraint(NSLayoutConstraint(item: self.scrollView!,

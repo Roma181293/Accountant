@@ -27,7 +27,7 @@ final class Transaction: BaseEntity {
     @NSManaged public var comment: String?
     @NSManaged public var items: Set<TransactionItem>!
 
-    convenience init(date: Date, status: Status = .applied, comment: String? = nil, createdByUser: Bool = true,
+    convenience init(date: Date, status: Status = .approved, comment: String? = nil, createdByUser: Bool = true,
                      createDate: Date = Date(), context: NSManagedObjectContext) {
         self.init(id: UUID(), createdByUser: createdByUser, createDate: createDate, context: context)
         self.date = date
@@ -109,7 +109,11 @@ final class Transaction: BaseEntity {
         let createDate = Date()
         let transaction = Transaction(date: date, comment: comment, createdByUser: createdByUser,
                                       createDate: createDate, context: context)
-
+        if transaction.date < Date() {
+            transaction.status = .applied
+        } else {
+            transaction.status = .approved
+        }
         _ = TransactionItem(transaction: transaction, type: .credit, account: credit, amount: creditAmount,
                             createdByUser: createdByUser, createDate: createDate, context: context)
         _ = TransactionItem(transaction: transaction, type: .debit, account: debit, amount: debitAmount,

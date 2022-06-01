@@ -118,11 +118,13 @@ extension AccountNavigationViewController {
             self.navigationItem.title = "\(parentAccount.name)"
         } else {
             if dataProvider.showHiddenAccounts {
-                let title = NSLocalizedString("Account manager", tableName: Constants.Localizable.accountNavigationVC, comment: "")
+                let title = NSLocalizedString("Account manager",
+                                              tableName: Constants.Localizable.accountNavigationVC, comment: "")
                 self.navigationController?.title = title
                 self.navigationItem.title = title
             } else {
-                let title = NSLocalizedString("Accounts", tableName: Constants.Localizable.accountNavigationVC, comment: "")
+                let title = NSLocalizedString("Accounts",
+                                              tableName: Constants.Localizable.accountNavigationVC, comment: "")
                 self.navigationController?.title = title
                 self.navigationItem.title = title
             }
@@ -181,7 +183,7 @@ extension AccountNavigationViewController {
         tableView.deselectRow(at: indexPath, animated: true)
         let selectedAccount = dataProvider.fetchedResultsController.object(at: indexPath) as Account
         if selectedAccount.childrenList.filter({$0.active || $0.active != dataProvider.showHiddenAccounts}).isEmpty {
-            if let requestor = requestor, let delegate = delegate {
+            if let requestor = requestor, let delegate = delegate, selectedAccount.type.isConsolidation == false {
                 requestor.setAccount(selectedAccount)
                 self.navigationController?.popToViewController(delegate, animated: true)
             }
@@ -206,12 +208,12 @@ extension AccountNavigationViewController {
 
 // MARK: - UIContextualAction methods
 extension AccountNavigationViewController {
-    private func addCategotyTo(_ account: Account?) { //swiftlint:disable:this function_body_length
+    private func addCategotyTo(_ account: Account?) { // swiftlint:disable:this function_body_length
         if AccessManager.canCreateSubAccountFor(account: account,
                                                   isUserHasPaidAccess: self.isUserHasPaidAccess,
                                                   environment: CoreDataStack.shared.activeEnviroment()!) {
             if let account = account {
-                if account.currency == nil {
+                if account.type.useCustomViewToCreateAccount || account.type.hasMoreThenOneChildren {
                     goToAccountEditorWithInitialBalanceVC(account: account)
                 } else {
                     let alert = UIAlertController(title: NSLocalizedString("Add subcategory", tableName: Constants.Localizable.accountNavigationVC, comment: ""),

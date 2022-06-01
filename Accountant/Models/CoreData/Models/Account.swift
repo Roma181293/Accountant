@@ -10,18 +10,6 @@ import CoreData
 import Charts
 
 final class Account: BaseEntity {
-    
-    @objc enum TypeEnum: Int16 {
-        case liabilities = 0
-        case assets = 1
-    }
-
-    @objc enum SubTypeEnum: Int16 {
-        case none = 0
-        case cash = 1
-        case debitCard = 2
-        case creditCard = 3
-    }
 
     @nonobjc public class func fetchRequest() -> NSFetchRequest<Account> {
         return NSFetchRequest<Account>(entityName: "Account")
@@ -30,8 +18,7 @@ final class Account: BaseEntity {
     @NSManaged public var active: Bool
     @NSManaged public var name: String
     @NSManaged public var path: String
-    @NSManaged public var subType: SubTypeEnum
-    @NSManaged public var type: TypeEnum
+    @NSManaged public var type: AccountType
     @NSManaged public var bankAccount: BankAccount?
     @NSManaged public var currency: Currency?
     @NSManaged public var directChildren: Set<Account>!
@@ -41,17 +28,15 @@ final class Account: BaseEntity {
     @NSManaged public var parent: Account?
     @NSManaged public var transactionItems: Set<TransactionItem>!
 
-    convenience init(parent: Account?, name: String, type: TypeEnum, currency: Currency?, keeper: Keeper?,
-                     holder: Holder?, subType: SubTypeEnum?, createdByUser: Bool = true,
+    convenience init(parent: Account?, name: String, type: AccountType, currency: Currency?, keeper: Keeper?,
+                     holder: Holder?, createdByUser: Bool = true,
                      createDate: Date = Date(), context: NSManagedObjectContext) {
 
         self.init(id: UUID(), createdByUser: createdByUser, createDate: createDate, context: context)
         if let parent = parent {
             self.parent = parent
-            self.type = parent.type
             self.active = parent.active
         } else {
-            self.type = type
             self.active = true
         }
         self.name = name
@@ -59,7 +44,7 @@ final class Account: BaseEntity {
         self.currency = currency
         self.keeper = keeper
         self.holder = holder
-        self.subType = subType ?? .none
+        self.type = type
     }
 
     convenience init(parent: Account, name: String, createdByUser: Bool = true,
@@ -70,12 +55,16 @@ final class Account: BaseEntity {
         self.name = name
         self.path = pathCalc
         self.currency = parent.currency
-        self.type = parent.type
+        if let type = parent.type.defultChildType {
+            self.type = type
+        } else {
+            fatalError("if parent.type allow create child account then it shoud be presented")
+        }
         self.active = parent.active
     }
 
     var rootAccount: Account {
-        if let parent = parent {
+        if let parent = parent, level > 1 {
             return parent.rootAccount
         }
         return self
@@ -90,7 +79,11 @@ final class Account: BaseEntity {
 
     var pathCalc: String {
         if let parent = parent {
-            return parent.pathCalc + ":" + name
+            if level == 1 {
+                return name
+            } else {
+                return parent.pathCalc + ":" + name
+            }
         }
         return name
     }
@@ -254,10 +247,12 @@ extension Account {
             }
         }
 
-        if type == TypeEnum.assets {
+        if type.classification == .assets {
             return debitTotal - creditTotal
-        } else {
+        } else if type.classification == .liabilities {
             return creditTotal - debitTotal
+        } else {
+            return 0
         }
     }
 
@@ -275,10 +270,12 @@ extension Account {
             }
         }
 
-        if type == TypeEnum.assets {
+        if type.classification == .assets {
             return debit - credit
-        } else {
+        } else if type.classification == .liabilities {
             return credit - debit
+        } else {
+            return 0
         }
     }
 
@@ -348,18 +345,18 @@ extension Account {
                     accounts[0].rootAccount.name == LocalisationManager.getLocalizedName(.money) ||
                     accounts[0].rootAccount.name == LocalisationManager.getLocalizedName(.credits) ||
                     accounts[0].rootAccount.name == LocalisationManager.getLocalizedName(.debtors) {
-                    if  accounts[0].type == TypeEnum.assets {
+                    if accounts[0].type.classification == .assets {
                         result.append((date: timeInterval.end,
                                        value: round((result[index].value + debitTotal - creditTotal)*100)/100))
-                    } else {
+                    } else if accounts[0].type.classification == .liabilities {
                         result.append((date: timeInterval.end,
                                        value: round((result[index].value + creditTotal - debitTotal)*100)/100))
                     }
                 } else {
-                    if accounts[0].type == TypeEnum.assets {
+                    if accounts[0].type.classification == .assets {
                         result.append((date: timeInterval.end,
                                        value: round((debitTotal - creditTotal)*100)/100))
-                    } else {
+                    } else if accounts[0].type.classification == .liabilities {
                         result.append((date: timeInterval.end,
                                        value: round((creditTotal - debitTotal)*100)/100))
                     }
@@ -581,14 +578,14 @@ extension Account {
         }
     }
 
-    static func createAndGetAccount(parent: Account?, name: String, type: TypeEnum, currency: Currency?,
-                                    keeper: Keeper? = nil, holder: Holder? = nil, subType: SubTypeEnum? = nil,
+    static func createAndGetAccount(parent: Account?, name: String, type: AccountType, currency: Currency?,
+                                    keeper: Keeper? = nil, holder: Holder? = nil,
                                     createdByUser: Bool = true, createDate: Date = Date(),
                                     impoted: Bool = false, context: NSManagedObjectContext)
     throws -> Account {
 
         try validateAttributes(parent: parent, name: name, type: type, currency: currency, keeper: keeper,
-                               holder: holder, subType: subType, createdByUser: createdByUser,
+                               holder: holder, createdByUser: createdByUser,
                                impoted: impoted, context: context)
 
         // Adding "Other" account for cases when parent containts transactions
@@ -599,7 +596,7 @@ extension Account {
                 newAccount = try createAndGetAccount(parent: parent,
                                                      name: LocalisationManager.getLocalizedName(.other1),
                                                      type: type, currency: currency, keeper: keeper, holder: holder,
-                                                     subType: subType, createdByUser: false, createDate: createDate,
+                                                     createdByUser: false, createDate: createDate,
                                                      context: context)
             }
             if newAccount != nil {
@@ -609,21 +606,21 @@ extension Account {
         }
 
         return Account(parent: parent, name: name, type: type, currency: currency, keeper: keeper, holder: holder,
-                       subType: subType, createdByUser: createdByUser, createDate: createDate, context: context)
+                       createdByUser: createdByUser, createDate: createDate, context: context)
     }
 
-    static func createAccount(parent: Account?, name: String, type: TypeEnum, currency: Currency?,
-                              keeper: Keeper? = nil, holder: Holder? = nil, subType: SubTypeEnum? = nil,
+    static func createAccount(parent: Account?, name: String, type: AccountType, currency: Currency?,
+                              keeper: Keeper? = nil, holder: Holder? = nil,
                               createdByUser: Bool = true, impoted: Bool = false,
                               context: NSManagedObjectContext) throws {
 
         _ = try createAndGetAccount(parent: parent, name: name, type: type, currency: currency,
-                                    keeper: keeper, holder: holder, subType: subType, createdByUser: createdByUser,
+                                    keeper: keeper, holder: holder, createdByUser: createdByUser,
                                     createDate: Date(), impoted: impoted, context: context)
     }
 
-    private static func validateAttributes(parent: Account?, name: String, type: TypeEnum, currency: Currency?,
-                                           keeper: Keeper? = nil, holder: Holder? = nil, subType: SubTypeEnum? = nil,
+    private static func validateAttributes(parent: Account?, name: String, type: AccountType, currency: Currency?,
+                                           keeper: Keeper? = nil, holder: Holder? = nil,
                                            createdByUser: Bool = true, impoted: Bool = false,
                                            context: NSManagedObjectContext) throws {
 
@@ -692,158 +689,158 @@ extension Account {
     }
 
     static func exportAccountsToString(context: NSManagedObjectContext) -> String {
-        let accountFetchRequest: NSFetchRequest<Account> = fetchRequest()
-        let sortDescroptors = [NSSortDescriptor(key: "\(Schema.Account.parent.rawValue).\(Schema.Account.name.rawValue)", ascending: true),
-                               NSSortDescriptor(key: Schema.Account.name.rawValue, ascending: true)]
-        accountFetchRequest.sortDescriptors = sortDescroptors
-        do {
-            let storedAccounts = try context.fetch(accountFetchRequest)
-            var export: String = "ParentAccount_path,Account_name,active,Account_type,Account_currency,Account_SubType,LinkedAccount_path\n"
-            for account in storedAccounts {
-
-                var accountType = ""
-                switch account.type {
-                case TypeEnum.assets:
-                    accountType = "Assets"
-                case TypeEnum.liabilities:
-                    accountType = "Liabilities"
-                default:
-                    accountType = "Out of enumeration"
-                }
-
-                var accountSubType = ""
-                switch account.subType {
-                case SubTypeEnum.none:
-                    accountSubType = ""
-                case SubTypeEnum.cash:
-                    accountSubType = "Cash"
-                case SubTypeEnum.debitCard:
-                    accountSubType = "DebitCard"
-                case SubTypeEnum.creditCard:
-                    accountSubType = "CreditCard"
-                default:
-                    accountSubType = "Out of enumeration"
-                }
-
-                export +=  "\(account.parent != nil ? account.parent!.path : "" ),"
-                export +=  "\(account.name),"
-                export +=  "\(account.active),"
-                export +=  "\(accountType),"
-                export +=  "\(account.currency?.code ?? "MULTICURRENCY"),"
-                export +=  "\(accountSubType),"
-                export +=  "\(account.linkedAccount != nil ? account.linkedAccount!.path: "" )\n"
-            }
-            return export
-        } catch let error {
-            print("ERROR", error)
+//        let accountFetchRequest: NSFetchRequest<Account> = fetchRequest()
+//        let sortDescroptors = [NSSortDescriptor(key: "\(Schema.Account.parent.rawValue).\(Schema.Account.name.rawValue)", ascending: true),
+//                               NSSortDescriptor(key: Schema.Account.name.rawValue, ascending: true)]
+//        accountFetchRequest.sortDescriptors = sortDescroptors
+//        do {
+//            let storedAccounts = try context.fetch(accountFetchRequest)
+//            var export: String = "ParentAccount_path,Account_name,active,Account_type,Account_currency,Account_SubType,LinkedAccount_path\n"
+//            for account in storedAccounts {
+//
+//                var accountType = ""
+//                switch account.type {
+//                case TypeEnum.assets:
+//                    accountType = "Assets"
+//                case TypeEnum.liabilities:
+//                    accountType = "Liabilities"
+//                default:
+//                    accountType = "Out of enumeration"
+//                }
+//
+//                var accountSubType = ""
+//                switch account.subType {
+//                case SubTypeEnum.none:
+//                    accountSubType = ""
+//                case SubTypeEnum.cash:
+//                    accountSubType = "Cash"
+//                case SubTypeEnum.debitCard:
+//                    accountSubType = "DebitCard"
+//                case SubTypeEnum.creditCard:
+//                    accountSubType = "CreditCard"
+//                default:
+//                    accountSubType = "Out of enumeration"
+//                }
+//
+//                export +=  "\(account.parent != nil ? account.parent!.path : "" ),"
+//                export +=  "\(account.name),"
+//                export +=  "\(account.active),"
+//                export +=  "\(accountType),"
+//                export +=  "\(account.currency?.code ?? "MULTICURRENCY"),"
+//                export +=  "\(accountSubType),"
+//                export +=  "\(account.linkedAccount != nil ? account.linkedAccount!.path: "" )\n"
+//            }
+//            return export
+//        } catch let error {
+//            print("ERROR", error)
             return ""
-        }
+//        }
     }
 
     static func importAccounts(_ data: String, context: NSManagedObjectContext) throws { // swiftlint:disable:this cyclomatic_complexity function_body_length
 
-        var accountToBeAdded: [Account] = []
-        var inputMatrix: [[String]] = []
-        let rows = data.components(separatedBy: "\n")
-        for row in rows {
-            let columns = row.components(separatedBy: ",")
-            inputMatrix.append(columns)
-        }
-        inputMatrix.remove(at: 0)
-
-        for row in inputMatrix {
-            guard row.count > 1 else {break}
-
-            let parent = Account.getAccountWithPath(row[0], context: context)
-
-            let name = String(row[1])
-
-            var active = false
-            switch row[2] {
-            case "false":
-                active = false
-            case "true":
-                active = true
-            default:
-                break // throw ImportAccountError.invalidactiveValue
-            }
-
-            var accountType: Int16 = 0
-            switch row[3] {
-            case "Assets":
-                accountType = TypeEnum.assets.rawValue
-            case "Liabilities":
-                accountType = TypeEnum.liabilities.rawValue
-            default:
-                break // throw ImportAccountError.invalidAccountTypeValue
-            }
-
-            let curency = try? Currency.getCurrencyForCode(row[4], context: context)
-
-            var accountSubType: Int16 = 0
-            switch row[5] {
-            case "":
-                accountSubType = 0
-            case "Cash":
-                accountSubType = 1
-            case "DebitCard":
-                accountSubType = 2
-            case "CreditCard":
-                accountSubType = 3
-            default:
-                break // throw ImportAccountError.invalidAccountSubTypeValue
-            }
-
-            let linkedAccount = Account.getAccountWithPath(row[6], context: context)
-
-            let account = try? Account.createAndGetAccount(parent: parent,
-                                                           name: name,
-                                                           type: TypeEnum(rawValue: accountType)!,
-                                                           currency: curency,
-                                                           impoted: true,
-                                                           context: context)
-            account?.linkedAccount = linkedAccount
-            account?.subType = SubTypeEnum(rawValue: accountSubType) ?? .none
-            account?.active = active
-
-            // CHECKING
-            if let account = account {
-                accountToBeAdded.append(account)
-                var accountTypes = ""
-                switch account.type {
-                case TypeEnum.assets:
-                    accountTypes = "Assets"
-                case TypeEnum.liabilities:
-                    accountTypes = "Liabilities"
-                default:
-                    accountTypes = "Out of enumeration"
-                }
-
-                var accountSubTypes = ""
-                switch account.subType {
-                case SubTypeEnum.none:
-                    accountSubTypes = ""
-                case SubTypeEnum.cash:
-                    accountSubTypes = "Cash"
-                case SubTypeEnum.debitCard:
-                    accountSubTypes = "DebitCard"
-                case SubTypeEnum.creditCard:
-                    accountSubTypes = "CreditCard"
-                default:
-                    accountSubTypes = "Out of enumeration"
-                }
-                var export = ""
-                export +=  "\(account.parent != nil ? account.parent!.path: "" ),"
-                export +=  "\(account.name),"
-                export +=  "\(account.active),"
-                export +=  "\(accountTypes),"
-                export +=  "\(account.currency?.code ?? "MULTICURRENCY"),"
-                export +=  "\(accountSubTypes),"
-                export +=  "\(account.linkedAccount != nil ? account.linkedAccount!.path: "" )\n"
-                //            print(export)
-            } else {
-                print("There is no account")
-            }
-        }
+//        var accountToBeAdded: [Account] = []
+//        var inputMatrix: [[String]] = []
+//        let rows = data.components(separatedBy: "\n")
+//        for row in rows {
+//            let columns = row.components(separatedBy: ",")
+//            inputMatrix.append(columns)
+//        }
+//        inputMatrix.remove(at: 0)
+//
+//        for row in inputMatrix {
+//            guard row.count > 1 else {break}
+//
+//            let parent = Account.getAccountWithPath(row[0], context: context)
+//
+//            let name = String(row[1])
+//
+//            var active = false
+//            switch row[2] {
+//            case "false":
+//                active = false
+//            case "true":
+//                active = true
+//            default:
+//                break // throw ImportAccountError.invalidactiveValue
+//            }
+//
+//            var accountType: Int16 = 0
+//            switch row[3] {
+//            case "Assets":
+//                accountType = TypeEnum.assets.rawValue
+//            case "Liabilities":
+//                accountType = TypeEnum.liabilities.rawValue
+//            default:
+//                break // throw ImportAccountError.invalidAccountTypeValue
+//            }
+//
+//            let curency = try? Currency.getCurrencyForCode(row[4], context: context)
+//
+//            var accountSubType: Int16 = 0
+//            switch row[5] {
+//            case "":
+//                accountSubType = 0
+//            case "Cash":
+//                accountSubType = 1
+//            case "DebitCard":
+//                accountSubType = 2
+//            case "CreditCard":
+//                accountSubType = 3
+//            default:
+//                break // throw ImportAccountError.invalidAccountSubTypeValue
+//            }
+//
+//            let linkedAccount = Account.getAccountWithPath(row[6], context: context)
+//
+//            let account = try? Account.createAndGetAccount(parent: parent,
+//                                                           name: name,
+//                                                           type: TypeEnum(rawValue: accountType)!,
+//                                                           currency: curency,
+//                                                           impoted: true,
+//                                                           context: context)
+//            account?.linkedAccount = linkedAccount
+//            account?.subType = SubTypeEnum(rawValue: accountSubType) ?? .none
+//            account?.active = active
+//
+//            // CHECKING
+//            if let account = account {
+//                accountToBeAdded.append(account)
+//                var accountTypes = ""
+//                switch account.type {
+//                case TypeEnum.assets:
+//                    accountTypes = "Assets"
+//                case TypeEnum.liabilities:
+//                    accountTypes = "Liabilities"
+//                default:
+//                    accountTypes = "Out of enumeration"
+//                }
+//
+//                var accountSubTypes = ""
+//                switch account.subType {
+//                case SubTypeEnum.none:
+//                    accountSubTypes = ""
+//                case SubTypeEnum.cash:
+//                    accountSubTypes = "Cash"
+//                case SubTypeEnum.debitCard:
+//                    accountSubTypes = "DebitCard"
+//                case SubTypeEnum.creditCard:
+//                    accountSubTypes = "CreditCard"
+//                default:
+//                    accountSubTypes = "Out of enumeration"
+//                }
+//                var export = ""
+//                export +=  "\(account.parent != nil ? account.parent!.path: "" ),"
+//                export +=  "\(account.name),"
+//                export +=  "\(account.active),"
+//                export +=  "\(accountTypes),"
+//                export +=  "\(account.currency?.code ?? "MULTICURRENCY"),"
+//                export +=  "\(accountSubTypes),"
+//                export +=  "\(account.linkedAccount != nil ? account.linkedAccount!.path: "" )\n"
+//                //            print(export)
+//            } else {
+//                print("There is no account")
+//            }
+//        }
     }
 }

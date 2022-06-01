@@ -168,8 +168,11 @@ extension MITransactionEditorPresenter: MITransactionEditorInteractorOutput {
     func fetched(transactionItems: [TransactionItem]) {
         var result: [TransactionItemViewModel] = []
         transactionItems.forEach({
+            let path = $0.account?.path ?? NSLocalizedString("Account/Category",
+                                                             tableName: Constants.Localizable.mITransactionEditorVC,
+                                                             comment: "")
             result.append(TransactionItemViewModel(id: $0.id,
-                                                   path: $0.account?.path ?? "Account/Category",
+                                                   path: path,
                                                    amount: ($0.amount == 0) ? "" : String($0.amount),
                                                    type: $0.type,
                                                    createDate: $0.createDate ?? Date()))

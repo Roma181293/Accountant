@@ -359,8 +359,7 @@ class SimpleTransactionEditorViewController: UIViewController, AccountNavigation
     }
 
     private func validation() -> Bool {  // swiftlint:disable:this function_body_length
-        if credit?.parent == nil
-            && credit?.name != LocalisationManager.getLocalizedName(.capital) {
+        if credit == nil || credit?.type.isConsolidation == true {
             let alert = UIAlertController(title: NSLocalizedString("Warning",
                                                                    tableName: Constants.Localizable.simpleTransactionEditorVC,
                                                                    comment: ""),
@@ -374,8 +373,7 @@ class SimpleTransactionEditorViewController: UIViewController, AccountNavigation
                                           style: .default))
             self.present(alert, animated: true, completion: nil)
             return false
-        } else if debit?.parent == nil
-                    && debit?.name != LocalisationManager.getLocalizedName(.capital) {
+        } else if debit == nil || debit?.type.isConsolidation == true {
             let alert = UIAlertController(title: NSLocalizedString("Warning",
                                                                    tableName: Constants.Localizable.simpleTransactionEditorVC,
                                                                    comment: ""),
@@ -389,8 +387,7 @@ class SimpleTransactionEditorViewController: UIViewController, AccountNavigation
                                           style: .default))
             self.present(alert, animated: true, completion: nil)
             return false
-        } else if debit != nil && credit != nil && debit!.currency == credit!.currency
-                    &&  mainView.debitAmount == nil {
+        } else if debit != nil && credit != nil && debit!.currency == credit!.currency &&  mainView.debitAmount == nil {
             let alert = UIAlertController(title: NSLocalizedString("Warning",
                                                                    tableName: Constants.Localizable.simpleTransactionEditorVC,
                                                                    comment: ""),
@@ -448,6 +445,7 @@ extension SimpleTransactionEditorViewController {
         let accountNavVC = AccountNavigationViewController()
         accountNavVC.parentAccount = account
         accountNavVC.requestor = self
+        accountNavVC.delegate = self
         accountNavVC.showHiddenAccounts = false
         accountNavVC.searchBarIsHidden = false
         mainView.doneButtonAction()

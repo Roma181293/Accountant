@@ -118,16 +118,13 @@ final class BankAccount: NSManagedObject {
     func findNotValidAccountCandidateForLinking() -> [Account] {
         guard let account = self.account, let siblings = self.account?.parent?.directChildrenList else {return []}
         return siblings.filter({
-            $0.subType != account.subType || $0.currency != account.currency || $0 == account || $0.bankAccount != nil
+            $0.type != account.type || $0.currency != account.currency || $0 == account || $0.bankAccount != nil
         })
     }
 
     static func changeLinkedAccount(to account: Account, for bankAccount: BankAccount, modifyDate: Date = Date(),
                                     modifiedByUser: Bool = true) throws {
-        guard account.type == bankAccount.account?.type else {return}
-
-        guard account.subType == bankAccount.account?.subType
-        else {throw BankAccountError.cantChangeLinkedAccountCozSubType}
+        guard account.type == bankAccount.account?.type else {throw BankAccountError.cantChangeLinkedAccountCozSubType}
 
         guard account.currency == bankAccount.account?.currency
         else {throw BankAccountError.cantChangeLinkedAccountCozCurrency}

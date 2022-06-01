@@ -99,29 +99,29 @@ class RootAccountEditorViewController: UIViewController {
     }
 
     @objc func save(_ sender: UIButton!) {
-        var typeOfAccount: Account.TypeEnum = .assets
-        if segmentedControl.selectedSegmentIndex == 1 {
-            typeOfAccount = .liabilities
-        }
-        do {
-            if let name = nameTextField.text, name != "" {
-                try Account.createAccount(parent: nil,
-                                          name: name,
-                                          type: typeOfAccount,
-                                          currency: currency,
-                                          createdByUser: true,
-                                          context: context)
-                try context.save()
-                navigationController?.popViewController(animated: true)
-            }
-        } catch let error {
-            let alert = UIAlertController(title: NSLocalizedString("Error", comment: ""),
-                                          message: "\(error.localizedDescription)",
-                                          preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""),
-                                          style: .default))
-            self.present(alert, animated: true, completion: nil)
-        }
+//        var typeOfAccount: Account.TypeEnum = .assets
+//        if segmentedControl.selectedSegmentIndex == 1 {
+//            typeOfAccount = .liabilities
+//        }
+//        do {
+//            if let name = nameTextField.text, name != "" {
+//                try Account.createAccount(parent: nil,
+//                                          name: name,
+//                                          type: typeOfAccount,
+//                                          currency: currency,
+//                                          createdByUser: true,
+//                                          context: context)
+//                try context.save()
+//                navigationController?.popViewController(animated: true)
+//            }
+//        } catch let error {
+//            let alert = UIAlertController(title: NSLocalizedString("Error", comment: ""),
+//                                          message: "\(error.localizedDescription)",
+//                                          preferredStyle: .alert)
+//            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""),
+//                                          style: .default))
+//            self.present(alert, animated: true, completion: nil)
+//        }
     }
 
     @objc func dismissKeyboard() {

@@ -425,10 +425,10 @@ class AccountEditorView: UIView { // swiftlint:disable:this type_body_length
         guard let account = controller.account else {return}
         accountNameTextField.text = account.name
 
-        if controller.accountSubType == .cash {
-            keeperButton.isHidden = true
-            keeperLabel.isHidden = true
-        }
+//        if controller.accountSubType == .cash {
+//            keeperButton.isHidden = true
+//            keeperLabel.isHidden = true
+//        }
 
         setKeeper()
         setHolder()
@@ -470,32 +470,32 @@ class AccountEditorView: UIView { // swiftlint:disable:this type_body_length
         creditLimitLabel.isHidden = true
         creditLimitTextField.isHidden = true
 
-        guard let accountSubType = controller.accountSubType else {return}
-        switch accountSubType {
-        case .debitCard:
-            accountSubTypeButton.setImage(UIImage(systemName: "creditcard"), for: .normal)
-            accountSubTypeButton.setTitle("Debit", for: .normal)
-            keeperLabel.isHidden = false
-            keeperButton.isHidden = false
-            creditLimitLabel.isHidden = true
-            creditLimitTextField.isHidden = true
-        case .cash:
-            accountSubTypeButton.setImage(UIImage(systemName: "keepernote"), for: .normal)
-            accountSubTypeButton.setTitle("Cash", for: .normal)
-            keeperLabel.isHidden = true
-            keeperButton.isHidden = true
-            creditLimitLabel.isHidden = true
-            creditLimitTextField.isHidden = true
-        case .creditCard:
-            accountSubTypeButton.setImage(UIImage(systemName: "creditcard.fill"), for: .normal)
-            accountSubTypeButton.setTitle("Credit", for: .normal)
-            keeperLabel.isHidden = false
-            keeperButton.isHidden = false
-            creditLimitLabel.isHidden = false
-            creditLimitTextField.isHidden = false
-        default:
-            break
-        }
+//        guard let accountSubType = controller.accountSubType else {return}
+//        switch accountSubType {
+//        case .debitCard:
+//            accountSubTypeButton.setImage(UIImage(systemName: "creditcard"), for: .normal)
+//            accountSubTypeButton.setTitle("Debit", for: .normal)
+//            keeperLabel.isHidden = false
+//            keeperButton.isHidden = false
+//            creditLimitLabel.isHidden = true
+//            creditLimitTextField.isHidden = true
+//        case .cash:
+//            accountSubTypeButton.setImage(UIImage(systemName: "keepernote"), for: .normal)
+//            accountSubTypeButton.setTitle("Cash", for: .normal)
+//            keeperLabel.isHidden = true
+//            keeperButton.isHidden = true
+//            creditLimitLabel.isHidden = true
+//            creditLimitTextField.isHidden = true
+//        case .creditCard:
+//            accountSubTypeButton.setImage(UIImage(systemName: "creditcard.fill"), for: .normal)
+//            accountSubTypeButton.setTitle("Credit", for: .normal)
+//            keeperLabel.isHidden = false
+//            keeperButton.isHidden = false
+//            creditLimitLabel.isHidden = false
+//            creditLimitTextField.isHidden = false
+//        default:
+//            break
+//        }
     }
 
     func setCurrency() {

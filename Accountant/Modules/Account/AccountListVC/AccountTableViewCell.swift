@@ -178,18 +178,18 @@ class AccountTableViewCell: UITableViewCell {
 
         guard let account = dataToShow.account, let accountCurrency = account.currency else {return}
 
-        switch account.subType {
-        case Account.SubTypeEnum.cash:
+        switch account.type.name {
+        case AccountType.NameEnum.cash.rawValue:
             systemIconImageView.image = UIImage(systemName: "banknote")
             systemIconImageView.isHidden = false
             customIconContainerView.isHidden = true
             iconView.isHidden = true
-        case Account.SubTypeEnum.debitCard:
+        case AccountType.NameEnum.debitCard.rawValue:
             systemIconImageView.image = UIImage(systemName: "creditcard")
             systemIconImageView.isHidden = false
             customIconContainerView.isHidden = true
             iconView.isHidden = true
-        case Account.SubTypeEnum.creditCard:
+        case AccountType.NameEnum.creditCard.rawValue:
             systemIconImageView.image = UIImage(systemName: "creditcard.fill")
             systemIconImageView.isHidden = false
             customIconContainerView.isHidden = true

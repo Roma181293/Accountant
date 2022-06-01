@@ -82,10 +82,9 @@ class MonobankUBPInteractor: MonobankUBPInteractorProtocol {
 
                 let newMoneyAccount = try Account.createAndGetAccount(parent: moneyRootAccount,
                                                                       name: item.maskedPan.last!,
-                                                                      type: moneyRootAccount.type,
+                                                                      type: AccountType.getBy(.creditCard, context: context),
                                                                       currency: currency,
                                                                       keeper: keeper, holder: holder,
-                                                                      subType: Account.SubTypeEnum.creditCard,
                                                                       context: context)
 
                 newMoneyAccount.bankAccount = bankAccount

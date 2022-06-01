@@ -23,6 +23,7 @@ class SeedDataManager {
         let context = coreDataStack.persistentContainer.viewContext
         try deleteAllTransactions(context: context, env: env)
         try deleteAllAccounts(context: context, env: env)
+        try deleteAllAccountTypes(context: context, env: env)
         try deleteAllCurrencies(context: context, env: env)
         try deleteAllKeepers(context: context, env: env)
         try deleteAllHolders(context: context, env: env)
@@ -56,24 +57,57 @@ class SeedDataManager {
     static public func addBaseAccounts(accountingCurrency: Currency, context: NSManagedObjectContext) {
         LocalisationManager.createAllLocalizedAccountName()
 
-        try? Account.createAccount(parent: nil, name: LocalisationManager.getLocalizedName(.money), type: Account.TypeEnum.assets, currency: nil, createdByUser: false, context: context)
-        try? Account.createAccount(parent: nil, name: LocalisationManager.getLocalizedName(.credits), type: Account.TypeEnum.liabilities, currency: nil, createdByUser: false, context: context)
-        try? Account.createAccount(parent: nil, name: LocalisationManager.getLocalizedName(.debtors), type: Account.TypeEnum.assets, currency: nil, createdByUser: false, context: context)
-        try? Account.createAccount(parent: nil, name: LocalisationManager.getLocalizedName(.capital), type: Account.TypeEnum.liabilities, currency: accountingCurrency, createdByUser: false, context: context)
+        // swiftlint:disable line_length
+        let accounting = AccountType(name: "Accounting", classification: .none, isConsolidation: true, priority: 1, context: context)
 
-        let expense = try? Account.createAndGetAccount(parent: nil, name: LocalisationManager.getLocalizedName(.expense), type: Account.TypeEnum.assets, currency: accountingCurrency, createdByUser: false, context: context)
-        try? Account.createAccount(parent: expense, name: NSLocalizedString("Food", comment: ""), type: Account.TypeEnum.assets, currency: accountingCurrency, createdByUser: false, context: context)
-        try? Account.createAccount(parent: expense, name: NSLocalizedString("Transport", comment: ""), type: Account.TypeEnum.assets, currency: accountingCurrency, createdByUser: false, context: context)
-        try? Account.createAccount(parent: expense, name: NSLocalizedString("Gifts", comment: ""), type: Account.TypeEnum.assets, currency: accountingCurrency, createdByUser: false, context: context)
-        let home = try? Account.createAndGetAccount(parent: expense, name: NSLocalizedString("Home", comment: ""), type: Account.TypeEnum.assets, currency: accountingCurrency, createdByUser: false, context: context)
-        try? Account.createAccount(parent: home, name: NSLocalizedString("Utility", comment: ""), type: Account.TypeEnum.assets, currency: accountingCurrency, createdByUser: false, context: context)
-        try? Account.createAccount(parent: home, name: NSLocalizedString("Rent", comment: ""), type: Account.TypeEnum.assets, currency: accountingCurrency, createdByUser: false, context: context)
-        try? Account.createAccount(parent: home, name: NSLocalizedString("Renovation", comment: ""), type: Account.TypeEnum.assets, currency: accountingCurrency, createdByUser: false, context: context)
+        let creditorsConsolid = AccountType(parent: accounting, name: "Creditors consolidation", classification: .liabilities, balanceCalcFullTime: true, isConsolidation: true, priority: 1, context: context)
+        let creditor = AccountType(parent: creditorsConsolid, name: "Creditor", classification: .liabilities, hasCurrency: true, hasHolder: true, hasKeeper: true, balanceCalcFullTime: true, canBeDeleted: true, canChangeActiveStatus: true, canBeRenamed: true, canBeCreatedByUser: true, checkAmountBeforDeactivate: true, priority: 1, context: context)
 
-        let income = try? Account.createAndGetAccount(parent: nil, name: LocalisationManager.getLocalizedName(.income), type: Account.TypeEnum.liabilities, currency: accountingCurrency, createdByUser: false, context: context)
-        try? Account.createAccount(parent: income, name: NSLocalizedString("Salary", comment: ""), type: Account.TypeEnum.liabilities, currency: accountingCurrency, createdByUser: false, context: context)
-        try? Account.createAccount(parent: income, name: NSLocalizedString("Gifts", comment: ""), type: Account.TypeEnum.liabilities, currency: accountingCurrency, createdByUser: false, context: context)
-        try? Account.createAccount(parent: income, name: NSLocalizedString("Interest on deposits", comment: ""), type: Account.TypeEnum.liabilities, currency: accountingCurrency, createdByUser: false, context: context)
+        let moneyConsolid = AccountType(parent: accounting, name: "Money consolidation", classification: .assets, balanceCalcFullTime: true, isConsolidation: true, priority: 1, context: context)
+        let creditCard = AccountType(parent: moneyConsolid, name: "Credit Card", classification: .assets, hasCurrency: true, linkedAccountType: creditor, hasHolder: true, hasKeeper: true, balanceCalcFullTime: true, canBeDeleted: true, canChangeActiveStatus: true, canBeRenamed: true, canBeCreatedByUser: true, checkAmountBeforDeactivate: true, priority: 3, context: context)
+        let debitCard = AccountType(parent: moneyConsolid, name: "Debit Card", classification: .assets, hasCurrency: true, hasHolder: true, hasKeeper: true, hasInitialBalance: true, balanceCalcFullTime: true, canBeDeleted: true, canChangeActiveStatus: true, canBeRenamed: true, canBeCreatedByUser: true, checkAmountBeforDeactivate: true, priority: 2, context: context)
+        let cash = AccountType(parent: moneyConsolid, name: "Cash", classification: .assets, hasCurrency: true, hasHolder: true, hasKeeper: true, hasInitialBalance: true, balanceCalcFullTime: true, canBeDeleted: true, canChangeActiveStatus: true, canBeRenamed: true, canBeCreatedByUser: true, checkAmountBeforDeactivate: true, priority: 1, context: context)
+
+        let debtorsConsolid = AccountType(parent: accounting, name: "Debtors consolidation", classification: .assets, balanceCalcFullTime: true, isConsolidation: true, priority: 1, context: context)
+        let debtor = AccountType(parent: debtorsConsolid, name: "Debtor", classification: .assets, hasCurrency: true, hasHolder: true, hasKeeper: true, balanceCalcFullTime: true, canBeDeleted: true, canChangeActiveStatus: true, canBeRenamed: true, canBeCreatedByUser: true, checkAmountBeforDeactivate: true, priority: 1, context: context)
+
+        let incomeConsolid = AccountType(parent: accounting, name: "Income consolidation", classification: .liabilities, hasCurrency: true, isConsolidation: true, priority: 1, context: context)
+
+        let expenseConsolid = AccountType(parent: accounting, name: "Expense consolidation", classification: .assets, hasCurrency: true, isConsolidation: true, priority: 1, context: context)
+
+        let capitalConsolid = AccountType(parent: accounting, name: "Capital consolidation", classification: .liabilities, hasCurrency: true, balanceCalcFullTime: true, priority: 1, context: context)
+
+        let assetsCategoryConsolid = AccountType(parent: accounting, name: "Liabilities category consolidation", classification: .liabilities, hasCurrency: true, canBeDeleted: true, canChangeActiveStatus: true, canBeRenamed: true, canBeCreatedByUser: true, isConsolidation: true, priority: 1, context: context)
+
+        let liabilityCategoryConsolid = AccountType(parent: accounting, name: "Assets category consolidation", classification: .assets, hasCurrency: true, canBeDeleted: true, canChangeActiveStatus: true, canBeRenamed: true, canBeCreatedByUser: true, isConsolidation: true, priority: 2, context: context)
+
+        let liabilitiesCategory = AccountType(name: "Liabilities category", classification: .liabilities ,hasCurrency: true, canBeDeleted: true, canChangeActiveStatus: true, canBeRenamed: true, canBeCreatedByUser: true, checkAmountBeforDeactivate: true, priority: 1, context: context)
+        liabilitiesCategory.parents = [liabilityCategoryConsolid, incomeConsolid, capitalConsolid, liabilitiesCategory]
+
+        let assetsCategory = AccountType(name: "Assets category", classification: .assets, hasCurrency: true, canBeDeleted: true, canChangeActiveStatus: true, canBeRenamed: true, canBeCreatedByUser: true, checkAmountBeforDeactivate: true, priority: 1, context: context)
+        assetsCategory.parents = [assetsCategoryConsolid, expenseConsolid, assetsCategory]
+        // swiftlint:enable line_length
+
+        let accounts = try? Account.createAndGetAccount(parent: nil, name: "Accounts", type: accounting, currency: nil, createdByUser: false, context: context)
+
+        try? Account.createAccount(parent: accounts, name: LocalisationManager.getLocalizedName(.money), type: moneyConsolid, currency: nil, createdByUser: false, context: context)
+        try? Account.createAccount(parent: accounts, name: LocalisationManager.getLocalizedName(.credits), type: creditorsConsolid, currency: nil, createdByUser: false, context: context)
+        try? Account.createAccount(parent: accounts, name: LocalisationManager.getLocalizedName(.debtors), type: debtorsConsolid, currency: nil, createdByUser: false, context: context)
+        try? Account.createAccount(parent: accounts, name: LocalisationManager.getLocalizedName(.capital), type: capitalConsolid, currency: accountingCurrency, createdByUser: false, context: context)
+
+        let expense = try? Account.createAndGetAccount(parent: accounts, name: LocalisationManager.getLocalizedName(.expense), type: expenseConsolid, currency: accountingCurrency, createdByUser: false, context: context)
+        try? Account.createAccount(parent: expense, name: NSLocalizedString("Food", comment: ""), type: assetsCategory, currency: accountingCurrency, createdByUser: false, context: context)
+        try? Account.createAccount(parent: expense, name: NSLocalizedString("Transport", comment: ""), type: assetsCategory, currency: accountingCurrency, createdByUser: false, context: context)
+        try? Account.createAccount(parent: expense, name: NSLocalizedString("Gifts", comment: ""), type: assetsCategory, currency: accountingCurrency, createdByUser: false, context: context)
+        let home = try? Account.createAndGetAccount(parent: expense, name: NSLocalizedString("Home", comment: ""), type: assetsCategory, currency: accountingCurrency, createdByUser: false, context: context)
+        try? Account.createAccount(parent: home, name: NSLocalizedString("Utility", comment: ""), type: assetsCategory, currency: accountingCurrency, createdByUser: false, context: context)
+        try? Account.createAccount(parent: home, name: NSLocalizedString("Rent", comment: ""), type: assetsCategory, currency: accountingCurrency, createdByUser: false, context: context)
+        try? Account.createAccount(parent: home, name: NSLocalizedString("Renovation", comment: ""), type: assetsCategory, currency: accountingCurrency, createdByUser: false, context: context)
+
+        let income = try? Account.createAndGetAccount(parent: accounts, name: LocalisationManager.getLocalizedName(.income), type: liabilityCategoryConsolid, currency: accountingCurrency, createdByUser: false, context: context)
+        try? Account.createAccount(parent: income, name: NSLocalizedString("Salary", comment: ""), type: liabilitiesCategory, currency: accountingCurrency, createdByUser: false, context: context)
+        try? Account.createAccount(parent: income, name: NSLocalizedString("Gifts", comment: ""), type: liabilitiesCategory, currency: accountingCurrency, createdByUser: false, context: context)
+        try? Account.createAccount(parent: income, name: NSLocalizedString("Interest on deposits", comment: ""), type: liabilitiesCategory, currency: accountingCurrency, createdByUser: false, context: context)
     }
     
     private static func deleteAllAccounts(context: NSManagedObjectContext, env: Environment?) throws {
@@ -156,6 +190,15 @@ class SeedDataManager {
     static func deleteAllCurrencies(context: NSManagedObjectContext, env: Environment?) throws {
         let fetchRequest = Currency.fetchRequest()
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "code", ascending: true)]
+        let currencies = try context.fetch(fetchRequest)
+        currencies.forEach({
+            context.delete($0)
+        })
+    }
+
+    static func deleteAllAccountTypes(context: NSManagedObjectContext, env: Environment?) throws {
+        let fetchRequest = AccountType.fetchRequest()
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
         let currencies = try context.fetch(fetchRequest)
         currencies.forEach({
             context.delete($0)
@@ -274,35 +317,71 @@ class SeedDataManager {
         let me = try? Holder.get(NSLocalizedString("Me", comment: ""), context: context)
         let kate = try? Holder.get(NSLocalizedString("Kate", comment: ""), context: context)
 
-        let money = try? Account.createAndGetAccount(parent: nil, name: LocalisationManager.getLocalizedName(.money), type: Account.TypeEnum.assets, currency: nil, createdByUser: false, context: context)
 
-        let credits = try? Account.createAndGetAccount(parent: nil, name: LocalisationManager.getLocalizedName(.credits), type: Account.TypeEnum.liabilities, currency: nil, createdByUser: false, context: context)
-        let debtors = try? Account.createAndGetAccount(parent: nil, name: LocalisationManager.getLocalizedName(.debtors), type: Account.TypeEnum.assets, currency: nil, createdByUser: false, context: context)
-        let capital = try? Account.createAndGetAccount(parent: nil, name: LocalisationManager.getLocalizedName(.capital), type: Account.TypeEnum.liabilities, currency: accountingCurrency, createdByUser: false, context: context)
 
-        let deposit = try? Account.createAndGetAccount(parent: debtors, name: NSLocalizedString("Deposit", comment: ""), type: Account.TypeEnum.assets, currency: accountingCurrency, keeper: bank1, holder: me, createdByUser: false, context: context)
-        let _ = try? Account.createAndGetAccount(parent: debtors, name: NSLocalizedString("Hanna", comment: ""), type: Account.TypeEnum.assets, currency: accountingCurrency, keeper: hanna, holder: me, createdByUser: false, context: context)
+        // swiftlint:disable line_length
+        let accounting = AccountType(name: "Accounting", classification: .none, isConsolidation: true, priority: 1, context: context)
 
-        let salaryCard = try? Account.createAndGetAccount(parent: money, name: NSLocalizedString("Salary card", comment: ""), type: Account.TypeEnum.assets, currency: accountingCurrency, keeper: bank2, holder: me, subType: Account.SubTypeEnum.debitCard, createdByUser: false, context: context)
-        let cash = try? Account.createAndGetAccount(parent: money, name: NSLocalizedString("Cash", comment: ""), type: Account.TypeEnum.assets, currency: accountingCurrency, keeper: cashKeeper, holder: kate, subType: Account.SubTypeEnum.cash, createdByUser: false, context: context)
+        let creditorsConsolid = AccountType(parent: accounting, name: "Creditors consolidation", classification: .liabilities, balanceCalcFullTime: true, isConsolidation: true, priority: 1, context: context)
+        let creditor = AccountType(parent: creditorsConsolid, name: "Creditor", classification: .liabilities, hasCurrency: true, hasHolder: true, hasKeeper: true, balanceCalcFullTime: true, canBeDeleted: true, canChangeActiveStatus: true, canBeRenamed: true, canBeCreatedByUser: true, checkAmountBeforDeactivate: true, priority: 1, context: context)
 
-        let creditcard_A = try? Account.createAndGetAccount(parent: money, name: NSLocalizedString("Credit card", comment: ""), type: Account.TypeEnum.assets, currency: accountingCurrency, keeper: bank1, holder: me, subType: Account.SubTypeEnum.creditCard, createdByUser: false, context: context)
-        let creditcard_L = try? Account.createAndGetAccount(parent: credits, name: NSLocalizedString("Credit card", comment: ""), type: Account.TypeEnum.liabilities, currency: accountingCurrency, keeper: bank1, holder: me, createdByUser: false, context: context)
+        let moneyConsolid = AccountType(parent: accounting, name: "Money consolidation", classification: .assets, balanceCalcFullTime: true, isConsolidation: true, priority: 1, context: context)
+        let creditCard = AccountType(parent: moneyConsolid, name: "Credit Card", classification: .assets, hasCurrency: true, linkedAccountType: creditor, hasHolder: true, hasKeeper: true, balanceCalcFullTime: true, canBeDeleted: true, canChangeActiveStatus: true, canBeRenamed: true, canBeCreatedByUser: true, checkAmountBeforDeactivate: true, priority: 3, context: context)
+        let debitCard = AccountType(parent: moneyConsolid, name: "Debit Card", classification: .assets, hasCurrency: true, hasHolder: true, hasKeeper: true, hasInitialBalance: true, balanceCalcFullTime: true, canBeDeleted: true, canChangeActiveStatus: true, canBeRenamed: true, canBeCreatedByUser: true, checkAmountBeforDeactivate: true, priority: 2, context: context)
+        let cash = AccountType(parent: moneyConsolid, name: "Cash", classification: .assets, hasCurrency: true, hasHolder: true, hasKeeper: true, hasInitialBalance: true, balanceCalcFullTime: true, canBeDeleted: true, canChangeActiveStatus: true, canBeRenamed: true, canBeCreatedByUser: true, checkAmountBeforDeactivate: true, priority: 1, context: context)
+
+        let debtorsConsolid = AccountType(parent: accounting, name: "Debtors consolidation", classification: .assets, balanceCalcFullTime: true, isConsolidation: true, priority: 1, context: context)
+        let debtor = AccountType(parent: debtorsConsolid, name: "Debtor", classification: .assets, hasCurrency: true, hasHolder: true, hasKeeper: true, balanceCalcFullTime: true, canBeDeleted: true, canChangeActiveStatus: true, canBeRenamed: true, canBeCreatedByUser: true, checkAmountBeforDeactivate: true, priority: 1, context: context)
+
+        let incomeConsolid = AccountType(parent: accounting, name: "Income consolidation", classification: .liabilities, hasCurrency: true, isConsolidation: true, priority: 1, context: context)
+
+        let expenseConsolid = AccountType(parent: accounting, name: "Expense consolidation", classification: .assets, hasCurrency: true, isConsolidation: true, priority: 1, context: context)
+
+        let capitalConsolid = AccountType(parent: accounting, name: "Capital consolidation", classification: .liabilities, hasCurrency: true, balanceCalcFullTime: true, priority: 1, context: context)
+
+        let assetsCategoryConsolid = AccountType(parent: accounting, name: "Liabilities category consolidation", classification: .liabilities, hasCurrency: true, canBeDeleted: true, canChangeActiveStatus: true, canBeRenamed: true, canBeCreatedByUser: true, isConsolidation: true, priority: 1, context: context)
+
+        let liabilityCategoryConsolid = AccountType(parent: accounting, name: "Assets category consolidation", classification: .assets, hasCurrency: true, canBeDeleted: true, canChangeActiveStatus: true, canBeRenamed: true, canBeCreatedByUser: true, isConsolidation: true, priority: 2, context: context)
+
+        let liabilitiesCategory = AccountType(name: "Liabilities category", classification: .liabilities ,hasCurrency: true, canBeDeleted: true, canChangeActiveStatus: true, canBeRenamed: true, canBeCreatedByUser: true, checkAmountBeforDeactivate: true, priority: 1, context: context)
+        liabilitiesCategory.parents = [liabilityCategoryConsolid, incomeConsolid, capitalConsolid, liabilitiesCategory]
+
+        let assetsCategory = AccountType(name: "Assets category", classification: .assets, hasCurrency: true, canBeDeleted: true, canChangeActiveStatus: true, canBeRenamed: true, canBeCreatedByUser: true, checkAmountBeforDeactivate: true, priority: 1, context: context)
+        assetsCategory.parents = [assetsCategoryConsolid, expenseConsolid, assetsCategory]
+        // swiftlint:enable line_length
+
+
+        let accounts = try? Account.createAndGetAccount(parent: nil, name: "Accounts", type: accounting, currency: nil, createdByUser: false, context: context)
+
+        let money = try? Account.createAndGetAccount(parent: accounts, name: LocalisationManager.getLocalizedName(.money), type: moneyConsolid, currency: nil, createdByUser: false, context: context)
+        let credits = try? Account.createAndGetAccount(parent: accounts, name: LocalisationManager.getLocalizedName(.credits), type: creditorsConsolid, currency: nil, createdByUser: false, context: context)
+        let debtors = try? Account.createAndGetAccount(parent: accounts, name: LocalisationManager.getLocalizedName(.debtors), type: debtorsConsolid, currency: nil, createdByUser: false, context: context)
+        let capital = try? Account.createAndGetAccount(parent: accounts, name: LocalisationManager.getLocalizedName(.capital), type: capitalConsolid, currency: accountingCurrency, createdByUser: false, context: context)
+
+
+        let deposit = try? Account.createAndGetAccount(parent: debtors, name: NSLocalizedString("Deposit", comment: ""), type: debtor, currency: accountingCurrency, keeper: bank1, holder: me, createdByUser: false, context: context)
+        let _ = try? Account.createAndGetAccount(parent: debtors, name: NSLocalizedString("Hanna", comment: ""), type: debtor, currency: accountingCurrency, keeper: hanna, holder: me, createdByUser: false, context: context)
+
+        let salaryCard = try? Account.createAndGetAccount(parent: money, name: NSLocalizedString("Salary card", comment: ""), type: debitCard, currency: accountingCurrency, keeper: bank2, holder: me, createdByUser: false, context: context)
+        let cashAcc = try? Account.createAndGetAccount(parent: money, name: NSLocalizedString("Cash", comment: ""), type: cash, currency: accountingCurrency, keeper: cashKeeper, holder: kate, createdByUser: false, context: context)
+
+        let creditcard_A = try? Account.createAndGetAccount(parent: money, name: NSLocalizedString("Credit card", comment: ""), type: creditCard, currency: accountingCurrency, keeper: bank1, holder: me, createdByUser: false, context: context)
+        let creditcard_L = try? Account.createAndGetAccount(parent: credits, name: NSLocalizedString("Credit card", comment: ""), type: creditor, currency: accountingCurrency, keeper: bank1, holder: me, createdByUser: false, context: context)
         creditcard_A?.linkedAccount = creditcard_L
 
-        let expense = try? Account.createAndGetAccount(parent: nil, name: LocalisationManager.getLocalizedName(.expense), type: Account.TypeEnum.assets, currency: accountingCurrency, createdByUser: false, context: context)
-        let food = try? Account.createAndGetAccount(parent: expense, name: NSLocalizedString("Food", comment: ""), type: Account.TypeEnum.assets, currency: accountingCurrency, createdByUser: false, context: context)
-        let _ = try? Account.createAndGetAccount(parent: expense, name: NSLocalizedString("Transport", comment: ""), type: Account.TypeEnum.assets, currency: accountingCurrency, createdByUser: false, context: context)
-        let gifts_E = try? Account.createAndGetAccount(parent: expense, name: NSLocalizedString("Gifts", comment: ""), type: Account.TypeEnum.assets, currency: accountingCurrency, createdByUser: false, context: context)
-        let home = try? Account.createAndGetAccount(parent: expense, name: NSLocalizedString("Home", comment: ""), type: Account.TypeEnum.assets, currency: accountingCurrency, createdByUser: false, context: context)
-        let utility = try? Account.createAndGetAccount(parent: home, name: NSLocalizedString("Utility", comment: ""), type: Account.TypeEnum.assets, currency: accountingCurrency, createdByUser: false, context: context)
-        let rent = try? Account.createAndGetAccount(parent: home, name: NSLocalizedString("Rent", comment: ""), type: Account.TypeEnum.assets, currency: accountingCurrency, createdByUser: false, context: context)
-        let _ = try? Account.createAndGetAccount(parent: home, name: NSLocalizedString("Renovation", comment: ""), type: Account.TypeEnum.assets, currency: accountingCurrency, createdByUser: false, context: context)
+        let expense = try? Account.createAndGetAccount(parent: accounts, name: LocalisationManager.getLocalizedName(.expense), type: expenseConsolid, currency: accountingCurrency, createdByUser: false, context: context)
+        let food = try? Account.createAndGetAccount(parent: expense, name: NSLocalizedString("Food", comment: ""), type: assetsCategory, currency: accountingCurrency, createdByUser: false, context: context)
+        let _ = try? Account.createAndGetAccount(parent: expense, name: NSLocalizedString("Transport", comment: ""), type: assetsCategory, currency: accountingCurrency, createdByUser: false, context: context)
+        let gifts_E = try? Account.createAndGetAccount(parent: expense, name: NSLocalizedString("Gifts", comment: ""), type: assetsCategory, currency: accountingCurrency, createdByUser: false, context: context)
+        let home = try? Account.createAndGetAccount(parent: expense, name: NSLocalizedString("Home", comment: ""), type: assetsCategory, currency: accountingCurrency, createdByUser: false, context: context)
+        let utility = try? Account.createAndGetAccount(parent: home, name: NSLocalizedString("Utility", comment: ""), type: assetsCategory, currency: accountingCurrency, createdByUser: false, context: context)
+        let rent = try? Account.createAndGetAccount(parent: home, name: NSLocalizedString("Rent", comment: ""), type: assetsCategory, currency: accountingCurrency, createdByUser: false, context: context)
+        let _ = try? Account.createAndGetAccount(parent: home, name: NSLocalizedString("Renovation", comment: ""), type: assetsCategory, currency: accountingCurrency, createdByUser: false, context: context)
 
-        let income = try? Account.createAndGetAccount(parent: nil, name: LocalisationManager.getLocalizedName(.income), type: Account.TypeEnum.liabilities, currency: accountingCurrency, createdByUser: false, context: context)
-        let salary = try? Account.createAndGetAccount(parent: income, name: NSLocalizedString("Salary", comment: ""), type: Account.TypeEnum.liabilities, currency: accountingCurrency, createdByUser: false, context: context)
-        let _ = try? Account.createAndGetAccount(parent: income, name: NSLocalizedString("Gifts", comment: ""), type: Account.TypeEnum.liabilities, currency: accountingCurrency, createdByUser: false, context: context)
-        let interestOnDeposits = try? Account.createAndGetAccount(parent: income, name: NSLocalizedString("Interest on deposits", comment: ""), type: Account.TypeEnum.liabilities, currency: accountingCurrency, createdByUser: false, context: context)
+        let income = try? Account.createAndGetAccount(parent: accounts, name: LocalisationManager.getLocalizedName(.income), type: incomeConsolid, currency: accountingCurrency, createdByUser: false, context: context)
+        let salary = try? Account.createAndGetAccount(parent: income, name: NSLocalizedString("Salary", comment: ""), type: liabilitiesCategory, currency: accountingCurrency, createdByUser: false, context: context)
+        let _ = try? Account.createAndGetAccount(parent: income, name: NSLocalizedString("Gifts", comment: ""), type: liabilitiesCategory, currency: accountingCurrency, createdByUser: false, context: context)
+        let interestOnDeposits = try? Account.createAndGetAccount(parent: income, name: NSLocalizedString("Interest on deposits", comment: ""), type: liabilitiesCategory, currency: accountingCurrency, createdByUser: false, context: context)
 
         let calendar = Calendar.current
         Transaction.addTransactionWith2TranItems(date: calendar.date(byAdding: .day, value: -60, to: Date())!,
@@ -318,7 +397,7 @@ class SeedDataManager {
                                                  creditAmount: 5000,
                                                  context: context)
         Transaction.addTransactionWith2TranItems(date: calendar.date(byAdding: .day, value: -60, to: Date())!,
-                                                 debit: cash!,
+                                                 debit: cashAcc!,
                                                  credit: capital!,
                                                  debitAmount: 2000,
                                                  creditAmount: 2000,
@@ -348,14 +427,14 @@ class SeedDataManager {
                                                  creditAmount: 300,
                                                  context: context)
         Transaction.addTransactionWith2TranItems(date: calendar.date(byAdding: .day, value: -49, to: Date())!,
-                                                 debit: cash!,
+                                                 debit: cashAcc!,
                                                  credit: salaryCard!,
                                                  debitAmount: 4000,
                                                  creditAmount: 4000,
                                                  context: context)
         Transaction.addTransactionWith2TranItems(date: calendar.date(byAdding: .day, value: -47, to: Date())!,
                                                  debit: gifts_E!,
-                                                 credit: cash!,
+                                                 credit: cashAcc!,
                                                  debitAmount: 1000,
                                                  creditAmount: 1000,
                                                  context: context)
@@ -390,7 +469,7 @@ class SeedDataManager {
                                                  creditAmount: 100,
                                                  context: context)
         Transaction.addTransactionWith2TranItems(date: calendar.date(byAdding: .day, value: -38, to: Date())!,
-                                                 debit: cash!,
+                                                 debit: cashAcc!,
                                                  credit: salaryCard!,
                                                  debitAmount: 1000,
                                                  creditAmount: 1000,
@@ -409,7 +488,7 @@ class SeedDataManager {
                                                  context: context)
         Transaction.addTransactionWith2TranItems(date: calendar.date(byAdding: .day, value: -35, to: Date())!,
                                                  debit: rent!,
-                                                 credit: cash!,
+                                                 credit: cashAcc!,
                                                  debitAmount: 5000,
                                                  creditAmount: 5000,
                                                  context: context)
@@ -451,14 +530,14 @@ class SeedDataManager {
                                                  creditAmount: 300,
                                                  context: context)
         Transaction.addTransactionWith2TranItems(date: calendar.date(byAdding: .day, value: -19, to: Date())!,
-                                                 debit: cash!,
+                                                 debit: cashAcc!,
                                                  credit: salaryCard!,
                                                  debitAmount: 4000,
                                                  creditAmount: 4000,
                                                  context: context)
         Transaction.addTransactionWith2TranItems(date: calendar.date(byAdding: .day, value: -17, to: Date())!,
                                                  debit: gifts_E!,
-                                                 credit: cash!,
+                                                 credit: cashAcc!,
                                                  debitAmount: 1000,
                                                  creditAmount: 1000,
                                                  context: context)
@@ -493,7 +572,7 @@ class SeedDataManager {
                                                  creditAmount: 100,
                                                  context: context)
         Transaction.addTransactionWith2TranItems(date: calendar.date(byAdding: .day, value: -8, to: Date())!,
-                                                 debit: cash!,
+                                                 debit: cashAcc!,
                                                  credit: salaryCard!,
                                                  debitAmount: 1000,
                                                  creditAmount: 1000,
@@ -512,7 +591,7 @@ class SeedDataManager {
                                                  context: context)
         Transaction.addTransactionWith2TranItems(date: calendar.date(byAdding: .day, value: -5, to: Date())!,
                                                  debit: rent!,
-                                                 credit: cash!,
+                                                 credit: cashAcc!,
                                                  debitAmount: 5000,
                                                  creditAmount: 5000,
                                                  context: context)
