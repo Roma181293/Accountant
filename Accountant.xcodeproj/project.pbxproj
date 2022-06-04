@@ -137,6 +137,12 @@
 		2B8A9E71283582EA00329091 /* UserBankProfileListInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B8A9E70283582EA00329091 /* UserBankProfileListInteractor.swift */; };
 		2B8A9E73283582F900329091 /* UserBankProfileListConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B8A9E72283582F900329091 /* UserBankProfileListConfigurator.swift */; };
 		2B8A9E752835830700329091 /* UserBankProfileListRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B8A9E742835830700329091 /* UserBankProfileListRouter.swift */; };
+		2B8B60B8284B889500B17F7C /* MITransactionEditorViewOutput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B8B60B7284B889500B17F7C /* MITransactionEditorViewOutput.swift */; };
+		2B8B60BA284B88D500B17F7C /* MITransactionEditorViewInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B8B60B9284B88D500B17F7C /* MITransactionEditorViewInput.swift */; };
+		2B8B60BD284B898400B17F7C /* MITransactionEditorInteractorInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B8B60BC284B898400B17F7C /* MITransactionEditorInteractorInput.swift */; };
+		2B8B60BF284B899400B17F7C /* MITransactionEditorInteractorOutput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B8B60BE284B899400B17F7C /* MITransactionEditorInteractorOutput.swift */; };
+		2B8B60C2284B8A0100B17F7C /* MITransactionEditorRouterInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B8B60C1284B8A0100B17F7C /* MITransactionEditorRouterInput.swift */; };
+		2B8B60C5284B92D700B17F7C /* MITransactionEditorRouterOutput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B8B60C4284B92D700B17F7C /* MITransactionEditorRouterOutput.swift */; };
 		2B949BAF2665B4040033383A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B949BAE2665B4040033383A /* AppDelegate.swift */; };
 		2B949BB12665B4040033383A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B949BB02665B4040033383A /* SceneDelegate.swift */; };
 		2B949BB62665B4040033383A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2B949BB42665B4040033383A /* Main.storyboard */; };
@@ -349,6 +355,12 @@
 		2B8A9E70283582EA00329091 /* UserBankProfileListInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserBankProfileListInteractor.swift; sourceTree = "<group>"; };
 		2B8A9E72283582F900329091 /* UserBankProfileListConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserBankProfileListConfigurator.swift; sourceTree = "<group>"; };
 		2B8A9E742835830700329091 /* UserBankProfileListRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserBankProfileListRouter.swift; sourceTree = "<group>"; };
+		2B8B60B7284B889500B17F7C /* MITransactionEditorViewOutput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MITransactionEditorViewOutput.swift; sourceTree = "<group>"; };
+		2B8B60B9284B88D500B17F7C /* MITransactionEditorViewInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MITransactionEditorViewInput.swift; sourceTree = "<group>"; };
+		2B8B60BC284B898400B17F7C /* MITransactionEditorInteractorInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MITransactionEditorInteractorInput.swift; sourceTree = "<group>"; };
+		2B8B60BE284B899400B17F7C /* MITransactionEditorInteractorOutput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MITransactionEditorInteractorOutput.swift; sourceTree = "<group>"; };
+		2B8B60C1284B8A0100B17F7C /* MITransactionEditorRouterInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MITransactionEditorRouterInput.swift; sourceTree = "<group>"; };
+		2B8B60C4284B92D700B17F7C /* MITransactionEditorRouterOutput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MITransactionEditorRouterOutput.swift; sourceTree = "<group>"; };
 		2B949BAB2665B4040033383A /* Accountant.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Accountant.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2B949BAE2665B4040033383A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2B949BB02665B4040033383A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -628,10 +640,10 @@
 		2B70CFAB283EE01E0073EFB4 /* MultiItemTransactionEditor */ = {
 			isa = PBXGroup;
 			children = (
-				2B70CFA5283ED3040073EFB4 /* MITransactionEditorViewController.swift */,
+				2B8B60BB284B890700B17F7C /* View */,
+				2B8B60C0284B89BB00B17F7C /* Interactor */,
 				2B70CFA4283ED3040073EFB4 /* MITransactionEditorPresenter.swift */,
-				2B70CFA2283ED3030073EFB4 /* MITransactionEditorInteractor.swift */,
-				2B70CFA3283ED3040073EFB4 /* MITransactionEditorRouter.swift */,
+				2B8B60C3284B8A2E00B17F7C /* Router */,
 				2B70CFA1283ED3030073EFB4 /* MITransactionEditorConfigurator.swift */,
 				2BC058BC26CDB63E00FE896C /* TransactionItemCell.swift */,
 				2B56A99728208BA60001370E /* MITransactionEditorVCLocalizable.strings */,
@@ -767,6 +779,36 @@
 				2B70CF9D283EBF750073EFB4 /* MappingModel_V2toV3.xcmappingmodel */,
 			);
 			path = "Mapping Models";
+			sourceTree = "<group>";
+		};
+		2B8B60BB284B890700B17F7C /* View */ = {
+			isa = PBXGroup;
+			children = (
+				2B70CFA5283ED3040073EFB4 /* MITransactionEditorViewController.swift */,
+				2B8B60B9284B88D500B17F7C /* MITransactionEditorViewInput.swift */,
+				2B8B60B7284B889500B17F7C /* MITransactionEditorViewOutput.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		2B8B60C0284B89BB00B17F7C /* Interactor */ = {
+			isa = PBXGroup;
+			children = (
+				2B70CFA2283ED3030073EFB4 /* MITransactionEditorInteractor.swift */,
+				2B8B60BC284B898400B17F7C /* MITransactionEditorInteractorInput.swift */,
+				2B8B60BE284B899400B17F7C /* MITransactionEditorInteractorOutput.swift */,
+			);
+			path = Interactor;
+			sourceTree = "<group>";
+		};
+		2B8B60C3284B8A2E00B17F7C /* Router */ = {
+			isa = PBXGroup;
+			children = (
+				2B70CFA3283ED3040073EFB4 /* MITransactionEditorRouter.swift */,
+				2B8B60C1284B8A0100B17F7C /* MITransactionEditorRouterInput.swift */,
+				2B8B60C4284B92D700B17F7C /* MITransactionEditorRouterOutput.swift */,
+			);
+			path = Router;
 			sourceTree = "<group>";
 		};
 		2B949BA22665B4040033383A = {
@@ -1158,6 +1200,7 @@
 				2B1FEB70266D752200BF53BD /* ChartsManager.swift in Sources */,
 				2BDAB0F82805EE7900C5AED6 /* MigrationPolicy_V1toV3.swift in Sources */,
 				2B0D1D3326ADF1D1003C6394 /* TransactionItem.swift in Sources */,
+				2B8B60C5284B92D700B17F7C /* MITransactionEditorRouterOutput.swift in Sources */,
 				2B3BD61A26EBE85D0056A9F7 /* SettingsCell.swift in Sources */,
 				2BB780B0272D71D3002D2098 /* InstructionViewController.swift in Sources */,
 				2B490DDE26E4BA6000967E11 /* GradientView.swift in Sources */,
@@ -1194,6 +1237,7 @@
 				2B37CEC327405FAA0000E3EF /* Guide.swift in Sources */,
 				2BC058BD26CDB63E00FE896C /* TransactionItemCell.swift in Sources */,
 				2B1FEB6C266D752200BF53BD /* ChartData.swift in Sources */,
+				2B8B60BD284B898400B17F7C /* MITransactionEditorInteractorInput.swift in Sources */,
 				2B1FEA3A266BEDA400BF53BD /* CoreDataStack.swift in Sources */,
 				2BB780B2272EAB9B002D2098 /* GuideView.swift in Sources */,
 				2B9A523A2843674000C53D27 /* AccountType.swift in Sources */,
@@ -1237,6 +1281,7 @@
 				2B6C2370280FC93700D84174 /* HolderProvider.swift in Sources */,
 				2B7AB3FE278D4C3E00974156 /* CurrencyError.swift in Sources */,
 				2BDAB0EF2804BE2300C5AED6 /* BaseEntity.swift in Sources */,
+				2B8B60C2284B8A0100B17F7C /* MITransactionEditorRouterInput.swift in Sources */,
 				2BEEC18B2796017F000B210F /* MigrationPolicy_V1toV2.swift in Sources */,
 				2B6561F72775F8C400150B35 /* MBAccountInfo.swift in Sources */,
 				2B70CFA7283ED3050073EFB4 /* MITransactionEditorInteractor.swift in Sources */,
@@ -1248,6 +1293,7 @@
 				2B1FEADC266CAEC200BF53BD /* AccountEditorViewController.swift in Sources */,
 				2BEEC18927960136000B210F /* MappingModel_V1toV2.xcmappingmodel in Sources */,
 				2B1FEB4C266D25EE00BF53BD /* PurchaseOfferViewController.swift in Sources */,
+				2B8B60B8284B889500B17F7C /* MITransactionEditorViewOutput.swift in Sources */,
 				2B949BAF2665B4040033383A /* AppDelegate.swift in Sources */,
 				2B949BB12665B4040033383A /* SceneDelegate.swift in Sources */,
 				2B1FEADB266CAEC200BF53BD /* RootAccountEditorViewController.swift in Sources */,
@@ -1257,6 +1303,7 @@
 				2B1FEB7B266EC39800BF53BD /* AnalyticsTableViewController.swift in Sources */,
 				2B8A9E752835830700329091 /* UserBankProfileListRouter.swift in Sources */,
 				2B6C23A02819477900D84174 /* SimpleTransactionEditorView.swift in Sources */,
+				2B8B60BA284B88D500B17F7C /* MITransactionEditorViewInput.swift in Sources */,
 				2B8172EF2798B0EC00E6CB20 /* UserBankProfileListViewController.swift in Sources */,
 				2B4976FC26DBE90B00147EAA /* TransactionCell.swift in Sources */,
 				2B7AB408278D4D1000974156 /* MonoBankError.swift in Sources */,
@@ -1273,6 +1320,7 @@
 				2B1FEB6E266D752200BF53BD /* PresentingData.swift in Sources */,
 				2B8A9E6F283582D700329091 /* UserBankProfileListPresenter.swift in Sources */,
 				2BDE4F4227D7570A0069624C /* Account.swift in Sources */,
+				2B8B60BF284B899400B17F7C /* MITransactionEditorInteractorOutput.swift in Sources */,
 				2B490DD726E2911C00967E11 /* Extension Notification.swift in Sources */,
 				2B70CF9E283EBF750073EFB4 /* MappingModel_V2toV3.xcmappingmodel in Sources */,
 				2B1FEA4B266BEE6700BF53BD /* CurrencyExhangeNB.swift in Sources */,

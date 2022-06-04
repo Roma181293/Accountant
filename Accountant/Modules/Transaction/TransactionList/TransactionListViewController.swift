@@ -139,9 +139,7 @@ class TransactionListViewController: UIViewController {
 
     @objc func addTransaction(_ sender: UIButton!) {
         if UserProfile.isUseMultiItemTransaction(environment: environment) {
-            guard let navigationController = navigationController else { return }
-            let multiItemTransactionEditorRouter: MITransactionEditorCreator = MITransactionEditorRouter()
-            multiItemTransactionEditorRouter.present(navigationController: navigationController)
+            self.navigationController?.pushViewController(MITransactionEditorConfigurator.configure(), animated: true)
         } else {
             self.navigationController?.pushViewController(SimpleTransactionEditorViewController(), animated: true)
         }
@@ -226,10 +224,7 @@ extension TransactionListViewController: UITableViewDelegate, UITableViewDataSou
         tableView.deselectRow(at: indexPath, animated: true)
         let transaction = dataProvider.fetchedResultsController.object(at: indexPath) as Transaction
         if transaction.itemsList.count != 2 || transaction.status != .applied || UserProfile.isUseMultiItemTransaction(environment: environment) {
-            guard let navigationController = navigationController else { return }
-            let multiItemTransactionEditorRouter: MITransactionEditorCreator = MITransactionEditorRouter()
-            multiItemTransactionEditorRouter.transaction = transaction
-            multiItemTransactionEditorRouter.present(navigationController: navigationController)
+            self.navigationController?.pushViewController(MITransactionEditorConfigurator.configure(transaction: transaction), animated: true)
         } else {
             let transactioEditorVC = SimpleTransactionEditorViewController()
             transactioEditorVC.transaction = transaction

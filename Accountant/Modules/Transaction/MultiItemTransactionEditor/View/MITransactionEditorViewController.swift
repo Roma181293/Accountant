@@ -8,13 +8,6 @@
 import Foundation
 import UIKit
 
-protocol MITransactionEditorView: AnyObject {
-
-    var creditAddButtonIsHidden: Bool { get set }
-    var debitAddButtonIsHidden: Bool { get set }
-    func configureView()
-}
-
 protocol TransactionItemDelegate: AnyObject {
     func accountRequestingForTransactionItem(id: UUID)
     func setAmount(forTrasactionItem id: UUID, amount: Double)
@@ -22,7 +15,7 @@ protocol TransactionItemDelegate: AnyObject {
 
 class MITransactionEditorViewController: UIViewController, AccountNavigationDelegate {
 
-    var presenter: MITransactionEditorPresenterInput?
+    var output: MITransactionEditorViewOutput?
 
     private var activeTextField: UITextField?
 
@@ -33,7 +26,7 @@ class MITransactionEditorViewController: UIViewController, AccountNavigationDele
         return mainView
     }()
 
-    let datePicker: UIDatePicker = {
+    private let datePicker: UIDatePicker = {
         let datePicker = UIDatePicker()
         datePicker.preferredDatePickerStyle = .wheels
         datePicker.translatesAutoresizingMaskIntoConstraints = false
@@ -119,19 +112,19 @@ class MITransactionEditorViewController: UIViewController, AccountNavigationDele
         return button
     }()
 
-    let debitTableView: UITableView = {
+    private let debitTableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()
 
-    let creditTableView: UITableView = {
+    private let creditTableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()
 
-    let commentTextField: UITextField = {
+    private let commentTextField: UITextField = {
         let textField = UITextField()
         textField.tag = 200
         textField.placeholder = NSLocalizedString("Comment",
@@ -168,7 +161,7 @@ class MITransactionEditorViewController: UIViewController, AccountNavigationDele
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        if presenter?.isNewTransaction == true {
+        if output?.isNewTransaction == true {
             self.navigationItem.title = NSLocalizedString("Add transaction",
                                                           tableName: Constants.Localizable.mITransactionEditorVC,
                                                           comment: "")
@@ -177,7 +170,7 @@ class MITransactionEditorViewController: UIViewController, AccountNavigationDele
                                                           tableName: Constants.Localizable.mITransactionEditorVC,
                                                           comment: "")
         }
-        presenter?.viewWillAppear()
+        output?.viewWillAppear()
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow),
                                                name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide),
@@ -194,28 +187,28 @@ class MITransactionEditorViewController: UIViewController, AccountNavigationDele
     override func willMove(toParent parent: UIViewController?) {
         super.willMove(toParent: parent)
         if parent == nil {
-            presenter?.willMoveToParent()
+            output?.willMoveToParent()
         }
     }
 
     @objc private func changeDate(_ sender: UIDatePicker) {
-        presenter?.setDate(sender.date)
+        output?.setDate(sender.date)
     }
 
     @objc private func debitAddButtonDidClick() {
-        presenter?.addDebitTransactionItem()
+        output?.addDebitTransactionItem()
     }
 
     @objc private func creditAddButtonDidClick() {
-        presenter?.addCreditTransactionItem()
+        output?.addCreditTransactionItem()
     }
 
     @objc private func confirm() {
-        presenter?.confirm()
+        output?.confirm()
     }
 }
 
-extension MITransactionEditorViewController: MITransactionEditorView {
+extension MITransactionEditorViewController: MITransactionEditorViewInput {
 
     var creditAddButtonIsHidden: Bool {
         get {
@@ -254,12 +247,24 @@ extension MITransactionEditorViewController: MITransactionEditorView {
         commentTextField.delegate = self
 
         // add GestureRecognizer to dismiss keyboard by touch on screen
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self,
-                                                                 action: #selector(UIInputViewController.dismissKeyboard))
+        let tap = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
         view.addGestureRecognizer(tap)
 
         addTargets()
         addUIComponents()
+    }
+
+    func reloadData() {
+        debitTableView.reloadData()
+        creditTableView.reloadData()
+    }
+
+    func setDate(_ date: Date) {
+        datePicker.date = date
+    }
+
+    func setComment(_ comment: String?) {
+        commentTextField.text = comment
     }
 
     private func addTargets() {
@@ -360,11 +365,11 @@ extension MITransactionEditorViewController: MITransactionEditorView {
 
 extension MITransactionEditorViewController: TransactionItemDelegate {
     func accountRequestingForTransactionItem(id: UUID) {
-        presenter?.accountRequestingForTransactionItem(id: id)
+        output?.accountRequestingForTransactionItem(id: id)
     }
 
     func setAmount(forTrasactionItem id: UUID, amount: Double) {
-        presenter?.setAmount(forTrasactionItem: id, amount: amount)
+        output?.setAmount(forTrasactionItem: id, amount: amount)
     }
 }
 
@@ -372,21 +377,21 @@ extension MITransactionEditorViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch tableView {
         case debitTableView:
-            return presenter?.debitTransactionItems.count ?? 0
+            return output?.debitTransactionItems.count ?? 0
         case creditTableView:
-            return presenter?.creditTransactionItems.count ?? 0
+            return output?.creditTransactionItems.count ?? 0
         default: return 0
         }
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = TransactionItemCell()
-        guard let presenter = presenter else { return cell }
+        guard let output = output else { return cell }
         switch tableView {
         case debitTableView:
-            cell.configureCell(for: presenter.debitTransactionItems[indexPath.row], with: self)
+            cell.configureCell(for: output.debitTransactionItems[indexPath.row], with: self)
         case creditTableView:
-            cell.configureCell(for: presenter.creditTransactionItems[indexPath.row], with: self)
+            cell.configureCell(for: output.creditTransactionItems[indexPath.row], with: self)
         default: break
         }
         return cell
@@ -399,14 +404,14 @@ extension MITransactionEditorViewController: UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {// swiftlint:disable:this line_length
-        guard let presenter = self.presenter else {return nil}
+        guard let output = self.output else {return nil}
         switch tableView {
         case self.debitTableView:
-            if !presenter.canBeDeleted(id: presenter.debitTransactionItems[indexPath.row].id) {
+            if !output.canBeDeleted(id: output.debitTransactionItems[indexPath.row].id) {
                 return nil
             }
         case self.creditTableView:
-            if !presenter.canBeDeleted(id: presenter.creditTransactionItems[indexPath.row].id) {
+            if !output.canBeDeleted(id: output.creditTransactionItems[indexPath.row].id) {
                 return nil
             }
         default: return nil
@@ -415,9 +420,9 @@ extension MITransactionEditorViewController: UITableViewDelegate {
         let delete = UIContextualAction(style: .normal, title: nil) { (_, _, complete) in
             switch tableView {
             case self.debitTableView:
-                presenter.deleteTransactionItem(id: presenter.debitTransactionItems[indexPath.row].id)
+                output.deleteTransactionItem(id: output.debitTransactionItems[indexPath.row].id)
             case self.creditTableView:
-                presenter.deleteTransactionItem(id: presenter.creditTransactionItems[indexPath.row].id)
+                output.deleteTransactionItem(id: output.creditTransactionItems[indexPath.row].id)
             default: return
             }
             complete(true)
@@ -473,7 +478,7 @@ extension MITransactionEditorViewController {
 
     func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
         if textField.tag == 200, let comment = textField.text {
-            presenter?.setComment(comment)
+            output?.setComment(comment)
         }
         return true
     }

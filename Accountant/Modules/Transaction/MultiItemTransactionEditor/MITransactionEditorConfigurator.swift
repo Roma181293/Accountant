@@ -7,18 +7,24 @@
 
 import Foundation
 
-protocol MITransactionEditorConfiguratorProtocol: AnyObject {
-    static func configure(router: MITransactionEditorRouter) -> MITransactionEditorViewController
-}
+class MITransactionEditorConfigurator {
+    
+    class func configure(transaction: Transaction? = nil) -> MITransactionEditorViewController {
 
-class MITransactionEditorConfigurator: MITransactionEditorConfiguratorProtocol {
-    static func configure(router: MITransactionEditorRouter) -> MITransactionEditorViewController {
+        let router = MITransactionEditorRouter()
         let viewController = MITransactionEditorViewController()
-        let interactor = MITransactionEditorInteractor(transaction: router.transaction)
-        let presenter = MITransactionEditorPresenter(router: router, interactor: interactor)
-        interactor.presenter = presenter
-        presenter.view = viewController
-        viewController.presenter = presenter
+        let interactor = MITransactionEditorInteractor(transaction: transaction)
+        let presenter = MITransactionEditorPresenter(routerInput: router, interactorInput: interactor)
+
+        interactor.output = presenter
+
+        presenter.viewInput = viewController
+
+        viewController.output = presenter
+
+        router.output = presenter
+        router.viewController = viewController
+
         return viewController
     }
 }

@@ -15,48 +15,29 @@ struct TransactionItemViewModel {
     let createDate: Date
 }
 
-protocol MITransactionEditorPresenterInput: AnyObject {
-    var isNewTransaction: Bool { get }
-    var debitTransactionItems: [TransactionItemViewModel] { get }
-    var creditTransactionItems: [TransactionItemViewModel] { get }
-    func viewDidLoad()
-    func viewWillAppear()
-    func accountRequestingForTransactionItem(id: UUID)
-    func setAmount(forTrasactionItem id: UUID, amount: Double)
-    func setComment(_ comment: String?)
-    func addDebitTransactionItem()
-    func addCreditTransactionItem()
-    func canBeDeleted(id: UUID) -> Bool
-    func deleteTransactionItem(id: UUID)
-    func setDate(_ date: Date)
-    func confirm()
-    func willMoveToParent()
-}
+class MITransactionEditorPresenter: MITransactionEditorViewOutput {
 
-class MITransactionEditorPresenter: MITransactionEditorPresenterInput {
-
-    weak var view: MITransactionEditorViewController? {
+    weak var viewInput: MITransactionEditorViewInput? {
         didSet {
-            view?.configureView()
+            viewInput?.configureView()
         }
     }
-    var interactor: MITransactionEditorInteractorInput!
-    var router: MITransactionEditorRouterProtocol!
+    var interactorInput: MITransactionEditorInteractorInput
+    var routerInput: MITransactionEditorRouterInput
 
     var isNewTransaction: Bool {
-        return interactor.isNewTransaction
+        return interactorInput.isNewTransaction
     }
     private var transactionItems: [TransactionItemViewModel] = [] {
         didSet {
-            view?.debitTableView.reloadData()
-            view?.creditTableView.reloadData()
+            viewInput?.reloadData()
         }
     }
     private var transactionItemForAccountSpecifyigId: UUID = UUID()
 
-    required init(router: MITransactionEditorRouterProtocol, interactor: MITransactionEditorInteractorInput) {
-        self.router = router
-        self.interactor = interactor
+    required init(routerInput: MITransactionEditorRouterInput, interactorInput: MITransactionEditorInteractorInput) {
+        self.routerInput = routerInput
+        self.interactorInput = interactorInput
     }
 
     var debitTransactionItems: [TransactionItemViewModel] {
@@ -67,36 +48,34 @@ class MITransactionEditorPresenter: MITransactionEditorPresenterInput {
     }
 
     func viewDidLoad() {
-        interactor.fetchData()
+        interactorInput.fetchData()
     }
 
     func viewWillAppear() {
-        interactor.fetchData()
+        interactorInput.fetchData()
     }
 
     func accountRequestingForTransactionItem(id: UUID) {
-        guard let view = view else {return}
         transactionItemForAccountSpecifyigId = id
-        router.getAccount(with: self,
-                          delegate: view,
-                          parent: interactor.rootAccountFor(transactionItemId: id),
-                          excludeAccountList: interactor.usedAccountList())
+        routerInput.getAccount(with: self,
+                               parent: interactorInput.rootAccountFor(transactionItemId: id),
+                               excludeAccountList: interactorInput.usedAccountList())
     }
 
     func setAmount(forTrasactionItem id: UUID, amount: Double) {
-        interactor.setAmount(forTrasactionItem: id, amount: amount)
+        interactorInput.setAmount(forTrasactionItem: id, amount: amount)
     }
 
     func setComment(_ comment: String?) {
-        interactor.setComment(comment)
+        interactorInput.setComment(comment)
     }
 
     func addDebitTransactionItem() {
-        interactor.addEmptyTransactionItem(type: .debit)
+        interactorInput.addEmptyTransactionItem(type: .debit)
     }
 
     func addCreditTransactionItem() {
-        interactor.addEmptyTransactionItem(type: .credit)
+        interactorInput.addEmptyTransactionItem(type: .credit)
     }
 
     func canBeDeleted(id: UUID) -> Bool {
@@ -108,62 +87,44 @@ class MITransactionEditorPresenter: MITransactionEditorPresenterInput {
     }
 
     func deleteTransactionItem(id: UUID) {
-        interactor.deleteTransactionItem(id: id)
+        interactorInput.deleteTransactionItem(id: id)
     }
 
     func setDate(_ date: Date) {
-        interactor.transactionDate = date
+        interactorInput.transactionDate = date
     }
 
     func willMoveToParent() {
-        interactor.cleanUnusedData()
+        interactorInput.cleanUnusedData()
     }
 
     func confirm() {
         do {
-            try interactor.validateTransaction()
-            if interactor.transactionStatus != .preDraft {
-                if !interactor.isNewTransaction && interactor.hasChanges {
-                    let saveTitle = NSLocalizedString("Save", tableName: Constants.Localizable.mITransactionEditorVC,
-                                                      comment: "")
-                    let message = NSLocalizedString("Save changes?",
-                                                    tableName: Constants.Localizable.mITransactionEditorVC,
-                                                    comment: "")
-                    let alert = UIAlertController(title: saveTitle,
-                                                  message: message,
-                                                  preferredStyle: .alert)
-                    let yesTitle = NSLocalizedString("Yes", tableName: Constants.Localizable.mITransactionEditorVC,
-                                                     comment: "")
-                    alert.addAction(UIAlertAction(title: yesTitle,
-                                                  style: .default, handler: {(_) in
-                        self.interactor.save()
-                        self.view?.navigationController?.popViewController(animated: true)
-                    }))
-                    let cancelTitle = NSLocalizedString("Cancel",
-                                                        tableName: Constants.Localizable.mITransactionEditorVC,
-                                                        comment: "")
-                    alert.addAction(UIAlertAction(title: cancelTitle, style: .cancel))
-                    view?.present(alert, animated: true, completion: nil)
+            try interactorInput.validateTransaction()
+            if interactorInput.transactionStatus != .preDraft {
+                if !interactorInput.isNewTransaction && interactorInput.hasChanges {
+                    routerInput.showSaveAlert()
                 } else {
-                    self.interactor.save()
-                    self.view?.navigationController?.popViewController(animated: true)
+                    interactorInput.save()
+                    routerInput.popViewController()
                 }
             } else {
-                self.view?.navigationController?.popViewController(animated: true)
+                routerInput.popViewController()
             }
         } catch let error {
-            guard let view = view else {return}
-            router.showError(error, in: view)
+            routerInput.showError(error)
         }
     }
 }
 
+// MARK: - AccountRequestor
 extension MITransactionEditorPresenter: AccountRequestor {
     func setAccount(_ account: Account) {
-        interactor.setAccount(account, forTransactionItem: transactionItemForAccountSpecifyigId)
+        interactorInput.setAccount(account, forTransactionItem: transactionItemForAccountSpecifyigId)
     }
 }
 
+// MARK: - MITransactionEditorInteractorOutput
 extension MITransactionEditorPresenter: MITransactionEditorInteractorOutput {
     func fetched(transactionItems: [TransactionItem]) {
         var result: [TransactionItemViewModel] = []
@@ -184,23 +145,31 @@ extension MITransactionEditorPresenter: MITransactionEditorInteractorOutput {
     }
 
     func fetched(date: Date) {
-        view?.datePicker.date = date
+        viewInput?.setDate(date)
     }
 
     func fetched(comment: String?) {
-        view?.commentTextField.text = comment
+        viewInput?.setComment(comment)
     }
 
     private func configureAddTransactionItemButtons() {
         if transactionItems.filter({$0.type == .debit}).count > 1 {
-            view?.creditAddButtonIsHidden = true
+            viewInput?.creditAddButtonIsHidden = true
         } else {
-            view?.creditAddButtonIsHidden = false
+            viewInput?.creditAddButtonIsHidden = false
         }
         if transactionItems.filter({$0.type == .credit}).count > 1 {
-            view?.debitAddButtonIsHidden = true
+            viewInput?.debitAddButtonIsHidden = true
         } else {
-            view?.debitAddButtonIsHidden = false
+            viewInput?.debitAddButtonIsHidden = false
         }
+    }
+}
+
+// MARK: - MITransactionEditorRouterOutput
+extension MITransactionEditorPresenter: MITransactionEditorRouterOutput {
+    func confirmActionDidClick() {
+        self.interactorInput.save()
+        self.routerInput.popViewController()
     }
 }

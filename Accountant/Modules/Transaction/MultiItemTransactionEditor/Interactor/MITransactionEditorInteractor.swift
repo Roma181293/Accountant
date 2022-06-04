@@ -7,33 +7,9 @@
 
 import Foundation
 
-protocol MITransactionEditorInteractorOutput: AnyObject {
-    func fetched(transactionItems: [TransactionItem])
-    func fetched(date: Date)
-    func fetched(comment: String?)
-}
-
-protocol MITransactionEditorInteractorInput: AnyObject {
-    var isNewTransaction: Bool { get }
-    var transactionDate: Date { get set }
-    var transactionStatus: Transaction.Status { get }
-    var hasChanges: Bool { get }
-    func fetchData()
-    func addEmptyTransactionItem(type: TransactionItem.TypeEnum)
-    func deleteTransactionItem(id: UUID)
-    func setAccount(_ account: Account, forTransactionItem id: UUID)
-    func setAmount(forTrasactionItem id: UUID, amount: Double)
-    func setComment(_ comment: String?)
-    func usedAccountList() -> [Account]
-    func rootAccountFor(transactionItemId: UUID) -> Account?
-    func validateTransaction() throws
-    func save()
-    func cleanUnusedData()
-}
-
 class MITransactionEditorInteractor: MITransactionEditorInteractorInput {
 
-    weak var presenter: MITransactionEditorInteractorOutput?
+    weak var output: MITransactionEditorInteractorOutput?
 
     private(set) var isNewTransaction: Bool = true
     private(set) var transaction: Transaction
@@ -77,7 +53,7 @@ class MITransactionEditorInteractor: MITransactionEditorInteractorInput {
         } else {
            _ = TransactionItem(transaction: transaction, type: type, amount: 0, context: viewContext)
         }
-        presenter?.fetched(transactionItems: transaction.itemsList)
+        output?.fetched(transactionItems: transaction.itemsList)
     }
 
     func deleteTransactionItem(id: UUID) {
@@ -85,13 +61,13 @@ class MITransactionEditorInteractor: MITransactionEditorInteractorInput {
             $0.transaction = nil
             viewContext.delete($0)
         })
-        presenter?.fetched(transactionItems: transaction.itemsList)
+        output?.fetched(transactionItems: transaction.itemsList)
     }
 
     func fetchData() {
-        presenter?.fetched(transactionItems: self.transaction.itemsList)
-        presenter?.fetched(date: transaction.date)
-        presenter?.fetched(comment: transaction.comment)
+        output?.fetched(transactionItems: self.transaction.itemsList)
+        output?.fetched(date: transaction.date)
+        output?.fetched(comment: transaction.comment)
     }
 
     func setAccount(_ account: Account, forTransactionItem id: UUID) {
@@ -101,7 +77,7 @@ class MITransactionEditorInteractor: MITransactionEditorInteractorInput {
         item?.modifiedByUser = true
         /*
          no need to call
-         presenter?.fetched(transactionItems: self.transaction.itemsList)
+         output?.fetched(transactionItems: self.transaction.itemsList)
          coz view updates in viewWillAppear() method
          */
     }
