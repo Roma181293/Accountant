@@ -52,22 +52,22 @@ class MITransactionEditorRouter: MITransactionEditorRouterInput {
     }
 
     func showSaveAlert() {
-        let saveTitle = NSLocalizedString("Save", tableName: Constants.Localizable.mITransactionEditorVC,
+        let saveTitle = NSLocalizedString("Save", tableName: Constants.Localizable.mITransactionEditor,
                                           comment: "")
         let message = NSLocalizedString("Save changes?",
-                                        tableName: Constants.Localizable.mITransactionEditorVC,
+                                        tableName: Constants.Localizable.mITransactionEditor,
                                         comment: "")
         let alert = UIAlertController(title: saveTitle,
                                       message: message,
                                       preferredStyle: .alert)
-        let yesTitle = NSLocalizedString("Yes", tableName: Constants.Localizable.mITransactionEditorVC,
+        let yesTitle = NSLocalizedString("Yes", tableName: Constants.Localizable.mITransactionEditor,
                                          comment: "")
         alert.addAction(UIAlertAction(title: yesTitle,
                                       style: .default, handler: {(_) in
             self.output?.confirmActionDidClick()
         }))
         let cancelTitle = NSLocalizedString("Cancel",
-                                            tableName: Constants.Localizable.mITransactionEditorVC,
+                                            tableName: Constants.Localizable.mITransactionEditor,
                                             comment: "")
         alert.addAction(UIAlertAction(title: cancelTitle, style: .cancel))
         viewController?.present(alert, animated: true, completion: nil)

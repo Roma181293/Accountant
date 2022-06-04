@@ -77,7 +77,7 @@
 		2B50DAD6280DF15D0064D71B /* Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B50DAD5280DF15D0064D71B /* Schema.swift */; };
 		2B5546812825D8F200D456DE /* TransactionListVCLocalizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2B5546832825D8F200D456DE /* TransactionListVCLocalizable.strings */; };
 		2B5546882825FD7E00D456DE /* StartAccountingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B5546872825FD7E00D456DE /* StartAccountingView.swift */; };
-		2B56A99528208BA60001370E /* MITransactionEditorVCLocalizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2B56A99728208BA60001370E /* MITransactionEditorVCLocalizable.strings */; };
+		2B56A99528208BA60001370E /* MITransactionEditorLocalizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2B56A99728208BA60001370E /* MITransactionEditorLocalizable.strings */; };
 		2B6561F52775F8A000150B35 /* MBUserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B6561F42775F8A000150B35 /* MBUserInfo.swift */; };
 		2B6561F72775F8C400150B35 /* MBAccountInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B6561F62775F8C400150B35 /* MBAccountInfo.swift */; };
 		2B6561F92775F92700150B35 /* MBStatement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B6561F82775F92700150B35 /* MBStatement.swift */; };
@@ -105,7 +105,7 @@
 		2B6D8E8E2827FECB006896EF /* SettingsRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B6D8E8D2827FECB006896EF /* SettingsRouter.swift */; };
 		2B70CF9E283EBF750073EFB4 /* MappingModel_V2toV3.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 2B70CF9D283EBF750073EFB4 /* MappingModel_V2toV3.xcmappingmodel */; };
 		2B70CFA0283EC57F0073EFB4 /* MappingModel_V1toV3.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 2B70CF9F283EC57F0073EFB4 /* MappingModel_V1toV3.xcmappingmodel */; };
-		2B70CFA6283ED3050073EFB4 /* MITransactionEditorConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B70CFA1283ED3030073EFB4 /* MITransactionEditorConfigurator.swift */; };
+		2B70CFA6283ED3050073EFB4 /* MITransactionEditorAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B70CFA1283ED3030073EFB4 /* MITransactionEditorAssembly.swift */; };
 		2B70CFA7283ED3050073EFB4 /* MITransactionEditorInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B70CFA2283ED3030073EFB4 /* MITransactionEditorInteractor.swift */; };
 		2B70CFA8283ED3050073EFB4 /* MITransactionEditorRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B70CFA3283ED3040073EFB4 /* MITransactionEditorRouter.swift */; };
 		2B70CFA9283ED3050073EFB4 /* MITransactionEditorPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B70CFA4283ED3040073EFB4 /* MITransactionEditorPresenter.swift */; };
@@ -168,6 +168,9 @@
 		2BE53D53282F170C004CBD84 /* MonobankUBPInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE53D52282F170C004CBD84 /* MonobankUBPInteractor.swift */; };
 		2BEEC18927960136000B210F /* MappingModel_V1toV2.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 2BEEC18827960136000B210F /* MappingModel_V1toV2.xcmappingmodel */; };
 		2BEEC18B2796017F000B210F /* MigrationPolicy_V1toV2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BEEC18A2796017F000B210F /* MigrationPolicy_V1toV2.swift */; };
+		2BF15782284BE254008345DB /* MITransactionEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BF15781284BE254008345DB /* MITransactionEditorView.swift */; };
+		2BF15785284BE73D008345DB /* TransactionItemCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BF15784284BE73D008345DB /* TransactionItemCellDelegate.swift */; };
+		2BF15787284BEA0C008345DB /* MITransactionEditorViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BF15786284BEA0C008345DB /* MITransactionEditorViewDelegate.swift */; };
 		2BFACB69281B4D9C00B2B1CE /* SimpleTransactionEditorVCLocalizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2BFACB6B281B4D9C00B2B1CE /* SimpleTransactionEditorVCLocalizable.strings */; };
 		2BFACB6F281C948000B2B1CE /* TransactionListProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BFACB6E281C948000B2B1CE /* TransactionListProvider.swift */; };
 		38318A9FD81C28716622F93F /* Pods_Accountant.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97FD10DCF67B198D7BE0F270 /* Pods_Accountant.framework */; };
@@ -269,9 +272,9 @@
 		2B5546842825D8F400D456DE /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/TransactionListVCLocalizable.strings; sourceTree = "<group>"; };
 		2B5546852825D8F500D456DE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/TransactionListVCLocalizable.strings; sourceTree = "<group>"; };
 		2B5546872825FD7E00D456DE /* StartAccountingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartAccountingView.swift; sourceTree = "<group>"; };
-		2B56A99628208BA60001370E /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/MITransactionEditorVCLocalizable.strings; sourceTree = "<group>"; };
-		2B56A99828208BA80001370E /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/MITransactionEditorVCLocalizable.strings; sourceTree = "<group>"; };
-		2B56A99928208BA90001370E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/MITransactionEditorVCLocalizable.strings; sourceTree = "<group>"; };
+		2B56A99628208BA60001370E /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/MITransactionEditorLocalizable.strings; sourceTree = "<group>"; };
+		2B56A99828208BA80001370E /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/MITransactionEditorLocalizable.strings; sourceTree = "<group>"; };
+		2B56A99928208BA90001370E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/MITransactionEditorLocalizable.strings; sourceTree = "<group>"; };
 		2B6561F42775F8A000150B35 /* MBUserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MBUserInfo.swift; sourceTree = "<group>"; };
 		2B6561F62775F8C400150B35 /* MBAccountInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MBAccountInfo.swift; sourceTree = "<group>"; };
 		2B6561F82775F92700150B35 /* MBStatement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MBStatement.swift; sourceTree = "<group>"; };
@@ -315,7 +318,7 @@
 		2B6D8E8D2827FECB006896EF /* SettingsRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsRouter.swift; sourceTree = "<group>"; };
 		2B70CF9D283EBF750073EFB4 /* MappingModel_V2toV3.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = MappingModel_V2toV3.xcmappingmodel; sourceTree = "<group>"; };
 		2B70CF9F283EC57F0073EFB4 /* MappingModel_V1toV3.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = MappingModel_V1toV3.xcmappingmodel; sourceTree = "<group>"; };
-		2B70CFA1283ED3030073EFB4 /* MITransactionEditorConfigurator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MITransactionEditorConfigurator.swift; sourceTree = "<group>"; };
+		2B70CFA1283ED3030073EFB4 /* MITransactionEditorAssembly.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MITransactionEditorAssembly.swift; sourceTree = "<group>"; };
 		2B70CFA2283ED3030073EFB4 /* MITransactionEditorInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MITransactionEditorInteractor.swift; sourceTree = "<group>"; };
 		2B70CFA3283ED3040073EFB4 /* MITransactionEditorRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MITransactionEditorRouter.swift; sourceTree = "<group>"; };
 		2B70CFA4283ED3040073EFB4 /* MITransactionEditorPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MITransactionEditorPresenter.swift; sourceTree = "<group>"; };
@@ -393,6 +396,9 @@
 		2BE53D52282F170C004CBD84 /* MonobankUBPInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonobankUBPInteractor.swift; sourceTree = "<group>"; };
 		2BEEC18827960136000B210F /* MappingModel_V1toV2.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = MappingModel_V1toV2.xcmappingmodel; sourceTree = "<group>"; };
 		2BEEC18A2796017F000B210F /* MigrationPolicy_V1toV2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MigrationPolicy_V1toV2.swift; sourceTree = "<group>"; };
+		2BF15781284BE254008345DB /* MITransactionEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MITransactionEditorView.swift; sourceTree = "<group>"; };
+		2BF15784284BE73D008345DB /* TransactionItemCellDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionItemCellDelegate.swift; sourceTree = "<group>"; };
+		2BF15786284BEA0C008345DB /* MITransactionEditorViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MITransactionEditorViewDelegate.swift; sourceTree = "<group>"; };
 		2BFACB6A281B4D9C00B2B1CE /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/SimpleTransactionEditorVCLocalizable.strings; sourceTree = "<group>"; };
 		2BFACB6C281B4D9E00B2B1CE /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/SimpleTransactionEditorVCLocalizable.strings; sourceTree = "<group>"; };
 		2BFACB6D281B4D9E00B2B1CE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/SimpleTransactionEditorVCLocalizable.strings; sourceTree = "<group>"; };
@@ -644,9 +650,9 @@
 				2B8B60C0284B89BB00B17F7C /* Interactor */,
 				2B70CFA4283ED3040073EFB4 /* MITransactionEditorPresenter.swift */,
 				2B8B60C3284B8A2E00B17F7C /* Router */,
-				2B70CFA1283ED3030073EFB4 /* MITransactionEditorConfigurator.swift */,
-				2BC058BC26CDB63E00FE896C /* TransactionItemCell.swift */,
-				2B56A99728208BA60001370E /* MITransactionEditorVCLocalizable.strings */,
+				2B70CFA1283ED3030073EFB4 /* MITransactionEditorAssembly.swift */,
+				2BF15783284BE730008345DB /* Cell */,
+				2B56A99728208BA60001370E /* MITransactionEditorLocalizable.strings */,
 			);
 			path = MultiItemTransactionEditor;
 			sourceTree = "<group>";
@@ -784,9 +790,11 @@
 		2B8B60BB284B890700B17F7C /* View */ = {
 			isa = PBXGroup;
 			children = (
+				2BF15781284BE254008345DB /* MITransactionEditorView.swift */,
 				2B70CFA5283ED3040073EFB4 /* MITransactionEditorViewController.swift */,
 				2B8B60B9284B88D500B17F7C /* MITransactionEditorViewInput.swift */,
 				2B8B60B7284B889500B17F7C /* MITransactionEditorViewOutput.swift */,
+				2BF15786284BEA0C008345DB /* MITransactionEditorViewDelegate.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -966,6 +974,15 @@
 			path = "Migration Policies";
 			sourceTree = "<group>";
 		};
+		2BF15783284BE730008345DB /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				2BC058BC26CDB63E00FE896C /* TransactionItemCell.swift */,
+				2BF15784284BE73D008345DB /* TransactionItemCellDelegate.swift */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
 		77D38D658A3E56B26B79298B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -1095,7 +1112,7 @@
 				2B949BBE2665B4080033383A /* LaunchScreen.storyboard in Resources */,
 				2B7F882827A52CC700A1B63B /* SettingsVCLocalizable.strings in Resources */,
 				2B6D8E7E2826E306006896EF /* StartAccountingVCLocalizable.strings in Resources */,
-				2B56A99528208BA60001370E /* MITransactionEditorVCLocalizable.strings in Resources */,
+				2B56A99528208BA60001370E /* MITransactionEditorLocalizable.strings in Resources */,
 				2BFACB69281B4D9C00B2B1CE /* SimpleTransactionEditorVCLocalizable.strings in Resources */,
 				2B3F0D0E26A0EFA000AA514B /* Localizable.strings in Resources */,
 				2B6D8E772826DF07006896EF /* WelcomeVCLocalizable.strings in Resources */,
@@ -1218,19 +1235,21 @@
 				2B1FEA4D266BEE6700BF53BD /* CurrencyHistoricalDataProtocol.swift in Sources */,
 				2B3643BB2753902E007253EB /* UserBankProfile.swift in Sources */,
 				2B7AB40A278D4D3600974156 /* BankAccountError.swift in Sources */,
+				2BF15787284BEA0C008345DB /* MITransactionEditorViewDelegate.swift in Sources */,
 				2B1FEA62266BF03300BF53BD /* Currency.swift in Sources */,
 				2B1FEAE9266CAF6C00BF53BD /* Extension UIResponder.swift in Sources */,
 				2B00CAFD27465CC500821FE0 /* Holder.swift in Sources */,
 				2B1FEAAE266C3AB900BF53BD /* TransactionListViewController.swift in Sources */,
 				2B6D8E8C2827FE7F006896EF /* Route.swift in Sources */,
 				2B44C9F426EDFC6E0009976A /* WelcomeViewController.swift in Sources */,
-				2B70CFA6283ED3050073EFB4 /* MITransactionEditorConfigurator.swift in Sources */,
+				2B70CFA6283ED3050073EFB4 /* MITransactionEditorAssembly.swift in Sources */,
 				2B85FD0D277795DC005A295E /* StatementLoadingService.swift in Sources */,
 				2B85D855278F013B0042858B /* Exchange.swift in Sources */,
 				2B1FEAE8266CAF6C00BF53BD /* Extension Formatter.swift in Sources */,
 				2B1FEB58266D73DC00BF53BD /* AccountListTableViewController.swift in Sources */,
 				2B1FEAEA266CAF6C00BF53BD /* Extension Double.swift in Sources */,
 				2B1FEA83266C1D9A00BF53BD /* Transaction.swift in Sources */,
+				2BF15782284BE254008345DB /* MITransactionEditorView.swift in Sources */,
 				2B490DE026E4BB1800967E11 /* BadgeView.swift in Sources */,
 				2B1FEBAC266EE19B00BF53BD /* ImportTransactionViewController.swift in Sources */,
 				2B70CFAA283ED3050073EFB4 /* MITransactionEditorViewController.swift in Sources */,
@@ -1326,6 +1345,7 @@
 				2B1FEA4B266BEE6700BF53BD /* CurrencyExhangeNB.swift in Sources */,
 				2B7AB404278D4CCF00974156 /* TransactionError.swift in Sources */,
 				2B5546882825FD7E00D456DE /* StartAccountingView.swift in Sources */,
+				2BF15785284BE73D008345DB /* TransactionItemCellDelegate.swift in Sources */,
 				2B1FEA54266BEEC000BF53BD /* Enums.swift in Sources */,
 				2B949BB92665B4040033383A /* Accountant.xcdatamodeld in Sources */,
 				2BA11834276DC6340091569E /* MonobankAccountCell.swift in Sources */,
@@ -1391,14 +1411,14 @@
 			name = TransactionListVCLocalizable.strings;
 			sourceTree = "<group>";
 		};
-		2B56A99728208BA60001370E /* MITransactionEditorVCLocalizable.strings */ = {
+		2B56A99728208BA60001370E /* MITransactionEditorLocalizable.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
 				2B56A99628208BA60001370E /* uk */,
 				2B56A99828208BA80001370E /* ru */,
 				2B56A99928208BA90001370E /* en */,
 			);
-			name = MITransactionEditorVCLocalizable.strings;
+			name = MITransactionEditorLocalizable.strings;
 			sourceTree = "<group>";
 		};
 		2B6C236B280F1B5D00D84174 /* KeeperVCLocalizable.strings */ = {

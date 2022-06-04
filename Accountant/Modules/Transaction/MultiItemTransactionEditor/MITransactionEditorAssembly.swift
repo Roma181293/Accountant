@@ -1,5 +1,5 @@
 //
-//  MITransactionEditorConfigurator.swift
+//  MITransactionEditorAssembly.swift
 //  Accountant
 //
 //  Created by Roman Topchii on 25.05.2022.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-class MITransactionEditorConfigurator {
+class MITransactionEditorAssembly {
     
     class func configure(transaction: Transaction? = nil) -> MITransactionEditorViewController {
 

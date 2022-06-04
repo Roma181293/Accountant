@@ -130,7 +130,7 @@ extension MITransactionEditorPresenter: MITransactionEditorInteractorOutput {
         var result: [TransactionItemViewModel] = []
         transactionItems.forEach({
             let path = $0.account?.path ?? NSLocalizedString("Account/Category",
-                                                             tableName: Constants.Localizable.mITransactionEditorVC,
+                                                             tableName: Constants.Localizable.mITransactionEditor,
                                                              comment: "")
             result.append(TransactionItemViewModel(id: $0.id,
                                                    path: path,

@@ -11,7 +11,7 @@ import CoreData
 class TransactionItemCell: UITableViewCell {
 
     var transactionItem: TransactionItemViewModel!
-    private unowned var delegate: TransactionItemDelegate!
+    private unowned var delegate: TransactionItemCellDelegate!
 
     private let accountButton: UIButton = {
         let button = UIButton()
@@ -26,7 +26,7 @@ class TransactionItemCell: UITableViewCell {
     private let amountTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = NSLocalizedString("Amount",
-                                                  tableName: Constants.Localizable.mITransactionEditorVC,
+                                                  tableName: Constants.Localizable.mITransactionEditor,
                                                   comment: "")
         textField.keyboardType = .decimalPad
         textField.returnKeyType = UIReturnKeyType.done
@@ -39,7 +39,7 @@ class TransactionItemCell: UITableViewCell {
         return textField
     }()
 
-    func configureCell(for transactionItem: TransactionItemViewModel, with delegate: TransactionItemDelegate) {
+    func configureCell(for transactionItem: TransactionItemViewModel, with delegate: TransactionItemCellDelegate) {
         self.transactionItem = transactionItem
         self.delegate = delegate
         amountTextField.delegate = self
@@ -77,7 +77,7 @@ class TransactionItemCell: UITableViewCell {
     private func addDoneButtonOnDecimalKeyboard() {
         let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         let title = NSLocalizedString("Done",
-                                      tableName: Constants.Localizable.mITransactionEditorVC,
+                                      tableName: Constants.Localizable.mITransactionEditor,
                                       comment: "")
         let done: UIBarButtonItem = UIBarButtonItem(title: title, style: .done, target: self,
                                                     action: #selector(self.doneButtonAction))
