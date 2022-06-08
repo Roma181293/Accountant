@@ -7,14 +7,6 @@
 
 import UIKit
 
-struct TransactionItemViewModel {
-    let id: UUID
-    let path: String
-    let amount: String
-    let type: TransactionItem.TypeEnum
-    let createDate: Date
-}
-
 class MITransactionEditorPresenter: MITransactionEditorViewOutput {
 
     weak var viewInput: MITransactionEditorViewInput? {
@@ -28,7 +20,7 @@ class MITransactionEditorPresenter: MITransactionEditorViewOutput {
     var isNewTransaction: Bool {
         return interactorInput.isNewTransaction
     }
-    private var transactionItems: [TransactionItemViewModel] = [] {
+    private var transactionItems: [TransactionItemSimpleViewModel] = [] {
         didSet {
             viewInput?.reloadData()
         }
@@ -40,10 +32,10 @@ class MITransactionEditorPresenter: MITransactionEditorViewOutput {
         self.interactorInput = interactorInput
     }
 
-    var debitTransactionItems: [TransactionItemViewModel] {
+    var debitTransactionItems: [TransactionItemSimpleViewModel] {
         return transactionItems.filter({ $0.type == .debit }).sorted(by: {$0.createDate > $1.createDate})
     }
-    var creditTransactionItems: [TransactionItemViewModel] {
+    var creditTransactionItems: [TransactionItemSimpleViewModel] {
         return transactionItems.filter({ $0.type == .credit }).sorted(by: {$0.createDate > $1.createDate})
     }
 
@@ -127,16 +119,12 @@ extension MITransactionEditorPresenter: AccountRequestor {
 // MARK: - MITransactionEditorInteractorOutput
 extension MITransactionEditorPresenter: MITransactionEditorInteractorOutput {
     func fetched(transactionItems: [TransactionItem]) {
-        var result: [TransactionItemViewModel] = []
+        var result: [TransactionItemSimpleViewModel] = []
         transactionItems.forEach({
             let path = $0.account?.path ?? NSLocalizedString("Account/Category",
                                                              tableName: Constants.Localizable.mITransactionEditor,
                                                              comment: "")
-            result.append(TransactionItemViewModel(id: $0.id,
-                                                   path: path,
-                                                   amount: ($0.amount == 0) ? "" : String($0.amount),
-                                                   type: $0.type,
-                                                   createDate: $0.createDate ?? Date()))
+            result.append(TransactionItemSimpleViewModel(transactionItem: $0))
         })
         print(result)
         self.transactionItems = result

@@ -8,37 +8,55 @@
 import Foundation
 import CoreData
 
-class TransactionListProvider {
+protocol TransactionListProviderDelegate: AnyObject {
+    func didFetchTransactions()
+    func showError(error: Error)
+}
+
+class TransactionListProvider: NSObject {
+
+    weak var delegate: TransactionListProviderDelegate?
 
     private(set) unowned var persistentContainer: PersistentContainer
-    private(set) weak var fetchedResultsControllerDelegate: NSFetchedResultsControllerDelegate?
 
-    init(with persistentContainer: PersistentContainer,
-         fetchedResultsControllerDelegate: NSFetchedResultsControllerDelegate?) {
+    init(with persistentContainer: PersistentContainer) {
         self.persistentContainer = persistentContainer
-        self.fetchedResultsControllerDelegate = fetchedResultsControllerDelegate
     }
 
     private(set) lazy var fetchedResultsController: NSFetchedResultsController<Transaction> = {
         let fetchRequest = Transaction.fetchRequest()
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: Schema.Transaction.date.rawValue, ascending: false),
-                                        NSSortDescriptor(key: "\(Schema.Transaction.createDate.rawValue)", ascending: false)]
+                                        NSSortDescriptor(key: "\(Schema.Transaction.createDate)", ascending: false)]
         fetchRequest.fetchBatchSize = 20
 
         let controller = NSFetchedResultsController(fetchRequest: fetchRequest,
                                                     managedObjectContext: persistentContainer.viewContext,
-                                          sectionNameKeyPath: nil, cacheName: nil)
-        controller.delegate = fetchedResultsControllerDelegate
-
-        do {
-            try controller.performFetch()
-        } catch {
-            let nserror = error as NSError
-            fatalError("###\(#function): Failed to performFetch: \(nserror), \(nserror.userInfo)")
-        }
-
+                                                    sectionNameKeyPath: nil, cacheName: nil)
+        controller.delegate = self
         return controller
     }()
+
+    func changePersistentContainer(_ persistentContainer: PersistentContainer) {
+        self.persistentContainer = persistentContainer
+        let fetchRequest = Transaction.fetchRequest()
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: Schema.Transaction.date.rawValue, ascending: false),
+                                        NSSortDescriptor(key: "\(Schema.Transaction.createDate)", ascending: false)]
+        fetchRequest.fetchBatchSize = 20
+
+        fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest,
+                                                    managedObjectContext: persistentContainer.viewContext,
+                                                    sectionNameKeyPath: nil, cacheName: nil)
+        fetchedResultsController.delegate = self
+    }
+
+    func provideData() {
+        do {
+            try fetchedResultsController.performFetch()
+            delegate?.didFetchTransactions()
+        } catch {
+            delegate?.showError(error: error)
+        }
+    }
 
     func duplicateTransaction(at indexPath: IndexPath) {
         let objectID  = fetchedResultsController.object(at: indexPath).objectID
@@ -49,7 +67,8 @@ class TransactionListProvider {
                 fatalError("###\(#function): Failed to cast object to Transaction")
             }
 
-            let transaction = Transaction(date: original.date, comment: original.comment, context: context)
+            let transaction = Transaction(date: original.date, status: original.status,
+                                          comment: original.comment, context: context)
 
             for item in original.itemsList {
                 _ = TransactionItem(transaction: transaction, type: item.type, account: item.account,
@@ -81,7 +100,7 @@ class TransactionListProvider {
     func search(text: String) {
         var predicate: NSPredicate?
         if !text.isEmpty {
-            predicate = NSPredicate(format: "\(Schema.Transaction.items).\(Schema.TransactionItem.account).\(Schema.Account.path) CONTAINS[c] %@ || comment CONTAINS[c] %@",
+            predicate = NSPredicate(format: "\(Schema.Transaction.items).\(Schema.TransactionItem.account).\(Schema.Account.path) CONTAINS[c] %@ || \(Schema.Transaction.comment) CONTAINS[c] %@",
                                         argumentArray: [text, text])
         } else {
             predicate = nil
@@ -93,5 +112,25 @@ class TransactionListProvider {
             let nserror = error as NSError
             fatalError("###\(#function): Failed to performFetch: \(nserror), \(nserror.userInfo)")
         }
+        delegate?.didFetchTransactions()
+    }
+
+    func numberOfSections() -> Int {
+        fetchedResultsController.sections?.count ?? 0
+    }
+
+    func numberOfRowsInSection(_ section: Int) -> Int {
+        fetchedResultsController.sections?[section].numberOfObjects ?? 0
+    }
+
+    func transactionAt(_ indexPath: IndexPath) -> TransactionViewModel {
+        return TransactionViewModel(transaction: fetchedResultsController.object(at: indexPath))
+    }
+}
+
+extension TransactionListProvider: NSFetchedResultsControllerDelegate {
+
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        delegate?.didFetchTransactions()
     }
 }

@@ -113,7 +113,7 @@ class AccountType: BaseEntity {
 
     static func getBy(_ name: NameEnum, context: NSManagedObjectContext) -> AccountType {
         let request = AccountType.fetchRequest()
-        request.predicate = NSPredicate(format: "name = \(name)")
+        request.predicate = NSPredicate(format: "name = %@", name.rawValue)
         request.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
 
         if let accountType = try? context.fetch(request).first {

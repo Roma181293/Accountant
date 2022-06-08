@@ -9,8 +9,8 @@ import Foundation
 
 protocol MITransactionEditorViewOutput: AnyObject {
     var isNewTransaction: Bool { get }
-    var debitTransactionItems: [TransactionItemViewModel] { get }
-    var creditTransactionItems: [TransactionItemViewModel] { get }
+    var debitTransactionItems: [TransactionItemSimpleViewModel] { get }
+    var creditTransactionItems: [TransactionItemSimpleViewModel] { get }
     func viewDidLoad()
     func viewWillAppear()
     func accountRequestingForTransactionItem(id: UUID)

@@ -16,6 +16,7 @@ final class Transaction: BaseEntity {
         case draft = 1
         case approved = 2
         case applied = 3
+        case archived = 4
     }
 
     @nonobjc public class func fetchRequest() -> NSFetchRequest<Transaction> {
@@ -37,6 +38,14 @@ final class Transaction: BaseEntity {
 
     var itemsList: [TransactionItem] {
         return Array(items)
+    }
+
+    class func getTransactionFor(id: UUID, context: NSManagedObjectContext) -> Transaction? {
+        let request = fetchRequest()
+        request.predicate = NSPredicate(format: "\(Schema.Transaction.id) = '\(id)'")
+        request.sortDescriptors = [NSSortDescriptor(key: "\(Schema.Transaction.createDate)", ascending: true)]
+
+        return try? context.fetch(request).first
     }
 
     static func validateTransactionDataBeforeSave(_ transaction: Transaction) throws {

@@ -40,10 +40,15 @@
                     <navigationItem key="navigationItem" title="Transactions" id="wru-rP-J8c"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
-                        <outlet property="tableView" destination="HVd-WN-TxD" id="T0i-lZ-Tdr"/>
+                        <outlet property="tableView" destination="HVd-WN-TxD" id="7fR-Rh-c2F"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Cmn-fT-k6L" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <customObject id="4z7-Qo-Ae2" customClass="TransactionListAssembly" customModule="Accountant" customModuleProvider="target">
+                    <connections>
+                        <outlet property="viewController" destination="xRa-eE-QKN" id="od6-6C-8ma"/>
+                    </connections>
+                </customObject>
             </objects>
             <point key="canvasLocation" x="-1217" y="769"/>
         </scene>

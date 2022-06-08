@@ -9,7 +9,7 @@ import UIKit
 
 class TransactionCell: UITableViewCell { // swiftlint:disable:this type_body_length
 
-    private unowned var transaction: Transaction!
+    private var transaction: TransactionViewModel!
 
     private var itemViewArray: [UIView] = []
     private var firstLaunch: Bool = true
@@ -95,7 +95,7 @@ class TransactionCell: UITableViewCell { // swiftlint:disable:this type_body_len
 
     private let debitLabel: UILabel = {
         let label = UILabel()
-        label.text = "  " + NSLocalizedString("To:", tableName: Constants.Localizable.transactionListVC, comment: "")
+        label.text = "  " + NSLocalizedString("To:", tableName: Constants.Localizable.transactionList, comment: "")
         label.textColor = UIColor(named: "blackGrayColor")
         label.textAlignment = .left
         label.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
@@ -106,7 +106,7 @@ class TransactionCell: UITableViewCell { // swiftlint:disable:this type_body_len
 
     private let creditLabel: UILabel = {
         let label = UILabel()
-        label.text = "  " + NSLocalizedString("From:", tableName: Constants.Localizable.transactionListVC, comment: "")
+        label.text = "  " + NSLocalizedString("From:", tableName: Constants.Localizable.transactionList, comment: "")
         label.textColor = UIColor(named: "blackGrayColor")
         label.textAlignment = .left
         label.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
@@ -117,7 +117,7 @@ class TransactionCell: UITableViewCell { // swiftlint:disable:this type_body_len
 
     private let commentLabel: UILabel = {
         let label = UILabel()
-        label.text = "  " + NSLocalizedString("Comment:", tableName: Constants.Localizable.transactionListVC, comment: "") + "  "
+        label.text = "  " + NSLocalizedString("Comment:", tableName: Constants.Localizable.transactionList, comment: "") + "  "
         label.textColor = UIColor(named: "blackGrayColor")
         label.textAlignment = .left
         label.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
@@ -184,7 +184,7 @@ class TransactionCell: UITableViewCell { // swiftlint:disable:this type_body_len
         commentStackView.addArrangedSubview(commentContentLabel)
     }
 
-    func setTransaction(_ transaction: Transaction) { // swiftlint:disable:this function_body_length cyclomatic_complexity line_length
+    func setTransaction(_ transaction: TransactionViewModel) { // swiftlint:disable:this function_body_length cyclomatic_complexity line_length
         self.transaction = transaction
 
         let formatter = DateFormatter()
@@ -209,20 +209,14 @@ class TransactionCell: UITableViewCell { // swiftlint:disable:this type_body_len
             itemView.translatesAutoresizingMaskIntoConstraints = false
 
             let accountPathLabel = UILabel()
-            if let acctount = item.account {
-                accountPathLabel.text = acctount.path
-            }
+            accountPathLabel.text = item.path
             accountPathLabel.textColor = UIColor(named: "blackGrayColor")
             accountPathLabel.numberOfLines = 0
             accountPathLabel.lineBreakMode = .byWordWrapping
             accountPathLabel.translatesAutoresizingMaskIntoConstraints = false
 
             let amountAndCurrencyLabel = UILabel()
-            if let acctount = item.account, let currency = acctount.currency {
-                amountAndCurrencyLabel.text = cutNumber(item.amount) + currency.code
-            } else {
-                amountAndCurrencyLabel.text = "Invalid data"
-            }
+            amountAndCurrencyLabel.text = cutNumber(item.amount) + item.currency
             amountAndCurrencyLabel.textColor = UIColor(named: "blackGrayColor")
             amountAndCurrencyLabel.textAlignment = .right
             amountAndCurrencyLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -252,20 +246,17 @@ class TransactionCell: UITableViewCell { // swiftlint:disable:this type_body_len
         setMainView()
 
         if transaction.itemsList.count >= 2 && transaction.status == .applied {
-            guard transaction.itemsList.filter({$0.type == .debit})[0].account != nil &&
-                    transaction.itemsList.filter({$0.type == .credit})[0].account != nil else {return}
-            let debitRootName = transaction.itemsList.filter({$0.type == .debit})[0].account!.rootAccount.name
-            let creditRootName = transaction.itemsList.filter({$0.type == .credit})[0].account!.rootAccount.name
+            guard transaction.debitRootName != nil && transaction.creditRootName != nil else {return}
 
-            if creditRootName == LocalisationManager.getLocalizedName(.income) &&
-                debitRootName == LocalisationManager.getLocalizedName(.money) {
+            if transaction.creditRootName == LocalisationManager.getLocalizedName(.income) &&
+                transaction.debitRootName == LocalisationManager.getLocalizedName(.money) {
                 cellMainColor = .systemGreen
-            } else  if (creditRootName == LocalisationManager.getLocalizedName(.money) ||
-                      creditRootName == LocalisationManager.getLocalizedName(.credits)) &&
-                        debitRootName == LocalisationManager.getLocalizedName(.expense) {
+            } else  if (transaction.creditRootName == LocalisationManager.getLocalizedName(.money) ||
+                        transaction.creditRootName == LocalisationManager.getLocalizedName(.credits)) &&
+                        transaction.debitRootName == LocalisationManager.getLocalizedName(.expense) {
                 cellMainColor = .systemPink
-            } else  if creditRootName == LocalisationManager.getLocalizedName(.money) &&
-                        debitRootName == LocalisationManager.getLocalizedName(.money) {
+            } else  if transaction.creditRootName == LocalisationManager.getLocalizedName(.money) &&
+                        transaction.debitRootName == LocalisationManager.getLocalizedName(.money) {
                 cellMainColor = .systemTeal
             } else {
                 cellMainColor = .systemGray

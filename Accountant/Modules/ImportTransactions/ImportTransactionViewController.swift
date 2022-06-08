@@ -250,6 +250,6 @@ extension ImportTransactionViewController: UITableViewDelegate, UITableViewDataS
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let transaction = preTransactionList.filter({!(showOlnyErrors && $0.isReadyToSave)})[indexPath.row].transaction
-        self.navigationController?.pushViewController(MITransactionEditorAssembly.configure(transaction: transaction), animated: true)
+        self.navigationController?.pushViewController(MITransactionEditorAssembly.configure(transactionId: transaction?.id ?? UUID()), animated: true)
     }
 }

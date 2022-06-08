@@ -9,7 +9,10 @@ import Foundation
 
 class MITransactionEditorAssembly {
     
-    class func configure(transaction: Transaction? = nil) -> MITransactionEditorViewController {
+    class func configure(transactionId: UUID? = nil) -> MITransactionEditorViewController {
+
+        let transaction = Transaction.getTransactionFor(id: transactionId ?? UUID(),
+                                                        context: CoreDataStack.shared.persistentContainer.viewContext)
 
         let router = MITransactionEditorRouter()
         let viewController = MITransactionEditorViewController()

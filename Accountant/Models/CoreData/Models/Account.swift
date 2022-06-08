@@ -659,7 +659,7 @@ extension Account {
     static func getRootAccountList(context: NSManagedObjectContext) -> [Account] {
         let fetchRequest: NSFetchRequest<Account> = fetchRequest()
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: Schema.Account.name.rawValue, ascending: true)]
-        fetchRequest.predicate = NSPredicate(format: "\(Schema.Account.parent.rawValue) = nil")
+        fetchRequest.predicate = NSPredicate(format: "\(Schema.Account.parent.rawValue).\(Schema.Account.parent.rawValue) = nil")
         return (try? context.fetch(fetchRequest)) ?? []
     }
 

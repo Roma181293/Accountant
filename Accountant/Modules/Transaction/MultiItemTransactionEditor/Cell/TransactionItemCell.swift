@@ -10,7 +10,7 @@ import CoreData
 
 class TransactionItemCell: UITableViewCell {
 
-    var transactionItem: TransactionItemViewModel!
+    var transactionItem: TransactionItemSimpleViewModel!
     private unowned var delegate: TransactionItemCellDelegate!
 
     private let accountButton: UIButton = {
@@ -39,14 +39,14 @@ class TransactionItemCell: UITableViewCell {
         return textField
     }()
 
-    func configureCell(for transactionItem: TransactionItemViewModel, with delegate: TransactionItemCellDelegate) {
+    func configureCell(for transactionItem: TransactionItemSimpleViewModel, with delegate: TransactionItemCellDelegate) {
         self.transactionItem = transactionItem
         self.delegate = delegate
         amountTextField.delegate = self
         addDoneButtonOnDecimalKeyboard()
 
         accountButton.setTitle(transactionItem.path, for: .normal)
-        amountTextField.text = transactionItem.amount
+        amountTextField.text = (transactionItem.amount == 0) ? "" : String(transactionItem.amount)
 
         accountButton.addTarget(self, action: #selector(TransactionItemCell.selectAccount),
                                 for: .touchUpInside)
