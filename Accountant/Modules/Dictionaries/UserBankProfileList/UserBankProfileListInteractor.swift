@@ -86,9 +86,10 @@ class UserBankProfileListInteractor: UserBankProfileListInteractorProtocol {
                 context.save(with: .deleteUserBankProfile)
             }
         } else {
-            presenter.showWarning(message: String(format: NSLocalizedString("Consent text \"%@\" is not equal to \"MyBudget: Finance keeper\"",
-                                                                            tableName: Constants.Localizable.userBankProfileListVC,
-                                                                            comment: ""), consentText))
+            let message = String(format: NSLocalizedString("Consent text \"%@\" is not equal to \"MyBudget: Finance keeper\"",
+                                                           tableName: Constants.Localizable.userBankProfileListVC,
+                                                           comment: ""), consentText)
+            presenter.showWarning(message: message)
         }
     }
 }

@@ -78,7 +78,8 @@ extension TransactionListPresenter: TransactionListViewOutput {
     func editTransaction(at indexPath: IndexPath) {
 
         guard let transaction = interactorInput?.transactionAt(indexPath) else {return}
-        if transaction.itemsList.count != 2 || transaction.status != .applied || interactorInput?.isMITransactionModeOn() == true {
+        if transaction.itemsList.count != 2 || transaction.status != .applied
+            || interactorInput?.isMITransactionModeOn() == true {
             routerInput?.openMITransactionEditorModule(transactionId: transaction.id)
         } else {
             routerInput?.openSimpleTransactionEditorModule(transactionId: transaction.id)

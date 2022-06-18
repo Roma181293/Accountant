@@ -23,15 +23,15 @@ struct MBUserInfo: Codable {
     }
 
     func isExists(context: NSManagedObjectContext) -> Bool {
-        return !UserBankProfile.isFreeExternalId(clientId, context: context)
+        return !UserBankProfileHelper.isFreeExternalId(clientId, context: context)
     }
 
     func isExists() -> Bool {
         let context = CoreDataStack.shared.persistentContainer.newBackgroundContext()
-        return !UserBankProfile.isFreeExternalId(clientId, context: context)
+        return !UserBankProfileHelper.isFreeExternalId(clientId, context: context)
     }
 
     func getUBP(conetxt: NSManagedObjectContext) -> UserBankProfile? {
-        return UserBankProfile.getUBP(clientId, context: conetxt)
+        return UserBankProfileHelper.getUBP(clientId, context: conetxt)
     }
 }

@@ -132,7 +132,7 @@ class SettingsCell: UITableViewCell {
             iconImangeView.image = UIImage(systemName: "gamecontroller")
             iconImangeView.tintColor = .systemYellow
         case .accountingCurrency:
-            if let currency = Currency.getAccountingCurrency(context: delegate.context) {
+            if let currency = CurrencyHelper.getAccountingCurrency(context: delegate.context) {
                 detailLabel.text = currency.code
             } else {
                 detailLabel.text = "No currency"

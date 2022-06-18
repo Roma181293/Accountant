@@ -50,7 +50,8 @@ class MonobankUBPViewController: UIViewController {
 
     let titleLabel: UILabel = {
         let label = UILabel()
-        label.text = NSLocalizedString("To automatically adding your transactions from the Monobank accounts please enter Token in the field below",
+        label.text = NSLocalizedString("To automatically adding your transactions from the Monobank accounts please " +
+                                       "enter Token in the field below",
                                        tableName: Constants.Localizable.monobankVC,
                                        comment: "")
         label.numberOfLines = 0
@@ -331,7 +332,8 @@ extension MonobankUBPViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: Constants.Cell.bankAccountCell, for: indexPath) as! MonobankAccountCell // swiftlint:disable:this force_cast line_length
+        let cell = tableView.dequeueReusableCell(withIdentifier: Constants.Cell.bankAccountCell,
+                                                 for: indexPath) as! MonobankAccountCell // swiftlint:disable:this force_cast
         cell.configureCell(presenter.accountInfoAt(indexPath.row))
         return cell
     }

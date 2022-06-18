@@ -43,7 +43,10 @@ class StartAccountingView: UIView {
 
     let goToBankProfilesButton: UIButton = {
         let button = UIButton()
-        button.setTitle(NSLocalizedString("Go to bank profiles", tableName: Constants.Localizable.startAccountingVC, comment: ""), for: .normal)
+        button.setTitle(NSLocalizedString("Go to bank profiles",
+                                          tableName: Constants.Localizable.startAccountingVC,
+                                          comment: ""),
+                        for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.backgroundColor = Colors.Main.confirmButton
         button.setTitleColor(.systemBlue, for: .normal)

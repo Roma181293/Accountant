@@ -20,13 +20,13 @@ class LocalisationManager {
                      forKey: accountName.rawValue+environment.rawValue)
     }
 
-    static func createAllLocalizedAccountName() {
+    class func createAllLocalizedAccountName() {
         for item in BaseAccounts.allCases {
             createLocalizedAccountName(item)
         }
     }
 
-    static func getLocalizedName(_ accountName: BaseAccounts) -> String {
+    class func getLocalizedName(_ accountName: BaseAccounts) -> String {
         var environment = Environment.prod
         if let environmentValue = CoreDataStack.shared.activeEnviroment() {
             environment = environmentValue

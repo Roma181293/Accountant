@@ -84,21 +84,21 @@ class SimpleTransactionEditorViewController: UIViewController, AccountNavigation
         switch sender.selectedSegmentIndex {
         case 0:
             print("Expense")
-            debit = Account.getAccountWithPath(LocalisationManager.getLocalizedName(.expense),
+            debit = AccountHelper.getAccountWithPath(LocalisationManager.getLocalizedName(.expense),
                                                context: context)
-            credit = Account.getAccountWithPath(LocalisationManager.getLocalizedName(.money),
+            credit = AccountHelper.getAccountWithPath(LocalisationManager.getLocalizedName(.money),
                                                 context: context)
         case 1:
             print("Income")
-            debit = Account.getAccountWithPath(LocalisationManager.getLocalizedName(.money),
+            debit = AccountHelper.getAccountWithPath(LocalisationManager.getLocalizedName(.money),
                                                context: context)
-            credit = Account.getAccountWithPath(LocalisationManager.getLocalizedName(.income),
+            credit = AccountHelper.getAccountWithPath(LocalisationManager.getLocalizedName(.income),
                                                 context: context)
         case 2:
             print("Transfer")
-            debit = Account.getAccountWithPath(LocalisationManager.getLocalizedName(.money),
+            debit = AccountHelper.getAccountWithPath(LocalisationManager.getLocalizedName(.money),
                                                context: context)
-            credit = Account.getAccountWithPath(LocalisationManager.getLocalizedName(.money),
+            credit = AccountHelper.getAccountWithPath(LocalisationManager.getLocalizedName(.money),
                                                 context: context)
         default:
             print("Manual")
@@ -269,16 +269,16 @@ class SimpleTransactionEditorViewController: UIViewController, AccountNavigation
         switch mainView.transactionTypeSegmentedControl.selectedSegmentIndex {
         case 0:
             print("Expense")
-            debit = Account.getAccountWithPath(LocalisationManager.getLocalizedName(.expense), context: context)
-            credit = Account.getAccountWithPath(LocalisationManager.getLocalizedName(.money), context: context)
+            debit = AccountHelper.getAccountWithPath(LocalisationManager.getLocalizedName(.expense), context: context)
+            credit = AccountHelper.getAccountWithPath(LocalisationManager.getLocalizedName(.money), context: context)
         case 1:
             print("Income")
-            debit = Account.getAccountWithPath(LocalisationManager.getLocalizedName(.money), context: context)
-            credit = Account.getAccountWithPath(LocalisationManager.getLocalizedName(.income), context: context)
+            debit = AccountHelper.getAccountWithPath(LocalisationManager.getLocalizedName(.money), context: context)
+            credit = AccountHelper.getAccountWithPath(LocalisationManager.getLocalizedName(.income), context: context)
         case 2:
             print("Transfer")
-            debit = Account.getAccountWithPath(LocalisationManager.getLocalizedName(.money), context: context)
-            credit = Account.getAccountWithPath(LocalisationManager.getLocalizedName(.money), context: context)
+            debit = AccountHelper.getAccountWithPath(LocalisationManager.getLocalizedName(.money), context: context)
+            credit = AccountHelper.getAccountWithPath(LocalisationManager.getLocalizedName(.money), context: context)
         default:
             print("Manual")
             debit = nil
@@ -320,7 +320,7 @@ class SimpleTransactionEditorViewController: UIViewController, AccountNavigation
 
         if debit.currency == credit.currency {
             if let debitAmount = mainView.debitAmount {
-                Transaction.addTransactionWith2TranItems(date: mainView.transactionDate,
+                TransactionHelper.addTransactionWith2TranItems(date: mainView.transactionDate,
                                                          debit: debit,
                                                          credit: credit,
                                                          debitAmount: debitAmount,
@@ -331,7 +331,7 @@ class SimpleTransactionEditorViewController: UIViewController, AccountNavigation
         } else {
             if let debitAmount = mainView.debitAmount,
                let creditAmount = mainView.creditAmount {
-                Transaction.addTransactionWith2TranItems(date: mainView.transactionDate,
+                TransactionHelper.addTransactionWith2TranItems(date: mainView.transactionDate,
                                                          debit: debit,
                                                          credit: credit,
                                                          debitAmount: debitAmount,

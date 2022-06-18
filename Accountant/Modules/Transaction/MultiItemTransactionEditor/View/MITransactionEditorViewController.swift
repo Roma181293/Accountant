@@ -241,24 +241,20 @@ extension MITransactionEditorViewController {
     }
 
     @objc func keyboardWillHide(notification: Notification) {
-
         UIView.animate(withDuration: 0.25, delay: 0.00, options: UIView.AnimationOptions.curveEaseIn, animations: {
             self.view.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: self.view.bounds.height)
         }, completion: nil)
     }
 
     @objc func dismissKeyboard() {
-
         view.endEditing(true)
     }
 
     func textFieldDidBeginEditing(_ textField: UITextField) {
-
         activeTextField = textField
     }
 
     func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
-
         if textField.tag == 200, let comment = textField.text {
             output?.setComment(comment)
         }
@@ -266,13 +262,11 @@ extension MITransactionEditorViewController {
     }
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-
         textField.resignFirstResponder()
         return true
     }
 
     @objc func doneButtonAction() {
-        
         mainView.commentTextField.resignFirstResponder()
     }
 }

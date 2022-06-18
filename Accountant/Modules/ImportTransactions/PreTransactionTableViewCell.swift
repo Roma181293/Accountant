@@ -81,7 +81,7 @@ class PreTransactionTableViewCell: UITableViewCell {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
-    
+
     let debitLabel: UILabel = {
         let label = UILabel()
         label.text = "  " + NSLocalizedString("To:", comment: "")
@@ -150,7 +150,8 @@ class PreTransactionTableViewCell: UITableViewCell {
         let formatter = DateFormatter()
         formatter.dateStyle = .short
         formatter.timeStyle = .none
-        formatter.locale = Locale(identifier: "\(Bundle.main.localizations.first ?? "en")_\(Locale.current.regionCode ?? "US")")
+        formatter.locale = Locale(identifier: "\(Bundle.main.localizations.first ?? "en")_" +
+                                  "\(Locale.current.regionCode ?? "US")")
 
         dateLabel.text = formatter.string(from: transaction.date)
         dateLabel.layer.backgroundColor = UIColor.clear.cgColor

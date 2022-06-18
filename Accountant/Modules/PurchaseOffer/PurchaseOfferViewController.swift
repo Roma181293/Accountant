@@ -58,7 +58,9 @@ final class PurchaseOfferViewController: UIViewController { // swiftlint:disable
     let termsLabel: UILabel = {
         let titleLabel = UILabel()
         titleLabel.textAlignment = .center
-        titleLabel.text = NSLocalizedString("Terms of use", tableName: Constants.Localizable.purchaseOfferVC, comment: "")
+        titleLabel.text = NSLocalizedString("Terms of use",
+                                            tableName: Constants.Localizable.purchaseOfferVC,
+                                            comment: "")
         titleLabel.textColor = UIColor.systemBlue
         titleLabel.font = UIFont.systemFont(ofSize: 12.0)
         titleLabel.lineBreakMode = .byWordWrapping
@@ -70,7 +72,9 @@ final class PurchaseOfferViewController: UIViewController { // swiftlint:disable
     let policyLabel: UILabel = {
         let titleLabel = UILabel()
         titleLabel.textAlignment = .center
-        titleLabel.text = NSLocalizedString("Privacy policy", tableName: Constants.Localizable.purchaseOfferVC, comment: "")
+        titleLabel.text = NSLocalizedString("Privacy policy",
+                                            tableName: Constants.Localizable.purchaseOfferVC,
+                                            comment: "")
         titleLabel.textColor = UIColor.systemBlue
         titleLabel.font = UIFont.systemFont(ofSize: 12.0)
         titleLabel.lineBreakMode = .byWordWrapping
@@ -110,7 +114,10 @@ final class PurchaseOfferViewController: UIViewController { // swiftlint:disable
 
     let purchaseButon: UIButton = {
         let button = UIButton()
-        button.setTitle(NSLocalizedString("Subscribe", tableName: Constants.Localizable.purchaseOfferVC, comment: "").uppercased(), for: .normal)
+        button.setTitle(NSLocalizedString("Subscribe",
+                                          tableName: Constants.Localizable.purchaseOfferVC,
+                                          comment: "").uppercased(),
+                        for: .normal)
         button.backgroundColor = UIColor.systemIndigo
         button.setTitleColor(UIColor.white, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 15.0)

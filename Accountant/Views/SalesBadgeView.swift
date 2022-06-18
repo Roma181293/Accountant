@@ -29,7 +29,7 @@ class SalesBadgeView: UIView {
         gradientOrangeView.layer.cornerRadius = height/2
         self.insertSubview(gradientOrangeView, at: 0)
         self.layer.masksToBounds = false
-        
+
         // The Label subview
         gradientOrangeView.addSubview(label)
         let horizontalConstraint = NSLayoutConstraint(item: label,

@@ -56,33 +56,33 @@ class MonobankAccountCell: UITableViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
-    
+
     func configureCell(_ mbba: MBAccountInfo){
         contentView.addSubview(mainStackView)
         mainStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10).isActive = true
         mainStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10).isActive = true
         mainStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10).isActive = true
         mainStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10).isActive = true
-        
+
         mainStackView.addArrangedSubview(additionalStackView)
         additionalStackView.addArrangedSubview(nameLabel)
         additionalStackView.addArrangedSubview(statusLabel)
-        
+
         mainStackView.addArrangedSubview(balanceLabel)
         mainStackView.addArrangedSubview(creditLimitLabel)
-        
+
         let currency = mbba.getCurrency(context: CoreDataStack.shared.persistentContainer.viewContext)?.code ?? "Unknown currency"
-        
+
         if mbba.isExists() {
-            statusLabel.text = "  " + NSLocalizedString("Already added", tableName: Constants.Localizable.monobankVC, comment: "") + "  "
+            statusLabel.text = "  " + NSLocalizedString("Already added",
+                              tableName: Constants.Localizable.monobankVC, comment: "") + "  "
             statusLabel.layer.backgroundColor = UIColor.green.cgColor
-        }
-        else {
-            statusLabel.text = "  " + NSLocalizedString("Will be adding", tableName: Constants.Localizable.monobankVC, comment: "") + "  "
+        } else {
+            statusLabel.text = "  " + NSLocalizedString("Will be adding",
+                                                        tableName: Constants.Localizable.monobankVC, comment: "") + "  "
             statusLabel.layer.backgroundColor = UIColor.orange.cgColor
         }
-        
+
         nameLabel.text = mbba.maskedPan.last
         balanceLabel.text = NSLocalizedString("Balance", tableName: Constants.Localizable.monobankVC, comment: "") + " " + String(Double(mbba.balance)/100.0) + " " + currency
         creditLimitLabel.text = NSLocalizedString("Credit limit", tableName: Constants.Localizable.monobankVC, comment: "") + " " + String(Double(mbba.creditLimit)/100.0) + " " + currency

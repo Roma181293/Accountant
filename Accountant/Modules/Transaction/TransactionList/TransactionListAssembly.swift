@@ -21,7 +21,7 @@ class TransactionListAssembly: NSObject {
 
         let router = TransactionListRouter()
         let presenter = TransactionListPresenter()
-        let dataProvider = TransactionListProvider(with: CoreDataStack.shared.persistentContainer)
+        let dataProvider = TransactionListService(with: CoreDataStack.shared.persistentContainer)
         let interactor = TransactionListInteractor(dataProvider: dataProvider)
 
         presenter.viewInput = view

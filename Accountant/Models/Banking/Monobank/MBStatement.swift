@@ -28,7 +28,7 @@ struct MBStatement: Codable, StatementProtocol {
     func getAmount() -> Double {
         return abs(Double(amount)/100.0)
     }
-    
+
     func getType() -> StatmentType {
         if amount > 0 {
             return .to

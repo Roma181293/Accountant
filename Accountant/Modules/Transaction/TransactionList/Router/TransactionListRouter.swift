@@ -21,15 +21,19 @@ class TransactionListRouter: TransactionListRouterInput {
 
     func openSimpleTransactionEditorModule(transactionId: UUID?) {
         let transactioEditorVC = SimpleTransactionEditorViewController()
-        let transaction = Transaction.getTransactionFor(id: transactionId ?? UUID(),
+        let transaction = TransactionHelper.getTransactionFor(id: transactionId ?? UUID(),
                                                         context: CoreDataStack.shared.persistentContainer.viewContext)
         transactioEditorVC.transaction = transaction
         viewController?.navigationController?.pushViewController(transactioEditorVC, animated: true)
     }
 
     func deleteAlertFor(indexPath: IndexPath) {
-        let alert = UIAlertController(title: NSLocalizedString("Delete", tableName: Constants.Localizable.transactionList, comment: ""),
-                                      message: NSLocalizedString("Do you want to delete transaction?", tableName: Constants.Localizable.transactionList, comment: ""),
+        let alert = UIAlertController(title: NSLocalizedString("Delete",
+                                                               tableName: Constants.Localizable.transactionList,
+                                                               comment: ""),
+                                      message: NSLocalizedString("Do you want to delete transaction?",
+                                                                 tableName: Constants.Localizable.transactionList,
+                                                                 comment: ""),
                                       preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: NSLocalizedString("Yes", comment: ""),
                                       style: .destructive,

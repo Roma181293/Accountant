@@ -9,7 +9,7 @@ import UIKit
 import CoreData
 
 protocol HolderReceiverDelegate: AnyObject {
-    func setHolder(_ selectedHolder: Holder?)
+    func setHolder(_ holder: Holder?) // optional for cases when user delete
 }
 
 class HolderViewController: UITableViewController {

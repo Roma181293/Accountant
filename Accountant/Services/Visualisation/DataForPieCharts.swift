@@ -90,7 +90,7 @@ struct DataForPieCharts {
         dateformatter.dateStyle = .short
         dateformatter.timeStyle = .none
         dateformatter.locale = Locale(identifier: "\(Bundle.main.localizations.first ?? "en")_\(Locale.current.regionCode ?? "US")")
-        
+
         let calendar = Calendar.current
         if showDate, let dateToShow = calendar.date(byAdding: .day, value: -1, to: dateInterval.end) {
             let dateIntervalString = String("\(dateformatter.string(from: dateInterval.start))-\(dateformatter.string(from: dateToShow))")

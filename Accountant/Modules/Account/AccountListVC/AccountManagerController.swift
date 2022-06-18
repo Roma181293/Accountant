@@ -55,7 +55,7 @@ class AccountManagerController {
                               let textFields = alert.textFields,
                               let textField = textFields.first
                         else {return}
-                        try Account.createAccount(parent: account,
+                        try AccountHelper.createAccount(parent: account,
                                                   name: textField.text!,
                                                   type: account.type,
                                                   currency: accountCurrency,
@@ -71,9 +71,7 @@ class AccountManagerController {
                                               style: .cancel))
                 self.delegate.present(alert, animated: true, completion: nil)
             } else {
-                let accountEditorVC = AccountEditorViewController()
-                accountEditorVC.parentAccount = account
-                self.delegate.navigationController?.pushViewController(accountEditorVC,
+                self.delegate.navigationController?.pushViewController(AccountEditorAssembly.configure(parentAccountId: account.id),
                                                                        animated: true)
             }
         } else {
@@ -145,12 +143,14 @@ class AccountManagerController {
                 var message = ""
                 if selectedAccount.parent?.currency == nil {
                     if let linkedAccount = selectedAccount.linkedAccount {
-                        message =  String(format: NSLocalizedString("Are you sure you want to delete account and linked account  \"%@\"?", comment: ""), linkedAccount.path)
+                        message =  String(format: NSLocalizedString("Are you sure you want to delete account and linked account  \"%@\"?",
+                                                                    comment: ""), linkedAccount.path)
                     } else {
                         message = NSLocalizedString("Are you sure you want to delete account?", comment: "")
                     }
                 } else {
-                    message = NSLocalizedString("Are you sure you want to delete this category and all its subcategories?", comment: "")
+                    message = NSLocalizedString("Are you sure you want to delete this category and all its subcategories?",
+                                                comment: "")
                 }
                 let alert = UIAlertController(title: NSLocalizedString("Delete", comment: ""),
                                               message: message,
@@ -162,6 +162,7 @@ class AccountManagerController {
                         try selectedAccount.delete(eligibilityChacked: true)
                         try self.delegate.coreDataStack.saveContext(self.delegate.context)
                         try self.delegate.updateSourceTable()
+
                         // FIXME: - self.delegate.tableView.deleteRows(at: [indexPath], with: .fade)
                         self.delegate.tableView.reloadData()// deleteRows(at: [indexPath], with: .fade)
                     } catch let error {
@@ -220,7 +221,8 @@ class AccountManagerController {
                                                                                isUserHasPaidAccess: self.delegate.isUserHasPaidAccess,
                                                                                environment: self.delegate.environment) {
                 if selectedAccount.currency == nil {
-                    let accountEditorVC = AccountEditorViewController()
+
+                    let accountEditorVC = AccountEditorViewController1()
                     accountEditorVC.parentAccount = selectedAccount
                     self.delegate.navigationController?.pushViewController(accountEditorVC, animated: true)
                 } else {
@@ -237,10 +239,10 @@ class AccountManagerController {
                             guard let alert = alert,
                                   let textFields = alert.textFields,
                                   let textField = textFields.first,
-                                  Account.isFreeAccountName(parent: selectedAccount,
+                                  AccountHelper.isFreeAccountName(parent: selectedAccount,
                                                             name: textField.text!,
                                                             context: self.delegate.context)
-                            else {throw AccountError.accountAlreadyExists(name: alert!.textFields!.first!.text!)}
+                            else {throw Account.Error.accountAlreadyExists(name: alert!.textFields!.first!.text!)}
                             if !selectedAccount.isFreeFromTransactionItems {
                                 let alert1 = UIAlertController(title: NSLocalizedString("Warning", comment: ""),
                                                                message: String(format: NSLocalizedString("Category \"%@\" contains transactions. All these thansactions will be automatically moved to the new \"%@\" subcategory", comment: ""), // swiftlint:disable:this line_length
@@ -249,7 +251,7 @@ class AccountManagerController {
                                 alert1.addAction(UIAlertAction(title: NSLocalizedString("Create and Move", comment: ""),
                                                                style: .default, handler: { (_) in
                                     do {
-                                        try Account.createAccount(parent: selectedAccount, name: textField.text!,
+                                        try AccountHelper.createAccount(parent: selectedAccount, name: textField.text!,
                                                                   type: selectedAccount.type,
                                                                   currency: selectedAccount.currency!,
                                                                   context: self.delegate.context)
@@ -264,7 +266,7 @@ class AccountManagerController {
                                                                style: .cancel))
                                 self.delegate.present(alert1, animated: true, completion: nil)
                             } else {
-                                try Account.createAccount(parent: selectedAccount,
+                                try AccountHelper.createAccount(parent: selectedAccount,
                                                           name: textField.text!,
                                                           type: selectedAccount.type,
                                                           currency: selectedAccount.currency!,
@@ -319,7 +321,7 @@ class AccountManagerController {
     func editAccount(indexPath: IndexPath, selectedAccount: Account) -> UIContextualAction {
         let editAccount = UIContextualAction(style: .normal,
                                              title: NSLocalizedString("Edit", comment: "")) { (_, _, complete) in
-            let accountEditorVC = AccountEditorViewController()
+            let accountEditorVC = AccountEditorViewController1()
             accountEditorVC.parentAccount = selectedAccount.rootAccount
             accountEditorVC.account = selectedAccount
             self.delegate.navigationController?.pushViewController(accountEditorVC, animated: true)

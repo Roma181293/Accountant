@@ -56,10 +56,10 @@ class AnalyticsViewController: UIViewController, UIScrollViewDelegate {
 
         reloadProAccessData()
 
-        accountingCurrency = Currency.getAccountingCurrency(context: context)!
+        accountingCurrency = CurrencyHelper.getAccountingCurrency(context: context)!
         scrollView.delegate = self
         if account == nil {
-            account = Account.getAccountWithPath(LocalisationManager.getLocalizedName(.expense),
+            account = AccountHelper.getAccountWithPath(LocalisationManager.getLocalizedName(.expense),
                                                  context: context)
         }
         if let level = account?.level, level > 1 {
@@ -93,10 +93,10 @@ class AnalyticsViewController: UIViewController, UIScrollViewDelegate {
     @IBAction func chooseAccount(_ sender: UISegmentedControl) {
         switch sender.selectedSegmentIndex {
         case 0:
-            account = Account.getAccountWithPath(LocalisationManager.getLocalizedName(.income),
+            account = AccountHelper.getAccountWithPath(LocalisationManager.getLocalizedName(.income),
                                                  context: context)
         default:
-            account = Account.getAccountWithPath(LocalisationManager.getLocalizedName(.expense),
+            account = AccountHelper.getAccountWithPath(LocalisationManager.getLocalizedName(.expense),
                                                  context: context)
         }
         updateUI()
@@ -166,8 +166,10 @@ class AnalyticsViewController: UIViewController, UIScrollViewDelegate {
     }
 
     private func createSlides() -> [UIView] {
-        let slide1: PieChartView = ChartsManager.setPieChartView(dataForPieCharts: presentingData.getDataForPieChart(distributionType: .amount, showDate: true))
-        let slide2: LineChartView = ChartsManager.setLineChartView(chartData: presentingData.lineChartData)
+        let dataForPieCharts = presentingData.getDataForPieChart(distributionType: .amount, showDate: true)
+
+        let slide1 = ChartsManager.setPieChartView(dataForPieCharts: dataForPieCharts)
+        let slide2 = ChartsManager.setLineChartView(chartData: presentingData.lineChartData)
         slide1.tag = 1
         slide2.tag = 2
         return [slide1, slide2]
@@ -249,8 +251,8 @@ class AnalyticsViewController: UIViewController, UIScrollViewDelegate {
     @objc func environmentDidChange() {
         context = CoreDataStack.shared.persistentContainer.viewContext
 
-        accountingCurrency = Currency.getAccountingCurrency(context: context)!
-        account = Account.getAccountWithPath(LocalisationManager.getLocalizedName(.expense),
+        accountingCurrency = CurrencyHelper.getAccountingCurrency(context: context)!
+        account = AccountHelper.getAccountWithPath(LocalisationManager.getLocalizedName(.expense),
                                              context: context)
         segmentedControl.selectedSegmentIndex = 1
 

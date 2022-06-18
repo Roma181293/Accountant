@@ -21,7 +21,7 @@ class AnalyticsTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        accountingCurrency = Currency.getAccountingCurrency(context: CoreDataStack.shared.persistentContainer.viewContext)! // swiftlint:disable:this line_length
+        accountingCurrency = CurrencyHelper.getAccountingCurrency(context: CoreDataStack.shared.persistentContainer.viewContext)! // swiftlint:disable:this line_length
         tableView.register(AnalyticTableViewCell.self, forCellReuseIdentifier: Constants.Cell.analyticsCell1)
     }
     

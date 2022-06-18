@@ -97,7 +97,7 @@ class BankAccountTableViewController: UITableViewController, AccountNavigationDe
                 accNavVC.canModifyAccountStructure = false
                 accNavVC.requestor = self
                 accNavVC.delegate = self
-                accNavVC.parentAccount = Account.getAccountWithPath(LocalisationManager.getLocalizedName(.money), // swiftlint:disable:this line_length
+                accNavVC.parentAccount = AccountHelper.getAccountWithPath(LocalisationManager.getLocalizedName(.money), // swiftlint:disable:this line_length
                                                         context: self.context)
                 accNavVC.excludeAccountList = self.bankAccount.findNotValidAccountCandidateForLinking()
                 self.navigationController?.pushViewController(accNavVC, animated: true)
@@ -131,7 +131,7 @@ class BankAccountTableViewController: UITableViewController, AccountNavigationDe
                                           style: .default,
                                           handler: { (_) in
                 do {
-                    BankAccount.changeActiveStatusFor(selectedBankAccount, context: self.context)
+                    BankAccountHelper.changeActiveStatusFor(selectedBankAccount, context: self.context)
                     try CoreDataStack.shared.saveContext(self.context)
                     tableView.reloadData()
                 } catch let error {
@@ -196,7 +196,7 @@ class BankAccountTableViewController: UITableViewController, AccountNavigationDe
 extension BankAccountTableViewController: AccountRequestor {
     func setAccount(_ account: Account) {
         do {
-            try BankAccount.changeLinkedAccount(to: account, for: bankAccount)
+            try BankAccountHelper.changeLinkedAccount(to: account, for: bankAccount)
             try CoreDataStack.shared.saveContext(context)
             tableView.reloadData()
         } catch let error {

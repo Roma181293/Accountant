@@ -98,17 +98,17 @@ class AccountListViewController: UIViewController, UIScrollViewDelegate { // swi
             self.environment = environment
         }
         reloadProAccessData()
-        currency = Currency.getAccountingCurrency(context: context)!
+        currency = CurrencyHelper.getAccountingCurrency(context: context)!
         scrollView.delegate = self
         switch segmentedControl.selectedSegmentIndex {
         case 0:
-            account = Account.getAccountWithPath(LocalisationManager.getLocalizedName(.money),
+            account = AccountHelper.getAccountWithPath(LocalisationManager.getLocalizedName(.money),
                                                  context: context)
         case 1:
-            account = Account.getAccountWithPath(LocalisationManager.getLocalizedName(.debtors),
+            account = AccountHelper.getAccountWithPath(LocalisationManager.getLocalizedName(.debtors),
                                                  context: context)
         default:
-            account = Account.getAccountWithPath(LocalisationManager.getLocalizedName(.credits),
+            account = AccountHelper.getAccountWithPath(LocalisationManager.getLocalizedName(.credits),
                                                  context: context)
         }
         moneyAccountListTableViewController.environment = self.environment
@@ -127,7 +127,7 @@ class AccountListViewController: UIViewController, UIScrollViewDelegate { // swi
         if isNeedUpdateAll() {
             dateOfLastChangesInDB = UserProfile.getDateOfLastChangesInDB()
             scrollView.scrollToLeft(animated: false)
-            guard let startDate = Transaction.getDateForFirstTransaction(context: context)
+            guard let startDate = TransactionHelper.getDateForFirstTransaction(context: context)
             else {
                 dateInterval = DateInterval(start: Date(), end: Date())
                 self.updateUI()
@@ -151,13 +151,13 @@ class AccountListViewController: UIViewController, UIScrollViewDelegate { // swi
     @IBAction func changeAccount(_ sender: UISegmentedControl) {
         switch sender.selectedSegmentIndex {
         case 0:
-            account = Account.getAccountWithPath(LocalisationManager.getLocalizedName(.money),
+            account = AccountHelper.getAccountWithPath(LocalisationManager.getLocalizedName(.money),
                                                  context: context)
         case 1:
-            account = Account.getAccountWithPath(LocalisationManager.getLocalizedName(.debtors),
+            account = AccountHelper.getAccountWithPath(LocalisationManager.getLocalizedName(.debtors),
                                                  context: context)
         default:
-            account = Account.getAccountWithPath(LocalisationManager.getLocalizedName(.credits),
+            account = AccountHelper.getAccountWithPath(LocalisationManager.getLocalizedName(.credits),
                                                  context: context)
         }
         updateUI()
@@ -343,8 +343,8 @@ class AccountListViewController: UIViewController, UIScrollViewDelegate { // swi
         segmentedControl.selectedSegmentIndex = 0
 
         context = CoreDataStack.shared.persistentContainer.viewContext
-        currency = Currency.getAccountingCurrency(context: context)!
-        account = Account.getAccountWithPath(LocalisationManager.getLocalizedName(.money),
+        currency = CurrencyHelper.getAccountingCurrency(context: context)!
+        account = AccountHelper.getAccountWithPath(LocalisationManager.getLocalizedName(.money),
                                              context: context)
 
         moneyAccountListTableViewController.context = context
@@ -355,7 +355,7 @@ class AccountListViewController: UIViewController, UIScrollViewDelegate { // swi
             self.environment = environment
             moneyAccountListTableViewController.environment = self.environment
         }
-        if let startDate = Transaction.getDateForFirstTransaction(context: context) {
+        if let startDate = TransactionHelper.getDateForFirstTransaction(context: context) {
             dateInterval = DateInterval(start: startDate, end: Date())
         } else {
             dateInterval = DateInterval(start: Date(), end: Date())

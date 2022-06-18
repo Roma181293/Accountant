@@ -49,7 +49,7 @@ class CurrencyTests: XCTestCase {
                                                  createdByUser: false,
                                                  context: context),
                              "Duplicate", { error in
-            XCTAssertEqual(error as? CurrencyError, CurrencyError.thisCurrencyAlreadyExists)}
+            XCTAssertEqual(error as? Currency.Error, Currency.Error.thisCurrencyAlreadyExists)}
         )
         context.rollback()
     }
@@ -105,7 +105,7 @@ class CurrencyTests: XCTestCase {
 
         XCTAssertThrowsError(try currency.delete(),
                              "This Currency Used In Accounts", { error in
-            XCTAssertEqual(error as? CurrencyError, CurrencyError.thisCurrencyUsedInAccounts)}
+            XCTAssertEqual(error as? Currency.Error, Currency.Error.thisCurrencyUsedInAccounts)}
         )
         context.rollback()
     }
@@ -118,7 +118,7 @@ class CurrencyTests: XCTestCase {
             XCTAssertNotNil(currency)
             context.rollback()
         } catch let error {
-            if let error = error as? CurrencyError {
+            if let error = error as? Currency.Error {
                 XCTAssertTrue(error == .thisIsAccountingCurrency)
             } else {
                 XCTAssertTrue(false)

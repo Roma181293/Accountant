@@ -80,17 +80,17 @@ class AccountProvider {
 
         guard let parent = try backgroundContext.fetch(fetchRequest).first else {return}
 
-        guard !name.isEmpty else {throw AccountError.emptyName}
+        guard !name.isEmpty else {throw Account.Error.emptyName}
 
         // accounts with reserved names can create only app
-        guard createdByUser == false || Account.isReservedAccountName(name) == false
-        else {throw AccountError.reservedName(name: name)}
+        guard createdByUser == false || AccountHelper.isReservedAccountName(name) == false
+        else {throw Account.Error.reservedName(name: name)}
 
-        guard Account.isFreeAccountName(parent: parent, name: name, context: backgroundContext) == true else {
+        guard AccountHelper.isFreeAccountName(parent: parent, name: name, context: backgroundContext) == true else {
             if parent.currency == nil {
-                throw AccountError.accountAlreadyExists(name: name)
+                throw Account.Error.accountAlreadyExists(name: name)
             } else {
-                throw AccountError.categoryAlreadyExists(name: name)
+                throw Account.Error.categoryAlreadyExists(name: name)
             }
         }
 
@@ -98,7 +98,7 @@ class AccountProvider {
         backgroundContext.performAndWait {
             // Adding "Other" account for cases when parent containts transactions
             if parent.isFreeFromTransactionItems == false,
-               Account.isReservedAccountName(name) == false {
+               AccountHelper.isReservedAccountName(name) == false {
                 var otherAccount = parent.getSubAccountWith(name: LocalisationManager.getLocalizedName(.other1))
                 if otherAccount == nil {
                     otherAccount = Account(parent: parent,
@@ -106,7 +106,7 @@ class AccountProvider {
                                          context: backgroundContext)
                 }
                 if let otherAccount = otherAccount {
-                    TransactionItem.moveTransactionItemsFrom(oldAccount: parent, newAccount: otherAccount,
+                    TransactionItemHelper.moveTransactionItemsFrom(oldAccount: parent, newAccount: otherAccount,
                                                              modifiedByUser: createdByUser, modifyDate: createDate)
                 }
             }
@@ -126,15 +126,15 @@ class AccountProvider {
     func renameAccount(at indexPath: IndexPath, newName: String, modifiedByUser: Bool = true,
                        modifyDate: Date = Date(), shouldSave: Bool = true) throws {
         let account = fetchedResultsController.object(at: indexPath)
-        guard Account.isReservedAccountName(newName) == false
-        else {throw AccountError.reservedName(name: newName)}
+        guard AccountHelper.isReservedAccountName(newName) == false
+        else {throw Account.Error.reservedName(name: newName)}
 
-        guard Account.isFreeAccountName(parent: account.parent, name: newName, context: context)
+        guard AccountHelper.isFreeAccountName(parent: account.parent, name: newName, context: context)
         else {
             if self.parent?.currency == nil {
-                throw AccountError.accountAlreadyExists(name: newName)
+                throw Account.Error.accountAlreadyExists(name: newName)
             } else {
-                throw AccountError.categoryAlreadyExists(name: newName)
+                throw Account.Error.categoryAlreadyExists(name: newName)
             }
         }
 
@@ -168,12 +168,12 @@ class AccountProvider {
             parent.name == LocalisationManager.getLocalizedName(.money) // can have only one lvl of subAccounts
             || parent.name == LocalisationManager.getLocalizedName(.credits) // can have only one lvl od subAccounts
             || parent.name == LocalisationManager.getLocalizedName(.debtors) // can have only one lvl od subAccounts
-            || selectedAccount.name == LocalisationManager.getLocalizedName(.other1) //can not have subAccount
-            || selectedAccount.name == LocalisationManager.getLocalizedName(.beforeAccountingPeriod) //coz it used in system generated transactions
+            || selectedAccount.name == LocalisationManager.getLocalizedName(.other1) // can not have subAccount
+            || selectedAccount.name == LocalisationManager.getLocalizedName(.beforeAccountingPeriod) // coz it used in system generated transactions
         ) {
 
         } else if selectedAccount.parent == nil && selectedAccount.name == LocalisationManager.getLocalizedName(.capital) {
-            //can not have subAccount, coz it used in system generated transactions
+            // can not have subAccount, coz it used in system generated transactions
 
         } else {
             result.append(.create)
@@ -192,13 +192,6 @@ class AccountProvider {
 
     func changeActiveStatus(indexPath: IndexPath, modifiedByUser: Bool = true, modifyDate: Date = Date(),
                             shouldSave: Bool = true) throws {
-        let account = fetchedResultsController.object(at: indexPath)
-        if account.parent?.parent == nil &&
-            account.parent?.currency == nil &&
-            account.balance != 0 &&
-            account.active == true {
-            throw AccountError.accumulativeAccountCannotBeHiddenWithNonZeroAmount(name: account.path)
-        }
 
         let objectID  = fetchedResultsController.object(at: indexPath).objectID
         let backgroundContext = persistentContainer.newBackgroundContext()
@@ -251,13 +244,13 @@ class AccountProvider {
             })
 
             if account.parent?.currency == nil {
-                throw AccountError.cantRemoveAccountThatUsedInTransactionItem(name: accountListString)
+                throw Account.Error.accountUsedInTransactionItem(name: accountListString)
             } else {
-                throw AccountError.cantRemoveCategoryThatUsedInTransactionItem(name: accountListString)
+                throw Account.Error.categoryUsedInTransactionItem(name: accountListString)
             }
         }
         if let linkedAccount = account.linkedAccount, !linkedAccount.isFreeFromTransactionItems {
-            throw AccountError.linkedAccountHasTransactionItem(name: linkedAccount.path)
+            throw Account.Error.linkedAccountUsedTranItem(name: linkedAccount.path)
         }
 
         let objectID  = fetchedResultsController.object(at: indexPath).objectID
@@ -290,7 +283,8 @@ class AccountProvider {
         } else {
             let fetchRequest: NSFetchRequest<Account> = Account.fetchRequest()
             fetchRequest.sortDescriptors = [NSSortDescriptor(key: Schema.Account.name.rawValue, ascending: false)]
-            fetchRequest.predicate = NSPredicate(format: "\(Schema.Account.parent.rawValue) = nil and \(Schema.Account.name.rawValue) = %@", name)
+            fetchRequest.predicate = NSPredicate(format: "\(Schema.Account.parent.rawValue) = nil && " +
+                                                 "\(Schema.Account.name.rawValue) = %@", name)
             do {
                 let accounts = try context.fetch(fetchRequest)
                 if accounts.isEmpty {

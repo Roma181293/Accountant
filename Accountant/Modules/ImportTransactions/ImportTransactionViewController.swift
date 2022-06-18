@@ -134,7 +134,7 @@ class ImportTransactionViewController: UIViewController {
         DispatchQueue.main.async {
             do {
                 guard let data = try? String(contentsOf: self.fileURL) else {return}
-                self.preTransactionList = try Transaction.importTransactionList(from: data, context: self.context)
+                self.preTransactionList = try TransactionHelper.importTransactionList(from: data, context: self.context)
                 _ = self.isReadyToSave()
                 self.tableView.reloadData()
                 self.activityIndicator.stopAnimating()

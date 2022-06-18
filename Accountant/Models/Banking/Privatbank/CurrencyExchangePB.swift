@@ -13,7 +13,7 @@ struct CurrencyExchangePB: Codable {
     let currency: String
     let saleRateNB: Double
     let purchaseRateNB: Double
-    
+
     enum CodingKeys: String, CodingKey {
         case baseCurrency
         case currency

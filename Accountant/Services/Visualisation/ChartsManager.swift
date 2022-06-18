@@ -11,7 +11,7 @@ import Charts
 
 class ChartsManager {
 
-    static func setPieChartView(dataForPieCharts: DataForPieCharts) -> PieChartView {
+    class func setPieChartView(dataForPieCharts: DataForPieCharts) -> PieChartView {
 
         // MARK: - PieChartDataSet
         let chartDataSet = PieChartDataSet(entries: dataForPieCharts.pieChartDataEntries, label: "")
@@ -75,7 +75,7 @@ class ChartsManager {
         return chartView
     }
 
-    static func setLineChartView(chartData: ChartData) -> LineChartView {
+    class func setLineChartView(chartData: ChartData) -> LineChartView {
         let chartView: LineChartView = LineChartView()
 
         let data = LineChartData(dataSets: chartData.lineChartDataSet)

@@ -118,7 +118,7 @@ class MITransactionEditorInteractor: MITransactionEditorInteractorInput {
     }
 
     func validateTransaction() throws {
-        return try Transaction.validateTransactionDataBeforeSave(transaction)
+        return try TransactionHelper.validateTransactionDataBeforeSave(transaction)
     }
 
     func save() {

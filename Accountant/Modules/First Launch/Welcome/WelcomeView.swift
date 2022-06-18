@@ -39,7 +39,9 @@ class WelcomeView: UIView {
 
     let startAccountingButton: UIButton = {
         let button = UIButton()
-        button.setTitle(NSLocalizedString("Start accounting", tableName: Constants.Localizable.welcomeVC, comment: "").uppercased(), for: .normal)
+        button.setTitle(NSLocalizedString("Start accounting",
+                                          tableName: Constants.Localizable.welcomeVC,
+                                          comment: "").uppercased(), for: .normal)
         button.backgroundColor = UIColor.systemIndigo
         button.setTitleColor(UIColor.white, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 15.0)
@@ -49,7 +51,10 @@ class WelcomeView: UIView {
 
     let testButton: UIButton = {
         let button = UIButton()
-        button.setTitle(NSLocalizedString("Try functionality", tableName: Constants.Localizable.welcomeVC, comment: "").uppercased(), for: .normal)
+        button.setTitle(NSLocalizedString("Try functionality",
+                                          tableName: Constants.Localizable.welcomeVC,
+                                          comment: "").uppercased(),
+                        for: .normal)
         button.backgroundColor = UIColor.systemIndigo
         button.setTitleColor(UIColor.white, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 15.0)

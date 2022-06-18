@@ -9,7 +9,7 @@ import UIKit
 import CoreData
 
 protocol CurrencyReceiverDelegate: AnyObject {
-    func setCurrency(_ selectedCurrency: Currency)
+    func setCurrency(_ currency: Currency)
 }
 
 class CurrencyViewController: UITableViewController {
@@ -64,7 +64,7 @@ extension CurrencyViewController {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: Constants.Cell.currencyCell, for: indexPath) as? CurrencyTableViewCell // swiftlint:disable:this force_cast line_length
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: Constants.Cell.currencyCell, for: indexPath) as? CurrencyTableViewCell // swiftlint:disable:this line_length
         else {
             fatalError("###\(#function): Failed to dequeue currencyCell")
         }

@@ -21,10 +21,10 @@ class AccountTests: XCTestCase {  // swiftlint:disable:this type_body_length
         context = coreDataStack.persistentContainer.viewContext
 
         do {
-            try SeedDataManager.createCurrenciesHoldersKeepers(coreDataStack: coreDataStack)
+            try SeedDataService.createCurrenciesHoldersKeepers(coreDataStack: coreDataStack)
             let currency = try Currency.getCurrencyForCode("UAH", context: context)!
             try Currency.changeAccountingCurrency(old: nil, new: currency, context: context)
-            SeedDataManager.addBaseAccounts(accountingCurrency: currency, context: context)
+            SeedDataService.addBaseAccounts(accountingCurrency: currency, context: context)
         } catch let error {
             print("error", error.localizedDescription)
         }

@@ -205,7 +205,7 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
         case .exportAccounts:
             if AccessManager.canImportExportEntities(environment: environment,
                                                      isUserHasPaidAccess: isUserHasPaidAccess) {
-                shareFile(fileName: "AccountList", data: Account.exportAccountsToString(context: context))
+                shareFile(fileName: "AccountList", data: AccountHelper.exportAccountsToString(context: context))
             } else {
                 router.route(to: .offerVC)
             }
@@ -213,7 +213,7 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
             if AccessManager.canImportExportEntities(environment: environment,
                                                      isUserHasPaidAccess: isUserHasPaidAccess) {
                 shareFile(fileName: "TransactionList",
-                          data: Transaction.exportTransactionsToString(context: context))
+                          data: TransactionHelper.exportTransactionsToString(context: context))
             } else {
                 router.route(to: .offerVC)
             }
@@ -239,10 +239,10 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
             if newValueTest {
                 CoreDataStack.shared.switchToDB(.test)
                 // remove old test Data
-                try SeedDataManager.refreshTestData(coreDataStack: CoreDataStack.shared)
+                try SeedDataService.refreshTestData(coreDataStack: CoreDataStack.shared)
             } else if !newValueTest && CoreDataStack.shared.activeEnviroment() == .test {
                 // remove test Data
-                try SeedDataManager.clearAllData(coreDataStack: CoreDataStack.shared)
+                try SeedDataService.clearAllData(coreDataStack: CoreDataStack.shared)
                 UserProfile.useMultiItemTransaction(false, environment: .test)
                 CoreDataStack.shared.switchToDB(.prod)
             }
@@ -277,7 +277,7 @@ extension SettingsViewController: UIDocumentPickerDelegate {
             do {
                 guard let data = try? String(contentsOf: url) else {return}
                 let backGroundContext = coreDataStack.persistentContainer.newBackgroundContext()
-                try Account.importAccounts(data, context: backGroundContext)
+                try AccountHelper.importAccounts(data, context: backGroundContext)
                 try coreDataStack.saveContext(backGroundContext)
             } catch let error {
                 router.route(to: .error(error))

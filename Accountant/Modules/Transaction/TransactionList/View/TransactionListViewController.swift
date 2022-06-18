@@ -129,7 +129,7 @@ extension TransactionListViewController: TransactionListViewInput {
         output?.syncStatmentsButtonDidClick()
     }
 
-    //FIXME: move method to the responsible class. TabBarController
+    // FIXME: move method to the responsible class. TabBarController
     func drawTabBarBadge(isHidden: Bool) {
         guard let tabBarItem = tabBarController?.tabBar.items else {return}
         for (index, item) in tabBarItem.enumerated() {
@@ -180,6 +180,7 @@ extension TransactionListViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? { // swiftlint:disable:this line_length
         guard let output = output else {return nil}
-        return UISwipeActionsConfiguration(actions: [output.deleteTransactionAction(at: indexPath), output.duplicateTransactionAction(at: indexPath)])
+        return UISwipeActionsConfiguration(actions: [output.deleteTransactionAction(at: indexPath),
+                                                     output.duplicateTransactionAction(at: indexPath)])
     }
 }

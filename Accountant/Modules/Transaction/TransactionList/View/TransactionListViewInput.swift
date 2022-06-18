@@ -14,5 +14,4 @@ protocol TransactionListViewInput: AnyObject {
     func drawProAccessButton(isHidden: Bool)
     func drawSyncStatmentsButton(isHidden: Bool)
     func drawTabBarBadge(isHidden: Bool)
-    
 }

@@ -53,10 +53,10 @@ class CurrencyProvider {
     func setAccountingCurrency(indexPath: IndexPath, modifyDate: Date = Date(),
                                modifiedByUser: Bool = true, context: NSManagedObjectContext, shouldSave: Bool = true) {
         context.performAndWait {
-            let oldCurr = Currency.getAccountingCurrency(context: context)
+            let oldCurr = CurrencyHelper.getAccountingCurrency(context: context)
             let newCurr = fetchedResultsController.object(at: indexPath)
             if let oldCurr = oldCurr {
-                Account.changeCurrencyForBaseAccounts(to: newCurr, modifyDate: modifyDate,
+                AccountHelper.changeCurrencyForBaseAccounts(to: newCurr, modifyDate: modifyDate,
                                                       modifiedByUser: modifiedByUser, context: context)
                 oldCurr.isAccounting = false
                 oldCurr.modifyDate = modifyDate
@@ -66,7 +66,7 @@ class CurrencyProvider {
                 newCurr.modifyDate = modifyDate
                 newCurr.modifiedByUser = modifiedByUser
             } else {
-                Account.changeCurrencyForBaseAccounts(to: newCurr, context: context)
+                AccountHelper.changeCurrencyForBaseAccounts(to: newCurr, context: context)
                 newCurr.isAccounting = true
                 newCurr.modifyDate = modifyDate
                 newCurr.modifiedByUser = modifiedByUser

@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="19574" systemVersion="21D49" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="Account" representedClassName=".Account" syncable="YES">
+        <attribute name="active" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="createDate" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="createdByUser" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES"/>
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="modifiedByUser" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES"/>
+        <attribute name="modifyDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="name" attributeType="String"/>
+        <attribute name="path" attributeType="String"/>
+        <relationship name="bankAccount" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="BankAccount" inverseName="account" inverseEntity="BankAccount"/>
+        <relationship name="currency" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Currency" inverseName="accounts" inverseEntity="Currency"/>
+        <relationship name="directChildren" toMany="YES" deletionRule="Nullify" destinationEntity="Account" inverseName="parent" inverseEntity="Account"/>
+        <relationship name="holder" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Holder" inverseName="accounts" inverseEntity="Holder"/>
+        <relationship name="keeper" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Keeper" inverseName="accounts" inverseEntity="Keeper"/>
+        <relationship name="linkedAccount" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Account" inverseName="linkedAccount" inverseEntity="Account"/>
+        <relationship name="parent" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Account" inverseName="directChildren" inverseEntity="Account"/>
+        <relationship name="transactionItems" toMany="YES" deletionRule="Nullify" destinationEntity="TransactionItem" inverseName="account" inverseEntity="TransactionItem"/>
+        <relationship name="type" maxCount="1" deletionRule="Nullify" destinationEntity="AccountType" inverseName="accounts" inverseEntity="AccountType"/>
+    </entity>
+    <entity name="AccountType" representedClassName=".AccountType" syncable="YES">
+        <attribute name="active" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES"/>
+        <attribute name="balanceCalcFullTime" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="canBeCreatedByUser" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="canBeDeleted" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="canBeRenamed" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="canChangeActiveStatus" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="checkAmountBeforDeactivate" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="classification" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="createDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="createdByUser" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="hasCurrency" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="hasHolder" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="hasInitialBalance" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="hasKeeper" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="hasLinkedAccount" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="isConsolidation" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="modifiedByUser" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="modifyDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="name" attributeType="String"/>
+        <attribute name="priority" attributeType="Integer 16" defaultValueString="1" usesScalarValueType="YES"/>
+        <relationship name="accounts" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Account" inverseName="type" inverseEntity="Account"/>
+        <relationship name="children" toMany="YES" deletionRule="Nullify" destinationEntity="AccountType" inverseName="parents" inverseEntity="AccountType"/>
+        <relationship name="linkedAccountType" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="AccountType"/>
+        <relationship name="parents" toMany="YES" deletionRule="Nullify" destinationEntity="AccountType" inverseName="children" inverseEntity="AccountType"/>
+    </entity>
+    <entity name="ArchivingHistory" representedClassName=".ArchivingHistory" syncable="YES">
+        <attribute name="comment" optional="YES" attributeType="String"/>
+        <attribute name="createDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="createdBy" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="date" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="modifiedBy" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="modifyDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="status" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+    </entity>
+    <entity name="BankAccount" representedClassName=".BankAccount" syncable="YES">
+        <attribute name="active" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES"/>
+        <attribute name="bin" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="externalId" optional="YES" attributeType="String"/>
+        <attribute name="iban" optional="YES" attributeType="String"/>
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="lastLoadDate" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="lastTransactionDate" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="locked" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="strBin" optional="YES" attributeType="String"/>
+        <relationship name="account" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Account" inverseName="bankAccount" inverseEntity="Account"/>
+        <relationship name="userBankProfile" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UserBankProfile" inverseName="bankAccounts" inverseEntity="UserBankProfile"/>
+    </entity>
+    <entity name="Currency" representedClassName=".Currency" syncable="YES">
+        <attribute name="code" attributeType="String" minValueString="3" maxValueString="3"/>
+        <attribute name="createDate" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="createdByUser" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES"/>
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="isAccounting" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="iso4217" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="modifiedByUser" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES"/>
+        <attribute name="modifyDate" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <relationship name="accounts" toMany="YES" deletionRule="Nullify" destinationEntity="Account" inverseName="currency" inverseEntity="Account"/>
+        <relationship name="exchangeRates" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Rate" inverseName="currency" inverseEntity="Rate"/>
+    </entity>
+    <entity name="Exchange" representedClassName=".Exchange" syncable="YES">
+        <attribute name="createDate" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="createdByUser" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="date" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="modifiedByUser" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="modifyDate" attributeType="Date" usesScalarValueType="NO"/>
+        <relationship name="rates" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Rate" inverseName="exchange" inverseEntity="Rate"/>
+    </entity>
+    <entity name="Holder" representedClassName=".Holder" syncable="YES">
+        <attribute name="createDate" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="createdByUser" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES"/>
+        <attribute name="icon" attributeType="String"/>
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="modifiedByUser" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES"/>
+        <attribute name="modifyDate" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="name" attributeType="String"/>
+        <relationship name="accounts" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Account" inverseName="holder" inverseEntity="Account"/>
+    </entity>
+    <entity name="Keeper" representedClassName=".Keeper" syncable="YES">
+        <attribute name="createDate" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="createdByUser" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES"/>
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="modifiedByUser" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES"/>
+        <attribute name="modifyDate" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="type" attributeType="Integer 16" usesScalarValueType="YES"/>
+        <relationship name="accounts" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Account" inverseName="keeper" inverseEntity="Account"/>
+        <relationship name="userBankProfiles" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="UserBankProfile" inverseName="keeper" inverseEntity="UserBankProfile"/>
+    </entity>
+    <entity name="Rate" representedClassName=".Rate" syncable="YES">
+        <attribute name="amount" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="createDate" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="createdByUser" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="modifiedByUser" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="modifyDate" attributeType="Date" usesScalarValueType="NO"/>
+        <relationship name="currency" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Currency" inverseName="exchangeRates" inverseEntity="Currency"/>
+        <relationship name="exchange" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Exchange" inverseName="rates" inverseEntity="Exchange"/>
+    </entity>
+    <entity name="Transaction" representedClassName=".Transaction" syncable="YES">
+        <attribute name="comment" optional="YES" attributeType="String"/>
+        <attribute name="createDate" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="createdByUser" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES"/>
+        <attribute name="date" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="modifiedByUser" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES"/>
+        <attribute name="modifyDate" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="status" attributeType="Integer 16" defaultValueString="YES" usesScalarValueType="YES"/>
+        <attribute name="type" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="items" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="TransactionItem" inverseName="transaction" inverseEntity="TransactionItem"/>
+    </entity>
+    <entity name="TransactionItem" representedClassName=".TransactionItem" syncable="YES">
+        <attribute name="amount" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="createDate" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="createdByUser" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES"/>
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="modifiedByUser" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES"/>
+        <attribute name="modifyDate" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="type" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="account" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Account" inverseName="transactionItems" inverseEntity="Account"/>
+        <relationship name="transaction" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Transaction" inverseName="items" inverseEntity="Transaction"/>
+    </entity>
+    <entity name="UserBankProfile" representedClassName=".UserBankProfile" syncable="YES">
+        <attribute name="active" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES"/>
+        <attribute name="externalId" attributeType="String"/>
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="name" attributeType="String"/>
+        <attribute name="xToken" optional="YES" attributeType="String"/>
+        <relationship name="bankAccounts" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="BankAccount" inverseName="userBankProfile" inverseEntity="BankAccount"/>
+        <relationship name="keeper" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Keeper" inverseName="userBankProfiles" inverseEntity="Keeper"/>
+    </entity>
+    <configuration name="Production">
+        <memberEntity name="Account"/>
+        <memberEntity name="Currency"/>
+        <memberEntity name="Transaction"/>
+        <memberEntity name="TransactionItem"/>
+        <memberEntity name="Keeper"/>
+        <memberEntity name="Holder"/>
+        <memberEntity name="BankAccount"/>
+        <memberEntity name="UserBankProfile"/>
+        <memberEntity name="Exchange"/>
+        <memberEntity name="Rate"/>
+        <memberEntity name="AccountType"/>
+    </configuration>
+    <configuration name="Test">
+        <memberEntity name="Account"/>
+        <memberEntity name="Currency"/>
+        <memberEntity name="Transaction"/>
+        <memberEntity name="TransactionItem"/>
+        <memberEntity name="Keeper"/>
+        <memberEntity name="Holder"/>
+        <memberEntity name="BankAccount"/>
+        <memberEntity name="UserBankProfile"/>
+        <memberEntity name="Exchange"/>
+        <memberEntity name="Rate"/>
+        <memberEntity name="AccountType"/>
+    </configuration>
+    <elements>
+        <element name="Account" positionX="0" positionY="0" width="128" height="284"/>
+        <element name="AccountType" positionX="9" positionY="144" width="128" height="404"/>
+        <element name="ArchivingHistory" positionX="9" positionY="162" width="128" height="149"/>
+        <element name="BankAccount" positionX="0" positionY="0" width="128" height="194"/>
+        <element name="Currency" positionX="0" positionY="0" width="128" height="194"/>
+        <element name="Exchange" positionX="0" positionY="0" width="128" height="134"/>
+        <element name="Holder" positionX="0" positionY="0" width="128" height="149"/>
+        <element name="Keeper" positionX="0" positionY="0" width="128" height="164"/>
+        <element name="Rate" positionX="0" positionY="0" width="128" height="149"/>
+        <element name="Transaction" positionX="0" positionY="0" width="128" height="179"/>
+        <element name="TransactionItem" positionX="0" positionY="0" width="128" height="164"/>
+        <element name="UserBankProfile" positionX="0" positionY="0" width="128" height="134"/>
+    </elements>
+</model>

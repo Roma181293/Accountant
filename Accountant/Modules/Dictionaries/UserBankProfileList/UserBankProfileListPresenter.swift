@@ -79,12 +79,21 @@ class UserBankProfileListPresenter: NSObject, UserBankProfileListPresenterProtoc
         let selectedUBP = ubpAt(indexPath)
 
         let changeActiveStatus = UIContextualAction(style: .normal, title: nil) { (_, _, complete) in
-            var title = NSLocalizedString("Activate", tableName: Constants.Localizable.userBankProfileListVC, comment: "")
-            var message = NSLocalizedString("Activate this bank profile in the app? Please note that you need manually activate each bank account for this profile", tableName: Constants.Localizable.userBankProfileListVC, comment: "") // swiftlint:disable:this line_length
+            var title = NSLocalizedString("Activate",
+                                          tableName: Constants.Localizable.userBankProfileListVC,
+                                          comment: "")
+            var message = NSLocalizedString("Activate this bank profile in the app? Please note that you need " +
+                                            "manually activate each bank account for this profile",
+                                            tableName: Constants.Localizable.userBankProfileListVC,
+                                            comment: "")
             if selectedUBP.active {
                 title = NSLocalizedString("Deactivate", tableName: Constants.Localizable.userBankProfileListVC,
                                           comment: "")
-                message = NSLocalizedString("Do you want deactivate this bank profile in the app? It also deactivate all bank accounts for this profile. Statements for inactive accounts is not loading", tableName: Constants.Localizable.userBankProfileListVC, comment: "")// swiftlint:disable:this line_length
+                message = NSLocalizedString("Do you want deactivate this bank profile in the app? It also deactivate " +
+                                            "all bank accounts for this profile. Statements for inactive accounts is " +
+                                            "not loading",
+                                            tableName: Constants.Localizable.userBankProfileListVC,
+                                            comment: "")
             }
             self.router.showAllertForChangeActiveStatus(title: title, message: message, confirmAction: {
                 self.interactor.changeActiveStatus(at: indexPath)

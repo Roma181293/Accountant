@@ -11,7 +11,7 @@ class MITransactionEditorAssembly {
     
     class func configure(transactionId: UUID? = nil) -> MITransactionEditorViewController {
 
-        let transaction = Transaction.getTransactionFor(id: transactionId ?? UUID(),
+        let transaction = TransactionHelper.getTransactionFor(id: transactionId ?? UUID(),
                                                         context: CoreDataStack.shared.persistentContainer.viewContext)
 
         let router = MITransactionEditorRouter()

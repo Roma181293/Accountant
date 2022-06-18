@@ -72,10 +72,10 @@ class StartAccountingViewController: UIViewController {
         do {
             if UserProfile.isAppLaunchedBefore() == false {
                 // remove old Data
-                try SeedDataManager.clearAllData(coreDataStack: CoreDataStack.shared)
+                try SeedDataService.clearAllData(coreDataStack: CoreDataStack.shared)
             }
             // add New Data
-            try SeedDataManager.createCurrenciesHoldersKeepers(coreDataStack: CoreDataStack.shared)
+            try SeedDataService.createCurrenciesHoldersKeepers(coreDataStack: CoreDataStack.shared)
         } catch let error {
             errorHandler(error: error)
         }
@@ -109,7 +109,7 @@ class StartAccountingViewController: UIViewController {
 
     private func addAccountNavigationVC() {
         accountNavigationTVC = AccountNavigationViewController()
-        accountNavigationTVC.parentAccount = Account.getAccountWithPath(LocalisationManager.getLocalizedName(.income), context: context) // swiftlint:disable:this line_length
+        accountNavigationTVC.parentAccount = AccountHelper.getAccountWithPath(LocalisationManager.getLocalizedName(.income), context: context) // swiftlint:disable:this line_length
         accountNavigationTVC.searchBarIsHidden = true
         addChild(accountNavigationTVC)
         mainView.addContentView(accountNavigationTVC.view)
@@ -125,7 +125,7 @@ class StartAccountingViewController: UIViewController {
         if currentStep == 0 {
             guard let currency = currency else {return}
             do {
-                SeedDataManager.addBaseAccounts(accountingCurrency: currency, context: context)
+                SeedDataService.addBaseAccounts(accountingCurrency: currency, context: context)
                 try coreDataStack.saveContext(context)
             } catch let error {
                 errorHandler(error: error)
@@ -143,22 +143,22 @@ class StartAccountingViewController: UIViewController {
             configureUIForStep()
         } else if currentStep == 2 {
             currentStep += 1
-            accountNavigationTVC.parentAccount = Account.getAccountWithPath(LocalisationManager.getLocalizedName(.expense), context: context) // swiftlint:disable:this line_length
+            accountNavigationTVC.parentAccount = AccountHelper.getAccountWithPath(LocalisationManager.getLocalizedName(.expense), context: context) // swiftlint:disable:this line_length
             accountNavigationTVC.refreshDataForNewParent()
             configureUIForStep()
         } else if currentStep == 3 {
             currentStep += 1
-            accountNavigationTVC.parentAccount = Account.getAccountWithPath(LocalisationManager.getLocalizedName(.money), context: context) // swiftlint:disable:this line_length
+            accountNavigationTVC.parentAccount = AccountHelper.getAccountWithPath(LocalisationManager.getLocalizedName(.money), context: context) // swiftlint:disable:this line_length
             accountNavigationTVC.refreshDataForNewParent()
             configureUIForStep()
         } else if currentStep == 4 {
             currentStep += 1
-            accountNavigationTVC.parentAccount = Account.getAccountWithPath(LocalisationManager.getLocalizedName(.debtors), context: context) // swiftlint:disable:this line_length
+            accountNavigationTVC.parentAccount = AccountHelper.getAccountWithPath(LocalisationManager.getLocalizedName(.debtors), context: context) // swiftlint:disable:this line_length
             accountNavigationTVC.refreshDataForNewParent()
             configureUIForStep()
         } else if currentStep == 5 {
             currentStep += 1
-            accountNavigationTVC.parentAccount = Account.getAccountWithPath(LocalisationManager.getLocalizedName(.credits), context: context) // swiftlint:disable:this line_length
+            accountNavigationTVC.parentAccount = AccountHelper.getAccountWithPath(LocalisationManager.getLocalizedName(.credits), context: context) // swiftlint:disable:this line_length
             accountNavigationTVC.refreshDataForNewParent()
             configureUIForStep()
             mainView.continueButton.setImage(UIImage(systemName: "checkmark"), for: .normal)

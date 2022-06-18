@@ -18,17 +18,17 @@ struct MBAccountInfo: Codable {
     let currencyCode: Int16
     let cashbackType: String
     let iban: String
-    
+
     func getCurrency(context: NSManagedObjectContext) -> Currency? {
-        return try? Currency.getCurrencyForISO4217(currencyCode, context: context)
+        return try? CurrencyHelper.getCurrencyForISO4217(currencyCode, context: context)
     }
 
     func isExists(context: NSManagedObjectContext) -> Bool {
-        return !BankAccount.isFreeExternalId(id, context: context)
+        return !BankAccountHelper.isFreeExternalId(id, context: context)
     }
 
     func isExists() -> Bool {
         let context = CoreDataStack.shared.persistentContainer.newBackgroundContext()
-        return !BankAccount.isFreeExternalId(id, context: context)
+        return !BankAccountHelper.isFreeExternalId(id, context: context)
     }
 }

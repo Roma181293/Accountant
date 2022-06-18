@@ -28,7 +28,8 @@ extension AccountWithBalanceError: LocalizedError {
         case .emptyExchangeRate:
             return NSLocalizedString("Please enter exchange rate", comment: "")
         case .canNotFindBeboreAccountingPeriodAccount:
-            return NSLocalizedString("Can not find \"Bebore accounting period\" account. Please contact support", comment: "")
+            return NSLocalizedString("Can not find \"Bebore accounting period\" account. Please contact support",
+                                     comment: "")
         case .notSupported:
             return NSLocalizedString("Not supported", comment: "")
         }

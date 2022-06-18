@@ -32,7 +32,7 @@ class WelcomeViewController: UIViewController {
         mainView.testButton.isUserInteractionEnabled = false
         CoreDataStack.shared.switchToDB(.test)
         do {
-            try SeedDataManager.refreshTestData(coreDataStack: CoreDataStack.shared)
+            try SeedDataService.refreshTestData(coreDataStack: CoreDataStack.shared)
             let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
             let tabBar = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.tabBarController)
             self.navigationController?.popToRootViewController(animated: false)
@@ -45,10 +45,14 @@ class WelcomeViewController: UIViewController {
     }
 
     func errorHandler(error: Error) {
-        let alert = UIAlertController(title: NSLocalizedString("Error", tableName: Constants.Localizable.welcomeVC, comment: ""),
+        let alert = UIAlertController(title: NSLocalizedString("Error",
+                                                               tableName: Constants.Localizable.welcomeVC,
+                                                               comment: ""),
                                       message: error.localizedDescription,
                                       preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: NSLocalizedString("OK", tableName: Constants.Localizable.welcomeVC, comment: ""), style: .default))
+        alert.addAction(UIAlertAction(title: NSLocalizedString("OK",
+                                                               tableName: Constants.Localizable.welcomeVC,
+                                                               comment: ""), style: .default))
         self.present(alert, animated: true, completion: nil)
     }
 }

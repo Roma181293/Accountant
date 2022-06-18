@@ -32,7 +32,7 @@ class MonobankUBPInteractor: MonobankUBPInteractorProtocol {
 
     required init(presenter: MonobankUBPPresenterProtocol) {
         self.presenter = presenter
-        self.holder = Holder.getMe(context: context)
+        self.holder = HolderHelper.getMe(context: context)
         getCurrencyExchangeRate()
     }
 
@@ -41,17 +41,17 @@ class MonobankUBPInteractor: MonobankUBPInteractorProtocol {
         do {
             try getRootAccounts()
 
-            let ubp = try UserBankProfile.getOrCreateMonoBankUBP(userInfo, xToken: xToken, context: self.context)
+            let ubp = try UserBankProfileHelper.getOrCreateMonoBankUBP(userInfo, xToken: xToken, context: self.context)
 
             for item in userInfo.accounts.filter({return !$0.isExists(context: context)}) {
-                guard Account.isFreeAccountName(parent: moneyRootAccount,
+                guard AccountHelper.isFreeAccountName(parent: moneyRootAccount,
                                                 name: item.maskedPan.last! ,
                                                 context: context)
                 else {
-                    throw AccountError.accountAlreadyExists(name: moneyRootAccount.name+":"+item.maskedPan.last!)
+                    throw Account.Error.accountAlreadyExists(name: moneyRootAccount.name+":"+item.maskedPan.last!)
                 }
 
-                let bankAccount = try BankAccount.createAndGetMBBankAccount(item, userBankProfile: ubp,
+                let bankAccount = try BankAccountHelper.createAndGetMBBankAccount(item, userBankProfile: ubp,
                                                                             context: context)
 
                 var exchangeRate: Double = 1
@@ -60,16 +60,16 @@ class MonobankUBPInteractor: MonobankUBPInteractorProtocol {
                 let creditLimit: Double = Double(item.creditLimit) / 100
 
                 guard let currency = item.getCurrency(context: context) else {return}
-                guard let accountingCurrency = Currency.getAccountingCurrency(context: context)
-                else {throw CurrencyError.accountingCurrencyNotFound}
-                guard  let keeper = try Keeper.getKeeperForName("Monobank", context: context)
-                else {throw KeeperError.keeperNotFound(name: "Monobank")}
+                guard let accountingCurrency = CurrencyHelper.getAccountingCurrency(context: context)
+                else {throw Currency.Error.accountingCurrencyNotFound}
+                guard  let keeper = try KeeperHelper.getKeeperForName("Monobank", context: context)
+                else {throw Keeper.Error.keeperNotFound(name: "Monobank")}
 
                 // Check credit account name is free
-                guard Account.isFreeAccountName(parent: creditsRootAccount,
+                guard AccountHelper.isFreeAccountName(parent: creditsRootAccount,
                                                 name: item.maskedPan.last! ,
                                                 context: context)
-                else {throw AccountError.creditAccountAlreadyExist(creditsRootAccount.name + item.maskedPan.last!)}
+                else {throw Account.Error.creditAccountAlreadyExist(creditsRootAccount.name + item.maskedPan.last!)}
 
                 // Check exchange rate value
                 if currency != accountingCurrency {
@@ -80,16 +80,16 @@ class MonobankUBPInteractor: MonobankUBPInteractorProtocol {
                     exchangeRate = rate
                 }
 
-                let newMoneyAccount = try Account.createAndGetAccount(parent: moneyRootAccount,
+                let newMoneyAccount = try AccountHelper.createAndGetAccount(parent: moneyRootAccount,
                                                                       name: item.maskedPan.last!,
-                                                                      type: AccountType.getBy(.creditCard, context: context),
+                                                                      type: AccountTypeHelper.getBy(.creditCard, context: context),
                                                                       currency: currency,
                                                                       keeper: keeper, holder: holder,
                                                                       context: context)
 
                 newMoneyAccount.bankAccount = bankAccount
 
-                let newCreditAccount = try Account.createAndGetAccount(parent: creditsRootAccount,
+                let newCreditAccount = try AccountHelper.createAndGetAccount(parent: creditsRootAccount,
                                                                        name: item.maskedPan.last!,
                                                                        type: creditsRootAccount.type,
                                                                        currency: currency,
@@ -99,7 +99,7 @@ class MonobankUBPInteractor: MonobankUBPInteractorProtocol {
                 newMoneyAccount.linkedAccount = newCreditAccount
 
                 if balance - creditLimit == 0 && !(balance == 0 && creditLimit == 0) {
-                    Transaction.addTransactionWith2TranItems(date: Date(),
+                    TransactionHelper.addTransactionWith2TranItems(date: Date(),
                                                              debit: newMoneyAccount,
                                                              credit: newCreditAccount,
                                                              debitAmount: round(creditLimit*100)/100,
@@ -109,7 +109,7 @@ class MonobankUBPInteractor: MonobankUBPInteractorProtocol {
 
                 } else if balance - creditLimit > 0 {
                     let debitAmount = round((balance - creditLimit)*100)/100
-                    Transaction.addTransactionWith2TranItems(date: Date(),
+                    TransactionHelper.addTransactionWith2TranItems(date: Date(),
                                                              debit: newMoneyAccount,
                                                              credit: capitalRootAccount,
                                                              debitAmount: debitAmount,
@@ -117,7 +117,7 @@ class MonobankUBPInteractor: MonobankUBPInteractorProtocol {
                                                              createdByUser: false,
                                                              context: context)
                     if creditLimit != 0 {
-                        Transaction.addTransactionWith2TranItems(date: Date(),
+                        TransactionHelper.addTransactionWith2TranItems(date: Date(),
                                                                  debit: newMoneyAccount,
                                                                  credit: newCreditAccount,
                                                                  debitAmount: round(creditLimit*100)/100,
@@ -128,7 +128,7 @@ class MonobankUBPInteractor: MonobankUBPInteractorProtocol {
                 } else {
                     var expBeforeAccPeriod = expenseRootAccount.getSubAccountWith(name: LocalisationManager.getLocalizedName(.beforeAccountingPeriod))
                     if expBeforeAccPeriod == nil {
-                        expBeforeAccPeriod = try? Account.createAndGetAccount(parent: expenseRootAccount,
+                        expBeforeAccPeriod = try? AccountHelper.createAndGetAccount(parent: expenseRootAccount,
                                                                                          name: LocalisationManager.getLocalizedName(.beforeAccountingPeriod),
                                                                                          type: expenseRootAccount.type,
                                                                                          currency: expenseRootAccount.currency,
@@ -139,14 +139,14 @@ class MonobankUBPInteractor: MonobankUBPInteractorProtocol {
                         throw AccountWithBalanceError.canNotFindBeboreAccountingPeriodAccount
                     }
                     let creditAmount = round((creditLimit - balance)*100)/100
-                    Transaction.addTransactionWith2TranItems(date: Date(),
+                    TransactionHelper.addTransactionWith2TranItems(date: Date(),
                                                              debit: expenseBeforeAccountingPeriodSafe,
                                                              credit: newMoneyAccount,
                                                              debitAmount: round(creditAmount * exchangeRate*100)/100,
                                                              creditAmount: creditAmount,
                                                              createdByUser: false,
                                                              context: context)
-                    Transaction.addTransactionWith2TranItems(date: Date(),
+                    TransactionHelper.addTransactionWith2TranItems(date: Date(),
                                                              debit: newMoneyAccount,
                                                              credit: newCreditAccount,
                                                              debitAmount: round(creditLimit*100)/100,
@@ -208,7 +208,7 @@ class MonobankUBPInteractor: MonobankUBPInteractorProtocol {
     }
 
     private func getRootAccounts() throws { // swiftlint:disable:this cyclomatic_complexity
-        Account.getRootAccountList(context: context).forEach({
+        AccountHelper.getRootAccountList(context: context).forEach({
             switch $0.name {
             case LocalisationManager.getLocalizedName(.money):
                 moneyRootAccount = $0
@@ -225,19 +225,19 @@ class MonobankUBPInteractor: MonobankUBPInteractorProtocol {
             }
         })
         if moneyRootAccount == nil {
-            throw AccountError.accountDoesNotExist(name: LocalisationManager.getLocalizedName(.money))
+            throw Account.Error.accountDoesNotExist(name: LocalisationManager.getLocalizedName(.money))
         }
         if creditsRootAccount == nil {
-            throw AccountError.accountDoesNotExist(name: LocalisationManager.getLocalizedName(.credits))
+            throw Account.Error.accountDoesNotExist(name: LocalisationManager.getLocalizedName(.credits))
         }
         if debtorsRootAcccount == nil {
-            throw AccountError.accountDoesNotExist(name: LocalisationManager.getLocalizedName(.debtors))
+            throw Account.Error.accountDoesNotExist(name: LocalisationManager.getLocalizedName(.debtors))
         }
         if expenseRootAccount == nil {
-            throw AccountError.accountDoesNotExist(name: LocalisationManager.getLocalizedName(.expense))
+            throw Account.Error.accountDoesNotExist(name: LocalisationManager.getLocalizedName(.expense))
         }
         if capitalRootAccount == nil {
-            throw AccountError.accountDoesNotExist(name: LocalisationManager.getLocalizedName(.capital))
+            throw Account.Error.accountDoesNotExist(name: LocalisationManager.getLocalizedName(.capital))
         }
     }
 }

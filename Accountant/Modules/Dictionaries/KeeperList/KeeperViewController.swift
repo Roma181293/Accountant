@@ -9,7 +9,7 @@ import UIKit
 import CoreData
 
 protocol KeeperReceiverDelegate: AnyObject {
-    func setKeeper(_ selectedKeeper: Keeper?)
+    func setKeeper(_ keeper: Keeper?)
 }
 
 class KeeperViewController: UITableViewController {

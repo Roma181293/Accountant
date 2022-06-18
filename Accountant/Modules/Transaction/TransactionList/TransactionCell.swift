@@ -35,12 +35,24 @@ class TransactionCell: UITableViewCell { // swiftlint:disable:this type_body_len
         return stackView
     }()
 
+    private let headerView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+
     private let dateLabel: UILabel = {
         let label = UILabel()
         label.textColor = UIColor(named: "blackGrayColor")
         label.alpha = 1
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
+    }()
+
+    private let statusImage: UIImageView = {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
     }()
 
     private let debitStackView: UIStackView = {
@@ -117,7 +129,8 @@ class TransactionCell: UITableViewCell { // swiftlint:disable:this type_body_len
 
     private let commentLabel: UILabel = {
         let label = UILabel()
-        label.text = "  " + NSLocalizedString("Comment:", tableName: Constants.Localizable.transactionList, comment: "") + "  "
+        label.text = "  " + NSLocalizedString("Comment:",
+                                              tableName: Constants.Localizable.transactionList, comment: "") + "  "
         label.textColor = UIColor(named: "blackGrayColor")
         label.textAlignment = .left
         label.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
@@ -159,10 +172,36 @@ class TransactionCell: UITableViewCell { // swiftlint:disable:this type_body_len
         mainStackView.trailingAnchor.constraint(equalTo: mainView.trailingAnchor, constant: -6).isActive = true
         mainStackView.topAnchor.constraint(equalTo: mainView.topAnchor, constant: 8).isActive = true
         mainStackView.bottomAnchor.constraint(equalTo: mainView.bottomAnchor, constant: -8).isActive = true
+
+        mainStackView.addArrangedSubview(headerView)
+        headerView.heightAnchor.constraint(equalToConstant: 20).isActive = true
+
+        // Status Image
+        headerView.addSubview(statusImage)
+        statusImage.leadingAnchor.constraint(equalTo: headerView.leadingAnchor).isActive = true
+        statusImage.centerYAnchor.constraint(equalTo: headerView.centerYAnchor).isActive = true
+        statusImage.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        statusImage.widthAnchor.constraint(equalToConstant: 20).isActive = true
+
         // Date Label
-        mainStackView.addArrangedSubview(dateLabel)
+        headerView.addSubview(dateLabel)
+        dateLabel.leadingAnchor.constraint(equalTo: statusImage.trailingAnchor, constant: 8).isActive = true
+        dateLabel.centerYAnchor.constraint(equalTo: headerView.centerYAnchor).isActive = true
         dateLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
-        dateLabel.widthAnchor.constraint(equalToConstant: 30).isActive = true
+
+//        // Date Label
+//        headerView.addSubview(dateLabel)
+//        dateLabel.leadingAnchor.constraint(equalTo: headerView.leadingAnchor).isActive = true
+//        dateLabel.centerYAnchor.constraint(equalTo: headerView.centerYAnchor).isActive = true
+//        dateLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
+//
+//        // Status Image
+//        headerView.addSubview(statusImage)
+//        statusImage.trailingAnchor.constraint(equalTo: headerView.trailingAnchor).isActive = true
+//        statusImage.centerYAnchor.constraint(equalTo: headerView.centerYAnchor).isActive = true
+//        statusImage.heightAnchor.constraint(equalToConstant: 20).isActive = true
+//        statusImage.widthAnchor.constraint(equalToConstant: 20).isActive = true
+
         let labelWidth = CGFloat(max(creditLabel.text!.count, debitLabel.text!.count)) * 7.5
         // Credit content
         mainStackView.addArrangedSubview(creditStackView)
@@ -189,7 +228,7 @@ class TransactionCell: UITableViewCell { // swiftlint:disable:this type_body_len
 
         let formatter = DateFormatter()
         formatter.dateStyle = .short
-        formatter.timeStyle = .none
+        formatter.timeStyle = .short
         formatter.locale = Locale(identifier: "\(Bundle.main.localizations.first ?? "en")_\(Locale.current.regionCode ?? "US")") // swiftlint:disable:this line_length
 
         dateLabel.text = formatter.string(from: transaction.date)
@@ -201,40 +240,48 @@ class TransactionCell: UITableViewCell { // swiftlint:disable:this type_body_len
             commentStackView.isHidden = true
         }
 
+        switch transaction.status {
+        case .preDraft:
+            statusImage.image = UIImage(systemName: "doc.viewfinder.fill")
+            statusImage.tintColor = .systemPink
+        case .draft:
+            statusImage.image = UIImage(systemName: "doc.viewfinder")
+            statusImage.tintColor = .systemGray
+        case .approved:
+            statusImage.image = UIImage(systemName: "clock.badge.checkmark")
+            statusImage.tintColor = .systemOrange
+        case .applied:
+            statusImage.image = UIImage(systemName: "checkmark.circle.fill")
+            statusImage.tintColor = .systemGreen
+        case .archived:
+            statusImage.image = UIImage(systemName: "archivebox")
+            statusImage.tintColor = .systemBrown
+        }
+
+        switch transaction.type {
+        case .unknown:
+            cellMainColor = .purple
+        case .income:
+            cellMainColor = .systemGreen
+        case .expense:
+            cellMainColor = .systemPink
+        case .transfer:
+            cellMainColor = .systemTeal
+        case .other:
+            cellMainColor = .systemGray
+        }
+
+        debitLabel.layer.backgroundColor = cellMainColor.cgColor.copy(alpha: labelsAlpha)
+        creditLabel.layer.backgroundColor = cellMainColor.cgColor.copy(alpha: labelsAlpha)
+        commentLabel.layer.backgroundColor = cellMainColor.cgColor.copy(alpha: labelsAlpha)
+        mainView.backgroundColor = UIColor(cgColor: cellMainColor.cgColor.copy(alpha: backGroundAlpha)!)
+
+        // TransactionItems configuration
         itemViewArray.forEach({$0.removeFromSuperview()})
 
         for item in transaction.itemsList.sorted(by: {$0.amount >= $1.amount}) {
 
-            let itemView = UIView()
-            itemView.translatesAutoresizingMaskIntoConstraints = false
-
-            let accountPathLabel = UILabel()
-            accountPathLabel.text = item.path
-            accountPathLabel.textColor = UIColor(named: "blackGrayColor")
-            accountPathLabel.numberOfLines = 0
-            accountPathLabel.lineBreakMode = .byWordWrapping
-            accountPathLabel.translatesAutoresizingMaskIntoConstraints = false
-
-            let amountAndCurrencyLabel = UILabel()
-            amountAndCurrencyLabel.text = cutNumber(item.amount) + item.currency
-            amountAndCurrencyLabel.textColor = UIColor(named: "blackGrayColor")
-            amountAndCurrencyLabel.textAlignment = .right
-            amountAndCurrencyLabel.translatesAutoresizingMaskIntoConstraints = false
-
-            itemView.addSubview(accountPathLabel)
-            accountPathLabel.leadingAnchor.constraint(equalTo: itemView.leadingAnchor).isActive = true
-            accountPathLabel.topAnchor.constraint(equalTo: itemView.topAnchor).isActive = true
-            accountPathLabel.bottomAnchor.constraint(equalTo: itemView.bottomAnchor).isActive = true
-
-            itemView.addSubview(amountAndCurrencyLabel)
-            amountAndCurrencyLabel.leadingAnchor.constraint(equalTo: accountPathLabel.trailingAnchor,
-                                                            constant: 8).isActive = true
-            amountAndCurrencyLabel.trailingAnchor.constraint(equalTo: itemView.trailingAnchor).isActive = true
-            amountAndCurrencyLabel.topAnchor.constraint(equalTo: itemView.topAnchor).isActive = true
-
-            accountPathLabel.setContentCompressionResistancePriority(UILayoutPriority.defaultLow, for: .horizontal)
-            amountAndCurrencyLabel.setContentHuggingPriority(UILayoutPriority.defaultHigh, for: .horizontal)
-
+            let itemView =  createItemViewFor(item)
             if item.type == .debit {
                 debitItemsStackView.addArrangedSubview(itemView)
             } else if item.type == .credit {
@@ -244,31 +291,6 @@ class TransactionCell: UITableViewCell { // swiftlint:disable:this type_body_len
         }
 
         setMainView()
-
-        if transaction.itemsList.count >= 2 && transaction.status == .applied {
-            guard transaction.debitRootName != nil && transaction.creditRootName != nil else {return}
-
-            if transaction.creditRootName == LocalisationManager.getLocalizedName(.income) &&
-                transaction.debitRootName == LocalisationManager.getLocalizedName(.money) {
-                cellMainColor = .systemGreen
-            } else  if (transaction.creditRootName == LocalisationManager.getLocalizedName(.money) ||
-                        transaction.creditRootName == LocalisationManager.getLocalizedName(.credits)) &&
-                        transaction.debitRootName == LocalisationManager.getLocalizedName(.expense) {
-                cellMainColor = .systemPink
-            } else  if transaction.creditRootName == LocalisationManager.getLocalizedName(.money) &&
-                        transaction.debitRootName == LocalisationManager.getLocalizedName(.money) {
-                cellMainColor = .systemTeal
-            } else {
-                cellMainColor = .systemGray
-            }
-        } else {
-            cellMainColor = .purple
-        }
-
-        debitLabel.layer.backgroundColor = cellMainColor.cgColor.copy(alpha: labelsAlpha)
-        creditLabel.layer.backgroundColor = cellMainColor.cgColor.copy(alpha: labelsAlpha)
-        commentLabel.layer.backgroundColor = cellMainColor.cgColor.copy(alpha: labelsAlpha)
-        mainView.backgroundColor = UIColor(cgColor: cellMainColor.cgColor.copy(alpha: backGroundAlpha)!)
     }
 
     private func cutNumber(_ number: Double) -> String {
@@ -283,5 +305,39 @@ class TransactionCell: UITableViewCell { // swiftlint:disable:this type_body_len
             amount = "\(Int(number)) "
         }
         return amount
+    }
+
+    private func createItemViewFor(_ transactionItem: TransactionItemViewModel) -> UIView {
+        let itemView = UIView()
+        itemView.translatesAutoresizingMaskIntoConstraints = false
+
+        let accountPathLabel = UILabel()
+        accountPathLabel.text = transactionItem.path
+        accountPathLabel.textColor = UIColor(named: "blackGrayColor")
+        accountPathLabel.numberOfLines = 0
+        accountPathLabel.lineBreakMode = .byWordWrapping
+        accountPathLabel.translatesAutoresizingMaskIntoConstraints = false
+
+        let amountAndCurrencyLabel = UILabel()
+        amountAndCurrencyLabel.text = cutNumber(transactionItem.amount) + transactionItem.currency
+        amountAndCurrencyLabel.textColor = UIColor(named: "blackGrayColor")
+        amountAndCurrencyLabel.textAlignment = .right
+        amountAndCurrencyLabel.translatesAutoresizingMaskIntoConstraints = false
+
+        itemView.addSubview(accountPathLabel)
+        accountPathLabel.leadingAnchor.constraint(equalTo: itemView.leadingAnchor).isActive = true
+        accountPathLabel.topAnchor.constraint(equalTo: itemView.topAnchor).isActive = true
+        accountPathLabel.bottomAnchor.constraint(equalTo: itemView.bottomAnchor).isActive = true
+
+        itemView.addSubview(amountAndCurrencyLabel)
+        amountAndCurrencyLabel.leadingAnchor.constraint(equalTo: accountPathLabel.trailingAnchor,
+                                                        constant: 8).isActive = true
+        amountAndCurrencyLabel.trailingAnchor.constraint(equalTo: itemView.trailingAnchor).isActive = true
+        amountAndCurrencyLabel.topAnchor.constraint(equalTo: itemView.topAnchor).isActive = true
+
+        accountPathLabel.setContentCompressionResistancePriority(UILayoutPriority.defaultLow, for: .horizontal)
+        amountAndCurrencyLabel.setContentHuggingPriority(UILayoutPriority.defaultHigh, for: .horizontal)
+
+        return itemView
     }
 }

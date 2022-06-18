@@ -274,7 +274,9 @@ class ConfigureAnalyticsViewController: UIViewController { // swiftlint:disable:
                 analyticsViewController.sortTableView()
                 analyticsViewController.analyticsTableViewController.tableView.reloadData()
             } else {
-                analyticsViewController.navigationController?.present(PurchaseOfferViewController(), animated: true, completion: nil)
+                analyticsViewController.navigationController?.present(PurchaseOfferViewController(),
+                                                                      animated: true,
+                                                                      completion: nil)
                 isPurchaseOfferDidShow = true
                 analyticsViewController.sortCategoryBy = sortCategoryBy
                 analyticsViewController.sortTableView()
@@ -291,7 +293,9 @@ class ConfigureAnalyticsViewController: UIViewController { // swiftlint:disable:
                 analyticsViewController.dateComponent = dateComponent
                 analyticsViewController.setValueToDateInterval()
             } else {
-                analyticsViewController.navigationController?.present(PurchaseOfferViewController(), animated: true, completion: nil)
+                analyticsViewController.navigationController?.present(PurchaseOfferViewController(),
+                                                                      animated: true,
+                                                                      completion: nil)
                 isPurchaseOfferDidShow = true
                 analyticsViewController.transferedDateInterval = dateInterval
                 analyticsViewController.sortCategoryBy = sortCategoryBy

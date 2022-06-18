@@ -228,10 +228,10 @@ extension AccountNavigationViewController {
                                                   style: .default, handler: { [weak alert] (_) in
                         do {
                             guard let name = alert?.textFields?.first?.text, !name.isEmpty,
-                                  Account.isFreeAccountName(parent: account,
+                                  AccountHelper.isFreeAccountName(parent: account,
                                                             name: name,
                                                             context: CoreDataStack.shared.persistentContainer.viewContext)
-                            else {throw AccountError.accountAlreadyExists(name: alert!.textFields!.first!.text!)}
+                            else {throw Account.Error.accountAlreadyExists(name: alert!.textFields!.first!.text!)}
 
                             if !account.isFreeFromTransactionItems {
                                 let alert1 = UIAlertController(title: NSLocalizedString("Warning", tableName: Constants.Localizable.accountNavigationVC, comment: ""),
@@ -449,7 +449,7 @@ extension AccountNavigationViewController {
     }
 
     private func goToAccountEditorWithInitialBalanceVC(account: Account) {
-        let accountEditorVC = AccountEditorViewController()
+        let accountEditorVC = AccountEditorViewController1()
         accountEditorVC.parentAccount = account
         self.navigationController?.pushViewController(accountEditorVC, animated: true)
     }

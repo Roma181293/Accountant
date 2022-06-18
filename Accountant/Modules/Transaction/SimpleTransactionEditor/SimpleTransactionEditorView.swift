@@ -374,10 +374,10 @@ class SimpleTransactionEditorView: UIView { // swiftlint:disable:this type_body_
         if let credit = controller.credit, let debit = controller.debit {
             if debit.currency == nil
                 || (controller.debit?.type.isConsolidation == true
-                    && controller.debit != Account.getAccountWithPath(LocalisationManager.getLocalizedName(.capital), context: CoreDataStack.shared.persistentContainer.viewContext)) // swiftlint:disable:this line_length
+                    && controller.debit != AccountHelper.getAccountWithPath(LocalisationManager.getLocalizedName(.capital), context: CoreDataStack.shared.persistentContainer.viewContext)) // swiftlint:disable:this line_length
                 || controller.credit?.currency == nil
                 || (controller.credit?.type.isConsolidation == true
-                    && controller.credit != Account.getAccountWithPath(LocalisationManager.getLocalizedName(.capital), context: CoreDataStack.shared.persistentContainer.viewContext)) {  // swiftlint:disable:this line_length
+                    && controller.credit != AccountHelper.getAccountWithPath(LocalisationManager.getLocalizedName(.capital), context: CoreDataStack.shared.persistentContainer.viewContext)) {  // swiftlint:disable:this line_length
                 debitAmountTextField.placeholder = ""
                 debitAmountTextField.isHidden = false
                 debitAmountTextField.text = ""
