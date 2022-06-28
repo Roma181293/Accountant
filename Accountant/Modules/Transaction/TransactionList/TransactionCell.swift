@@ -189,20 +189,7 @@ class TransactionCell: UITableViewCell { // swiftlint:disable:this type_body_len
         dateLabel.centerYAnchor.constraint(equalTo: headerView.centerYAnchor).isActive = true
         dateLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
 
-//        // Date Label
-//        headerView.addSubview(dateLabel)
-//        dateLabel.leadingAnchor.constraint(equalTo: headerView.leadingAnchor).isActive = true
-//        dateLabel.centerYAnchor.constraint(equalTo: headerView.centerYAnchor).isActive = true
-//        dateLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
-//
-//        // Status Image
-//        headerView.addSubview(statusImage)
-//        statusImage.trailingAnchor.constraint(equalTo: headerView.trailingAnchor).isActive = true
-//        statusImage.centerYAnchor.constraint(equalTo: headerView.centerYAnchor).isActive = true
-//        statusImage.heightAnchor.constraint(equalToConstant: 20).isActive = true
-//        statusImage.widthAnchor.constraint(equalToConstant: 20).isActive = true
-
-        let labelWidth = CGFloat(max(creditLabel.text!.count, debitLabel.text!.count)) * 7.5
+        let labelWidth = CGFloat(max((creditLabel.text ?? "").count, (debitLabel.text ?? "").count)) * 7.5
         // Credit content
         mainStackView.addArrangedSubview(creditStackView)
         creditStackView.addArrangedSubview(creditLabel)
@@ -218,6 +205,7 @@ class TransactionCell: UITableViewCell { // swiftlint:disable:this type_body_len
         // Comment
         mainStackView.addArrangedSubview(commentStackView)
         commentStackView.addArrangedSubview(commentLabel)
+        commentLabel.widthAnchor.constraint(equalToConstant: CGFloat((commentLabel.text ?? "").count) * 7.0).isActive = true
         commentLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
         commentLabel.window?.canResizeToFitContent = true
         commentStackView.addArrangedSubview(commentContentLabel)
@@ -267,6 +255,8 @@ class TransactionCell: UITableViewCell { // swiftlint:disable:this type_body_len
             cellMainColor = .systemPink
         case .transfer:
             cellMainColor = .systemTeal
+        case .initialBalance:
+            cellMainColor = .systemYellow
         case .other:
             cellMainColor = .systemGray
         }

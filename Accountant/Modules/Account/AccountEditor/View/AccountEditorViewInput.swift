@@ -11,11 +11,13 @@ import UIKit
 
 protocol AccountEditorViewInput: AnyObject {
     func configureView()
-    func colorNameTextField(_ color: UIColor)
-    func typeDidSet(_ accountType: AccountTypeViewModel?)
-    func currencyDidSet(_ currency: CurrencyViewModel?)
+    func colorNameTextFieldForState(_ isValid: Bool)
+    func typeDidSet(_ accountType: AccountTypeViewModel?, isSingle: Bool, mode: AccountEditorService.Mode)
+    func nameDidSet(_ name: String)
+    func currencyDidSet(_ currency: CurrencyViewModel?, accountingCurrency: CurrencyViewModel)
     func holderDidSet(_ holder: HolderViewModel?)
     func keeperDidSet(_ keeper: KeeperViewModel?)
-
-//    func currencyIsAccounting(_ isAccounting: Bool)
+    func rateDidSet(_ rate: Double?)
+    func setTitle(_ title: String)
+    func configureComponentsForEditMode()
 }

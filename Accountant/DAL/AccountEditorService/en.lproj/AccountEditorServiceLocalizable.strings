@@ -1,0 +1,31 @@
+/* 
+  AccountEditorServiceLocalizable.strings
+  Accountant
+
+  Created by Roman Topchii on 27.06.2022.
+  
+*/
+
+"Empty name" = "Empty name";
+"Reserved name" = "Reserved name";
+"Account name \"%@\" is already taken" = "Account name \"%@\" is already taken";
+"Category name \"%@\" is already taken" = "Category name \"%@\" is already taken";
+"Parent type does not has children with id" = "Parent type does not has children with id";
+"Currency with id not found" = "Currency with id not found";
+"Holder with id not found" = "Holder with id not found";
+"Keeper with id not found" = "Keeper with id not found";
+"Empty rate" = "Empty rate";
+"Zero rate value" = "Zero rate value";
+"Name cannot be empty" = "Name cannot be empty";
+"Some names are reserved by the app" = "Some names are reserved by the app";
+"The account name should be unique" = "The account name should be unique";
+"The category name should be unique" = "The category name should be unique";
+"Exchange rate is required" = "Exchange rate is required";
+"Exchange rate can not be equal to zero" = "Exchange rate can not be equal to zero";
+"Please enter name" = "Please enter name";
+"Please use another name" = "Please use another name";
+"Please enter rate value" = "Enter rate value";
+"Please enter value grater then zero" = "Enter value grater then zero";
+"Please contact to support" = "Please contact to support";
+"Initial balance for" = "Initial balance for";
+"and" = "and";

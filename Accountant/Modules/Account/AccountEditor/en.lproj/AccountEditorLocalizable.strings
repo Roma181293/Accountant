@@ -1,5 +1,5 @@
 /* 
-  AccountEditorVCLocalizable.strings
+  AccountEditorLocalizable.strings
   Accountant
 
   Created by Roman Topchii on 27.04.2022.
@@ -10,8 +10,9 @@
 "Warning" = "Warning";
 "Error" = "Error";
 "OK" = "OK";
-"Edit account" = "Edit account";
-"Add account" = "Add account";
+"Edit" = "Edit";
+"Create" = "Create";
+"How many %@ you have to pay for 1 %@" = "How many %@ you have to pay for 1 %@";
 
 //View
 "Type" = "Type";

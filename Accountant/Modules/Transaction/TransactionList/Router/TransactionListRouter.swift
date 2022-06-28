@@ -47,7 +47,7 @@ class TransactionListRouter: TransactionListRouterInput {
         self.viewController?.present(alert, animated: true, completion: nil)
     }
 
-    func showPurchaseOfferVC() {
+    func showPurchaseOfferModule() {
         viewController?.present(PurchaseOfferViewController(), animated: true, completion: nil)
     }
 

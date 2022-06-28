@@ -48,7 +48,7 @@ class MonobankUBPInteractor: MonobankUBPInteractorProtocol {
                                                 name: item.maskedPan.last! ,
                                                 context: context)
                 else {
-                    throw Account.Error.accountAlreadyExists(name: moneyRootAccount.name+":"+item.maskedPan.last!)
+                    throw Account.Error.accountNameAlreadyTaken(name: moneyRootAccount.name+":"+item.maskedPan.last!)
                 }
 
                 let bankAccount = try BankAccountHelper.createAndGetMBBankAccount(item, userBankProfile: ubp,
@@ -99,7 +99,7 @@ class MonobankUBPInteractor: MonobankUBPInteractorProtocol {
                 newMoneyAccount.linkedAccount = newCreditAccount
 
                 if balance - creditLimit == 0 && !(balance == 0 && creditLimit == 0) {
-                    TransactionHelper.addTransactionWith2TranItems(date: Date(),
+                    TransactionHelper.createSimpleTran(date: Date(),
                                                              debit: newMoneyAccount,
                                                              credit: newCreditAccount,
                                                              debitAmount: round(creditLimit*100)/100,
@@ -109,7 +109,7 @@ class MonobankUBPInteractor: MonobankUBPInteractorProtocol {
 
                 } else if balance - creditLimit > 0 {
                     let debitAmount = round((balance - creditLimit)*100)/100
-                    TransactionHelper.addTransactionWith2TranItems(date: Date(),
+                    TransactionHelper.createSimpleTran(date: Date(),
                                                              debit: newMoneyAccount,
                                                              credit: capitalRootAccount,
                                                              debitAmount: debitAmount,
@@ -117,7 +117,7 @@ class MonobankUBPInteractor: MonobankUBPInteractorProtocol {
                                                              createdByUser: false,
                                                              context: context)
                     if creditLimit != 0 {
-                        TransactionHelper.addTransactionWith2TranItems(date: Date(),
+                        TransactionHelper.createSimpleTran(date: Date(),
                                                                  debit: newMoneyAccount,
                                                                  credit: newCreditAccount,
                                                                  debitAmount: round(creditLimit*100)/100,
@@ -139,14 +139,14 @@ class MonobankUBPInteractor: MonobankUBPInteractorProtocol {
                         throw AccountWithBalanceError.canNotFindBeboreAccountingPeriodAccount
                     }
                     let creditAmount = round((creditLimit - balance)*100)/100
-                    TransactionHelper.addTransactionWith2TranItems(date: Date(),
+                    TransactionHelper.createSimpleTran(date: Date(),
                                                              debit: expenseBeforeAccountingPeriodSafe,
                                                              credit: newMoneyAccount,
                                                              debitAmount: round(creditAmount * exchangeRate*100)/100,
                                                              creditAmount: creditAmount,
                                                              createdByUser: false,
                                                              context: context)
-                    TransactionHelper.addTransactionWith2TranItems(date: Date(),
+                    TransactionHelper.createSimpleTran(date: Date(),
                                                              debit: newMoneyAccount,
                                                              credit: newCreditAccount,
                                                              debitAmount: round(creditLimit*100)/100,

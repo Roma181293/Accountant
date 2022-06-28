@@ -10,18 +10,20 @@ import CoreData
 
 class KeeperProvider {
 
-    enum Mode {
-        case bank
-        case person
-        case nonCash
+    enum Mode: Int {
+        case bank = 0
+        case cash = 1
+        case person = 2
+        case nonCash = 3
+        case all = 4
     }
 
-    private(set) var mode: Mode?
+    private(set) var mode: Mode = .all
     private(set) var persistentContainer: NSPersistentContainer
     private(set) weak var fetchedResultsControllerDelegate: NSFetchedResultsControllerDelegate?
 
     init(with persistentContainer: NSPersistentContainer,
-         fetchedResultsControllerDelegate: NSFetchedResultsControllerDelegate?, mode: Mode?) {
+         fetchedResultsControllerDelegate: NSFetchedResultsControllerDelegate?, mode: Mode = .all) {
         self.persistentContainer = persistentContainer
         self.fetchedResultsControllerDelegate = fetchedResultsControllerDelegate
         self.mode = mode
@@ -31,17 +33,20 @@ class KeeperProvider {
         let fetchRequest = Keeper.fetchRequest()
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: Schema.Keeper.name.rawValue, ascending: true)]
         switch mode {
-        case nil:
-            break
         case .bank:
             fetchRequest.predicate = NSPredicate(format: "\(Schema.Keeper.type.rawValue) == %i",
                                                  Keeper.TypeEnum.bank.rawValue)
         case .person:
             fetchRequest.predicate = NSPredicate(format: "\(Schema.Keeper.type.rawValue) == %i",
                                                  Keeper.TypeEnum.person.rawValue)
+        case .cash:
+            fetchRequest.predicate = NSPredicate(format: "\(Schema.Keeper.type.rawValue) == %i",
+                                                 Keeper.TypeEnum.cash.rawValue)
         case .nonCash:
             fetchRequest.predicate = NSPredicate(format: "\(Schema.Keeper.type.rawValue) != %i",
                                                  Keeper.TypeEnum.cash.rawValue)
+        case .all:
+            fetchRequest.predicate = nil
         }
         fetchRequest.fetchBatchSize = 20
 

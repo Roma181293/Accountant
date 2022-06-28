@@ -9,5 +9,5 @@
 import Foundation
 
 protocol AccountEditorInteractorOutput: AccountEditorServiceDelegate {
-    
+    func closeModule()
 }

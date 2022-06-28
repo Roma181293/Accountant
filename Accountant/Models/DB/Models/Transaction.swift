@@ -24,7 +24,8 @@ final class Transaction: BaseEntity {
         case income = 1 // from Income
         case expense = 2 // to Expense
         case transfer = 3 // Money<->Money, Money<->Debtors, Money<->Creditors, Debtors<->Creditors
-        case other = 4
+        case initialBalance = 4 // seted manually. cannot be changed in future
+        case other = 5
     }
 
     @NSManaged public var date: Date

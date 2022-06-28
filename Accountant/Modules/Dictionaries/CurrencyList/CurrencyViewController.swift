@@ -19,28 +19,17 @@ class CurrencyViewController: UITableViewController {
         case setCurrency
     }
 
-    var persistentContainer = CoreDataStack.shared.persistentContainer
-    var delegate: CurrencyReceiverDelegate?
-
-    var mode: Mode = .setCurrency
     var currency: Currency?
-    var currencyIndexPath: IndexPath?
+    var mode: Mode = .setCurrency
+    weak var delegate: CurrencyReceiverDelegate?
+    
+    private var persistentContainer = CoreDataStack.shared.persistentContainer
+    private var currencyIndexPath: IndexPath?
 
     private lazy var dataProvider: CurrencyProvider = {
         let provider = CurrencyProvider(with: persistentContainer, fetchedResultsControllerDelegate: self)
         return provider
     }()
-
-    init(currency: Currency? = nil, delegate: CurrencyReceiverDelegate, mode: Mode = .setCurrency) {
-        super.init(style: .plain)
-        self.currency = currency
-        self.delegate = delegate
-        self.mode = mode
-    }
-
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
 
     private var alertActionsToEnable: [UIAlertAction] = [] // to input validation
 

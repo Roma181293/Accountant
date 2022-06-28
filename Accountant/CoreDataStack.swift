@@ -158,6 +158,7 @@ extension NSManagedObjectContext {
         guard hasChanges else { return }
         do {
             try save()
+            UserProfile.setDateOfLastChangesInDB(Date())
         } catch {
             handleSavingError(error, contextualInfo: contextualInfo)
         }

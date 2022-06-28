@@ -10,8 +10,9 @@
 "Warning" = "Увага";
 "Error" = "Помилка";
 "OK" = "OK";
-"Edit account" = "Редагувати рахунок";
-"Add account" = "Створити рахунок";
+"Edit" = "Редагувати";
+"Create" = "Створити";
+"How many %@ you have to pay for 1 %@" = "Скільки %@ коштує 1 %@";
 
 //View
 "Type" = "Тип";

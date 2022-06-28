@@ -19,7 +19,7 @@ class HolderHelper {
     class func getById(_ id: UUID, context: NSManagedObjectContext) -> Holder? {
         let fetchRequest = Holder.fetchRequest()
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: Schema.Holder.name.rawValue, ascending: true)]
-        fetchRequest.predicate = NSPredicate(format: "\(Schema.Holder.id.rawValue) = %@", id.uuidString)
+        fetchRequest.predicate = NSPredicate(format: "\(Schema.Holder.id.rawValue) = %@", id as CVarArg)
         print(NSPredicate(format: "\(Schema.Holder.id.rawValue) = %@", id.uuidString))
         return try? context.fetch(fetchRequest).first
     }

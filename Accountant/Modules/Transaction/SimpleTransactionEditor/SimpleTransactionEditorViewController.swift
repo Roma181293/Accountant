@@ -136,8 +136,9 @@ class SimpleTransactionEditorViewController: UIViewController, AccountNavigation
                                                                    comment: ""),
                                           style: .default,
                                           handler: { [] (_) in
+                let type = transaction.type
                 transaction.delete()
-                self.addNewTransaction()
+                self.addNewTransaction(with: type)
                 self.navigationController?.popViewController(animated: true)
             }))
             alert.addAction(UIAlertAction(title: NSLocalizedString("No",
@@ -310,7 +311,7 @@ class SimpleTransactionEditorViewController: UIViewController, AccountNavigation
         }
     }
 
-    private func addNewTransaction() {
+    private func addNewTransaction(with type: Transaction.TypeEnum? = nil) {
         guard let debit = debit, let credit = credit else {return}
 
         var comment: String?
@@ -320,24 +321,30 @@ class SimpleTransactionEditorViewController: UIViewController, AccountNavigation
 
         if debit.currency == credit.currency {
             if let debitAmount = mainView.debitAmount {
-                TransactionHelper.addTransactionWith2TranItems(date: mainView.transactionDate,
+                let newTran = TransactionHelper.createAndGetSimpleTran(date: mainView.transactionDate,
                                                          debit: debit,
                                                          credit: credit,
                                                          debitAmount: debitAmount,
                                                          creditAmount: debitAmount,
                                                          comment: comment,
                                                          context: context)
+                if let type = type, type == .initialBalance {
+                    newTran.type = type
+                }
             }
         } else {
             if let debitAmount = mainView.debitAmount,
                let creditAmount = mainView.creditAmount {
-                TransactionHelper.addTransactionWith2TranItems(date: mainView.transactionDate,
+                let newTran = TransactionHelper.createAndGetSimpleTran(date: mainView.transactionDate,
                                                          debit: debit,
                                                          credit: credit,
                                                          debitAmount: debitAmount,
                                                          creditAmount: creditAmount,
                                                          comment: comment,
                                                          context: context)
+                if let type = type, type == .initialBalance {
+                    newTran.type = type
+                }
             }
         }
 

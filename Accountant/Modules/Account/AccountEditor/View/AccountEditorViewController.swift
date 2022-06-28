@@ -15,6 +15,8 @@ class AccountEditorViewController: UIViewController {
 
     private var mainView = AccountEditorView()
 
+    private var nameIdEdited: Bool = false
+
     override func loadView() {
         view = mainView
     }
@@ -26,7 +28,7 @@ class AccountEditorViewController: UIViewController {
         // set delegates
         mainView.nameTextField.delegate = self
         mainView.balanceTextField.delegate = self
-        mainView.creditLimitTextField.delegate = self
+        mainView.linkedAccountBalanceTextField.delegate = self
         mainView.exchangeRateTextField.delegate = self
         mainView.mainScrollView.delegate = self
 
@@ -36,6 +38,12 @@ class AccountEditorViewController: UIViewController {
         mainView.holderButton.addTarget(self, action: #selector(holderButtonDidTouch), for: .touchUpInside)
         mainView.typeButton.addTarget(self, action: #selector(typeButtonDidTouch), for: .touchUpInside)
         mainView.nameTextField.addTarget(self, action: #selector(nameTextFieldEditingChanged(_:)), for: .editingChanged)
+        mainView.balanceTextField.addTarget(self, action: #selector(balanceTextFieldEditingChanged(_:)), for: .editingChanged)
+        mainView.linkedAccountBalanceTextField.addTarget(self, action: #selector(creditLimitTextFieldEditingChanged(_:)), for: .editingChanged)
+        mainView.exchangeRateTextField.addTarget(self, action: #selector(exchangeRateTextFieldEditingChanged(_:)), for: .editingChanged)
+        mainView.datePicker.addTarget(self, action: #selector(balanceDateDidChanged(_:)), for: .valueChanged)
+        
+        output?.viewDidLoad()
     }
 
     @objc func confirmButtonDidTouch() {
@@ -59,17 +67,24 @@ class AccountEditorViewController: UIViewController {
     }
 
     @objc func nameTextFieldEditingChanged(_ sender: UITextField) {
+        nameIdEdited = true
         output?.nameChangedTo(sender.text ?? "")
     }
 
-    func balanceTextFieldEditingChanged(_ sender: UITextField) {
-        output?.balanceChangedTo(sender.text ?? "")
+    @objc func balanceTextFieldEditingChanged(_ sender: UITextField) {
+        output?.setBalance(sender.text ?? "")
     }
-    func creditLimitTextFieldEditingChanged(_ sender: UITextField) {
-        output?.creditLimitChangedTo(sender.text ?? "")
+
+    @objc func creditLimitTextFieldEditingChanged(_ sender: UITextField) {
+        output?.setLinkedAccountBalance(sender.text ?? "")
     }
-    func exchangeRateTextFieldEditingChanged(_ sender: UITextField) {
-        output?.exchangeRateChangedTo(sender.text ?? "")
+
+    @objc func exchangeRateTextFieldEditingChanged(_ sender: UITextField) {
+        output?.setExhangeRate(sender.text ?? "")
+    }
+
+    @objc func balanceDateDidChanged(_ sender: UIDatePicker) {
+        output?.balanceDateDidChanged(sender.date)
     }
 }
 
@@ -78,21 +93,73 @@ extension AccountEditorViewController: AccountEditorViewInput {
 
     }
 
-    func colorNameTextField(_ color: UIColor) {
-        mainView.nameTextField.backgroundColor = color
-    }
-
-    func typeDidSet(_ accountType: AccountTypeViewModel?) {
-        if let accountType = accountType {
-            mainView.typeButton.setTitle(accountType.name, for: .normal)
+    func colorNameTextFieldForState(_ isValid: Bool) {
+        if nameIdEdited && !isValid {
+            mainView.nameTextField.backgroundColor = .systemPink.withAlphaComponent(0.2)
         } else {
-            mainView.typeButton.setTitle("", for: .normal)
+            mainView.nameTextField.backgroundColor = .systemBackground
         }
     }
 
-    func currencyDidSet(_ currency: CurrencyViewModel?) {
+    func nameDidSet(_ name: String) {
+        mainView.nameTextField.text = name
+    }
+
+    func typeDidSet(_ accountType: AccountTypeViewModel?, isSingle: Bool, mode: AccountEditorService.Mode) {
+        guard let accountType = accountType else {
+            mainView.typeButton.setTitle("", for: .normal)
+            return
+        }
+
+        mainView.typeButton.setTitle(accountType.name, for: .normal)
+        mainView.typeButton.isHidden = isSingle
+        mainView.typeLabel.isHidden = isSingle
+
+        mainView.keeperLabel.isHidden = !accountType.hasKeeper
+        mainView.keeperButton.isHidden = !accountType.hasKeeper
+
+        mainView.holderLabel.isHidden = !accountType.hasHolder
+        mainView.holderButton.isHidden = !accountType.hasHolder
+
+        mainView.currencyLabel.isHidden = !accountType.hasCurrency
+        mainView.currencyButton.isHidden = !accountType.hasCurrency
+
+        let keeperIsHidden = accountType.keeperType == .cash || accountType.keeperType == .none
+        mainView.keeperLabel.isHidden = keeperIsHidden
+        mainView.keeperButton.isHidden = keeperIsHidden
+
+        if mode == .create {
+            mainView.balanceOnDateLabel.isHidden = !accountType.hasInitialBalance
+            mainView.datePicker.isHidden = !accountType.hasInitialBalance
+            mainView.balanceTextField.isHidden = !accountType.hasInitialBalance
+
+            if let linkedAccountType = accountType.linkedAccountType {
+                mainView.linkedAccountBalanceLabel.isHidden = !linkedAccountType.hasInitialBalance
+                mainView.linkedAccountBalanceTextField.isHidden = !linkedAccountType.hasInitialBalance
+            } else {
+                mainView.linkedAccountBalanceLabel.isHidden = true
+                mainView.linkedAccountBalanceTextField.isHidden = true
+            }
+        } else {
+            mainView.balanceOnDateLabel.isHidden = true
+            mainView.datePicker.isHidden = true
+            mainView.balanceTextField.isHidden = true
+            mainView.linkedAccountBalanceLabel.isHidden = true
+            mainView.linkedAccountBalanceTextField.isHidden = true
+        }
+    }
+
+    func currencyDidSet(_ currency: CurrencyViewModel?, accountingCurrency: CurrencyViewModel) {
         if let currency = currency {
             mainView.currencyButton.setTitle(currency.code, for: .normal)
+            mainView.exchangeRateTextField.isHidden = (currency.id == accountingCurrency.id)
+            mainView.exchangeRateLabel.isHidden = (currency.id == accountingCurrency.id)
+            let placeholder = String(format: NSLocalizedString("How many %@ you have to pay for 1 %@",
+                                                               tableName: Constants.Localizable.accountEditor,
+                                                               comment: ""),
+                                     accountingCurrency.code, currency.code)
+            mainView.exchangeRateTextField.placeholder = placeholder
+            mainView.exchangeRateLabel.text = accountingCurrency.code + "/" + currency.code
         } else {
             mainView.currencyButton.setTitle("", for: .normal)
         }
@@ -112,6 +179,29 @@ extension AccountEditorViewController: AccountEditorViewInput {
         } else {
             mainView.keeperButton.setTitle("", for: .normal)
         }
+    }
+
+    func rateDidSet(_ rate: Double?) {
+        if let rate = rate {
+            mainView.exchangeRateLabel.text = String(rate)
+        } else {
+            mainView.exchangeRateLabel.text = ""
+        }
+    }
+
+    func setTitle(_ title: String) {
+        self.navigationItem.title = title
+    }
+
+    func configureComponentsForEditMode() {
+        mainView.currencyButton.isUserInteractionEnabled = false
+        mainView.datePicker.isHidden = true
+        mainView.balanceOnDateLabel.isHidden = true
+        mainView.balanceTextField.isHidden = true
+        mainView.linkedAccountBalanceTextField.isHidden = true
+        mainView.linkedAccountBalanceLabel.isHidden = true
+        mainView.exchangeRateLabel.isHidden = true
+        mainView.exchangeRateTextField.isHidden = true
     }
 }
 
@@ -145,7 +235,7 @@ extension AccountEditorViewController: UIScrollViewDelegate {
     @objc func doneButtonAction() {
         mainView.nameTextField.resignFirstResponder()
         mainView.balanceTextField.resignFirstResponder()
-        mainView.creditLimitTextField.resignFirstResponder()
+        mainView.linkedAccountBalanceTextField.resignFirstResponder()
         mainView.exchangeRateTextField.resignFirstResponder()
     }
 }

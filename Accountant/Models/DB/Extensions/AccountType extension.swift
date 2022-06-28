@@ -13,12 +13,8 @@ extension AccountType {
         return Array(children)
     }
 
-    var hasChildren: Bool {
-        return !childrenList.isEmpty
-    }
-
     var hasMoreThenOneChildren: Bool {
-        return childrenList.count > 1
+        return childrenList.filter({$0.canBeCreatedByUser}).count > 1
     }
 
     var useCustomViewToCreateAccount: Bool {
@@ -26,10 +22,10 @@ extension AccountType {
     }
 
     var defultChildType: AccountType? {
-        if childrenList.isEmpty {
+        if childrenList.filter({$0.canBeCreatedByUser}).isEmpty {
             return nil
         } else {
-            return childrenList.sorted(by: {$0.priority > $1.priority}).first
+            return childrenList.filter({$0.canBeCreatedByUser}).sorted(by: {$0.priority > $1.priority}).first
         }
     }
 

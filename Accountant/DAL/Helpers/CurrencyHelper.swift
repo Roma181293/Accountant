@@ -20,7 +20,7 @@ class CurrencyHelper {
     class func getById(_ id: UUID, context: NSManagedObjectContext) -> Currency? {
         let fetchRequest = Currency.fetchRequest()
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: Schema.Currency.code.rawValue, ascending: false)]
-        fetchRequest.predicate = NSPredicate(format: "\(Schema.Currency.id.rawValue) = %@", id.uuidString)
+        fetchRequest.predicate = NSPredicate(format: "\(Schema.Currency.id.rawValue) = %@", id as CVarArg)
         return try? context.fetch(fetchRequest).first
     }
 
@@ -29,11 +29,7 @@ class CurrencyHelper {
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: Schema.Currency.iso4217.rawValue, ascending: true)]
         fetchRequest.predicate = NSPredicate(format: "\(Schema.Currency.iso4217.rawValue) = \(iso4217)")
         let currencies = try context.fetch(fetchRequest)
-        if currencies.isEmpty {
-            return nil
-        } else {
-            return currencies[0]
-        }
+        return try context.fetch(fetchRequest).first
     }
 
     class func setAccountingCurrency(_ currency: Currency, modifyDate: Date = Date(),
@@ -47,16 +43,6 @@ class CurrencyHelper {
         let fetchRequest = Currency.fetchRequest()
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: Schema.Currency.code.rawValue, ascending: true)]
         fetchRequest.predicate = NSPredicate(format: "\(Schema.Currency.isAccounting.rawValue) = true")
-        do {
-            let currencies = try context.fetch(fetchRequest)
-            if currencies.isEmpty == false {
-                return currencies.first!
-            } else {
-                return nil
-            }
-        } catch let error {
-            print("ERROR", error)
-            return nil
-        }
+        return try? context.fetch(fetchRequest).first
     }
 }

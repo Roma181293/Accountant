@@ -12,6 +12,7 @@ class AccountHelper {
     private static var reservedAccountNames: [String] {
         return [
             // EN
+            "Accounts",
             "Income",
             "Expenses",
             "Capital",
@@ -22,6 +23,7 @@ class AccountHelper {
             "<Other>",
             "Other",
             // UA
+            "Рахунки",
             "Доходи",
             "Витрати",
             "Гроші",
@@ -32,6 +34,7 @@ class AccountHelper {
             "<Інше>",
             "Інше",
             // RU
+            "Счета",
             "Доходы",
             "Расходы",
             "Деньги",
@@ -131,9 +134,9 @@ class AccountHelper {
         }
         guard isFreeAccountName(parent: parent, name: name, context: context) == true else {
             if parent?.currency == nil {
-                throw Account.Error.accountAlreadyExists(name: name)
+                throw Account.Error.accountNameAlreadyTaken(name: name)
             } else {
-                throw Account.Error.categoryAlreadyExists(name: name)
+                throw Account.Error.categoryNameAlreadyTaken(name: name)
             }
         }
     }
@@ -156,23 +159,31 @@ class AccountHelper {
     }
 
     static func getRootAccountList(context: NSManagedObjectContext) -> [Account] {
-        let fetchRequest: NSFetchRequest<Account> = Account.fetchRequest()
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: Schema.Account.name.rawValue, ascending: true)]
-        fetchRequest.predicate = NSPredicate(format: "\(Schema.Account.parent.rawValue).\(Schema.Account.parent.rawValue) = nil") // swiftlint:disable:this line_length
-        return (try? context.fetch(fetchRequest)) ?? []
+        let request: NSFetchRequest<Account> = Account.fetchRequest()
+        request.sortDescriptors = [NSSortDescriptor(key: Schema.Account.name.rawValue, ascending: true)]
+        request.predicate = NSPredicate(format: "\(Schema.Account.parent.rawValue).\(Schema.Account.parent.rawValue) = nil") // swiftlint:disable:this line_length
+        return (try? context.fetch(request)) ?? []
     }
 
     static func getAccountList(context: NSManagedObjectContext) throws -> [Account] {
-        let accountFetchRequest: NSFetchRequest<Account> = Account.fetchRequest()
-        accountFetchRequest.sortDescriptors = [NSSortDescriptor(key: Schema.Account.name.rawValue, ascending: true)]
-        return try context.fetch(accountFetchRequest)
+        let request: NSFetchRequest<Account> = Account.fetchRequest()
+        request.sortDescriptors = [NSSortDescriptor(key: Schema.Account.name.rawValue, ascending: true)]
+        return try context.fetch(request)
+    }
+
+    static func getAccountListWithType(typeId: UUID, context: NSManagedObjectContext) throws -> [Account] {
+        let request: NSFetchRequest<Account> = Account.fetchRequest()
+        request.sortDescriptors = [NSSortDescriptor(key: Schema.Account.name.rawValue, ascending: true)]
+
+        request.predicate = NSPredicate(format: "\(Schema.Account.type.rawValue).\(Schema.AccountType.id.rawValue) = %@", argumentArray: [typeId.uuidString])
+        return try context.fetch(request)
     }
 
     static func getAccountWithPath(_ path: String, context: NSManagedObjectContext) -> Account? {
-        let fetchRequest: NSFetchRequest<Account> = Account.fetchRequest()
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: Schema.Account.name.rawValue, ascending: true)]
+        let request: NSFetchRequest<Account> = Account.fetchRequest()
+        request.sortDescriptors = [NSSortDescriptor(key: Schema.Account.name.rawValue, ascending: true)]
         do {
-            let accounts = try context.fetch(fetchRequest)
+            let accounts = try context.fetch(request)
             if !accounts.isEmpty {
                 for account in accounts where account.path == path {
                     return account

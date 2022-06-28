@@ -11,6 +11,7 @@ import Charts
 
 struct Constants {
     struct Localizable {
+        // Modules
         static let settingsVC = "SettingsVCLocalizable"
         static let bankAccountTVC = "BankAccountTVCLocalizable"
         static let userBankProfileListVC = "UserBankProfileListVCLocalizable"
@@ -19,13 +20,18 @@ struct Constants {
         static let holderVC = "HolderVCLocalizable"
         static let currencyVC = "CurrencyVCLocalizable"
         static let accountNavigationVC = "AccountNavigationVCLocalizable"
-        static let accountEditorVC = "AccountEditorVCLocalizable"
+        static let accountEditor = "AccountEditorLocalizable"
         static let simpleTransactionEditorVC = "SimpleTransactionEditorVCLocalizable"
         static let mITransactionEditor = "MITransactionEditorLocalizable"
         static let transactionList = "TransactionListLocalizable"
         static let welcomeVC = "WelcomeVCLocalizable"
         static let startAccountingVC = "StartAccountingVCLocalizable"
         static let purchaseOfferVC = "PurchaseOfferVCLocalizable"
+        static let accountTypeNavigation = "AccountTypeNavigationLocalizable"
+
+        // Services
+        static let accountEditorService = "AccountEditorServiceLocalizable"
+
     }
 
     struct Storyboard {

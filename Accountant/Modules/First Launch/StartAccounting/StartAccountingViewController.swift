@@ -55,6 +55,7 @@ class StartAccountingViewController: UIViewController {
         mainView.continueButton.addTarget(self, action: #selector(self.nextStep), for: .touchUpInside)
     }
 
+    // FIXME: - investigate can be deleted `parentVC != nil &&`
     deinit {
         if parentVC != nil && UserProfile.isAppLaunchedBefore() == false {
             CoreDataStack.shared.switchToDB(.test)
@@ -82,7 +83,9 @@ class StartAccountingViewController: UIViewController {
     }
 
     private func addCurrencyListVC() {
-        let tempCurrencyListVC = CurrencyViewController(delegate: self, mode: .setAccountingCurrency)
+        let tempCurrencyListVC = CurrencyViewController()
+        tempCurrencyListVC.delegate = self
+        tempCurrencyListVC.mode = .setAccountingCurrency
         currencyListVC = tempCurrencyListVC
         addChild(currencyListVC)
         mainView.addContentView(currencyListVC.view)

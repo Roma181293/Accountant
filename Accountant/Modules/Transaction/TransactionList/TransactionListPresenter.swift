@@ -39,7 +39,7 @@ extension TransactionListPresenter: TransactionListViewOutput {
             if self.interactorInput?.canDuplicateTransaction() == true {
                 self.interactorInput?.duplicateTransaction(at: indexPath)
             } else {
-                self.routerInput?.showPurchaseOfferVC()
+                self.routerInput?.showPurchaseOfferModule()
             }
             complete(true)
         }
@@ -87,7 +87,7 @@ extension TransactionListPresenter: TransactionListViewOutput {
     }
 
     func proAcceessButtonDidClick() {
-        routerInput?.showPurchaseOfferVC()
+        routerInput?.showPurchaseOfferModule()
     }
 
     func syncStatmentsButtonDidClick() {

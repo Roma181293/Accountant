@@ -68,7 +68,7 @@ class AccountEditorView: UIView {
 
     let typeLabel: UILabel = {
         let label = UILabel()
-        label.text = NSLocalizedString("Type", tableName: Constants.Localizable.accountEditorVC, comment: "")
+        label.text = NSLocalizedString("Type", tableName: Constants.Localizable.accountEditor, comment: "")
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -84,7 +84,7 @@ class AccountEditorView: UIView {
 
     let currencyLabel: UILabel = {
         let label = UILabel()
-        label.text = NSLocalizedString("Currency", tableName: Constants.Localizable.accountEditorVC, comment: "")
+        label.text = NSLocalizedString("Currency", tableName: Constants.Localizable.accountEditor, comment: "")
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -110,7 +110,7 @@ class AccountEditorView: UIView {
 
     let balanceOnDateLabel: UILabel = {
         let label = UILabel()
-        label.text = NSLocalizedString("Balance on", tableName: Constants.Localizable.accountEditorVC, comment: "")
+        label.text = NSLocalizedString("Balance on", tableName: Constants.Localizable.accountEditor, comment: "")
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -118,20 +118,21 @@ class AccountEditorView: UIView {
     let datePicker: UIDatePicker = {
         let datePicker = UIDatePicker()
         datePicker.preferredDatePickerStyle = .compact
+        datePicker.maximumDate = Date()
         datePicker.translatesAutoresizingMaskIntoConstraints = false
         return datePicker
     }()
 
     let nameLabel: UILabel = {
         let label = UILabel()
-        label.text = NSLocalizedString("Name", tableName: Constants.Localizable.accountEditorVC, comment: "")
+        label.text = NSLocalizedString("Name", tableName: Constants.Localizable.accountEditor, comment: "")
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
 
     let keeperLabel: UILabel = {
         let label = UILabel()
-        label.text = NSLocalizedString("Keeper", tableName: Constants.Localizable.accountEditorVC, comment: "")
+        label.text = NSLocalizedString("Keeper", tableName: Constants.Localizable.accountEditor, comment: "")
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -147,7 +148,7 @@ class AccountEditorView: UIView {
 
     let holderLabel: UILabel = {
         let label = UILabel()
-        label.text = NSLocalizedString("Holder", tableName: Constants.Localizable.accountEditorVC, comment: "")
+        label.text = NSLocalizedString("Holder", tableName: Constants.Localizable.accountEditor, comment: "")
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -164,7 +165,6 @@ class AccountEditorView: UIView {
     let nameTextField: UITextField = {
         let textField = UITextField()
         textField.tag = 100
-        textField.placeholder = NSLocalizedString("Example: John BankName salary", tableName: Constants.Localizable.accountEditorVC, comment: "")
         textField.autocapitalizationType = .words
         textField.layer.cornerRadius = 5
         textField.layer.borderColor = UIColor.lightGray.cgColor
@@ -192,14 +192,14 @@ class AccountEditorView: UIView {
         return textField
     }()
 
-    let creditLimitLabel: UILabel = {
+    let linkedAccountBalanceLabel: UILabel = {
         let label = UILabel()
-        label.text = NSLocalizedString("Credit limit", tableName: Constants.Localizable.accountEditorVC, comment: "")
+        label.text = NSLocalizedString("Credit limit", tableName: Constants.Localizable.accountEditor, comment: "")
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
 
-    let creditLimitTextField: UITextField = {
+    let linkedAccountBalanceTextField: UITextField = {
         let textField = UITextField()
         textField.tag = 0
         textField.keyboardType = .decimalPad
@@ -259,10 +259,6 @@ class AccountEditorView: UIView {
         return button
     }()
 
-    var date: Date {
-        datePicker.date
-    }
-
     override init(frame: CGRect) {
         super.init(frame: frame)
 
@@ -278,10 +274,10 @@ class AccountEditorView: UIView {
         mainScrollView.addSubview(mainView)
         mainView.leadingAnchor.constraint(equalTo: mainScrollView.leadingAnchor, constant: 10).isActive = true
         mainView.trailingAnchor.constraint(equalTo: mainScrollView.trailingAnchor, constant: -10).isActive = true
-        mainView.topAnchor.constraint(equalTo: mainScrollView.topAnchor).isActive = true
+        mainView.topAnchor.constraint(equalTo: mainScrollView.topAnchor, constant: 10).isActive = true
         mainView.bottomAnchor.constraint(equalTo: mainScrollView.bottomAnchor).isActive = true
         mainView.widthAnchor.constraint(equalTo: mainScrollView.widthAnchor, constant: -20).isActive = true
-        mainView.heightAnchor.constraint(equalTo: mainScrollView.heightAnchor).isActive = true
+        mainView.heightAnchor.constraint(equalTo: mainScrollView.heightAnchor, constant: -10).isActive = true
         // Main Stack View
         mainView.addSubview(mainStackView)
         mainStackView.leadingAnchor.constraint(equalTo: mainView.leadingAnchor).isActive = true
@@ -290,11 +286,12 @@ class AccountEditorView: UIView {
         mainStackView.addArrangedSubview(consolidatedStackView)
         // Leading Stack View
         consolidatedStackView.addArrangedSubview(leadingStackView)
+        leadingStackView.widthAnchor.constraint(equalToConstant: 100).isActive = true
         leadingStackView.addArrangedSubview(typeLabel)
+        leadingStackView.addArrangedSubview(nameLabel)
         leadingStackView.addArrangedSubview(currencyLabel)
         leadingStackView.addArrangedSubview(holderLabel)
         leadingStackView.addArrangedSubview(keeperLabel)
-        leadingStackView.addArrangedSubview(nameLabel)
         currencyLabel.heightAnchor.constraint(equalToConstant: 34).isActive = true
         typeLabel.heightAnchor.constraint(equalToConstant: 34).isActive = true
         holderLabel.heightAnchor.constraint(equalToConstant: 34).isActive = true
@@ -303,10 +300,10 @@ class AccountEditorView: UIView {
         // Trailing Stack View
         consolidatedStackView.addArrangedSubview(trailingStackView)
         trailingStackView.addArrangedSubview(typeButton)
+        trailingStackView.addArrangedSubview(nameTextField)
         trailingStackView.addArrangedSubview(currencyButton)
         trailingStackView.addArrangedSubview(holderButton)
         trailingStackView.addArrangedSubview(keeperButton)
-        trailingStackView.addArrangedSubview(nameTextField)
         currencyButton.heightAnchor.constraint(equalToConstant: 34).isActive = true
         typeButton.heightAnchor.constraint(equalToConstant: 34).isActive = true
         holderButton.heightAnchor.constraint(equalToConstant: 34).isActive = true
@@ -322,12 +319,12 @@ class AccountEditorView: UIView {
         balanceTextField.heightAnchor.constraint(equalToConstant: 34).isActive = true
         mainStackView.setCustomSpacing(20, after: balanceTextField)
         // Credit Limit Label
-        mainStackView.addArrangedSubview(creditLimitLabel)
-        mainStackView.setCustomSpacing(8, after: creditLimitLabel)
+        mainStackView.addArrangedSubview(linkedAccountBalanceLabel)
+        mainStackView.setCustomSpacing(8, after: linkedAccountBalanceLabel)
         // Credit Limit Text Field
-        mainStackView.addArrangedSubview(creditLimitTextField)
-        creditLimitTextField.heightAnchor.constraint(equalToConstant: 34).isActive = true
-        mainStackView.setCustomSpacing(20, after: creditLimitTextField)
+        mainStackView.addArrangedSubview(linkedAccountBalanceTextField)
+        linkedAccountBalanceTextField.heightAnchor.constraint(equalToConstant: 34).isActive = true
+        mainStackView.setCustomSpacing(20, after: linkedAccountBalanceTextField)
         // Exchange Rate Label
         mainStackView.addArrangedSubview(exchangeRateLabel)
         mainStackView.setCustomSpacing(8, after: exchangeRateLabel)

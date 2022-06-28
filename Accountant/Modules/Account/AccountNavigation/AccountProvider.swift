@@ -88,9 +88,9 @@ class AccountProvider {
 
         guard AccountHelper.isFreeAccountName(parent: parent, name: name, context: backgroundContext) == true else {
             if parent.currency == nil {
-                throw Account.Error.accountAlreadyExists(name: name)
+                throw Account.Error.accountNameAlreadyTaken(name: name)
             } else {
-                throw Account.Error.categoryAlreadyExists(name: name)
+                throw Account.Error.categoryNameAlreadyTaken(name: name)
             }
         }
 
@@ -132,9 +132,9 @@ class AccountProvider {
         guard AccountHelper.isFreeAccountName(parent: account.parent, name: newName, context: context)
         else {
             if self.parent?.currency == nil {
-                throw Account.Error.accountAlreadyExists(name: newName)
+                throw Account.Error.accountNameAlreadyTaken(name: newName)
             } else {
-                throw Account.Error.categoryAlreadyExists(name: newName)
+                throw Account.Error.categoryNameAlreadyTaken(name: newName)
             }
         }
 
@@ -162,29 +162,24 @@ class AccountProvider {
 
     func allowedActions(at indexPath: IndexPath) -> [ActionEnum] {
         guard isSwipeAvailable else {return []}
+
         let selectedAccount = fetchedResultsController.object(at: indexPath)
+
         var result: [ActionEnum] = []
-        if let parent = selectedAccount.parent, (
-            parent.name == LocalisationManager.getLocalizedName(.money) // can have only one lvl of subAccounts
-            || parent.name == LocalisationManager.getLocalizedName(.credits) // can have only one lvl od subAccounts
-            || parent.name == LocalisationManager.getLocalizedName(.debtors) // can have only one lvl od subAccounts
-            || selectedAccount.name == LocalisationManager.getLocalizedName(.other1) // can not have subAccount
-            || selectedAccount.name == LocalisationManager.getLocalizedName(.beforeAccountingPeriod) // coz it used in system generated transactions
-        ) {
 
-        } else if selectedAccount.parent == nil && selectedAccount.name == LocalisationManager.getLocalizedName(.capital) {
-            // can not have subAccount, coz it used in system generated transactions
-
-        } else {
+        if !selectedAccount.type.childrenList.isEmpty {
             result.append(.create)
         }
 
-        if selectedAccount.canBeRenamed {
+        if selectedAccount.type.canBeRenamed {
             result.append(.rename)
+        }
+
+        if selectedAccount.type.canBeDeleted {
             result.append(.delete)
         }
 
-        if selectedAccount.parent != nil || (selectedAccount.parent == nil && selectedAccount.createdByUser == true) {
+        if selectedAccount.type.canChangeActiveStatus {
             result.append(.changeActiveStatus)
         }
         return result
@@ -193,7 +188,12 @@ class AccountProvider {
     func changeActiveStatus(indexPath: IndexPath, modifiedByUser: Bool = true, modifyDate: Date = Date(),
                             shouldSave: Bool = true) throws {
 
-        let objectID  = fetchedResultsController.object(at: indexPath).objectID
+        let accountToModify  = fetchedResultsController.object(at: indexPath)
+
+        guard accountToModify.type.canChangeActiveStatus else {throw Account.Error.activeStatusCannotBeChanged}
+
+        let objectID  = accountToModify.objectID
+        
         let backgroundContext = persistentContainer.newBackgroundContext()
         backgroundContext.performAndWait {
 

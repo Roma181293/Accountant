@@ -46,7 +46,7 @@ class KeeperHelper {
     class func getById(_ id: UUID, context: NSManagedObjectContext) -> Keeper? {
         let fetchRequest = Keeper.fetchRequest()
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: Schema.Keeper.name.rawValue, ascending: true)]
-        fetchRequest.predicate = NSPredicate(format: "\(Schema.Keeper.id.rawValue) = %@", id.uuidString)
+        fetchRequest.predicate = NSPredicate(format: "\(Schema.Keeper.id.rawValue) = %@", id as CVarArg)
         return try? context.fetch(fetchRequest).first
     }
 }

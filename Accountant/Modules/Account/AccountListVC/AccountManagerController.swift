@@ -31,14 +31,7 @@ class AccountManagerController {
                                                                            isUserHasPaidAccess:
                                                                             delegate.isUserHasPaidAccess,
                                                                            environment: delegate.environment) {
-            guard let account = self.delegate.account else {
-                let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-                guard let addAccountVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.addAccountVC) as? RootAccountEditorViewController else {return} // swiftlint:disable:this line_length
-                addAccountVC.environment = delegate.environment
-                addAccountVC.isUserHasPaidAccess = delegate.isUserHasPaidAccess
-                self.delegate.navigationController?.pushViewController(addAccountVC, animated: true)
-                return
-            }
+            guard let account = self.delegate.account else {return}
             if let accountCurrency = account.currency {
                 let alert = UIAlertController(title: NSLocalizedString("Add category", comment: ""),
                                               message: nil, preferredStyle: .alert)
@@ -71,7 +64,7 @@ class AccountManagerController {
                                               style: .cancel))
                 self.delegate.present(alert, animated: true, completion: nil)
             } else {
-                self.delegate.navigationController?.pushViewController(AccountEditorAssembly.configure(parentAccountId: account.id),
+                self.delegate.navigationController?.pushViewController(AccountEditorAssembly.configureCreateMode(parentAccountId: account.id),
                                                                        animated: true)
             }
         } else {
@@ -221,9 +214,7 @@ class AccountManagerController {
                                                                                isUserHasPaidAccess: self.delegate.isUserHasPaidAccess,
                                                                                environment: self.delegate.environment) {
                 if selectedAccount.currency == nil {
-
-                    let accountEditorVC = AccountEditorViewController1()
-                    accountEditorVC.parentAccount = selectedAccount
+                    let accountEditorVC = AccountEditorAssembly.configureCreateMode(parentAccountId: selectedAccount.id)
                     self.delegate.navigationController?.pushViewController(accountEditorVC, animated: true)
                 } else {
                     let alert = UIAlertController(title: NSLocalizedString("Add subcategory", comment: ""),
@@ -242,7 +233,7 @@ class AccountManagerController {
                                   AccountHelper.isFreeAccountName(parent: selectedAccount,
                                                             name: textField.text!,
                                                             context: self.delegate.context)
-                            else {throw Account.Error.accountAlreadyExists(name: alert!.textFields!.first!.text!)}
+                            else {throw Account.Error.accountNameAlreadyTaken(name: alert!.textFields!.first!.text!)}
                             if !selectedAccount.isFreeFromTransactionItems {
                                 let alert1 = UIAlertController(title: NSLocalizedString("Warning", comment: ""),
                                                                message: String(format: NSLocalizedString("Category \"%@\" contains transactions. All these thansactions will be automatically moved to the new \"%@\" subcategory", comment: ""), // swiftlint:disable:this line_length
@@ -321,9 +312,7 @@ class AccountManagerController {
     func editAccount(indexPath: IndexPath, selectedAccount: Account) -> UIContextualAction {
         let editAccount = UIContextualAction(style: .normal,
                                              title: NSLocalizedString("Edit", comment: "")) { (_, _, complete) in
-            let accountEditorVC = AccountEditorViewController1()
-            accountEditorVC.parentAccount = selectedAccount.rootAccount
-            accountEditorVC.account = selectedAccount
+            let accountEditorVC = AccountEditorAssembly.configureEditMode(accountId: selectedAccount.id)
             self.delegate.navigationController?.pushViewController(accountEditorVC, animated: true)
             complete(true)
         }

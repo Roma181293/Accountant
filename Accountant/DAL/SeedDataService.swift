@@ -61,15 +61,15 @@ class SeedDataService {
         let accounting = AccountType(name: "Accounting", classification: .none, isConsolidation: true, priority: 1, context: context)
 
         let creditorsConsolid = AccountType(parent: accounting, name: "Creditors consolidation", classification: .liabilities, balanceCalcFullTime: true, isConsolidation: true, priority: 1, context: context)
-        let creditor = AccountType(parent: creditorsConsolid, name: "Creditor", classification: .liabilities, hasCurrency: true, hasHolder: true, hasKeeper: true, balanceCalcFullTime: true, canBeDeleted: true, canChangeActiveStatus: true, canBeRenamed: true, canBeCreatedByUser: true, checkAmountBeforDeactivate: true, priority: 1, context: context)
+        let creditor = AccountType(parent: creditorsConsolid, name: "Creditor", classification: .liabilities, hasCurrency: true, hasHolder: true, hasKeeper: true, hasInitialBalance: true, balanceCalcFullTime: true, canBeDeleted: true, canChangeActiveStatus: true, canBeRenamed: true, canBeCreatedByUser: true, keeperType: .nonCash ,checkAmountBeforDeactivate: true, priority: 1, context: context)
 
         let moneyConsolid = AccountType(parent: accounting, name: "Money consolidation", classification: .assets, balanceCalcFullTime: true, isConsolidation: true, priority: 1, context: context)
-        let creditCard = AccountType(parent: moneyConsolid, name: "Credit Card", classification: .assets, hasCurrency: true, linkedAccountType: creditor, hasHolder: true, hasKeeper: true, balanceCalcFullTime: true, canBeDeleted: true, canChangeActiveStatus: true, canBeRenamed: true, canBeCreatedByUser: true, checkAmountBeforDeactivate: true, priority: 3, context: context)
-        let debitCard = AccountType(parent: moneyConsolid, name: "Debit Card", classification: .assets, hasCurrency: true, hasHolder: true, hasKeeper: true, hasInitialBalance: true, balanceCalcFullTime: true, canBeDeleted: true, canChangeActiveStatus: true, canBeRenamed: true, canBeCreatedByUser: true, checkAmountBeforDeactivate: true, priority: 2, context: context)
-        let cash = AccountType(parent: moneyConsolid, name: "Cash", classification: .assets, hasCurrency: true, hasHolder: true, hasKeeper: true, hasInitialBalance: true, balanceCalcFullTime: true, canBeDeleted: true, canChangeActiveStatus: true, canBeRenamed: true, canBeCreatedByUser: true, checkAmountBeforDeactivate: true, priority: 1, context: context)
+        let creditCard = AccountType(parent: moneyConsolid, name: "Credit Card", classification: .assets, hasCurrency: true, linkedAccountType: creditor, hasHolder: true, hasKeeper: true, hasInitialBalance: true, balanceCalcFullTime: true, canBeDeleted: true, canChangeActiveStatus: true, canBeRenamed: true, canBeCreatedByUser: true, keeperType: .bank, checkAmountBeforDeactivate: true, priority: 3, context: context)
+        let debitCard = AccountType(parent: moneyConsolid, name: "Debit Card", classification: .assets, hasCurrency: true, hasHolder: true, hasKeeper: true, hasInitialBalance: true, balanceCalcFullTime: true, canBeDeleted: true, canChangeActiveStatus: true, canBeRenamed: true, canBeCreatedByUser: true, keeperType: .bank, checkAmountBeforDeactivate: true, priority: 2, context: context)
+        let cash = AccountType(parent: moneyConsolid, name: "Cash", classification: .assets, hasCurrency: true, hasHolder: true, hasKeeper: true, hasInitialBalance: true, balanceCalcFullTime: true, canBeDeleted: true, canChangeActiveStatus: true, canBeRenamed: true, canBeCreatedByUser: true, keeperType: .cash, checkAmountBeforDeactivate: true, priority: 1, context: context)
 
         let debtorsConsolid = AccountType(parent: accounting, name: "Debtors consolidation", classification: .assets, balanceCalcFullTime: true, isConsolidation: true, priority: 1, context: context)
-        let debtor = AccountType(parent: debtorsConsolid, name: "Debtor", classification: .assets, hasCurrency: true, hasHolder: true, hasKeeper: true, balanceCalcFullTime: true, canBeDeleted: true, canChangeActiveStatus: true, canBeRenamed: true, canBeCreatedByUser: true, checkAmountBeforDeactivate: true, priority: 1, context: context)
+        let debtor = AccountType(parent: debtorsConsolid, name: "Debtor", classification: .assets, hasCurrency: true, hasHolder: true, hasKeeper: true, hasInitialBalance: true, balanceCalcFullTime: true, canBeDeleted: true, canChangeActiveStatus: true, canBeRenamed: true, canBeCreatedByUser: true, keeperType: .nonCash, checkAmountBeforDeactivate: true, priority: 1, context: context)
 
         let incomeConsolid = AccountType(parent: accounting, name: "Income consolidation", classification: .liabilities, hasCurrency: true, isConsolidation: true, priority: 1, context: context)
 
@@ -96,6 +96,10 @@ class SeedDataService {
         try? AccountHelper.createAccount(parent: accounts, name: LocalisationManager.getLocalizedName(.capital), type: capitalConsolid, currency: accountingCurrency, createdByUser: false, context: context)
 
         let expense = try? AccountHelper.createAndGetAccount(parent: accounts, name: LocalisationManager.getLocalizedName(.expense), type: expenseConsolid, currency: accountingCurrency, createdByUser: false, context: context)
+
+        let beforeAccountingPeriod = try? AccountHelper.createAndGetAccount(parent: expense, name: LocalisationManager.getLocalizedName(.beforeAccountingPeriod), type: assetsCategory, currency: accountingCurrency, createdByUser: false, context: context)
+        try? beforeAccountingPeriod?.changeActiveStatus()
+
         try? AccountHelper.createAccount(parent: expense, name: NSLocalizedString("Food", comment: ""), type: assetsCategory, currency: accountingCurrency, createdByUser: false, context: context)
         try? AccountHelper.createAccount(parent: expense, name: NSLocalizedString("Transport", comment: ""), type: assetsCategory, currency: accountingCurrency, createdByUser: false, context: context)
         try? AccountHelper.createAccount(parent: expense, name: NSLocalizedString("Gifts", comment: ""), type: assetsCategory, currency: accountingCurrency, createdByUser: false, context: context)
@@ -207,13 +211,13 @@ class SeedDataService {
 
     // MARK: - Keeper
     private static func addKeepers(context: NSManagedObjectContext) {
-        let keeperProvider = KeeperProvider(with: CoreDataStack.shared.persistentContainer, fetchedResultsControllerDelegate: nil, mode: nil)
+        let keeperProvider = KeeperProvider(with: CoreDataStack.shared.persistentContainer, fetchedResultsControllerDelegate: nil)
         keeperProvider.addKeeper(name: NSLocalizedString("Cash", comment: ""), type: .cash, createdByUser: false, context: context)
         keeperProvider.addKeeper(name: NSLocalizedString("Monobank",comment: ""), type: .bank, createdByUser: false, context: context)
     }
     
     private static func addTestKeepers(context: NSManagedObjectContext) {
-        let keeperProvider = KeeperProvider(with: CoreDataStack.shared.persistentContainer, fetchedResultsControllerDelegate: nil, mode: nil)
+        let keeperProvider = KeeperProvider(with: CoreDataStack.shared.persistentContainer, fetchedResultsControllerDelegate: nil)
         keeperProvider.addKeeper(name: NSLocalizedString("Cash", comment: ""), type: .cash, createdByUser: false, context: context)
         keeperProvider.addKeeper(name: NSLocalizedString("Bank1", comment: ""), type: .bank, context: context)
         keeperProvider.addKeeper(name: NSLocalizedString("Bank2", comment: ""), type: .bank, context: context)
@@ -323,15 +327,15 @@ class SeedDataService {
         let accounting = AccountType(name: "Accounting", classification: .none, isConsolidation: true, priority: 1, context: context)
 
         let creditorsConsolid = AccountType(parent: accounting, name: "Creditors consolidation", classification: .liabilities, balanceCalcFullTime: true, isConsolidation: true, priority: 1, context: context)
-        let creditor = AccountType(parent: creditorsConsolid, name: "Creditor", classification: .liabilities, hasCurrency: true, hasHolder: true, hasKeeper: true, balanceCalcFullTime: true, canBeDeleted: true, canChangeActiveStatus: true, canBeRenamed: true, canBeCreatedByUser: true, checkAmountBeforDeactivate: true, priority: 1, context: context)
+        let creditor = AccountType(parent: creditorsConsolid, name: "Creditor", classification: .liabilities, hasCurrency: true, hasHolder: true, hasKeeper: true, hasInitialBalance: true, balanceCalcFullTime: true, canBeDeleted: true, canChangeActiveStatus: true, canBeRenamed: true, canBeCreatedByUser: true, keeperType: .nonCash ,checkAmountBeforDeactivate: true, priority: 1, context: context)
 
         let moneyConsolid = AccountType(parent: accounting, name: "Money consolidation", classification: .assets, balanceCalcFullTime: true, isConsolidation: true, priority: 1, context: context)
-        let creditCard = AccountType(parent: moneyConsolid, name: "Credit Card", classification: .assets, hasCurrency: true, linkedAccountType: creditor, hasHolder: true, hasKeeper: true, balanceCalcFullTime: true, canBeDeleted: true, canChangeActiveStatus: true, canBeRenamed: true, canBeCreatedByUser: true, checkAmountBeforDeactivate: true, priority: 3, context: context)
-        let debitCard = AccountType(parent: moneyConsolid, name: "Debit Card", classification: .assets, hasCurrency: true, hasHolder: true, hasKeeper: true, hasInitialBalance: true, balanceCalcFullTime: true, canBeDeleted: true, canChangeActiveStatus: true, canBeRenamed: true, canBeCreatedByUser: true, checkAmountBeforDeactivate: true, priority: 2, context: context)
-        let cash = AccountType(parent: moneyConsolid, name: "Cash", classification: .assets, hasCurrency: true, hasHolder: true, hasKeeper: true, hasInitialBalance: true, balanceCalcFullTime: true, canBeDeleted: true, canChangeActiveStatus: true, canBeRenamed: true, canBeCreatedByUser: true, checkAmountBeforDeactivate: true, priority: 1, context: context)
+        let creditCard = AccountType(parent: moneyConsolid, name: "Credit Card", classification: .assets, hasCurrency: true, linkedAccountType: creditor, hasHolder: true, hasKeeper: true, hasInitialBalance: true, balanceCalcFullTime: true, canBeDeleted: true, canChangeActiveStatus: true, canBeRenamed: true, canBeCreatedByUser: true, keeperType: .bank, checkAmountBeforDeactivate: true, priority: 3, context: context)
+        let debitCard = AccountType(parent: moneyConsolid, name: "Debit Card", classification: .assets, hasCurrency: true, hasHolder: true, hasKeeper: true, hasInitialBalance: true, balanceCalcFullTime: true, canBeDeleted: true, canChangeActiveStatus: true, canBeRenamed: true, canBeCreatedByUser: true, keeperType: .bank, checkAmountBeforDeactivate: true, priority: 2, context: context)
+        let cash = AccountType(parent: moneyConsolid, name: "Cash", classification: .assets, hasCurrency: true, hasHolder: true, hasKeeper: true, hasInitialBalance: true, balanceCalcFullTime: true, canBeDeleted: true, canChangeActiveStatus: true, canBeRenamed: true, canBeCreatedByUser: true, keeperType: .cash, checkAmountBeforDeactivate: true, priority: 1, context: context)
 
         let debtorsConsolid = AccountType(parent: accounting, name: "Debtors consolidation", classification: .assets, balanceCalcFullTime: true, isConsolidation: true, priority: 1, context: context)
-        let debtor = AccountType(parent: debtorsConsolid, name: "Debtor", classification: .assets, hasCurrency: true, hasHolder: true, hasKeeper: true, balanceCalcFullTime: true, canBeDeleted: true, canChangeActiveStatus: true, canBeRenamed: true, canBeCreatedByUser: true, checkAmountBeforDeactivate: true, priority: 1, context: context)
+        let debtor = AccountType(parent: debtorsConsolid, name: "Debtor", classification: .assets, hasCurrency: true, hasHolder: true, hasKeeper: true, hasInitialBalance: true, balanceCalcFullTime: true, canBeDeleted: true, canChangeActiveStatus: true, canBeRenamed: true, canBeCreatedByUser: true, keeperType: .nonCash, checkAmountBeforDeactivate: true, priority: 1, context: context)
 
         let incomeConsolid = AccountType(parent: accounting, name: "Income consolidation", classification: .liabilities, hasCurrency: true, isConsolidation: true, priority: 1, context: context)
 
@@ -368,8 +372,13 @@ class SeedDataService {
         let creditcard_A = try? AccountHelper.createAndGetAccount(parent: money, name: NSLocalizedString("Credit card", comment: ""), type: creditCard, currency: accountingCurrency, keeper: bank1, holder: me, createdByUser: false, context: context)
         let creditcard_L = try? AccountHelper.createAndGetAccount(parent: credits, name: NSLocalizedString("Credit card", comment: ""), type: creditor, currency: accountingCurrency, keeper: bank1, holder: me, createdByUser: false, context: context)
         creditcard_A?.linkedAccount = creditcard_L
+        creditcard_L?.linkedAccount = creditcard_A
 
         let expense = try? AccountHelper.createAndGetAccount(parent: accounts, name: LocalisationManager.getLocalizedName(.expense), type: expenseConsolid, currency: accountingCurrency, createdByUser: false, context: context)
+
+        let beforeAccountingPeriod = try? AccountHelper.createAndGetAccount(parent: expense, name: LocalisationManager.getLocalizedName(.beforeAccountingPeriod), type: assetsCategory, currency: accountingCurrency, createdByUser: false, context: context)
+        try? beforeAccountingPeriod?.changeActiveStatus()
+
         let food = try? AccountHelper.createAndGetAccount(parent: expense, name: NSLocalizedString("Food", comment: ""), type: assetsCategory, currency: accountingCurrency, createdByUser: false, context: context)
         let _ = try? AccountHelper.createAndGetAccount(parent: expense, name: NSLocalizedString("Transport", comment: ""), type: assetsCategory, currency: accountingCurrency, createdByUser: false, context: context)
         let gifts_E = try? AccountHelper.createAndGetAccount(parent: expense, name: NSLocalizedString("Gifts", comment: ""), type: assetsCategory, currency: accountingCurrency, createdByUser: false, context: context)
@@ -384,230 +393,230 @@ class SeedDataService {
         let interestOnDeposits = try? AccountHelper.createAndGetAccount(parent: income, name: NSLocalizedString("Interest on deposits", comment: ""), type: liabilitiesCategory, currency: accountingCurrency, createdByUser: false, context: context)
 
         let calendar = Calendar.current
-        TransactionHelper.addTransactionWith2TranItems(date: calendar.date(byAdding: .day, value: -60, to: Date())!,
+        TransactionHelper.createSimpleTran(date: calendar.date(byAdding: .day, value: -60, to: Date())!,
                                                  debit: deposit!,
                                                  credit: capital!,
                                                  debitAmount: 50000,
                                                  creditAmount: 50000,
                                                  context: context)
-        TransactionHelper.addTransactionWith2TranItems(date: calendar.date(byAdding: .day, value: -60, to: Date())!,
+        TransactionHelper.createSimpleTran(date: calendar.date(byAdding: .day, value: -60, to: Date())!,
                                                  debit: creditcard_A!,
                                                  credit: creditcard_L!,
                                                  debitAmount: 5000,
                                                  creditAmount: 5000,
                                                  context: context)
-        TransactionHelper.addTransactionWith2TranItems(date: calendar.date(byAdding: .day, value: -60, to: Date())!,
+        TransactionHelper.createSimpleTran(date: calendar.date(byAdding: .day, value: -60, to: Date())!,
                                                  debit: cashAcc!,
                                                  credit: capital!,
                                                  debitAmount: 2000,
                                                  creditAmount: 2000,
                                                  context: context)
-        TransactionHelper.addTransactionWith2TranItems(date: calendar.date(byAdding: .day, value: -60, to: Date())!,
+        TransactionHelper.createSimpleTran(date: calendar.date(byAdding: .day, value: -60, to: Date())!,
                                                  debit: salaryCard!,
                                                  credit: capital!,
                                                  debitAmount: 20000,
                                                  creditAmount: 20000,
                                                  context: context)
-        TransactionHelper.addTransactionWith2TranItems(date: calendar.date(byAdding: .day, value: -59, to: Date())!,
+        TransactionHelper.createSimpleTran(date: calendar.date(byAdding: .day, value: -59, to: Date())!,
                                                  debit: food!,
                                                  credit: salaryCard!,
                                                  debitAmount: 300,
                                                  creditAmount: 300,
                                                  context: context)
-        TransactionHelper.addTransactionWith2TranItems(date: calendar.date(byAdding: .day, value: -55, to: Date())!,
+        TransactionHelper.createSimpleTran(date: calendar.date(byAdding: .day, value: -55, to: Date())!,
                                                  debit: food!,
                                                  credit: salaryCard!,
                                                  debitAmount: 800,
                                                  creditAmount: 800,
                                                  context: context)
-        TransactionHelper.addTransactionWith2TranItems(date: calendar.date(byAdding: .day, value: -50, to: Date())!,
+        TransactionHelper.createSimpleTran(date: calendar.date(byAdding: .day, value: -50, to: Date())!,
                                                  debit: food!,
                                                  credit: salaryCard!,
                                                  debitAmount: 300,
                                                  creditAmount: 300,
                                                  context: context)
-        TransactionHelper.addTransactionWith2TranItems(date: calendar.date(byAdding: .day, value: -49, to: Date())!,
+        TransactionHelper.createSimpleTran(date: calendar.date(byAdding: .day, value: -49, to: Date())!,
                                                  debit: cashAcc!,
                                                  credit: salaryCard!,
                                                  debitAmount: 4000,
                                                  creditAmount: 4000,
                                                  context: context)
-        TransactionHelper.addTransactionWith2TranItems(date: calendar.date(byAdding: .day, value: -47, to: Date())!,
+        TransactionHelper.createSimpleTran(date: calendar.date(byAdding: .day, value: -47, to: Date())!,
                                                  debit: gifts_E!,
                                                  credit: cashAcc!,
                                                  debitAmount: 1000,
                                                  creditAmount: 1000,
                                                  context: context)
-        TransactionHelper.addTransactionWith2TranItems(date: calendar.date(byAdding: .day, value: -46, to: Date())!,
+        TransactionHelper.createSimpleTran(date: calendar.date(byAdding: .day, value: -46, to: Date())!,
                                                  debit: food!,
                                                  credit: salaryCard!,
                                                  debitAmount: 200,
                                                  creditAmount: 200,
                                                  context: context)
-        TransactionHelper.addTransactionWith2TranItems(date: calendar.date(byAdding: .day, value: -44, to: Date())!,
+        TransactionHelper.createSimpleTran(date: calendar.date(byAdding: .day, value: -44, to: Date())!,
                                                  debit: food!,
                                                  credit: salaryCard!,
                                                  debitAmount: 300,
                                                  creditAmount: 300,
                                                  context: context)
-        TransactionHelper.addTransactionWith2TranItems(date: calendar.date(byAdding: .day, value: -42, to: Date())!,
+        TransactionHelper.createSimpleTran(date: calendar.date(byAdding: .day, value: -42, to: Date())!,
                                                  debit: food!,
                                                  credit: salaryCard!,
                                                  debitAmount: 500,
                                                  creditAmount: 500,
                                                  context: context)
-        TransactionHelper.addTransactionWith2TranItems(date: calendar.date(byAdding: .day, value: -40, to: Date())!,
+        TransactionHelper.createSimpleTran(date: calendar.date(byAdding: .day, value: -40, to: Date())!,
                                                  debit: food!,
                                                  credit: salaryCard!,
                                                  debitAmount: 300,
                                                  creditAmount: 300,
                                                  context: context)
-        TransactionHelper.addTransactionWith2TranItems(date: calendar.date(byAdding: .day, value: -39, to: Date())!,
+        TransactionHelper.createSimpleTran(date: calendar.date(byAdding: .day, value: -39, to: Date())!,
                                                  debit: food!,
                                                  credit: salaryCard!,
                                                  debitAmount: 100,
                                                  creditAmount: 100,
                                                  context: context)
-        TransactionHelper.addTransactionWith2TranItems(date: calendar.date(byAdding: .day, value: -38, to: Date())!,
+        TransactionHelper.createSimpleTran(date: calendar.date(byAdding: .day, value: -38, to: Date())!,
                                                  debit: cashAcc!,
                                                  credit: salaryCard!,
                                                  debitAmount: 1000,
                                                  creditAmount: 1000,
                                                  context: context)
-        TransactionHelper.addTransactionWith2TranItems(date: calendar.date(byAdding: .day, value: -37, to: Date())!,
+        TransactionHelper.createSimpleTran(date: calendar.date(byAdding: .day, value: -37, to: Date())!,
                                                  debit: food!,
                                                  credit: salaryCard!,
                                                  debitAmount: 300,
                                                  creditAmount: 300,
                                                  context: context)
-        TransactionHelper.addTransactionWith2TranItems(date: calendar.date(byAdding: .day, value: -36, to: Date())!,
+        TransactionHelper.createSimpleTran(date: calendar.date(byAdding: .day, value: -36, to: Date())!,
                                                  debit: food!,
                                                  credit: salaryCard!,
                                                  debitAmount: 300,
                                                  creditAmount: 300,
                                                  context: context)
-        TransactionHelper.addTransactionWith2TranItems(date: calendar.date(byAdding: .day, value: -35, to: Date())!,
+        TransactionHelper.createSimpleTran(date: calendar.date(byAdding: .day, value: -35, to: Date())!,
                                                  debit: rent!,
                                                  credit: cashAcc!,
                                                  debitAmount: 5000,
                                                  creditAmount: 5000,
                                                  context: context)
-        TransactionHelper.addTransactionWith2TranItems(date: calendar.date(byAdding: .day, value: -34, to: Date())!,
+        TransactionHelper.createSimpleTran(date: calendar.date(byAdding: .day, value: -34, to: Date())!,
                                                  debit: utility!,
                                                  credit: salaryCard!,
                                                  debitAmount: 1000,
                                                  creditAmount: 1000,
                                                  context: context)
-        TransactionHelper.addTransactionWith2TranItems(date: calendar.date(byAdding: .day, value: -32, to: Date())!,
+        TransactionHelper.createSimpleTran(date: calendar.date(byAdding: .day, value: -32, to: Date())!,
                                                  debit: salaryCard!,
                                                  credit: salary!,
                                                  debitAmount: 20000,
                                                  creditAmount: 20000,
                                                  context: context)
-        TransactionHelper.addTransactionWith2TranItems(date: calendar.date(byAdding: .day, value: -31, to: Date())!,
+        TransactionHelper.createSimpleTran(date: calendar.date(byAdding: .day, value: -31, to: Date())!,
                                                  debit: salaryCard!,
                                                  credit: interestOnDeposits!,
                                                  debitAmount: 200,
                                                  creditAmount: 200,
                                                  context: context)
 
-        TransactionHelper.addTransactionWith2TranItems(date: calendar.date(byAdding: .day, value: -29, to: Date())!,
+        TransactionHelper.createSimpleTran(date: calendar.date(byAdding: .day, value: -29, to: Date())!,
                                                  debit: food!,
                                                  credit: salaryCard!,
                                                  debitAmount: 300,
                                                  creditAmount: 300,
                                                  context: context)
-        TransactionHelper.addTransactionWith2TranItems(date: calendar.date(byAdding: .day, value: -25, to: Date())!,
+        TransactionHelper.createSimpleTran(date: calendar.date(byAdding: .day, value: -25, to: Date())!,
                                                  debit: food!,
                                                  credit: salaryCard!,
                                                  debitAmount: 800,
                                                  creditAmount: 800,
                                                  context: context)
-        TransactionHelper.addTransactionWith2TranItems(date: calendar.date(byAdding: .day, value: -20, to: Date())!,
+        TransactionHelper.createSimpleTran(date: calendar.date(byAdding: .day, value: -20, to: Date())!,
                                                  debit: food!,
                                                  credit: salaryCard!,
                                                  debitAmount: 300,
                                                  creditAmount: 300,
                                                  context: context)
-        TransactionHelper.addTransactionWith2TranItems(date: calendar.date(byAdding: .day, value: -19, to: Date())!,
+        TransactionHelper.createSimpleTran(date: calendar.date(byAdding: .day, value: -19, to: Date())!,
                                                  debit: cashAcc!,
                                                  credit: salaryCard!,
                                                  debitAmount: 4000,
                                                  creditAmount: 4000,
                                                  context: context)
-        TransactionHelper.addTransactionWith2TranItems(date: calendar.date(byAdding: .day, value: -17, to: Date())!,
+        TransactionHelper.createSimpleTran(date: calendar.date(byAdding: .day, value: -17, to: Date())!,
                                                  debit: gifts_E!,
                                                  credit: cashAcc!,
                                                  debitAmount: 1000,
                                                  creditAmount: 1000,
                                                  context: context)
-        TransactionHelper.addTransactionWith2TranItems(date: calendar.date(byAdding: .day, value: -16, to: Date())!,
+        TransactionHelper.createSimpleTran(date: calendar.date(byAdding: .day, value: -16, to: Date())!,
                                                  debit: food!,
                                                  credit: salaryCard!,
                                                  debitAmount: 200,
                                                  creditAmount: 200,
                                                  context: context)
-        TransactionHelper.addTransactionWith2TranItems(date: calendar.date(byAdding: .day, value: -14, to: Date())!,
+        TransactionHelper.createSimpleTran(date: calendar.date(byAdding: .day, value: -14, to: Date())!,
                                                  debit: food!,
                                                  credit: salaryCard!,
                                                  debitAmount: 300,
                                                  creditAmount: 300,
                                                  context: context)
-        TransactionHelper.addTransactionWith2TranItems(date: calendar.date(byAdding: .day, value: -12, to: Date())!,
+        TransactionHelper.createSimpleTran(date: calendar.date(byAdding: .day, value: -12, to: Date())!,
                                                  debit: food!,
                                                  credit: salaryCard!,
                                                  debitAmount: 500,
                                                  creditAmount: 500,
                                                  context: context)
-        TransactionHelper.addTransactionWith2TranItems(date: calendar.date(byAdding: .day, value: -10, to: Date())!,
+        TransactionHelper.createSimpleTran(date: calendar.date(byAdding: .day, value: -10, to: Date())!,
                                                  debit: food!,
                                                  credit: salaryCard!,
                                                  debitAmount: 300,
                                                  creditAmount: 300,
                                                  context: context)
-        TransactionHelper.addTransactionWith2TranItems(date: calendar.date(byAdding: .day, value: -9, to: Date())!,
+        TransactionHelper.createSimpleTran(date: calendar.date(byAdding: .day, value: -9, to: Date())!,
                                                  debit: food!,
                                                  credit: salaryCard!,
                                                  debitAmount: 100,
                                                  creditAmount: 100,
                                                  context: context)
-        TransactionHelper.addTransactionWith2TranItems(date: calendar.date(byAdding: .day, value: -8, to: Date())!,
+        TransactionHelper.createSimpleTran(date: calendar.date(byAdding: .day, value: -8, to: Date())!,
                                                  debit: cashAcc!,
                                                  credit: salaryCard!,
                                                  debitAmount: 1000,
                                                  creditAmount: 1000,
                                                  context: context)
-        TransactionHelper.addTransactionWith2TranItems(date: calendar.date(byAdding: .day, value: -7, to: Date())!,
+        TransactionHelper.createSimpleTran(date: calendar.date(byAdding: .day, value: -7, to: Date())!,
                                                  debit: food!,
                                                  credit: salaryCard!,
                                                  debitAmount: 300,
                                                  creditAmount: 300,
                                                  context: context)
-        TransactionHelper.addTransactionWith2TranItems(date: calendar.date(byAdding: .day, value: -6, to: Date())!,
+        TransactionHelper.createSimpleTran(date: calendar.date(byAdding: .day, value: -6, to: Date())!,
                                                  debit: food!,
                                                  credit: salaryCard!,
                                                  debitAmount: 300,
                                                  creditAmount: 300,
                                                  context: context)
-        TransactionHelper.addTransactionWith2TranItems(date: calendar.date(byAdding: .day, value: -5, to: Date())!,
+        TransactionHelper.createSimpleTran(date: calendar.date(byAdding: .day, value: -5, to: Date())!,
                                                  debit: rent!,
                                                  credit: cashAcc!,
                                                  debitAmount: 5000,
                                                  creditAmount: 5000,
                                                  context: context)
-        TransactionHelper.addTransactionWith2TranItems(date: calendar.date(byAdding: .day, value: -4, to: Date())!,
+        TransactionHelper.createSimpleTran(date: calendar.date(byAdding: .day, value: -4, to: Date())!,
                                                  debit: utility!,
                                                  credit: salaryCard!,
                                                  debitAmount: 1000,
                                                  creditAmount: 1000,
                                                  context: context)
-        TransactionHelper.addTransactionWith2TranItems(date: calendar.date(byAdding: .day, value: -2, to: Date())!,
+        TransactionHelper.createSimpleTran(date: calendar.date(byAdding: .day, value: -2, to: Date())!,
                                                  debit: salaryCard!,
                                                  credit: salary!,
                                                  debitAmount: 20000,
                                                  creditAmount: 20000,
                                                  context: context)
-        TransactionHelper.addTransactionWith2TranItems(date: calendar.date(byAdding: .day, value: -1, to: Date())!,
+        TransactionHelper.createSimpleTran(date: calendar.date(byAdding: .day, value: -1, to: Date())!,
                                                  debit: salaryCard!,
                                                  credit: interestOnDeposits!,
                                                  debitAmount: 200,

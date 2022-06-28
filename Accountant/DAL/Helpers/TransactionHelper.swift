@@ -82,9 +82,9 @@ class TransactionHelper {
         }
     }
 
-    class func addTransactionWith2TranItems(date: Date, debit: Account, credit: Account, debitAmount: Double = 0,
+    class func createAndGetSimpleTran(date: Date, debit: Account, credit: Account, debitAmount: Double = 0,
                                             creditAmount: Double = 0, comment: String? = nil,
-                                            createdByUser: Bool = true, context: NSManagedObjectContext) {
+                                            createdByUser: Bool = true, context: NSManagedObjectContext) -> Transaction {
         let createDate = Date()
         let transaction = Transaction(date: date, comment: comment, createdByUser: createdByUser,
                                       createDate: createDate, context: context)
@@ -98,6 +98,13 @@ class TransactionHelper {
         _ = TransactionItem(transaction: transaction, type: .debit, account: debit, amount: debitAmount,
                             createdByUser: createdByUser, createDate: createDate, context: context)
         transaction.calculateType()
+        return transaction
+    }
+
+    class func createSimpleTran(date: Date, debit: Account, credit: Account, debitAmount: Double = 0,
+                                            creditAmount: Double = 0, comment: String? = nil,
+                                            createdByUser: Bool = true, context: NSManagedObjectContext) {
+        _ = createAndGetSimpleTran(date: date, debit: debit, credit: credit, debitAmount: debitAmount, creditAmount: creditAmount, comment: comment, createdByUser: createdByUser, context: context)
     }
 
     class func duplicateTransaction(_ original: Transaction, createdByUser: Bool = true, createDate: Date = Date(),

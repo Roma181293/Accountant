@@ -13,6 +13,6 @@ protocol TransactionListRouterInput: AnyObject {
     func openMITransactionEditorModule(transactionId: UUID?)
     func openSimpleTransactionEditorModule(transactionId: UUID?)
     func deleteAlertFor(indexPath: IndexPath)
-    func showPurchaseOfferVC()
+    func showPurchaseOfferModule()
     func showError(error: Error)
 }

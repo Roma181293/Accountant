@@ -44,8 +44,8 @@ class TransactionListService: NSObject {
         fetchRequest.fetchBatchSize = 20
 
         fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest,
-                                                    managedObjectContext: persistentContainer.viewContext,
-                                                    sectionNameKeyPath: nil, cacheName: nil)
+                                                              managedObjectContext: persistentContainer.viewContext,
+                                                              sectionNameKeyPath: nil, cacheName: nil)
         fetchedResultsController.delegate = self
     }
 
@@ -70,12 +70,16 @@ class TransactionListService: NSObject {
             let transaction = Transaction(date: original.date, status: original.status,
                                           comment: original.comment, context: context)
 
+            transaction.type = original.type
+
             for item in original.itemsList {
                 _ = TransactionItem(transaction: transaction, type: item.type, account: item.account,
                                     amount: item.amount, context: context)
             }
 
             context.save(with: .duplicateTransaction)
+            // FIXME: - investigate why controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) didnt call
+            provideData()
         }
     }
 
@@ -94,6 +98,9 @@ class TransactionListService: NSObject {
             context.delete(transaction)
 
             context.save(with: .deleteTransaction)
+
+            // FIXME: - investigate why controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) didnt call
+            provideData()
         }
     }
 
@@ -101,18 +108,13 @@ class TransactionListService: NSObject {
         var predicate: NSPredicate?
         if !text.isEmpty {
             predicate = NSPredicate(format: "\(Schema.Transaction.items).\(Schema.TransactionItem.account).\(Schema.Account.path) CONTAINS[c] %@ || \(Schema.Transaction.comment) CONTAINS[c] %@", // swiftlint:disable:this line_length
-                                        argumentArray: [text, text])
+                                    argumentArray: [text, text])
         } else {
             predicate = nil
         }
         fetchedResultsController.fetchRequest.predicate = predicate
-        do {
-            try fetchedResultsController.performFetch()
-        } catch {
-            let nserror = error as NSError
-            fatalError("###\(#function): Failed to performFetch: \(nserror), \(nserror.userInfo)")
-        }
-        delegate?.didFetchTransactions()
+
+        provideData()
     }
 
     func numberOfSections() -> Int {

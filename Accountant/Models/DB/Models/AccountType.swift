@@ -16,9 +16,20 @@ class AccountType: BaseEntity {
         case liabilities = 2
     }
 
+    @objc enum KeeperType: Int16 {
+        case none = 0
+        case cash = 1
+        case bank = 2
+        case nonCash = 3
+        case any = 4
+    }
+
     @NSManaged public var name: String
     @NSManaged public var active: Bool
     @NSManaged public var classification: ClassificationEnum
+    // linkedAccountType should has only one parent, otherwise cannot garantee correnct parent for linked account
+    // linkedAccountType inherit hasInitialBalance from current AccountType
+    // linkedAccountType should has classification = .liabilities and self.classification = .assets
     @NSManaged public var linkedAccountType: AccountType?
     @NSManaged public var parents: Set<AccountType>!
     @NSManaged public var children: Set<AccountType>!
@@ -33,13 +44,14 @@ class AccountType: BaseEntity {
     @NSManaged public var canBeCreatedByUser: Bool
     @NSManaged public var checkAmountBeforDeactivate: Bool
     @NSManaged public var isConsolidation: Bool
+    @NSManaged public var keeperType: KeeperType
     @NSManaged public var priority: Int16
 
     convenience init(id: UUID = UUID(), parent: AccountType? = nil, name: String, classification: ClassificationEnum,
                      hasCurrency: Bool = false, linkedAccountType: AccountType? = nil, hasHolder: Bool = false,
                      hasKeeper: Bool = false, hasInitialBalance: Bool = false, balanceCalcFullTime: Bool = false,
                      canBeDeleted: Bool = false, canChangeActiveStatus: Bool = false, canBeRenamed: Bool = false,
-                     canBeCreatedByUser: Bool = false, isConsolidation: Bool = false,
+                     canBeCreatedByUser: Bool = false, isConsolidation: Bool = false, keeperType: KeeperType = .none,
                      checkAmountBeforDeactivate: Bool = false, priority: Int16 = 1, context: NSManagedObjectContext) {
 
         self.init(id: id, context: context)
@@ -47,7 +59,6 @@ class AccountType: BaseEntity {
         self.active = true
         self.classification = classification
         self.hasCurrency = hasCurrency
-        self.linkedAccountType = linkedAccountType
         self.hasHolder = hasHolder
         self.hasKeeper = hasKeeper
         self.hasInitialBalance = hasInitialBalance
@@ -64,7 +75,15 @@ class AccountType: BaseEntity {
             self.parents = [parent]
         }
         self.isConsolidation = isConsolidation
+        if hasKeeper {
+            self.keeperType = keeperType
+        } else {
+            self.keeperType = .none
+        }
         self.priority = priority
+
+        self.linkedAccountType = linkedAccountType
+        linkedAccountType?.hasInitialBalance = hasInitialBalance
     }
 
     @nonobjc public class func fetchRequest() -> NSFetchRequest<AccountType> {

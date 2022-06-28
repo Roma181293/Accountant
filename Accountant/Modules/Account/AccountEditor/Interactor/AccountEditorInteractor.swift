@@ -7,51 +7,108 @@
 //
 
 import Foundation
+import Purchases
 
 class AccountEditorInteractor: AccountEditorInteractorInput {
 
     let service: AccountEditorService
     weak var output: AccountEditorInteractorOutput?
 
-    var currencyId: UUID {
-        return service.currencyId
+    var currency: CurrencyViewModel? {
+        return service.currency
     }
-    var keeperId: UUID? {
-        return service.keeperId
+
+    var keeper: KeeperViewModel? {
+        return service.keeper
     }
-    var holderId: UUID? {
-        return service.holderId
+
+    var possibleKeeperType: AccountType.KeeperType {
+        return service.possibleKeeperType()
     }
+
+    var holder: HolderViewModel? {
+        return service.holder
+    }
+
+    var accountType: AccountTypeViewModel {
+        return service.parentAccountType
+    }
+
+    var canBeRenamed: Bool {
+        service.canBeRenamed
+    }
+
+    var mode: AccountEditorService.Mode {
+        return service.mode
+    }
+
+    private(set) var isUserHasPaidAccess: Bool = false
 
     init(service: AccountEditorService) {
         self.service = service
+
+        reloadProAccessData()
+        NotificationCenter.default.addObserver(self, selector: #selector(self.reloadProAccessData),
+                                               name: .receivedProAccessData, object: nil)
+    }
+
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: .receivedProAccessData, object: nil)
+    }
+
+    @objc private func reloadProAccessData() {
+        Purchases.shared.purchaserInfo { (purchaserInfo, _) in
+            if purchaserInfo?.entitlements.all["pro"]?.isActive == true {
+                self.isUserHasPaidAccess = true
+            } else if purchaserInfo?.entitlements.all["pro"]?.isActive == false {
+                self.isUserHasPaidAccess = false
+            }
+        }
+    }
+
+    func provideData() {
+        service.provideData()
+    }
+
+    func setAccountType(_ accountTypeId: UUID) {
+       try? service.setType(accountTypeId)
     }
 
     func setCurrency(_ selectedCurrency: Currency) {
-        service.currencyId = selectedCurrency.id
+        service.setCurrency(selectedCurrency.id)
     }
 
     func setKeeper(_ selectedKeeper: Keeper?) {
-        service.keeperId = selectedKeeper?.id
+        service.setKeeper(selectedKeeper?.id)
     }
 
     func setHolder(_ selectedHolder: Holder?) {
-        service.holderId = selectedHolder?.id
+        service.setHolder(selectedHolder?.id)
     }
 
     func setName(_ name: String) {
         service.setName(name)
     }
-    
+
     func setBalance(_ balance: Double) {
-        service.balance = balance
+        service.setBalance(balance)
     }
 
     func setLinkedAccountBalance(_ balance: Double) {
-        service.linkedAccountBalance = balance
+        service.setLinkedAccountBalance(balance)
     }
 
     func setExchangeRate(_ exchangeRate: Double) {
-        service.rate = exchangeRate
+        service.setRate(exchangeRate)
+    }
+
+    func balanceDateDidChanged(_ date: Date) {
+        service.setBalanceDate(date)
+    }
+
+    func saveChanges() {
+        service.saveChanges(compliting: {
+            self.output?.closeModule()
+        })
     }
 }

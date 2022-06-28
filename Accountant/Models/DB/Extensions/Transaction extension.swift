@@ -35,7 +35,9 @@ extension Transaction {
             }
         }
 
-        if creditUniqueAccountType.isEmpty || debitUniqueAccountType.isEmpty {
+        if type == .initialBalance {
+            type = .initialBalance
+        } else if creditUniqueAccountType.isEmpty || debitUniqueAccountType.isEmpty {
             type = .unknown
         } else if creditUniqueAccountType.count > 1 || debitUniqueAccountType.count > 1 {
             type = .other

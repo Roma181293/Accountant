@@ -98,6 +98,7 @@ class AccountListViewController: UIViewController, UIScrollViewDelegate { // swi
             self.environment = environment
         }
         reloadProAccessData()
+
         currency = CurrencyHelper.getAccountingCurrency(context: context)!
         scrollView.delegate = self
         switch segmentedControl.selectedSegmentIndex {
@@ -144,7 +145,9 @@ class AccountListViewController: UIViewController, UIScrollViewDelegate { // swi
         NotificationCenter.default.removeObserver(self, name: .receivedProAccessData, object: nil)
     }
     @IBAction func chnageCurrency(_ sender: Any) {
-        let currencyVC = CurrencyViewController(currency: currency, delegate: self, mode: .setCurrency)
+        let currencyVC = CurrencyViewController()
+        currencyVC.currency = currency
+        currencyVC.delegate = self
         self.navigationController?.pushViewController(currencyVC, animated: true)
     }
 

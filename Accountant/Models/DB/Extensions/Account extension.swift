@@ -114,9 +114,9 @@ extension Account {
         guard AccountHelper.isFreeAccountName(parent: self.parent, name: newName, context: context)
         else {
             if self.parent?.currency == nil {
-                throw Account.Error.accountAlreadyExists(name: newName)
+                throw Account.Error.accountNameAlreadyTaken(name: newName)
             } else {
-                throw Account.Error.categoryAlreadyExists(name: newName)
+                throw Account.Error.categoryNameAlreadyTaken(name: newName)
             }
         }
         self.name = newName
@@ -171,8 +171,8 @@ extension Account {
     }
 
     enum Error: AppError, Equatable {
-        case accountAlreadyExists(name: String)
-        case categoryAlreadyExists(name: String)
+        case accountNameAlreadyTaken(name: String)
+        case categoryNameAlreadyTaken(name: String)
         case accountUsedInTransactionItem(name: String)
         case categoryUsedInTransactionItem(name: String)
         case creditAccountAlreadyExist(String)  // for cases when creates linked account
@@ -180,21 +180,22 @@ extension Account {
         case accountDoesNotExist(name: String)
         case linkedAccountUsedTranItem(name: String)
         case emptyName
+        case activeStatusCannotBeChanged
     }
 }
 
 extension Account.Error: LocalizedError {
     public var errorDescription: String? {
         switch self {
-        case let .accountAlreadyExists(name):
+        case let .accountNameAlreadyTaken(name):
             return String(format: NSLocalizedString("Account name \"%@\" is already taken. Please use another name",
                                                     comment: ""), name)
-        case let .categoryAlreadyExists(name):
+        case let .categoryNameAlreadyTaken(name):
             return String(format: NSLocalizedString("Category name \"%@\" is already taken. Please use another name",
                                                     comment: ""), name)
-        case .accountUsedInTransactionItem(_):
+        case .accountUsedInTransactionItem:
             return NSLocalizedString("This account cannot be deleted because of existing transactions", comment: "")
-        case .categoryUsedInTransactionItem(_):
+        case .categoryUsedInTransactionItem:
             return NSLocalizedString("This category cannot be deleted because of existing transactions", comment: "")
         case let .creditAccountAlreadyExist(name):
             return String(format: NSLocalizedString("We create an associated credit account with your credit cards. " +
@@ -210,6 +211,8 @@ extension Account.Error: LocalizedError {
                                                     "transactions", comment: ""), name)
         case .emptyName:
             return NSLocalizedString("Please enter name", comment: "")
+        case .activeStatusCannotBeChanged:
+            return NSLocalizedString("Active status cannot be changed. Please contact to support", comment: "")
         }
     }
 }

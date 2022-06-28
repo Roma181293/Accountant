@@ -23,61 +23,85 @@ class AccountEditorPresenter {
 }
 
 extension AccountEditorPresenter: AccountEditorViewOutput {
-    func confirmButtonDidTouch() {
 
+    func viewDidLoad() {
+        interactorInput.provideData()
+        if interactorInput.mode == .create {
+            viewInput?.setTitle(NSLocalizedString("Create",
+                                                  tableName: Constants.Localizable.accountEditor,
+                                                  comment: ""))
+        } else {
+            viewInput?.configureComponentsForEditMode()
+            viewInput?.setTitle(NSLocalizedString("Edit",
+                                                  tableName: Constants.Localizable.accountEditor,
+                                                  comment: ""))
+        }
+    }
+
+    func confirmButtonDidTouch() {
+        interactorInput.saveChanges()
     }
 
     func currencyButtonDidTouch() {
-        routerInput.presentCurrencyModule(currencyId: interactorInput.currencyId)
+        if interactorInput.isUserHasPaidAccess {
+            routerInput.presentCurrencyModule(currencyId: interactorInput.currency?.id)
+        } else {
+            routerInput.showPurchaseOfferModule()
+        }
     }
 
     func keeperButtonDidTouch() {
-        routerInput.presentKeeperModule(keeperId: interactorInput.keeperId)
+        routerInput.presentKeeperModule(keeperId: interactorInput.keeper?.id,
+                                        possibleKeeperType: interactorInput.possibleKeeperType)
     }
 
     func holderButtonDidTouch() {
-        routerInput.presentHolderModule(holderId: interactorInput.holderId)
+        routerInput.presentHolderModule(holderId: interactorInput.holder?.id)
     }
 
     func typeButtonDidTouch() {
-
+        routerInput.presentAccountTypeModule(accountTypeId: interactorInput.accountType.id)
     }
 
     func nameChangedTo(_ name: String) {
         interactorInput.setName(name)
     }
 
-    func balanceChangedTo(_ balance: String) {
+    func setBalance(_ balance: String) {
         guard let amount = Double(balance.replacingOccurrences(of: ",", with: ".")) else {return}
         interactorInput.setBalance(amount)
     }
 
-    func creditLimitChangedTo(_ creditLimit: String) {
-        guard let amount = Double(creditLimit.replacingOccurrences(of: ",", with: ".")) else {return}
+    func setLinkedAccountBalance(_ balance: String) {
+        guard let amount = Double(balance.replacingOccurrences(of: ",", with: ".")) else {return}
         interactorInput.setLinkedAccountBalance(amount)
     }
 
-    func exchangeRateChangedTo(_ exchangeRate: String) {
-        guard let amount = Double(exchangeRate.replacingOccurrences(of: ",", with: ".")) else {return}
+    func setExhangeRate(_ amount: String) {
+        guard let amount = Double(amount.replacingOccurrences(of: ",", with: ".")) else {return}
         interactorInput.setExchangeRate(amount)
+    }
+
+    func balanceDateDidChanged(_ date: Date) {
+        interactorInput.balanceDateDidChanged(date)
     }
 }
 
 extension AccountEditorPresenter: AccountEditorInteractorOutput {
     func isValidName(_ isValid: Bool) {
-        if isValid {
-            viewInput?.colorNameTextField(.systemBackground)
-        } else {
-            viewInput?.colorNameTextField(.systemPink.withAlphaComponent(0.1))
-        }
+        viewInput?.colorNameTextFieldForState(isValid)
     }
 
-    func typeDidSet(_ accountType: AccountTypeViewModel?) {
-
+    func nameDidSet(_ name: String) {
+        viewInput?.nameDidSet(name)
     }
 
-    func currencyDidSet(_ currency: CurrencyViewModel?) {
-        viewInput?.currencyDidSet(currency)
+    func typeDidSet(_ accountType: AccountTypeViewModel?, isSingle: Bool, mode: AccountEditorService.Mode) {
+        viewInput?.typeDidSet(accountType, isSingle: isSingle, mode: mode)
+    }
+
+    func currencyDidSet(_ currency: CurrencyViewModel?, accountingCurrency: CurrencyViewModel) {
+        viewInput?.currencyDidSet(currency, accountingCurrency: accountingCurrency)
     }
 
     func holderDidSet(_ holder: HolderViewModel?) {
@@ -88,15 +112,21 @@ extension AccountEditorPresenter: AccountEditorInteractorOutput {
         viewInput?.keeperDidSet(keeper)
     }
 
-    func currencyIsAccounting(_ isAccounting: Bool) {
-
+    func rateDidSet(_ rate: Double?) {
+        viewInput?.rateDidSet(rate)
     }
+
     func errorHandler(_ error: Error) {
-        print(error.localizedDescription)
+        routerInput.showError(error: error)
+    }
+
+    func closeModule() {
+        routerInput.closeModule()
     }
 }
 
 extension AccountEditorPresenter: AccountEditorRouterOutput {
+
     var keeperDelegate: KeeperReceiverDelegate? {
         return interactorInput
     }
@@ -106,6 +136,10 @@ extension AccountEditorPresenter: AccountEditorRouterOutput {
     }
 
     var currencyDelegate: CurrencyReceiverDelegate? {
+        return interactorInput
+    }
+
+    var accountTypeDelegate: AccountTypeReciverDelegate? {
         return interactorInput
     }
 }
