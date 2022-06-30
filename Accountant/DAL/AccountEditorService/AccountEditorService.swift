@@ -58,7 +58,7 @@ class AccountEditorService {
 
     weak var delegate: AccountEditorServiceDelegate?
 
-    let mode: Mode
+    public let mode: Mode
 
     private(set) var persistentContainer: PersistentContainer
     private var context: NSManagedObjectContext
@@ -79,7 +79,7 @@ class AccountEditorService {
     private var isValidName: Bool = false
     private var isValidType: Bool = false
 
-    init(persistentContainer: PersistentContainer, parentAccountId: UUID) {
+    public init(persistentContainer: PersistentContainer, parentAccountId: UUID) {
         mode = .create
         self.persistentContainer = persistentContainer
         self.context = persistentContainer.newBackgroundContext()
@@ -116,7 +116,7 @@ class AccountEditorService {
         try? setType(defultType.id)
     }
 
-    init(persistentContainer: PersistentContainer, accountId: UUID) {
+    public init(persistentContainer: PersistentContainer, accountId: UUID) {
         mode = .edit
         self.persistentContainer = persistentContainer
         self.context = persistentContainer.newBackgroundContext()
@@ -191,32 +191,6 @@ class AccountEditorService {
         setDefaultValuesForAccountType()
         configureLinkedAccount()
         provideData()
-    }
-
-    public func configureLinkedAccount() {
-        if mode == .create {
-            if let linkedAccountType = account.type.linkedAccountType,
-               let parentLinkedAccountType = Array(linkedAccountType.parents).first,
-               let linkedParentAccount = try? AccountHelper.getAccountListWithType(typeId: parentLinkedAccountType.id,
-                                                                                   context: context).first {
-
-                if let linkedAccount = account.linkedAccount {
-                    context.delete(linkedAccount)
-                }
-
-                account.linkedAccount = Account(parent: linkedParentAccount, name: account.name,
-                                                type: linkedAccountType, currency: account.currency,
-                                                keeper: account.keeper, holder: account.holder, context: context)
-                account.linkedAccount?.linkedAccount = account
-            } else {
-                if let linkedAccount = account.linkedAccount {
-                    context.delete(linkedAccount)
-                }
-                account.linkedAccount = nil
-                account.linkedAccount?.linkedAccount = nil
-            }
-        }
-        setName(account.name)
     }
 
     public func setCurrency(_ currencyId: UUID) {
@@ -307,19 +281,19 @@ class AccountEditorService {
         delegate?.isValidName(isValidName)
     }
 
-    func setBalanceDate(_ date: Date) {
+    public func setBalanceDate(_ date: Date) {
         self.date = date
     }
 
-    func setBalance(_ balance: Double) {
+    public func setBalance(_ balance: Double) {
         self.balance = balance
     }
 
-    func setLinkedAccountBalance(_ balance: Double) {
+    public func setLinkedAccountBalance(_ balance: Double) {
         self.linkedAccountBalance = balance
     }
 
-    func setRate(_ rate: Double) {
+    public func setRate(_ rate: Double) {
         self.rate = rate
     }
 
@@ -362,6 +336,32 @@ class AccountEditorService {
         } catch {
             delegate?.errorHandler(error)
         }
+    }
+
+    private func configureLinkedAccount() {
+        if mode == .create {
+            if let linkedAccountType = account.type.linkedAccountType,
+               let parentLinkedAccountType = Array(linkedAccountType.parents).first,
+               let linkedParentAccount = try? AccountHelper.getAccountListWithType(typeId: parentLinkedAccountType.id,
+                                                                                   context: context).first {
+
+                if let linkedAccount = account.linkedAccount {
+                    context.delete(linkedAccount)
+                }
+
+                account.linkedAccount = Account(parent: linkedParentAccount, name: account.name,
+                                                type: linkedAccountType, currency: account.currency,
+                                                keeper: account.keeper, holder: account.holder, context: context)
+                account.linkedAccount?.linkedAccount = account
+            } else {
+                if let linkedAccount = account.linkedAccount {
+                    context.delete(linkedAccount)
+                }
+                account.linkedAccount = nil
+                account.linkedAccount?.linkedAccount = nil
+            }
+        }
+        setName(account.name)
     }
 
     private func setDefaultValuesForAccountType() {

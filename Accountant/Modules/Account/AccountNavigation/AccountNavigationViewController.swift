@@ -23,12 +23,12 @@ class AccountNavigationViewController: UITableViewController {
     var showHiddenAccounts: Bool = true
     var canModifyAccountStructure: Bool = true
     var searchBarIsHidden = false
-    
+
     var requestor: AccountRequestor?
     weak var delegate: AccountNavigationDelegate?
-    
+
     private let localizedTableName: String = Constants.Localizable.accountNavigationVC
-    
+
     private var isUserHasPaidAccess = false
     private lazy var dataProvider: AccountProvider = {
         let accountProvider = AccountProvider(with: CoreDataStack.shared.persistentContainer)
@@ -46,7 +46,7 @@ class AccountNavigationViewController: UITableViewController {
         accountProvider.canModifyAccountStructure = canModifyAccountStructure
         return accountProvider
     }()
-    
+
     private lazy var resultSearchController: UISearchController = {
         let controller = UISearchController(searchResultsController: nil)
         controller.searchResultsUpdater = self
@@ -58,12 +58,12 @@ class AccountNavigationViewController: UITableViewController {
         tableView.tableHeaderView = controller.searchBar
         return controller
     }()
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         reloadProAccessData()
-        
+
         // adding NotificationCenter observers
         NotificationCenter.default.addObserver(self, selector: #selector(self.reloadProAccessData),
                                                name: .receivedProAccessData, object: nil)
@@ -74,26 +74,26 @@ class AccountNavigationViewController: UITableViewController {
         configureTitle()
         configureSearchBar()
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         dataProvider.reloadData()
     }
-    
+
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(true)
         self.tabBarController?.navigationItem.rightBarButtonItem = nil
         resultSearchController.dismiss(animated: true, completion: nil)
     }
-    
+
     deinit {
         NotificationCenter.default.removeObserver(self, name: .receivedProAccessData, object: nil)
     }
-    
+
     func resetPredicate() {
         dataProvider.resetPredicate()
     }
-    
+
     func refreshDataForNewParent() {
         dataProvider.parent = parentAccount
         dataProvider.resetPredicate()
@@ -116,13 +116,13 @@ extension AccountNavigationViewController {
             self.navigationItem.rightBarButtonItem = nil
         }
     }
-    
+
     private func configureTableViewBackground() {
         let backView = UIView(frame: self.tableView.bounds)
         backView.backgroundColor = .systemBackground
         self.tableView.backgroundView = backView
     }
-    
+
     private func configureTitle() {
         if let parentAccount = parentAccount {
             if parentAccount.name == "Accounts" {
@@ -142,7 +142,7 @@ extension AccountNavigationViewController {
             }
         }
     }
-    
+
     private func configureSearchBar() {
         if searchBarIsHidden {
             resultSearchController.isActive = false
@@ -159,7 +159,7 @@ extension AccountNavigationViewController {
         guard let parentAccount = parentAccount else {return}
         self.addCategotyTo(parentAccount)
     }
-    
+
     @objc func reloadProAccessData() {
         Purchases.shared.purchaserInfo { (purchaserInfo, _) in
             if purchaserInfo?.entitlements.all["pro"]?.isActive == true {
@@ -176,22 +176,22 @@ extension AccountNavigationViewController {
     override func numberOfSections(in tableView: UITableView) -> Int {
         return dataProvider.fetchedResultsController.sections?.count ?? 1
     }
-    
+
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         dataProvider.fetchedResultsController.sections?[section].numberOfObjects ?? 0
     }
-    
+
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: Constants.Cell.accountNavCell,
                                                        for: indexPath) as? AccountNavigationCell
         else {fatalError("###\(#function): Failed to dequeue accountNavCell")}
-        
+
         let account = dataProvider.fetchedResultsController.object(at: indexPath)
         cell.configureCellFor(account, showPath: !dataProvider.isSwipeAvailable,
                               showHiddenAccounts: dataProvider.showHiddenAccounts)
         return cell
     }
-    
+
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let selectedAccount = dataProvider.fetchedResultsController.object(at: indexPath) as Account
@@ -204,7 +204,7 @@ extension AccountNavigationViewController {
             goToAccountNavigationVC(account: selectedAccount)
         }
     }
-    
+
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         var actions: [UIContextualAction] = []
         for item in  dataProvider.allowedActions(at: indexPath) {
@@ -240,7 +240,7 @@ extension AccountNavigationViewController {
                                                               comment: "")
                     textField.delegate = self
                 }
-                
+
                 let addAlertAction = UIAlertAction(title: NSLocalizedString("Add",
                                                                             tableName: localizedTableName,
                                                                             comment: ""),
@@ -251,7 +251,7 @@ extension AccountNavigationViewController {
                                                               name: name,
                                                               context: CoreDataStack.shared.persistentContainer.viewContext)
                         else {throw Account.Error.accountNameAlreadyTaken(name: alert!.textFields!.first!.text!)}
-                        
+
                         if !account.isFreeFromTransactionItems {
                             let alert1 = UIAlertController(title: NSLocalizedString("Warning",
                                                                                     tableName: self.localizedTableName,
@@ -291,7 +291,7 @@ extension AccountNavigationViewController {
             self.showPurchaseOfferVC()
         }
     }
-    
+
     private func addSubAccountAction(at indexPath: IndexPath) -> UIContextualAction {
         let selectedAccount = dataProvider.fetchedResultsController.object(at: indexPath)
         let addSubCategory = UIContextualAction(style: .normal, title: nil) { _, _, complete in
@@ -302,21 +302,21 @@ extension AccountNavigationViewController {
         addSubCategory.image = UIImage(systemName: "plus")
         return addSubCategory
     }
-    
+
     private func renameAction(at indexPath: IndexPath) -> UIContextualAction {
         let selectedAccount = dataProvider.fetchedResultsController.object(at: indexPath)
         
         let rename = UIContextualAction(style: .normal,
                                         title: NSLocalizedString("Edit", tableName: localizedTableName, comment: "")) { (_, _, complete) in
             
-            if selectedAccount.type.hasCurrency || selectedAccount.type.hasHolder || selectedAccount.type.hasKeeper {
+            if selectedAccount.type.hasHolder || selectedAccount.type.hasKeeper {
                 
                 self.dismiss(animated: true, completion: nil)
                 let accountEditorModule = AccountEditorAssembly.configureEditMode(accountId: selectedAccount.id)
                 self.navigationController?.pushViewController(accountEditorModule, animated: true)
                 
             } else {
-                let alert = UIAlertController(title: NSLocalizedString("Edit", tableName: self.localizedTableName, comment: ""),
+                let alert = UIAlertController(title: NSLocalizedString("Rename", tableName: self.localizedTableName, comment: ""),
                                               message: nil,
                                               preferredStyle: .alert)
                 alert.addTextField { (textField) in
@@ -350,7 +350,7 @@ extension AccountNavigationViewController {
         rename.image = UIImage(systemName: "pencil")
         return rename
     }
-    
+
     private func changeActiveStatusAction(at indexPath: IndexPath) -> UIContextualAction {
         let account = dataProvider.fetchedResultsController.object(at: indexPath)
         let hideAction = UIContextualAction(style: .normal,
@@ -391,14 +391,13 @@ extension AccountNavigationViewController {
                                                     comment: "")
                     }
                 }
-                
+
                 let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: NSLocalizedString("Yes",
                                                                        tableName: self.localizedTableName,
                                                                        comment: ""),
                                               style: .destructive,
                                               handler: {(_) in
-                    
                     do {
                         try self.dataProvider.changeActiveStatus(indexPath: indexPath)
                     } catch let error {
@@ -409,7 +408,7 @@ extension AccountNavigationViewController {
                                                                        tableName: self.localizedTableName,
                                                                        comment: ""),
                                               style: .cancel))
-                
+
                 self.dismiss(animated: true, completion: nil) // DO NOT DELETE. this call dismiss searchcontroller. otherwise alert will not appear
                 self.present(alert, animated: true, completion: nil)
             } else {
@@ -426,7 +425,7 @@ extension AccountNavigationViewController {
         }
         return hideAction
     }
-    
+
     private func deleteAction(at indexPath: IndexPath) -> UIContextualAction {
         let account = dataProvider.fetchedResultsController.object(at: indexPath)
         let removeAction = UIContextualAction(style: .destructive,
@@ -461,7 +460,7 @@ extension AccountNavigationViewController {
                                                                        tableName: self.localizedTableName,
                                                                        comment: ""),
                                               style: .cancel))
-                
+
                 self.dismiss(animated: true, completion: nil) // DO NOT DELETE. this call dismiss searchcontroller. otherwise alert will not appear
                 self.present(alert, animated: true, completion: nil)
             } catch let error {
@@ -477,7 +476,7 @@ extension AccountNavigationViewController {
 
 // MARK: - Routing methods
 extension AccountNavigationViewController {
-    
+
     private func goToAccountNavigationVC(account: Account) {
         let accountNavigatorVC = AccountNavigationViewController()
         accountNavigatorVC.requestor = requestor
@@ -489,7 +488,7 @@ extension AccountNavigationViewController {
         accountNavigatorVC.searchBarIsHidden = searchBarIsHidden
         self.navigationController?.pushViewController(accountNavigatorVC, animated: true)
     }
-    
+
     private func goToAccountEditorWithInitialBalanceVC(account: Account) {
         self.navigationController?.pushViewController(AccountEditorAssembly.configureCreateMode(parentAccountId: account.id),
                                                       animated: true)
@@ -508,7 +507,7 @@ extension AccountNavigationViewController {
                                       style: .default))
         present(alert, animated: true, completion: nil)
     }
-    
+
     private func showPurchaseOfferVC() {
         present(PurchaseOfferViewController(), animated: true, completion: nil)
     }
