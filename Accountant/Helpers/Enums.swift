@@ -18,6 +18,7 @@ enum BaseAccounts: String, CaseIterable {
     case beforeAccountingPeriod = "Before accounting period"
     case other = "<Other>"
     case other1 = "Other"
+    case accounts = "Accounts"
 }
 
 enum SortCategoryType: Int {
