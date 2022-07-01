@@ -58,8 +58,8 @@ extension Account {
         return Array(transactionItems)
     }
 
-    var appliedTransactionItemsList: [TransactionItem] {
-        return transactionItemsList.filter({$0.transaction!.status == .applied})
+    var transactionItemsListReadyForBalanceCalc: [TransactionItem] {
+        return transactionItemsList.filter({$0.transaction!.status == .applied || $0.transaction!.status == .archived})
     }
 
     var isFreeFromTransactionItems: Bool {

@@ -41,7 +41,7 @@ class AccountEditorRouter: AccountEditorRouterInput {
         viewController?.navigationController?.pushViewController(holderVC, animated: true)
     }
 
-    func presentKeeperModule(keeperId: UUID?, possibleKeeperType: AccountType.KeeperType) {
+    func presentKeeperModule(keeperId: UUID?, possibleKeeperType: AccountType.KeeperGroup) {
         guard let delegate = output?.keeperDelegate else {return}
         let keeperVC = KeeperViewController()
         keeperVC.delegate = delegate

@@ -205,7 +205,7 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
         case .exportAccounts:
             if AccessManager.canImportExportEntities(environment: environment,
                                                      isUserHasPaidAccess: isUserHasPaidAccess) {
-                shareFile(fileName: "AccountList", data: AccountHelper.exportAccountsToString(context: context))
+                shareFile(fileName: "AccountList", data: ImportExportAccountWorker.exportAccountsToString(context: context))
             } else {
                 router.route(to: .offerVC)
             }
@@ -277,7 +277,7 @@ extension SettingsViewController: UIDocumentPickerDelegate {
             do {
                 guard let data = try? String(contentsOf: url) else {return}
                 let backGroundContext = coreDataStack.persistentContainer.newBackgroundContext()
-                try AccountHelper.importAccounts(data, context: backGroundContext)
+                try ImportExportAccountWorker.importAccounts(data, context: backGroundContext)
                 try coreDataStack.saveContext(backGroundContext)
             } catch let error {
                 router.route(to: .error(error))

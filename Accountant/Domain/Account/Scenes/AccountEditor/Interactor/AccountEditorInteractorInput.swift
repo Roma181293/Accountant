@@ -11,7 +11,7 @@ import Foundation
 protocol AccountEditorInteractorInput: CurrencyReceiverDelegate, KeeperReceiverDelegate, HolderReceiverDelegate, AccountTypeReciverDelegate {
     var currency: CurrencyViewModel? {get}
     var keeper: KeeperViewModel? {get}
-    var possibleKeeperType: AccountType.KeeperType {get}
+    var possibleKeeperType: AccountType.KeeperGroup {get}
     var holder: HolderViewModel? {get}
     var accountType: AccountTypeViewModel {get}
     var canBeRenamed: Bool {get}

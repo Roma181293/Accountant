@@ -22,7 +22,7 @@ class AccountEditorInteractor: AccountEditorInteractorInput {
         return service.keeper
     }
 
-    var possibleKeeperType: AccountType.KeeperType {
+    var possibleKeeperType: AccountType.KeeperGroup {
         return service.possibleKeeperType()
     }
 

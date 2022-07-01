@@ -76,6 +76,7 @@ class WelcomeView: UIView {
 
     private func addUIComponents() {
 
+        controller.view.backgroundColor = .systemBackground
         controller.view.addSubview(mainView)
         mainView.leadingAnchor.constraint(equalTo: controller.view.safeAreaLayoutGuide.leadingAnchor).isActive = true
         mainView.trailingAnchor.constraint(equalTo: controller.view.safeAreaLayoutGuide.trailingAnchor).isActive = true

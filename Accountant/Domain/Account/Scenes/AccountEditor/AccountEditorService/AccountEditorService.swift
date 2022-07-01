@@ -177,8 +177,8 @@ class AccountEditorService {
         }
     }
 
-    public func possibleKeeperType() -> AccountType.KeeperType {
-        return account.type.keeperType
+    public func possibleKeeperType() -> AccountType.KeeperGroup {
+        return account.type.keeperGroup
     }
 
     public func setType(_ typeId: UUID) throws {
@@ -374,11 +374,11 @@ class AccountEditorService {
 
             var keeper: Keeper?
             if account.type.hasKeeper {
-                if account.type.keeperType == .bank {
+                if account.type.keeperGroup == .bank {
                     keeper = try? KeeperHelper.getFirstNonCashKeeper(context: context)
-                } else if account.type.keeperType == .cash {
+                } else if account.type.keeperGroup == .cash {
                     keeper = try? KeeperHelper.getCashKeeper(context: context)
-                } else if account.type.keeperType == .nonCash {
+                } else if account.type.keeperGroup == .nonCash {
                     keeper = try? KeeperHelper.getFirstNonCashKeeper(context: context)
                 }
             }

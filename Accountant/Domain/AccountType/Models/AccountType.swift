@@ -16,7 +16,7 @@ class AccountType: BaseEntity {
         case liabilities = 2
     }
 
-    @objc enum KeeperType: Int16 {
+    @objc enum KeeperGroup: Int16 {
         case none = 0
         case cash = 1
         case bank = 2
@@ -27,9 +27,12 @@ class AccountType: BaseEntity {
     @NSManaged public var name: String
     @NSManaged public var active: Bool
     @NSManaged public var classification: ClassificationEnum
-    // linkedAccountType should has only one parent, otherwise cannot garantee correnct parent for linked account
-    // linkedAccountType inherit hasInitialBalance from current AccountType
-    // linkedAccountType should has classification = .liabilities and self.classification = .assets
+
+    /// value of this property should has only one parent, otherwise cannot garantee correnct parent for linked account
+    ///
+    /// linkedAccountType inherit hasInitialBalance from current AccountType
+    ///
+    /// linkedAccountType should has classification != .none
     @NSManaged public var linkedAccountType: AccountType?
     @NSManaged public var parents: Set<AccountType>!
     @NSManaged public var children: Set<AccountType>!
@@ -43,15 +46,15 @@ class AccountType: BaseEntity {
     @NSManaged public var canBeRenamed: Bool
     @NSManaged public var canBeCreatedByUser: Bool
     @NSManaged public var checkAmountBeforDeactivate: Bool
-    @NSManaged public var isConsolidation: Bool
-    @NSManaged public var keeperType: KeeperType
+    @NSManaged public var allowsTransactions: Bool
+    @NSManaged public var keeperGroup: KeeperGroup
     @NSManaged public var priority: Int16
 
     convenience init(id: UUID = UUID(), parent: AccountType? = nil, name: String, classification: ClassificationEnum,
                      hasCurrency: Bool = false, linkedAccountType: AccountType? = nil, hasHolder: Bool = false,
                      hasKeeper: Bool = false, hasInitialBalance: Bool = false, balanceCalcFullTime: Bool = false,
                      canBeDeleted: Bool = false, canChangeActiveStatus: Bool = false, canBeRenamed: Bool = false,
-                     canBeCreatedByUser: Bool = false, isConsolidation: Bool = false, keeperType: KeeperType = .none,
+                     canBeCreatedByUser: Bool = false, allowsTransactions: Bool = true, keeperGroup: KeeperGroup = .none,
                      checkAmountBeforDeactivate: Bool = false, priority: Int16 = 1, context: NSManagedObjectContext) {
 
         self.init(id: id, context: context)
@@ -74,11 +77,11 @@ class AccountType: BaseEntity {
         if let parent = parent {
             self.parents = [parent]
         }
-        self.isConsolidation = isConsolidation
+        self.allowsTransactions = allowsTransactions
         if hasKeeper {
-            self.keeperType = keeperType
+            self.keeperGroup = keeperGroup
         } else {
-            self.keeperType = .none
+            self.keeperGroup = .none
         }
         self.priority = priority
 

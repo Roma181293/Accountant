@@ -21,6 +21,7 @@
     </entity>
     <entity name="AccountType" representedClassName=".AccountType" syncable="YES">
         <attribute name="active" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES"/>
+        <attribute name="allowsTransactions" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="balanceCalcFullTime" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="canBeCreatedByUser" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="canBeDeleted" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
@@ -37,7 +38,7 @@
         <attribute name="hasLinkedAccount" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="isConsolidation" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
-        <attribute name="keeperType" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="keeperGroup" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="modifiedByUser" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="modifyDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="name" attributeType="String"/>
@@ -183,7 +184,7 @@
     </configuration>
     <elements>
         <element name="Account" positionX="0" positionY="0" width="128" height="284"/>
-        <element name="AccountType" positionX="9" positionY="144" width="128" height="419"/>
+        <element name="AccountType" positionX="9" positionY="144" width="128" height="434"/>
         <element name="ArchivingHistory" positionX="9" positionY="162" width="128" height="149"/>
         <element name="BankAccount" positionX="0" positionY="0" width="128" height="194"/>
         <element name="Currency" positionX="0" positionY="0" width="128" height="194"/>

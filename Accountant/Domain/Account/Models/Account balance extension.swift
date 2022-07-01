@@ -10,11 +10,16 @@ import Foundation
 extension Account {
 
     var balance: Double {
+
+        if type.classification == .none {
+            return 0
+        }
+
         var debitTotal: Double = 0
         var creditTotal: Double = 0
 
         for account in childrenList + [self] {
-            for item in account.appliedTransactionItemsList {
+            for item in account.transactionItemsListReadyForBalanceCalc {
                 if item.type == .debit {
                     debitTotal += item.amount
                 } else if item.type == .credit {
@@ -32,12 +37,17 @@ extension Account {
         }
     }
 
-    func balanceOn(date: Date) -> Double {
+    private func balanceOn(date: Date) -> Double {
+
+        if type.classification == .none {
+            return 0
+        }
+
         var debit: Double = 0
         var credit: Double = 0
 
         for account in childrenList + [self] {
-            for item in account.appliedTransactionItemsList.filter({$0.transaction!.date <= date}) {
+            for item in account.transactionItemsListReadyForBalanceCalc.filter({$0.transaction!.date <= date}) {
                 if item.type == .debit {
                     debit += item.amount
                 } else if item.type == .credit {
@@ -75,6 +85,10 @@ extension Account {
                  dateComponent: Calendar.Component,
                  calcIncludedAccountsBalances: Bool = true) -> [(date: Date, value: Double)] {
 
+        if type.classification == .none {
+            return []
+        }
+
         // creates date interval
         let intervalArray: [DateInterval] = Account.createDateIntervalArray(dateInterval: dateInterval,
                                                                             dateComponent: dateComponent)
@@ -90,57 +104,35 @@ extension Account {
             accounts += childrenList
         }
 
-        if accounts.isEmpty == false {
-            if accounts[0].rootAccount.name == LocalisationManager.getLocalizedName(.money) ||
-                accounts[0].rootAccount.name == LocalisationManager.getLocalizedName(.credits) ||
-                accounts[0].rootAccount.name == LocalisationManager.getLocalizedName(.debtors) {
-
-                accounts.forEach({
-                    accountSaldoToLeftBorderDate += $0.balanceOn(date: dateInterval.start)
-                })
-            }
-
-            for (index, timeInterval) in intervalArray.enumerated() {
-                var debitTotal: Double = 0
-                var creditTotal: Double = 0
-
-                for account in accounts {
-                    let transactionItems = account.transactionItemsList.filter({$0.transaction!.status == .applied})
-                    for item in transactionItems {
-                        if timeInterval.contains(item.transaction!.date) {
-                            if item.type == .debit {
-                                debitTotal += item.amount
-                            } else if item.type == .credit {
-                                creditTotal += item.amount
-                            }
-                        }
-                    }
-                }
-                // TODO: - remove condition below if its unused
-                if true ||
-                    accounts[0].rootAccount.name == LocalisationManager.getLocalizedName(.money) ||
-                    accounts[0].rootAccount.name == LocalisationManager.getLocalizedName(.credits) ||
-                    accounts[0].rootAccount.name == LocalisationManager.getLocalizedName(.debtors) {
-                    if accounts[0].type.classification == .assets {
-                        result.append((date: timeInterval.end,
-                                       value: round((result[index].value + debitTotal - creditTotal)*100)/100))
-                    } else if accounts[0].type.classification == .liabilities {
-                        result.append((date: timeInterval.end,
-                                       value: round((result[index].value + creditTotal - debitTotal)*100)/100))
-                    }
-                } else {
-                    if accounts[0].type.classification == .assets {
-                        result.append((date: timeInterval.end,
-                                       value: round((debitTotal - creditTotal)*100)/100))
-                    } else if accounts[0].type.classification == .liabilities {
-                        result.append((date: timeInterval.end,
-                                       value: round((creditTotal - debitTotal)*100)/100))
-                    }
-                }
-            }
-        } else {
-            result = []
+        if type.balanceCalcFullTime {
+            accounts.forEach({
+                accountSaldoToLeftBorderDate += $0.balanceOn(date: dateInterval.start)
+            })
         }
+
+        for (index, timeInterval) in intervalArray.enumerated() {
+            var debitTotal: Double = 0
+            var creditTotal: Double = 0
+
+            for account in accounts {
+                let transactionItems = account.transactionItemsListReadyForBalanceCalc
+                for item in transactionItems where timeInterval.contains(item.transaction!.date) {
+                    if item.type == .debit {
+                        debitTotal += item.amount
+                    } else if item.type == .credit {
+                        creditTotal += item.amount
+                    }
+                }
+            }
+            if type.classification == .assets {
+                result.append((date: timeInterval.end,
+                               value: round((result[index].value + debitTotal - creditTotal)*100)/100))
+            } else if type.classification == .liabilities {
+                result.append((date: timeInterval.end,
+                               value: round((result[index].value + creditTotal - debitTotal)*100)/100))
+            }
+        }
+
         return result
     }
 }

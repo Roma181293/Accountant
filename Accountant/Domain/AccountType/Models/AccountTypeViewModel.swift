@@ -15,7 +15,7 @@ class AccountTypeViewModel {
     let hasHolder: Bool
     let hasKeeper: Bool
     let hasInitialBalance: Bool
-    let keeperType: AccountType.KeeperType
+    let keeperType: AccountType.KeeperGroup
 
     init (_ accountType: AccountType) {
         self.id = accountType.id
@@ -29,6 +29,6 @@ class AccountTypeViewModel {
         self.hasHolder = accountType.hasHolder
         self.hasKeeper = accountType.hasKeeper
         self.hasInitialBalance = accountType.hasInitialBalance
-        self.keeperType = accountType.keeperType
+        self.keeperType = accountType.keeperGroup
     }
 }

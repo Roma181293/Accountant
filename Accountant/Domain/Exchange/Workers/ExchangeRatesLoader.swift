@@ -8,9 +8,9 @@
 import Foundation
 import CoreData
 
-class ExchangeRatesLoadingService {
+class ExchangeRatesLoader {
     
-    class func loadExchangeRates(context: NSManagedObjectContext) {
+    class func load(context: NSManagedObjectContext) {
 
     var lastExchangeDate: Date = Calendar.current.date(byAdding: .day, value: -10, to: Date())!
 

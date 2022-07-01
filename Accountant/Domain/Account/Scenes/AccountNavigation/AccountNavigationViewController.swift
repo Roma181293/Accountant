@@ -196,7 +196,7 @@ extension AccountNavigationViewController {
         tableView.deselectRow(at: indexPath, animated: true)
         let selectedAccount = dataProvider.fetchedResultsController.object(at: indexPath) as Account
         if selectedAccount.childrenList.filter({$0.active || $0.active != dataProvider.showHiddenAccounts}).isEmpty {
-            if let requestor = requestor, let delegate = delegate, selectedAccount.type.isConsolidation == false {
+            if let requestor = requestor, let delegate = delegate, selectedAccount.type.allowsTransactions {
                 requestor.setAccount(selectedAccount)
                 self.navigationController?.popToViewController(delegate, animated: true)
             }

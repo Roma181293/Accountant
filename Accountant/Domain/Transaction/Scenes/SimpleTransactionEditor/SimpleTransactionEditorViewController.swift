@@ -366,7 +366,7 @@ class SimpleTransactionEditorViewController: UIViewController, AccountNavigation
     }
 
     private func validation() -> Bool {  // swiftlint:disable:this function_body_length
-        if credit == nil || credit?.type.isConsolidation == true {
+        if credit == nil || credit?.type.allowsTransactions == false {
             let alert = UIAlertController(title: NSLocalizedString("Warning",
                                                                    tableName: Constants.Localizable.simpleTransactionEditorVC,
                                                                    comment: ""),
@@ -380,7 +380,7 @@ class SimpleTransactionEditorViewController: UIViewController, AccountNavigation
                                           style: .default))
             self.present(alert, animated: true, completion: nil)
             return false
-        } else if debit == nil || debit?.type.isConsolidation == true {
+        } else if debit == nil || debit?.type.allowsTransactions == false {
             let alert = UIAlertController(title: NSLocalizedString("Warning",
                                                                    tableName: Constants.Localizable.simpleTransactionEditorVC,
                                                                    comment: ""),

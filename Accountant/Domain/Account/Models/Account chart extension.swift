@@ -14,20 +14,12 @@ extension Account {
     func prepareDataToShow(dateInterval: DateInterval, selectedCurrency: Currency, currencyHistoricalData: CurrencyHistoricalDataProtocol? = nil, dateComponent: Calendar.Component, isListForAnalytic: Bool, sortTableDataBy: SortCategoryType, context: NSManagedObjectContext) throws -> PresentingData {  // swiftlint:disable:this cyclomatic_complexity function_body_length function_parameter_count line_length
 
         var accountsToShow: [Account] = directChildrenList
-        if !(rootAccount.name == LocalisationManager.getLocalizedName(.money) ||
-             rootAccount.name == LocalisationManager.getLocalizedName(.credits) ||
-             rootAccount.name == LocalisationManager.getLocalizedName(.debtors)) {
+        if type.balanceCalcFullTime == false {
             accountsToShow.append(self)
         }
 
         if isListForAnalytic == false {
-            accountsToShow = accountsToShow.filter({
-                if $0.active {
-                    return true
-                } else {
-                    return false
-                }
-            })
+            accountsToShow = accountsToShow.filter({$0.active})
         }
 
         var accountsData: [AccountData] = []
