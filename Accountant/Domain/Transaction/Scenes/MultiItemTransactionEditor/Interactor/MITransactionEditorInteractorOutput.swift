@@ -7,8 +7,5 @@
 
 import Foundation
 
-protocol MITransactionEditorInteractorOutput: AnyObject {
-    func fetched(transactionItems: [TransactionItem])
-    func fetched(date: Date)
-    func fetched(comment: String?)
+protocol MITransactionEditorInteractorOutput: MITransactionEditorDelegate {
 }

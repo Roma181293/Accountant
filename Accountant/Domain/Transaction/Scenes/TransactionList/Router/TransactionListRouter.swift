@@ -7,15 +7,15 @@
 //
 
 import UIKit
+import CoreData
 
 class TransactionListRouter: TransactionListRouterInput {
-    
-    // MARK: Static methods
+
     weak var viewController: UIViewController?
     weak var output: TransactionListRouterOutput?
 
-    func openMITransactionEditorModule(transactionId: UUID?) {
-        let mITransactionEditorVC = MITransactionEditorAssembly.configure(transactionId: transactionId)
+    func openMITransactionEditorModule(transactionId: UUID?, context: NSManagedObjectContext) {
+        let mITransactionEditorVC = MITransactionEditorAssembly.configure(transactionId: transactionId, context: context)
         viewController?.navigationController?.pushViewController(mITransactionEditorVC, animated: true)
     }
 

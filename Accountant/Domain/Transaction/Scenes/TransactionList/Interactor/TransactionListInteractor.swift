@@ -8,6 +8,7 @@
 
 import Foundation
 import Purchases
+import CoreData
 
 class TransactionListInteractor {
 
@@ -15,14 +16,14 @@ class TransactionListInteractor {
     private var isUserHasPaidAccess: Bool = false
     private let coreDataStack = CoreDataStack.shared
     private var environment = Environment.prod
-    private var service: TransactionListService
+    private var worker: TransactionListWorker
 
-    init(dataProvider: TransactionListService) {
+    init(worker: TransactionListWorker) {
 
         self.environment = coreDataStack.persistentContainer.environment
-        self.service = dataProvider
-        self.service.delegate = self
-        self.service.provideData()
+        self.worker = worker
+        
+        self.worker.provideData()
 
         NotificationCenter.default.addObserver(self, selector: #selector(self.environmentDidChange),
                                                name: .environmentDidChange, object: nil)
@@ -48,8 +49,8 @@ class TransactionListInteractor {
 
     @objc private func environmentDidChange() {
         self.environment = coreDataStack.persistentContainer.environment
-        service.changePersistentContainer(coreDataStack.persistentContainer)
-        service.provideData()
+        worker.changePersistentContainer(coreDataStack.persistentContainer)
+        worker.provideData()
         output?.environmentDidChange(environment: self.environment)
     }
 }
@@ -65,6 +66,10 @@ extension TransactionListInteractor: TransactionListInteractorInput {
         return environment
     }
 
+    func activeContext() -> NSManagedObjectContext {
+        return worker.context
+    }
+
     func userHasPaidAccess() -> Bool {
         return isUserHasPaidAccess
     }
@@ -76,7 +81,7 @@ extension TransactionListInteractor: TransactionListInteractorInput {
     func loadStatmentsData() {
         let backgroundContext = CoreDataStack.shared.persistentContainer.newBackgroundContext()
         StatementsLoadingService.loadStatments(context: backgroundContext,
-                                              compliting: {(_, error) in
+                                               compliting: {(_, error) in
             if let error = error {
                 self.output?.showError(error: error)
             }
@@ -88,32 +93,32 @@ extension TransactionListInteractor: TransactionListInteractorInput {
     }
 
     func duplicateTransaction(at indexPath: IndexPath) {
-        service.duplicateTransaction(at: indexPath)
+        worker.duplicateTransaction(at: indexPath)
     }
 
     func deleteTransaction(at indexPath: IndexPath) {
-        service.deleteTransaction(at: indexPath)
+        worker.deleteTransaction(at: indexPath)
     }
 
     func search(text: String) {
-        service.search(text: text)
+        worker.search(text: text)
     }
 
     func numberOfSections() -> Int {
-       return service.numberOfSections()
+       return worker.numberOfSections()
     }
 
     func numberOfRowsInSection(_ section: Int) -> Int {
-        return service.numberOfRowsInSection(section)
+        return worker.numberOfRowsInSection(section)
     }
 
     func transactionAt(_ indexPath: IndexPath) -> TransactionViewModel {
-        return service.transactionAt(indexPath)
+        return worker.transactionAt(indexPath)
     }
 }
 
 // MARK: - TransactionListProviderDelegate
-extension TransactionListInteractor: TransactionListServiceDelegate {
+extension TransactionListInteractor: TransactionListWorkerDelegate {
     func didFetchTransactions() {
         output?.didFetchTransactions()
     }

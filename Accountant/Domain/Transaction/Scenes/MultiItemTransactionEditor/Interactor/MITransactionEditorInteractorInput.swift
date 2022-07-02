@@ -20,7 +20,6 @@ protocol MITransactionEditorInteractorInput: AnyObject {
     func setComment(_ comment: String?)
     func usedAccountList() -> [Account]
     func rootAccountFor(transactionItemId: UUID) -> Account?
-    func validateTransaction() throws
-    func save()
+    func save() throws
     func cleanUnusedData()
 }

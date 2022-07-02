@@ -62,12 +62,11 @@ class TransactionItemCell: UITableViewCell {
         accountButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
     }
 
-    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
+    func textFieldDidEndEditing(_ textField: UITextField) {
         if textField.tag == 1, let text = textField.text,
            let amount = Double(text.replacingOccurrences(of: ",", with: ".")) {
             delegate.setAmount(forTrasactionItem: transactionItem.id, amount: amount)
         }
-        return true
     }
 
     @objc private func selectAccount() {

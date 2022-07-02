@@ -163,6 +163,8 @@ class MITransactionEditorView: UIView {
     }
 
     @objc private func changeDate(_ sender: UIDatePicker) {
+        debitTableView.resignFirstResponder()
+        creditTableView.resignFirstResponder()
         delegate?.changeDate(sender.date)
     }
 

@@ -49,7 +49,7 @@ class MITransactionEditorPresenter: MITransactionEditorViewOutput {
 
     func accountRequestingForTransactionItem(id: UUID) {
         transactionItemForAccountSpecifyigId = id
-        routerInput.getAccount(with: self,
+        routerInput.openAccountNavigationScene(with: self,
                                parent: interactorInput.rootAccountFor(transactionItemId: id),
                                excludeAccountList: interactorInput.usedAccountList())
     }
@@ -92,12 +92,11 @@ class MITransactionEditorPresenter: MITransactionEditorViewOutput {
 
     func confirm() {
         do {
-            try interactorInput.validateTransaction()
             if interactorInput.transactionStatus != .preDraft {
                 if !interactorInput.isNewTransaction && interactorInput.hasChanges {
                     routerInput.showSaveAlert()
                 } else {
-                    interactorInput.save()
+                    try interactorInput.save()
                     routerInput.popViewController()
                 }
             } else {
@@ -157,7 +156,11 @@ extension MITransactionEditorPresenter: MITransactionEditorInteractorOutput {
 // MARK: - MITransactionEditorRouterOutput
 extension MITransactionEditorPresenter: MITransactionEditorRouterOutput {
     func confirmActionDidClick() {
-        self.interactorInput.save()
+        do {
+            try self.interactorInput.save()
+        } catch {
+            routerInput.showError(error)
+        }
         self.routerInput.popViewController()
     }
 }

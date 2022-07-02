@@ -180,6 +180,7 @@
 		2B90B8CE2851237600ABFD35 /* AccountEditorRouterOutput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B90B8C22851237600ABFD35 /* AccountEditorRouterOutput.swift */; };
 		2B9282AF286E5AFF000A05FE /* ImportTransactionWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B9282AE286E5AFF000A05FE /* ImportTransactionWorker.swift */; };
 		2B9282B2286E790D000A05FE /* ImportExportAccountWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B9282B1286E790D000A05FE /* ImportExportAccountWorker.swift */; };
+		2B9282B6286EAB3F000A05FE /* MITransactionEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B9282B5286EAB3F000A05FE /* MITransactionEditor.swift */; };
 		2B949BAF2665B4040033383A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B949BAE2665B4040033383A /* AppDelegate.swift */; };
 		2B949BB12665B4040033383A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B949BB02665B4040033383A /* SceneDelegate.swift */; };
 		2B949BB62665B4040033383A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2B949BB42665B4040033383A /* Main.storyboard */; };
@@ -220,7 +221,7 @@
 		2BF15791284C9EF4008345DB /* TransactionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BF15790284C9EF4008345DB /* TransactionViewModel.swift */; };
 		2BF15793284CB4B4008345DB /* TransactionItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BF15792284CB4B4008345DB /* TransactionItemViewModel.swift */; };
 		2BFACB69281B4D9C00B2B1CE /* SimpleTransactionEditorVCLocalizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2BFACB6B281B4D9C00B2B1CE /* SimpleTransactionEditorVCLocalizable.strings */; };
-		2BFACB6F281C948000B2B1CE /* TransactionListService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BFACB6E281C948000B2B1CE /* TransactionListService.swift */; };
+		2BFACB6F281C948000B2B1CE /* TransactionListWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BFACB6E281C948000B2B1CE /* TransactionListWorker.swift */; };
 		38318A9FD81C28716622F93F /* Pods_Accountant.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97FD10DCF67B198D7BE0F270 /* Pods_Accountant.framework */; };
 /* End PBXBuildFile section */
 
@@ -451,6 +452,7 @@
 		2B90B8C22851237600ABFD35 /* AccountEditorRouterOutput.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountEditorRouterOutput.swift; sourceTree = "<group>"; };
 		2B9282AE286E5AFF000A05FE /* ImportTransactionWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportTransactionWorker.swift; sourceTree = "<group>"; };
 		2B9282B1286E790D000A05FE /* ImportExportAccountWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportExportAccountWorker.swift; sourceTree = "<group>"; };
+		2B9282B5286EAB3F000A05FE /* MITransactionEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MITransactionEditor.swift; sourceTree = "<group>"; };
 		2B949BAB2665B4040033383A /* Accountant.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Accountant.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2B949BAE2665B4040033383A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2B949BB02665B4040033383A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -502,7 +504,7 @@
 		2BFACB6A281B4D9C00B2B1CE /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/SimpleTransactionEditorVCLocalizable.strings; sourceTree = "<group>"; };
 		2BFACB6C281B4D9E00B2B1CE /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/SimpleTransactionEditorVCLocalizable.strings; sourceTree = "<group>"; };
 		2BFACB6D281B4D9E00B2B1CE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/SimpleTransactionEditorVCLocalizable.strings; sourceTree = "<group>"; };
-		2BFACB6E281C948000B2B1CE /* TransactionListService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionListService.swift; sourceTree = "<group>"; };
+		2BFACB6E281C948000B2B1CE /* TransactionListWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionListWorker.swift; sourceTree = "<group>"; };
 		2BFCE545274ABADF0070C35F /* Accountant 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Accountant 2.xcdatamodel"; sourceTree = "<group>"; };
 		97FD10DCF67B198D7BE0F270 /* Pods_Accountant.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Accountant.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A51B83286AAA2CAF601DDC80 /* Pods-Accountant.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Accountant.debug.xcconfig"; path = "Target Support Files/Pods-Accountant/Pods-Accountant.debug.xcconfig"; sourceTree = "<group>"; };
@@ -545,7 +547,6 @@
 				2B0ACB4F284CC15800DFF2EB /* Router */,
 				2B0ACB46284CC15800DFF2EB /* TransactionListAssembly.swift */,
 				2B4976FB26DBE90B00147EAA /* TransactionCell.swift */,
-				2BFACB6E281C948000B2B1CE /* TransactionListService.swift */,
 				2B5546832825D8F200D456DE /* TransactionListLocalizable.strings */,
 			);
 			path = TransactionList;
@@ -636,6 +637,7 @@
 			isa = PBXGroup;
 			children = (
 				2B92828D286E4272000A05FE /* Models */,
+				2B9282B4286EA5EB000A05FE /* Workers */,
 				2B92828C286E4239000A05FE /* Scenes */,
 			);
 			path = Transaction;
@@ -812,7 +814,6 @@
 			children = (
 				2B1FEBAA266EE19B00BF53BD /* ImportTransactionViewController.swift */,
 				2B1FEBB5266EE45F00BF53BD /* PreTransactionTableViewCell.swift */,
-				2B9282AE286E5AFF000A05FE /* ImportTransactionWorker.swift */,
 			);
 			path = ImportTransactions;
 			sourceTree = "<group>";
@@ -1029,7 +1030,6 @@
 				2B1FEA82266C1D9900BF53BD /* Transaction.swift */,
 				2B2056D9285CF6E5002C6F89 /* Transaction extension.swift */,
 				2B2056D5285CF639002C6F89 /* TransactionHelper.swift */,
-				2B85FD0C277795DC005A295E /* StatementsLoadingService.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1323,6 +1323,17 @@
 			isa = PBXGroup;
 			children = (
 				2B85D858278F480C0042858B /* ExchangeRatesLoader.swift */,
+			);
+			path = Workers;
+			sourceTree = "<group>";
+		};
+		2B9282B4286EA5EB000A05FE /* Workers */ = {
+			isa = PBXGroup;
+			children = (
+				2B9282AE286E5AFF000A05FE /* ImportTransactionWorker.swift */,
+				2B85FD0C277795DC005A295E /* StatementsLoadingService.swift */,
+				2BFACB6E281C948000B2B1CE /* TransactionListWorker.swift */,
+				2B9282B5286EAB3F000A05FE /* MITransactionEditor.swift */,
 			);
 			path = Workers;
 			sourceTree = "<group>";
@@ -1717,6 +1728,7 @@
 				2B20570D285DA482002C6F89 /* ArchivingHistory.swift in Sources */,
 				2B6C2372280FCEB100D84174 /* HolderViewController.swift in Sources */,
 				2B6C237F281093A400D84174 /* CurrencyViewController.swift in Sources */,
+				2B9282B6286EAB3F000A05FE /* MITransactionEditor.swift in Sources */,
 				2B1FEB70266D752200BF53BD /* ChartsManager.swift in Sources */,
 				2BDAB0F82805EE7900C5AED6 /* MigrationPolicy_V1toV3.swift in Sources */,
 				2B0D1D3326ADF1D1003C6394 /* TransactionItem.swift in Sources */,
@@ -1801,7 +1813,7 @@
 				2B70CFA0283EC57F0073EFB4 /* MappingModel_V1toV3.xcmappingmodel in Sources */,
 				2B8172F12798B7B200E6CB20 /* BankAccountTableViewController.swift in Sources */,
 				2B3A260426E95C780033E746 /* AccessManager.swift in Sources */,
-				2BFACB6F281C948000B2B1CE /* TransactionListService.swift in Sources */,
+				2BFACB6F281C948000B2B1CE /* TransactionListWorker.swift in Sources */,
 				2B490DDB26E4B92600967E11 /* OfferView.swift in Sources */,
 				2B6C2363280E114400D84174 /* KeeperProvider.swift in Sources */,
 				2B44C9F626EE86F00009976A /* StartAccountingViewController.swift in Sources */,

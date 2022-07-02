@@ -7,12 +7,13 @@
 //
 
 import Foundation
+import CoreData
 
 protocol TransactionListInteractorInput: AnyObject {
-    
     func isMITransactionModeOn() -> Bool
     func hasActiveBankAccounts() -> Bool
     func activeEnvironment() -> Environment
+    func activeContext() -> NSManagedObjectContext
     func userHasPaidAccess() -> Bool
     func loadStatmentsData()
 

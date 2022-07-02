@@ -1,5 +1,5 @@
 //
-//  TransactionListProvider.swift
+//  TransactionListWorker.swift
 //  Accountant
 //
 //  Created by Roman Topchii on 30.04.2022.
@@ -8,19 +8,21 @@
 import Foundation
 import CoreData
 
-protocol TransactionListServiceDelegate: AnyObject {
+protocol TransactionListWorkerDelegate: AnyObject {
     func didFetchTransactions()
     func showError(error: Error)
 }
 
-class TransactionListService: NSObject {
+class TransactionListWorker: NSObject {
 
-    weak var delegate: TransactionListServiceDelegate?
+    weak var delegate: TransactionListWorkerDelegate?
 
     private(set) unowned var persistentContainer: PersistentContainer
+    private(set) var context: NSManagedObjectContext
 
     init(with persistentContainer: PersistentContainer) {
         self.persistentContainer = persistentContainer
+        self.context = persistentContainer.viewContext
     }
 
     private(set) lazy var fetchedResultsController: NSFetchedResultsController<Transaction> = {
@@ -30,7 +32,7 @@ class TransactionListService: NSObject {
         fetchRequest.fetchBatchSize = 20
 
         let controller = NSFetchedResultsController(fetchRequest: fetchRequest,
-                                                    managedObjectContext: persistentContainer.viewContext,
+                                                    managedObjectContext: context,
                                                     sectionNameKeyPath: nil, cacheName: nil)
         controller.delegate = self
         return controller
@@ -44,7 +46,7 @@ class TransactionListService: NSObject {
         fetchRequest.fetchBatchSize = 20
 
         fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest,
-                                                              managedObjectContext: persistentContainer.viewContext,
+                                                              managedObjectContext: context,
                                                               sectionNameKeyPath: nil, cacheName: nil)
         fetchedResultsController.delegate = self
     }
@@ -130,7 +132,7 @@ class TransactionListService: NSObject {
     }
 }
 
-extension TransactionListService: NSFetchedResultsControllerDelegate {
+extension TransactionListWorker: NSFetchedResultsControllerDelegate {
 
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         delegate?.didFetchTransactions()

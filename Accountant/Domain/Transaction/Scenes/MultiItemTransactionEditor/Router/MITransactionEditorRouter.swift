@@ -12,7 +12,7 @@ class MITransactionEditorRouter: MITransactionEditorRouterInput {
     weak var viewController: UIViewController?
     weak var output: MITransactionEditorRouterOutput?
 
-    func getAccount(with requestor: AccountRequestor, parent: Account?, excludeAccountList: [Account]) {
+    func openAccountNavigationScene(with requestor: AccountRequestor, parent: Account?, excludeAccountList: [Account]) {
         guard let viewController = viewController else {return}
         let accountNavigatorVC = AccountNavigationViewController()
         accountNavigatorVC.parentAccount = parent

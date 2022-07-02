@@ -8,7 +8,7 @@
 import UIKit
 
 protocol MITransactionEditorRouterInput: AnyObject {
-    func getAccount(with delegate: AccountRequestor, parent: Account?, excludeAccountList: [Account])
+    func openAccountNavigationScene(with delegate: AccountRequestor, parent: Account?, excludeAccountList: [Account])
     func popViewController()
     func dismiss()
     func showSaveAlert()

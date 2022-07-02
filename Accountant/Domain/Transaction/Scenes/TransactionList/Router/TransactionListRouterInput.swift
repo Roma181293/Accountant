@@ -7,10 +7,10 @@
 //
 
 import Foundation
-import UIKit
+import CoreData
 
 protocol TransactionListRouterInput: AnyObject {
-    func openMITransactionEditorModule(transactionId: UUID?)
+    func openMITransactionEditorModule(transactionId: UUID?, context: NSManagedObjectContext)
     func openSimpleTransactionEditorModule(transactionId: UUID?)
     func deleteAlertFor(indexPath: IndexPath)
     func showPurchaseOfferModule()
