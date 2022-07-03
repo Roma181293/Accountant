@@ -140,12 +140,14 @@ extension MITransactionEditorPresenter: MITransactionEditorInteractorOutput {
     }
 
     private func configureAddTransactionItemButtons() {
-        if transactionItems.filter({$0.type == .debit}).count > 1 {
+        if transactionItems.filter({$0.type == .debit}).count > 1
+            && transactionItems.filter({$0.type == .credit}).count >= 1 {
             viewInput?.creditAddButtonIsHidden = true
         } else {
             viewInput?.creditAddButtonIsHidden = false
         }
-        if transactionItems.filter({$0.type == .credit}).count > 1 {
+        if transactionItems.filter({$0.type == .credit}).count > 1
+            && transactionItems.filter({$0.type == .debit}).count >= 1 {
             viewInput?.debitAddButtonIsHidden = true
         } else {
             viewInput?.debitAddButtonIsHidden = false

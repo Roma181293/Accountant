@@ -18,21 +18,21 @@ class TransactionListWorker: NSObject {
     weak var delegate: TransactionListWorkerDelegate?
 
     private(set) unowned var persistentContainer: PersistentContainer
-    private(set) var context: NSManagedObjectContext
+    private(set) var mainContext: NSManagedObjectContext
 
     init(with persistentContainer: PersistentContainer) {
         self.persistentContainer = persistentContainer
-        self.context = persistentContainer.viewContext
+        self.mainContext = persistentContainer.viewContext
     }
 
     private(set) lazy var fetchedResultsController: NSFetchedResultsController<Transaction> = {
         let fetchRequest = Transaction.fetchRequest()
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: Schema.Transaction.date.rawValue, ascending: false),
-                                        NSSortDescriptor(key: "\(Schema.Transaction.createDate)", ascending: false)]
+                                        NSSortDescriptor(key: Schema.Transaction.createDate.rawValue, ascending: false)]
         fetchRequest.fetchBatchSize = 20
 
         let controller = NSFetchedResultsController(fetchRequest: fetchRequest,
-                                                    managedObjectContext: context,
+                                                    managedObjectContext: mainContext,
                                                     sectionNameKeyPath: nil, cacheName: nil)
         controller.delegate = self
         return controller
@@ -42,11 +42,11 @@ class TransactionListWorker: NSObject {
         self.persistentContainer = persistentContainer
         let fetchRequest = Transaction.fetchRequest()
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: Schema.Transaction.date.rawValue, ascending: false),
-                                        NSSortDescriptor(key: "\(Schema.Transaction.createDate)", ascending: false)]
+                                        NSSortDescriptor(key: Schema.Transaction.createDate.rawValue, ascending: false)]
         fetchRequest.fetchBatchSize = 20
 
         fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest,
-                                                              managedObjectContext: context,
+                                                              managedObjectContext: mainContext,
                                                               sectionNameKeyPath: nil, cacheName: nil)
         fetchedResultsController.delegate = self
     }
@@ -106,6 +106,7 @@ class TransactionListWorker: NSObject {
         }
     }
 
+   
     func search(text: String) {
         var predicate: NSPredicate?
         if !text.isEmpty {
@@ -130,6 +131,10 @@ class TransactionListWorker: NSObject {
     func transactionAt(_ indexPath: IndexPath) -> TransactionViewModel {
         return TransactionViewModel(transaction: fetchedResultsController.object(at: indexPath))
     }
+
+    
+
+
 }
 
 extension TransactionListWorker: NSFetchedResultsControllerDelegate {

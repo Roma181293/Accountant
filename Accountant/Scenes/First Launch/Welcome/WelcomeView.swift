@@ -30,7 +30,7 @@ class WelcomeView: UIView {
     let titleLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
-        label.text = NSLocalizedString("Welcome", tableName: Constants.Localizable.welcomeVC, comment: "").uppercased()
+        label.text = NSLocalizedString("Welcome", tableName: Constants.Localizable.welcome, comment: "").uppercased()
         label.font = UIFont.boldSystemFont(ofSize: 30.0)
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -40,7 +40,7 @@ class WelcomeView: UIView {
     let startAccountingButton: UIButton = {
         let button = UIButton()
         button.setTitle(NSLocalizedString("Start accounting",
-                                          tableName: Constants.Localizable.welcomeVC,
+                                          tableName: Constants.Localizable.welcome,
                                           comment: "").uppercased(), for: .normal)
         button.backgroundColor = UIColor.systemIndigo
         button.setTitleColor(UIColor.white, for: .normal)
@@ -52,7 +52,7 @@ class WelcomeView: UIView {
     let testButton: UIButton = {
         let button = UIButton()
         button.setTitle(NSLocalizedString("Try functionality",
-                                          tableName: Constants.Localizable.welcomeVC,
+                                          tableName: Constants.Localizable.welcome,
                                           comment: "").uppercased(),
                         for: .normal)
         button.backgroundColor = UIColor.systemIndigo

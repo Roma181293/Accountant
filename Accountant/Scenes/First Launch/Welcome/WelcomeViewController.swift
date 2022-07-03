@@ -46,12 +46,12 @@ class WelcomeViewController: UIViewController {
 
     func errorHandler(error: Error) {
         let alert = UIAlertController(title: NSLocalizedString("Error",
-                                                               tableName: Constants.Localizable.welcomeVC,
+                                                               tableName: Constants.Localizable.welcome,
                                                                comment: ""),
                                       message: error.localizedDescription,
                                       preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: NSLocalizedString("OK",
-                                                               tableName: Constants.Localizable.welcomeVC,
+                                                               tableName: Constants.Localizable.welcome,
                                                                comment: ""), style: .default))
         self.present(alert, animated: true, completion: nil)
     }

@@ -1,0 +1,17 @@
+/* 
+  TransactionLocalizable.strings
+  Accountant
+
+  Created by Roman Topchii on 02.07.2022.
+  
+*/
+
+"There is an unapplied transaction before this date" = "До этой даты есть непримененная транзакция";
+"You have a transaction in the same currency, but amounts in From:Account and To:Account are not matching" = "Вы имеете транзакцию в одной валюте.Но сумма С:Счет не совпадает с суммой На:Счет";
+"Please add To:Account" = "Пожалуйста добавьте На:Счет";
+"Please add From:Account" = "Пожалуйста добавьте С:Счет";
+"Please select To:Account" = "Пожалуйста выберите На:Счет";
+"Please select From:Account" = "Пожалуйста выберите С:Счет";
+"Please create a subaccount for \"%@\" and select it" = "Пожалуйста создайте дочерний счет к \"%@\" и выберите его";
+"Please check amount value to account/category \"%@\"" = "Пожалуйста проверьте значение суммы на счет/категорию \"%@\"";
+"Please check amount value from account/category \"%@\"" = "Пожалуйста проверьте значение суммы со счета/категории \"%@\"";

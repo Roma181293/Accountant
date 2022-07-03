@@ -10,6 +10,7 @@ import Foundation
 import CoreData
 
 protocol TransactionListInteractorInput: AnyObject {
+    func viewWillAppear()
     func isMITransactionModeOn() -> Bool
     func hasActiveBankAccounts() -> Bool
     func activeEnvironment() -> Environment

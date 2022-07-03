@@ -286,10 +286,7 @@ class AccountManagerController {
     func addTransactionWithDebitAccount(indexPath: IndexPath, selectedAccount: Account) -> UIContextualAction {
         let addDebitTransaction = UIContextualAction(style: .normal,
                                                      title: NSLocalizedString("To", comment: "")) { (_, _, complete) in
-            let simpleTransactionEditorVC = SimpleTransactionEditorViewController()
-            simpleTransactionEditorVC.debit = selectedAccount
-            simpleTransactionEditorVC.delegate = self.delegate
-            self.delegate.navigationController?.pushViewController(simpleTransactionEditorVC, animated: true)
+            
             complete(true)
         }
         addDebitTransaction.backgroundColor = .systemGreen
@@ -299,10 +296,7 @@ class AccountManagerController {
     func addTransactionWithCreditAccount(indexPath: IndexPath, selectedAccount: Account) -> UIContextualAction {
         let addCreditTransaction = UIContextualAction(style: .normal,
                                                       title: NSLocalizedString("From", comment: "")) { (_, _, complete) in
-            let simpleTransactionEditorVC = SimpleTransactionEditorViewController()
-            simpleTransactionEditorVC.credit = selectedAccount
-            simpleTransactionEditorVC.delegate = self.delegate
-            self.delegate.navigationController?.pushViewController(simpleTransactionEditorVC, animated: true)
+            
             complete(true)
         }
         addCreditTransaction.backgroundColor = .systemOrange

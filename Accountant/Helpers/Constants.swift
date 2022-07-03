@@ -11,56 +11,38 @@ import Charts
 
 struct Constants {
     struct Localizable {
-        // Modules
-        static let settingsVC = "SettingsVCLocalizable"
+        // Account
+        static let accountNavigation = "AccountNavigationLocalizable"
+        static let accountEditor = "AccountEditorLocalizable"
+        static let accountEditorService = "AccountEditorServiceLocalizable"
+
+        // Transaction
+        static let transaction = "TransactionLocalizable"
+        static let transactionList = "TransactionListLocalizable"
+        static let simpleTransactionEditorVC = "SimpleTransactionEditorVCLocalizable"
+        static let mITransactionEditor = "MITransactionEditorLocalizable"
+
+
         static let bankAccountTVC = "BankAccountTVCLocalizable"
         static let userBankProfileListVC = "UserBankProfileListVCLocalizable"
         static let monobankVC = "MonobankVCLocalizable"
         static let keeperVC = "KeeperVCLocalizable"
         static let holderVC = "HolderVCLocalizable"
         static let currencyVC = "CurrencyVCLocalizable"
-        static let accountNavigationVC = "AccountNavigationVCLocalizable"
-        static let accountEditor = "AccountEditorLocalizable"
-        static let simpleTransactionEditorVC = "SimpleTransactionEditorVCLocalizable"
-        static let mITransactionEditor = "MITransactionEditorLocalizable"
-        static let transactionList = "TransactionListLocalizable"
-        static let welcomeVC = "WelcomeVCLocalizable"
+
+        // Modules
+        static let welcome = "WelcomeVCLocalizable"
         static let startAccountingVC = "StartAccountingVCLocalizable"
+        static let settingsVC = "SettingsVCLocalizable"
         static let purchaseOfferVC = "PurchaseOfferVCLocalizable"
         static let accountTypeNavigation = "AccountTypeNavigationLocalizable"
-
-        // Services
-        static let accountEditorService = "AccountEditorServiceLocalizable"
-
     }
 
     struct Storyboard {
-        static let welcomeVC = "WelcomeVC_ID"
-        static let startAccountingVC = "StartAccountingVC_ID"
         static let instructionVC = "InstructionVC_ID"
-
         static let tabBarController = "TabBarController_ID"
-
         static let bioAuthVC = "BioAuthVC_ID"
-        static let authPinAndBioVC = "AuthPinAndBiometricVC_ID"
-
-        static let purchaseOfferVC = "PurchaseOfferVC_ID"
-
-        static let transactionListVC = "TransactionListVC_ID"
-        static let complexTransactionEditorVC = "ComplexTransactionEditorVC_ID"
-        static let importTransactionVC = "ImportTransactionVC_ID"
-
-        static let addAccountVC = "AddAccountVC_ID"
-        static let accountListVC = "AccountListVC_ID"
-        static let accountListTableVC = "AccountListTVC_ID"
-
         static let analyticsVC = "AnalyticsVC_ID"
-        static let analyticsTableVC = "AnalyticsTVC_ID"
-        static let configureAnalyticsVC = "ConfigureAnalyticsVC_ID"
-
-        static let settingsVC = "SettingsVC_ID"
-
-        static let monobankVC = "MonobankVC_ID"
     }
 
     struct Cell {
@@ -87,8 +69,6 @@ struct Constants {
 
     struct Segue {
         static let goToMoneyAccountListTVC = "goToMoneyAccountListTVC_ID"
-        static let debitToAccountNavigator = "debitToAccountNavigator_ID"
-        static let creditToAccountNavigator = "creditToAccountNavigator_ID"
         static let goToConfigurationVC = "goToConfigurationVC_ID"
         static let goToAnalyticsTVC = "goToAnalyticsTVC_ID"
     }

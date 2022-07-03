@@ -19,14 +19,6 @@ class TransactionListRouter: TransactionListRouterInput {
         viewController?.navigationController?.pushViewController(mITransactionEditorVC, animated: true)
     }
 
-    func openSimpleTransactionEditorModule(transactionId: UUID?) {
-        let transactioEditorVC = SimpleTransactionEditorViewController()
-        let transaction = TransactionHelper.getTransactionFor(id: transactionId ?? UUID(),
-                                                        context: CoreDataStack.shared.persistentContainer.viewContext)
-        transactioEditorVC.transaction = transaction
-        viewController?.navigationController?.pushViewController(transactioEditorVC, animated: true)
-    }
-
     func deleteAlertFor(indexPath: IndexPath) {
         let alert = UIAlertController(title: NSLocalizedString("Delete",
                                                                tableName: Constants.Localizable.transactionList,

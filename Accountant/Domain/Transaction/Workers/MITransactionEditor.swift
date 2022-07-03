@@ -14,7 +14,6 @@ protocol MITransactionEditorDelegate: AnyObject {
     func fetched(comment: String?)
 }
 
-
 class MITransactionEditor: MITransactionEditorInteractorInput {
 
     weak var delegate: MITransactionEditorDelegate?

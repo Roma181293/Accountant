@@ -217,33 +217,18 @@ extension MITransactionEditorViewController: UITableViewDelegate {
 // MARK: - Keyboard methods
 extension MITransactionEditorViewController {
     @objc func keyboardWillShow(notification: Notification) {
+        guard let userInfo = notification.userInfo,
+        let keyboardEndFrame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue
+        else {return}
 
-        let saveDistance: CGFloat = 80
-        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue, // swiftlint:disable:this line_length
-           let activeTextField = activeTextField {
-            let keyboardY = self.view.frame.size.height - keyboardSize.height - saveDistance
-            var editingTextFieldY: CGFloat! = 0
-            if  activeTextField.tag == 200 {  // comment
-                editingTextFieldY = activeTextField.frame.origin.y
-            }
-            if editingTextFieldY > keyboardY - saveDistance {
-                UIView.animate(withDuration: 0.25,
-                               delay: 0.00,
-                               options: UIView.AnimationOptions.curveEaseIn,
-                               animations: {
-                    self.view.frame = CGRect(x: 0,
-                                             y: -(editingTextFieldY! - (keyboardY - saveDistance)),
-                                             width: self.view.bounds.width,
-                                             height: self.view.bounds.height)
-                }, completion: nil)
-            }
-        }
+        let keyboardViewEndFrame = view.convert(keyboardEndFrame, from: view.window)
+        let contentInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: keyboardViewEndFrame.height, right: 0.0)
+
+        mainView.scrollContent(contentInset: contentInsets)
     }
 
     @objc func keyboardWillHide(notification: Notification) {
-        UIView.animate(withDuration: 0.25, delay: 0.00, options: UIView.AnimationOptions.curveEaseIn, animations: {
-            self.view.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: self.view.bounds.height)
-        }, completion: nil)
+        mainView.scrollContent(contentInset: UIEdgeInsets.zero)
     }
 
     @objc func dismissKeyboard() {

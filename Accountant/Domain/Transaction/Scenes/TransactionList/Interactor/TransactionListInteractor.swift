@@ -58,6 +58,10 @@ class TransactionListInteractor {
 // MARK: - TransactionListInteractorInput
 extension TransactionListInteractor: TransactionListInteractorInput {
 
+    func viewWillAppear() {
+        TransactionStatusWorker.applyTransactions()
+    }
+
     func hasActiveBankAccounts() -> Bool {
         return BankAccountHelper.hasActiveBankAccounts(context: coreDataStack.persistentContainer.viewContext)
     }
@@ -67,7 +71,7 @@ extension TransactionListInteractor: TransactionListInteractorInput {
     }
 
     func activeContext() -> NSManagedObjectContext {
-        return worker.context
+        return worker.mainContext
     }
 
     func userHasPaidAccess() -> Bool {

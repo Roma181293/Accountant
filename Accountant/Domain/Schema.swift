@@ -154,6 +154,7 @@ enum Schema {
         case modifyDate
         case modifiedByUser
         case status
+        case type
         case comment
         case date
         // Relationships

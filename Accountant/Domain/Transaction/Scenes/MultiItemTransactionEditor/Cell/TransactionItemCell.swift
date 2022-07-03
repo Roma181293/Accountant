@@ -10,7 +10,7 @@ import CoreData
 
 class TransactionItemCell: UITableViewCell {
 
-    var transactionItem: TransactionItemSimpleViewModel!
+    private var transactionItem: TransactionItemSimpleViewModel!
     private unowned var delegate: TransactionItemCellDelegate!
 
     private let accountButton: UIButton = {
@@ -66,6 +66,8 @@ class TransactionItemCell: UITableViewCell {
         if textField.tag == 1, let text = textField.text,
            let amount = Double(text.replacingOccurrences(of: ",", with: ".")) {
             delegate.setAmount(forTrasactionItem: transactionItem.id, amount: amount)
+        } else {
+            delegate.setAmount(forTrasactionItem: transactionItem.id, amount: 0)
         }
     }
 

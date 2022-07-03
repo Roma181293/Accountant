@@ -27,7 +27,7 @@ class AccountNavigationViewController: UITableViewController {
     var requestor: AccountRequestor?
     weak var delegate: AccountNavigationDelegate?
 
-    private let localizedTableName: String = Constants.Localizable.accountNavigationVC
+    private let localizedTableName: String = Constants.Localizable.accountNavigation
 
     private var isUserHasPaidAccess = false
     private lazy var dataProvider: AccountProvider = {

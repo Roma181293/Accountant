@@ -72,11 +72,11 @@ class AccountListTableViewController: UITableViewController, AccountManagerTable
         let selectedAccount: Account = self.listOfAccountsToShow[indexPath.row].account
         var tmpConfiguration: [UIContextualAction] = []
 //        tmpConfiguration.append(accountManagerController.addTransactionWithDebitAccount(indexPath: indexPath, selectedAccount: selectedAccount))
-        if selectedAccount.canBeRenamed {
+        if selectedAccount.type.canBeRenamed {
             tmpConfiguration.append(accountManagerController.renameAccount(indexPath: indexPath, selectedAccount: selectedAccount))
             tmpConfiguration.append(accountManagerController.removeAccount(indexPath: indexPath, selectedAccount: selectedAccount))
         }
-        if selectedAccount.parent != nil || (selectedAccount.parent == nil && selectedAccount.createdByUser == true) {
+        if selectedAccount.type.canChangeActiveStatus {
             tmpConfiguration.append(accountManagerController.hideAccount(indexPath: indexPath,
                                                                          selectedAccount: selectedAccount))
         }

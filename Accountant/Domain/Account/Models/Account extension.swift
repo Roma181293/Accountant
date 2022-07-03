@@ -66,13 +66,6 @@ extension Account {
         return transactionItemsList.isEmpty
     }
 
-    var canBeRenamed: Bool {
-        if AccountHelper.isReservedAccountName(name) {
-            return false
-        }
-        return true
-    }
-
     func accountListUsingInTransactions() -> [Account] {
         var accounts = childrenList
         accounts.append(self)

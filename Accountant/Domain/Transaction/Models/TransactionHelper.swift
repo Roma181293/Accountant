@@ -14,7 +14,6 @@ class TransactionHelper {
         let request = Transaction.fetchRequest()
         request.predicate = NSPredicate(format: "\(Schema.Transaction.id) = '\(id)'")
         request.sortDescriptors = [NSSortDescriptor(key: "\(Schema.Transaction.createDate)", ascending: true)]
-
         return try? context.fetch(request).first
     }
 
@@ -30,23 +29,23 @@ class TransactionHelper {
                         currency = nil // multicurrency transaction
                     }
                 } else {
-                    throw Transaction.Error.multicurrencyAccount(name: account.path)
+                    throw HelperError.multicurrencyAccount(name: account.path)
                 }
 
                 if item.amount <= 0 {
                     switch type {
                     case .debit:
-                        throw TransactionItem.Error.invalidAmountInDebitTransactioItem(path: account.path)
+                        throw HelperError.invalidAmountInDebitTransactioItem(path: account.path)
                     case .credit:
-                        throw TransactionItem.Error.invalidAmountInCreditTransactioItem(path: account.path)
+                        throw HelperError.invalidAmountInCreditTransactioItem(path: account.path)
                     }
                 }
             } else {
                 switch type {
                 case .debit:
-                    throw Transaction.Error.debitTransactionItemWOAccount
+                    throw TransactionHelper.HelperError.debitTransactionItemWOAccount
                 case .credit:
-                    throw Transaction.Error.creditTransactionItemWOAccount
+                    throw TransactionHelper.HelperError.creditTransactionItemWOAccount
                 }
             }
         }
@@ -70,21 +69,21 @@ class TransactionHelper {
         // Check ability to save transaction
 
         if debitItemsCount == 0 {
-            throw Transaction.Error.noDebitTransactionItem
+            throw TransactionHelper.HelperError.noDebitTransactionItem
         }
         if creditItemsCount == 0 {
-            throw Transaction.Error.noCreditTransactionItem
+            throw TransactionHelper.HelperError.noCreditTransactionItem
         }
         if debitCurrency == creditCurrency {
             if round(debitAmount*100) != round(creditAmount*100) {
-                throw Transaction.Error.differentAmountInSingleCurrecyTran
+                throw TransactionHelper.HelperError.differentAmountInSingleCurrecyTran
             }
         }
     }
 
     class func createAndGetSimpleTran(date: Date, debit: Account, credit: Account, debitAmount: Double = 0,
-                                            creditAmount: Double = 0, comment: String? = nil,
-                                            createdByUser: Bool = true, context: NSManagedObjectContext) -> Transaction {
+                                      creditAmount: Double = 0, comment: String? = nil,
+                                      createdByUser: Bool = true, context: NSManagedObjectContext) -> Transaction {
         let createDate = Date()
         let transaction = Transaction(date: date, comment: comment, createdByUser: createdByUser,
                                       createDate: createDate, context: context)
@@ -102,8 +101,8 @@ class TransactionHelper {
     }
 
     class func createSimpleTran(date: Date, debit: Account, credit: Account, debitAmount: Double = 0,
-                                            creditAmount: Double = 0, comment: String? = nil,
-                                            createdByUser: Bool = true, context: NSManagedObjectContext) {
+                                creditAmount: Double = 0, comment: String? = nil,
+                                createdByUser: Bool = true, context: NSManagedObjectContext) {
         _ = createAndGetSimpleTran(date: date, debit: debit, credit: credit, debitAmount: debitAmount, creditAmount: creditAmount, comment: comment, createdByUser: createdByUser, context: context)
     }
 
@@ -260,8 +259,7 @@ class TransactionHelper {
                 }
             }
             return export
-        } catch let error {
-            print("ERROR", error)
+        } catch {
             return ""
         }
     }
@@ -277,13 +275,7 @@ class TransactionHelper {
         let fetchRequest = Transaction.fetchRequest()
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: Schema.Transaction.date.rawValue, ascending: true)]
         fetchRequest.fetchBatchSize = 1
-        do {
-            let storedTransactions = try context.fetch(fetchRequest)
-            return storedTransactions.first?.date
-        } catch let error {
-            print("ERROR", error)
-            return nil
-        }
+        return try? context.fetch(fetchRequest).first?.date
     }
 
     class func archiveTransactions(before date: Date, modifiedByUser: Bool = true,
@@ -293,7 +285,6 @@ class TransactionHelper {
         request.predicate = NSPredicate(format: "\(Schema.Transaction.date) <= %@ && " +
                                         "\(Schema.Transaction.status) != %@",
                                         argumentArray: [date, Transaction.Status.archived.rawValue])
-        request.fetchBatchSize = 1
 
         let transactionsForArchiving = try context.fetch(request)
 
@@ -302,7 +293,7 @@ class TransactionHelper {
             $0.status == .draft ||
             $0.status == .approved}).isEmpty {
 
-            throw Transaction.Error.periodhasUnAppliedTransactions
+            throw TransactionHelper.HelperError.periodHasUnAppliedTransactions
         }
 
         transactionsForArchiving.forEach({
@@ -310,5 +301,50 @@ class TransactionHelper {
             $0.modifyDate = Date()
             $0.modifiedByUser = modifiedByUser
         })
+    }
+
+    enum HelperError: AppError {
+        case periodHasUnAppliedTransactions
+        case differentAmountInSingleCurrecyTran
+        case noDebitTransactionItem
+        case noCreditTransactionItem
+        case debitTransactionItemWOAccount
+        case creditTransactionItemWOAccount
+        case multicurrencyAccount(name: String)
+        case invalidAmountInDebitTransactioItem(path: String)
+        case invalidAmountInCreditTransactioItem(path: String)
+    }
+}
+
+extension TransactionHelper.HelperError: LocalizedError {
+    private var tableName: String {
+        return Constants.Localizable.transaction
+    }
+    public var errorDescription: String? {
+        switch self {
+        case .periodHasUnAppliedTransactions:
+            return NSLocalizedString("There is an unapplied transaction before this date", tableName: tableName, comment: "")
+        case .differentAmountInSingleCurrecyTran:
+            return NSLocalizedString("You have a transaction in the same currency, but amounts in From:Account and " +
+                                     "To:Account are not matching", tableName: tableName, comment: "")
+        case .noDebitTransactionItem:
+            return NSLocalizedString("Please add To:Account", tableName: tableName, comment: "")
+        case .noCreditTransactionItem:
+            return NSLocalizedString("Please add From:Account", tableName: tableName, comment: "")
+        case .debitTransactionItemWOAccount:
+            return NSLocalizedString("Please select To:Account", tableName: tableName, comment: "")
+        case .creditTransactionItemWOAccount:
+            return NSLocalizedString("Please select From:Account", tableName: tableName, comment: "")
+        case let .multicurrencyAccount(name):
+            return String(format: NSLocalizedString("Please create a subaccount for \"%@\" and select it", tableName: tableName,
+                                                    comment: ""),
+                          name)
+        case let .invalidAmountInDebitTransactioItem(name):
+            return String(format: NSLocalizedString("Please check amount value to account/category \"%@\"", tableName: tableName,
+                                                    comment: ""), name)
+        case let .invalidAmountInCreditTransactioItem(name):
+            return String(format: NSLocalizedString("Please check amount value from account/category \"%@\"", tableName: tableName,
+                                                    comment: ""), name)
+        }
     }
 }

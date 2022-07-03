@@ -11,9 +11,18 @@ class MITransactionEditorView: UIView {
 
     weak var delegate: MITransactionEditorViewDelegate?
 
-    private var activeTextField: UITextField?
-
     let mainStackViewSpacing: CGFloat = 5
+
+    let mainScrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.alwaysBounceVertical = true
+        scrollView.bounces = false
+        scrollView.showsVerticalScrollIndicator = false
+        scrollView.showsHorizontalScrollIndicator = false
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        return scrollView
+    }()
+    
     let mainView: UIView = {
         let mainView = UIView()
         mainView.translatesAutoresizingMaskIntoConstraints = false
@@ -163,8 +172,6 @@ class MITransactionEditorView: UIView {
     }
 
     @objc private func changeDate(_ sender: UIDatePicker) {
-        debitTableView.resignFirstResponder()
-        creditTableView.resignFirstResponder()
         delegate?.changeDate(sender.date)
     }
 
@@ -197,16 +204,24 @@ class MITransactionEditorView: UIView {
 
     private func addConstraints() { // swiftlint:disable:this function_body_length
 
-        self.addSubview(mainView)
-        mainView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 8).isActive = true
-        mainView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -8).isActive = true
-        mainView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor).isActive = true
-        mainView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor).isActive = true
+        addSubview(mainScrollView)
+        mainScrollView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
+        mainScrollView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
+        mainScrollView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor).isActive = true
+        mainScrollView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor).isActive = true
+
+        mainScrollView.addSubview(mainView)
+        mainView.leadingAnchor.constraint(equalTo: mainScrollView.leadingAnchor).isActive = true
+        mainView.trailingAnchor.constraint(equalTo: mainScrollView.trailingAnchor).isActive = true
+        mainView.topAnchor.constraint(equalTo: mainScrollView.topAnchor).isActive = true
+        mainView.bottomAnchor.constraint(equalTo: mainScrollView.bottomAnchor).isActive = true
+        mainView.widthAnchor.constraint(equalTo: mainScrollView.widthAnchor).isActive = true
+        mainView.heightAnchor.constraint(equalTo: mainScrollView.heightAnchor).isActive = true
 
         mainView.addSubview(datePicker)
         datePicker.topAnchor.constraint(equalTo: mainView.topAnchor, constant: 20).isActive = true
-        datePicker.leadingAnchor.constraint(equalTo: mainView.leadingAnchor).isActive = true
-        datePicker.trailingAnchor.constraint(equalTo: mainView.trailingAnchor).isActive = true
+        datePicker.leadingAnchor.constraint(equalTo: mainView.leadingAnchor, constant: 8).isActive = true
+        datePicker.trailingAnchor.constraint(equalTo: mainView.trailingAnchor, constant: -8).isActive = true
         datePicker.heightAnchor.constraint(equalToConstant: 180).isActive = true
 
         mainView.addSubview(confirmButton)
@@ -219,15 +234,15 @@ class MITransactionEditorView: UIView {
 
         mainView.addSubview(commentTextField)
         commentTextField.bottomAnchor.constraint(equalTo: confirmButton.topAnchor, constant: -20).isActive = true
-        commentTextField.leadingAnchor.constraint(equalTo: mainView.leadingAnchor).isActive = true
-        commentTextField.trailingAnchor.constraint(equalTo: mainView.trailingAnchor).isActive = true
+        commentTextField.leadingAnchor.constraint(equalTo: mainView.leadingAnchor, constant: 8).isActive = true
+        commentTextField.trailingAnchor.constraint(equalTo: mainView.trailingAnchor, constant: -8).isActive = true
         commentTextField.heightAnchor.constraint(equalToConstant: 30).isActive = true
 
         mainView.addSubview(mainStackView)
         mainStackView.spacing = mainStackViewSpacing
         mainStackView.topAnchor.constraint(equalTo: datePicker.bottomAnchor, constant: 20).isActive = true
-        mainStackView.leadingAnchor.constraint(equalTo: mainView.leadingAnchor).isActive = true
-        mainStackView.trailingAnchor.constraint(equalTo: mainView.trailingAnchor).isActive = true
+        mainStackView.leadingAnchor.constraint(equalTo: mainView.leadingAnchor, constant: 8).isActive = true
+        mainStackView.trailingAnchor.constraint(equalTo: mainView.trailingAnchor, constant: -8).isActive = true
         mainStackView.bottomAnchor.constraint(equalTo: commentTextField.topAnchor, constant: -20).isActive = true
 
         mainStackView.addArrangedSubview(creditStackView)
@@ -271,5 +286,10 @@ class MITransactionEditorView: UIView {
         debitTableView.widthAnchor.constraint(equalToConstant: 200).isActive = true
         debitTableView.heightAnchor.constraint(equalTo: mainStackView.heightAnchor, multiplier: 0.5,
                                                constant: -30 - mainStackViewSpacing).isActive = true
+    }
+
+    func scrollContent(contentInset: UIEdgeInsets) {
+        mainScrollView.contentInset = contentInset
+        mainScrollView.scrollIndicatorInsets = mainScrollView.contentInset
     }
 }
