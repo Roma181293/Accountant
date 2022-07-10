@@ -14,16 +14,18 @@ class TransactionListInteractor {
 
     weak var output: TransactionListInteractorOutput?
     private var isUserHasPaidAccess: Bool = false
-    private let coreDataStack = CoreDataStack.shared
+    private var coreDataStack = CoreDataStack.shared
     private var environment = Environment.prod
-    private var worker: TransactionListWorker
+    private var transactionListWorker: TransactionListWorker
+    private var transactionStatusWorker: ApplyTransactionStatusWorker
 
-    init(worker: TransactionListWorker) {
+    init(transactionListWorker: TransactionListWorker, transactionStatusWorker: TransactionStatusWorker) {
 
         self.environment = coreDataStack.persistentContainer.environment
-        self.worker = worker
-        
-        self.worker.provideData()
+        self.transactionListWorker = transactionListWorker
+        self.transactionListWorker.provideData()
+        self.transactionStatusWorker = transactionStatusWorker
+
 
         NotificationCenter.default.addObserver(self, selector: #selector(self.environmentDidChange),
                                                name: .environmentDidChange, object: nil)
@@ -49,8 +51,12 @@ class TransactionListInteractor {
 
     @objc private func environmentDidChange() {
         self.environment = coreDataStack.persistentContainer.environment
-        worker.changePersistentContainer(coreDataStack.persistentContainer)
-        worker.provideData()
+
+        transactionListWorker.changePersistentContainer(coreDataStack.persistentContainer)
+        transactionListWorker.provideData()
+
+        transactionStatusWorker.changePersistantContainer(coreDataStack.persistentContainer)
+
         output?.environmentDidChange(environment: self.environment)
     }
 }
@@ -59,7 +65,7 @@ class TransactionListInteractor {
 extension TransactionListInteractor: TransactionListInteractorInput {
 
     func viewWillAppear() {
-        TransactionStatusWorker.applyTransactions()
+        transactionStatusWorker.applyTransactions()
     }
 
     func hasActiveBankAccounts() -> Bool {
@@ -71,7 +77,7 @@ extension TransactionListInteractor: TransactionListInteractorInput {
     }
 
     func activeContext() -> NSManagedObjectContext {
-        return worker.mainContext
+        return transactionListWorker.mainContext
     }
 
     func userHasPaidAccess() -> Bool {
@@ -97,27 +103,27 @@ extension TransactionListInteractor: TransactionListInteractorInput {
     }
 
     func duplicateTransaction(at indexPath: IndexPath) {
-        worker.duplicateTransaction(at: indexPath)
+        transactionListWorker.duplicateTransaction(at: indexPath)
     }
 
     func deleteTransaction(at indexPath: IndexPath) {
-        worker.deleteTransaction(at: indexPath)
+        transactionListWorker.deleteTransaction(at: indexPath)
     }
 
     func search(text: String) {
-        worker.search(text: text)
+        transactionListWorker.search(text: text)
     }
 
     func numberOfSections() -> Int {
-       return worker.numberOfSections()
+       return transactionListWorker.numberOfSections()
     }
 
     func numberOfRowsInSection(_ section: Int) -> Int {
-        return worker.numberOfRowsInSection(section)
+        return transactionListWorker.numberOfRowsInSection(section)
     }
 
     func transactionAt(_ indexPath: IndexPath) -> TransactionViewModel {
-        return worker.transactionAt(indexPath)
+        return transactionListWorker.transactionAt(indexPath)
     }
 }
 

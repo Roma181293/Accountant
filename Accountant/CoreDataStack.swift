@@ -46,7 +46,7 @@ class CoreDataStack {
         return container
     }()
 
-    func switchToDB(_ environment: Environment) {
+    func switchPersistentStore(_ environment: Environment) {
         persistentContainer = {
             let defaultDirectoryURL = NSPersistentContainer.defaultDirectoryURL()
             let storeURL = defaultDirectoryURL.appendingPathComponent("\(environment.rawValue).sqlite")
@@ -61,14 +61,17 @@ class CoreDataStack {
                                                 environment: environment)
             container.persistentStoreDescriptions = [storeDescription]
             container.loadPersistentStores(completionHandler: { (_, error) in
-                /*
+
                 guard let error = error as NSError? else { return }
                 fatalError("###\(#function): Failed to load persistent stores:\(error)")
-                */
+
             })
             container.viewContext.automaticallyMergesChangesFromParent = true
             return container
         }()
+        if environment == .test {
+            try? restorePersistentStore(.test)
+        }
         UserProfile.setDateOfLastChangesInDB(Date())
     }
 
@@ -90,12 +93,52 @@ class CoreDataStack {
                 UserProfile.setDateOfLastChangesInDB(Date())
             } catch let error {
                 context.rollback()
-//                throw error
+                //                throw error
 
                 let nserror = error as NSError
                 fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
 
             }
+        }
+    }
+
+    func restorePersistentStore(_ environment: Environment) throws {
+        let storeContainer = persistentContainer.persistentStoreCoordinator
+
+        for store in storeContainer.persistentStores {
+
+            guard let url = store.url, String(describing: url).contains(environment.rawValue) == true else {return}
+
+            // Delete existing persistent store
+            try storeContainer.destroyPersistentStore(
+                at: store.url!,
+                ofType: store.type,
+                options: nil
+            )
+
+            // Re-create the persistent container
+            persistentContainer = {
+                let defaultDirectoryURL = NSPersistentContainer.defaultDirectoryURL()
+                let storeURL = defaultDirectoryURL.appendingPathComponent("\(environment.rawValue).sqlite")
+
+                let storeDescription = NSPersistentStoreDescription(url: storeURL)
+                storeDescription.configuration = environment.rawValue
+                storeDescription.shouldMigrateStoreAutomatically = true
+                storeDescription.shouldInferMappingModelAutomatically = false
+
+                let container = PersistentContainer(name: CoreDataStack.modelName,
+                                                    managedObjectModel: CoreDataStack.model,
+                                                    environment: environment)
+                container.persistentStoreDescriptions = [storeDescription]
+                container.loadPersistentStores(completionHandler: { (_, error) in
+
+                    guard let error = error as NSError? else { return }
+                    fatalError("###\(#function): Failed to load persistent stores:\(error)")
+
+                })
+                container.viewContext.automaticallyMergesChangesFromParent = true
+                return container
+            }()
         }
     }
 }
@@ -119,6 +162,7 @@ enum ContextSaveContextualInfo: String {
     case duplicateTransaction = "duplicating Transaction"
     case deleteTransaction = "deleting Transaction"
     case applyApprovedTransactions = "applying an approved Transactions"
+    case archivingTransactions = "archiving Transactions"
     case deleteUserBankProfile = "deleting User Bank Profile"
     case changeUBPActiveStatus = "changing User Bank Profile active status"
     case addMultiItemTransaction = "adding Multi Item Transaction"
@@ -135,7 +179,7 @@ extension NSManagedObjectContext {
 
         DispatchQueue.main.async {
             guard let window = UIApplication.shared.delegate?.window,
-                let viewController = window?.rootViewController else { return }
+                  let viewController = window?.rootViewController else { return }
 
             let message = "Failed to save the context when \(contextualInfo.rawValue)."
 

@@ -13,30 +13,9 @@ import Charts
 // swiftlint:disable all
 class SeedDataService {
 
-    static func refreshTestData(coreDataStack: CoreDataStack) throws {
-        try SeedDataService.clearAllData(coreDataStack: coreDataStack)
-        try SeedDataService.addTestData(coreDataStack: coreDataStack)
-    }
-    
-    static func clearAllData(coreDataStack: CoreDataStack) throws {
-        guard let env = coreDataStack.activeEnviroment()else {return}
-        let context = coreDataStack.persistentContainer.viewContext
-        try deleteAllTransactions(context: context, env: env)
-        try deleteAllAccounts(context: context, env: env)
-        try deleteAllAccountTypes(context: context, env: env)
-        try deleteAllCurrencies(context: context, env: env)
-        try deleteAllKeepers(context: context, env: env)
-        try deleteAllHolders(context: context, env: env)
-        try deleteAllBankAccounts(context: context, env: env)
-        try deleteAllUBP(context: context, env: env)
-        try deleteAllRates(context: context, env: env)
-        try deleteAllExchanges(context: context, env: env)
-        try CoreDataStack.shared.saveContext(context)
-    }
-
-    static public func addTestData(coreDataStack: CoreDataStack) throws {
-        guard let env = coreDataStack.activeEnviroment(), env == .test else {return}
-        let context = coreDataStack.persistentContainer.viewContext
+    static public func addTestData(persistentContainer: PersistentContainer) throws {
+        guard persistentContainer.environment == .test else {return}
+        let context = persistentContainer.viewContext
         addCurrencies(context: context)
         guard let currency = try CurrencyHelper.getCurrencyForCode("UAH", context: context) else {return}
         try CurrencyHelper.setAccountingCurrency(currency, context: context)
@@ -46,8 +25,8 @@ class SeedDataService {
         try CoreDataStack.shared.saveContext(context)
     }
 
-    static public func createCurrenciesHoldersKeepers(coreDataStack: CoreDataStack) throws {
-        let context = coreDataStack.persistentContainer.viewContext
+    static public func addProdData(persistentContainer: PersistentContainer) throws {
+        let context = persistentContainer.viewContext
         addCurrencies(context: context)
         addHolders(context: context)
         addKeepers(context: context)
@@ -112,15 +91,6 @@ class SeedDataService {
         try? AccountHelper.createAccount(parent: income, name: NSLocalizedString("Salary", comment: ""), type: liabilitiesCategory, currency: accountingCurrency, createdByUser: false, context: context)
         try? AccountHelper.createAccount(parent: income, name: NSLocalizedString("Gifts", comment: ""), type: liabilitiesCategory, currency: accountingCurrency, createdByUser: false, context: context)
         try? AccountHelper.createAccount(parent: income, name: NSLocalizedString("Interest on deposits", comment: ""), type: liabilitiesCategory, currency: accountingCurrency, createdByUser: false, context: context)
-    }
-    
-    private static func deleteAllAccounts(context: NSManagedObjectContext, env: Environment?) throws {
-        let fetchRequest = Account.fetchRequest()
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "createDate", ascending: true)]
-        let accounts = try context.fetch(fetchRequest)
-        accounts.forEach({
-            context.delete($0)
-        })
     }
 
     // MARK: - Currency
@@ -191,24 +161,6 @@ class SeedDataService {
         }
     }
 
-    static func deleteAllCurrencies(context: NSManagedObjectContext, env: Environment?) throws {
-        let fetchRequest = Currency.fetchRequest()
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "code", ascending: true)]
-        let currencies = try context.fetch(fetchRequest)
-        currencies.forEach({
-            context.delete($0)
-        })
-    }
-
-    static func deleteAllAccountTypes(context: NSManagedObjectContext, env: Environment?) throws {
-        let fetchRequest = AccountType.fetchRequest()
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
-        let currencies = try context.fetch(fetchRequest)
-        currencies.forEach({
-            context.delete($0)
-        })
-    }
-
     // MARK: - Keeper
     private static func addKeepers(context: NSManagedObjectContext) {
         let keeperProvider = KeeperProvider(with: CoreDataStack.shared.persistentContainer, fetchedResultsControllerDelegate: nil)
@@ -224,15 +176,6 @@ class SeedDataService {
         keeperProvider.addKeeper(name: NSLocalizedString("Hanna", comment: ""), type: .person, context: context)
         keeperProvider.addKeeper(name: NSLocalizedString("Monobank",comment: ""), type: .bank, createdByUser: false, context: context)
     }
-    
-    private static func deleteAllKeepers(context: NSManagedObjectContext, env: Environment?) throws {
-        let fetchRequest = Keeper.fetchRequest()
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
-        let keepers = try context.fetch(fetchRequest)
-        keepers.forEach({
-            context.delete($0)
-        })
-    }
 
     // MARK: - Holder
     private static func addHolders(context: NSManagedObjectContext) {
@@ -246,66 +189,6 @@ class SeedDataService {
         holderProvider.addHolder(name: NSLocalizedString("Kate", comment: ""), icon: "👩🏻‍🦰", context: context)
     }
 
-    private static func deleteAllHolders(context: NSManagedObjectContext, env: Environment?) throws {
-        let fetchRequest = Holder.fetchRequest()
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
-        let holders = try context.fetch(fetchRequest)
-        holders.forEach({
-            context.delete($0)
-        })
-    }
-    // MARK: - UBP
-    private static func deleteAllUBP(context: NSManagedObjectContext, env: Environment?) throws {
-        let fetchRequest = UserBankProfile.fetchRequest()
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "id", ascending: true)]
-        let ubp = try context.fetch(fetchRequest)
-        ubp.forEach({
-            context.delete($0)
-        })
-    }
-
-    // MARK: - BankAccoutn
-    private static func deleteAllBankAccounts(context: NSManagedObjectContext, env: Environment?) throws {
-        let fetchRequest = BankAccount.fetchRequest()
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "id", ascending: true)]
-        let bankAccounts = try context.fetch(fetchRequest)
-        bankAccounts.forEach({
-            context.delete($0)
-        })
-    }
-
-    // MARK: - Rate
-    private static func deleteAllRates(context: NSManagedObjectContext, env: Environment?) throws {
-        let fetchRequest = Rate.fetchRequest()
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "createDate", ascending: true)]
-        let rates = try context.fetch(fetchRequest)
-        rates.forEach({
-            context.delete($0)
-        })
-    }
-
-    // MARK: - Exchange
-    private static func deleteAllExchanges(context: NSManagedObjectContext, env: Environment?) throws {
-        let fetchRequest = Exchange.fetchRequest()
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "createDate", ascending: true)]
-        let exchanges = try context.fetch(fetchRequest)
-        exchanges.forEach({
-            context.delete($0)
-        })
-    }
-
-    // MARK: - Transaction
-    private static func deleteAllTransactions(context: NSManagedObjectContext, env: Environment?) throws {
-        let fetchRequest = Transaction.fetchRequest()
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "createDate", ascending: true)]
-        let transactions = try context.fetch(fetchRequest)
-        for transaction in transactions {
-            for item in transaction.itemsList {
-                context.delete(item)
-            }
-            context.delete(transaction)
-        }
-    }
 
     // MARK: - Account
     private static func addTestBaseAccountsWithTransaction(accountingCurrency: Currency,

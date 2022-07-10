@@ -18,11 +18,12 @@ class TransactionListWorker: NSObject {
     weak var delegate: TransactionListWorkerDelegate?
 
     private(set) unowned var persistentContainer: PersistentContainer
-    private(set) var mainContext: NSManagedObjectContext
+    var mainContext: NSManagedObjectContext  {
+        return persistentContainer.viewContext
+    }
 
     init(with persistentContainer: PersistentContainer) {
         self.persistentContainer = persistentContainer
-        self.mainContext = persistentContainer.viewContext
     }
 
     private(set) lazy var fetchedResultsController: NSFetchedResultsController<Transaction> = {
@@ -40,6 +41,7 @@ class TransactionListWorker: NSObject {
 
     func changePersistentContainer(_ persistentContainer: PersistentContainer) {
         self.persistentContainer = persistentContainer
+        
         let fetchRequest = Transaction.fetchRequest()
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: Schema.Transaction.date.rawValue, ascending: false),
                                         NSSortDescriptor(key: Schema.Transaction.createDate.rawValue, ascending: false)]
@@ -73,6 +75,7 @@ class TransactionListWorker: NSObject {
                                           comment: original.comment, context: context)
 
             transaction.type = original.type
+            transaction.status = .draft
 
             for item in original.itemsList {
                 _ = TransactionItem(transaction: transaction, type: item.type, account: item.account,
@@ -86,10 +89,18 @@ class TransactionListWorker: NSObject {
     }
 
     func deleteTransaction(at indexPath: IndexPath) {
+
+        let object  = fetchedResultsController.object(at: indexPath)
         let objectID  = fetchedResultsController.object(at: indexPath).objectID
         let context = persistentContainer.newBackgroundContext()
 
-        context.performAndWait {
+        guard let archivingDate = ArchivingWorker.getCurrentArchivedPeriod(context: mainContext), archivingDate < object.date
+        else {
+            delegate?.showError(error: WorkerError.cannotDeleteInClosedPeriod)
+            return
+        }
+
+            context.performAndWait {
             guard let transaction = context.object(with: objectID) as? Transaction else {
                 fatalError("###\(#function): Failed to cast object to Transaction")
             }
@@ -106,7 +117,6 @@ class TransactionListWorker: NSObject {
         }
     }
 
-   
     func search(text: String) {
         var predicate: NSPredicate?
         if !text.isEmpty {
@@ -132,14 +142,43 @@ class TransactionListWorker: NSObject {
         return TransactionViewModel(transaction: fetchedResultsController.object(at: indexPath))
     }
 
-    
-
-
+    enum WorkerError: AppError {
+        case cannotDeleteInClosedPeriod
+    }
 }
 
 extension TransactionListWorker: NSFetchedResultsControllerDelegate {
 
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         delegate?.didFetchTransactions()
+    }
+}
+
+extension TransactionListWorker.WorkerError: LocalizedError {
+
+    private var tableName: String {
+        return Constants.Localizable.transactionList
+    }
+
+    var errorDescription: String? {
+        switch self {
+        case .cannotDeleteInClosedPeriod:
+            return NSLocalizedString("Transaction cannot be deleted in closed period",
+                                     tableName: tableName, comment: "")
+        }
+    }
+
+    var failureReason: String? {
+        switch self {
+        case .cannotDeleteInClosedPeriod:
+            return ""
+        }
+    }
+
+    var recoverySuggestion: String? {
+        switch self {
+        case .cannotDeleteInClosedPeriod:
+            return NSLocalizedString("Please set a new archiving date before, the transaction date that you want to delete", tableName: tableName, comment: "")
+        }
     }
 }

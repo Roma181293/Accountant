@@ -21,3 +21,7 @@
 "To:" = "To:";
 "From:" = "From:";
 "Comment:" = "Comment:";
+
+//Worker
+"Transaction cannot be deleted in closed period" = "Transaction cannot be deleted in closed period";
+"Please set a new archiving date before, the transaction date that you want to delete" = "Please set a new archiving date before, the transaction date that you want to delete";

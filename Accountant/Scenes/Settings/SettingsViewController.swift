@@ -18,6 +18,7 @@ class SettingsViewController: UIViewController {
         case auth = "Auth"
         case envirement = "Test mode"
         case accountingCurrency = "Accounting currency"
+        case archive = "Archiving"
         case accountsManager = "Account manager"
         case multiItemTransaction = "Multi item transaction"
         case bankProfiles = "Bank profiles"
@@ -230,6 +231,8 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
             router.route(to: .bankProfilesVC)
         case .exchangeRates:
             self.navigationController?.pushViewController(ExchangeTableViewController(), animated: true)
+        case .archive:
+            router.route(to: .archive)
         }
         tableView.deselectRow(at: indexPath, animated: true)
     }
@@ -237,14 +240,12 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
     func setEnvironmentToTest(_ newValueTest: Bool) {
         do {
             if newValueTest {
-                CoreDataStack.shared.switchToDB(.test)
+                CoreDataStack.shared.switchPersistentStore(.test)
                 // remove old test Data
-                try SeedDataService.refreshTestData(coreDataStack: CoreDataStack.shared)
+                try SeedDataService.addTestData(persistentContainer: CoreDataStack.shared.persistentContainer)
             } else if !newValueTest && CoreDataStack.shared.activeEnviroment() == .test {
-                // remove test Data
-                try SeedDataService.clearAllData(coreDataStack: CoreDataStack.shared)
                 UserProfile.useMultiItemTransaction(false, environment: .test)
-                CoreDataStack.shared.switchToDB(.prod)
+                CoreDataStack.shared.switchPersistentStore(.prod)
             }
             NotificationCenter.default.post(name: .environmentDidChange, object: nil)
         } catch let error {

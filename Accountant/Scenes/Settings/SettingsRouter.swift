@@ -12,6 +12,7 @@ import UniformTypeIdentifiers
 enum SetttingsRoutingDestination: RoutingDestinationBase {
     case offerVC
     case startAccounting(UIViewController?)
+    case archive
     case accountNavVC
     case bankProfilesVC
     case importTransactionVC(fromFile: URL)
@@ -39,6 +40,8 @@ class SettingsRouter: Router {
             let startAccountingVC = StartAccountingViewController()
             startAccountingVC.parentVC = parent
             viewController.navigationController?.pushViewController(startAccountingVC, animated: true)
+        case .archive:
+            viewController.navigationController?.pushViewController(ArchivingManagerViewController(), animated: true)
         case .accountNavVC:
             let accNavVC = AccountNavigationViewController()
             accNavVC.searchBarIsHidden = false

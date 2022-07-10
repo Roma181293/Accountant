@@ -21,10 +21,11 @@ class TransactionListAssembly: NSObject {
 
         let router = TransactionListRouter()
         let presenter = TransactionListPresenter()
-        let worker = TransactionListWorker(with: CoreDataStack.shared.persistentContainer)
-        let interactor = TransactionListInteractor(worker: worker)
+        let transactionListWorker = TransactionListWorker(with: CoreDataStack.shared.persistentContainer)
+        let transactionStatusWorker = TransactionStatusWorker(persistentContainer: CoreDataStack.shared.persistentContainer)
+        let interactor = TransactionListInteractor(transactionListWorker: transactionListWorker, transactionStatusWorker: transactionStatusWorker)
 
-        worker.delegate = interactor
+        transactionListWorker.delegate = interactor
 
         presenter.viewInput = view
         presenter.routerInput =  router

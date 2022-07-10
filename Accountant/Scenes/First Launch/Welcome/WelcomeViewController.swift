@@ -30,9 +30,9 @@ class WelcomeViewController: UIViewController {
     @objc func tryFunctionality(_ sender: UIButton) {
         mainView.startAccountingButton.isUserInteractionEnabled = false
         mainView.testButton.isUserInteractionEnabled = false
-        CoreDataStack.shared.switchToDB(.test)
+        CoreDataStack.shared.switchPersistentStore(.test)
         do {
-            try SeedDataService.refreshTestData(coreDataStack: CoreDataStack.shared)
+            try SeedDataService.addTestData(persistentContainer: CoreDataStack.shared.persistentContainer)
             let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
             let tabBar = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.tabBarController)
             self.navigationController?.popToRootViewController(animated: false)

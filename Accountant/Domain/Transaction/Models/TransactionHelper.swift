@@ -278,31 +278,6 @@ class TransactionHelper {
         return try? context.fetch(fetchRequest).first?.date
     }
 
-    class func archiveTransactions(before date: Date, modifiedByUser: Bool = true,
-                                   context: NSManagedObjectContext) throws {
-        let request = Transaction.fetchRequest()
-        request.sortDescriptors = [NSSortDescriptor(key: Schema.Transaction.date.rawValue, ascending: true)]
-        request.predicate = NSPredicate(format: "\(Schema.Transaction.date) <= %@ && " +
-                                        "\(Schema.Transaction.status) != %@",
-                                        argumentArray: [date, Transaction.Status.archived.rawValue])
-
-        let transactionsForArchiving = try context.fetch(request)
-
-        if !transactionsForArchiving.filter({
-            $0.status == .preDraft ||
-            $0.status == .draft ||
-            $0.status == .approved}).isEmpty {
-
-            throw TransactionHelper.HelperError.periodHasUnAppliedTransactions
-        }
-
-        transactionsForArchiving.forEach({
-            $0.status = .archived
-            $0.modifyDate = Date()
-            $0.modifiedByUser = modifiedByUser
-        })
-    }
-
     enum HelperError: AppError {
         case periodHasUnAppliedTransactions
         case differentAmountInSingleCurrecyTran

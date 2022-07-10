@@ -44,12 +44,20 @@ class TransactionListRouter: TransactionListRouterInput {
     }
 
     func showError(error: Error) {
-        var title = NSLocalizedString("Error", tableName: Constants.Localizable.transactionList, comment: "")
+        var title = NSLocalizedString("Error", tableName: Constants.Localizable.accountEditor, comment: "")
         if error is AppError {
-            title = NSLocalizedString("Warning", tableName: Constants.Localizable.transactionList, comment: "")
+            title = NSLocalizedString("Warning", tableName: Constants.Localizable.accountEditor, comment: "")
         }
+
+        let message = [
+            error.localizedDescription,
+            (error as? LocalizedError)?.failureReason,
+            (error as? LocalizedError)?.recoverySuggestion
+        ].compactMap { $0 }
+            .joined(separator: "\n\n")
+
         let alert = UIAlertController(title: title,
-                                      message: error.localizedDescription,
+                                      message: message,
                                       preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: NSLocalizedString("OK",
                                                                tableName: Constants.Localizable.transactionList,

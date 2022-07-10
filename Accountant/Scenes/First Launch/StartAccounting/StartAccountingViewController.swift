@@ -55,10 +55,10 @@ class StartAccountingViewController: UIViewController {
         mainView.continueButton.addTarget(self, action: #selector(self.nextStep), for: .touchUpInside)
     }
 
-    // FIXME: - investigate can be deleted `parentVC != nil &&`
+    // TODO: - investigate can be deleted `parentVC != nil &&`
     deinit {
         if parentVC != nil && UserProfile.isAppLaunchedBefore() == false {
-            CoreDataStack.shared.switchToDB(.test)
+            CoreDataStack.shared.switchPersistentStore(.test)
             NotificationCenter.default.post(name: .environmentDidChange, object: nil)
         }
     }
@@ -68,15 +68,16 @@ class StartAccountingViewController: UIViewController {
     }
 
     private func addMininalDictionariesData() {
-        CoreDataStack.shared.switchToDB(.prod)
+        CoreDataStack.shared.switchPersistentStore(.prod)
         context = CoreDataStack.shared.persistentContainer.viewContext
         do {
             if UserProfile.isAppLaunchedBefore() == false {
-                // remove old Data
-                try SeedDataService.clearAllData(coreDataStack: CoreDataStack.shared)
+                try coreDataStack.restorePersistentStore(.prod)
             }
+
+            context = CoreDataStack.shared.persistentContainer.viewContext
             // add New Data
-            try SeedDataService.createCurrenciesHoldersKeepers(coreDataStack: CoreDataStack.shared)
+            try SeedDataService.addProdData(persistentContainer: CoreDataStack.shared.persistentContainer)
         } catch let error {
             errorHandler(error: error)
         }

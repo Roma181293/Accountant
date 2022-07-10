@@ -21,3 +21,7 @@
 "To:" = "На:";
 "From:" = "С:";
 "Comment:" = "Комментарий:";
+
+//Worker
+"Transaction cannot be deleted in closed period" = "Транзакции не могут удаляться в закрытом периоде";
+"Please set a new archiving date before, the transaction date that you want to delete" = "Пожалуйста установите новую дату архивирования до даты транзакции, которую вы хотите удалить";

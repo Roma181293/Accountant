@@ -6,31 +6,58 @@
 //
 
 import Foundation
+import CoreData
 
-class TransactionStatusWorker {
+protocol ApplyTransactionStatusWorker {
+    func changePersistantContainer(_ persistentContainer: PersistentContainer)
+    func applyTransactions()
+}
 
-    class func applyTransactions() {
-        processTransactionsStatus(before: Date(), currentStatus: .approved, nextStatus: .applied)
+protocol ArchiveTransactionStatusWorker {
+    func changePersistantContainer(_ persistentContainer: PersistentContainer)
+    func archiveTransactions(before date: Date) throws
+}
+
+class TransactionStatusWorker: ApplyTransactionStatusWorker, ArchiveTransactionStatusWorker {
+
+    private(set) var persistentContainer: PersistentContainer
+
+    init(persistentContainer: PersistentContainer) {
+        self.persistentContainer = persistentContainer
     }
 
-    class func archiveTransactions(before date: Date) {
-        do {
-            try canBeArchivedOnDate(date)
-
-            processTransactionsStatus(before: date, currentStatus: .approved, nextStatus: .applied)
-            processTransactionsStatus(before: date, currentStatus: .applied, nextStatus: .archived)
-        } catch {
-            
-        }
+    func changePersistantContainer(_ persistentContainer: PersistentContainer) {
+        self.persistentContainer = persistentContainer
     }
 
-    private class func processTransactionsStatus(before date: Date, currentStatus: Transaction.Status, nextStatus: Transaction.Status) {
+    func applyTransactions() {
+        processTransactionsStatus(before: Date(),
+                                  currentStatus: .approved,
+                                  nextStatus: .applied,
+                                  with: .applyApprovedTransactions)
+    }
+
+    func archiveTransactions(before date: Date) throws {
+        try canBeArchivedOnDate(date)
+
+        processTransactionsStatus(before: date,
+                                  currentStatus: .approved,
+                                  nextStatus: .archived,
+                                  with: .archivingTransactions)
+        processTransactionsStatus(before: date,
+                                  currentStatus: .applied,
+                                  nextStatus: .archived,
+                                  with: .archivingTransactions)
+    }
+
+    private func processTransactionsStatus(before date: Date, currentStatus: Transaction.Status,
+                                           nextStatus: Transaction.Status,
+                                           with contextualInfo: ContextSaveContextualInfo) {
 
         guard (currentStatus == .approved && nextStatus == .applied) ||
-              (currentStatus == .applied && nextStatus == .archived)
+                (currentStatus == .applied && nextStatus == .archived)
         else {return}
 
-        let context = CoreDataStack.shared.persistentContainer.newBackgroundContext()
         let modifyDate = Date()
 
         let request = Transaction.fetchRequest()
@@ -38,7 +65,7 @@ class TransactionStatusWorker {
         request.predicate = NSPredicate(format: "\(Schema.Transaction.date) <= %@ && " +
                                         "\(Schema.Transaction.status) == %@",
                                         argumentArray: [date, currentStatus.rawValue])
-
+        let context = persistentContainer.newBackgroundContext()
         context.performAndWait {
             let transactions = try? context.fetch(request)
             transactions?.forEach({
@@ -47,18 +74,19 @@ class TransactionStatusWorker {
                 $0.modifiedByUser = false
             })
 
-            context.save(with: .applyApprovedTransactions)
+            context.save(with: contextualInfo)
         }
     }
 
-    private class func canBeArchivedOnDate(_ date: Date) throws {
-        let context = CoreDataStack.shared.persistentContainer.newBackgroundContext()
+    private func canBeArchivedOnDate(_ date: Date) throws {
+
         let request = Transaction.fetchRequest()
         request.sortDescriptors = [NSSortDescriptor(key: Schema.Transaction.date.rawValue, ascending: true)]
         request.predicate = NSPredicate(format: "\(Schema.Transaction.date) <= %@ && (\(Schema.Transaction.status) = %@ || \(Schema.Transaction.status) = %@)",
                                         argumentArray: [date, Transaction.Status.preDraft.rawValue, Transaction.Status.draft.rawValue])
         request.fetchLimit = 1
 
+        let context = persistentContainer.newBackgroundContext()
         guard let transactionsForArchiving = try? context.fetch(request) else {return}
 
         if !transactionsForArchiving.isEmpty {

@@ -139,6 +139,10 @@ class SettingsCell: UITableViewCell {
             }
             iconImangeView.image = UIImage(systemName: "dollarsign.circle")
             iconImangeView.tintColor = .systemGreen
+        case .archive:
+            iconImangeView.image = UIImage(systemName: "archivebox")
+            iconImangeView.tintColor = .systemBrown
+            accessoryType = .disclosureIndicator
         case .accountsManager:
             iconImangeView.image = UIImage(systemName: "list.bullet.indent")
             iconImangeView.tintColor = .systemRed
