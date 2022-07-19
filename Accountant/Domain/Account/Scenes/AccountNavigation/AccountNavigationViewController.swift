@@ -505,6 +505,7 @@ extension AccountNavigationViewController {
         let alert = UIAlertController(title: title, message: "\(error.localizedDescription)", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: NSLocalizedString("OK", tableName: localizedTableName, comment: ""),
                                       style: .default))
+        dismiss(animated: true, completion: nil) // DO NOT DELETE. this call dismiss searchcontroller. otherwise alert will not appear
         present(alert, animated: true, completion: nil)
     }
 

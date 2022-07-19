@@ -50,12 +50,7 @@ class ExchangeHelper {
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: Schema.Exhange.date.rawValue, ascending: false)]
         fetchRequest.fetchLimit = 1
         do {
-            let exchanges = try context.fetch(fetchRequest)
-            if !exchanges.isEmpty {
-                return exchanges.first?.date
-            } else {
-                return nil
-            }
+            return try context.fetch(fetchRequest).first?.date
         } catch {
             return nil
         }
