@@ -15,12 +15,15 @@ protocol TransactionListWorkerDelegate: AnyObject {
 
 class TransactionListWorker: NSObject {
 
+    var mainContext: NSManagedObjectContext {
+        return persistentContainer.viewContext
+    }
+
     weak var delegate: TransactionListWorkerDelegate?
 
     private(set) unowned var persistentContainer: PersistentContainer
-    var mainContext: NSManagedObjectContext  {
-        return persistentContainer.viewContext
-    }
+
+
 
     init(with persistentContainer: PersistentContainer) {
         self.persistentContainer = persistentContainer
@@ -41,7 +44,7 @@ class TransactionListWorker: NSObject {
 
     func changePersistentContainer(_ persistentContainer: PersistentContainer) {
         self.persistentContainer = persistentContainer
-        
+
         let fetchRequest = Transaction.fetchRequest()
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: Schema.Transaction.date.rawValue, ascending: false),
                                         NSSortDescriptor(key: Schema.Transaction.createDate.rawValue, ascending: false)]

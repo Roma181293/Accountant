@@ -46,5 +46,6 @@ extension AccountType {
         case assetsCategoryConsolidation = "Assets category consolidation"
         case liabilitiesCategory = "Liabilities category"
         case assetsCategory = "Assets category"
+        case expenseBeforeAccountingPeriod = "Expense before accounting period"
     }
 }

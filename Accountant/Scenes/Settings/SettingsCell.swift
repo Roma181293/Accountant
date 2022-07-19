@@ -124,9 +124,9 @@ class SettingsCell: UITableViewCell {
             iconImangeView.tintColor = .systemOrange
         case .envirement:
             switcher.isHidden = false
-            if CoreDataStack.shared.activeEnviroment() == .prod {
+            if CoreDataStack.shared.activeEnvironment == .prod {
                 switcher.isOn = false
-            } else if CoreDataStack.shared.activeEnviroment() == .test {
+            } else if CoreDataStack.shared.activeEnvironment == .test {
                 switcher.isOn = true
             }
             iconImangeView.image = UIImage(systemName: "gamecontroller")

@@ -411,7 +411,54 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="skS-Cs-5zS" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-4601" y="1892"/>
+            <point key="canvasLocation" x="-5209" y="1892"/>
+        </scene>
+        <!--Additional Launch Screen View Controller-->
+        <scene sceneID="ExB-Vw-UeS">
+            <objects>
+                <viewController storyboardIdentifier="AdditionalLaunchScreenVC_ID" id="89z-ck-eOH" customClass="AdditionalLaunchScreenViewController" customModule="Accountant" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="umX-Mb-DRW">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="MyBudget" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pIi-0a-mGv">
+                                <rect key="frame" x="111.5" y="422" width="191" height="52"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="43"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VWw-im-zws">
+                                <rect key="frame" x="0.0" y="474" width="414" height="388"/>
+                                <subviews>
+                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="phc-O7-2od">
+                                        <rect key="frame" x="188.5" y="175.5" width="37" height="37"/>
+                                    </activityIndicatorView>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstItem="phc-O7-2od" firstAttribute="centerY" secondItem="VWw-im-zws" secondAttribute="centerY" id="OI8-Af-ac9"/>
+                                    <constraint firstItem="phc-O7-2od" firstAttribute="centerX" secondItem="VWw-im-zws" secondAttribute="centerX" id="Sf0-ml-juk"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="ed9-jp-vMz"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="VWw-im-zws" firstAttribute="top" secondItem="pIi-0a-mGv" secondAttribute="bottom" id="3Bs-Z6-ElT"/>
+                            <constraint firstItem="VWw-im-zws" firstAttribute="leading" secondItem="ed9-jp-vMz" secondAttribute="leading" id="7QD-eh-KdO"/>
+                            <constraint firstItem="ed9-jp-vMz" firstAttribute="trailing" secondItem="VWw-im-zws" secondAttribute="trailing" id="X83-F6-NZl"/>
+                            <constraint firstItem="pIi-0a-mGv" firstAttribute="centerY" secondItem="umX-Mb-DRW" secondAttribute="centerY" id="lbQ-Nu-yQF"/>
+                            <constraint firstItem="pIi-0a-mGv" firstAttribute="centerX" secondItem="umX-Mb-DRW" secondAttribute="centerX" id="wJc-Li-Xva"/>
+                            <constraint firstItem="ed9-jp-vMz" firstAttribute="bottom" secondItem="VWw-im-zws" secondAttribute="bottom" id="wdA-Wq-vrO"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="activityIndicator" destination="phc-O7-2od" id="grD-wd-EWt"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="alw-nC-pdX" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-4317.391304347826" y="1891.7410714285713"/>
         </scene>
     </scenes>
     <resources>

@@ -31,7 +31,7 @@ class AccountTypeHelper {
 
     class func seedAccountTypes(context: NSManagedObjectContext) {
         // swiftlint:disable line_length
-        let accounting = AccountType(name: "Accounting", classification: .none, allowsTransactions: true, priority: 1, context: context)
+        let accounting = AccountType(name: "Accounting", classification: .none, allowsTransactions: false, priority: 1, context: context)
 
         let creditorsConsolid = AccountType(parent: accounting, name: "Creditors consolidation", classification: .liabilities, balanceCalcFullTime: true, allowsTransactions: false, priority: 1, context: context)
         let creditor = AccountType(parent: creditorsConsolid, name: "Creditor", classification: .liabilities, hasCurrency: true, hasHolder: true, hasKeeper: true, hasInitialBalance: true, balanceCalcFullTime: true, canBeDeleted: true, canChangeActiveStatus: true, canBeRenamed: true, canBeCreatedByUser: true, keeperGroup: .nonCash, checkAmountBeforDeactivate: true, priority: 1, context: context)
@@ -54,11 +54,14 @@ class AccountTypeHelper {
 
         let liabilityCategoryConsolid = AccountType(parent: accounting, name: "Assets category consolidation", classification: .assets, hasCurrency: true, canBeDeleted: true, canChangeActiveStatus: true, canBeRenamed: true, canBeCreatedByUser: true, allowsTransactions: false, priority: 2, context: context)
 
-        let liabilitiesCategory = AccountType(name: "Liabilities category", classification: .liabilities, hasCurrency: true, canBeDeleted: true, canChangeActiveStatus: true, canBeRenamed: true, canBeCreatedByUser: true, checkAmountBeforDeactivate: true, priority: 1, context: context)
+
+        let liabilitiesCategory = AccountType(name: "Liabilities category", classification: .liabilities, hasCurrency: true, canBeDeleted: true, canChangeActiveStatus: true, canBeRenamed: true, canBeCreatedByUser: true, checkAmountBeforDeactivate: false, priority: 1, context: context)
         liabilitiesCategory.parents = [liabilityCategoryConsolid, incomeConsolid, capitalConsolid, liabilitiesCategory]
 
-        let assetsCategory = AccountType(name: "Assets category", classification: .assets, hasCurrency: true, canBeDeleted: true, canChangeActiveStatus: true, canBeRenamed: true, canBeCreatedByUser: true, checkAmountBeforDeactivate: true, priority: 1, context: context)
+        let assetsCategory = AccountType(name: "Assets category", classification: .assets, hasCurrency: true, canBeDeleted: true, canChangeActiveStatus: true, canBeRenamed: true, canBeCreatedByUser: true, checkAmountBeforDeactivate: false, priority: 2, context: context)
         assetsCategory.parents = [assetsCategoryConsolid, expenseConsolid, assetsCategory]
+
+        let expenseBeforeAccountingPeriod = AccountType(name: "Expense before accounting period", classification: .assets, hasCurrency: true, canBeDeleted: false, canChangeActiveStatus: true, canBeRenamed: false, canBeCreatedByUser: false, checkAmountBeforDeactivate: true, priority: 1, context: context)
         // swiftlint:enable line_length
     }
 }

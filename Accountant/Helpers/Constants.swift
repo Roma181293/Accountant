@@ -42,6 +42,7 @@ struct Constants {
         static let instructionVC = "InstructionVC_ID"
         static let tabBarController = "TabBarController_ID"
         static let bioAuthVC = "BioAuthVC_ID"
+        static let additionalLaunchScreenVC = "AdditionalLaunchScreenVC_ID"
         static let analyticsVC = "AnalyticsVC_ID"
     }
 

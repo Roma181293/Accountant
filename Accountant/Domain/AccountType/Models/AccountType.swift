@@ -67,8 +67,9 @@ class AccountType: BaseEntity {
         self.hasInitialBalance = hasInitialBalance
         if let parent = parent, parent.balanceCalcFullTime == true {
             self.balanceCalcFullTime = parent.balanceCalcFullTime
+        } else {
+            self.balanceCalcFullTime = balanceCalcFullTime
         }
-        self.balanceCalcFullTime = balanceCalcFullTime
         self.canBeDeleted = canBeDeleted
         self.canChangeActiveStatus = canChangeActiveStatus
         self.canBeRenamed = canBeRenamed

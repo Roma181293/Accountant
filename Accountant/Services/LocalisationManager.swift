@@ -11,10 +11,7 @@ import Foundation
 class LocalisationManager {
 
     class func createLocalizedAccountName(_ accountName: BaseAccounts) {
-        var environment = Environment.prod
-        if let environmentValue = CoreDataStack.shared.activeEnviroment() {
-            environment = environmentValue
-        }
+        var environment = CoreDataStack.shared.activeEnvironment 
         let defaults = UserDefaults.standard
         defaults.set(String(NSLocalizedString(accountName.rawValue, comment: "")),
                      forKey: accountName.rawValue+environment.rawValue)
@@ -27,11 +24,8 @@ class LocalisationManager {
     }
 
     class func getLocalizedName(_ accountName: BaseAccounts) -> String {
-        var environment = Environment.prod
-        if let environmentValue = CoreDataStack.shared.activeEnviroment() {
-            environment = environmentValue
-        }
-        if let name = UserDefaults.standard.object(forKey: accountName.rawValue+environment.rawValue) as? String {
+        var environment = CoreDataStack.shared.activeEnvironment
+        if let name = UserDefaults.standard.object(forKey: accountName.rawValue + environment.rawValue) as? String {
             return name
         } else {
             return accountName.rawValue

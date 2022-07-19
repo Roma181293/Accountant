@@ -19,31 +19,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Purchases.debugLogsEnabled = true
         Purchases.configure(withAPIKey: Constants.APIKey.revenueCat)
 
-        // MARK: Loading exchange rates
-        if UserProfile.isAppLaunchedBefore() {
-            let context = CoreDataStack.shared.persistentContainer.newBackgroundContext()
-            ExchangeRatesLoader.load(context: context)
-        }
-        NetworkServices.loadCurrency(date: Date()) { (currencyHistoricalData, _) in
-            if let currencyHistoricalData = currencyHistoricalData {
-                DispatchQueue.main.async {
-                    UserProfile.setExchangeRate(currencyHistoricalData)
-                }
-            }
-        }
-
-        // MARK: Check is app launched before
         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        if !UserProfile.isAppLaunchedBefore() {
-            window = UIWindow(frame: UIScreen.main.bounds)
-            window?.makeKeyAndVisible()
-            window?.rootViewController = UINavigationController(rootViewController: WelcomeViewController())
-        } else if UserProfile.getUserAuth() == .bioAuth {
-            guard let authVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.bioAuthVC) as? BiometricAuthViewController else {return true} // swiftlint:disable:this line_length
-            window = UIWindow(frame: UIScreen.main.bounds)
-            window?.makeKeyAndVisible()
-            window?.rootViewController = authVC
-        }
+        guard let additionalVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.additionalLaunchScreenVC) as? AdditionalLaunchScreenViewController else {return true} // swiftlint:disable:this line_length
+        window = UIWindow(frame: UIScreen.main.bounds)
+        window?.makeKeyAndVisible()
+        window?.rootViewController = additionalVC
+
         return true
     }
 

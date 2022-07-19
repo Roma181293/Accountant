@@ -32,6 +32,7 @@ class WelcomeViewController: UIViewController {
         mainView.testButton.isUserInteractionEnabled = false
         CoreDataStack.shared.switchPersistentStore(.test)
         do {
+            try CoreDataStack.shared.restorePersistentStore(.test)
             try SeedDataService.addTestData(persistentContainer: CoreDataStack.shared.persistentContainer)
             let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
             let tabBar = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.tabBarController)

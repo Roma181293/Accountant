@@ -45,7 +45,8 @@
         <attribute name="priority" attributeType="Integer 16" defaultValueString="1" usesScalarValueType="YES"/>
         <relationship name="accounts" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Account" inverseName="type" inverseEntity="Account"/>
         <relationship name="children" toMany="YES" deletionRule="Nullify" destinationEntity="AccountType" inverseName="parents" inverseEntity="AccountType"/>
-        <relationship name="linkedAccountType" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="AccountType"/>
+        <relationship name="linkedAccountType" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="AccountType" inverseName="ownersAccountType" inverseEntity="AccountType"/>
+        <relationship name="ownersAccountType" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="AccountType" inverseName="linkedAccountType" inverseEntity="AccountType"/>
         <relationship name="parents" toMany="YES" deletionRule="Nullify" destinationEntity="AccountType" inverseName="children" inverseEntity="AccountType"/>
     </entity>
     <entity name="ArchivingHistory" representedClassName=".ArchivingHistory" syncable="YES">
@@ -186,7 +187,7 @@
     </configuration>
     <elements>
         <element name="Account" positionX="0" positionY="0" width="128" height="284"/>
-        <element name="AccountType" positionX="9" positionY="144" width="128" height="434"/>
+        <element name="AccountType" positionX="9" positionY="144" width="128" height="449"/>
         <element name="ArchivingHistory" positionX="9" positionY="162" width="128" height="149"/>
         <element name="BankAccount" positionX="0" positionY="0" width="128" height="194"/>
         <element name="Currency" positionX="0" positionY="0" width="128" height="194"/>

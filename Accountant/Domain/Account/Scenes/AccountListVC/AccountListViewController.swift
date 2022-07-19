@@ -94,9 +94,8 @@ class AccountListViewController: UIViewController, UIScrollViewDelegate { // swi
                                                name: .receivedProAccessData, object: nil)
         context = CoreDataStack.shared.persistentContainer.viewContext
 
-        if let environment = coreDataStack.activeEnviroment() {
-            self.environment = environment
-        }
+        self.environment = coreDataStack.activeEnvironment
+
         reloadProAccessData()
 
         currency = CurrencyHelper.getAccountingCurrency(context: context)!
@@ -128,7 +127,7 @@ class AccountListViewController: UIViewController, UIScrollViewDelegate { // swi
         if isNeedUpdateAll() {
             dateOfLastChangesInDB = UserProfile.getDateOfLastChangesInDB()
             scrollView.scrollToLeft(animated: false)
-            guard let startDate = TransactionHelper.getDateForFirstTransaction(context: context)
+            guard let startDate = TransactionHelper.getFirstTransactionDate(context: context)
             else {
                 dateInterval = DateInterval(start: Date(), end: Date())
                 self.updateUI()
@@ -354,11 +353,11 @@ class AccountListViewController: UIViewController, UIScrollViewDelegate { // swi
         moneyAccountListTableViewController.currency = currency
         moneyAccountListTableViewController.account = account
 
-        if let environment = coreDataStack.activeEnviroment() {
-            self.environment = environment
-            moneyAccountListTableViewController.environment = self.environment
-        }
-        if let startDate = TransactionHelper.getDateForFirstTransaction(context: context) {
+
+        self.environment = coreDataStack.activeEnvironment
+        moneyAccountListTableViewController.environment = self.environment
+        
+        if let startDate = TransactionHelper.getFirstTransactionDate(context: context) {
             dateInterval = DateInterval(start: startDate, end: Date())
         } else {
             dateInterval = DateInterval(start: Date(), end: Date())

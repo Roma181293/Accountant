@@ -9,5 +9,10 @@ import Foundation
 
 extension Notification.Name {
     static let environmentDidChange = Notification.Name("environmentDidChange")
+
+    static let persistentStoreWillLoad = Notification.Name("CoreDataStack_persistentStoreWillLoad")
+    static let persistentStoreDidLoad = Notification.Name("CoreDataStack_persistentStoreDidLoad")
+
     static let receivedProAccessData = Notification.Name("receivedProAccessData")
+
 }
