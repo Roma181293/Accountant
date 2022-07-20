@@ -125,6 +125,7 @@ class TransactionHelper {
         let transaction = Transaction(date: statment.getDate(), comment: comment, createdByUser: createdByUser,
                                       createDate: createDate, context: context)
         transaction.status = .draft
+        transaction.type = .unknown
 
         if statment.getType() == .to {
             _ = TransactionItem(transaction: transaction,
@@ -231,13 +232,11 @@ class TransactionHelper {
     class func exportTransactionsToString(context: NSManagedObjectContext) -> String {
         let fetchRequest = Transaction.fetchRequest()
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: Schema.Transaction.date.rawValue, ascending: false)]
-        fetchRequest.predicate = NSPredicate(format: "\(Schema.Transaction.status.rawValue) = " +
-                                             "\(Transaction.Status.applied.rawValue) || " +
-                                             "\(Schema.Transaction.status.rawValue) = " +
-                                             "\(Transaction.Status.approved.rawValue)")
+        fetchRequest.predicate = NSPredicate(format: "\(Schema.Transaction.status.rawValue) != " +
+                                             "\(Transaction.Status.preDraft.rawValue)")
         do {
             let storedTransactions = try context.fetch(fetchRequest)
-            var export: String = "Id,Date,Type,Account,Amount,Comment"
+            var export: String = "Trnsaction Id,Transaction Date,Transaction Status,Transaction Item Type,Account,Amount,Comment"
             let formatter = DateFormatter()
             formatter.dateFormat = "yyyy-MM-dd hh:mm:ss z"
             for transaction in storedTransactions {
@@ -246,13 +245,18 @@ class TransactionHelper {
                     export +=  String(describing: transaction.id) + ","
                     export +=  String(describing: formatter.string(from: transaction.date)) + ","
 
-                    var type: String = ""
-                    if item.type == .credit {
-                        type = "Credit"
-                    } else if item.type == .debit {
-                        type = "Debit"
+                    switch transaction.status {
+                    case .preDraft: export += "PreDraft,"
+                    case .draft: export += "Draft,"
+                    case .approved: export += "Approved,"
+                    case .applied: export += "Applied,"
+                    case .archived: export += "Archive,"
                     }
-                    export +=  type + ","
+
+                    switch item.type {
+                    case .debit: export += "Debit,"
+                    case .credit: export += "Credit,"
+                    }
                     export +=  String(describing: item.account!.path) + ","
                     export +=  String(describing: item.amount) + ","
                     export +=  "\(transaction.comment ?? "")"

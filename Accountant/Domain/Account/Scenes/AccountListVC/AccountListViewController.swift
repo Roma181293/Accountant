@@ -180,8 +180,7 @@ class AccountListViewController: UIViewController, UIScrollViewDelegate { // swi
                                                            currencyHistoricalData: currencyHistoricalData,
                                                            dateComponent: dateComponent,
                                                            isListForAnalytic: false,
-                                                           sortTableDataBy: SortCategoryType.nineToZero,
-                                                           context: context)
+                                                           sortTableDataBy: SortCategoryType.nineToZero)
         } catch let error {
             let alert = UIAlertController(title: NSLocalizedString("Error", comment: ""),
                                           message: "\(error.localizedDescription)",

@@ -133,8 +133,7 @@ class AnalyticsViewController: UIViewController, UIScrollViewDelegate {
                                                            selectedCurrency: accountingCurrency,
                                                            dateComponent: dateComponent,
                                                            isListForAnalytic: true,
-                                                           sortTableDataBy: sortCategoryBy,
-                                                           context: context)
+                                                           sortTableDataBy: sortCategoryBy)
         } catch let error {
             let alert = UIAlertController(title: NSLocalizedString("Error", comment: ""),
                                           message: "\(error.localizedDescription)", preferredStyle: .alert)

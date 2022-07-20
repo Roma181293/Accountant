@@ -11,7 +11,7 @@ import Charts
 
 // MARK: - method for charts
 extension Account {
-    func prepareDataToShow(dateInterval: DateInterval, selectedCurrency: Currency, currencyHistoricalData: CurrencyHistoricalDataProtocol? = nil, dateComponent: Calendar.Component, isListForAnalytic: Bool, sortTableDataBy: SortCategoryType, context: NSManagedObjectContext) throws -> PresentingData {  // swiftlint:disable:this cyclomatic_complexity function_body_length function_parameter_count line_length
+    func prepareDataToShow(dateInterval: DateInterval, selectedCurrency: Currency, currencyHistoricalData: CurrencyHistoricalDataProtocol? = nil, dateComponent: Calendar.Component, isListForAnalytic: Bool, sortTableDataBy: SortCategoryType) throws -> PresentingData {  // swiftlint:disable:this cyclomatic_complexity function_body_length function_parameter_count line_length
 
         var accountsToShow: [Account] = directChildrenList
         if type.balanceCalcFullTime == false {
