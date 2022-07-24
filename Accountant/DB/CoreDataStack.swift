@@ -125,6 +125,7 @@ enum ContextSaveContextualInfo: String {
     case deleteTransaction = "deleting Transaction"
     case applyApprovedTransactions = "applying an approved Transactions"
     case archivingTransactions = "archiving Transactions"
+    case unarchivingTransactions = "unarchiving Transactions"
     case deleteUserBankProfile = "deleting User Bank Profile"
     case changeUBPActiveStatus = "changing User Bank Profile active status"
     case addMultiItemTransaction = "adding Multi Item Transaction"

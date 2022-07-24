@@ -304,7 +304,7 @@ class AccountEditorService {
             delegate?.isValidName(isValidName)
 
             if isValidType {
-                if account.currency == accountingCurrency {
+                if account.currency == accountingCurrency || mode == .edit {
                     rate = 1
                     delegate?.rateDidSet(rate)
                 } else {

@@ -117,7 +117,6 @@ class AccountListViewController: UIViewController, UIScrollViewDelegate { // swi
         moneyAccountListTableViewController.currency = currency
         moneyAccountListTableViewController.isUserHasPaidAccess = isUserHasPaidAccess
         moneyAccountListTableViewController.account = account
-        addButtonToViewController()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -300,38 +299,6 @@ class AccountListViewController: UIViewController, UIScrollViewDelegate { // swi
         if let viewWithTag = self.view.viewWithTag(10) {
             viewWithTag.removeFromSuperview()
         }
-    }
-
-    private func addButtonToViewController() {
-        let addButton = UIButton(frame: CGRect(origin: CGPoint(x: self.view.frame.width - 70,
-                                                               y: self.view.frame.height - 150),
-                                               size: CGSize(width: 68, height: 68)))
-        view.addSubview(addButton)
-        addButton.translatesAutoresizingMaskIntoConstraints = false
-        let standardSpacing: CGFloat = -40.0
-        NSLayoutConstraint.activate([
-            addButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor,
-                                              constant: -(89-49)),
-            addButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor,
-                                                constant: standardSpacing),
-            addButton.heightAnchor.constraint(equalToConstant: 68),
-            addButton.widthAnchor.constraint(equalToConstant: 68)
-        ])
-
-        addButton.setImage(UIImage(systemName: "plus"), for: .normal)
-        addButton.backgroundColor = Colors.Main.confirmButton
-        addButton.layer.cornerRadius = 34
-        addButton.layer.shadowColor = UIColor.gray.cgColor
-        addButton.layer.shadowOffset = CGSize(width: 2, height: 2)
-        addButton.layer.shadowOpacity = 0.5
-        addButton.layer.shadowRadius = 3
-        addButton.layer.masksToBounds =  false
-
-        addButton.addTarget(self, action: #selector(AccountListViewController.addAccount(_:)), for: .touchUpInside)
-    }
-
-    @objc func addAccount(_ sender: UIButton!) {
-        moneyAccountListTableViewController.accountManagerController.addSubAccountTo(account: account)
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

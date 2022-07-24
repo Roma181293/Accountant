@@ -52,6 +52,9 @@ class TransactionHelper {
     }
 
     class func validateTransactionDataBeforeSave(_ transaction: Transaction) throws {
+        if transaction.status == .archived {
+            throw HelperError.archivedTransactionCannotBeEdited
+        }
 
         var debitAmount: Double = 0
         var creditAmount: Double = 0
@@ -307,6 +310,8 @@ class TransactionHelper {
         case multicurrencyAccount(name: String)
         case invalidAmountInDebitTransactioItem(path: String)
         case invalidAmountInCreditTransactioItem(path: String)
+        case archivedTransactionCannotBeEdited
+        case cannotSetTransactionDateInClosedPeriod
     }
 }
 
@@ -339,6 +344,10 @@ extension TransactionHelper.HelperError: LocalizedError {
         case let .invalidAmountInCreditTransactioItem(name):
             return String(format: NSLocalizedString("Please check amount value from account/category \"%@\"", tableName: tableName,
                                                     comment: ""), name)
+        case .archivedTransactionCannotBeEdited:
+            return NSLocalizedString("Archived transaction can not be edited. If you want to make chages, please set archiving date before transaction date", tableName: tableName, comment: "")
+        case .cannotSetTransactionDateInClosedPeriod:
+            return NSLocalizedString("You cannot set transaction date in close period. If you want to make chages, please set archiving date before transaction date", tableName: tableName, comment: "") // swiftlint:disable:this line_length
         }
     }
 }

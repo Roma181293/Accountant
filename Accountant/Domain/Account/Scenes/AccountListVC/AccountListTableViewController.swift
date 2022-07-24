@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class AccountListTableViewController: UITableViewController, AccountManagerTableViewControllerDelegate {
+class AccountListTableViewController: UITableViewController {
 
     var isUserHasPaidAccess: Bool = false
     var environment: Environment = .prod
@@ -24,11 +24,8 @@ class AccountListTableViewController: UITableViewController, AccountManagerTable
     var showHiddenAccounts: Bool = false
     var listOfAccountsToShow: [AccountData] = []
 
-    var accountManagerController = AccountManagerController()
-
     override func viewDidLoad() {
         super.viewDidLoad()
-        accountManagerController.delegate = self
         tableView.register(AccountTableViewCell.self, forCellReuseIdentifier: Constants.Cell.accountTableViewCell)
     }
 
@@ -67,28 +64,6 @@ class AccountListTableViewController: UITableViewController, AccountManagerTable
     override  func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
     }
-
-    override  func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let selectedAccount: Account = self.listOfAccountsToShow[indexPath.row].account
-        var tmpConfiguration: [UIContextualAction] = []
-//        tmpConfiguration.append(accountManagerController.addTransactionWithDebitAccount(indexPath: indexPath, selectedAccount: selectedAccount))
-        if selectedAccount.type.canBeRenamed {
-            tmpConfiguration.append(accountManagerController.renameAccount(indexPath: indexPath, selectedAccount: selectedAccount))
-            tmpConfiguration.append(accountManagerController.removeAccount(indexPath: indexPath, selectedAccount: selectedAccount))
-        }
-        if selectedAccount.type.canChangeActiveStatus {
-            tmpConfiguration.append(accountManagerController.hideAccount(indexPath: indexPath,
-                                                                         selectedAccount: selectedAccount))
-        }
-        return UISwipeActionsConfiguration(actions: tmpConfiguration)
-    }
-
-//    override func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-//        let selectedAccount: Account = self.listOfAccountsToShow[indexPath.row].account
-//        return UISwipeActionsConfiguration(actions: [accountManagerController.addTransactionWithCreditAccount(indexPath: indexPath, selectedAccount: selectedAccount),
-//                                                     accountManagerController.editAccount(indexPath: indexPath, selectedAccount: selectedAccount)])
-//    }
-    // swiftlint:enable line_length
 
     func errorHandlerMethod(error: Error) {
         let alert = UIAlertController(title: NSLocalizedString("Error", comment: ""),

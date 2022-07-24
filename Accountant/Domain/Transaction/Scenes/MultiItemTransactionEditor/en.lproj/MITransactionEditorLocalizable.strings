@@ -9,6 +9,7 @@
 //ViewController
 "Edit transaction" = "Edit transaction";
 "Add transaction" = "Add transaction";
+"View transaction" = "View transaction";
 "Save" = "Save";
 "Save changes?" = "Save changes?";
 "Yes" = "Yes";

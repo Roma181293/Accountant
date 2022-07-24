@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import UIKit
 
 protocol MITransactionEditorViewInput: AnyObject {
     var creditAddButtonIsHidden: Bool { get set }
@@ -14,5 +13,7 @@ protocol MITransactionEditorViewInput: AnyObject {
     func configureView()
     func reloadData()
     func setDate(_ date: Date)
+    func setMinDate(_ date: Date?)
     func setComment(_ comment: String?)
+    func disableUserInteractionForUI()
 }

@@ -47,7 +47,7 @@ struct Constants {
     }
 
     struct Cell {
-        static let transactionItemTableViewCell = "TransactionItemTableViewCell_ID"
+        static let transactionItemCell = "TransactionItemTableViewCell_ID"
 
         static let complexTransactionCell = "ComplexTransactionCell_ID"
         static let preTransactionTableViewCell = "PreTransactionTableViewCell_ID"

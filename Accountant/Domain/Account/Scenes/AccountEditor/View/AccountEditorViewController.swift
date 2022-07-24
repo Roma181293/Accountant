@@ -146,6 +146,7 @@ extension AccountEditorViewController: AccountEditorViewInput {
             mainView.balanceTextField.isHidden = true
             mainView.linkedAccountBalanceLabel.isHidden = true
             mainView.linkedAccountBalanceTextField.isHidden = true
+            mainView.typeButton.isUserInteractionEnabled = false
         }
     }
 

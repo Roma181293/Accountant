@@ -17,9 +17,6 @@ class MITransactionEditorInteractor: MITransactionEditorInteractorInput {
         get {
             return worker.transactionDate
         }
-        set {
-            worker.transactionDate = newValue
-        }
     }
 
     var transactionStatus: Transaction.Status {
@@ -42,6 +39,10 @@ class MITransactionEditorInteractor: MITransactionEditorInteractorInput {
 
     func fetchData() {
         worker.fetchData()
+    }
+
+    func setDate(_ date: Date) throws {
+        try worker.setDate(date)
     }
 
     func addEmptyTransactionItem(type: TransactionItem.TypeEnum) {

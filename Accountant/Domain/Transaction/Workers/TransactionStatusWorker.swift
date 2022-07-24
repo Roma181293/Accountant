@@ -50,6 +50,10 @@ class TransactionStatusWorker: ApplyTransactionStatusWorker, ArchiveTransactionS
                                   with: .archivingTransactions)
     }
 
+    func unArchiveTransactions(after date: Date) {
+        processTransactionsStatus(after: date, currentStatus: .archived, nextStatus: .applied, with: .unarchivingTransactions)
+    }
+
     private func processTransactionsStatus(before date: Date, currentStatus: Transaction.Status,
                                            nextStatus: Transaction.Status,
                                            with contextualInfo: ContextSaveContextualInfo) {
@@ -63,6 +67,33 @@ class TransactionStatusWorker: ApplyTransactionStatusWorker, ArchiveTransactionS
         let request = Transaction.fetchRequest()
         request.sortDescriptors = [NSSortDescriptor(key: Schema.Transaction.date.rawValue, ascending: true)]
         request.predicate = NSPredicate(format: "\(Schema.Transaction.date) <= %@ && " +
+                                        "\(Schema.Transaction.status) == %@",
+                                        argumentArray: [date, currentStatus.rawValue])
+        let context = persistentContainer.newBackgroundContext()
+        context.performAndWait {
+            let transactions = try? context.fetch(request)
+            transactions?.forEach({
+                $0.status = nextStatus
+                $0.modifyDate = modifyDate
+                $0.modifiedByUser = false
+            })
+
+            context.save(with: contextualInfo)
+        }
+    }
+
+    private func processTransactionsStatus(after date: Date, currentStatus: Transaction.Status,
+                                           nextStatus: Transaction.Status,
+                                           with contextualInfo: ContextSaveContextualInfo) {
+
+        guard (currentStatus == .archived && nextStatus == .applied)
+        else {return}
+
+        let modifyDate = Date()
+
+        let request = Transaction.fetchRequest()
+        request.sortDescriptors = [NSSortDescriptor(key: Schema.Transaction.date.rawValue, ascending: true)]
+        request.predicate = NSPredicate(format: "\(Schema.Transaction.date) > %@ && " +
                                         "\(Schema.Transaction.status) == %@",
                                         argumentArray: [date, currentStatus.rawValue])
         let context = persistentContainer.newBackgroundContext()

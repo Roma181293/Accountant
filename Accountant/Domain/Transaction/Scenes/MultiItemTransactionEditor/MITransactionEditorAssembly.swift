@@ -15,7 +15,8 @@ class MITransactionEditorAssembly {
         let router = MITransactionEditorRouter()
         let viewController = MITransactionEditorViewController()
 
-        let worker = MITransactionEditor(transactionId: transactionId, context: context)
+        let archivedPeriodDate = ArchivingWorker.getCurrentArchivedPeriod(context: context)
+        let worker = MITransactionEditor(transactionId: transactionId, archivedPeriodDate: archivedPeriodDate, context: context)
 
         let interactor = MITransactionEditorInteractor(worker: worker)
         let presenter = MITransactionEditorPresenter(routerInput: router, interactorInput: interactor)

@@ -39,7 +39,11 @@ class TransactionItemCell: UITableViewCell {
         return textField
     }()
 
-    func configureCell(for transactionItem: TransactionItemSimpleViewModel, with delegate: TransactionItemCellDelegate) {
+    func configureCell(for transactionItem: TransactionItemSimpleViewModel, with delegate: TransactionItemCellDelegate, isUserInteractionEnabled: Bool) {
+
+        accountButton.isUserInteractionEnabled = isUserInteractionEnabled
+        amountTextField.isUserInteractionEnabled = isUserInteractionEnabled
+        
         self.transactionItem = transactionItem
         self.delegate = delegate
         amountTextField.delegate = self

@@ -116,7 +116,7 @@ extension TransactionListPresenter: TransactionListInteractorOutput {
         routerInput?.showError(error: error)
     }
 
-    // FIXME: move to tabbarcontroller
+    // TODO: move to tabbarcontroller
     func environmentDidChange(environment: Environment) {
         if environment == .test {
             viewInput?.drawTabBarBadge(isHidden: false)

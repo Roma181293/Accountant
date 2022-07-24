@@ -17,7 +17,7 @@ protocol AccountNavigationDelegate: UIViewController {
 }
 
 class AccountNavigationViewController: UITableViewController {
-    
+
     var parentAccount: Account?
     var excludeAccountList: [Account] = []
     var showHiddenAccounts: Bool = true
@@ -105,7 +105,7 @@ class AccountNavigationViewController: UITableViewController {
 // MARK: - Configure UI
 extension AccountNavigationViewController {
     private func createAddButton() {
-        if dataProvider.isSwipeAvailable  && dataProvider.canModifyAccountStructure {
+        if dataProvider.isSwipeAvailable && dataProvider.canModifyAccountStructure {
             let addButton = UIBarButtonItem(title: "+",
                                             style: .plain,
                                             target: self,
@@ -156,6 +156,7 @@ extension AccountNavigationViewController {
 // MARK: - Objc methods
 extension AccountNavigationViewController {
     @objc func addCategoryOrAccount() {
+        self.dismiss(animated: true, completion: nil) // DO NOT DELETE. this call dismiss searchcontroller. otherwise alert will not appear
         guard let parentAccount = parentAccount else {return}
         self.addCategotyTo(parentAccount)
     }

@@ -83,7 +83,11 @@ class MITransactionEditorPresenter: MITransactionEditorViewOutput {
     }
 
     func setDate(_ date: Date) {
-        interactorInput.transactionDate = date
+        do {
+            try interactorInput.setDate(date)
+        } catch let error {
+            routerInput.showError(error)
+        }
     }
 
     func willMoveToParent() {
@@ -152,6 +156,10 @@ extension MITransactionEditorPresenter: MITransactionEditorInteractorOutput {
         } else {
             viewInput?.debitAddButtonIsHidden = false
         }
+    }
+
+    func disableEdit() {
+        viewInput?.disableUserInteractionForUI()
     }
 }
 

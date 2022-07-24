@@ -9,6 +9,7 @@
 //Controller
 "Edit transaction" = "Редагувати транзакцію";
 "Add transaction" = "Створити транзакцію";
+"View transaction" = "Перегляд транзакції";
 "Save" = "Зберегти";
 "Save changes?" = "Зберегти зміни?";
 "Yes" = "Так";

@@ -7,6 +7,7 @@
 
 import Foundation
 import CoreData
+import CryptoKit
 
 protocol ArchivingWorkerDelegate: AnyObject {
     func didFetch(_ list: [ArchivingHistoryViewModel])
@@ -54,7 +55,11 @@ class ArchivingWorker: NSObject {
                     throw WorkerError.dateInFuture
                 }
 
-                try transactionStatusWorker.archiveTransactions(before: date)
+                if let currentArchivedPeriod = ArchivingWorker.getCurrentArchivedPeriod(context: context), currentArchivedPeriod > date {
+                    transactionStatusWorker.unArchiveTransactions(after: date)
+                } else {
+                    try transactionStatusWorker.archiveTransactions(before: date)
+                }
                 _ = ArchivingHistory(date: date, status: .success, context: context)
 
             } catch let error {

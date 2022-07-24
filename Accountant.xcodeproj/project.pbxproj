@@ -94,7 +94,6 @@
 		2B3643BB2753902E007253EB /* UserBankProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B3643BA2753902E007253EB /* UserBankProfile.swift */; };
 		2B37CEC327405FAA0000E3EF /* Guide.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B37CEC227405FAA0000E3EF /* Guide.swift */; };
 		2B3A260426E95C780033E746 /* AccessManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B3A260326E95C780033E746 /* AccessManager.swift */; };
-		2B3A260626EA6DD90033E746 /* AccountManagerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B3A260526EA6DD90033E746 /* AccountManagerController.swift */; };
 		2B3BD61A26EBE85D0056A9F7 /* SettingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B3BD61926EBE85D0056A9F7 /* SettingsCell.swift */; };
 		2B3F0D0E26A0EFA000AA514B /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2B3F0D1026A0EFA000AA514B /* Localizable.strings */; };
 		2B44C9F426EDFC6E0009976A /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B44C9F326EDFC6E0009976A /* WelcomeViewController.swift */; };
@@ -213,7 +212,7 @@
 		2BDAB0F32804D60200C5AED6 /* MigrationPolicy_Account_V2toV3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BDAB0F22804D60200C5AED6 /* MigrationPolicy_Account_V2toV3.swift */; };
 		2BDAB0F82805EE7900C5AED6 /* MigrationPolicy_V1toV3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BDAB0F72805EE7900C5AED6 /* MigrationPolicy_V1toV3.swift */; };
 		2BDE4F4227D7570A0069624C /* Account.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BDE4F4127D7570A0069624C /* Account.swift */; };
-		2BE2593326BC8E6D0025301F /* AppErrorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE2593226BC8E6D0025301F /* AppErrorProtocol.swift */; };
+		2BE2593326BC8E6D0025301F /* AppError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE2593226BC8E6D0025301F /* AppError.swift */; };
 		2BE53D4D282F14A7004CBD84 /* MonobankUBPConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE53D4C282F14A7004CBD84 /* MonobankUBPConfigurator.swift */; };
 		2BE53D4F282F1569004CBD84 /* MonobankUBPPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE53D4E282F1569004CBD84 /* MonobankUBPPresenter.swift */; };
 		2BE53D51282F166E004CBD84 /* MonobankUBPRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE53D50282F166E004CBD84 /* MonobankUBPRouter.swift */; };
@@ -335,7 +334,6 @@
 		2B3643BA2753902E007253EB /* UserBankProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserBankProfile.swift; sourceTree = "<group>"; };
 		2B37CEC227405FAA0000E3EF /* Guide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Guide.swift; sourceTree = "<group>"; };
 		2B3A260326E95C780033E746 /* AccessManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessManager.swift; sourceTree = "<group>"; };
-		2B3A260526EA6DD90033E746 /* AccountManagerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountManagerController.swift; sourceTree = "<group>"; };
 		2B3BD61926EBE85D0056A9F7 /* SettingsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsCell.swift; sourceTree = "<group>"; };
 		2B3F0D0A26A0EF0500AA514B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		2B3F0D0B26A0EF0500AA514B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -503,7 +501,7 @@
 		2BDAB0F22804D60200C5AED6 /* MigrationPolicy_Account_V2toV3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MigrationPolicy_Account_V2toV3.swift; sourceTree = "<group>"; };
 		2BDAB0F72805EE7900C5AED6 /* MigrationPolicy_V1toV3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MigrationPolicy_V1toV3.swift; sourceTree = "<group>"; };
 		2BDE4F4127D7570A0069624C /* Account.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Account.swift; sourceTree = "<group>"; };
-		2BE2593226BC8E6D0025301F /* AppErrorProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppErrorProtocol.swift; sourceTree = "<group>"; };
+		2BE2593226BC8E6D0025301F /* AppError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppError.swift; sourceTree = "<group>"; };
 		2BE53D4C282F14A7004CBD84 /* MonobankUBPConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonobankUBPConfigurator.swift; sourceTree = "<group>"; };
 		2BE53D4E282F1569004CBD84 /* MonobankUBPPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonobankUBPPresenter.swift; sourceTree = "<group>"; };
 		2BE53D50282F166E004CBD84 /* MonobankUBPRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonobankUBPRouter.swift; sourceTree = "<group>"; };
@@ -626,9 +624,8 @@
 		2B1FEA9D266C347700BF53BD /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				2BF1578D284C9D65008345DB /* ViewModels */,
 				2B37A75E285AF165005A748F /* Other */,
-				2BE2593226BC8E6D0025301F /* AppErrorProtocol.swift */,
+				2BE2593226BC8E6D0025301F /* AppError.swift */,
 				2B490DDC26E4B94000967E11 /* Views */,
 				2B1FEA9E266C349B00BF53BD /* Constants.swift */,
 				2B1FEA53266BEEC000BF53BD /* Enums.swift */,
@@ -873,7 +870,6 @@
 		2B7F885527A5D69C00A1B63B /* AccountListVC */ = {
 			isa = PBXGroup;
 			children = (
-				2B3A260526EA6DD90033E746 /* AccountManagerController.swift */,
 				2B1FEB56266D73DC00BF53BD /* AccountListTableViewController.swift */,
 				2B1FEB55266D73DC00BF53BD /* AccountListViewController.swift */,
 				2B1407A926F629A600114B95 /* AccountTableViewCell.swift */,
@@ -1059,6 +1055,7 @@
 				2B1FEA82266C1D9900BF53BD /* Transaction.swift */,
 				2B2056D9285CF6E5002C6F89 /* Transaction extension.swift */,
 				2B2056D5285CF639002C6F89 /* TransactionHelper.swift */,
+				2BF15790284C9EF4008345DB /* TransactionViewModel.swift */,
 				2B9282BB2870E3AA000A05FE /* TransactionLocalizable.strings */,
 			);
 			path = Models;
@@ -1079,6 +1076,7 @@
 				2B1FEA61266BF03300BF53BD /* Currency.swift */,
 				2B2056EC285D9212002C6F89 /* Currency extension.swift */,
 				2B2056EE285D924F002C6F89 /* CurrencyHelper.swift */,
+				2B967206285460D8004F852B /* CurrencyViewModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1111,6 +1109,7 @@
 		2B928293286E445A000A05FE /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				2B96720A285462B9004F852B /* KeeperViewModel.swift */,
 				2B00CAFA2746514900821FE0 /* Keeper.swift */,
 				2B2056F8285D974D002C6F89 /* Keeper extension.swift */,
 				2B2056FA285D97A9002C6F89 /* KeeperHelper.swift */,
@@ -1141,6 +1140,7 @@
 				2B00CAFC27465CC500821FE0 /* Holder.swift */,
 				2B2056F4285D95DD002C6F89 /* Holder extension.swift */,
 				2B2056F6285D9626002C6F89 /* HolderHelper.swift */,
+				2B9672082854622C004F852B /* HolderViewModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1340,6 +1340,8 @@
 			children = (
 				2B0D1D3226ADF1D1003C6394 /* TransactionItem.swift */,
 				2B2056DB285CFA28002C6F89 /* TransactionItemHelper.swift */,
+				2BF1578E284C9D74008345DB /* TransactionItemSimpleViewModel.swift */,
+				2BF15792284CB4B4008345DB /* TransactionItemViewModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1512,19 +1514,6 @@
 				2BF15784284BE73D008345DB /* TransactionItemCellDelegate.swift */,
 			);
 			path = Cell;
-			sourceTree = "<group>";
-		};
-		2BF1578D284C9D65008345DB /* ViewModels */ = {
-			isa = PBXGroup;
-			children = (
-				2BF15790284C9EF4008345DB /* TransactionViewModel.swift */,
-				2BF1578E284C9D74008345DB /* TransactionItemSimpleViewModel.swift */,
-				2BF15792284CB4B4008345DB /* TransactionItemViewModel.swift */,
-				2B967206285460D8004F852B /* CurrencyViewModel.swift */,
-				2B9672082854622C004F852B /* HolderViewModel.swift */,
-				2B96720A285462B9004F852B /* KeeperViewModel.swift */,
-			);
-			path = ViewModels;
 			sourceTree = "<group>";
 		};
 		77D38D658A3E56B26B79298B /* Frameworks */ = {
@@ -1885,7 +1874,6 @@
 				2B70CFA7283ED3050073EFB4 /* MITransactionEditorInteractor.swift in Sources */,
 				2B0ACB59284CC15800DFF2EB /* TransactionListInteractorInput.swift in Sources */,
 				2B96720B285462B9004F852B /* KeeperViewModel.swift in Sources */,
-				2B3A260626EA6DD90033E746 /* AccountManagerController.swift in Sources */,
 				2B6561F92775F92700150B35 /* MBStatement.swift in Sources */,
 				2B1FEA4E266BEE6700BF53BD /* CurrencyExchangePB.swift in Sources */,
 				2B9282C1287110D9000A05FE /* TransactionStatusWorker.swift in Sources */,
@@ -1918,7 +1906,7 @@
 				2B967207285460D8004F852B /* CurrencyViewModel.swift in Sources */,
 				2B96720528530FEC004F852B /* AccountTypeViewModel.swift in Sources */,
 				2B1FEB8E266EC44600BF53BD /* ConfigureAnalyticsViewController.swift in Sources */,
-				2BE2593326BC8E6D0025301F /* AppErrorProtocol.swift in Sources */,
+				2BE2593326BC8E6D0025301F /* AppError.swift in Sources */,
 				2B205706285D9C55002C6F89 /* RateHelper.swift in Sources */,
 				2B2056F9285D974D002C6F89 /* Keeper extension.swift in Sources */,
 				2B2056EA285D88D6002C6F89 /* AccountTypeHelper.swift in Sources */,

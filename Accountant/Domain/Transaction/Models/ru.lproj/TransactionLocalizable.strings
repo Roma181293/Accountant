@@ -15,3 +15,5 @@
 "Please create a subaccount for \"%@\" and select it" = "Пожалуйста создайте дочерний счет к \"%@\" и выберите его";
 "Please check amount value to account/category \"%@\"" = "Пожалуйста проверьте значение суммы на счет/категорию \"%@\"";
 "Please check amount value from account/category \"%@\"" = "Пожалуйста проверьте значение суммы со счета/категории \"%@\"";
+"Archived transaction can not be edited. If you want to make chages, please set archiving date before transaction date" = "Заархивированая транзакция не может редактироваться. Если вы хотите внести изменения пожалуйста установите новую дату архивирования до даты транзакции";
+"You cannot set transaction date in close period. If you want to make chages, please set archiving date before transaction date" = "Вы не можете устанавливать дату транзакции в закрытом периоде. Если вы хотите внести изменения пожалуйста установите новую дату архивирования до даты транзакции";

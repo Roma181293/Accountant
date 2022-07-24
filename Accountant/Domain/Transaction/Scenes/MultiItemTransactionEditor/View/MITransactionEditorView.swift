@@ -22,7 +22,7 @@ class MITransactionEditorView: UIView {
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         return scrollView
     }()
-    
+
     let mainView: UIView = {
         let mainView = UIView()
         mainView.translatesAutoresizingMaskIntoConstraints = false

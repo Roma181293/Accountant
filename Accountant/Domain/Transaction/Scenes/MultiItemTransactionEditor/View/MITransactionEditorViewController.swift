@@ -15,6 +15,8 @@ class MITransactionEditorViewController: UIViewController, AccountNavigationDele
 
     private var activeTextField: UITextField?
 
+    private var isUserInteractionEnabled: Bool = true
+
     override func loadView() {
         view = mainView
         mainView.delegate = self
@@ -99,9 +101,9 @@ extension MITransactionEditorViewController: MITransactionEditorViewInput {
     func configureView() {
 
         mainView.debitTableView.register(TransactionItemCell.self,
-                                forCellReuseIdentifier: Constants.Cell.transactionItemTableViewCell)
+                                forCellReuseIdentifier: Constants.Cell.transactionItemCell)
         mainView.creditTableView.register(TransactionItemCell.self,
-                                 forCellReuseIdentifier: Constants.Cell.transactionItemTableViewCell)
+                                 forCellReuseIdentifier: Constants.Cell.transactionItemCell)
 
         mainView.debitTableView.delegate = self
         mainView.creditTableView.delegate = self
@@ -125,8 +127,25 @@ extension MITransactionEditorViewController: MITransactionEditorViewInput {
         mainView.datePicker.date = date
     }
 
+    func setMinDate(_ date: Date?) {
+        mainView.datePicker.minimumDate = date
+    }
+
     func setComment(_ comment: String?) {
         mainView.commentTextField.text = comment
+    }
+
+    func disableUserInteractionForUI() {
+        isUserInteractionEnabled = false
+        self.navigationItem.title = NSLocalizedString("View transaction",
+                                                      tableName: Constants.Localizable.mITransactionEditor,
+                                                      comment: "")
+
+        mainView.datePicker.isUserInteractionEnabled = isUserInteractionEnabled
+        mainView.commentTextField.isUserInteractionEnabled = isUserInteractionEnabled
+        mainView.debitAddButton.isHidden = true
+        mainView.creditAddButton.isHidden = true
+        mainView.confirmButton.isHidden = true
     }
 }
 
@@ -162,9 +181,11 @@ extension MITransactionEditorViewController: UITableViewDataSource {
         guard let output = output else { return cell }
         switch tableView {
         case mainView.debitTableView:
-            cell.configureCell(for: output.debitTransactionItems[indexPath.row], with: self)
+            cell.configureCell(for: output.debitTransactionItems[indexPath.row], with: self,
+                                  isUserInteractionEnabled: isUserInteractionEnabled)
         case mainView.creditTableView:
-            cell.configureCell(for: output.creditTransactionItems[indexPath.row], with: self)
+            cell.configureCell(for: output.creditTransactionItems[indexPath.row], with: self,
+                                  isUserInteractionEnabled: isUserInteractionEnabled)
         default: break
         }
         return cell
