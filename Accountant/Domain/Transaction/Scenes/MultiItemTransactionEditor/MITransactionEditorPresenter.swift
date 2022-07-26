@@ -124,9 +124,6 @@ extension MITransactionEditorPresenter: MITransactionEditorInteractorOutput {
     func fetched(transactionItems: [TransactionItem]) {
         var result: [TransactionItemSimpleViewModel] = []
         transactionItems.forEach({
-            let path = $0.account?.path ?? NSLocalizedString("Account/Category",
-                                                             tableName: Constants.Localizable.mITransactionEditor,
-                                                             comment: "")
             result.append(TransactionItemSimpleViewModel(transactionItem: $0))
         })
         print(result)
