@@ -79,8 +79,6 @@ class TransactionListViewController: UIViewController {
 
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(true)
-        self.tabBarController?.navigationItem.rightBarButtonItem = nil
-        self.tabBarController?.navigationItem.leftBarButtonItem = nil
         resultSearchController.dismiss(animated: true, completion: nil)
     }
 }

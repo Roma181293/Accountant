@@ -200,8 +200,15 @@ class AccountHelper {
 
     static func getAccountWithId(_ id: UUID, context: NSManagedObjectContext) -> Account? {
         let request: NSFetchRequest<Account> = Account.fetchRequest()
-        request.predicate = NSPredicate(format: "\(Schema.Account.id.rawValue) = %@", argumentArray: [id.uuidString])
+        request.predicate = NSPredicate(format: "\(Schema.Account.id.rawValue) = %@", id as CVarArg)
         request.sortDescriptors = [NSSortDescriptor(key: Schema.Account.name.rawValue, ascending: true)]
         return try? context.fetch(request).first
+    }
+
+    static func existsForeignCurrencyAccount(context: NSManagedObjectContext) -> Bool? {
+        let request: NSFetchRequest<Account> = Account.fetchRequest()
+        request.predicate = NSPredicate(format: "\(Schema.Account.currency.rawValue).\(Schema.Currency.isAccounting) = false")
+        request.sortDescriptors = [NSSortDescriptor(key: Schema.Account.name.rawValue, ascending: true)]
+        return try! context.fetch(request).isEmpty
     }
 }

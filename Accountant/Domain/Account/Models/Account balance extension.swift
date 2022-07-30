@@ -7,6 +7,11 @@
 
 import Foundation
 
+struct Saldo {
+    let debit: Double
+    let credit: Double
+}
+
 extension Account {
 
     var balance: Double {
@@ -63,6 +68,48 @@ extension Account {
         } else {
             return 0
         }
+    }
+
+    func saldo(_ dateInterval: DateInterval, calcIncludedAccountsBalances: Bool = true) -> Saldo {
+
+        var debit: Double = 0
+        var credit: Double = 0
+
+        var accounts: [Account] = [self]
+        if calcIncludedAccountsBalances {
+            accounts += childrenList
+        }
+        for account in accounts {
+            for item in account.transactionItemsListReadyForBalanceCalc.filter({$0.transaction!.date > dateInterval.start && $0.transaction!.date <= dateInterval.end}) {
+                if item.type == .debit {
+                    debit += item.amount
+                } else if item.type == .credit {
+                    credit += item.amount
+                }
+            }
+        }
+        return Saldo(debit: debit, credit: credit)
+    }
+
+    func saldo(_ date: Date, calcIncludedAccountsBalances: Bool = true) -> Saldo {
+
+        var debit: Double = 0
+        var credit: Double = 0
+        
+        var accounts: [Account] = [self]
+        if calcIncludedAccountsBalances {
+            accounts += childrenList
+        }
+        for account in accounts {
+            for item in account.transactionItemsListReadyForBalanceCalc.filter({$0.transaction!.date <= date}) {
+                if item.type == .debit {
+                    debit += item.amount
+                } else if item.type == .credit {
+                    credit += item.amount
+                }
+            }
+        }
+        return Saldo(debit: debit, credit: credit)
     }
 
     private class func createDateIntervalArray(dateInterval: DateInterval,

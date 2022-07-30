@@ -12,8 +12,8 @@ extension Currency {
         return Array(accounts)
     }
 
-    var exchangeRatesList: [Account] {
-        return Array(accounts)
+    var exchangeRatesList: [Rate] {
+        return Array(exchangeRates)
     }
 
     enum Error: AppError, Equatable {

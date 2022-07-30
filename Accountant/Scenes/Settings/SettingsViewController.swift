@@ -86,6 +86,9 @@ class SettingsViewController: UIViewController {
                                                                          bundle: Bundle.main,
                                                                          comment: "")
         reloadProAccessData()
+
+        self.tabBarController?.navigationItem.leftBarButtonItem = nil
+        self.tabBarController?.navigationItem.rightBarButtonItem = nil
     }
 
     deinit {

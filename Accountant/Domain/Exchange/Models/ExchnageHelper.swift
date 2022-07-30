@@ -72,4 +72,19 @@ class ExchangeHelper {
             }
         }
     }
+
+    class func exchageRate(pay currency1: Currency, forOne currency2: Currency, date: Date) -> Double? {
+        if currency1 == currency2 {
+            return 1
+        } else {
+            if let rate1 = currency1.exchangeRatesList.filter({$0.exchange?.date == date }).first?.amount,
+               let rate2 = currency2.exchangeRatesList.filter({$0.exchange?.date == date }).first?.amount,
+               rate1 != 0, rate2 != 0
+            {
+                return rate1/rate2
+            } else {
+                return nil
+            }
+        }
+    }
 }
