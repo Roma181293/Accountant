@@ -209,6 +209,7 @@ class AccountHelper {
         let request: NSFetchRequest<Account> = Account.fetchRequest()
         request.predicate = NSPredicate(format: "\(Schema.Account.currency.rawValue).\(Schema.Currency.isAccounting) = false")
         request.sortDescriptors = [NSSortDescriptor(key: Schema.Account.name.rawValue, ascending: true)]
-        return try! context.fetch(request).isEmpty
+        request.fetchLimit = 1
+        return try? context.fetch(request).isEmpty
     }
 }

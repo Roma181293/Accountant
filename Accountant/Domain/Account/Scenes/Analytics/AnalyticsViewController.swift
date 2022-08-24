@@ -76,6 +76,8 @@ class AnalyticsViewController: UIViewController, UIScrollViewDelegate {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
+        self.tabBarController?.navigationItem.rightBarButtonItem = nil
+        self.tabBarController?.navigationItem.leftBarButtonItem = nil
         setTitle()
         if isNeedUpdateAll() {
             dateOfLastChangesInDB = UserProfile.getDateOfLastChangesInDB()

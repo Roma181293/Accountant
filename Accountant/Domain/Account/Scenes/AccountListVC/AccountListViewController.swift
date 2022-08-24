@@ -120,7 +120,10 @@ class AccountListViewController: UIViewController, UIScrollViewDelegate { // swi
     }
 
     override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
+        super.viewWillAppear(animated)
+
+        self.tabBarController?.navigationItem.rightBarButtonItem = nil
+        self.tabBarController?.navigationItem.leftBarButtonItem = nil
 
         self.tabBarController?.navigationItem.title = NSLocalizedString("Accounts", comment: "")
         if isNeedUpdateAll() {

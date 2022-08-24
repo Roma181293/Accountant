@@ -106,7 +106,9 @@ class MigrationPolicy_Account_V2toV3: NSEntityMigrationPolicy { // swiftlint:dis
         }
 
         let type = getAccountTypeBy(.accounting, context: manager.destinationContext)
-        let root = try getOrCreateAccount(name: "Accounts", context: manager.destinationContext)
+        LocalisationManager.createLocalizedAccountName(.accounts)
+        let name = LocalisationManager.getLocalizedName(.accounts)
+        let root = try getOrCreateAccount(name: name, context: manager.destinationContext)
         root.setValue(type, forKey: "type")
 
         for account in accounts where account.value(forKey: "parent") == nil {
