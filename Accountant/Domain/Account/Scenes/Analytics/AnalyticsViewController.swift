@@ -226,7 +226,7 @@ class AnalyticsViewController: UIViewController, UIScrollViewDelegate {
 
     private func setTitle() {
         if let account = account {
-            if account.parent != nil {
+            if account.parent?.parent != nil {
                 self.navigationItem.title = account.name
             } else {
                 self.tabBarController?.navigationItem.title = NSLocalizedString("Analytics", comment: "")
