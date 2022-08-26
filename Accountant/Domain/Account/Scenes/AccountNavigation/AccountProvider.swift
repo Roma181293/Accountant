@@ -53,7 +53,7 @@ class AccountProvider {
                                     + "NOT (SELF IN %@) && "
                                     +  "(\(Schema.Account.active.rawValue) = true "
                                     + "|| \(Schema.Account.active.rawValue) != %@)",
-                                    argumentArray: ["Accounts", excludeAccountList, showHiddenAccounts])
+                                    argumentArray: [LocalisationManager.getLocalizedName(.accounts), excludeAccountList, showHiddenAccounts])
         }
         fetchRequest.predicate = predicate
 
@@ -312,7 +312,7 @@ class AccountProvider {
                                     + "NOT (SELF IN %@) && "
                                     +  "(\(Schema.Account.active.rawValue) = true "
                                     + "|| \(Schema.Account.active.rawValue) != %@)",
-                                    argumentArray: ["Accounts", excludeAccountList, showHiddenAccounts])
+                                    argumentArray: [LocalisationManager.getLocalizedName(.accounts), excludeAccountList, showHiddenAccounts])
         }
         fetchedResultsController.fetchRequest.predicate = predicate
     }

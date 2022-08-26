@@ -127,7 +127,7 @@ class MigrationPolicy_Account_V2toV3: NSEntityMigrationPolicy { // swiftlint:dis
         let results = try destContext.fetch(fetchRequest)
         for account in results {
             print(account.value(forKey: "path") as? String)
-            if account.value(forKey: "parent") == nil && account.value(forKey: "name") as? String != "Accounts" {
+            if account.value(forKey: "parent") == nil && account.value(forKey: "name") as? String != LocalisationManager.getLocalizedName(.accounts) {
                 throw MigrationError.acountHasNoParent
             }
 
