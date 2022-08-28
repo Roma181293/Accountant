@@ -63,8 +63,8 @@ extension TransactionListPresenter: TransactionListViewOutput {
         return delete
     }
 
-    func search(text: String) {
-        interactorInput?.search(text: text)
+    func search(text: String, statusFilter: TransactionListWorker.TransactionStatusFilter) {
+        interactorInput?.search(text: text, statusFilter: statusFilter)
     }
 
     func createTransaction() {

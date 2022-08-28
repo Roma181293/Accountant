@@ -21,7 +21,7 @@ protocol TransactionListInteractorInput: AnyObject {
     func canDuplicateTransaction() -> Bool
     func duplicateTransaction(at indexPath: IndexPath)
     func deleteTransaction(at indexPath: IndexPath)
-    func search(text: String)
+    func search(text: String, statusFilter: TransactionListWorker.TransactionStatusFilter)
 
     func numberOfSections() -> Int
     func numberOfRowsInSection(_ section: Int) -> Int

@@ -120,13 +120,31 @@ class TransactionListWorker: NSObject {
         }
     }
 
-    func search(text: String) {
+    enum TransactionStatusFilter: Int16 { //this emun should has the same rawValues as Transaction.Status
+        case all = 0
+        case draft = 1
+        case approved = 2
+        case applied = 3
+    }
+
+    func search(text: String, statusFilter: TransactionStatusFilter) {
         var predicate: NSPredicate?
-        if !text.isEmpty {
-            predicate = NSPredicate(format: "\(Schema.Transaction.items).\(Schema.TransactionItem.account).\(Schema.Account.path) CONTAINS[c] %@ || \(Schema.Transaction.comment) CONTAINS[c] %@", // swiftlint:disable:this line_length
-                                    argumentArray: [text, text])
+        if statusFilter == .all {
+            if !text.isEmpty {
+                predicate = NSPredicate(format: "\(Schema.Transaction.items).\(Schema.TransactionItem.account).\(Schema.Account.path) CONTAINS[c] %@ || \(Schema.Transaction.comment) CONTAINS[c] %@", // swiftlint:disable:this line_length
+                                        argumentArray: [text, text])
+            } else {
+                predicate = nil
+            }
         } else {
-            predicate = nil
+
+                if !text.isEmpty {
+                    predicate = NSPredicate(format: "(\(Schema.Transaction.items).\(Schema.TransactionItem.account).\(Schema.Account.path) CONTAINS[c] %@ || \(Schema.Transaction.comment) CONTAINS[c] %@ ) && \(Schema.Transaction.status) = %@", // swiftlint:disable:this line_length
+                                            argumentArray: [text, text, statusFilter.rawValue])
+                } else {
+                    predicate = NSPredicate(format: "\(Schema.Transaction.status) == %@",
+                                            argumentArray: [statusFilter.rawValue])
+                }
         }
         fetchedResultsController.fetchRequest.predicate = predicate
 

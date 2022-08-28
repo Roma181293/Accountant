@@ -36,7 +36,7 @@ class AccountNavigationViewController: UITableViewController {
         if let parentAccount = parentAccount {
             accountProvider.parent = parentAccount
         } else {
-            accountProvider.parent = AccountHelper.getAccountWithPath("Accounts",
+            accountProvider.parent = AccountHelper.getAccountWithPath(LocalisationManager.getLocalizedName(.accounts),
                                                                       context: CoreDataStack.shared.persistentContainer.viewContext)
             self.parentAccount = accountProvider.parent
         }
@@ -47,21 +47,17 @@ class AccountNavigationViewController: UITableViewController {
         return accountProvider
     }()
 
-    private lazy var resultSearchController: UISearchController = {
+    private lazy var searchController: UISearchController = {
         let controller = UISearchController(searchResultsController: nil)
-        controller.searchResultsUpdater = self
-        controller.searchBar.sizeToFit()
+        controller.loadViewIfNeeded()
         controller.obscuresBackgroundDuringPresentation = false
-        controller.hidesNavigationBarDuringPresentation = false
-        controller.automaticallyShowsSearchResultsController = false
-        controller.automaticallyShowsCancelButton = false
-        tableView.tableHeaderView = controller.searchBar
+        controller.searchBar.enablesReturnKeyAutomatically = false
+        controller.searchBar.returnKeyType = .done
         return controller
     }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
         reloadProAccessData()
 
         // adding NotificationCenter observers
@@ -72,18 +68,17 @@ class AccountNavigationViewController: UITableViewController {
         createAddButton()
         configureTableViewBackground()
         configureTitle()
-        configureSearchBar()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
+        configureSearchBar()
         dataProvider.reloadData()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(true)
         self.tabBarController?.navigationItem.rightBarButtonItem = nil
-        resultSearchController.dismiss(animated: true, completion: nil)
     }
 
     deinit {
@@ -121,6 +116,7 @@ extension AccountNavigationViewController {
         let backView = UIView(frame: self.tableView.bounds)
         backView.backgroundColor = .systemBackground
         self.tableView.backgroundView = backView
+        tableView.tableFooterView = UIView(frame: .zero)
     }
 
     private func configureTitle() {
@@ -144,19 +140,22 @@ extension AccountNavigationViewController {
     }
 
     private func configureSearchBar() {
+        searchController.searchResultsUpdater = self
+//        definesPresentationContext = true
+        navigationItem.searchController = searchController
+        navigationItem.hidesSearchBarWhenScrolling = false
+
         if searchBarIsHidden {
-            resultSearchController.isActive = false
+            searchController.isActive = false
         } else {
-            resultSearchController.isActive = true
+            searchController.isActive = true
         }
-        tableView.tableFooterView = UIView(frame: .zero)
     }
 }
 
 // MARK: - Objc methods
 extension AccountNavigationViewController {
     @objc func addCategoryOrAccount() {
-        self.dismiss(animated: true, completion: nil) // DO NOT DELETE. this call dismiss searchcontroller. otherwise alert will not appear
         guard let parentAccount = parentAccount else {return}
         self.addCategotyTo(parentAccount)
     }
@@ -226,7 +225,7 @@ extension AccountNavigationViewController {
         if AccessManager.canCreateSubAccountFor(account: account,
                                                 isUserHasPaidAccess: self.isUserHasPaidAccess,
                                                 environment: CoreDataStack.shared.activeEnvironment) {
-            print(account.path)
+
             if account.type.defultChildType?.useCustomViewToCreateAccount == true || account.type.hasMoreThenOneChildren {
                 goToAccountEditorWithInitialBalanceVC(account: account)
             } else {
@@ -285,7 +284,6 @@ extension AccountNavigationViewController {
                                                                        tableName: localizedTableName,
                                                                        comment: ""),
                                               style: .cancel))
-                self.dismiss(animated: true, completion: nil) // DO NOT DELETE. this call dismiss searchcontroller. otherwise alert will not appear
                 present(alert, animated: true, completion: nil)
             }
         } else {
@@ -307,12 +305,11 @@ extension AccountNavigationViewController {
     private func editAction(at indexPath: IndexPath) -> UIContextualAction {
         let selectedAccount = dataProvider.fetchedResultsController.object(at: indexPath)
         
-        let rename = UIContextualAction(style: .normal,
+        let edit = UIContextualAction(style: .normal,
                                         title: NSLocalizedString("Edit", tableName: localizedTableName, comment: "")) { (_, _, complete) in
 
             if selectedAccount.type.hasHolder || selectedAccount.type.hasKeeper {
-                
-                self.dismiss(animated: true, completion: nil)
+
                 let accountEditorModule = AccountEditorAssembly.configureEditMode(accountId: selectedAccount.id)
                 self.navigationController?.pushViewController(accountEditorModule, animated: true)
                 
@@ -342,19 +339,19 @@ extension AccountNavigationViewController {
                 
                 let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", tableName: self.localizedTableName, comment: ""), style: .cancel)
                 alert.addAction(cancelAction)
-                self.dismiss(animated: true, completion: nil) // DO NOT DELETE. this call dismiss searchcontroller. otherwise alert will not appear
+
                 self.present(alert, animated: true, completion: nil)
                 complete(true)
             }
         }
-        rename.backgroundColor = .systemBlue
-        rename.image = UIImage(systemName: "pencil")
-        return rename
+        edit.backgroundColor = .systemBlue
+        edit.image = UIImage(systemName: "pencil")
+        return edit
     }
 
     private func changeActiveStatusAction(at indexPath: IndexPath) -> UIContextualAction {
         let account = dataProvider.fetchedResultsController.object(at: indexPath)
-        let hideAction = UIContextualAction(style: .normal,
+        let changeActiveStatusAction = UIContextualAction(style: .normal,
                                             title: NSLocalizedString("Deactivate", tableName: localizedTableName, comment: "")) { _, _, complete in
             if AccessManager.canHideAccount(environment: CoreDataStack.shared.activeEnvironment,
                                             isUserHasPaidAccess: self.isUserHasPaidAccess) {
@@ -410,7 +407,6 @@ extension AccountNavigationViewController {
                                                                        comment: ""),
                                               style: .cancel))
 
-                self.dismiss(animated: true, completion: nil) // DO NOT DELETE. this call dismiss searchcontroller. otherwise alert will not appear
                 self.present(alert, animated: true, completion: nil)
             } else {
                 self.showPurchaseOfferVC()
@@ -418,13 +414,13 @@ extension AccountNavigationViewController {
             complete(true)
         }
         if account.active {
-            hideAction.backgroundColor = .systemIndigo
-            hideAction.image = UIImage(systemName: "eye")
+            changeActiveStatusAction.backgroundColor = .systemIndigo
+            changeActiveStatusAction.image = UIImage(systemName: "eye")
         } else {
-            hideAction.backgroundColor = .systemGray
-            hideAction.image = UIImage(systemName: "eye.slash")
+            changeActiveStatusAction.backgroundColor = .systemGray
+            changeActiveStatusAction.image = UIImage(systemName: "eye.slash")
         }
-        return hideAction
+        return changeActiveStatusAction
     }
 
     private func deleteAction(at indexPath: IndexPath) -> UIContextualAction {
@@ -462,7 +458,6 @@ extension AccountNavigationViewController {
                                                                        comment: ""),
                                               style: .cancel))
 
-                self.dismiss(animated: true, completion: nil) // DO NOT DELETE. this call dismiss searchcontroller. otherwise alert will not appear
                 self.present(alert, animated: true, completion: nil)
             } catch let error {
                 self.errorHandlerMethod(error: error)
@@ -506,7 +501,6 @@ extension AccountNavigationViewController {
         let alert = UIAlertController(title: title, message: "\(error.localizedDescription)", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: NSLocalizedString("OK", tableName: localizedTableName, comment: ""),
                                       style: .default))
-        dismiss(animated: true, completion: nil) // DO NOT DELETE. this call dismiss searchcontroller. otherwise alert will not appear
         present(alert, animated: true, completion: nil)
     }
 

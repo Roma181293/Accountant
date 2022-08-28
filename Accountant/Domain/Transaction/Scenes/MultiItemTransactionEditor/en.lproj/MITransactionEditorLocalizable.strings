@@ -18,6 +18,9 @@
 "Warning" = "Warning";
 "OK" = "OK";
 "Delete" = "Delete";
+
+//View
+"Date" = "Date";
 "To:" = "To:";
 "From:" = "From:";
 "Comment" = "Comment";

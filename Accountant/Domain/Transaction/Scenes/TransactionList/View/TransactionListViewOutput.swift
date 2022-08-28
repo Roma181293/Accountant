@@ -12,7 +12,7 @@ import UIKit
 protocol TransactionListViewOutput: AnyObject {
     func duplicateTransactionAction(at indexPath: IndexPath) -> UIContextualAction
     func deleteTransactionAction(at indexPath: IndexPath) -> UIContextualAction
-    func search(text: String)
+    func search(text: String, statusFilter: TransactionListWorker.TransactionStatusFilter)
     func createTransaction()
     func editTransaction(at indexPath: IndexPath)
 

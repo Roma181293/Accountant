@@ -14,12 +14,24 @@ class TransactionListViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
 
-    private lazy var resultSearchController: UISearchController = {
+    private lazy var searchController: UISearchController = {
         let controller = UISearchController(searchResultsController: nil)
-        controller.searchBar.sizeToFit()
+        controller.loadViewIfNeeded()
         controller.obscuresBackgroundDuringPresentation = false
-        controller.hidesNavigationBarDuringPresentation = false
-        controller.searchResultsUpdater = self
+        controller.searchBar.enablesReturnKeyAutomatically = false
+        controller.searchBar.returnKeyType = .done
+        controller.searchBar.scopeButtonTitles = [NSLocalizedString("All",
+                                                                    tableName: Constants.Localizable.transactionList,
+                                                                    comment: ""),
+                                                  NSLocalizedString("Applied",
+                                                                    tableName: Constants.Localizable.transactionList,
+                                                                    comment: ""),
+                                                  NSLocalizedString("Approved",
+                                                                    tableName: Constants.Localizable.transactionList,
+                                                                    comment: ""),
+                                                  NSLocalizedString("Drafts",
+                                                                    tableName: Constants.Localizable.transactionList,
+                                                                    comment: "")]
         return controller
     }()
 
@@ -39,6 +51,43 @@ class TransactionListViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        searchController.searchResultsUpdater = self
+
+        configureCreateTransactionButton()
+
+        tableView.register(TransactionCell.self, forCellReuseIdentifier: Constants.Cell.complexTransactionCell)
+
+        // Set black color under cells in dark mode
+        let backView = UIView(frame: self.tableView.bounds)
+        backView.backgroundColor = .systemBackground
+        self.tableView.backgroundView = backView
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+
+        self.tabBarController?.navigationItem.searchController = searchController
+        self.tabBarController?.navigationItem.hidesSearchBarWhenScrolling = true
+
+        output?.viewWillAppear()
+
+        let title = NSLocalizedString("Transactions",
+                                      tableName: Constants.Localizable.transactionList,
+                                      comment: "")
+        self.tabBarController?.navigationItem.title = title
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(true)
+        self.tabBarController?.navigationItem.searchController = nil
+    }
+
+    @objc func addTransaction() {
+        output?.createTransaction()
+    }
+
+    private func configureCreateTransactionButton() {
         let standardSpacing: CGFloat = -40.0
         view.addSubview(createTransactionButton)
         createTransactionButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor,
@@ -50,36 +99,6 @@ class TransactionListViewController: UIViewController {
 
         createTransactionButton.addTarget(self, action: #selector(addTransaction),
                                           for: .touchUpInside)
-
-        tableView.register(TransactionCell.self, forCellReuseIdentifier: Constants.Cell.complexTransactionCell)
-
-        // configure SearchBar
-        tableView.tableHeaderView = resultSearchController.searchBar
-
-        // Set black color under cells in dark mode
-        let backView = UIView(frame: self.tableView.bounds)
-        backView.backgroundColor = .systemBackground
-        self.tableView.backgroundView = backView
-    }
-
-    @objc func addTransaction() {
-        output?.createTransaction()
-    }
-
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
-
-        output?.viewWillAppear()
-
-        let title = NSLocalizedString("Transactions",
-                                      tableName: Constants.Localizable.transactionList,
-                                      comment: "")
-        self.tabBarController?.navigationItem.title = title
-    }
-
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(true)
-        resultSearchController.dismiss(animated: true, completion: nil)
     }
 }
 
@@ -144,8 +163,18 @@ extension TransactionListViewController: TransactionListViewInput {
 // MARK: - UISearchResultsUpdating
 extension TransactionListViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
-        guard let text = searchController.searchBar.text else {return}
-        output?.search(text: text)
+        guard let searchText = searchController.searchBar.text else {return}
+
+        var statusFilter: TransactionListWorker.TransactionStatusFilter
+
+        switch searchController.searchBar.selectedScopeButtonIndex {
+        case 1: statusFilter = .applied
+        case 2: statusFilter = .approved
+        case 3: statusFilter = .draft
+        default: statusFilter = .all
+        }
+
+        output?.search(text: searchText, statusFilter: statusFilter)
     }
 }
 

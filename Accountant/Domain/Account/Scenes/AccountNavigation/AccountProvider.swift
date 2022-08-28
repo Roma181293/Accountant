@@ -321,12 +321,20 @@ class AccountProvider {
         if text.count != 0 {
             var prdct = NSPredicate()
             if let parent = parent {
-                prdct = NSPredicate(format: "SELF != %@ && NOT (SELF IN %@)"
-                                    + "&& \(Schema.Account.path.rawValue) CONTAINS[c] %@ "
-                                    + "&& \(Schema.Account.path.rawValue) CONTAINS[c] %@ "
-                                    + "&& (\(Schema.Account.active.rawValue) = true "
-                                    + "|| \(Schema.Account.active.rawValue) != %@)",
-                                    argumentArray: [parent, excludeAccountList, parent.path, text, showHiddenAccounts])
+                if parent.name == LocalisationManager.getLocalizedName(.accounts) {
+                    prdct = NSPredicate(format: "SELF != %@ && NOT (SELF IN %@)"
+                                        + "&& \(Schema.Account.path.rawValue) CONTAINS[c] %@ "
+                                        + "&& (\(Schema.Account.active.rawValue) = true "
+                                        + "|| \(Schema.Account.active.rawValue) != %@)",
+                                        argumentArray: [parent, excludeAccountList, text, showHiddenAccounts])
+                } else {
+                    prdct = NSPredicate(format: "SELF != %@ && NOT (SELF IN %@)"
+                                        + "&& \(Schema.Account.path.rawValue) CONTAINS[c] %@ "
+                                        + "&& \(Schema.Account.path.rawValue) CONTAINS[c] %@ "
+                                        + "&& (\(Schema.Account.active.rawValue) = true "
+                                        + "|| \(Schema.Account.active.rawValue) != %@)",
+                                        argumentArray: [parent, excludeAccountList, parent.path, text, showHiddenAccounts])
+                }
             } else {
                 prdct = NSPredicate(format: "\(Schema.Account.path.rawValue) CONTAINS[c] %@ && "
                                     + "(\(Schema.Account.active.rawValue) = true "

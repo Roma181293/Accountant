@@ -110,8 +110,8 @@ extension TransactionListInteractor: TransactionListInteractorInput {
         transactionListWorker.deleteTransaction(at: indexPath)
     }
 
-    func search(text: String) {
-        transactionListWorker.search(text: text)
+    func search(text: String, statusFilter: TransactionListWorker.TransactionStatusFilter) {
+        transactionListWorker.search(text: text, statusFilter: statusFilter)
     }
 
     func numberOfSections() -> Int {

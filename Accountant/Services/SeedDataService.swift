@@ -242,7 +242,7 @@ class SeedDataService {
         // swiftlint:enable line_length
 
 
-        let accounts = try? AccountHelper.createAndGetAccount(parent: nil, name: "Accounts", type: accounting, currency: nil, createdByUser: false, context: context)
+        let accounts = try? AccountHelper.createAndGetAccount(parent: nil, name: LocalisationManager.getLocalizedName(.accounts), type: accounting, currency: nil, createdByUser: false, context: context)
 
         let money = try? AccountHelper.createAndGetAccount(parent: accounts, name: LocalisationManager.getLocalizedName(.money), type: moneyConsolid, currency: nil, createdByUser: false, context: context)
         let credits = try? AccountHelper.createAndGetAccount(parent: accounts, name: LocalisationManager.getLocalizedName(.credits), type: creditorsConsolid, currency: nil, createdByUser: false, context: context)

@@ -29,9 +29,18 @@ class MITransactionEditorView: UIView {
         return mainView
     }()
 
+    let dateLabel: UILabel = {
+        let label = UILabel()
+        label.text = NSLocalizedString("Date",
+                                       tableName: Constants.Localizable.mITransactionEditor,
+                                       comment: "")
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+
     let datePicker: UIDatePicker = {
         let datePicker = UIDatePicker()
-        datePicker.preferredDatePickerStyle = .wheels
+        datePicker.preferredDatePickerStyle = .automatic
         datePicker.translatesAutoresizingMaskIntoConstraints = false
         return datePicker
     }()
@@ -218,11 +227,13 @@ class MITransactionEditorView: UIView {
         mainView.widthAnchor.constraint(equalTo: mainScrollView.widthAnchor).isActive = true
         mainView.heightAnchor.constraint(equalTo: mainScrollView.heightAnchor).isActive = true
 
+        mainView.addSubview(dateLabel)
+        dateLabel.topAnchor.constraint(equalTo: mainView.topAnchor, constant: 40).isActive = true
+        dateLabel.leadingAnchor.constraint(equalTo: mainView.leadingAnchor, constant: 18).isActive = true
+
         mainView.addSubview(datePicker)
-        datePicker.topAnchor.constraint(equalTo: mainView.topAnchor, constant: 20).isActive = true
-        datePicker.leadingAnchor.constraint(equalTo: mainView.leadingAnchor, constant: 8).isActive = true
-        datePicker.trailingAnchor.constraint(equalTo: mainView.trailingAnchor, constant: -8).isActive = true
-        datePicker.heightAnchor.constraint(equalToConstant: 180).isActive = true
+        datePicker.centerYAnchor.constraint(equalTo: dateLabel.centerYAnchor).isActive = true
+        datePicker.leadingAnchor.constraint(equalTo: dateLabel.trailingAnchor, constant: 8).isActive = true
 
         mainView.addSubview(confirmButton)
         confirmButton.bottomAnchor.constraint(equalTo: mainView.safeAreaLayoutGuide.bottomAnchor,
@@ -240,7 +251,7 @@ class MITransactionEditorView: UIView {
 
         mainView.addSubview(mainStackView)
         mainStackView.spacing = mainStackViewSpacing
-        mainStackView.topAnchor.constraint(equalTo: datePicker.bottomAnchor, constant: 20).isActive = true
+        mainStackView.topAnchor.constraint(equalTo: datePicker.bottomAnchor, constant: 40).isActive = true
         mainStackView.leadingAnchor.constraint(equalTo: mainView.leadingAnchor, constant: 8).isActive = true
         mainStackView.trailingAnchor.constraint(equalTo: mainView.trailingAnchor, constant: -8).isActive = true
         mainStackView.bottomAnchor.constraint(equalTo: commentTextField.topAnchor, constant: -20).isActive = true

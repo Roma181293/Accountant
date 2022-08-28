@@ -17,6 +17,11 @@
 "No" = "No";
 "Duplicate" = "Duplicate";
 
+"All" = "All";
+"Applied" = "Applied";
+"Approved" = "Approved";
+"Drafts" = "Drafts";
+
 //Cell
 "To:" = "To:";
 "From:" = "From:";
