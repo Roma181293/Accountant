@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct CurrencyHistoricalDataPB: Codable, CurrencyHistoricalDataProtocol {
+struct CurrencyHistoricalDataPB: Codable, CurrencyHistoricalData {
     let date: String
     let bank: String
     let baseCurrency: Int

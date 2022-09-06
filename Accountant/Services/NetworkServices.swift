@@ -12,7 +12,7 @@ import CoreData
 
 class NetworkServices {
 
-    class func loadCurrency(date: Date, compliting: @escaping (CurrencyHistoricalDataProtocol?, Error?) -> Void) {
+    class func loadCurrency(date: Date, compliting: @escaping (CurrencyHistoricalData?, Error?) -> Void) {
         loadCurrencyNB(date: date) { (currencyHistoricalData, _) in
             if let currencyHistoricalData = currencyHistoricalData {
                 compliting(currencyHistoricalData, nil)

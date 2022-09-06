@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct CurrencyHistoricalDataNB: Codable, CurrencyHistoricalDataProtocol {
+struct CurrencyHistoricalDataNB: Codable, CurrencyHistoricalData {
 
     let exchangeRatesList: [CurrencyExhangeNB]
 
