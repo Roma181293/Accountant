@@ -20,7 +20,6 @@ class SettingsViewController: UIViewController {
         case accountingCurrency = "Accounting currency"
         case archive = "Archiving"
         case accountsManager = "Account manager"
-        case multiItemTransaction = "Multi item transaction"
         case bankProfiles = "Bank profiles"
         case exchangeRates = "Exchange rates"
         case importAccounts = "Import account list"
@@ -148,7 +147,7 @@ class SettingsViewController: UIViewController {
             if (item == .envirement && UserProfileService.isAppLaunchedBefore() == false)
                 || (item == .startAccounting && UserProfileService.isAppLaunchedBefore() == true)
                 || (item == .auth && isUserHasPaidAccess == false)
-                || (item == .multiItemTransaction && isUserHasPaidAccess == false && environment == .prod)
+                //|| (item == .multiItemTransaction && isUserHasPaidAccess == false && environment == .prod)
                 || item == .importAccounts
                 || item == .exportAccounts
                 || item == .userGuides
@@ -184,8 +183,6 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
         switch dataSource[indexPath.row] {
         case .offer:
             router.route(to: .offerVC)
-        case .auth, .envirement, .accountingCurrency, .multiItemTransaction:
-            break
         case .accountsManager:
             router.route(to: .accountNavVC)
         case .importAccounts:
@@ -234,6 +231,8 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
             self.navigationController?.pushViewController(ExchangeTableViewController(), animated: true)
         case .archive:
             router.route(to: .archive)
+        default:
+            break
         }
         tableView.deselectRow(at: indexPath, animated: true)
     }

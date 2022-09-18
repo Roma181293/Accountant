@@ -26,7 +26,7 @@ class StartAccountingViewController: UIViewController {
         NSLocalizedString("Add Monobank bank profile, to sync statements data. All the data stores only on this device locally",
                           tableName: Constants.Localizable.startAccountingVC,
                           comment: ""),
-        NSLocalizedString("Please add income categories",
+        NSLocalizedString("Please add income categories.\nBy tapping ⊕ button, or add subcategories by swiping from right to left. If you tap to the category that has \">\" you can see all subcategories to the selected one",
                           tableName: Constants.Localizable.startAccountingVC,
                           comment: ""),
         NSLocalizedString("Please add expense categories",

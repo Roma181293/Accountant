@@ -16,7 +16,7 @@ class SettingsCell: UITableViewCell {
     private let iconImangeView: UIImageView = {
         let imageView  = UIImageView()
         imageView.contentMode = .scaleAspectFit
-        imageView .translatesAutoresizingMaskIntoConstraints = false
+        imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
 
@@ -147,12 +147,6 @@ class SettingsCell: UITableViewCell {
             iconImangeView.image = UIImage(systemName: "list.bullet.indent")
             iconImangeView.tintColor = .systemRed
             accessoryType = .disclosureIndicator
-        case.multiItemTransaction:
-            switcher.isHidden = false
-            iconImangeView.image = UIImage(systemName: "list.number")
-            iconImangeView.tintColor = .blue
-            switcher.isOn = UserProfileService.isUseMultiItemTransaction(environment: delegate.environment)
-            accessoryType = .none
         case .importTransactions:
             iconImangeView.image = UIImage(systemName: "square.and.arrow.down.on.square")
             iconImangeView.tintColor = .systemIndigo
@@ -229,8 +223,6 @@ class SettingsCell: UITableViewCell {
             } else {
                 UserProfileService.setUserAuth(.none)
             }
-        } else if dataItem == .multiItemTransaction {
-            UserProfileService.useMultiItemTransaction(sender.isOn, environment: delegate.environment)
         } else if dataItem == .envirement {
             activityIndicator.startAnimating()
             self.activityIndicator.isHidden = false

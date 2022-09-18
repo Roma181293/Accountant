@@ -67,7 +67,7 @@ class OfferView: UIView {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.image = UIImage(systemName: "checkmark")
         imageView.contentMode = .scaleAspectFill
-        imageView.tintColor = .systemPurple
+        imageView.tintColor = .systemBlue
         imageView.alpha = 0
         return imageView
     }()
@@ -88,7 +88,7 @@ class OfferView: UIView {
         return view
     }()
 
-    let activeBorderColor = UIColor.systemPurple
+    let activeBorderColor = UIColor.systemBlue
     let inactiveBorderColor = UIColor.systemGray3
     var packageForPurchase: Purchases.Package?
     private var isEligible = false

@@ -18,9 +18,7 @@ class StartAccountingView: UIView {
     let cardView: UIView = {
         let view = UIView()
         view.layer.cornerRadius = Constants.Size.cornerCardRadius
-        view.backgroundColor = UIColor.systemGray5
-        view.layer.borderColor = UIColor.systemBlue.cgColor
-        view.layer.borderWidth = 2
+        view.backgroundColor = UIColor.systemGray5.withAlphaComponent(0.7)
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -61,9 +59,13 @@ class StartAccountingView: UIView {
 
     let continueButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(systemName: "arrow.right"), for: .normal)
+        button.setTitle(NSLocalizedString("Continue",
+                                          tableName: Constants.Localizable.startAccountingVC,
+                                          comment: ""), for: .normal)
+        button.setTitleColor(UIColor.systemBlue, for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.backgroundColor = Colors.Main.confirmButton
+        button.alpha = 0.75
         button.layer.cornerRadius = 34
         button.layer.shadowColor = UIColor.gray.cgColor
         button.layer.shadowOffset = CGSize(width: 2, height: 2)
@@ -121,7 +123,7 @@ class StartAccountingView: UIView {
         continueButton.trailingAnchor.constraint(equalTo: controller.view.safeAreaLayoutGuide.trailingAnchor,
                                              constant: -40).isActive = true
         continueButton.heightAnchor.constraint(equalToConstant: 68).isActive = true
-        continueButton.widthAnchor.constraint(equalToConstant: 68).isActive = true
+        continueButton.widthAnchor.constraint(equalToConstant: 120).isActive = true
     }
 
     func addContentView(_ contentView: UIView) {

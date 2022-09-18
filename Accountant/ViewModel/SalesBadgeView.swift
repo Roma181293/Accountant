@@ -25,7 +25,7 @@ class SalesBadgeView: UIView {
         self.heightAnchor.constraint(equalToConstant: self.height).isActive = true
 
         // The Gradient subview
-        let gradientOrangeView = GradientView(frame: self.bounds, colorTop: .systemBlue, colorBottom: .systemPurple)
+        let gradientOrangeView = GradientView(frame: self.bounds, colorTop: .systemBlue, colorBottom: .systemYellow)
         gradientOrangeView.layer.cornerRadius = height/2
         self.insertSubview(gradientOrangeView, at: 0)
         self.layer.masksToBounds = false

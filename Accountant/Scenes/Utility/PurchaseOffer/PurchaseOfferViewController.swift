@@ -16,7 +16,7 @@ final class PurchaseOfferViewController: UIViewController { // swiftlint:disable
                              ("✔", "Subcategories. Create income and expense strucrure"),
                              ("₴＄€", "Account creation in currencies different from accounting currency"),
                              ("🙈", "Hide accounts and categories"),
-                             ("🤫", "Create multi item transactions"),
+                             //("🤫", "Create multi item transactions"),
                              ("🧾🧾", "Duplicate transactions"),
                              ("📤📥", "Export and import of transactions"),
                              ("🔒", "Security")
@@ -366,33 +366,33 @@ final class PurchaseOfferViewController: UIViewController { // swiftlint:disable
         purchaseButon.widthAnchor.constraint(equalToConstant: widthBtn).isActive = true
         purchaseButon.layer.cornerRadius = Constants.Size.cornerButtonRadius
 
-        let gradientPinkView = GradientView(frame: purchaseButon.bounds, colorTop: .systemBlue, colorBottom: .systemPurple)
-        gradientPinkView.layer.cornerRadius = Constants.Size.cornerButtonRadius
+        let gradientView = GradientView(frame: purchaseButon.bounds, colorTop: .systemBlue, colorBottom: .systemYellow)
+        gradientView.layer.cornerRadius = Constants.Size.cornerButtonRadius
 
         // Add the activity indicator to the button
-        gradientPinkView.addSubview(purchaseButtonActivityIndicatorImageView)
+        gradientView.addSubview(purchaseButtonActivityIndicatorImageView)
         let horizontalBtnConstraint = NSLayoutConstraint(item: purchaseButtonActivityIndicatorImageView,
                                                          attribute: NSLayoutConstraint.Attribute.centerX,
                                                          relatedBy: NSLayoutConstraint.Relation.equal,
-                                                         toItem: gradientPinkView,
+                                                         toItem: gradientView,
                                                          attribute: NSLayoutConstraint.Attribute.centerX,
                                                          multiplier: 1,
                                                          constant: 0)
         let verticalBtnConstraint = NSLayoutConstraint(item: purchaseButtonActivityIndicatorImageView,
                                                        attribute: NSLayoutConstraint.Attribute.centerY,
                                                        relatedBy: NSLayoutConstraint.Relation.equal,
-                                                       toItem: gradientPinkView,
+                                                       toItem: gradientView,
                                                        attribute: NSLayoutConstraint.Attribute.centerY,
                                                        multiplier: 1,
                                                        constant: 0)
         NSLayoutConstraint.activate([horizontalBtnConstraint, verticalBtnConstraint])
 
-        purchaseButon.insertSubview(gradientPinkView, at: 0)
+        purchaseButon.insertSubview(gradientView, at: 0)
         purchaseButon.layer.masksToBounds = false
         mainStackView.addArrangedSubview(purchaseButon)
 
-        gradientPinkView.addTarget(self, action: #selector(purchaseButtonTouchDown), for: .touchDown)
-        gradientPinkView.addTarget(self, action: #selector(purchaseButtonTapped), for: .touchUpInside)
+        gradientView.addTarget(self, action: #selector(purchaseButtonTouchDown), for: .touchDown)
+        gradientView.addTarget(self, action: #selector(purchaseButtonTapped), for: .touchUpInside)
     }
 
     func addBottomDescription() {

@@ -97,29 +97,29 @@ class WelcomeView: UIView {
         startAccountingButton.heightAnchor.constraint(equalToConstant: 44.0).isActive = true
         startAccountingButton.widthAnchor.constraint(equalToConstant: widthBtn).isActive = true
         startAccountingButton.layer.cornerRadius = Constants.Size.cornerButtonRadius
-        let gradientPinkView = GradientView(frame: startAccountingButton.bounds,
-                                            colorTop: .systemBlue,
-                                            colorBottom: .systemPurple)
-        gradientPinkView.layer.cornerRadius = Constants.Size.cornerButtonRadius
-        startAccountingButton.insertSubview(gradientPinkView, at: 0)
+        let gradientTopView = GradientView(frame: startAccountingButton.bounds,
+                                            colorTop: .systemPurple,
+                                            colorBottom: .systemBlue)
+        gradientTopView.layer.cornerRadius = Constants.Size.cornerButtonRadius
+        startAccountingButton.insertSubview(gradientTopView, at: 0)
         startAccountingButton.layer.masksToBounds = false
         mainStackView.addArrangedSubview(startAccountingButton)
-        gradientPinkView.addTarget(controller, action: #selector(controller.startAccounting), for: .touchUpInside)
+        gradientTopView.addTarget(controller, action: #selector(controller.startAccounting), for: .touchUpInside)
 
         // Test Accounting Button
         testButton.heightAnchor.constraint(equalToConstant: 44.0).isActive = true
         testButton.widthAnchor.constraint(equalToConstant: widthBtn).isActive = true
         testButton.layer.cornerRadius = Constants.Size.cornerButtonRadius
 
-        let gradientOrangeView = GradientView(frame: testButton.bounds,
+        let gradientBottomView = GradientView(frame: testButton.bounds,
                                               colorTop: .systemOrange,
                                               colorBottom: .systemYellow)
-        gradientOrangeView.layer.cornerRadius = Constants.Size.cornerButtonRadius
+        gradientBottomView.layer.cornerRadius = Constants.Size.cornerButtonRadius
 
-        testButton.insertSubview(gradientOrangeView, at: 0)
+        testButton.insertSubview(gradientBottomView, at: 0)
         testButton.layer.masksToBounds = false
 
         mainStackView.addArrangedSubview(testButton)
-        gradientOrangeView.addTarget(controller, action: #selector(controller.tryFunctionality), for: .touchUpInside)
+        gradientBottomView.addTarget(controller, action: #selector(controller.tryFunctionality), for: .touchUpInside)
     }
 }

@@ -199,6 +199,7 @@
 		2B9672092854622D004F852B /* HolderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B9672082854622C004F852B /* HolderViewModel.swift */; };
 		2B96720B285462B9004F852B /* KeeperViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B96720A285462B9004F852B /* KeeperViewModel.swift */; };
 		2B9A523A2843674000C53D27 /* AccountType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B9A52392843674000C53D27 /* AccountType.swift */; };
+		2B9E774428D75AEF00A2D34A /* SettingsItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B9E774328D75AEF00A2D34A /* SettingsItem.swift */; };
 		2BA11834276DC6340091569E /* MonobankAccountCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BA11833276DC6340091569E /* MonobankAccountCell.swift */; };
 		2BA55CF4285E7DA7003077B6 /* AccountTypeNavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BA55CF3285E7DA7003077B6 /* AccountTypeNavigationViewController.swift */; };
 		2BA55CF6285EE41C003077B6 /* AccountTypeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BA55CF5285EE41C003077B6 /* AccountTypeService.swift */; };
@@ -481,6 +482,7 @@
 		2B9672082854622C004F852B /* HolderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HolderViewModel.swift; sourceTree = "<group>"; };
 		2B96720A285462B9004F852B /* KeeperViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeeperViewModel.swift; sourceTree = "<group>"; };
 		2B9A52392843674000C53D27 /* AccountType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountType.swift; sourceTree = "<group>"; };
+		2B9E774328D75AEF00A2D34A /* SettingsItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsItem.swift; sourceTree = "<group>"; };
 		2B9E7BC02705923500FBE5B2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Main.strings; sourceTree = "<group>"; };
 		2B9E7BC12705923500FBE5B2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		2B9E7BC22705923500FBE5B2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -865,6 +867,7 @@
 				2B6D8E8D2827FECB006896EF /* SettingsRouter.swift */,
 				2B3BD61926EBE85D0056A9F7 /* SettingsCell.swift */,
 				2B7F882A27A52CC700A1B63B /* SettingsVCLocalizable.strings */,
+				2B9E774328D75AEF00A2D34A /* SettingsItem.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -1620,6 +1623,7 @@
 				2B00CAFB2746514900821FE0 /* Keeper.swift in Sources */,
 				2B0ACB57284CC15800DFF2EB /* TransactionListViewController.swift in Sources */,
 				2B90B8C52851237600ABFD35 /* AccountEditorViewOutput.swift in Sources */,
+				2B9E774428D75AEF00A2D34A /* SettingsItem.swift in Sources */,
 				2B205708285D9C8A002C6F89 /* Rate extension.swift in Sources */,
 				2B1FEAC6266C433200BF53BD /* BiometricAuthViewController.swift in Sources */,
 				2B1FEAE7266CAF6C00BF53BD /* Extension UIScrollView.swift in Sources */,
@@ -2109,14 +2113,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 10;
+				CURRENT_PROJECT_VERSION = 11;
 				DEVELOPMENT_TEAM = K9DDNWAUNR;
 				INFOPLIST_FILE = Accountant/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 2.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = RT.MyBudget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -2131,14 +2135,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 10;
+				CURRENT_PROJECT_VERSION = 11;
 				DEVELOPMENT_TEAM = K9DDNWAUNR;
 				INFOPLIST_FILE = Accountant/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 2.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = RT.MyBudget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;

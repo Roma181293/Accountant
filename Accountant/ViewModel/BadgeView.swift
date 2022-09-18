@@ -35,7 +35,7 @@ class BadgeView: UIView {
         if gradientView != nil {
             gradientView.removeFromSuperview()
         }
-        self.gradientView = GradientView(frame: self.bounds, colorTop: .systemBlue, colorBottom: .systemPurple)
+        self.gradientView = GradientView(frame: self.bounds, colorTop: .systemBlue, colorBottom: .systemYellow)
         self.gradientView.layer.cornerRadius = height/2
         self.insertSubview(gradientView, at: 0)
         self.layer.masksToBounds = false
