@@ -1,7 +1,7 @@
 
 
 /* Class = "UITabBarItem"; title = "Transactions"; ObjectID = "5Pq-3r-Hem"; */
-"5Pq-3r-Hem.title" = "Операции";
+"5Pq-3r-Hem.title" = "Транзакции";
 
 /* Class = "UITabBarItem"; title = "Accounts"; ObjectID = "F5u-YS-bZZ"; */
 "F5u-YS-bZZ.title" = "Счета";

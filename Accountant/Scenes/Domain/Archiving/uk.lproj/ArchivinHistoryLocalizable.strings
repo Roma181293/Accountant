@@ -1,0 +1,14 @@
+/* 
+  ArchivinHistoryLocalizable.strings
+  Accountant
+
+  Created by Roman Topchii on 09.07.2022.
+  
+*/
+
+"By archive transactions, you protect account/category amount changing in a set period.\nIf you want to change the balance before the last date, please set the archive date in the past" = "Архівуючи транзакції, ви захищаєте рахунок/категорію від зміни суми за встановлений період.\nЯкщо ви хочете змінити баланс до останньої дати, установіть дату архівування в минулому";
+"Archive transactions before the date" = "Архівувати транзакції до дати";
+"Trying to set archive date in the future" = "Спроба встановити дату архівування у майбутньому";
+"Success" = "Успішно архівовано";
+"Failure" = "Невдача";
+"Archiving" = "Архівування";

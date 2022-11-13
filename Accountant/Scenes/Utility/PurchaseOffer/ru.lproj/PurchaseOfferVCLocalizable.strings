@@ -1,0 +1,37 @@
+/* 
+  PurchaseOfferVCLocalizable.strings
+  Accountant
+
+  Created by Roman Topchii on 07.05.2022.
+  
+*/
+
+//PurchaseOfferViewController
+"Unlimited number of accounts, categories and subcategories" = "Неограниченое количество счетов,категорий и подкатегорий";
+"Subcategories. Create income and expense strucrure" = "Подкатегории. Создание структуры доходов и расходов";
+"Account creation in currencies different from accounting currency" = "Создание счетов в валютах отличныйх от валюты учета";
+"Hide accounts and categories" = "Деактивация счетов та категорий";
+"Create multi item transactions" = "Создание многоэлементных операций";
+"Duplicate transactions" = "Дублирование транзакций";
+"Export and import of transactions" = "Экспорт и импорт транзакций";
+"Security" = "Безопасность";
+"No ads" = "Нет рекламе";
+"Terms of use" = "Условия использования";
+"Privacy policy" = "Политика конфиденциальности";
+"Subscribe" = "Оформить подписку";
+
+//OfferView
+"per 3 days" = "за 3 дня";
+"per 7 days" = "за 7 дней";
+"per week" = "за неделю";
+"per 14 days" = "за 14 дней";
+"per month" = "за месяц";
+"per 2 months" = "за 2 месяца";
+"per 3 months" = "за 3 месяца";
+"per 6 months" = "за 6 месяцей";
+"per year" = "за год";
+"A subscription is automatically renewed unless you cancel it at least 24 hours before the end of the billing cycle. The renewal fee will be charged on the day before the end of the current billing cycle. You can manage or cancel subscription in your iTunes account settings" = "Подписка продлевается автоматически, если вы не отменили ее хотябы за 24 часа до завершения текущего периода. Оплата за продолжение будет списана в течение суток, что предшествет дате завершения текущего периода. Управлять подпиской и отменить ее можна в настройках учетной записи iTunes";
+"Subscribe" = "Оформить подписку";
+"for free" = "бесплатно";
+"after" = "после";
+"Discount" = "Скидка";

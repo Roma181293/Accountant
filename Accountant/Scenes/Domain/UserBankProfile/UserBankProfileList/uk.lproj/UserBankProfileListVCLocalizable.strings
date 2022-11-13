@@ -1,0 +1,28 @@
+/*
+  UserBankProfileTVCLocalizable.strings
+  Accountant
+
+  Created by Roman Topchii on 29.01.2022.
+  
+*/
+
+//ViewController
+"Bank profiles" = "Банківські профілі";
+
+//Presenter
+"Delete" = "Видалити";
+"Do you want delete this bank profile in the app? All related transactions to this bank profile will be kept. Please enter \"MyBudget: Finance keeper\" to confirm this action" = "Видалити банківський профіль з додатку? \nВсі транзакції пов'язані з цим банківським профілем залишаться. \n\nБудь ласка введіть \n\"MyBudget: Finance keeper\"\nдля підтвердження операції";
+"Yes" = "Так";
+"Cancel" = "Закрити";
+"Activate" = "Активація";
+"Activate this bank profile in the app? Please note that you need manually activate each bank account for this profile" = "Активувати банківський профіль у додатку? Активацію банківських рахунків потрібно виконати вручну";
+"Deactivate" = "Деактивація";
+"Do you want deactivate this bank profile in the app? It also deactivate all bank accounts for this profile. Statements for inactive accounts is not loading" = "Деактивувати банківський профіль у додатку? Разом з ним деактивуються всі пов'язані банківські рахунки у додатку. Виписка по не активним банківським рахункам не завантажується";
+
+//Router
+"Error" = "Помилка";
+"Warning" = "Увага";
+"OK" = "OK";
+
+//Interactor
+"Consent text \"%@\" is not equal to \"MyBudget: Finance keeper\"" = "Текст підтвердження \n\"%@\"\nне співпадає з\n\"MyBudget: Finance keeper\"";

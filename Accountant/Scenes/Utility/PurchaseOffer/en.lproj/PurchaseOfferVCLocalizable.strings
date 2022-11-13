@@ -1,0 +1,37 @@
+/* 
+  PurchaseOfferVCLocalizable.strings
+  Accountant
+
+  Created by Roman Topchii on 07.05.2022.
+  
+*/
+
+//PurchaseOfferViewController
+"Unlimited number of accounts, categories and subcategories" = "Unlimited number of accounts, categories and subcategories";
+"Subcategories. Create income and expense strucrure" = "Subcategories. Create income and expense strucrure";
+"Account creation in currencies different from accounting currency" = "Account creation in currencies different from accounting currency";
+"Hide accounts and categories" = "Deactivate accounts and categories";
+"Create multi item transactions" = "Create multi item transactions";
+"Duplicate transactions" = "Duplicate transactions";
+"Export and import of transactions" = "Export and import of transactions";
+"Security" = "Security";
+"No ads" = "No ads";
+"Terms of use" = "Terms of use";
+"Privacy policy" = "Privacy policy";
+"Subscribe" = "Subscribe";
+
+//OfferView
+"per 3 days" = "per 3 days";
+"per 7 days" = "per 7 day";
+"per week" = "per week";
+"per 14 days" = "per 14 days";
+"per month" = "per month";
+"per 2 months" = "per 2 months";
+"per 3 months" = "per 3 months";
+"per 6 months" = "per 6 months";
+"per year" = "per year";
+"A subscription is automatically renewed unless you cancel it at least 24 hours before the end of the billing cycle. The renewal fee will be charged on the day before the end of the current billing cycle. You can manage or cancel subscription in your iTunes account settings" = "A subscription is automatically renewed unless you cancel it at least 24 hours before the end of the billing cycle. The renewal fee will be charged on the day before the end of the current billing cycle. You can manage or cancel subscription in your iTunes account settings";
+"Subscribe" = "Subscribe";
+"for free" = "for free";
+"after" = "after";
+"Discount" = "Discount";

@@ -1,0 +1,32 @@
+/* 
+  TransactionListVCLocalizable.strings
+  Accountant
+
+  Created by Roman Topchii on 07.05.2022.
+  
+*/
+
+"Transactions" = "Transactions";
+"Get PRO" = "Get PRO";
+"Error" = "Error";
+"Warning" = "Warning";
+"OK" = "OK";
+"Delete" = "Delete";
+"Do you want to delete transaction?" = "Do you want to delete transaction?";
+"Yes" = "Yes";
+"No" = "No";
+"Duplicate" = "Duplicate";
+
+"All" = "All";
+"Applied" = "Applied";
+"Approved" = "Approved";
+"Drafts" = "Drafts";
+
+//Cell
+"To:" = "To:";
+"From:" = "From:";
+"Comment:" = "Comment:";
+
+//Worker
+"Transaction cannot be deleted in closed period" = "Transaction cannot be deleted in closed period";
+"Please set a new archiving date before, the transaction date that you want to delete" = "Please set a new archiving date before, the transaction date that you want to delete";

@@ -1,0 +1,28 @@
+/*
+  UserBankProfileTVCLocalizable.strings
+  Accountant
+
+  Created by Roman Topchii on 29.01.2022.
+  
+*/
+
+//ViewController
+"Bank profiles" = "Bank profiles";
+
+//Presenter
+"Delete" = "Delete";
+"Do you want delete this bank profile in the app? All related transactions to this bank profile will be kept. Please enter \"MyBudget: Finance keeper\" to confirm this action" = "Do you want delete this bank profile in the app? All related transactions to this bank profile will be kept. \n\nPlease enter 'n\"MyBudget: Finance keeper\" \nto confirm this action";
+"Yes" = "Yes";
+"Cancel" = "Cancel";
+"Activate" = "Activate";
+"Activate this bank profile in the app? Please note that you need manually activate each bank account for this profile" = "Activate this bank profile in the app? Please note that you need manually activate each bank account for this profile";
+"Deactivate" = "Deactivate";
+"Do you want deactivate this bank profile in the app?" = "Do you want deactivate this bank profile in the app? Please note that all related bank accounts will be deactivated. Statements doesn't loads for inactive bank accounts";
+
+//Router
+"Error" = "Error";
+"Warning" = "Warning";
+"OK" = "OK";
+
+//Interactor
+"Consent text \"%@\" is not equal to \"MyBudget: Finance keeper\"" = "Consent text \"%@\"\n is not equal to \n\"MyBudget: Finance keeper\"";

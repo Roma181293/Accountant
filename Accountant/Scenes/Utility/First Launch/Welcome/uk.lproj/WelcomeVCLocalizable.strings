@@ -1,0 +1,16 @@
+/* 
+  WelcomeVCLocalizable.strings
+  Accountant
+
+  Created by Roman Topchii on 07.05.2022.
+  
+*/
+
+"Error" = "Помилка";
+"OK" = "OK";
+
+//View
+"Welcome" = "Привіт";
+"Start accounting" = "Почати облік";
+"Try functionality" = "Спробувати функціонал";
+

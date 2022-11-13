@@ -1,0 +1,30 @@
+/* 
+  AccountEditorVCLocalizable.strings
+  Accountant
+
+  Created by Roman Topchii on 27.04.2022.
+  
+*/
+
+//Controller
+"Warning" = "Увага";
+"Error" = "Помилка";
+"OK" = "OK";
+"Edit" = "Редагувати";
+"Create" = "Створити";
+"How many %@ you have to pay for 1 %@" = "Скільки %@ коштує 1 %@";
+
+//View
+"Type" = "Тип";
+"Currency" = "Валюта";
+"Balance on" = "Баланс на";
+"Name" = "Ім'я";
+"Keeper" = "Хранитель";
+"Holder" = "Власник";
+"Example: John BankName salary" = "Пр: Артем Банк ЗП                ";
+"Credit limit" = "Кредитний ліміт";
+"Bank" = "Банк";
+"Borrower" = "Позичальник";
+"Creditor" = "Кредитор";
+"Exchange rate" = "Курс";
+"Done" = "Застосувати";

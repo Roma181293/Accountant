@@ -1,0 +1,33 @@
+/*
+  SettingsVCLocalizable.strings
+  Accountant
+
+  Created by Roman Topchii on 29.01.2022.
+  
+*/
+
+"Account manager" = "Менеджер рахунків";
+"Accounting currency" = "Валюта обліку";
+"App version" = "Версія";
+"Auth" = "Auth";
+"Bank profiles" = "Банківські профілі";
+"Error" = "Помилка";
+"Exchange rates" = "Курси валют";
+"Export account list" = "Експорт рахунків";
+"Export transaction list" = "Експорт транзакцій";
+"Import account list" = "Імпорт рахунків";
+"Import transaction list" = "Імпорт транзакцій";
+"Multi item transaction" = "Багатоелементна транзакція";
+"OK" = "ОК";
+"Privacy policy" = "Політика конфіденційності";
+"Purchase offer" = "Пропозиція купивлі";
+"Settings" = "Налаштування";
+"Start accounting" = "Почати облік";
+"Terms of use" = "Умови використання";
+"User guides" = "Інструкція";
+"Get PRO access" = "Отримати PRO доступ";
+"Pin code" = "Пін код";
+"PRO access" = "PRO доступ";
+"Test mode" = "Тестовий режим";
+"till" = "до";
+"Archiving" = "Архівування";

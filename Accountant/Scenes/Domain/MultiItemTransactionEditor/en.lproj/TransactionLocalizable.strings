@@ -1,0 +1,19 @@
+/* 
+  TransactionLocalizable.strings
+  Accountant
+
+  Created by Roman Topchii on 02.07.2022.
+  
+*/
+
+"There is an unapplied transaction before this date" = "There is an unapplied transaction before this date";
+"You have a transaction in the same currency, but amounts in From:Account and To:Account are not matching" = "You have a transaction in the same currency, but amounts in From:Account and To:Account are not matching";
+"Please add To:Account" = "Please add To:Account";
+"Please add From:Account" = "Please add From:Account";
+"Please select To:Account" = "Please select To:Account";
+"Please select From:Account" = "Please select From:Account";
+"Please create a subaccount for \"%@\" and select it" = "Please create a subaccount for \"%@\" and select it";
+"Please check amount value to account/category \"%@\"" = "Please check amount value to account/category \"%@\"";
+"Please check amount value from account/category \"%@\"" = "Please check amount value from account/category \"%@\"";
+"Archived transaction can not be edited. If you want to make chages, please set archiving date before transaction date" = "Archived transaction can not be edited. If you want to make chages, please set archiving date before transaction date";
+"You cannot set transaction date in close period. If you want to make chages, please set archiving date before transaction date" = "You cannot set transaction date in close period. If you want to make chages, please set archiving date before transaction date";

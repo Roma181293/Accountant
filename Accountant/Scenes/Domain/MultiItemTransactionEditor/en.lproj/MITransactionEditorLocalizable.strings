@@ -1,0 +1,32 @@
+/* 
+  MITransactionEditorLocalizable.strings
+  Accountant
+
+  Created by Roman Topchii on 03.05.2022.
+  
+*/
+
+//ViewController
+"Edit transaction" = "Edit transaction";
+"Add transaction" = "Add transaction";
+"View transaction" = "View transaction";
+"Save" = "Save";
+"Save changes?" = "Save changes?";
+"Yes" = "Yes";
+"Cancel" = "Cancel";
+"Error" = "Error";
+"Warning" = "Warning";
+"OK" = "OK";
+"Delete" = "Delete";
+
+//View
+"Date" = "Date";
+"To:" = "To:";
+"From:" = "From:";
+"Comment" = "Comment";
+
+//Cell
+"Amount" = "Amount";
+"Account/Category" = "Account/Category";
+"Done" = "Done";
+

@@ -1,0 +1,31 @@
+/* 
+  MITransactionEditorLocalizable.strings
+  Accountant
+
+  Created by Roman Topchii on 03.05.2022.
+  
+*/
+
+//Controller
+"Edit transaction" = "Редактировать транзакцию";
+"Add transaction" = "Создать транзакцию";
+"View transaction" = "Просмотр транзакции";
+"Save" = "Сохранить";
+"Save changes?" = "Сохранить изменения?";
+"Yes" = "Да";
+"Cancel" = "Закрыть";
+"Error" = "Ошибка";
+"Warning" = "Внимание";
+"OK" = "OK";
+"Delete" = "Удалить";
+
+//View
+"Date" = "Дата";
+"To:" = "На:";
+"From:" = "С:";
+"Comment" = "Комментарий";
+
+//Cell
+"Amount" = "Сумма";
+"Account/Category" = "Счет/Категория";
+"Done" = "Готово";

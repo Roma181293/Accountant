@@ -1,0 +1,31 @@
+/* 
+  AccountEditorServiceLocalizable.strings
+  Accountant
+
+  Created by Roman Topchii on 27.06.2022.
+  
+*/
+
+"Empty name" = "Пусте ім'я";
+"Reserved name" = "Зарезервоване ім'я";
+"Account name \"%@\" is already taken" = "Ім'я рахунку \"%@\" вже використовується";
+"Category name \"%@\" is already taken" = "Ім'я категорії \"%@\" вже використовується";
+"Parent type does not has children with id" = "Parent type does not has children with id";
+"Currency with id not found" = "Currency with id not found";
+"Holder with id not found" = "Holder with id not found";
+"Keeper with id not found" = "Keeper with id not found";
+"Empty rate" = "Пустий курс обміну";
+"Zero rate value" = "Нульовий курс обміну";
+"Name cannot be empty" = "Ім'я не може бути пустим";
+"Some names are reserved by the app" = "Деякі імена зарезервовані додатком";
+"The account name should be unique" = "Ім'я рахунку має бути унікальним";
+"The category name should be unique" = "Ім'я категорії має бути унікальним";
+"Exchange rate is required" = "Курс обміну обов'язковий";
+"Exchange rate can not be equal to zero" = "Курс обміну не може дорівнювати нулю";
+"Please enter name" = "Будь ласка введіть ім'я";
+"Please use another name" = "Будь ласка використайте інше ім'я";
+"Please enter rate value" = "Будь ласка введіть курс обміну";
+"Please enter value grater then zero" = "Будь ласка введіть курс обміну більше нуля";
+"Please contact to support" = "Будь ласка зверніться у підтримку";
+"Initial balance for" = "Початковий баланс для";
+"and" = "та";

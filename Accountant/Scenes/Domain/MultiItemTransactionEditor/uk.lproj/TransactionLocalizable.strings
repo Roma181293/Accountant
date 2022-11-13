@@ -1,0 +1,19 @@
+/* 
+  TransactionLocalizable.strings
+  Accountant
+
+  Created by Roman Topchii on 02.07.2022.
+  
+*/
+
+"There is an unapplied transaction before this date" = "До цієї дати є незастосована транзакція";
+"You have a transaction in the same currency, but amounts in From:Account and To:Account are not matching" = "Ви маєте транзакцію в одній валюті. Але сума З:Рахунку не співпадає з сумою До:Рахунку";
+"Please add To:Account" = "Будь ласка додайте До:Раунок";
+"Please add From:Account" = "Будь ласка додайте З:Раунок";
+"Please select To:Account" = "Будь ласка оберіть До:Рахунок";
+"Please select From:Account" = "Будь ласка оберіть З:Рахунок";
+"Please create a subaccount for \"%@\" and select it" = "Будь ласка створіть дочірній рахунок до \"%@\" і оберіть його";
+"Please check amount value to account/category \"%@\"" = "Будь ласка перевірте значення суми до рахунку/категорії \"%@\"";
+"Please check amount value from account/category \"%@\"" = "Будь ласка перевірте значення суми з рахунку/категорії \"%@\"";
+"Archived transaction can not be edited. If you want to make chages, please set archiving date before transaction date" = "Заархівована транзакція не може редагуватись. Якщо ви хочете внести зміни, будь ласка встановіть нову дату архівавання до дати транзакції";
+"You cannot set transaction date in close period. If you want to make chages, please set archiving date before transaction date" = " Ви не можете встановлювати дату транзакції в закритому періоді. Якщо ви хочете внести зміни, будь ласка встановіть нову дату архівавання до дати транзакції";

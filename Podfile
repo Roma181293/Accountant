@@ -1,14 +1,16 @@
 # Uncomment the next line to define a global platform for your project
-# platform :ios, '9.0'
+
+platform :ios, '13.4'
 
 target 'Accountant' do
-  # Comment the next line if you don't want to use dynamic frameworks
+
   use_frameworks!
 
   # Pods for Accountant
-   pod 'Charts', '~> 3.4.0'
-   pod 'Alamofire', '~> 5.2'
-   pod 'Purchases', '3.10.1'
+   pod 'Charts', '=3.4.0'
+   pod 'Alamofire', '=5.4.4'
+   pod 'Purchases', '=3.10.1'
+   pod 'SwiftLint'
    #pod 'Google-Mobile-Ads-SDK'
 
   #target 'AccountantTests' do
