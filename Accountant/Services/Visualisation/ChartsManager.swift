@@ -84,7 +84,7 @@ class ChartsManager {
 
         chartView.data = data
 
-        class DateValueFormatter: NSObject, IAxisValueFormatter {
+        class DateValueFormatter: NSObject {
             var dateFormatter: DateFormatter!
 
             override init() {
@@ -105,7 +105,7 @@ class ChartsManager {
         xAxis.drawGridLinesEnabled = true
         xAxis.centerAxisLabelsEnabled = true
         xAxis.granularity = 3600*24*4
-        xAxis.valueFormatter = DateValueFormatter()
+        xAxis.valueFormatter = IndexAxisValueFormatter()
 
         let leftAxis = chartView.leftAxis
         leftAxis.labelPosition = .insideChart

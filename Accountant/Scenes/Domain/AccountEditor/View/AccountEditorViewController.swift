@@ -43,6 +43,7 @@ class AccountEditorViewController: UIViewController {
         mainView.exchangeRateTextField.addTarget(self, action: #selector(exchangeRateTextFieldEditingChanged(_:)), for: .editingChanged)
         mainView.datePicker.addTarget(self, action: #selector(balanceDateDidChanged(_:)), for: .valueChanged)
         
+        addDoneButtonOnDecimalKeyboard()
         output?.viewDidLoad()
     }
 
@@ -238,5 +239,24 @@ extension AccountEditorViewController: UIScrollViewDelegate {
         mainView.balanceTextField.resignFirstResponder()
         mainView.linkedAccountBalanceTextField.resignFirstResponder()
         mainView.exchangeRateTextField.resignFirstResponder()
+    }
+    
+    private func addDoneButtonOnDecimalKeyboard() {
+        let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let title = NSLocalizedString("Done",
+                                      tableName: Constants.Localizable.mITransactionEditor,
+                                      comment: "")
+        let done: UIBarButtonItem = UIBarButtonItem(title: title, style: .done, target: self,
+                                                    action: #selector(self.doneButtonAction))
+        let doneToolbar: UIToolbar = UIToolbar(frame: CGRect.init(x: 0, y: 0,
+                                                                  width: UIScreen.main.bounds.width,
+                                                                  height: 50))
+        doneToolbar.barStyle = .default
+        doneToolbar.items = [flexSpace, done]
+        doneToolbar.sizeToFit()
+        mainView.nameTextField.inputAccessoryView = doneToolbar
+        mainView.balanceTextField.inputAccessoryView = doneToolbar
+        mainView.linkedAccountBalanceTextField.inputAccessoryView = doneToolbar
+        mainView.exchangeRateTextField.inputAccessoryView = doneToolbar
     }
 }

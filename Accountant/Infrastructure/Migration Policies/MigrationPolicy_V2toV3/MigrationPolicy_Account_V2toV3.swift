@@ -78,7 +78,6 @@ class MigrationPolicy_Account_V2toV3: NSEntityMigrationPolicy { // swiftlint:dis
             if let accountName = account.value(forKey: "name") as? String,
                let accountPath = account.value(forKey: "path") as? String {
 
-
                 if accountName == LocalisationManager.getLocalizedName(.expense),
                    let currency = account.value(forKey: "currency") as? NSManagedObject {
                     let beforeAccountingPeriod = try getOrCreateAccount(name: LocalisationManager.getLocalizedName(.beforeAccountingPeriod),
@@ -126,7 +125,7 @@ class MigrationPolicy_Account_V2toV3: NSEntityMigrationPolicy { // swiftlint:dis
 
         let results = try destContext.fetch(fetchRequest)
         for account in results {
-            print(account.value(forKey: "path") as? String)
+//            print(account.value(forKey: "path") as? String)
             if account.value(forKey: "parent") == nil && account.value(forKey: "name") as? String != LocalisationManager.getLocalizedName(.accounts) {
                 throw MigrationError.acountHasNoParent
             }

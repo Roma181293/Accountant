@@ -69,7 +69,7 @@ class SeedDataService {
         let expenseBeforeAccountingPeriod = AccountType(name: "Expense before accounting period", classification: .assets, hasCurrency: true, canBeDeleted: false, canChangeActiveStatus: true, canBeRenamed: false, canBeCreatedByUser: false, checkAmountBeforDeactivate: true, priority: 1, context: context)
         // swiftlint:enable line_length
 
-        let accounts = try? AccountHelper.createAndGetAccount(parent: nil, name: "Accounts", type: accounting, currency: nil, createdByUser: false, context: context)
+        let accounts = try? AccountHelper.createAndGetAccount(parent: nil, name: LocalisationManager.getLocalizedName(.accounts), type: accounting, currency: nil, createdByUser: false, context: context)
 
         try? AccountHelper.createAccount(parent: accounts, name: LocalisationManager.getLocalizedName(.money), type: moneyConsolid, currency: nil, createdByUser: false, context: context)
         try? AccountHelper.createAccount(parent: accounts, name: LocalisationManager.getLocalizedName(.credits), type: creditorsConsolid, currency: nil, createdByUser: false, context: context)

@@ -12,7 +12,7 @@ class TransactionHelper {
 
     class func getTransactionFor(id: UUID, context: NSManagedObjectContext) -> Transaction? {
         let request = Transaction.fetchRequest()
-        request.predicate = NSPredicate(format: "\(Schema.Transaction.id) = '\(id)'")
+        request.predicate = NSPredicate(format: "\(Schema.Transaction.id.rawValue) = %@", id as CVarArg)
         request.sortDescriptors = [NSSortDescriptor(key: "\(Schema.Transaction.createDate)", ascending: true)]
         return try? context.fetch(request).first
     }
