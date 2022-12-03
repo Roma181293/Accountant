@@ -24,18 +24,6 @@ class ChartsManager {
             chartDataSet.colors = Constants.ColorSetForCharts.set + Constants.ColorSetForCharts.set1
         }
 
-        // MARK: - PieChartData
-        let chartData = PieChartData(dataSet: chartDataSet)
-        // value formater
-        let pFormatter = NumberFormatter()
-        pFormatter.numberStyle = .percent
-        pFormatter.maximumFractionDigits = 1
-        pFormatter.multiplier = 1
-        pFormatter.percentSymbol = "%"
-        chartData.setValueFormatter(DefaultValueFormatter(formatter: pFormatter))
-        chartData.setValueFont(.systemFont(ofSize: 14, weight: .light))
-        chartData.setValueTextColor(.black)
-
         // MARK: - PieChartView
         let chartView: PieChartView = PieChartView()
 
@@ -67,11 +55,22 @@ class ChartsManager {
         chartView.animate(yAxisDuration: 1.4)
         chartView.animate(xAxisDuration: 1.4, yAxisDuration: 1.4)
 
-        chartView.rotationWithTwoFingers = true // flag that indicates if rotation is done with two fingers or one.
-        // when the chart is inside a scrollview,
-        // you need a two-finger rotation because a one-finger rotation eats up all touch events.
-
+        chartView.rotationWithTwoFingers = true
+        
+        let chartData = PieChartData(dataSet: chartDataSet)
+        
         chartView.data = chartData
+        
+        // value formater
+        let pFormatter = NumberFormatter()
+        pFormatter.numberStyle = .percent
+        pFormatter.maximumFractionDigits = 1
+        pFormatter.multiplier = 1
+//        pFormatter.percentSymbol = "%"
+        chartData.setValueFormatter(DefaultValueFormatter(formatter: pFormatter))
+        chartData.setValueFont(.systemFont(ofSize: 14, weight: .light))
+        chartData.setValueTextColor(.black)
+        
         return chartView
     }
 
@@ -118,10 +117,10 @@ class ChartsManager {
         leftAxis.yOffset = 0
 
         chartView.rightAxis.enabled = false
-        chartView.legend.form = .line
-        chartView.legend.textColor = .label
+        chartView.legend.enabled = false
+//        chartView.legend.textColor = .label
         chartView.animate(xAxisDuration: 3)
-
+        chartView.isUserInteractionEnabled = false
         return chartView
     }
 }
