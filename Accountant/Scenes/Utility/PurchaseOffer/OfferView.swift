@@ -6,7 +6,7 @@
 //
 
 import UIKit
-import Purchases
+//import Purchases
 
 class OfferView: UIView {
 
@@ -90,7 +90,7 @@ class OfferView: UIView {
 
     let activeBorderColor = UIColor.systemBlue
     let inactiveBorderColor = UIColor.systemGray3
-    var packageForPurchase: Purchases.Package?
+    //var packageForPurchase: Purchases.Package?
     private var isEligible = false
     private var minMonthPrice: NSDecimalNumber = 0
     var isActive = false
@@ -127,110 +127,110 @@ class OfferView: UIView {
         titleStackView.leadingAnchor.constraint(equalTo: backgroundView.leadingAnchor, constant: 10).isActive = true
     }
 
-    func setCurrentPackage(package: Purchases.Package, isEligible: Bool, minMonthPrice: NSDecimalNumber) {
-        // Set The Package
-        self.packageForPurchase = package
-        self.minMonthPrice = minMonthPrice
-
-        self.isEligible = isEligible
-
-        // Get the product
-        let product = package.product
-        let price = package.localizedPriceString
-
-        var duration = ""
-        switch (product.subscriptionPeriod!.unit, product.subscriptionPeriod!.numberOfUnits) {
-        case (.day, 7):
-            duration = NSLocalizedString("per week", tableName: Constants.Localizable.purchaseOfferVC, comment: "")
-        case (.week, 1):
-            duration = NSLocalizedString("per week", tableName: Constants.Localizable.purchaseOfferVC, comment: "")
-        case (.month, 1):
-            duration = NSLocalizedString("per month", tableName: Constants.Localizable.purchaseOfferVC, comment: "")
-        case (.month, 2):
-            duration = NSLocalizedString("per 2 months", tableName: Constants.Localizable.purchaseOfferVC, comment: "")
-        case (.month, 3):
-            duration = NSLocalizedString("per 3 months", tableName: Constants.Localizable.purchaseOfferVC, comment: "")
-        case (.month, 6):
-            duration = NSLocalizedString("per 6 months", tableName: Constants.Localizable.purchaseOfferVC, comment: "")
-        case (.year, 1):
-            duration = NSLocalizedString("per year", tableName: Constants.Localizable.purchaseOfferVC, comment: "")
-            self.isActive = true
-            makeViewActive()
-        default:
-            duration = ""
-        }
-
-        // Sales badge show
-        let discount = discountCalculation()
-        if  discount > 0
-                && ((product.subscriptionPeriod!.unit == .month && product.subscriptionPeriod!.numberOfUnits > 1 )
-                    || product.subscriptionPeriod!.unit == .year) {
-            addSalesViewBadge(discount: discount)
-        }
-
-        offerDisclaimerLabel = NSLocalizedString("A subscription is automatically renewed unless you cancel it " +
-                                                 "at least 24 hours before the end of the billing cycle. " +
-                                                 "The renewal fee will be charged on the day before the end of the " +
-                                                 "current billing cycle. You can manage or cancel subscription in " +
-                                                 "your iTunes account settings",
-                                                 tableName: Constants.Localizable.purchaseOfferVC, comment: "")
-
-        self.purchaseButonTitle = NSLocalizedString("Subscribe",
-                                                    tableName: Constants.Localizable.purchaseOfferVC,
-                                                    comment: "")
-
-        if isEligible && product.introductoryPrice?.type == .introductory {
-            self.purchaseButonTitle = NSLocalizedString("Try for free",
-                                                        tableName: Constants.Localizable.purchaseOfferVC,
-                                                        comment: "")
-            var trialDuration = ""
-            switch (product.introductoryPrice?.subscriptionPeriod.unit,
-                    product.introductoryPrice?.numberOfPeriods) {
-            case (.day, 3):
-                trialDuration = NSLocalizedString("per 3 days",
-                                                  tableName: Constants.Localizable.purchaseOfferVC,
-                                                  comment: "")
-            case (.week, 1):
-                trialDuration = NSLocalizedString("per 7 days",
-                                                  tableName: Constants.Localizable.purchaseOfferVC,
-                                                  comment: "")
-            case (.week, 2):
-                trialDuration = NSLocalizedString("per 14 days",
-                                                  tableName: Constants.Localizable.purchaseOfferVC,
-                                                  comment: "")
-            case (.month, 1):
-                trialDuration = NSLocalizedString("per month",
-                                                  tableName: Constants.Localizable.purchaseOfferVC,
-                                                  comment: "")
-            case (.month, 3):
-                trialDuration = NSLocalizedString("per 3 months",
-                                                  tableName: Constants.Localizable.purchaseOfferVC,
-                                                  comment: "")
-            case (.month, 6):
-                trialDuration = NSLocalizedString("per 6 months",
-                                                  tableName: Constants.Localizable.purchaseOfferVC,
-                                                  comment: "")
-            case (.year, 1):
-                trialDuration = NSLocalizedString("per year",
-                                                  tableName: Constants.Localizable.purchaseOfferVC,
-                                                  comment: "")
-            default:
-                trialDuration = ""
-            }
-            introductoryDurationLabel.text = trialDuration + NSLocalizedString("for free",
-                                                                               tableName: Constants.Localizable.purchaseOfferVC,
-                                                                               comment: "")
-
-            priceTitleLabel.text = "\(NSLocalizedString("after", tableName: Constants.Localizable.purchaseOfferVC, comment: "")) \(price) \(duration)"
-            priceTitleLabel.textColor = self.activeBorderColor
-
-            titleStackView.addArrangedSubview(introductoryDurationLabel)
-            titleStackView.addArrangedSubview(priceTitleLabel)
-        } else {
-            priceTitleLabel.text = "\(price) \(duration)"
-            titleStackView.addArrangedSubview(priceTitleLabel)
-        }
-    }
+//    func setCurrentPackage(package: Purchases.Package, isEligible: Bool, minMonthPrice: NSDecimalNumber) {
+//        // Set The Package
+//        self.packageForPurchase = package
+//        self.minMonthPrice = minMonthPrice
+//
+//        self.isEligible = isEligible
+//
+//        // Get the product
+//        let product = package.product
+//        let price = package.localizedPriceString
+//
+//        var duration = ""
+//        switch (product.subscriptionPeriod!.unit, product.subscriptionPeriod!.numberOfUnits) {
+//        case (.day, 7):
+//            duration = NSLocalizedString("per week", tableName: Constants.Localizable.purchaseOfferVC, comment: "")
+//        case (.week, 1):
+//            duration = NSLocalizedString("per week", tableName: Constants.Localizable.purchaseOfferVC, comment: "")
+//        case (.month, 1):
+//            duration = NSLocalizedString("per month", tableName: Constants.Localizable.purchaseOfferVC, comment: "")
+//        case (.month, 2):
+//            duration = NSLocalizedString("per 2 months", tableName: Constants.Localizable.purchaseOfferVC, comment: "")
+//        case (.month, 3):
+//            duration = NSLocalizedString("per 3 months", tableName: Constants.Localizable.purchaseOfferVC, comment: "")
+//        case (.month, 6):
+//            duration = NSLocalizedString("per 6 months", tableName: Constants.Localizable.purchaseOfferVC, comment: "")
+//        case (.year, 1):
+//            duration = NSLocalizedString("per year", tableName: Constants.Localizable.purchaseOfferVC, comment: "")
+//            self.isActive = true
+//            makeViewActive()
+//        default:
+//            duration = ""
+//        }
+//
+//        // Sales badge show
+//        let discount = discountCalculation()
+//        if  discount > 0
+//                && ((product.subscriptionPeriod!.unit == .month && product.subscriptionPeriod!.numberOfUnits > 1 )
+//                    || product.subscriptionPeriod!.unit == .year) {
+//            addSalesViewBadge(discount: discount)
+//        }
+//
+//        offerDisclaimerLabel = NSLocalizedString("A subscription is automatically renewed unless you cancel it " +
+//                                                 "at least 24 hours before the end of the billing cycle. " +
+//                                                 "The renewal fee will be charged on the day before the end of the " +
+//                                                 "current billing cycle. You can manage or cancel subscription in " +
+//                                                 "your iTunes account settings",
+//                                                 tableName: Constants.Localizable.purchaseOfferVC, comment: "")
+//
+//        self.purchaseButonTitle = NSLocalizedString("Subscribe",
+//                                                    tableName: Constants.Localizable.purchaseOfferVC,
+//                                                    comment: "")
+//
+//        if isEligible && product.introductoryPrice?.type == .introductory {
+//            self.purchaseButonTitle = NSLocalizedString("Try for free",
+//                                                        tableName: Constants.Localizable.purchaseOfferVC,
+//                                                        comment: "")
+//            var trialDuration = ""
+//            switch (product.introductoryPrice?.subscriptionPeriod.unit,
+//                    product.introductoryPrice?.numberOfPeriods) {
+//            case (.day, 3):
+//                trialDuration = NSLocalizedString("per 3 days",
+//                                                  tableName: Constants.Localizable.purchaseOfferVC,
+//                                                  comment: "")
+//            case (.week, 1):
+//                trialDuration = NSLocalizedString("per 7 days",
+//                                                  tableName: Constants.Localizable.purchaseOfferVC,
+//                                                  comment: "")
+//            case (.week, 2):
+//                trialDuration = NSLocalizedString("per 14 days",
+//                                                  tableName: Constants.Localizable.purchaseOfferVC,
+//                                                  comment: "")
+//            case (.month, 1):
+//                trialDuration = NSLocalizedString("per month",
+//                                                  tableName: Constants.Localizable.purchaseOfferVC,
+//                                                  comment: "")
+//            case (.month, 3):
+//                trialDuration = NSLocalizedString("per 3 months",
+//                                                  tableName: Constants.Localizable.purchaseOfferVC,
+//                                                  comment: "")
+//            case (.month, 6):
+//                trialDuration = NSLocalizedString("per 6 months",
+//                                                  tableName: Constants.Localizable.purchaseOfferVC,
+//                                                  comment: "")
+//            case (.year, 1):
+//                trialDuration = NSLocalizedString("per year",
+//                                                  tableName: Constants.Localizable.purchaseOfferVC,
+//                                                  comment: "")
+//            default:
+//                trialDuration = ""
+//            }
+//            introductoryDurationLabel.text = trialDuration + NSLocalizedString("for free",
+//                                                                               tableName: Constants.Localizable.purchaseOfferVC,
+//                                                                               comment: "")
+//
+//            priceTitleLabel.text = "\(NSLocalizedString("after", tableName: Constants.Localizable.purchaseOfferVC, comment: "")) \(price) \(duration)"
+//            priceTitleLabel.textColor = self.activeBorderColor
+//
+//            titleStackView.addArrangedSubview(introductoryDurationLabel)
+//            titleStackView.addArrangedSubview(priceTitleLabel)
+//        } else {
+//            priceTitleLabel.text = "\(price) \(duration)"
+//            titleStackView.addArrangedSubview(priceTitleLabel)
+//        }
+//    }
 
     func makeViewActive() {
         self.backgroundColor = self.activeBorderColor
@@ -242,23 +242,23 @@ class OfferView: UIView {
         checkmarkImageView.alpha = 0
     }
 
-    func discountCalculation() -> Int {
-        guard let product = self.packageForPurchase?.product, product.subscriptionPeriod!.numberOfUnits != 0
-        else {return 0}
-
-        var subscriptionPeriodInMonths: Int = 0
-        switch product.subscriptionPeriod!.unit {
-        case .month:
-            subscriptionPeriodInMonths = product.subscriptionPeriod!.numberOfUnits
-        case .year:
-            subscriptionPeriodInMonths = product.subscriptionPeriod!.numberOfUnits * 12
-        default:
-            break
-        }
-        guard subscriptionPeriodInMonths != 0 else {return 0}
-        return Int((1 - Double(truncating: product.price)/(Double(subscriptionPeriodInMonths) *
-                                                           Double(truncating: self.minMonthPrice)))*100)
-    }
+//    func discountCalculation() -> Int {
+//        guard let product = self.packageForPurchase?.product, product.subscriptionPeriod!.numberOfUnits != 0
+//        else {return 0}
+//
+//        var subscriptionPeriodInMonths: Int = 0
+//        switch product.subscriptionPeriod!.unit {
+//        case .month:
+//            subscriptionPeriodInMonths = product.subscriptionPeriod!.numberOfUnits
+//        case .year:
+//            subscriptionPeriodInMonths = product.subscriptionPeriod!.numberOfUnits * 12
+//        default:
+//            break
+//        }
+//        guard subscriptionPeriodInMonths != 0 else {return 0}
+//        return Int((1 - Double(truncating: product.price)/(Double(subscriptionPeriodInMonths) *
+//                                                           Double(truncating: self.minMonthPrice)))*100)
+//    }
 
     func addSalesViewBadge(discount: Int) {
         self.insertSubview(salesBadgeView, at: 0)

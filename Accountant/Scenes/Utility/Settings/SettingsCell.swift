@@ -77,26 +77,26 @@ class SettingsCell: UITableViewCell {
                                             tableName: Constants.Localizable.settingsVC,
                                             comment: "")
         switch dataItem {
-        case .offer:
-            if delegate.isUserHasPaidAccess {
-                titleLabel.text = NSLocalizedString("PRO access",
-                                                    tableName: Constants.Localizable.settingsVC,
-                                                    comment: "")
-            } else {
-                titleLabel.text = NSLocalizedString("Get PRO access",
-                                                    tableName: Constants.Localizable.settingsVC,
-                                                    comment: "")
-            }
-            if delegate.isUserHasPaidAccess && delegate.proAccessExpirationDate != nil {
-                let formatter = DateFormatter()
-                formatter.dateStyle = .short
-                formatter.timeStyle = .none
-                formatter.locale = Locale(identifier: "\(Bundle.main.localizations.first ?? "en")_\(Locale.current.regionCode ?? "US")") // swiftlint:disable:this line_length
-                detailLabel.text = NSLocalizedString("till", comment: "") + " " + formatter.string(from: delegate.proAccessExpirationDate!) // swiftlint:disable:this line_length
-            }
-            badgeView.proBadge()
-            badgeView.isHidden = false
-            iconImangeView.isHidden = true
+//        case .offer:
+//            if delegate.isUserHasPaidAccess {
+//                titleLabel.text = NSLocalizedString("PRO access",
+//                                                    tableName: Constants.Localizable.settingsVC,
+//                                                    comment: "")
+//            } else {
+//                titleLabel.text = NSLocalizedString("Get PRO access",
+//                                                    tableName: Constants.Localizable.settingsVC,
+//                                                    comment: "")
+//            }
+//            if delegate.isUserHasPaidAccess && delegate.proAccessExpirationDate != nil {
+//                let formatter = DateFormatter()
+//                formatter.dateStyle = .short
+//                formatter.timeStyle = .none
+//                formatter.locale = Locale(identifier: "\(Bundle.main.localizations.first ?? "en")_\(Locale.current.regionCode ?? "US")") // swiftlint:disable:this line_length
+//                detailLabel.text = NSLocalizedString("till", comment: "") + " " + formatter.string(from: delegate.proAccessExpirationDate!) // swiftlint:disable:this line_length
+//            }
+//            badgeView.proBadge()
+//            badgeView.isHidden = false
+//            iconImangeView.isHidden = true
         case .auth:
             switcher.isHidden = false
             let context = LAContext()

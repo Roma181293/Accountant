@@ -7,13 +7,13 @@
 //
 
 import Foundation
-import Purchases
+//import Purchases
 import CoreData
 
 class TransactionListInteractor {
 
     weak var output: TransactionListInteractorOutput?
-    private var isUserHasPaidAccess: Bool = false
+    private var isUserHasPaidAccess: Bool = true
     private var coreDataStack = CoreDataStack.shared
     private var environment = Environment.prod
     private var transactionListWorker: TransactionListWorker
@@ -39,14 +39,14 @@ class TransactionListInteractor {
     }
 
     @objc private func reloadProAccessData() {
-        Purchases.shared.purchaserInfo { (purchaserInfo, _) in
-            if purchaserInfo?.entitlements.all["pro"]?.isActive == true {
-                self.isUserHasPaidAccess = true
-            } else if purchaserInfo?.entitlements.all["pro"]?.isActive == false {
-                self.isUserHasPaidAccess = false
-                UserProfileService.useMultiItemTransaction(false, environment: self.environment)
-            }
-        }
+//        Purchases.shared.purchaserInfo { (purchaserInfo, _) in
+//            if purchaserInfo?.entitlements.all["pro"]?.isActive == true {
+//                self.isUserHasPaidAccess = true
+//            } else if purchaserInfo?.entitlements.all["pro"]?.isActive == false {
+//                self.isUserHasPaidAccess = false
+//                UserProfileService.useMultiItemTransaction(false, environment: self.environment)
+//            }
+//        }
     }
 
     @objc private func environmentDidChange() {

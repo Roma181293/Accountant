@@ -14,9 +14,9 @@
 "Error" = "Error";
 "Exchange rates" = "Exchange rates";
 "Export account list" = "Export account list";
-"Export transaction list" = "Export transaction list";
-"Import account list" = "Import account list";
-"Import transaction list" = "Import transaction list";
+"Export transaction list" = "Export transactions";
+"Import account list" = "Import accounts";
+"Import transaction list" = "Import transactions";
 "Multi item transaction" = "Multi item transaction";
 "OK" = "OK";
 "Privacy policy" = "Privacy policy";

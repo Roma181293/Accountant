@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import Purchases
+//import Purchases
 
 class AccountEditorInteractor: AccountEditorInteractorInput {
 
@@ -42,7 +42,7 @@ class AccountEditorInteractor: AccountEditorInteractorInput {
         return worker.mode
     }
 
-    private(set) var isUserHasPaidAccess: Bool = false
+    private(set) var isUserHasPaidAccess: Bool = true
 
     init(service: AccountEditorWorker) {
         self.worker = service
@@ -57,13 +57,13 @@ class AccountEditorInteractor: AccountEditorInteractorInput {
     }
 
     @objc private func reloadProAccessData() {
-        Purchases.shared.purchaserInfo { (purchaserInfo, _) in
-            if purchaserInfo?.entitlements.all["pro"]?.isActive == true {
-                self.isUserHasPaidAccess = true
-            } else if purchaserInfo?.entitlements.all["pro"]?.isActive == false {
-                self.isUserHasPaidAccess = false
-            }
-        }
+//        Purchases.shared.purchaserInfo { (purchaserInfo, _) in
+//            if purchaserInfo?.entitlements.all["pro"]?.isActive == true {
+//                self.isUserHasPaidAccess = true
+//            } else if purchaserInfo?.entitlements.all["pro"]?.isActive == false {
+//                self.isUserHasPaidAccess = false
+//            }
+//        }
     }
 
     func provideData() {

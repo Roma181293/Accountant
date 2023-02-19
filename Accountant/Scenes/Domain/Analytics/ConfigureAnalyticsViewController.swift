@@ -7,11 +7,11 @@
 //
 
 import UIKit
-import Purchases
+//import Purchases
 
 class ConfigureAnalyticsViewController: UIViewController { // swiftlint:disable:this type_body_length
 
-    var isUserHasPaidAccess = false
+    var isUserHasPaidAccess = true
     var isPurchaseOfferDidShow: Bool = false
 
     weak var analyticsViewController: AnalyticsViewController!
@@ -356,12 +356,12 @@ class ConfigureAnalyticsViewController: UIViewController { // swiftlint:disable:
     }
 
     @objc private func reloadProAccessData() {
-        Purchases.shared.purchaserInfo { (purchaserInfo, _) in
-            if purchaserInfo?.entitlements.all["pro"]?.isActive == true {
-                self.isUserHasPaidAccess = true
-            } else if purchaserInfo?.entitlements.all["pro"]?.isActive == false {
-                self.isUserHasPaidAccess = false
-            }
-        }
+//        Purchases.shared.purchaserInfo { (purchaserInfo, _) in
+//            if purchaserInfo?.entitlements.all["pro"]?.isActive == true {
+//                self.isUserHasPaidAccess = true
+//            } else if purchaserInfo?.entitlements.all["pro"]?.isActive == false {
+//                self.isUserHasPaidAccess = false
+//            }
+//        }
     }
 }
