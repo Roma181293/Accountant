@@ -9,7 +9,7 @@
 
 import UIKit
 import Charts
-import Purchases
+//import Purchases
 
 class AnalyticsViewController: UIViewController, UIScrollViewDelegate {
 
@@ -17,7 +17,7 @@ class AnalyticsViewController: UIViewController, UIScrollViewDelegate {
     @IBOutlet weak var pageControl: UIPageControl!
     @IBOutlet weak var scrollView: UIScrollView!
 
-    var isUserHasPaidAccess = false
+    var isUserHasPaidAccess = true
 
     private let coreDataStack = CoreDataStack.shared
     var context = CoreDataStack.shared.persistentContainer.viewContext
@@ -266,12 +266,12 @@ class AnalyticsViewController: UIViewController, UIScrollViewDelegate {
     }
 
     @objc func reloadProAccessData() {
-        Purchases.shared.purchaserInfo { (purchaserInfo, _) in
-            if purchaserInfo?.entitlements.all["pro"]?.isActive == true {
-                self.isUserHasPaidAccess = true
-            } else if purchaserInfo?.entitlements.all["pro"]?.isActive == false {
-                self.isUserHasPaidAccess = false
-            }
-        }
+//        Purchases.shared.purchaserInfo { (purchaserInfo, _) in
+//            if purchaserInfo?.entitlements.all["pro"]?.isActive == true {
+//                self.isUserHasPaidAccess = true
+//            } else if purchaserInfo?.entitlements.all["pro"]?.isActive == false {
+//                self.isUserHasPaidAccess = false
+//            }
+//        }
     }
 }

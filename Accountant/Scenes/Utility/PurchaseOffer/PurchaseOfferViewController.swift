@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import Purchases
+//import Purchases
 import SafariServices
 
 final class PurchaseOfferViewController: UIViewController { // swiftlint:disable:this type_body_length
@@ -180,7 +180,7 @@ final class PurchaseOfferViewController: UIViewController { // swiftlint:disable
         return view
     }()
 
-    var packagesAvailableForPurchase = [Purchases.Package]()
+    //var packagesAvailableForPurchase = [Purchases.Package]()
     var offerViews = [OfferView]()
     var activeOfferTag: Int?
     var topStackConstant = CGFloat(0)
@@ -300,64 +300,64 @@ final class PurchaseOfferViewController: UIViewController { // swiftlint:disable
     }
 
     func fetchPurchaseProudcts() {
-        Purchases.shared.offerings { (offerings, _) in
-            if let offerings = offerings {
-                let activeOffer = "pro_access_all_app"
-                // = RemoteConfigValues.sharedInstance.getActiveOffer(forKey: .activeOffer)
-
-                guard let packages = offerings.offering(identifier: activeOffer)?.availablePackages else {return}
-                // Add package
-                self.packagesAvailableForPurchase = packages
-                var minMonthPrice: NSDecimalNumber = 0.0
-                var productIdentifiers: [String] = []
-                for package in self.packagesAvailableForPurchase {
-                    productIdentifiers.append(package.product.productIdentifier)
-                    if package.product.subscriptionPeriod?.unit == .month
-                        && package.product.subscriptionPeriod?.numberOfUnits == 1 {
-                        minMonthPrice = package.product.price
-                    }
-                }
-                Purchases.shared.checkTrialOrIntroductoryPriceEligibility(productIdentifiers,
-                                                                          completionBlock: { result in
-                    self.mainStackView.addArrangedSubview(self.offerStackView)
-
-                    for index in 0...self.packagesAvailableForPurchase.count - 1 {
-                        // Get the package
-                        let package = self.packagesAvailableForPurchase[index]
-
-                        // Add The Offer View
-                        let offerView = OfferView()
-                        self.offerStackView.addArrangedSubview(offerView)
-                        offerView.tag = index
-                        let gesture = OfferUITapGestureRecognizer(target: self,
-                                                                  action: #selector(self.offerViewTapped(_:)))
-                        offerView.addGestureRecognizer(gesture)
-                        gesture.tappedOffer = offerView
-
-                        // Set the current package to The Offer View
-                        offerView.setCurrentPackage(package: package,
-                                                    isEligible: result[package.product.productIdentifier]?.status != .ineligible, // swiftlint:disable:this line_length
-                                                    minMonthPrice: minMonthPrice)
-                        self.offerViews.append(offerView)
-                        if offerView.isActive {
-                            self.activeOfferTag = offerView.tag
-                            self.subscriptionLabel.text = offerView.offerDisclaimerLabel
-                            self.purchaseButon.setTitle(offerView.purchaseButonTitle.uppercased(), for: .normal)
-                        }
-                    }
-                    self.activityIndicatorImageView.stopAnimating()
-                    self.activityIndicatorImageView.alpha = 0
-                    self.loaderView.removeFromSuperview()
-                    self.mainStackView.setCustomSpacing(40, after: self.offerStackView)
-
-                    // MARK: - Purchase Button
-                    self.addPurchaseButton()
-
-                    // MARK: - Bottom Description
-                    self.addBottomDescription()
-                })
-            }
-        }
+//        Purchases.shared.offerings { (offerings, _) in
+//            if let offerings = offerings {
+//                let activeOffer = "pro_access_all_app"
+//                // = RemoteConfigValues.sharedInstance.getActiveOffer(forKey: .activeOffer)
+//
+//                guard let packages = offerings.offering(identifier: activeOffer)?.availablePackages else {return}
+//                // Add package
+//                self.packagesAvailableForPurchase = packages
+//                var minMonthPrice: NSDecimalNumber = 0.0
+//                var productIdentifiers: [String] = []
+//                for package in self.packagesAvailableForPurchase {
+//                    productIdentifiers.append(package.product.productIdentifier)
+//                    if package.product.subscriptionPeriod?.unit == .month
+//                        && package.product.subscriptionPeriod?.numberOfUnits == 1 {
+//                        minMonthPrice = package.product.price
+//                    }
+//                }
+//                Purchases.shared.checkTrialOrIntroductoryPriceEligibility(productIdentifiers,
+//                                                                          completionBlock: { result in
+//                    self.mainStackView.addArrangedSubview(self.offerStackView)
+//
+//                    for index in 0...self.packagesAvailableForPurchase.count - 1 {
+//                        // Get the package
+//                        let package = self.packagesAvailableForPurchase[index]
+//
+//                        // Add The Offer View
+//                        let offerView = OfferView()
+//                        self.offerStackView.addArrangedSubview(offerView)
+//                        offerView.tag = index
+//                        let gesture = OfferUITapGestureRecognizer(target: self,
+//                                                                  action: #selector(self.offerViewTapped(_:)))
+//                        offerView.addGestureRecognizer(gesture)
+//                        gesture.tappedOffer = offerView
+//
+//                        // Set the current package to The Offer View
+//                        offerView.setCurrentPackage(package: package,
+//                                                    isEligible: result[package.product.productIdentifier]?.status != .ineligible, // swiftlint:disable:this line_length
+//                                                    minMonthPrice: minMonthPrice)
+//                        self.offerViews.append(offerView)
+//                        if offerView.isActive {
+//                            self.activeOfferTag = offerView.tag
+//                            self.subscriptionLabel.text = offerView.offerDisclaimerLabel
+//                            self.purchaseButon.setTitle(offerView.purchaseButonTitle.uppercased(), for: .normal)
+//                        }
+//                    }
+//                    self.activityIndicatorImageView.stopAnimating()
+//                    self.activityIndicatorImageView.alpha = 0
+//                    self.loaderView.removeFromSuperview()
+//                    self.mainStackView.setCustomSpacing(40, after: self.offerStackView)
+//
+//                    // MARK: - Purchase Button
+//                    self.addPurchaseButton()
+//
+//                    // MARK: - Bottom Description
+//                    self.addBottomDescription()
+//                })
+//            }
+//        }
     }
 
     func addPurchaseButton() {
@@ -462,22 +462,22 @@ final class PurchaseOfferViewController: UIViewController { // swiftlint:disable
     @objc func purchaseButtonTapped(_ sender: UIButton) {
         self.disablePurchaseButton()
 
-        if let tag = activeOfferTag {
-            if let package = self.offerViews[tag].packageForPurchase {
-                Purchases.shared.purchasePackage(package) { (_, purchaserInfo, _, userCancelled) in
-                    if userCancelled {
-                        self.enablePurchaseButton()
-                    }
-                    let isActive = purchaserInfo?.entitlements["pro"]!.isActive
-                    if isActive == true {
-                        NotificationCenter.default.post(name: .receivedProAccessData, object: nil)
-                        self.dismiss(animated: true, completion: nil)
-                    } else {
-                        self.enablePurchaseButton()
-                    }
-                }
-            }
-        }
+//        if let tag = activeOfferTag {
+//            if let package = self.offerViews[tag].packageForPurchase {
+//                Purchases.shared.purchasePackage(package) { (_, purchaserInfo, _, userCancelled) in
+//                    if userCancelled {
+//                        self.enablePurchaseButton()
+//                    }
+//                    let isActive = purchaserInfo?.entitlements["pro"]!.isActive
+//                    if isActive == true {
+//                        NotificationCenter.default.post(name: .receivedProAccessData, object: nil)
+//                        self.dismiss(animated: true, completion: nil)
+//                    } else {
+//                        self.enablePurchaseButton()
+//                    }
+//                }
+//            }
+//        }
     }
 
     func disablePurchaseButton() {

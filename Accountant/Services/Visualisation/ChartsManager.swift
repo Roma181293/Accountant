@@ -58,7 +58,6 @@ class ChartsManager {
         chartView.rotationWithTwoFingers = true
         
         let chartData = PieChartData(dataSet: chartDataSet)
-        
         chartView.data = chartData
         
         // value formater
@@ -70,7 +69,6 @@ class ChartsManager {
         chartData.setValueFormatter(DefaultValueFormatter(formatter: pFormatter))
         chartData.setValueFont(.systemFont(ofSize: 14, weight: .light))
         chartData.setValueTextColor(.black)
-        
         return chartView
     }
 
@@ -83,29 +81,39 @@ class ChartsManager {
 
         chartView.data = data
 
-        class DateValueFormatter: NSObject {
+        class DateValueFormatter: AxisValueFormatter {
             var dateFormatter: DateFormatter!
 
-            override init() {
+            init() {
                 dateFormatter = DateFormatter()
-                dateFormatter.dateFormat = "dd.MM.yy"
+                dateFormatter.dateStyle = .short
+                dateFormatter.timeStyle = .none
+                dateFormatter.locale = Locale(identifier: "\(Bundle.main.localizations.first ?? "en")_\(Locale.current.regionCode ?? "US")") //
             }
 
             func stringForValue(_ value: Double, axis: AxisBase?) -> String {
                 return dateFormatter.string(from: Date(timeIntervalSince1970: value))
             }
         }
-
+        
         let xAxis = chartView.xAxis
-        xAxis.labelPosition = .topInside
+//        xAxis.avoidFirst LastClippingEnabled = true
+        xAxis.labelPosition = .bottom
         xAxis.labelFont = .systemFont(ofSize: 10, weight: .light)
-        xAxis.labelTextColor = .label // UIColor(red: 255/255, green: 192/255, blue: 56/255, alpha: 1)
+        xAxis.labelTextColor = .label
         xAxis.drawAxisLineEnabled = false
         xAxis.drawGridLinesEnabled = true
         xAxis.centerAxisLabelsEnabled = true
-        xAxis.granularity = 3600*24*4
-        xAxis.valueFormatter = IndexAxisValueFormatter()
-
+        xAxis.enabled = true
+        
+        if let line = chartData.lineChartDataSet.first,
+            let min = line.entries.map({return $0.x}).min(),
+            let max = line.entries.map({return $0.x}).max(),
+            min != max {
+            xAxis.granularity = (max-min)/6.0
+        }
+        xAxis.valueFormatter = DateValueFormatter()
+        
         let leftAxis = chartView.leftAxis
         leftAxis.labelPosition = .insideChart
         leftAxis.labelFont = .systemFont(ofSize: 12, weight: .light)

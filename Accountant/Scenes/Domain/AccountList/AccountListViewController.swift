@@ -8,7 +8,7 @@
 
 import UIKit
 import Charts
-import Purchases
+//import Purchases
 
 class AccountListViewController: UIViewController, UIScrollViewDelegate { // swiftlint:disable:this type_body_length
 
@@ -20,7 +20,7 @@ class AccountListViewController: UIViewController, UIScrollViewDelegate { // swi
     private unowned var moneyAccountListTableViewController: AccountListTableViewController!
 
     private var slides: [UIView] = []
-    var isUserHasPaidAccess: Bool = false
+    var isUserHasPaidAccess: Bool = true
     var environment: Environment = .prod
     let coreDataStack = CoreDataStack.shared
     var context = CoreDataStack.shared.persistentContainer.viewContext
@@ -335,14 +335,14 @@ class AccountListViewController: UIViewController, UIScrollViewDelegate { // swi
     }
 
     @objc func reloadProAccessData() {
-        Purchases.shared.purchaserInfo { (purchaserInfo, _) in
-            if purchaserInfo?.entitlements.all["pro"]?.isActive == true {
-                self.isUserHasPaidAccess = true
-            } else if purchaserInfo?.entitlements.all["pro"]?.isActive == false {
-                self.isUserHasPaidAccess = false
-            }
-            self.moneyAccountListTableViewController.isUserHasPaidAccess = self.isUserHasPaidAccess
-        }
+//        Purchases.shared.purchaserInfo { (purchaserInfo, _) in
+//            if purchaserInfo?.entitlements.all["pro"]?.isActive == true {
+//                self.isUserHasPaidAccess = true
+//            } else if purchaserInfo?.entitlements.all["pro"]?.isActive == false {
+//                self.isUserHasPaidAccess = false
+//            }
+//            self.moneyAccountListTableViewController.isUserHasPaidAccess = self.isUserHasPaidAccess
+//        }
     }
 
     private func showPurchaseOfferVC() {

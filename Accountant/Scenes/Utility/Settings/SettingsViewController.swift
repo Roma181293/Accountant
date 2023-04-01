@@ -8,12 +8,12 @@
 
 import UIKit
 import UniformTypeIdentifiers
-import Purchases
+//import Purchases
 
 class SettingsViewController: UIViewController {
 
     enum DataSource: String, CaseIterable {
-        case offer = "Purchase offer"
+        //case offer = "Purchase offer"
         case startAccounting = "Start accounting"
         case auth = "Auth"
         case envirement = "Test mode"
@@ -31,7 +31,7 @@ class SettingsViewController: UIViewController {
         case privacyPolicy = "Privacy policy"
     }
 
-    private(set) var isUserHasPaidAccess = false
+    private(set) var isUserHasPaidAccess = true
     private(set) var proAccessExpirationDate: Date?
     private(set) var environment: Environment = .prod
 
@@ -124,21 +124,7 @@ class SettingsViewController: UIViewController {
     }
 
     @objc func reloadProAccessData() {
-        Purchases.shared.purchaserInfo { (purchaserInfo, error) in
-            if let error = error {
-                self.router.route(to: .error(error))
-            } else {
-                if purchaserInfo?.entitlements.all["pro"]?.isActive == true {
-                    self.isUserHasPaidAccess = true
-                    self.proAccessExpirationDate = purchaserInfo?.expirationDate(forEntitlement: "pro")
-                } else if purchaserInfo?.entitlements.all["pro"]?.isActive == false {
-                    self.isUserHasPaidAccess = false
-                    self.proAccessExpirationDate = nil
-                }
-            }
-            self.refreshDataSet()
-            self.tableView.reloadData()
-        }
+//       
     }
 
     func refreshDataSet() {
@@ -181,8 +167,8 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) { // swiftlint:disable:this function_body_length cyclomatic_complexity line_length
         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         switch dataSource[indexPath.row] {
-        case .offer:
-            router.route(to: .offerVC)
+//        case .offer:
+//            router.route(to: .offerVC)
         case .accountsManager:
             router.route(to: .accountNavVC)
         case .importAccounts:
