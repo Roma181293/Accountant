@@ -84,9 +84,9 @@ class BankAccountHelper {
 
     class func changeLinkedAccount(to account: Account, for bankAccount: BankAccount, modifyDate: Date = Date(),
                                    modifiedByUser: Bool = true) throws {
-        guard account.type == bankAccount.account?.type else {throw BankAccount.Error.cantChangeLinkedAccountCozSubType}
+        guard bankAccount.account == nil || account.type == bankAccount.account?.type else {throw BankAccount.Error.cantChangeLinkedAccountCozSubType}
 
-        guard account.currency == bankAccount.account?.currency
+        guard bankAccount.account == nil || account.currency == bankAccount.account?.currency
         else {throw BankAccount.Error.cantChangeLinkedAccountCozCurrency}
 
         bankAccount.account = account
