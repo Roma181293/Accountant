@@ -253,14 +253,14 @@ class TransactionHelper {
                     case .draft: export += "Draft,"
                     case .approved: export += "Approved,"
                     case .applied: export += "Applied,"
-                    case .archived: export += "Archive,"
+                    case .archived: export += "Archived,"
                     }
 
                     switch item.type {
                     case .debit: export += "Debit,"
                     case .credit: export += "Credit,"
                     }
-                    export +=  String(describing: item.account!.path) + ","
+                    export +=  String(describing: item.account?.path ?? "NULL") + ","
                     export +=  String(describing: item.amount) + ","
                     export +=  "\(transaction.comment ?? "")"
                 }
