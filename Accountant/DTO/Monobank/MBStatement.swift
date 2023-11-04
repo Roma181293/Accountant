@@ -22,8 +22,10 @@ struct MBStatement: Codable, StatementProtocol {
     let hold: Bool
     let comment: String?
     let receiptId: String?
+    let invoiceId: String?
     let counterEdrpou: String?
     let counterIban: String?
+    let counterName: String?
 
     func getAmount() -> Double {
         return abs(Double(amount)/100.0)
