@@ -208,6 +208,16 @@
 		2BB780B2272EAB9B002D2098 /* GuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BB780B1272EAB9B002D2098 /* GuideView.swift */; };
 		2BC058BD26CDB63E00FE896C /* TransactionItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BC058BC26CDB63E00FE896C /* TransactionItemCell.swift */; };
 		2BCC0BDA26ACD79C00E8680E /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BCC0BD926ACD79C00E8680E /* StoreKit.framework */; };
+		2BCD2E5A2AF77F0F0010380D /* CoreDataMigrationVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BCD2E592AF77F0F0010380D /* CoreDataMigrationVersion.swift */; };
+		2BCD2E5C2AF783A30010380D /* CoreDataMigrationStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BCD2E5B2AF783A30010380D /* CoreDataMigrationStep.swift */; };
+		2BCD2E5E2AF785CB0010380D /* CoreDataMigratorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BCD2E5D2AF785CB0010380D /* CoreDataMigratorProtocol.swift */; };
+		2BCD2E602AF785E40010380D /* CoreDataMigrator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BCD2E5F2AF785E40010380D /* CoreDataMigrator.swift */; };
+		2BCD2E642AF794FF0010380D /* NSPersistentStoreCoordinator+SQLite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BCD2E632AF794FF0010380D /* NSPersistentStoreCoordinator+SQLite.swift */; };
+		2BCD2E662AF797400010380D /* CoreDataMigrationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BCD2E652AF797400010380D /* CoreDataMigrationModel.swift */; };
+		2BCD2E682AF7980A0010380D /* CoreDataMigrationSourceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BCD2E672AF7980A0010380D /* CoreDataMigrationSourceModel.swift */; };
+		2BCD2E6E2AF79DD50010380D /* NSManagedObjectContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BCD2E6D2AF79DD50010380D /* NSManagedObjectContext.swift */; };
+		2BCD2E702AF7A12E0010380D /* ContextSaveContextualInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BCD2E6F2AF7A12E0010380D /* ContextSaveContextualInfo.swift */; };
+		2BCD2E722AF7A3090010380D /* PersistentContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BCD2E712AF7A3090010380D /* PersistentContainer.swift */; };
 		2BDAB0EF2804BE2300C5AED6 /* BaseEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BDAB0EE2804BE2300C5AED6 /* BaseEntity.swift */; };
 		2BDAB0F32804D60200C5AED6 /* MigrationPolicy_Account_V2toV3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BDAB0F22804D60200C5AED6 /* MigrationPolicy_Account_V2toV3.swift */; };
 		2BDAB0F82805EE7900C5AED6 /* MigrationPolicy_V1toV3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BDAB0F72805EE7900C5AED6 /* MigrationPolicy_V1toV3.swift */; };
@@ -496,6 +506,16 @@
 		2BB780B1272EAB9B002D2098 /* GuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuideView.swift; sourceTree = "<group>"; };
 		2BC058BC26CDB63E00FE896C /* TransactionItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionItemCell.swift; sourceTree = "<group>"; };
 		2BCC0BD926ACD79C00E8680E /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		2BCD2E592AF77F0F0010380D /* CoreDataMigrationVersion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataMigrationVersion.swift; sourceTree = "<group>"; };
+		2BCD2E5B2AF783A30010380D /* CoreDataMigrationStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataMigrationStep.swift; sourceTree = "<group>"; };
+		2BCD2E5D2AF785CB0010380D /* CoreDataMigratorProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataMigratorProtocol.swift; sourceTree = "<group>"; };
+		2BCD2E5F2AF785E40010380D /* CoreDataMigrator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataMigrator.swift; sourceTree = "<group>"; };
+		2BCD2E632AF794FF0010380D /* NSPersistentStoreCoordinator+SQLite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSPersistentStoreCoordinator+SQLite.swift"; sourceTree = "<group>"; };
+		2BCD2E652AF797400010380D /* CoreDataMigrationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataMigrationModel.swift; sourceTree = "<group>"; };
+		2BCD2E672AF7980A0010380D /* CoreDataMigrationSourceModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataMigrationSourceModel.swift; sourceTree = "<group>"; };
+		2BCD2E6D2AF79DD50010380D /* NSManagedObjectContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSManagedObjectContext.swift; sourceTree = "<group>"; };
+		2BCD2E6F2AF7A12E0010380D /* ContextSaveContextualInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContextSaveContextualInfo.swift; sourceTree = "<group>"; };
+		2BCD2E712AF7A3090010380D /* PersistentContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistentContainer.swift; sourceTree = "<group>"; };
 		2BDAB0EE2804BE2300C5AED6 /* BaseEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseEntity.swift; sourceTree = "<group>"; };
 		2BDAB0F22804D60200C5AED6 /* MigrationPolicy_Account_V2toV3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MigrationPolicy_Account_V2toV3.swift; sourceTree = "<group>"; };
 		2BDAB0F72805EE7900C5AED6 /* MigrationPolicy_V1toV3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MigrationPolicy_V1toV3.swift; sourceTree = "<group>"; };
@@ -1243,6 +1263,28 @@
 			path = AccountTypeNavigation;
 			sourceTree = "<group>";
 		};
+		2BCD2E692AF798C10010380D /* Miration configuration */ = {
+			isa = PBXGroup;
+			children = (
+				2BCD2E592AF77F0F0010380D /* CoreDataMigrationVersion.swift */,
+				2BCD2E652AF797400010380D /* CoreDataMigrationModel.swift */,
+				2BCD2E672AF7980A0010380D /* CoreDataMigrationSourceModel.swift */,
+				2BCD2E5B2AF783A30010380D /* CoreDataMigrationStep.swift */,
+				2BCD2E5F2AF785E40010380D /* CoreDataMigrator.swift */,
+				2BCD2E5D2AF785CB0010380D /* CoreDataMigratorProtocol.swift */,
+				2BCD2E632AF794FF0010380D /* NSPersistentStoreCoordinator+SQLite.swift */,
+			);
+			path = "Miration configuration";
+			sourceTree = "<group>";
+		};
+		2BCD2E6C2AF79DB10010380D /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				2BCD2E6D2AF79DD50010380D /* NSManagedObjectContext.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		2BDAB0E828021B2400C5AED6 /* DTO */ = {
 			isa = PBXGroup;
 			children = (
@@ -1258,10 +1300,14 @@
 		2BDAB0E928021B7800C5AED6 /* Infrastructure */ = {
 			isa = PBXGroup;
 			children = (
+				2BCD2E6C2AF79DB10010380D /* Extensions */,
+				2BCD2E692AF798C10010380D /* Miration configuration */,
 				2B1FEA39266BEDA400BF53BD /* CoreDataStack.swift */,
 				2B949BB72665B4040033383A /* Accountant.xcdatamodeld */,
 				2B7F885727A5D74E00A1B63B /* Mapping Models */,
 				2BDAB0F62805EDE800C5AED6 /* Migration Policies */,
+				2BCD2E6F2AF7A12E0010380D /* ContextSaveContextualInfo.swift */,
+				2BCD2E712AF7A3090010380D /* PersistentContainer.swift */,
 			);
 			path = Infrastructure;
 			sourceTree = "<group>";
@@ -1547,6 +1593,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2B75DF3E28761C53004ACCAA /* ArchivingManagerViewController.swift in Sources */,
+				2BCD2E602AF785E40010380D /* CoreDataMigrator.swift in Sources */,
 				2B20570D285DA482002C6F89 /* ArchivingHistory.swift in Sources */,
 				2B6C2372280FCEB100D84174 /* HolderViewController.swift in Sources */,
 				2B6C237F281093A400D84174 /* CurrencyViewController.swift in Sources */,
@@ -1563,11 +1610,13 @@
 				2B6C238A2811BCD800D84174 /* AccountNavigationViewController.swift in Sources */,
 				2B6D8E8E2827FECB006896EF /* SettingsRouter.swift in Sources */,
 				2B6561FB2775F95000150B35 /* MBWebHook.swift in Sources */,
+				2BCD2E5A2AF77F0F0010380D /* CoreDataMigrationVersion.swift in Sources */,
 				2B1FEBB1266EE1D500BF53BD /* PreTrasaction.swift in Sources */,
 				2B50DAD6280DF15D0064D71B /* Schema.swift in Sources */,
 				2B85D85B278F63FC0042858B /* ExchangeTableViewController.swift in Sources */,
 				2B6561F52775F8A000150B35 /* MBUserInfo.swift in Sources */,
 				2B85D859278F480C0042858B /* ExchangeRatesLoader.swift in Sources */,
+				2BCD2E682AF7980A0010380D /* CoreDataMigrationSourceModel.swift in Sources */,
 				2B00CAF92746095700821FE0 /* MonobankUBPViewController.swift in Sources */,
 				2B6C23812810943D00D84174 /* CurrencyProvider.swift in Sources */,
 				2B1FEA4C266BEE6700BF53BD /* CurrencyHistoricalDataNB.swift in Sources */,
@@ -1603,6 +1652,7 @@
 				2B37CEC327405FAA0000E3EF /* Guide.swift in Sources */,
 				2BC058BD26CDB63E00FE896C /* TransactionItemCell.swift in Sources */,
 				2B205702285D9B1B002C6F89 /* Exchange extension.swift in Sources */,
+				2BCD2E5E2AF785CB0010380D /* CoreDataMigratorProtocol.swift in Sources */,
 				2B69039128737E9700AA3E0B /* ArchivingHistoryViewModel.swift in Sources */,
 				2B1FEB6C266D752200BF53BD /* ChartData.swift in Sources */,
 				2B8B60BD284B898400B17F7C /* MITransactionEditorInteractorInput.swift in Sources */,
@@ -1616,6 +1666,7 @@
 				2B70CFA9283ED3050073EFB4 /* MITransactionEditorPresenter.swift in Sources */,
 				2B90B8CB2851237600ABFD35 /* AccountEditorInteractorInput.swift in Sources */,
 				2B0ACB5D284CC15800DFF2EB /* TransactionListRouter.swift in Sources */,
+				2BCD2E5C2AF783A30010380D /* CoreDataMigrationStep.swift in Sources */,
 				2B1407AC26F931AA00114B95 /* AccountNavigationCell.swift in Sources */,
 				2B90B8C92851237600ABFD35 /* AccountEditorInteractorOutput.swift in Sources */,
 				2B8A9E73283582F900329091 /* UserBankProfileListConfigurator.swift in Sources */,
@@ -1634,11 +1685,13 @@
 				2B96720328530B44004F852B /* AccountEditorWorker.swift in Sources */,
 				2B1FEA4F266BEE6700BF53BD /* CurrencyHistoricalDataPB.swift in Sources */,
 				2B2056E8285D887F002C6F89 /* AccountType extension.swift in Sources */,
+				2BCD2E6E2AF79DD50010380D /* NSManagedObjectContext.swift in Sources */,
 				2B6C238C2811BCF700D84174 /* AccountListWorker.swift in Sources */,
 				2B895A422869658700BCF03F /* AccountEditorService extension.swift in Sources */,
 				2B70CFA0283EC57F0073EFB4 /* MappingModel_V1toV3.xcmappingmodel in Sources */,
 				2B75DF4A287E950E004ACCAA /* MappingModel_V2toV3.xcmappingmodel in Sources */,
 				2B8172F12798B7B200E6CB20 /* BankAccountTableViewController.swift in Sources */,
+				2BCD2E702AF7A12E0010380D /* ContextSaveContextualInfo.swift in Sources */,
 				2B3A260426E95C780033E746 /* AccessManager.swift in Sources */,
 				2BFACB6F281C948000B2B1CE /* TransactionListWorker.swift in Sources */,
 				2B490DDB26E4B92600967E11 /* OfferView.swift in Sources */,
@@ -1659,6 +1712,7 @@
 				2BE53D53282F170C004CBD84 /* MonobankUBPInteractor.swift in Sources */,
 				2BE53D51282F166E004CBD84 /* MonobankUBPRouter.swift in Sources */,
 				2B1FEAE6266CAF6C00BF53BD /* Extension UIDevice.swift in Sources */,
+				2BCD2E662AF797400010380D /* CoreDataMigrationModel.swift in Sources */,
 				2B3523632746B50300399CF6 /* KeeperViewController.swift in Sources */,
 				2B75DF3B28761C53004ACCAA /* ArchivingWorker.swift in Sources */,
 				2B1FEBB6266EE45F00BF53BD /* PreTransactionTableViewCell.swift in Sources */,
@@ -1696,11 +1750,13 @@
 				2B1FEB7B266EC39800BF53BD /* AnalyticsTableViewController.swift in Sources */,
 				2B8A9E752835830700329091 /* UserBankProfileListRouter.swift in Sources */,
 				2B75DF4128777602004ACCAA /* ArchivingHistoryTableViewCell.swift in Sources */,
+				2BCD2E642AF794FF0010380D /* NSPersistentStoreCoordinator+SQLite.swift in Sources */,
 				2B2056E0285CFBAB002C6F89 /* Account extension.swift in Sources */,
 				2B8B60BA284B88D500B17F7C /* MITransactionEditorViewInput.swift in Sources */,
 				2B8172EF2798B0EC00E6CB20 /* UserBankProfileListViewController.swift in Sources */,
 				2B9282B2286E790D000A05FE /* ImportExportAccountWorker.swift in Sources */,
 				2B90B8C32851237600ABFD35 /* AccountEditorPresenter.swift in Sources */,
+				2BCD2E722AF7A3090010380D /* PersistentContainer.swift in Sources */,
 				2B4976FC26DBE90B00147EAA /* TransactionCell.swift in Sources */,
 				2B967207285460D8004F852B /* CurrencyViewModel.swift in Sources */,
 				2B96720528530FEC004F852B /* AccountTypeViewModel.swift in Sources */,

@@ -69,7 +69,7 @@ class SettingsViewController: UIViewController {
         addMainView()
         getAppVersion()
 
-        self.environment = CoreDataStack.shared.activeEnvironment
+        self.environment = CoreDataStack.shared.currentEnvironment
 
         NotificationCenter.default.addObserver(self, selector: #selector(self.environmentDidChange),
                                                name: .environmentDidChange, object: nil)
@@ -229,7 +229,7 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
                 CoreDataStack.shared.switchPersistentStore(.test)
                 try CoreDataStack.shared.restorePersistentStore(.test)
                 try SeedDataService.addTestData(persistentContainer: CoreDataStack.shared.persistentContainer)
-            } else if !newValueTest && CoreDataStack.shared.activeEnvironment == .test {
+            } else if !newValueTest && CoreDataStack.shared.currentEnvironment == .test {
                 UserProfileService.useMultiItemTransaction(false, environment: .test)
                 CoreDataStack.shared.switchPersistentStore(.prod)
             }

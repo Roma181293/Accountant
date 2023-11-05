@@ -21,8 +21,7 @@ class AdditionalLaunchScreenViewController: UIViewController {
                                                name: .persistentStoreDidLoad, object: nil)
 
         let coreDataStack = CoreDataStack.shared
-        coreDataStack.configureContainerFor(.prod)
-        coreDataStack.loadPersistentStores()
+        coreDataStack.switchPersistentStore(.prod)
     }
 
     deinit {

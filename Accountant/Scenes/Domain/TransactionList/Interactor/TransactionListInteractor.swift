@@ -99,7 +99,7 @@ extension TransactionListInteractor: TransactionListInteractorInput {
     }
 
     func canDuplicateTransaction() -> Bool {
-        return isUserHasPaidAccess || coreDataStack.activeEnvironment == .test
+        return isUserHasPaidAccess || coreDataStack.currentEnvironment == .test
     }
 
     func duplicateTransaction(at indexPath: IndexPath) {

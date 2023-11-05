@@ -224,7 +224,7 @@ extension AccountNavigationViewController {
     private func addCategotyTo(_ account: Account) { // swiftlint:disable:this function_body_length
         if AccessManager.canCreateSubAccountFor(account: account,
                                                 isUserHasPaidAccess: self.isUserHasPaidAccess,
-                                                environment: CoreDataStack.shared.activeEnvironment) {
+                                                environment: CoreDataStack.shared.currentEnvironment) {
 
             if account.type.defultChildType?.useCustomViewToCreateAccount == true || account.type.hasMoreThenOneChildren {
                 goToAccountEditorWithInitialBalanceVC(account: account)
@@ -353,7 +353,7 @@ extension AccountNavigationViewController {
         let account = accountListWorker.fetchedResultsController.object(at: indexPath)
         let changeActiveStatusAction = UIContextualAction(style: .normal,
                                             title: NSLocalizedString("Deactivate", tableName: localizedTableName, comment: "")) { _, _, complete in
-            if AccessManager.canHideAccount(environment: CoreDataStack.shared.activeEnvironment,
+            if AccessManager.canHideAccount(environment: CoreDataStack.shared.currentEnvironment,
                                             isUserHasPaidAccess: self.isUserHasPaidAccess) {
                 var title = ""
                 var message = ""

@@ -94,7 +94,7 @@ class AccountListViewController: UIViewController, UIScrollViewDelegate { // swi
                                                name: .receivedProAccessData, object: nil)
         context = CoreDataStack.shared.persistentContainer.viewContext
 
-        self.environment = coreDataStack.activeEnvironment
+        self.environment = coreDataStack.currentEnvironment
 
         reloadProAccessData()
 
@@ -323,7 +323,7 @@ class AccountListViewController: UIViewController, UIScrollViewDelegate { // swi
         moneyAccountListTableViewController.account = account
 
 
-        self.environment = coreDataStack.activeEnvironment
+        self.environment = coreDataStack.currentEnvironment
         moneyAccountListTableViewController.environment = self.environment
         
         if let startDate = TransactionHelper.getFirstTransactionDate(context: context) {
