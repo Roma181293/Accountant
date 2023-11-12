@@ -22,7 +22,7 @@ class TransactionHelper {
                                                     itemsCount: inout Int) throws {
         for item in transaction.itemsList.filter({$0.type == type}) {
             itemsCount += 1
-            amount += item.amount
+            amount += item.amountInAccountingCurrency
             if let account = item.account {
                 if let cur = account.currency {
                     if currency != cur {
@@ -32,7 +32,7 @@ class TransactionHelper {
                     throw HelperError.multicurrencyAccount(name: account.path)
                 }
 
-                if item.amount <= 0 {
+                if item.amountInAccountingCurrency <= 0 {
                     switch type {
                     case .debit:
                         throw HelperError.invalidAmountInDebitTransactioItem(path: account.path)
@@ -78,7 +78,7 @@ class TransactionHelper {
             throw TransactionHelper.HelperError.noCreditTransactionItem
         }
         if debitCurrency == creditCurrency {
-            if round(debitAmount*100) != round(creditAmount*100) {
+            if round(debitAmount * 100) != round(creditAmount * 100) {
                 throw TransactionHelper.HelperError.differentAmountInSingleCurrecyTran
             }
         }

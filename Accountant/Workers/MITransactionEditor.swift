@@ -71,11 +71,18 @@ class MITransactionEditor: MITransactionEditorInput {
     }
 
     func addEmptyTransactionItem(type: TransactionItem.TypeEnum = .credit) {
-        if transaction.itemsList.count == 1 {
-            _ = TransactionItem(transaction: transaction, type: type, amount: transaction.itemsList.first!.amount,
+        if transaction.itemsList.count == 1 && transaction.itemsList.first!.account?.currency?.isAccounting == true {
+            _ = TransactionItem(transaction: transaction,
+                                type: type,
+                                amount: transaction.itemsList.first!.amount,
+                                amountInAccountingCurrency: transaction.itemsList.first!.amountInAccountingCurrency,
                                 context: context)
         } else {
-            _ = TransactionItem(transaction: transaction, type: type, amount: 0, context: context)
+            _ = TransactionItem(transaction: transaction,
+                                type: type,
+                                amount: 0,
+                                amountInAccountingCurrency: 0,
+                                context: context)
         }
         delegate?.fetched(transactionItems: transaction.itemsList)
     }
