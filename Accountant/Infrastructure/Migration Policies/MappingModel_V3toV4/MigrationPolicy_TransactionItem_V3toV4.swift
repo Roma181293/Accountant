@@ -31,10 +31,10 @@ class MigrationPolicy_TransactionItem_V3toV4: NSEntityMigrationPolicy {
                 let transactionDate = sTransaction.value(forKey: "date") as! Date
                 let transactionDay = Calendar.current.startOfDay(for: transactionDate)
                    
-                var rate = (sCurrency.value(forKey: "exchangeRates") as! [NSManagedObject])
+                let rate = (sCurrency.value(forKey: "exchangeRates") as! [NSManagedObject])
                     .first{(rate) -> Bool in
                         var exchange = rate.value(forKey: "exchange") as! NSManagedObject
-                        return (exchange.value(forKey: "date") as? Date) == transactionDate
+                        return (exchange.value(forKey: "date") as? Date) == transactionDay
                     }?.value(forKey: "amount") as! Double
                 if let destResults = destResults.last {
                     destResults.setValue((sInstance.value(forKey: "amount") as! Double) * rate, forKey: "amountInAccountingCurrency")

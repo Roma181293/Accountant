@@ -2305,7 +2305,7 @@
 				2BFCE545274ABADF0070C35F /* Accountant 2.xcdatamodel */,
 				2B949BB82665B4040033383A /* Accountant.xcdatamodel */,
 			);
-			currentVersion = 2B52A1EB27F3A93B0056F5D8 /* Accountant 3.xcdatamodel */;
+			currentVersion = 2B72AE5E2AFF8D4200495A63 /* Accountant 4.xcdatamodel */;
 			path = Accountant.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
