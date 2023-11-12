@@ -14,12 +14,19 @@ class MITransactionEditorPresenter: MITransactionEditorViewOutput {
             viewInput?.configureView()
         }
     }
+    
     var interactorInput: MITransactionEditorInteractorInput
+    
     var routerInput: MITransactionEditorRouterInput
 
     var isNewTransaction: Bool {
         return interactorInput.isNewTransaction
     }
+    
+    var accountingCurrencyCode: String {
+        interactorInput.accountingCurrencyCode
+    }
+    
     private var transactionItems: [TransactionItemSimpleViewModel] = [] {
         didSet {
             viewInput?.reloadData()
@@ -54,8 +61,8 @@ class MITransactionEditorPresenter: MITransactionEditorViewOutput {
                                excludeAccountList: interactorInput.usedAccountList())
     }
 
-    func setAmount(forTrasactionItem id: UUID, amount: Double) {
-        interactorInput.setAmount(forTrasactionItem: id, amount: amount)
+    func setAmount(forTrasactionItem id: UUID, amount: Double, amountInAccountingCurrency: Double) {
+        interactorInput.setAmount(forTrasactionItem: id, amount: amount, amountInAccountingCurrency: amountInAccountingCurrency)
     }
 
     func setComment(_ comment: String?) {

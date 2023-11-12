@@ -84,9 +84,16 @@ class TransactionHelper {
         }
     }
 
-    class func createAndGetSimpleTran(date: Date, debit: Account, credit: Account, debitAmount: Double = 0,
-                                      creditAmount: Double = 0, comment: String? = nil,
-                                      createdByUser: Bool = true, context: NSManagedObjectContext) -> Transaction {
+    class func createAndGetSimpleTran(date: Date,
+                                      debit: Account,
+                                      credit: Account,
+                                      debitAmount: Double = 0,
+                                      debitAmountInAccountingCurrency: Double = 0,
+                                      creditAmount: Double = 0,
+                                      creditAmountInAccountingCurrency: Double = 0,
+                                      comment: String? = nil,
+                                      createdByUser: Bool = true,
+                                      context: NSManagedObjectContext) -> Transaction {
         let createDate = Date()
         let transaction = Transaction(date: date, comment: comment, createdByUser: createdByUser,
                                       createDate: createDate, context: context)
@@ -96,16 +103,25 @@ class TransactionHelper {
             transaction.status = .approved
         }
         _ = TransactionItem(transaction: transaction, type: .credit, account: credit, amount: creditAmount,
-                            createdByUser: createdByUser, createDate: createDate, context: context)
+                            amountInAccountingCurrency: creditAmountInAccountingCurrency, createdByUser: createdByUser,
+                            createDate: createDate, context: context)
         _ = TransactionItem(transaction: transaction, type: .debit, account: debit, amount: debitAmount,
-                            createdByUser: createdByUser, createDate: createDate, context: context)
+                            amountInAccountingCurrency: debitAmountInAccountingCurrency, createdByUser: createdByUser,
+                            createDate: createDate, context: context)
         transaction.calculateType()
         return transaction
     }
 
-    class func createSimpleTran(date: Date, debit: Account, credit: Account, debitAmount: Double = 0,
-                                creditAmount: Double = 0, comment: String? = nil,
-                                createdByUser: Bool = true, context: NSManagedObjectContext) {
+    class func createSimpleTran(date: Date,
+                                debit: Account,
+                                credit: Account,
+                                debitAmount: Double = 0,
+                                debitAmountInAccountingCurrency: Double = 0,
+                                creditAmount: Double = 0,
+                                creditAmountInAccountingCurrency: Double = 0,
+                                comment: String? = nil,
+                                createdByUser: Bool = true,
+                                context: NSManagedObjectContext) {
         _ = createAndGetSimpleTran(date: date, debit: debit, credit: credit, debitAmount: debitAmount, creditAmount: creditAmount, comment: comment, createdByUser: createdByUser, context: context)
     }
 

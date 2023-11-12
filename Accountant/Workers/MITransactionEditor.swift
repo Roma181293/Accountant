@@ -17,6 +17,7 @@ protocol MITransactionEditorDelegate: AnyObject {
 
 protocol MITransactionEditorInput: AnyObject {
     var isNewTransaction: Bool { get }
+    var accountingCurrencyCode: String { get }
     var transactionDate: Date { get }
     func setDate(_ date: Date) throws
     var transactionStatus: Transaction.Status { get }
@@ -25,7 +26,7 @@ protocol MITransactionEditorInput: AnyObject {
     func addEmptyTransactionItem(type: TransactionItem.TypeEnum)
     func deleteTransactionItem(id: UUID)
     func setAccount(_ account: Account, forTransactionItem id: UUID)
-    func setAmount(forTrasactionItem id: UUID, amount: Double)
+    func setAmount(forTrasactionItem id: UUID, amount: Double, amountInAccountingCurrency: Double)
     func setComment(_ comment: String?)
     func usedAccountList() -> [Account]
     func rootAccountFor(transactionItemId: UUID) -> Account?
@@ -38,12 +39,13 @@ class MITransactionEditor: MITransactionEditorInput {
     weak var delegate: MITransactionEditorDelegate?
 
     private(set) var isNewTransaction: Bool = true
+    var accountingCurrencyCode: String {
+        return CurrencyHelper.getAccountingCurrency(context: context)?.code ?? ""
+    }
     private(set) var transaction: Transaction
     let archivedPeriodDate: Date?
     var transactionDate: Date {
-        get {
-            return transaction.date
-        }
+        return transaction.date
     }
 
     var transactionStatus: Transaction.Status {
@@ -116,9 +118,10 @@ class MITransactionEditor: MITransactionEditorInput {
          */
     }
 
-    func setAmount(forTrasactionItem id: UUID, amount: Double) {
+    func setAmount(forTrasactionItem id: UUID, amount: Double, amountInAccountingCurrency: Double) {
         let item = getTransactionItemWithId(id)
         item?.amount = amount
+        item?.amountInAccountingCurrency = amountInAccountingCurrency
         item?.modifyDate = Date()
         item?.modifiedByUser = true
         delegate?.fetched(transactionItems: self.transaction.itemsList)

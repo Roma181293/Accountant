@@ -156,9 +156,9 @@ extension MITransactionEditorViewController: TransactionItemCellDelegate {
         output?.accountRequestingForTransactionItem(id: id)
     }
 
-    func setAmount(forTrasactionItem id: UUID, amount: Double) {
+    func setAmount(forTrasactionItem id: UUID, amount: Double, amountInAccountingCurrency: Double) {
 
-        output?.setAmount(forTrasactionItem: id, amount: amount)
+        output?.setAmount(forTrasactionItem: id, amount: amount, amountInAccountingCurrency: amountInAccountingCurrency)
     }
 }
 
@@ -181,11 +181,15 @@ extension MITransactionEditorViewController: UITableViewDataSource {
         guard let output = output else { return cell }
         switch tableView {
         case mainView.debitTableView:
-            cell.configureCell(for: output.debitTransactionItems[indexPath.row], with: self,
-                                  isUserInteractionEnabled: isUserInteractionEnabled)
+            cell.configureCell(for: output.debitTransactionItems[indexPath.row],
+                               with: self,
+                               accountingCurrencyCode: output.accountingCurrencyCode,
+                               isUserInteractionEnabled: isUserInteractionEnabled)
         case mainView.creditTableView:
-            cell.configureCell(for: output.creditTransactionItems[indexPath.row], with: self,
-                                  isUserInteractionEnabled: isUserInteractionEnabled)
+            cell.configureCell(for: output.creditTransactionItems[indexPath.row],
+                               with: self,
+                               accountingCurrencyCode: output.accountingCurrencyCode,
+                               isUserInteractionEnabled: isUserInteractionEnabled)
         default: break
         }
         return cell

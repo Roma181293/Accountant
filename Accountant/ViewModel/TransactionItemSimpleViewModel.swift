@@ -11,19 +11,22 @@ struct TransactionItemSimpleViewModel {
     let id: UUID
     let path: String
     let amount: Double
+    let amountInAccountingCurrency: Double
     let type: TransactionItem.TypeEnum
     let createDate: Date
     let currency: String
+    let isAccountingCurrency: Bool
 
     init(transactionItem: TransactionItem) {
         self.id = transactionItem.id
-        let path = transactionItem.account?.path ?? NSLocalizedString("Account/Category",
-                                                         tableName: Constants.Localizable.mITransactionEditor,
-                                                         comment: "")
-        self.path = path
+        self.path = transactionItem.account?.path ?? NSLocalizedString("Account/Category",
+                                                                       tableName: Constants.Localizable.mITransactionEditor,
+                                                                       comment: "")
         self.amount = transactionItem.amount
+        self.amountInAccountingCurrency = transactionItem.amountInAccountingCurrency
         self.type = transactionItem.type
         self.createDate = transactionItem.createDate ?? Date()
         self.currency = transactionItem.account?.currency?.code ?? ""
+        self.isAccountingCurrency = transactionItem.account?.currency?.isAccounting ?? true
     }
 }

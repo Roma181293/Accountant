@@ -9,5 +9,5 @@ import Foundation
 
 protocol TransactionItemCellDelegate: AnyObject {
     func accountRequestingForTransactionItem(id: UUID)
-    func setAmount(forTrasactionItem id: UUID, amount: Double)
+    func setAmount(forTrasactionItem id: UUID, amount: Double, amountInAccountingCurrency: Double)
 }

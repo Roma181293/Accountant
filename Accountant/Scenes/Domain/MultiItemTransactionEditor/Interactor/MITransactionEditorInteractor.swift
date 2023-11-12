@@ -19,6 +19,10 @@ class MITransactionEditorInteractor: MITransactionEditorInteractorInput {
         }
     }
 
+    var accountingCurrencyCode: String {
+        return worker.accountingCurrencyCode
+    }
+
     var transactionStatus: Transaction.Status {
         return worker.transactionStatus
     }
@@ -57,8 +61,8 @@ class MITransactionEditorInteractor: MITransactionEditorInteractorInput {
         worker.setAccount(account, forTransactionItem: id)
     }
 
-    func setAmount(forTrasactionItem id: UUID, amount: Double) {
-        worker.setAmount(forTrasactionItem: id, amount: amount)
+    func setAmount(forTrasactionItem id: UUID, amount: Double, amountInAccountingCurrency: Double) {
+        worker.setAmount(forTrasactionItem: id, amount: amount, amountInAccountingCurrency: amountInAccountingCurrency)
     }
 
     func setComment(_ comment: String?) {
