@@ -210,6 +210,8 @@
 		2BB780B2272EAB9B002D2098 /* GuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BB780B1272EAB9B002D2098 /* GuideView.swift */; };
 		2BC058BD26CDB63E00FE896C /* TransactionItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BC058BC26CDB63E00FE896C /* TransactionItemCell.swift */; };
 		2BCC0BDA26ACD79C00E8680E /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BCC0BD926ACD79C00E8680E /* StoreKit.framework */; };
+		2BCFAA852B13434E008E9BE5 /* WelcomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BCFAA842B13434E008E9BE5 /* WelcomeViewModel.swift */; };
+		2BCFAA872B13485D008E9BE5 /* Dynamic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BCFAA862B13485D008E9BE5 /* Dynamic.swift */; };
 		2BDAB0EF2804BE2300C5AED6 /* BaseEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BDAB0EE2804BE2300C5AED6 /* BaseEntity.swift */; };
 		2BDAB0F32804D60200C5AED6 /* MigrationPolicy_Account_V2toV3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BDAB0F22804D60200C5AED6 /* MigrationPolicy_Account_V2toV3.swift */; };
 		2BDAB0F82805EE7900C5AED6 /* MigrationPolicy_V1toV3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BDAB0F72805EE7900C5AED6 /* MigrationPolicy_V1toV3.swift */; };
@@ -501,6 +503,8 @@
 		2BB780B1272EAB9B002D2098 /* GuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuideView.swift; sourceTree = "<group>"; };
 		2BC058BC26CDB63E00FE896C /* TransactionItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionItemCell.swift; sourceTree = "<group>"; };
 		2BCC0BD926ACD79C00E8680E /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		2BCFAA842B13434E008E9BE5 /* WelcomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewModel.swift; sourceTree = "<group>"; };
+		2BCFAA862B13485D008E9BE5 /* Dynamic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dynamic.swift; sourceTree = "<group>"; };
 		2BDAB0EE2804BE2300C5AED6 /* BaseEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseEntity.swift; sourceTree = "<group>"; };
 		2BDAB0F22804D60200C5AED6 /* MigrationPolicy_Account_V2toV3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MigrationPolicy_Account_V2toV3.swift; sourceTree = "<group>"; };
 		2BDAB0F72805EE7900C5AED6 /* MigrationPolicy_V1toV3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MigrationPolicy_V1toV3.swift; sourceTree = "<group>"; };
@@ -736,6 +740,7 @@
 		2B6D8E72282660E8006896EF /* Welcome */ = {
 			isa = PBXGroup;
 			children = (
+				2BCFAA842B13434E008E9BE5 /* WelcomeViewModel.swift */,
 				2B44C9F326EDFC6E0009976A /* WelcomeViewController.swift */,
 				2B6D8E73282660FF006896EF /* WelcomeView.swift */,
 				2B6D8E792826DF07006896EF /* WelcomeVCLocalizable.strings */,
@@ -824,6 +829,7 @@
 				2B1FEA9E266C349B00BF53BD /* Constants.swift */,
 				2B1FEA53266BEEC000BF53BD /* Enums.swift */,
 				2B490DD826E4B8CE00967E11 /* OfferUITapGestureRecognizer.swift */,
+				2BCFAA862B13485D008E9BE5 /* Dynamic.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -1662,11 +1668,13 @@
 				2B6C2363280E114400D84174 /* KeeperProvider.swift in Sources */,
 				2B44C9F626EE86F00009976A /* StartAccountingViewController.swift in Sources */,
 				2B2E2E8B26E0054400A6CFDD /* AnalyticTableViewCell.swift in Sources */,
+				2BCFAA872B13485D008E9BE5 /* Dynamic.swift in Sources */,
 				2B1FEB57266D73DC00BF53BD /* AccountListViewController.swift in Sources */,
 				2BA55CF4285E7DA7003077B6 /* AccountTypeNavigationViewController.swift in Sources */,
 				2B90B8C82851237600ABFD35 /* AccountEditorViewController.swift in Sources */,
 				2BA55CF6285EE41C003077B6 /* AccountTypeService.swift in Sources */,
 				2B6561FD2776030500150B35 /* BankAccount.swift in Sources */,
+				2BCFAA852B13434E008E9BE5 /* WelcomeViewModel.swift in Sources */,
 				2B1FEB7C266EC39800BF53BD /* AnalyticsViewController.swift in Sources */,
 				2B1FEB6D266D752200BF53BD /* DataForPieCharts.swift in Sources */,
 				2B1FEB41266D257900BF53BD /* NetworkServices.swift in Sources */,
