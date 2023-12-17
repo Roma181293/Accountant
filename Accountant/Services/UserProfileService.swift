@@ -64,19 +64,6 @@ class UserProfileService {
         return false
     }
 
-    static func useMultiItemTransaction(_ value: Bool, environment: Environment) {
-        let defaults = UserDefaults.standard
-        defaults.set(value, forKey: "useMultiItemTransaction\(environment.rawValue)")
-    }
-
-    static func isUseMultiItemTransaction(environment: Environment) -> Bool {
-        if let value = UserDefaults.standard.object(forKey: "useMultiItemTransaction\(environment.rawValue)") as? Bool {
-            return value
-        } else {
-            return false
-        }
-    }
-
     static func setUserAuth(_ authType: AuthType) {
         let defaults = UserDefaults.standard
         defaults.set(authType.rawValue, forKey: "userAuthType")

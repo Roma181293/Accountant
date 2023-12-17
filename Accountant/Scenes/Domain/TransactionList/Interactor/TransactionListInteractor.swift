@@ -7,13 +7,13 @@
 //
 
 import Foundation
-//import Purchases
+import Purchases
 import CoreData
 
 class TransactionListInteractor {
 
     weak var output: TransactionListInteractorOutput?
-    private var isUserHasPaidAccess: Bool = true
+    private var isUserHasPaidAccess: Bool = false
     private var coreDataStack = CoreDataStack.shared
     private var environment = Environment.prod
     private var transactionListWorker: TransactionListWorker
@@ -29,6 +29,9 @@ class TransactionListInteractor {
 
         NotificationCenter.default.addObserver(self, selector: #selector(self.environmentDidChange),
                                                name: .environmentDidChange, object: nil)
+
+        NotificationCenter.default.addObserver(self, selector: #selector(self.reloadProAccessData),
+                                               name: .environmentDidChange, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.reloadProAccessData),
                                                name: .receivedProAccessData, object: nil)
     }
@@ -39,14 +42,13 @@ class TransactionListInteractor {
     }
 
     @objc private func reloadProAccessData() {
-//        Purchases.shared.purchaserInfo { (purchaserInfo, _) in
-//            if purchaserInfo?.entitlements.all["pro"]?.isActive == true {
-//                self.isUserHasPaidAccess = true
-//            } else if purchaserInfo?.entitlements.all["pro"]?.isActive == false {
-//                self.isUserHasPaidAccess = false
-//                UserProfileService.useMultiItemTransaction(false, environment: self.environment)
-//            }
-//        }
+        Purchases.shared.purchaserInfo { (purchaserInfo, _) in
+            if purchaserInfo?.entitlements.all["pro"]?.isActive == true {
+                self.isUserHasPaidAccess = true
+            } else if purchaserInfo?.entitlements.all["pro"]?.isActive == false {
+                self.isUserHasPaidAccess = false
+            }
+        }
     }
 
     @objc private func environmentDidChange() {
@@ -85,7 +87,7 @@ extension TransactionListInteractor: TransactionListInteractorInput {
     }
 
     func isMITransactionModeOn() -> Bool {
-        return UserProfileService.isUseMultiItemTransaction(environment: environment)
+        return true
     }
 
     func loadStatmentsData() {

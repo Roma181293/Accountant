@@ -4,27 +4,35 @@ PODS:
     - Charts/Core (= 4.1.0)
   - Charts/Core (4.1.0):
     - SwiftAlgorithms (~> 1.0)
+  - Purchases (3.14.3):
+    - PurchasesCoreSwift (= 3.14.3)
+  - PurchasesCoreSwift (3.14.3)
   - SwiftAlgorithms (1.0.0)
   - SwiftLint (0.47.0)
 
 DEPENDENCIES:
   - Alamofire (= 5.4.4)
   - Charts (= 4.1.0)
+  - Purchases
   - SwiftLint
 
 SPEC REPOS:
   trunk:
     - Alamofire
     - Charts
+    - Purchases
+    - PurchasesCoreSwift
     - SwiftAlgorithms
     - SwiftLint
 
 SPEC CHECKSUMS:
   Alamofire: f3b09a368f1582ab751b3fff5460276e0d2cf5c9
   Charts: 354f86803d11d9c35de280587fef50d1af063978
+  Purchases: ba5a570357564da5d5447281190b5ac5ab9b8f3e
+  PurchasesCoreSwift: 78a2001158d7fed44f9796ea50b89152ba727520
   SwiftAlgorithms: 38dda4731d19027fdeee1125f973111bf3386b53
   SwiftLint: d41cc46a2ae58ac6d9f26954bc89f1d72e71fdef
 
-PODFILE CHECKSUM: fba2e2f48e22bcdc6694ac7e9d8ce0853db19851
+PODFILE CHECKSUM: 1d3c7ae10058272804724d1b894cb6ae9e0e5dd9
 
 COCOAPODS: 1.12.1

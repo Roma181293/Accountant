@@ -7,7 +7,7 @@
 
 import UIKit
 import CoreData
-//import Purchases
+import Purchases
 
 protocol AccountRequestor {
     func setAccount(_ account: Account)
@@ -29,7 +29,7 @@ class AccountNavigationViewController: UITableViewController {
 
     private let localizedTableName: String = Constants.Localizable.accountNavigation
 
-    private var isUserHasPaidAccess = true
+    private var isUserHasPaidAccess = false
     private lazy var accountListWorker: AccountListWorker = {
         let accountProvider = AccountListWorker(with: CoreDataStack.shared.persistentContainer)
         accountProvider.fetchedResultsControllerDelegate = self
@@ -161,13 +161,13 @@ extension AccountNavigationViewController {
     }
 
     @objc func reloadProAccessData() {
-//        Purchases.shared.purchaserInfo { (purchaserInfo, _) in
-//            if purchaserInfo?.entitlements.all["pro"]?.isActive == true {
-//                self.isUserHasPaidAccess = true
-//            } else if purchaserInfo?.entitlements.all["pro"]?.isActive == false {
-//                self.isUserHasPaidAccess = false
-//            }
-//        }
+        Purchases.shared.purchaserInfo { (purchaserInfo, _) in
+            if purchaserInfo?.entitlements.all["pro"]?.isActive == true {
+                self.isUserHasPaidAccess = true
+            } else if purchaserInfo?.entitlements.all["pro"]?.isActive == false {
+                self.isUserHasPaidAccess = false
+            }
+        }
     }
 }
 

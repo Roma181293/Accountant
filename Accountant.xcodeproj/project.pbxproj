@@ -212,6 +212,8 @@
 		2BCC0BDA26ACD79C00E8680E /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BCC0BD926ACD79C00E8680E /* StoreKit.framework */; };
 		2BCFAA852B13434E008E9BE5 /* WelcomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BCFAA842B13434E008E9BE5 /* WelcomeViewModel.swift */; };
 		2BCFAA872B13485D008E9BE5 /* Dynamic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BCFAA862B13485D008E9BE5 /* Dynamic.swift */; };
+		2BCFAA892B134AD9008E9BE5 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BCFAA882B134AD9008E9BE5 /* SettingsViewModel.swift */; };
+		2BCFAA8B2B134CC6008E9BE5 /* PaidAccessViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BCFAA8A2B134CC6008E9BE5 /* PaidAccessViewModel.swift */; };
 		2BDAB0EF2804BE2300C5AED6 /* BaseEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BDAB0EE2804BE2300C5AED6 /* BaseEntity.swift */; };
 		2BDAB0F32804D60200C5AED6 /* MigrationPolicy_Account_V2toV3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BDAB0F22804D60200C5AED6 /* MigrationPolicy_Account_V2toV3.swift */; };
 		2BDAB0F82805EE7900C5AED6 /* MigrationPolicy_V1toV3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BDAB0F72805EE7900C5AED6 /* MigrationPolicy_V1toV3.swift */; };
@@ -505,6 +507,8 @@
 		2BCC0BD926ACD79C00E8680E /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		2BCFAA842B13434E008E9BE5 /* WelcomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewModel.swift; sourceTree = "<group>"; };
 		2BCFAA862B13485D008E9BE5 /* Dynamic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dynamic.swift; sourceTree = "<group>"; };
+		2BCFAA882B134AD9008E9BE5 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
+		2BCFAA8A2B134CC6008E9BE5 /* PaidAccessViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaidAccessViewModel.swift; sourceTree = "<group>"; };
 		2BDAB0EE2804BE2300C5AED6 /* BaseEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseEntity.swift; sourceTree = "<group>"; };
 		2BDAB0F22804D60200C5AED6 /* MigrationPolicy_Account_V2toV3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MigrationPolicy_Account_V2toV3.swift; sourceTree = "<group>"; };
 		2BDAB0F72805EE7900C5AED6 /* MigrationPolicy_V1toV3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MigrationPolicy_V1toV3.swift; sourceTree = "<group>"; };
@@ -830,6 +834,7 @@
 				2B1FEA53266BEEC000BF53BD /* Enums.swift */,
 				2B490DD826E4B8CE00967E11 /* OfferUITapGestureRecognizer.swift */,
 				2BCFAA862B13485D008E9BE5 /* Dynamic.swift */,
+				2BCFAA8A2B134CC6008E9BE5 /* PaidAccessViewModel.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -882,6 +887,7 @@
 		2B7F884D27A5D3E400A1B63B /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				2BCFAA882B134AD9008E9BE5 /* SettingsViewModel.swift */,
 				2B1FEB96266EDE5000BF53BD /* SettingsViewController.swift */,
 				2B6D8E8D2827FECB006896EF /* SettingsRouter.swift */,
 				2B3BD61926EBE85D0056A9F7 /* SettingsCell.swift */,
@@ -1612,6 +1618,7 @@
 				2B85FD0D277795DC005A295E /* StatementsLoadingService.swift in Sources */,
 				2B85D855278F013B0042858B /* Exchange.swift in Sources */,
 				2B1FEAE8266CAF6C00BF53BD /* Extension Formatter.swift in Sources */,
+				2BCFAA8B2B134CC6008E9BE5 /* PaidAccessViewModel.swift in Sources */,
 				2B1FEB58266D73DC00BF53BD /* AccountListTableViewController.swift in Sources */,
 				2B1FEAEA266CAF6C00BF53BD /* Extension Double.swift in Sources */,
 				2B2056FB285D97A9002C6F89 /* KeeperHelper.swift in Sources */,
@@ -1671,6 +1678,7 @@
 				2BCFAA872B13485D008E9BE5 /* Dynamic.swift in Sources */,
 				2B1FEB57266D73DC00BF53BD /* AccountListViewController.swift in Sources */,
 				2BA55CF4285E7DA7003077B6 /* AccountTypeNavigationViewController.swift in Sources */,
+				2BCFAA892B134AD9008E9BE5 /* SettingsViewModel.swift in Sources */,
 				2B90B8C82851237600ABFD35 /* AccountEditorViewController.swift in Sources */,
 				2BA55CF6285EE41C003077B6 /* AccountTypeService.swift in Sources */,
 				2B6561FD2776030500150B35 /* BankAccount.swift in Sources */,

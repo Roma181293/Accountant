@@ -23,8 +23,6 @@ class TransactionListWorker: NSObject {
 
     private(set) unowned var persistentContainer: PersistentContainer
 
-
-
     init(with persistentContainer: PersistentContainer) {
         self.persistentContainer = persistentContainer
     }
@@ -96,11 +94,10 @@ class TransactionListWorker: NSObject {
         let object  = fetchedResultsController.object(at: indexPath)
         let objectID  = fetchedResultsController.object(at: indexPath).objectID
         let context = persistentContainer.newBackgroundContext()
+        let archivingDate = ArchivingWorker.getCurrentArchivedPeriod(context: mainContext)
 
-        guard let archivingDate = ArchivingWorker.getCurrentArchivedPeriod(context: mainContext), archivingDate < object.date
-        else {
+        if archivingDate != nil && archivingDate! < object.date {
             delegate?.showError(error: WorkerError.cannotDeleteInClosedPeriod)
-            return
         }
 
             context.performAndWait {

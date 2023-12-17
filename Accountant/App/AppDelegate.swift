@@ -6,7 +6,7 @@
 //
 
 import UIKit
-// import Purchases
+import Purchases
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -16,8 +16,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool { // swiftlint:disable:this line_length
 
         // MARK: REVENUECAT initializing
-//        Purchases.debugLogsEnabled = true
-//        Purchases.configure(withAPIKey: Constants.APIKey.revenueCat)
+//        Purchases.logLevel = .debug
+        Purchases.configure(withAPIKey: Constants.APIKey.revenueCat)
 
         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         guard let additionalVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.additionalLaunchScreenVC) as? AdditionalLaunchScreenViewController else {return true} // swiftlint:disable:this line_length
@@ -38,20 +38,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let calendar = Calendar.current
 
         // MARK: - GET PURCHASER INFO
-//        if let lastAccessCheckDate = UserProfileService.getLastAccessCheckDate(),
-//           let secureDate = calendar.date(byAdding: .hour, value: 6, to: lastAccessCheckDate),
-//               secureDate > Date() {
-//            Purchases.shared.purchaserInfo { (purchaserInfo, _) in
-//                if purchaserInfo?.entitlements.all["pro"]?.isActive == false,
-//                   let expirationDate = purchaserInfo?.expirationDate(forEntitlement: "pro"),
-//                   let secureDate = calendar.date(byAdding: .day, value: 3, to: expirationDate),
-//                   secureDate < Date() {
-//                    UserProfileService.setUserAuth(.none)
-//                }
-//                NotificationCenter.default.post(name: .receivedProAccessData, object: nil)
-//                UserProfileService.setLastAccessCheckDate()
-//            }
-//        }
+        if let lastAccessCheckDate = UserProfileService.getLastAccessCheckDate(),
+           let secureDate = calendar.date(byAdding: .hour, value: 6, to: lastAccessCheckDate),
+               secureDate > Date() {
+            Purchases.shared.purchaserInfo { (purchaserInfo, _) in
+                if purchaserInfo?.entitlements.all["pro"]?.isActive == false,
+                   let expirationDate = purchaserInfo?.expirationDate(forEntitlement: "pro"),
+                   let secureDate = calendar.date(byAdding: .day, value: 3, to: expirationDate),
+                   secureDate < Date() {
+                    UserProfileService.setUserAuth(.none)
+                }
+                NotificationCenter.default.post(name: .receivedProAccessData, object: nil)
+                UserProfileService.setLastAccessCheckDate()
+            }
+        }
 
         // MARK: - AUTH BLOCK
         let userAuthType = UserProfileService.getUserAuth()

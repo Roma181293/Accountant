@@ -9,7 +9,7 @@ target 'Accountant' do
   # Pods for Accountant
    pod 'Charts', '=4.1.0'
    pod 'Alamofire', '=5.4.4'
-   #pod 'Purchases', '=3.10.1'
+   pod 'Purchases', '=3.14.3'
    pod 'SwiftLint'
    #pod 'Google-Mobile-Ads-SDK'
 
