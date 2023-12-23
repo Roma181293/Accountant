@@ -153,20 +153,6 @@ class MITransactionEditorView: UIView {
         return textField
     }()
 
-    let confirmButton: UIButton = {
-        let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.setImage(UIImage(systemName: "checkmark"), for: .normal)
-        button.backgroundColor = Colors.Main.confirmButton
-        button.layer.cornerRadius = 34
-        button.layer.shadowColor = UIColor.gray.cgColor
-        button.layer.shadowOffset = CGSize(width: 2, height: 2)
-        button.layer.shadowOpacity = 0.5
-        button.layer.shadowRadius = 3
-        button.layer.masksToBounds =  false
-        return button
-    }()
-
     override init(frame: CGRect) {
         super.init(frame: frame)
 
@@ -192,10 +178,6 @@ class MITransactionEditorView: UIView {
         delegate?.creditAddButtonDidClick()
     }
 
-    @objc private func confirm() {
-        delegate?.confirm()
-    }
-
     private func addTargets() {
         datePicker.addTarget(self,
                              action: #selector(self.changeDate(_:)),
@@ -206,9 +188,6 @@ class MITransactionEditorView: UIView {
         creditAddButton.addTarget(self,
                                   action: #selector(self.creditAddButtonDidClick),
                                   for: .touchUpInside)
-        confirmButton.addTarget(self,
-                                action: #selector(self.confirm),
-                                for: .touchUpInside)
     }
 
     private func addConstraints() { // swiftlint:disable:this function_body_length
@@ -235,16 +214,8 @@ class MITransactionEditorView: UIView {
         datePicker.centerYAnchor.constraint(equalTo: dateLabel.centerYAnchor).isActive = true
         datePicker.leadingAnchor.constraint(equalTo: dateLabel.trailingAnchor, constant: 8).isActive = true
 
-        mainView.addSubview(confirmButton)
-        confirmButton.bottomAnchor.constraint(equalTo: mainView.safeAreaLayoutGuide.bottomAnchor,
-                                              constant: -89).isActive = true
-        confirmButton.trailingAnchor.constraint(equalTo: mainView.safeAreaLayoutGuide.trailingAnchor,
-                                                constant: -40+8).isActive = true
-        confirmButton.heightAnchor.constraint(equalToConstant: 68).isActive = true
-        confirmButton.widthAnchor.constraint(equalToConstant: 68).isActive = true
-
         mainView.addSubview(commentTextField)
-        commentTextField.bottomAnchor.constraint(equalTo: confirmButton.topAnchor, constant: -20).isActive = true
+        commentTextField.bottomAnchor.constraint(equalTo: mainView.bottomAnchor, constant: -20).isActive = true
         commentTextField.leadingAnchor.constraint(equalTo: mainView.leadingAnchor, constant: 8).isActive = true
         commentTextField.trailingAnchor.constraint(equalTo: mainView.trailingAnchor, constant: -8).isActive = true
         commentTextField.heightAnchor.constraint(equalToConstant: 30).isActive = true

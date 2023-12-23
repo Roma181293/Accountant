@@ -23,16 +23,20 @@ class MITransactionEditorViewController: UIViewController, AccountNavigationDele
     }
 
     override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
-        if output?.isNewTransaction == true {
-            self.navigationItem.title = NSLocalizedString("Add transaction",
-                                                          tableName: Constants.Localizable.mITransactionEditor,
-                                                          comment: "")
-        } else {
-            self.navigationItem.title = NSLocalizedString("Edit transaction",
-                                                          tableName: Constants.Localizable.mITransactionEditor,
-                                                          comment: "")
-        }
+        super.viewWillAppear(animated)
+
+        self.navigationItem.title = output?.isNewTransaction == true
+        ? NSLocalizedString("Add transaction",
+                            tableName: Constants.Localizable.mITransactionEditor,
+                            comment: "")
+        : NSLocalizedString("Edit transaction",
+                            tableName: Constants.Localizable.mITransactionEditor,
+                            comment: "")
+
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Save",
+                                                                 style: .plain,
+                                                                 target: self,
+                                                                 action: #selector(self.confirm))
 
         output?.viewWillAppear()
 
@@ -55,6 +59,10 @@ class MITransactionEditorViewController: UIViewController, AccountNavigationDele
             output?.willMoveToParent()
         }
     }
+
+    @objc func confirm() {
+        output?.confirm()
+    }
 }
 
 // MARK: - MITransactionEditorViewDelegate
@@ -70,10 +78,6 @@ extension MITransactionEditorViewController: MITransactionEditorViewDelegate {
 
     func creditAddButtonDidClick() {
         output?.addCreditTransactionItem()
-    }
-
-    func confirm() {
-        output?.confirm()
     }
 }
 
@@ -145,7 +149,7 @@ extension MITransactionEditorViewController: MITransactionEditorViewInput {
         mainView.commentTextField.isUserInteractionEnabled = isUserInteractionEnabled
         mainView.debitAddButton.isHidden = true
         mainView.creditAddButton.isHidden = true
-        mainView.confirmButton.isHidden = true
+        self.tabBarController?.navigationItem.rightBarButtonItem = nil
     }
 }
 
