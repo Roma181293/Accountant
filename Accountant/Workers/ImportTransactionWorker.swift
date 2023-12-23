@@ -31,30 +31,32 @@ class ImportTransactionWorker {
 
         for row in inputMatrix {
             guard row.count > 1 else {break}
+            let rowRecord = TransactionRecordFromReport(trnsactionId: row[0],
+                                                     transactionDate: formatter.date(from: row[1]),
+                                                     transactionStatus: row[2],
+                                                     transactionItemType: row[3],
+                                                     account: row[4],
+                                                     amount: Double(row[5]) ?? -1,
+                                                     comment: row[6])
+            
+            guard ["APPLIED","ARCHIVED"].contains(where: {$0 == rowRecord.transactionStatus.uppercased()}) else {break}
 
             func getPreTransactionWithId(_ id: String) -> PreTransaction? {
-                let candidate = preTransactionList.filter({if $0.id == id {return true} else {return false}})
-                if candidate.count == 1 {
-                    return candidate[0]
-                }
-                return nil
+                return preTransactionList.filter({$0.id == id}).first
             }
 
             var preTransaction: PreTransaction!
-            if let pretransaction = getPreTransactionWithId(row[0]) {
+            if let pretransaction = getPreTransactionWithId(rowRecord.trnsactionId) {
                 preTransaction = pretransaction
-                if let date = formatter.date(from: row[1]) {
-                    preTransaction.transaction.date = date
+                if let transactionDate = rowRecord.transactionDate {
+                    preTransaction.transaction.date = transactionDate
                 }
             } else {
                 preTransaction = PreTransaction()
                 preTransaction.transaction = Transaction(context: context)
-                preTransaction.id = row[0]
-                preTransaction.transaction.date = formatter.date(from: row[1]) ?? Date()
-
-                if row[5] != "" {
-                    preTransaction.transaction.comment = row[5]
-                }
+                preTransaction.id = rowRecord.trnsactionId
+                preTransaction.transaction.date = rowRecord.transactionDate ?? Date()
+                preTransaction.transaction.comment = rowRecord.comment != "" ? rowRecord.comment : nil
 
                 preTransaction.transaction.createDate = Date()
                 preTransaction.transaction.modifyDate = Date()
@@ -66,28 +68,21 @@ class ImportTransactionWorker {
             }
 
             func findAccountWithPath(_ path: String) -> Account? {
-                for account in accounts where account.path == path {
-                    return account
-                }
-                return nil
+                    return accounts.filter({$0.path.uppercased() == path.uppercased()}).first
             }
 
             let transactionItem = TransactionItem(context: context)
-            if row[2].uppercased() == "CREDIT" || row[2].uppercased() == "FROM" {
+
+            if ["CREDIT", "FROM"].contains(where: {$0 == rowRecord.transactionItemType.uppercased()}) {
                 transactionItem.type = .credit
-            } else if row[2].description.uppercased() == "DEBIT" || row[2].uppercased() == "TO" {
+            } else if ["DEBIT", "TO"].contains(where: {$0 == rowRecord.transactionItemType.uppercased()}) {
                 transactionItem.type = .debit
-            }
-            else {
+            } else {
                 throw WorkerError.attributeTypeDidNotSpecified
             }
-            transactionItem.account = findAccountWithPath(row[3])
-            if let amount = Double(row[4]) {
-                transactionItem.amount = amount
-            } else {
-                transactionItem.amount = -1
-            }
 
+            transactionItem.account = findAccountWithPath(rowRecord.account)
+            transactionItem.amount = rowRecord.amount
             transactionItem.transaction = preTransaction.transaction
             transactionItem.id = UUID()
             transactionItem.createDate = Date()
@@ -113,3 +108,12 @@ extension ImportTransactionWorker.WorkerError {
     }
 }
 
+struct TransactionRecordFromReport {
+    let trnsactionId: String
+    let transactionDate: Date?
+    let transactionStatus: String
+    let transactionItemType: String
+    let account: String
+    let amount: Double
+    let comment: String
+}
