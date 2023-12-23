@@ -101,11 +101,10 @@ class AccountNavigationViewController: UITableViewController {
 extension AccountNavigationViewController {
     private func createAddButton() {
         if accountListWorker.isSwipeAvailable && accountListWorker.canModifyAccountStructure {
-            let addButton = UIBarButtonItem(title: "+",
+            let addButton = UIBarButtonItem(image: UIImage(systemName: "plus"),
                                             style: .plain,
                                             target: self,
                                             action: #selector(self.addCategoryOrAccount))
-            addButton.image = UIImage(systemName: "plus")
             self.navigationItem.rightBarButtonItem = addButton
         } else {
             self.navigationItem.rightBarButtonItem = nil
