@@ -79,8 +79,12 @@ class TransactionListWorker: NSObject {
             transaction.status = .draft
 
             for item in original.itemsList {
-                _ = TransactionItem(transaction: transaction, type: item.type, account: item.account,
-                                    amount: item.amount, context: context)
+                _ = TransactionItem(transaction: transaction,
+                                    type: item.type,
+                                    account: item.account,
+                                    amount: item.amount,
+                                    amountInAccountingCurrency: item.amountInAccountingCurrency,
+                                    context: context)
             }
 
             context.save(with: .duplicateTransaction)

@@ -17,12 +17,14 @@ class TransactionHelper {
         return try? context.fetch(request).first
     }
 
-    private class func getDataAboutTransactionItems(transaction: Transaction, type: TransactionItem.TypeEnum,
-                                                    amount: inout Double, currency: inout Currency?,
+    private class func getDataAboutTransactionItems(transaction: Transaction,
+                                                    type: TransactionItem.TypeEnum,
+                                                    amountInAccountingCurrency: inout Double,
+                                                    currency: inout Currency?,
                                                     itemsCount: inout Int) throws {
         for item in transaction.itemsList.filter({$0.type == type}) {
             itemsCount += 1
-            amount += item.amountInAccountingCurrency
+            amountInAccountingCurrency += item.amountInAccountingCurrency
             if let account = item.account {
                 if let cur = account.currency {
                     if currency != cur {
@@ -32,7 +34,7 @@ class TransactionHelper {
                     throw HelperError.multicurrencyAccount(name: account.path)
                 }
 
-                if item.amountInAccountingCurrency <= 0 {
+                if item.amountInAccountingCurrency <= 0 || item.amount <= 0 {
                     switch type {
                     case .debit:
                         throw HelperError.invalidAmountInDebitTransactioItem(path: account.path)
@@ -65,9 +67,9 @@ class TransactionHelper {
         var creditCurrency: Currency? = transaction.itemsList.filter({$0.type == .credit}).first?.account?.currency
         var debitCurrency: Currency? = transaction.itemsList.filter({$0.type == .debit}).first?.account?.currency
 
-        try getDataAboutTransactionItems(transaction: transaction, type: .credit, amount: &creditAmount,
+        try getDataAboutTransactionItems(transaction: transaction, type: .credit,                                                     amountInAccountingCurrency: &creditAmount,
                                          currency: &creditCurrency, itemsCount: &creditItemsCount)
-        try getDataAboutTransactionItems(transaction: transaction, type: .debit, amount: &debitAmount,
+        try getDataAboutTransactionItems(transaction: transaction, type: .debit,                                                     amountInAccountingCurrency: &debitAmount,
                                          currency: &debitCurrency, itemsCount: &debitItemsCount)
         // Check ability to save transaction
 
