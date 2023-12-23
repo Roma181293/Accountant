@@ -32,14 +32,15 @@ class ImportTransactionWorker {
         for row in inputMatrix {
             guard row.count > 1 else {break}
             let rowRecord = TransactionRecordFromReport(trnsactionId: row[0],
-                                                     transactionDate: formatter.date(from: row[1]),
-                                                     transactionStatus: row[2],
-                                                     transactionItemType: row[3],
-                                                     account: row[4],
-                                                     amount: Double(row[5]) ?? -1,
-                                                     comment: row[6])
-            
-            guard ["APPLIED","ARCHIVED"].contains(where: {$0 == rowRecord.transactionStatus.uppercased()}) else {break}
+                                                        transactionDate: formatter.date(from: row[1]),
+                                                        transactionStatus: row[2],
+                                                        transactionItemType: row[3],
+                                                        account: row[4],
+                                                        amount: Double(row[5]) ?? -1,
+                                                        amountInAccountingCurrency: Double(row[6]) ?? -1,
+                                                        comment: row[7])
+
+            guard ["APPLIED", "ARCHIVED"].contains(where: {$0 == rowRecord.transactionStatus.uppercased()}) else {break}
 
             func getPreTransactionWithId(_ id: String) -> PreTransaction? {
                 return preTransactionList.filter({$0.id == id}).first
@@ -115,5 +116,6 @@ struct TransactionRecordFromReport {
     let transactionItemType: String
     let account: String
     let amount: Double
+    let amountInAccountingCurrency: Double
     let comment: String
 }

@@ -255,7 +255,7 @@ class TransactionHelper {
                                              "\(Transaction.Status.preDraft.rawValue)")
         do {
             let storedTransactions = try context.fetch(fetchRequest)
-            var export: String = "Trnsaction Id,Transaction Date,Transaction Status,Transaction Item Type,Account,Amount,Comment"
+            var export: String = "Trnsaction Id,Transaction Date,Transaction Status,Transaction Item Type,Account,Amount,Amount in accounting currency,Comment"
             let formatter = DateFormatter()
             formatter.dateFormat = "yyyy-MM-dd hh:mm:ss z"
             for transaction in storedTransactions {
@@ -278,6 +278,7 @@ class TransactionHelper {
                     }
                     export +=  String(describing: item.account?.path ?? "NULL") + ","
                     export +=  String(describing: item.amount) + ","
+                    export +=  String(describing: item.amountInAccountingCurrency) + ","
                     export +=  "\(transaction.comment ?? "")"
                 }
             }
