@@ -24,10 +24,6 @@ class AnalyticsTableViewController: UITableViewController {
         accountingCurrency = CurrencyHelper.getAccountingCurrency(context: CoreDataStack.shared.persistentContainer.viewContext)! // swiftlint:disable:this line_length
         tableView.register(AnalyticTableViewCell.self, forCellReuseIdentifier: Constants.Cell.analyticsCell1)
     }
-    
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return listOfAccountsToShow.count
@@ -53,8 +49,7 @@ class AnalyticsTableViewController: UITableViewController {
         tableView.deselectRow(at: indexPath, animated: true)
         if let selectedAccount = listOfAccountsToShow[indexPath.row].account,
            !selectedAccount.childrenList.isEmpty, selectedAccount != account {
-            let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-            let analyticsVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.analyticsVC) as! AnalyticsViewController // swiftlint:disable:this force_cast line_length
+            let analyticsVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: Constants.Storyboard.analyticsVC) as! AnalyticsViewController // swiftlint:disable:this force_cast line_length
             analyticsVC.account = selectedAccount
             analyticsVC.sortCategoryBy = sortCategoryBy
             analyticsVC.dateComponent = dateComponent

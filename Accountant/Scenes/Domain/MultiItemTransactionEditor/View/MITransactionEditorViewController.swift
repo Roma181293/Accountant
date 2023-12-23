@@ -33,7 +33,9 @@ class MITransactionEditorViewController: UIViewController, AccountNavigationDele
                             tableName: Constants.Localizable.mITransactionEditor,
                             comment: "")
 
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Save",
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: NSLocalizedString("Save",
+                                                                                          tableName: Constants.Localizable.mITransactionEditor,
+                                                                                          comment: ""),
                                                                  style: .plain,
                                                                  target: self,
                                                                  action: #selector(self.confirm))
