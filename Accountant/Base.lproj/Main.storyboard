@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="gmG-ob-mZ7">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="gmG-ob-mZ7">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
         <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -19,7 +19,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="HVd-WN-TxD">
-                                <rect key="frame" x="0.0" y="88" width="414" height="725"/>
+                                <rect key="frame" x="0.0" y="92" width="414" height="721"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <connections>
                                     <outlet property="dataSource" destination="xRa-eE-QKN" id="u84-mg-tcT"/>
@@ -57,7 +57,7 @@
             <objects>
                 <navigationController id="gmG-ob-mZ7" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="EW2-ff-saO">
-                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <rect key="frame" x="0.0" y="48" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
@@ -80,7 +80,6 @@
                     </tabBar>
                     <connections>
                         <segue destination="xRa-eE-QKN" kind="relationship" relationship="viewControllers" id="Qeu-9O-znX"/>
-                        <segue destination="cG4-t1-4hJ" kind="relationship" relationship="viewControllers" id="oIY-Rn-HXF"/>
                         <segue destination="iUb-tQ-GKn" kind="relationship" relationship="viewControllers" id="ICj-Hx-8KB"/>
                         <segue destination="wC1-ZT-jvo" kind="relationship" relationship="viewControllers" id="SMP-gR-l6t"/>
                     </connections>
@@ -157,7 +156,7 @@
                                 </connections>
                             </containerView>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="08D-Cc-lzg">
-                                <rect key="frame" x="92" y="101" width="230" height="32"/>
+                                <rect key="frame" x="92" y="61" width="230" height="32"/>
                                 <segments>
                                     <segment title="Money"/>
                                     <segment title="Debtors"/>
@@ -168,7 +167,7 @@
                                 </connections>
                             </segmentedControl>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="q4g-u3-3ig">
-                                <rect key="frame" x="368" y="105" width="46" height="22"/>
+                                <rect key="frame" x="368" y="65" width="46" height="22"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="46" id="NOf-iJ-rlv"/>
                                     <constraint firstAttribute="height" constant="22" id="T0v-4E-b8o"/>
@@ -262,26 +261,14 @@
                                 <viewLayoutGuide key="contentLayoutGuide" id="ZYQ-wt-znZ"/>
                                 <viewLayoutGuide key="frameLayoutGuide" id="2vN-aQ-IqO"/>
                             </scrollView>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="1" translatesAutoresizingMaskIntoConstraints="NO" id="waj-9n-cEF">
-                                <rect key="frame" x="135.5" y="101" width="143" height="32"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="31" id="yw9-YD-9Yq"/>
-                                </constraints>
-                                <segments>
-                                    <segment title="Income"/>
-                                    <segment title="Expense"/>
-                                </segments>
-                                <connections>
-                                    <action selector="chooseAccount:" destination="iUb-tQ-GKn" eventType="valueChanged" id="4SK-qA-lGE"/>
-                                </connections>
-                            </segmentedControl>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="W51-r5-jlS">
-                                <rect key="frame" x="368" y="105" width="46" height="22"/>
+                                <rect key="frame" x="368" y="96" width="46" height="34"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="46" id="0mn-aH-ifw"/>
-                                    <constraint firstAttribute="height" constant="22" id="jiu-TH-JMT"/>
+                                    <constraint firstAttribute="height" constant="34" id="jiu-TH-JMT"/>
                                 </constraints>
-                                <state key="normal" image="gear" catalog="system"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" image="slider.horizontal.3" catalog="system"/>
                                 <connections>
                                     <segue destination="Ifm-65-ZPx" kind="presentation" identifier="goToConfigurationVC_ID" modalPresentationStyle="overCurrentContext" modalTransitionStyle="crossDissolve" id="1ge-G3-u05"/>
                                 </connections>
@@ -304,6 +291,14 @@
                                 <color key="pageIndicatorTintColor" systemColor="opaqueSeparatorColor"/>
                                 <color key="currentPageIndicatorTintColor" red="0.43587079639999998" green="0.4447874725" blue="0.4716951251" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </pageControl>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CR0-N1-IBg">
+                                <rect key="frame" x="169.5" y="96" width="75" height="34.5"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="gray" title="Button"/>
+                                <connections>
+                                    <action selector="onRootAccountButoonClick:" destination="iUb-tQ-GKn" eventType="touchUpInside" id="llX-oP-s5A"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="RgN-ca-hXf"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -312,23 +307,23 @@
                             <constraint firstItem="9Qx-ZA-Ve2" firstAttribute="leading" secondItem="RgN-ca-hXf" secondAttribute="leading" id="55W-rv-oTd"/>
                             <constraint firstItem="RgN-ca-hXf" firstAttribute="trailing" secondItem="W51-r5-jlS" secondAttribute="trailing" id="Eug-f7-dom"/>
                             <constraint firstItem="9Qx-ZA-Ve2" firstAttribute="top" secondItem="RgN-ca-hXf" secondAttribute="top" id="Eyw-wn-QgR"/>
-                            <constraint firstItem="W51-r5-jlS" firstAttribute="top" secondItem="RgN-ca-hXf" secondAttribute="top" constant="17" id="QkA-v0-X33"/>
-                            <constraint firstItem="waj-9n-cEF" firstAttribute="centerX" secondItem="0VD-KM-e01" secondAttribute="centerX" id="Wpn-zS-Wjd"/>
+                            <constraint firstItem="W51-r5-jlS" firstAttribute="top" secondItem="RgN-ca-hXf" secondAttribute="top" constant="4" id="QkA-v0-X33"/>
                             <constraint firstItem="Xvl-gp-9RB" firstAttribute="trailing" secondItem="RgN-ca-hXf" secondAttribute="trailing" id="cTd-pr-V9z"/>
-                            <constraint firstItem="waj-9n-cEF" firstAttribute="top" secondItem="RgN-ca-hXf" secondAttribute="top" constant="13" id="eQZ-qQ-Ns6"/>
                             <constraint firstItem="Xvl-gp-9RB" firstAttribute="top" secondItem="Swn-e2-1Tk" secondAttribute="bottom" constant="2" id="mxy-AD-flY"/>
+                            <constraint firstItem="CR0-N1-IBg" firstAttribute="top" secondItem="RgN-ca-hXf" secondAttribute="top" constant="4" id="myQ-kS-th4"/>
                             <constraint firstItem="Xvl-gp-9RB" firstAttribute="leading" secondItem="RgN-ca-hXf" secondAttribute="leading" id="sAq-BR-Gi7"/>
                             <constraint firstItem="Xvl-gp-9RB" firstAttribute="top" secondItem="9Qx-ZA-Ve2" secondAttribute="bottom" constant="30" id="u6Y-CA-FXe"/>
                             <constraint firstItem="Swn-e2-1Tk" firstAttribute="centerX" secondItem="0VD-KM-e01" secondAttribute="centerX" id="vPK-7z-7Ll"/>
                             <constraint firstItem="9Qx-ZA-Ve2" firstAttribute="trailing" secondItem="RgN-ca-hXf" secondAttribute="trailing" id="ygL-jT-49q"/>
+                            <constraint firstItem="CR0-N1-IBg" firstAttribute="centerX" secondItem="0VD-KM-e01" secondAttribute="centerX" id="zgr-qA-zSd"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Analytics" image="chart.pie" catalog="system" id="6TN-tW-nfr"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="pageControl" destination="Swn-e2-1Tk" id="FZJ-TT-SCE"/>
+                        <outlet property="rootAccountButton" destination="CR0-N1-IBg" id="lyT-gk-vRr"/>
                         <outlet property="scrollView" destination="9Qx-ZA-Ve2" id="suf-pC-gyf"/>
-                        <outlet property="segmentedControl" destination="waj-9n-cEF" id="iVp-ZL-3Ge"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qpz-e8-Azp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -462,11 +457,12 @@
         </scene>
     </scenes>
     <resources>
-        <image name="chart.pie" catalog="system" width="128" height="121"/>
+        <image name="chart.pie" catalog="system" width="128" height="123"/>
         <image name="creditcard" catalog="system" width="128" height="88"/>
-        <image name="dollarsign.circle" catalog="system" width="128" height="121"/>
-        <image name="gear" catalog="system" width="128" height="119"/>
+        <image name="dollarsign.circle" catalog="system" width="128" height="123"/>
+        <image name="gear" catalog="system" width="128" height="122"/>
         <image name="list.dash" catalog="system" width="128" height="85"/>
+        <image name="slider.horizontal.3" catalog="system" width="128" height="99"/>
         <image name="touchid" catalog="system" width="128" height="122"/>
         <systemColor name="opaqueSeparatorColor">
             <color red="0.77647058823529413" green="0.77647058823529413" blue="0.78431372549019607" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

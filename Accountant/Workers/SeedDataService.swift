@@ -34,7 +34,7 @@ class SeedDataService {
 
     // MARK: - Account
     static public func addBaseAccounts(accountingCurrency: Currency, context: NSManagedObjectContext) {
-        LocalisationManager.createAllLocalizedAccountName()
+        LocalizationManager.createAllLocalizedAccountName()
 
         // swiftlint:disable line_length
         let accounting = AccountType(name: "Accounting", classification: .none, allowsTransactions: false, priority: 1, context: context)
@@ -69,16 +69,16 @@ class SeedDataService {
         let expenseBeforeAccountingPeriod = AccountType(name: "Expense before accounting period", classification: .assets, hasCurrency: true, canBeDeleted: false, canChangeActiveStatus: true, canBeRenamed: false, canBeCreatedByUser: false, checkAmountBeforDeactivate: true, priority: 1, context: context)
         // swiftlint:enable line_length
 
-        let accounts = try? AccountHelper.createAndGetAccount(parent: nil, name: LocalisationManager.getLocalizedName(.accounts), type: accounting, currency: nil, createdByUser: false, context: context)
+        let accounts = try? AccountHelper.createAndGetAccount(parent: nil, name: LocalizationManager.getLocalizedName(.accounts), type: accounting, currency: nil, createdByUser: false, context: context)
 
-        try? AccountHelper.createAccount(parent: accounts, name: LocalisationManager.getLocalizedName(.money), type: moneyConsolid, currency: nil, createdByUser: false, context: context)
-        try? AccountHelper.createAccount(parent: accounts, name: LocalisationManager.getLocalizedName(.credits), type: creditorsConsolid, currency: nil, createdByUser: false, context: context)
-        try? AccountHelper.createAccount(parent: accounts, name: LocalisationManager.getLocalizedName(.debtors), type: debtorsConsolid, currency: nil, createdByUser: false, context: context)
-        try? AccountHelper.createAccount(parent: accounts, name: LocalisationManager.getLocalizedName(.capital), type: capitalConsolid, currency: accountingCurrency, createdByUser: false, context: context)
+        try? AccountHelper.createAccount(parent: accounts, name: LocalizationManager.getLocalizedName(.money), type: moneyConsolid, currency: nil, createdByUser: false, context: context)
+        try? AccountHelper.createAccount(parent: accounts, name: LocalizationManager.getLocalizedName(.credits), type: creditorsConsolid, currency: nil, createdByUser: false, context: context)
+        try? AccountHelper.createAccount(parent: accounts, name: LocalizationManager.getLocalizedName(.debtors), type: debtorsConsolid, currency: nil, createdByUser: false, context: context)
+        try? AccountHelper.createAccount(parent: accounts, name: LocalizationManager.getLocalizedName(.capital), type: capitalConsolid, currency: accountingCurrency, createdByUser: false, context: context)
 
-        let expense = try? AccountHelper.createAndGetAccount(parent: accounts, name: LocalisationManager.getLocalizedName(.expense), type: expenseConsolid, currency: accountingCurrency, createdByUser: false, context: context)
+        let expense = try? AccountHelper.createAndGetAccount(parent: accounts, name: LocalizationManager.getLocalizedName(.expense), type: expenseConsolid, currency: accountingCurrency, createdByUser: false, context: context)
 
-        let beforeAccountingPeriod = try? AccountHelper.createAndGetAccount(parent: expense, name: LocalisationManager.getLocalizedName(.beforeAccountingPeriod), type: assetsCategory, currency: accountingCurrency, createdByUser: false, context: context)
+        let beforeAccountingPeriod = try? AccountHelper.createAndGetAccount(parent: expense, name: LocalizationManager.getLocalizedName(.beforeAccountingPeriod), type: assetsCategory, currency: accountingCurrency, createdByUser: false, context: context)
         try? beforeAccountingPeriod?.changeActiveStatus()
 
         try? AccountHelper.createAccount(parent: expense, name: NSLocalizedString("Food", comment: ""), type: assetsCategory, currency: accountingCurrency, createdByUser: false, context: context)
@@ -89,7 +89,7 @@ class SeedDataService {
         try? AccountHelper.createAccount(parent: home, name: NSLocalizedString("Rent", comment: ""), type: assetsCategory, currency: accountingCurrency, createdByUser: false, context: context)
         try? AccountHelper.createAccount(parent: home, name: NSLocalizedString("Renovation", comment: ""), type: assetsCategory, currency: accountingCurrency, createdByUser: false, context: context)
 
-        let income = try? AccountHelper.createAndGetAccount(parent: accounts, name: LocalisationManager.getLocalizedName(.income), type: liabilityCategoryConsolid, currency: accountingCurrency, createdByUser: false, context: context)
+        let income = try? AccountHelper.createAndGetAccount(parent: accounts, name: LocalizationManager.getLocalizedName(.income), type: liabilityCategoryConsolid, currency: accountingCurrency, createdByUser: false, context: context)
         try? AccountHelper.createAccount(parent: income, name: NSLocalizedString("Salary", comment: ""), type: liabilitiesCategory, currency: accountingCurrency, createdByUser: false, context: context)
         try? AccountHelper.createAccount(parent: income, name: NSLocalizedString("Gifts", comment: ""), type: liabilitiesCategory, currency: accountingCurrency, createdByUser: false, context: context)
         try? AccountHelper.createAccount(parent: income, name: NSLocalizedString("Interest on deposits", comment: ""), type: liabilitiesCategory, currency: accountingCurrency, createdByUser: false, context: context)
@@ -195,7 +195,7 @@ class SeedDataService {
     // MARK: - Account
     private static func addTestBaseAccountsWithTransaction(accountingCurrency: Currency,
                                                            context: NSManagedObjectContext) throws {
-        LocalisationManager.createAllLocalizedAccountName()
+        LocalizationManager.createAllLocalizedAccountName()
 
         // MARK: - Get keepers
         let bank1 = try? KeeperHelper.getKeeperForName(NSLocalizedString("Bank1", comment: ""), context: context)
@@ -242,12 +242,12 @@ class SeedDataService {
         // swiftlint:enable line_length
 
 
-        let accounts = try? AccountHelper.createAndGetAccount(parent: nil, name: LocalisationManager.getLocalizedName(.accounts), type: accounting, currency: nil, createdByUser: false, context: context)
+        let accounts = try? AccountHelper.createAndGetAccount(parent: nil, name: LocalizationManager.getLocalizedName(.accounts), type: accounting, currency: nil, createdByUser: false, context: context)
 
-        let money = try? AccountHelper.createAndGetAccount(parent: accounts, name: LocalisationManager.getLocalizedName(.money), type: moneyConsolid, currency: nil, createdByUser: false, context: context)
-        let credits = try? AccountHelper.createAndGetAccount(parent: accounts, name: LocalisationManager.getLocalizedName(.credits), type: creditorsConsolid, currency: nil, createdByUser: false, context: context)
-        let debtors = try? AccountHelper.createAndGetAccount(parent: accounts, name: LocalisationManager.getLocalizedName(.debtors), type: debtorsConsolid, currency: nil, createdByUser: false, context: context)
-        let capital = try? AccountHelper.createAndGetAccount(parent: accounts, name: LocalisationManager.getLocalizedName(.capital), type: capitalConsolid, currency: accountingCurrency, createdByUser: false, context: context)
+        let money = try? AccountHelper.createAndGetAccount(parent: accounts, name: LocalizationManager.getLocalizedName(.money), type: moneyConsolid, currency: nil, createdByUser: false, context: context)
+        let credits = try? AccountHelper.createAndGetAccount(parent: accounts, name: LocalizationManager.getLocalizedName(.credits), type: creditorsConsolid, currency: nil, createdByUser: false, context: context)
+        let debtors = try? AccountHelper.createAndGetAccount(parent: accounts, name: LocalizationManager.getLocalizedName(.debtors), type: debtorsConsolid, currency: nil, createdByUser: false, context: context)
+        let capital = try? AccountHelper.createAndGetAccount(parent: accounts, name: LocalizationManager.getLocalizedName(.capital), type: capitalConsolid, currency: accountingCurrency, createdByUser: false, context: context)
 
 
         let deposit = try? AccountHelper.createAndGetAccount(parent: debtors, name: NSLocalizedString("Deposit", comment: ""), type: debtor, currency: accountingCurrency, keeper: bank1, holder: me, createdByUser: false, context: context)
@@ -261,9 +261,9 @@ class SeedDataService {
         creditcard_A?.linkedAccount = creditcard_L
         creditcard_L?.linkedAccount = creditcard_A
 
-        let expense = try? AccountHelper.createAndGetAccount(parent: accounts, name: LocalisationManager.getLocalizedName(.expense), type: expenseConsolid, currency: accountingCurrency, createdByUser: false, context: context)
+        let expense = try? AccountHelper.createAndGetAccount(parent: accounts, name: LocalizationManager.getLocalizedName(.expense), type: expenseConsolid, currency: accountingCurrency, createdByUser: false, context: context)
 
-        let beforeAccountingPeriod = try? AccountHelper.createAndGetAccount(parent: expense, name: LocalisationManager.getLocalizedName(.beforeAccountingPeriod), type: assetsCategory, currency: accountingCurrency, createdByUser: false, context: context)
+        let beforeAccountingPeriod = try? AccountHelper.createAndGetAccount(parent: expense, name: LocalizationManager.getLocalizedName(.beforeAccountingPeriod), type: assetsCategory, currency: accountingCurrency, createdByUser: false, context: context)
         try? beforeAccountingPeriod?.changeActiveStatus()
 
         let food = try? AccountHelper.createAndGetAccount(parent: expense, name: NSLocalizedString("Food", comment: ""), type: assetsCategory, currency: accountingCurrency, createdByUser: false, context: context)
@@ -274,7 +274,7 @@ class SeedDataService {
         let rent = try? AccountHelper.createAndGetAccount(parent: home, name: NSLocalizedString("Rent", comment: ""), type: assetsCategory, currency: accountingCurrency, createdByUser: false, context: context)
         let _ = try? AccountHelper.createAndGetAccount(parent: home, name: NSLocalizedString("Renovation", comment: ""), type: assetsCategory, currency: accountingCurrency, createdByUser: false, context: context)
 
-        let income = try? AccountHelper.createAndGetAccount(parent: accounts, name: LocalisationManager.getLocalizedName(.income), type: incomeConsolid, currency: accountingCurrency, createdByUser: false, context: context)
+        let income = try? AccountHelper.createAndGetAccount(parent: accounts, name: LocalizationManager.getLocalizedName(.income), type: incomeConsolid, currency: accountingCurrency, createdByUser: false, context: context)
         let salary = try? AccountHelper.createAndGetAccount(parent: income, name: NSLocalizedString("Salary", comment: ""), type: liabilitiesCategory, currency: accountingCurrency, createdByUser: false, context: context)
         let _ = try? AccountHelper.createAndGetAccount(parent: income, name: NSLocalizedString("Gifts", comment: ""), type: liabilitiesCategory, currency: accountingCurrency, createdByUser: false, context: context)
         let interestOnDeposits = try? AccountHelper.createAndGetAccount(parent: income, name: NSLocalizedString("Interest on deposits", comment: ""), type: liabilitiesCategory, currency: accountingCurrency, createdByUser: false, context: context)

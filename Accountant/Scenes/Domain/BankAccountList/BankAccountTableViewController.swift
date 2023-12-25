@@ -97,7 +97,7 @@ class BankAccountTableViewController: UITableViewController, AccountNavigationDe
                 accNavVC.canModifyAccountStructure = false
                 accNavVC.requestor = self
                 accNavVC.delegate = self
-                accNavVC.parentAccount = AccountHelper.getAccountWithPath(LocalisationManager.getLocalizedName(.money), // swiftlint:disable:this line_length
+                accNavVC.parentAccount = AccountHelper.getAccountWithPath(LocalizationManager.getLocalizedName(.money), // swiftlint:disable:this line_length
                                                         context: self.context)
                 accNavVC.excludeAccountList = self.bankAccount.findNotValidAccountCandidateForLinking()
                 self.navigationController?.pushViewController(accNavVC, animated: true)

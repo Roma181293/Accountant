@@ -93,10 +93,10 @@ class AccountHelper {
         // Adding "Other" account for cases when parent containts transactions
         if let parent = parent, parent.isFreeFromTransactionItems == false,
            AccountHelper.isReservedAccountName(name) == false {
-            var newAccount = parent.getSubAccountWith(name: LocalisationManager.getLocalizedName(.other1))
+            var newAccount = parent.getSubAccountWith(name: LocalizationManager.getLocalizedName(.other1))
             if newAccount == nil {
                 newAccount = try createAndGetAccount(parent: parent,
-                                                     name: LocalisationManager.getLocalizedName(.other1),
+                                                     name: LocalizationManager.getLocalizedName(.other1),
                                                      type: type, currency: currency, keeper: keeper, holder: holder,
                                                      createdByUser: false, createDate: createDate,
                                                      context: context)

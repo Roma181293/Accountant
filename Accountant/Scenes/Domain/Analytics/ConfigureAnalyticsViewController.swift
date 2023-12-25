@@ -290,7 +290,7 @@ class ConfigureAnalyticsViewController: UIViewController { // swiftlint:disable:
                 analyticsViewController.transferedDateInterval = dateInterval
                 analyticsViewController.sortCategoryBy = sortCategoryBy
                 analyticsViewController.dateComponent = dateComponent
-                analyticsViewController.setValueToDateInterval()
+                analyticsViewController.setDateIntervalInitialValue()
             } else {
                 analyticsViewController.navigationController?.present(PurchaseOfferViewController(),
                                                                       animated: true,
@@ -299,7 +299,7 @@ class ConfigureAnalyticsViewController: UIViewController { // swiftlint:disable:
                 analyticsViewController.transferedDateInterval = dateInterval
                 analyticsViewController.sortCategoryBy = sortCategoryBy
                 analyticsViewController.dateComponent = dateComponent
-                analyticsViewController.setValueToDateInterval()
+                analyticsViewController.setDateIntervalInitialValue()
                 self.dismiss(animated: true, completion: nil)
                 return
             }

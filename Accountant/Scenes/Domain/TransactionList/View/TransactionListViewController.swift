@@ -136,7 +136,9 @@ extension TransactionListViewController: TransactionListViewInput {
             if isHidden {
                 item.badgeValue = nil
             } else {
-                item.badgeValue = "Test"
+                item.badgeValue = NSLocalizedString("Test",
+                                                    tableName: Constants.Localizable.transactionList,
+                                                    comment: "")
             }
         }
     }

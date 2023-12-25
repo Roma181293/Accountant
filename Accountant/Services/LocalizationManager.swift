@@ -8,7 +8,7 @@
 
 import Foundation
 
-class LocalisationManager {
+class LocalizationManager {
 
     class func createLocalizedAccountName(_ accountName: BaseAccounts) {
         let environment = CoreDataStack.shared.activeEnvironment

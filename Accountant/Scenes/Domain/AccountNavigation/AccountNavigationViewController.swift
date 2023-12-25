@@ -36,7 +36,7 @@ class AccountNavigationViewController: UITableViewController {
         if let parentAccount = parentAccount {
             accountProvider.parent = parentAccount
         } else {
-            accountProvider.parent = AccountHelper.getAccountWithPath(LocalisationManager.getLocalizedName(.accounts),
+            accountProvider.parent = AccountHelper.getAccountWithPath(LocalizationManager.getLocalizedName(.accounts),
                                                                       context: CoreDataStack.shared.persistentContainer.viewContext)
             self.parentAccount = accountProvider.parent
         }
@@ -256,7 +256,7 @@ extension AccountNavigationViewController {
                                                                                     tableName: self.localizedTableName,
                                                                                     comment: ""),
                                                            message: String(format: NSLocalizedString("Category \"%@\" contains transactions. All these thansactions will be automatically moved to the \"%@\" subcategory", tableName: self.localizedTableName, comment: ""), // swiftlint:disable:this line_length
-                                                                           account.name, LocalisationManager.getLocalizedName(.other1)), // swiftlint:disable:this line_length
+                                                                           account.name, LocalizationManager.getLocalizedName(.other1)), // swiftlint:disable:this line_length
                                                            preferredStyle: .alert)
                             alert1.addAction(UIAlertAction(title: NSLocalizedString("Create and Move",
                                                                                     tableName: self.localizedTableName,

@@ -12,7 +12,7 @@ import CoreData
 
 class AnalyticsTableViewController: UITableViewController {
 
-    var accountingCurrency: Currency!
+    var presentingCurrency: Currency!
     var account: Account?
     var dateInterval: DateInterval?
     var sortCategoryBy: SortCategoryType = .nineToZero
@@ -21,8 +21,9 @@ class AnalyticsTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        accountingCurrency = CurrencyHelper.getAccountingCurrency(context: CoreDataStack.shared.persistentContainer.viewContext)! // swiftlint:disable:this line_length
+        presentingCurrency = CurrencyHelper.getAccountingCurrency(context: CoreDataStack.shared.persistentContainer.viewContext)! // swiftlint:disable:this line_length
         tableView.register(AnalyticTableViewCell.self, forCellReuseIdentifier: Constants.Cell.analyticsCell1)
+        tableView.register(AccountTableViewCell.self, forCellReuseIdentifier: Constants.Cell.accountTableViewCell)
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -30,10 +31,16 @@ class AnalyticsTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell: AnalyticTableViewCell = tableView.dequeueReusableCell(withIdentifier: Constants.Cell.analyticsCell1, for: indexPath) as! AnalyticTableViewCell // swiftlint:disable:this force_cast line_length
-        cell.configureCell(for: listOfAccountsToShow[indexPath.row], account: account!,
-                              accountingCurrency: accountingCurrency)
-        return cell
+        if account?.path == LocalizationManager.getLocalizedName(.money) {
+            let cell = tableView.dequeueReusableCell(withIdentifier: Constants.Cell.accountTableViewCell, for: indexPath) as! AccountTableViewCell // swiftlint:disable:this force_cast line_length
+            cell.updateCellForData(listOfAccountsToShow[indexPath.row], currency: presentingCurrency)
+            return cell
+        } else {
+            let cell: AnalyticTableViewCell = tableView.dequeueReusableCell(withIdentifier: Constants.Cell.analyticsCell1, for: indexPath) as! AnalyticTableViewCell // swiftlint:disable:this force_cast line_length
+            cell.configureCell(for: listOfAccountsToShow[indexPath.row], account: account!,
+                               accountingCurrency: presentingCurrency)
+            return cell
+        }
     }
 
     override func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {

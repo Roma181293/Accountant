@@ -41,7 +41,7 @@
 		2B1FEA83266C1D9A00BF53BD /* Transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1FEA82266C1D9900BF53BD /* Transaction.swift */; };
 		2B1FEA88266C219C00BF53BD /* CurrencyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1FEA87266C219C00BF53BD /* CurrencyTests.swift */; };
 		2B1FEA9F266C349B00BF53BD /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1FEA9E266C349B00BF53BD /* Constants.swift */; };
-		2B1FEABC266C41C100BF53BD /* LocalisationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1FEABB266C41C100BF53BD /* LocalisationManager.swift */; };
+		2B1FEABC266C41C100BF53BD /* LocalizationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1FEABB266C41C100BF53BD /* LocalizationManager.swift */; };
 		2B1FEAC6266C433200BF53BD /* BiometricAuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1FEAC4266C433100BF53BD /* BiometricAuthViewController.swift */; };
 		2B1FEAE6266CAF6C00BF53BD /* Extension UIDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1FEAE1266CAF6C00BF53BD /* Extension UIDevice.swift */; };
 		2B1FEAE7266CAF6C00BF53BD /* Extension UIScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1FEAE2266CAF6C00BF53BD /* Extension UIScrollView.swift */; };
@@ -287,7 +287,7 @@
 		2B1FEA82266C1D9900BF53BD /* Transaction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Transaction.swift; sourceTree = "<group>"; };
 		2B1FEA87266C219C00BF53BD /* CurrencyTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrencyTests.swift; sourceTree = "<group>"; };
 		2B1FEA9E266C349B00BF53BD /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
-		2B1FEABB266C41C100BF53BD /* LocalisationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalisationManager.swift; sourceTree = "<group>"; };
+		2B1FEABB266C41C100BF53BD /* LocalizationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalizationManager.swift; sourceTree = "<group>"; };
 		2B1FEAC4266C433100BF53BD /* BiometricAuthViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BiometricAuthViewController.swift; sourceTree = "<group>"; };
 		2B1FEAE1266CAF6C00BF53BD /* Extension UIDevice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Extension UIDevice.swift"; sourceTree = "<group>"; };
 		2B1FEAE2266CAF6C00BF53BD /* Extension UIScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Extension UIScrollView.swift"; sourceTree = "<group>"; };
@@ -608,7 +608,7 @@
 			isa = PBXGroup;
 			children = (
 				2B1FEB66266D752200BF53BD /* Visualisation */,
-				2B1FEABB266C41C100BF53BD /* LocalisationManager.swift */,
+				2B1FEABB266C41C100BF53BD /* LocalizationManager.swift */,
 				2B1FEB40266D257800BF53BD /* NetworkServices.swift */,
 				2B1FEA3E266BEDD400BF53BD /* UserProfileService.swift */,
 				2B3A260326E95C780033E746 /* AccessManager.swift */,
@@ -699,6 +699,7 @@
 				2B1FEB79266EC39800BF53BD /* AnalyticsViewController.swift */,
 				2B1FEB8D266EC44600BF53BD /* ConfigureAnalyticsViewController.swift */,
 				2B2E2E8A26E0054400A6CFDD /* AnalyticTableViewCell.swift */,
+				2B1407A926F629A600114B95 /* AccountTableViewCell.swift */,
 			);
 			path = Analytics;
 			sourceTree = "<group>";
@@ -933,7 +934,6 @@
 			children = (
 				2B1FEB56266D73DC00BF53BD /* AccountListTableViewController.swift */,
 				2B1FEB55266D73DC00BF53BD /* AccountListViewController.swift */,
-				2B1407A926F629A600114B95 /* AccountTableViewCell.swift */,
 			);
 			path = AccountList;
 			sourceTree = "<group>";
@@ -1657,7 +1657,7 @@
 				2B205708285D9C8A002C6F89 /* Rate extension.swift in Sources */,
 				2B1FEAC6266C433200BF53BD /* BiometricAuthViewController.swift in Sources */,
 				2B1FEAE7266CAF6C00BF53BD /* Extension UIScrollView.swift in Sources */,
-				2B1FEABC266C41C100BF53BD /* LocalisationManager.swift in Sources */,
+				2B1FEABC266C41C100BF53BD /* LocalizationManager.swift in Sources */,
 				2B1FEA3F266BEDD400BF53BD /* UserProfileService.swift in Sources */,
 				2B0ACB53284CC15800DFF2EB /* TransactionListPresenter.swift in Sources */,
 				2B1FEB98266EDE5000BF53BD /* SettingsViewController.swift in Sources */,

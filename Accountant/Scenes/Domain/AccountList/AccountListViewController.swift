@@ -102,13 +102,13 @@ class AccountListViewController: UIViewController, UIScrollViewDelegate { // swi
         scrollView.delegate = self
         switch segmentedControl.selectedSegmentIndex {
         case 0:
-            account = AccountHelper.getAccountWithPath(LocalisationManager.getLocalizedName(.money),
+            account = AccountHelper.getAccountWithPath(LocalizationManager.getLocalizedName(.money),
                                                  context: context)
         case 1:
-            account = AccountHelper.getAccountWithPath(LocalisationManager.getLocalizedName(.debtors),
+            account = AccountHelper.getAccountWithPath(LocalizationManager.getLocalizedName(.debtors),
                                                  context: context)
         default:
-            account = AccountHelper.getAccountWithPath(LocalisationManager.getLocalizedName(.credits),
+            account = AccountHelper.getAccountWithPath(LocalizationManager.getLocalizedName(.credits),
                                                  context: context)
         }
         moneyAccountListTableViewController.environment = self.environment
@@ -155,13 +155,13 @@ class AccountListViewController: UIViewController, UIScrollViewDelegate { // swi
     @IBAction func changeAccount(_ sender: UISegmentedControl) {
         switch sender.selectedSegmentIndex {
         case 0:
-            account = AccountHelper.getAccountWithPath(LocalisationManager.getLocalizedName(.money),
+            account = AccountHelper.getAccountWithPath(LocalizationManager.getLocalizedName(.money),
                                                  context: context)
         case 1:
-            account = AccountHelper.getAccountWithPath(LocalisationManager.getLocalizedName(.debtors),
+            account = AccountHelper.getAccountWithPath(LocalizationManager.getLocalizedName(.debtors),
                                                  context: context)
         default:
-            account = AccountHelper.getAccountWithPath(LocalisationManager.getLocalizedName(.credits),
+            account = AccountHelper.getAccountWithPath(LocalizationManager.getLocalizedName(.credits),
                                                  context: context)
         }
         updateUI()
@@ -181,7 +181,6 @@ class AccountListViewController: UIViewController, UIScrollViewDelegate { // swi
                                                            selectedCurrency: currency,
                                                            currencyHistoricalData: currencyHistoricalData,
                                                            dateComponent: dateComponent,
-                                                           isListForAnalytic: false,
                                                            sortTableDataBy: SortCategoryType.nineToZero)
         } catch let error {
             let alert = UIAlertController(title: NSLocalizedString("Error", comment: ""),
@@ -315,7 +314,7 @@ class AccountListViewController: UIViewController, UIScrollViewDelegate { // swi
 
         context = CoreDataStack.shared.persistentContainer.viewContext
         currency = CurrencyHelper.getAccountingCurrency(context: context)!
-        account = AccountHelper.getAccountWithPath(LocalisationManager.getLocalizedName(.money),
+        account = AccountHelper.getAccountWithPath(LocalizationManager.getLocalizedName(.money),
                                              context: context)
 
         moneyAccountListTableViewController.context = context

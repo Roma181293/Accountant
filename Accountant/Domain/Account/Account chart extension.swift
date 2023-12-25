@@ -11,15 +11,11 @@ import Charts
 
 // MARK: - method for charts
 extension Account {
-    func prepareDataToShow(dateInterval: DateInterval, selectedCurrency: Currency, currencyHistoricalData: CurrencyHistoricalData? = nil, dateComponent: Calendar.Component, isListForAnalytic: Bool, sortTableDataBy: SortCategoryType) throws -> PresentingData {  // swiftlint:disable:this cyclomatic_complexity function_body_length function_parameter_count line_length
+    func prepareDataToShow(dateInterval: DateInterval, selectedCurrency: Currency, currencyHistoricalData: CurrencyHistoricalData? = nil, dateComponent: Calendar.Component, sortTableDataBy: SortCategoryType) throws -> PresentingData {  // swiftlint:disable:this cyclomatic_complexity function_body_length function_parameter_count line_length
 
         var accountsToShow: [Account] = directChildrenList
         if type.balanceCalcFullTime == false {
             accountsToShow.append(self)
-        }
-
-        if isListForAnalytic == false {
-            accountsToShow = accountsToShow.filter({$0.active})
         }
 
         var accountsData: [AccountData] = []
@@ -45,7 +41,7 @@ extension Account {
                                                               dateComponent: dateComponent,
                                                               calcIncludedAccountsBalances: true)
             } else {
-                title = LocalisationManager.getLocalizedName(.other)
+                title = LocalizationManager.getLocalizedName(.other)
                 arrayOfResultsForTmpAccount = account.balance(dateInterval: dateInterval,
                                                               dateComponent: dateComponent,
                                                               calcIncludedAccountsBalances: false)
@@ -104,9 +100,7 @@ extension Account {
         }
 
         // filtered and ordered items
-        if isListForAnalytic {
-            tempData = tempData.filter({$0.checkSum != 0})
-        }
+        tempData = tempData.filter({$0.checkSum != 0})
         tempData.sort(by: {$0.amountInSelectedCurrency >= $1.amountInSelectedCurrency})
 
         // Coloring

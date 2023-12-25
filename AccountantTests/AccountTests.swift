@@ -317,7 +317,7 @@ class AccountTests: XCTestCase {  // swiftlint:disable:this type_body_length
                          "Account should be created")
         XCTAssertNotNil(account3)
 
-        let other = account2?.getSubAccountWith(name: LocalisationManager.getLocalizedName(.other1))
+        let other = account2?.getSubAccountWith(name: LocalizationManager.getLocalizedName(.other1))
         XCTAssertEqual(other?.transactionItemsList.count, 2)
 
         Transaction.addTransactionWith2TranItems(date: Date(),

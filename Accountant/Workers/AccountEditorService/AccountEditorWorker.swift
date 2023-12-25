@@ -100,11 +100,11 @@ class AccountEditorWorker {
         guard let accountingCurrency = CurrencyHelper.getAccountingCurrency(context: context)
         else {fatalError("accounting currency should exists")}
 
-        guard let capitalRoot = AccountHelper.getAccountWithPath(LocalisationManager.getLocalizedName(.capital),
+        guard let capitalRoot = AccountHelper.getAccountWithPath(LocalizationManager.getLocalizedName(.capital),
                                                                  context: context),
-              let expenseRoot = AccountHelper.getAccountWithPath(LocalisationManager.getLocalizedName(.expense),
+              let expenseRoot = AccountHelper.getAccountWithPath(LocalizationManager.getLocalizedName(.expense),
                                                                  context: context),
-              let expenseBeforeAccountingPeriod = expenseRoot.getSubAccountWith(name: LocalisationManager.getLocalizedName(.beforeAccountingPeriod))
+              let expenseBeforeAccountingPeriod = expenseRoot.getSubAccountWith(name: LocalizationManager.getLocalizedName(.beforeAccountingPeriod))
         else {fatalError("default accounts should exists")}
 
         self.capitalRoot = capitalRoot
@@ -133,11 +133,11 @@ class AccountEditorWorker {
         guard let accountingCurrency = CurrencyHelper.getAccountingCurrency(context: context)
         else {fatalError("accounting currency should exists")}
 
-        guard let capitalRoot = AccountHelper.getAccountWithPath(LocalisationManager.getLocalizedName(.capital),
+        guard let capitalRoot = AccountHelper.getAccountWithPath(LocalizationManager.getLocalizedName(.capital),
                                                                  context: context),
-              let expenseRoot = AccountHelper.getAccountWithPath(LocalisationManager.getLocalizedName(.expense),
+              let expenseRoot = AccountHelper.getAccountWithPath(LocalizationManager.getLocalizedName(.expense),
                                                                  context: context),
-              let expenseBeforeAccountingPeriod = expenseRoot.getSubAccountWith(name: LocalisationManager.getLocalizedName(.beforeAccountingPeriod))
+              let expenseBeforeAccountingPeriod = expenseRoot.getSubAccountWith(name: LocalizationManager.getLocalizedName(.beforeAccountingPeriod))
         else {fatalError("default accounts should exists")}
 
         self.capitalRoot = capitalRoot
