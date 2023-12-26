@@ -124,7 +124,12 @@ class TransactionHelper {
                                 comment: String? = nil,
                                 createdByUser: Bool = true,
                                 context: NSManagedObjectContext) {
-        _ = createAndGetSimpleTran(date: date, debit: debit, credit: credit, debitAmount: debitAmount, creditAmount: creditAmount, comment: comment, createdByUser: createdByUser, context: context)
+        _ = createAndGetSimpleTran(date: date, debit: debit, credit: credit,
+                                   debitAmount: debitAmount,
+                                   debitAmountInAccountingCurrency: debitAmountInAccountingCurrency,
+                                   creditAmount: creditAmount,
+                                   creditAmountInAccountingCurrency: creditAmountInAccountingCurrency,
+                                   comment: comment, createdByUser: createdByUser, context: context)
     }
 
     class func duplicateTransaction(_ original: Transaction, createdByUser: Bool = true, createDate: Date = Date(),
@@ -136,7 +141,8 @@ class TransactionHelper {
         transaction.type = original.type
         for item in original.itemsList {
             _ = TransactionItem(transaction: transaction, type: item.type, account: item.account!,
-                                amount: item.amount, context: context)
+                                amount: item.amount, amountInAccountingCurrency: item.amountInAccountingCurrency,
+                                context: context)
         }
     }
 

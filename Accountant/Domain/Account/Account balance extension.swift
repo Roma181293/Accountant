@@ -14,102 +14,83 @@ struct Saldo {
 
 extension Account {
 
-    var balance: Double {
+    func balance(inAccountingCurrency: Bool = false) -> Double {
+        return balance(for: {_ in return true}, inAccountingCurrency: inAccountingCurrency)
+    }
 
+    public func balance(for isIncluded: (TransactionItem) -> Bool, inAccountingCurrency: Bool = false) -> Double {
         if type.classification == .none {
             return 0
         }
-
-        var debitTotal: Double = 0
-        var creditTotal: Double = 0
-
-        for account in childrenList + [self] {
-            for item in account.transactionItemsListReadyForBalanceCalc {
-                if item.type == .debit {
-                    debitTotal += item.amount
-                } else if item.type == .credit {
-                    creditTotal += item.amount
+        var debit: Double = 0
+        var credit: Double = 0
+        if inAccountingCurrency {
+            for account in childrenList + [self] {
+                for item in account.transactionItemsListReadyForBalanceCalc.filter(isIncluded) {
+                    debit += item.type == .debit ? item.amountInAccountingCurrency : 0
+                    credit += item.type == .credit ? item.amountInAccountingCurrency : 0
+                }
+            }
+        } else {
+            for account in childrenList + [self] {
+                for item in account.transactionItemsListReadyForBalanceCalc.filter(isIncluded) {
+                    debit += item.type == .debit ? item.amount : 0
+                    credit += item.type == .credit ? item.amount : 0
                 }
             }
         }
-
-        if type.classification == .assets {
-            return debitTotal - creditTotal
-        } else if type.classification == .liabilities {
-            return creditTotal - debitTotal
-        } else {
-            return 0
-        }
+        return round((type.classification == .assets ? debit - credit : credit - debit) * 100) / 100
     }
 
-    private func balanceOn(date: Date) -> Double {
+    func balance(dateInterval: DateInterval,
+                 dateComponent: Calendar.Component,
+                 calcIncludedAccountsBalances: Bool = true,
+                 inAccountingCurrency: Bool = false) -> [(date: Date, value: Double)] {
 
         if type.classification == .none {
-            return 0
+            return []
         }
 
-        var debit: Double = 0
-        var credit: Double = 0
+        let intervalArray: [DateInterval] = Account.createDateIntervalArray(dateInterval: dateInterval,
+                                                                            dateComponent: dateComponent)
 
-        for account in childrenList + [self] {
-            for item in account.transactionItemsListReadyForBalanceCalc.filter({$0.transaction!.date <= date}) {
-                if item.type == .debit {
-                    debit += item.amount
-                } else if item.type == .credit {
-                    credit += item.amount
-                }
-            }
-        }
+        var result: [(date: Date, value: Double)] = [(date: dateInterval.start, value: 0)]
 
-        if type.classification == .assets {
-            return debit - credit
-        } else if type.classification == .liabilities {
-            return credit - debit
-        } else {
-            return 0
-        }
-    }
+        var accounts: [Account] = []
+        accounts.append(self)
 
-    func saldo(_ dateInterval: DateInterval, calcIncludedAccountsBalances: Bool = true) -> Saldo {
-
-        var debit: Double = 0
-        var credit: Double = 0
-
-        var accounts: [Account] = [self]
         if calcIncludedAccountsBalances {
             accounts += childrenList
         }
-        for account in accounts {
-            for item in account.transactionItemsListReadyForBalanceCalc.filter({$0.transaction!.date > dateInterval.start && $0.transaction!.date <= dateInterval.end}) {
-                if item.type == .debit {
-                    debit += item.amount
-                } else if item.type == .credit {
-                    credit += item.amount
+
+        for (index, timeInterval) in intervalArray.enumerated() {
+            var debit: Double = 0
+            var credit: Double = 0
+
+            if inAccountingCurrency {
+                for item in accounts.flatMap({$0.transactionItemsListReadyForBalanceCalc})
+                where timeInterval.contains(item.transaction!.date) {
+                    debit += item.type == .debit ? item.amountInAccountingCurrency : 0
+                    credit += item.type == .credit ? item.amountInAccountingCurrency : 0
+                }
+            } else {
+                for item in accounts.flatMap({$0.transactionItemsListReadyForBalanceCalc})
+                where timeInterval.contains(item.transaction!.date) {
+                    debit += item.type == .debit ? item.amount : 0
+                    credit += item.type == .credit ? item.amount : 0
                 }
             }
-        }
-        return Saldo(debit: debit, credit: credit)
-    }
 
-    func saldo(_ date: Date, calcIncludedAccountsBalances: Bool = true) -> Saldo {
-
-        var debit: Double = 0
-        var credit: Double = 0
-        
-        var accounts: [Account] = [self]
-        if calcIncludedAccountsBalances {
-            accounts += childrenList
-        }
-        for account in accounts {
-            for item in account.transactionItemsListReadyForBalanceCalc.filter({$0.transaction!.date <= date}) {
-                if item.type == .debit {
-                    debit += item.amount
-                } else if item.type == .credit {
-                    credit += item.amount
-                }
+            if type.classification == .assets {
+                result.append((date: timeInterval.end,
+                               value: round((result[index].value + debit - credit) * 100) / 100))
+            } else if type.classification == .liabilities {
+                result.append((date: timeInterval.end,
+                               value: round((result[index].value + credit - debit) * 100) / 100))
             }
         }
-        return Saldo(debit: debit, credit: credit)
+
+        return result
     }
 
     private class func createDateIntervalArray(dateInterval: DateInterval,
@@ -126,60 +107,5 @@ extension Account {
             intervalArray.append(DateInterval(start: tmpInterval.start, end: dateInterval.end))
         }
         return intervalArray
-    }
-
-    func balance(dateInterval: DateInterval,
-                 dateComponent: Calendar.Component,
-                 calcIncludedAccountsBalances: Bool = true) -> [(date: Date, value: Double)] {
-
-        if type.classification == .none {
-            return []
-        }
-
-        // creates date interval
-        let intervalArray: [DateInterval] = Account.createDateIntervalArray(dateInterval: dateInterval,
-                                                                            dateComponent: dateComponent)
-
-        // calculate accountSaldoToLeftBorderDate
-        var accountSaldoToLeftBorderDate: Double = 0
-        var result: [(date: Date, value: Double)] = [(date: dateInterval.start, value: accountSaldoToLeftBorderDate)]
-
-        var accounts: [Account] = []
-        accounts.append(self)
-
-        if calcIncludedAccountsBalances {
-            accounts += childrenList
-        }
-
-        if type.balanceCalcFullTime {
-            accounts.forEach({
-                accountSaldoToLeftBorderDate += $0.balanceOn(date: dateInterval.start)
-            })
-        }
-
-        for (index, timeInterval) in intervalArray.enumerated() {
-            var debitTotal: Double = 0
-            var creditTotal: Double = 0
-
-            for account in accounts {
-                let transactionItems = account.transactionItemsListReadyForBalanceCalc
-                for item in transactionItems where timeInterval.contains(item.transaction!.date) {
-                    if item.type == .debit {
-                        debitTotal += item.amount
-                    } else if item.type == .credit {
-                        creditTotal += item.amount
-                    }
-                }
-            }
-            if type.classification == .assets {
-                result.append((date: timeInterval.end,
-                               value: round((result[index].value + debitTotal - creditTotal)*100)/100))
-            } else if type.classification == .liabilities {
-                result.append((date: timeInterval.end,
-                               value: round((result[index].value + creditTotal - debitTotal)*100)/100))
-            }
-        }
-
-        return result
     }
 }
