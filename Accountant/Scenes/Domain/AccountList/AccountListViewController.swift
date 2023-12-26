@@ -179,7 +179,6 @@ class AccountListViewController: UIViewController, UIScrollViewDelegate { // swi
         do {
             presentingData = try account.prepareDataToShow(dateInterval: dateInterval,
                                                            selectedCurrency: currency,
-                                                           currencyHistoricalData: currencyHistoricalData,
                                                            dateComponent: dateComponent,
                                                            sortTableDataBy: SortCategoryType.nineToZero)
         } catch let error {
