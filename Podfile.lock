@@ -13,7 +13,7 @@ PODS:
 DEPENDENCIES:
   - Alamofire (= 5.4.4)
   - Charts (= 4.1.0)
-  - Purchases
+  - Purchases (= 3.14.3)
   - SwiftLint
 
 SPEC REPOS:
@@ -33,6 +33,6 @@ SPEC CHECKSUMS:
   SwiftAlgorithms: 38dda4731d19027fdeee1125f973111bf3386b53
   SwiftLint: d41cc46a2ae58ac6d9f26954bc89f1d72e71fdef
 
-PODFILE CHECKSUM: 1d3c7ae10058272804724d1b894cb6ae9e0e5dd9
+PODFILE CHECKSUM: 196356d5257804c8a457e8b5aeede640f32d5e6f
 
 COCOAPODS: 1.12.1

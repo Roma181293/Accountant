@@ -179,15 +179,15 @@
         <relationship name="entitymapping" type="1/1" destination="XDDEVENTITYMAPPING" idrefs="z200"></relationship>
     </object>
     <object type="XDDEVENTITYMAPPING" id="z131">
-        <attribute name="migrationpolicyclassname" type="string">Accountant.MigrationPolicy_TransactionItem_V3toV4</attribute>
+        <attribute name="migrationpolicyclassname" type="string"></attribute>
         <attribute name="sourcename" type="string">TransactionItem</attribute>
         <attribute name="mappingtypename" type="string">Undefined</attribute>
         <attribute name="mappingnumber" type="int16">2</attribute>
         <attribute name="destinationname" type="string">TransactionItem</attribute>
         <attribute name="autogenerateexpression" type="bool">1</attribute>
         <relationship name="mappingmodel" type="1/1" destination="XDDEVMAPPINGMODEL" idrefs="z178"></relationship>
-        <relationship name="attributemappings" type="0/0" destination="XDDEVATTRIBUTEMAPPING" idrefs="z232 z170 z213 z180 z159 z110 z147 z247"></relationship>
-        <relationship name="relationshipmappings" type="0/0" destination="XDDEVRELATIONSHIPMAPPING" idrefs="z183 z240"></relationship>
+        <relationship name="attributemappings" type="0/0" destination="XDDEVATTRIBUTEMAPPING" idrefs="z232 z159 z213 z170 z110 z180 z147 z247"></relationship>
+        <relationship name="relationshipmappings" type="0/0" destination="XDDEVRELATIONSHIPMAPPING" idrefs="z240 z183"></relationship>
     </object>
     <object type="XDDEVATTRIBUTEMAPPING" id="z132">
         <attribute name="name" type="string">isConsolidation</attribute>
@@ -259,6 +259,9 @@
         <relationship name="entitymapping" type="1/1" destination="XDDEVENTITYMAPPING" idrefs="z179"></relationship>
     </object>
     <object type="XDDEVATTRIBUTEMAPPING" id="z147">
+        <attribute name="valueexpressiondata" type="binary">YnBsaXN0MDDUAQIDBAUGBwpYJHZlcnNpb25ZJGFyY2hpdmVyVCR0b3BYJG9iamVjdHMSAAGGoF8Q
+D05TS2V5ZWRBcmNoaXZlctEICVRyb290gAGsCwwXGB0eJiswMTQ4VSRudWxs1Q0ODxAREhMUFRZZTlNPcGVyYW5kXk5TU2VsZWN0b3JOYW1lXxAQTlNFeHByZXNzaW9uVHlwZVtOU0FyZ3VtZW50c1YkY2xhc3OAA4ACEASABoALXxAQdmFsdWVGb3JLZXlQYXRoOtMZDxEaGxxaTlNWYXJpYWJsZYAEEAKABVZzb3VyY2XSHyAhIlokY2xhc3NuYW1lWCRjbGFzc2VzXxAUTlNWYXJpYWJsZUV4cHJlc3Npb26jIyQlXxAUTlNWYXJpYWJsZUV4cHJlc3Npb25cTlNFeHByZXNzaW9uWE5TT2JqZWN00icRKCpaTlMub2JqZWN0c6EpgAeACtMRDywtLi9ZTlNLZXlQYXRogAkQCoAIVmFtb3VudNIfIDIzXxAcTlNLZXlQYXRoU3BlY2lmaWVyRXhwcmVzc2lvbqMyJCXSHyA1Nl5OU011dGFibGVBcnJheaM1NyVXTlNBcnJhedIfIDk6XxATTlNLZXlQYXRoRXhwcmVzc2lvbqQ5OyQlXxAUTlNGdW5jdGlvbkV4cHJlc3Npb24ACAARABoAJAApADIANwBJAEwAUQBTAGAAZgBxAHsAigCdAKkAsACyALQAtgC4ALoAzQDUAN8A4QDjAOUA7ADxAPwBBQEcASABNwFEAU0BUgFdAV8BYQFjAWoBdAF2AXgBegGBAYYBpQGpAa4BvQHBAckBzgHkAekAAAAAAAACAQAAAAAAAAA8AAAAAAAAAAAAAAAAAAACAA==
+</attribute>
         <attribute name="name" type="string">amountInAccountingCurrency</attribute>
         <relationship name="entitymapping" type="1/1" destination="XDDEVENTITYMAPPING" idrefs="z131"></relationship>
     </object>
