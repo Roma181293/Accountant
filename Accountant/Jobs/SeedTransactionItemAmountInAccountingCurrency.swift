@@ -16,21 +16,35 @@ class SeedTransactionItemAmountInAccountingCurrency {
             request.sortDescriptors = [NSSortDescriptor(key: "\(Schema.TransactionItem.createDate)", ascending: true)]
             try context
                 .fetch(request)
-                .filter({$0.transaction != nil})
-                .forEach({ item in
+                .filter {$0.transaction != nil}
+                .forEach {item in
                     if item.account?.currency?.isAccounting == true {
                         item.amountInAccountingCurrency = item.amount
                     } else if item.account?.currency?.isAccounting == false {
-                        let transactionDay = Calendar.current.startOfDay(for: item.transaction!.date)
-                        if let rate = item.account?.currency?.exchangeRates
-                            .first(where: {$0.exchange?.date == transactionDay})?.amount as? Double {
-                            item.amountInAccountingCurrency = round(item.amount * rate * 100) / 100
+                        let hasItemInAccountingCurrency = item.transaction!.itemsList
+                            .filter {$0.account?.currency?.isAccounting == true}
+                            .count > 0
+                        let onlyOneItemWithThisType = item.transaction!.itemsList
+                            .filter {$0.type == item.type}
+                            .count == 1
+
+                        if hasItemInAccountingCurrency && onlyOneItemWithThisType {
+                            item.amountInAccountingCurrency = item.transaction!.itemsList
+                                .filter {$0.type != item.type && $0.account?.currency?.isAccounting == true}
+                                .map {$0.amount}
+                                .reduce(0, +)
                         } else {
-                            item.amountInAccountingCurrency = item.amount
-                            item.transaction?.comment = (item.transaction?.comment ?? "") + "Need review amounts"
+                            let transactionDay = Calendar.current.startOfDay(for: item.transaction!.date)
+                            if let rate = item.account?.currency?.exchangeRates
+                                .first(where: {$0.exchange?.date == transactionDay})?.amount as? Double {
+                                item.amountInAccountingCurrency = round(item.amount * rate * 100) / 100
+                            } else {
+                                item.amountInAccountingCurrency = item.amount
+                                item.transaction?.comment = (item.transaction?.comment ?? "") + "Need review amounts"
+                            }
                         }
                     }
-                })
+                }
             try CoreDataStack.shared.saveContext(context)
             UserProfileService.setSeedTransactionItemAmountInAccountingCurrencyJobExecuted()
         } catch let error {
