@@ -17,6 +17,7 @@ final class Transaction: BaseEntity {
         case approved = 2
         case applied = 3
         case archived = 4
+        case error = 5
     }
 
     @objc enum TypeEnum: Int16 {

@@ -20,12 +20,10 @@ class TransactionListInteractor {
     private var transactionStatusWorker: ApplyTransactionStatusWorker
 
     init(transactionListWorker: TransactionListWorker, transactionStatusWorker: TransactionStatusWorker) {
-
         self.environment = coreDataStack.persistentContainer.environment
         self.transactionListWorker = transactionListWorker
         self.transactionListWorker.provideData()
         self.transactionStatusWorker = transactionStatusWorker
-
 
         NotificationCenter.default.addObserver(self, selector: #selector(self.environmentDidChange),
                                                name: .environmentDidChange, object: nil)

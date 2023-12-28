@@ -171,16 +171,17 @@ class MITransactionEditor: MITransactionEditorInput {
         } else {
             transaction.status = .approved
         }
+        let modifyDate = Date()
         if isNewTransaction {
-            let date = Date()
-            transaction.createDate = date
-            transaction.modifyDate = date
+            transaction.createDate = modifyDate
+            transaction.modifyDate = modifyDate
             transaction.itemsList.forEach({
-                $0.createDate = date
-                $0.modifyDate = date
+                $0.createDate = modifyDate
+                $0.modifyDate = modifyDate
             })
             context.save(with: .addMultiItemTransaction)
         } else {
+            transaction.modifyDate = modifyDate
             context.save(with: .editMultiItemTransaction)
         }
     }

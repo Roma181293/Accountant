@@ -67,9 +67,9 @@ class TransactionHelper {
         var creditCurrency: Currency? = transaction.itemsList.filter({$0.type == .credit}).first?.account?.currency
         var debitCurrency: Currency? = transaction.itemsList.filter({$0.type == .debit}).first?.account?.currency
 
-        try getDataAboutTransactionItems(transaction: transaction, type: .credit,                                                     amountInAccountingCurrency: &creditAmount,
+        try getDataAboutTransactionItems(transaction: transaction, type: .credit, amountInAccountingCurrency: &creditAmount,
                                          currency: &creditCurrency, itemsCount: &creditItemsCount)
-        try getDataAboutTransactionItems(transaction: transaction, type: .debit,                                                     amountInAccountingCurrency: &debitAmount,
+        try getDataAboutTransactionItems(transaction: transaction, type: .debit, amountInAccountingCurrency: &debitAmount,
                                          currency: &debitCurrency, itemsCount: &debitItemsCount)
         // Check ability to save transaction
 
@@ -79,11 +79,11 @@ class TransactionHelper {
         if creditItemsCount == 0 {
             throw TransactionHelper.HelperError.noCreditTransactionItem
         }
-        if debitCurrency == creditCurrency {
+        // if debitCurrency == creditCurrency {
             if round(debitAmount * 100) != round(creditAmount * 100) {
-                throw TransactionHelper.HelperError.differentAmountInSingleCurrecyTran
+                throw TransactionHelper.HelperError.differentAmounts
             }
-        }
+        // }
     }
 
     class func createAndGetSimpleTran(date: Date,
@@ -278,6 +278,7 @@ class TransactionHelper {
                     case .approved: export += "Approved,"
                     case .applied: export += "Applied,"
                     case .archived: export += "Archived,"
+                    case .error: export += "Error,"
                     }
 
                     switch item.type {
@@ -327,7 +328,7 @@ class TransactionHelper {
 
     enum HelperError: AppError {
         case periodHasUnAppliedTransactions
-        case differentAmountInSingleCurrecyTran
+        case differentAmounts
         case noDebitTransactionItem
         case noCreditTransactionItem
         case debitTransactionItemWOAccount
@@ -348,9 +349,8 @@ extension TransactionHelper.HelperError: LocalizedError {
         switch self {
         case .periodHasUnAppliedTransactions:
             return NSLocalizedString("There is an unapplied transaction before this date", tableName: tableName, comment: "")
-        case .differentAmountInSingleCurrecyTran:
-            return NSLocalizedString("You have a transaction in the same currency, but amounts in From:Account and " +
-                                     "To:Account are not matching", tableName: tableName, comment: "")
+        case .differentAmounts:
+            return NSLocalizedString("Amounts in From:Account and To:Account is not equal", tableName: tableName, comment: "")
         case .noDebitTransactionItem:
             return NSLocalizedString("Please add To:Account", tableName: tableName, comment: "")
         case .noCreditTransactionItem:

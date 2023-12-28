@@ -9,10 +9,10 @@ import UIKit
 import CoreData
 
 class TransactionItemCell: UITableViewCell {
-    
+
     private var transactionItem: TransactionItemSimpleViewModel!
     private unowned var delegate: TransactionItemCellDelegate!
-    
+
     private let accountButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -22,7 +22,7 @@ class TransactionItemCell: UITableViewCell {
         button.setTitleColor(.systemBlue, for: .normal)
         return button
     }()
-    
+
     private let amountTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = NSLocalizedString("Amount",
@@ -161,9 +161,11 @@ class TransactionItemCell: UITableViewCell {
         doneToolbar.items = [flexSpace, done]
         doneToolbar.sizeToFit()
         amountTextField.inputAccessoryView = doneToolbar
+        amountInAccountingCurrencyTextField.inputAccessoryView = doneToolbar
     }
 
     @objc private func doneButtonAction() {
         amountTextField.resignFirstResponder()
+        amountInAccountingCurrencyTextField.resignFirstResponder()
     }
 }

@@ -7,7 +7,7 @@
 */
 
 "There is an unapplied transaction before this date" = "До цієї дати є незастосована транзакція";
-"You have a transaction in the same currency, but amounts in From:Account and To:Account are not matching" = "Ви маєте транзакцію в одній валюті. Але сума З:Рахунку не співпадає з сумою До:Рахунку";
+"Amounts in From:Account and To:Account is not equal" = "Cума З:Рахунку не співпадає з сумою До:Рахунку";
 "Please add To:Account" = "Будь ласка додайте До:Раунок";
 "Please add From:Account" = "Будь ласка додайте З:Раунок";
 "Please select To:Account" = "Будь ласка оберіть До:Рахунок";

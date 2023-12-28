@@ -214,6 +214,7 @@
 		2BCFAA872B13485D008E9BE5 /* Dynamic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BCFAA862B13485D008E9BE5 /* Dynamic.swift */; };
 		2BCFAA892B134AD9008E9BE5 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BCFAA882B134AD9008E9BE5 /* SettingsViewModel.swift */; };
 		2BCFAA8B2B134CC6008E9BE5 /* PaidAccessViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BCFAA8A2B134CC6008E9BE5 /* PaidAccessViewModel.swift */; };
+		2BD5A73C2B3D705D00EC9809 /* FindTransactionsWithErrorsJob.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BD5A73B2B3D705D00EC9809 /* FindTransactionsWithErrorsJob.swift */; };
 		2BDAB0EF2804BE2300C5AED6 /* BaseEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BDAB0EE2804BE2300C5AED6 /* BaseEntity.swift */; };
 		2BDAB0F32804D60200C5AED6 /* MigrationPolicy_Account_V2toV3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BDAB0F22804D60200C5AED6 /* MigrationPolicy_Account_V2toV3.swift */; };
 		2BDAB0F82805EE7900C5AED6 /* MigrationPolicy_V1toV3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BDAB0F72805EE7900C5AED6 /* MigrationPolicy_V1toV3.swift */; };
@@ -509,6 +510,7 @@
 		2BCFAA862B13485D008E9BE5 /* Dynamic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dynamic.swift; sourceTree = "<group>"; };
 		2BCFAA882B134AD9008E9BE5 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
 		2BCFAA8A2B134CC6008E9BE5 /* PaidAccessViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaidAccessViewModel.swift; sourceTree = "<group>"; };
+		2BD5A73B2B3D705D00EC9809 /* FindTransactionsWithErrorsJob.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindTransactionsWithErrorsJob.swift; sourceTree = "<group>"; };
 		2BDAB0EE2804BE2300C5AED6 /* BaseEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseEntity.swift; sourceTree = "<group>"; };
 		2BDAB0F22804D60200C5AED6 /* MigrationPolicy_Account_V2toV3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MigrationPolicy_Account_V2toV3.swift; sourceTree = "<group>"; };
 		2BDAB0F72805EE7900C5AED6 /* MigrationPolicy_V1toV3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MigrationPolicy_V1toV3.swift; sourceTree = "<group>"; };
@@ -708,6 +710,7 @@
 			isa = PBXGroup;
 			children = (
 				2B262B2B2B3C383D00B3AF80 /* SeedTransactionItemAmountInAccountingCurrency.swift */,
+				2BD5A73B2B3D705D00EC9809 /* FindTransactionsWithErrorsJob.swift */,
 			);
 			path = Jobs;
 			sourceTree = "<group>";
@@ -1589,6 +1592,7 @@
 				2B490DDE26E4BA6000967E11 /* GradientView.swift in Sources */,
 				2B6C238A2811BCD800D84174 /* AccountNavigationViewController.swift in Sources */,
 				2B6D8E8E2827FECB006896EF /* SettingsRouter.swift in Sources */,
+				2BD5A73C2B3D705D00EC9809 /* FindTransactionsWithErrorsJob.swift in Sources */,
 				2B6561FB2775F95000150B35 /* MBWebHook.swift in Sources */,
 				2B1FEBB1266EE1D500BF53BD /* PreTrasaction.swift in Sources */,
 				2B50DAD6280DF15D0064D71B /* Schema.swift in Sources */,

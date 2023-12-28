@@ -7,7 +7,7 @@
 */
 
 "There is an unapplied transaction before this date" = "There is an unapplied transaction before this date";
-"You have a transaction in the same currency, but amounts in From:Account and To:Account are not matching" = "You have a transaction in the same currency, but amounts in From:Account and To:Account are not matching";
+"Amounts in From:Account and To:Account is not equal" = "Amounts in From:Account and To:Account is not equal";
 "Please add To:Account" = "Please add To:Account";
 "Please add From:Account" = "Please add From:Account";
 "Please select To:Account" = "Please select To:Account";

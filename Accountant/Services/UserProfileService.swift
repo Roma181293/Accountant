@@ -107,15 +107,20 @@ class UserProfileService {
         return date
     }
 
-    static func autoCreateBudgetsMethodDidWorked() {
-        UserDefaults.standard.set(Date(), forKey: "autoCreateBudgetsMethodDidWorked")
+    static func setSeedTransactionItemAmountInAccountingCurrencyJobExecuted() {
+        UserDefaults.standard.set(true, forKey: "SeedTransItemAmountInAccCurrJobExecuted")
     }
 
-    static func lastGereratedBudgetsDate() -> Date? {
-        if let date = UserDefaults.standard.object(forKey: "autoCreateBudgetsMethodDidWorked") as? Date {
-            return date
-        }
-        return nil
+    static func isSeedTransactionItemAmountInAccountingCurrencyJobExecuted() -> Bool {
+        return (UserDefaults.standard.object(forKey: "SeedTransItemAmountInAccCurrJobExecuted") as? Bool) ?? false
+    }
+
+    static func setFindTransactionsWithErrorsJobExecuted() {
+        UserDefaults.standard.set(Date(), forKey: "FindTransactionsWithErrorsJobExecuted")
+    }
+
+    static func getFindTransactionsWithErrorsJobExecutedLastTime() -> Date? {
+        return UserDefaults.standard.object(forKey: "FindTransactionsWithErrorsJobExecuted") as? Date
     }
 
     // MARK: - ADD AND OFFER COUNTERS
