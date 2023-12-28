@@ -11,9 +11,7 @@ import Foundation
 class FindTransactionsWithErrorsJob {
     class func execute() {
         do {
-            let coreDataStack = CoreDataStack.shared
             let context = CoreDataStack.shared.persistentContainer.viewContext
-
             var lastExecutionTime = TransactionHelper.getFirstTransactionDate(context: context)
             if let time = UserProfileService.getFindTransactionsWithErrorsJobExecutedLastTime() {
                 lastExecutionTime = time
