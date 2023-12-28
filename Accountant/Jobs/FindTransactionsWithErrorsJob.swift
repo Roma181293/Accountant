@@ -29,21 +29,22 @@ class FindTransactionsWithErrorsJob {
                                             argumentArray: [Transaction.Status.applied.rawValue,
                                                             Transaction.Status.archived.rawValue,
                                                             lastExecutionTime as NSDate])
-            try context.fetch(request).forEach({ transaction in
-                let debitAmount = transaction.itemsList
-                    .filter({$0.type == .debit})
-                    .map({$0.amountInAccountingCurrency})
-                    .reduce(0, +)
-                let creditAmount = transaction.itemsList
-                    .filter({$0.type == .credit})
-                    .map({$0.amountInAccountingCurrency})
-                    .reduce(0, +)
+            try context.fetch(request)
+                .forEach { transaction in
+                    let debitAmount = transaction.itemsList
+                        .filter {$0.type == .debit}
+                        .map {$0.amountInAccountingCurrency}
+                        .reduce(0, +)
+                    let creditAmount = transaction.itemsList
+                        .filter {$0.type == .credit}
+                        .map {$0.amountInAccountingCurrency}
+                        .reduce(0, +)
 
-                if debitAmount != creditAmount ||
-                    transaction.itemsList.first(where: {$0.account == nil}) != nil {
-                    transaction.status = .error
+                    if debitAmount != creditAmount ||
+                        transaction.itemsList.first(where: {$0.account == nil}) != nil {
+                        transaction.status = .error
+                    }
                 }
-            })
             try CoreDataStack.shared.saveContext(context)
             UserProfileService.setFindTransactionsWithErrorsJobExecuted()
         } catch let error {
