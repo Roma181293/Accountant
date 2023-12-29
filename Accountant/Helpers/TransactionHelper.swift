@@ -311,21 +311,6 @@ class TransactionHelper {
         return try? context.fetch(fetchRequest).first?.date
     }
 
-    /// This method is usefull after data migration to avoid complex calculation of type during migration
-    /// - Parameter context: context there this changes should be performed
-    class func recalculateTransactionsType(context: NSManagedObjectContext) {
-        context.perform({
-            let request = Transaction.fetchRequest()
-            request.sortDescriptors = [NSSortDescriptor(key: Schema.Transaction.date.rawValue, ascending: true)]
-            request.predicate = NSPredicate(format: "\(Schema.Transaction.type) = %@", argumentArray: [Transaction.TypeEnum.other.rawValue])
-            guard let trasactions = try? context.fetch(request) else {return}
-            trasactions.forEach({
-                $0.calculateType()
-            })
-            try? context.save()
-        })
-    }
-
     enum HelperError: AppError {
         case periodHasUnAppliedTransactions
         case differentAmounts

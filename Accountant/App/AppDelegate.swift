@@ -25,6 +25,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         SeedTransactionItemAmountInAccountingCurrency.execute()
         FindTransactionsWithErrorsJob.execute()
+        RecalculateTransactionsTypeJob.execute()
 
         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         guard let additionalVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.additionalLaunchScreenVC) as? AdditionalLaunchScreenViewController else {return true} // swiftlint:disable:this line_length

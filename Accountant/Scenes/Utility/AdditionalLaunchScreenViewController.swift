@@ -50,21 +50,20 @@ class AdditionalLaunchScreenViewController: UIViewController {
             }
         }
 
-        TransactionHelper.recalculateTransactionsType(context: CoreDataStack.shared.persistentContainer.newBackgroundContext())
-
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {return}
 
         if !UserProfileService.isAppLaunchedBefore() {
             appDelegate.window?.rootViewController = UINavigationController(rootViewController: WelcomeViewController())
             appDelegate.window?.makeKeyAndVisible()
-        } else if UserProfileService.getUserAuth() == .bioAuth {
-            let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-            guard let authVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.bioAuthVC) as? BiometricAuthViewController else {return}
+        }
+
+        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        if UserProfileService.getUserAuth() == .bioAuth {
+            guard let authVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.bioAuthVC) as? BiometricAuthViewController else {return}  // swiftlint:disable:this line_length
             appDelegate.window?.rootViewController = authVC
             appDelegate.window?.makeKeyAndVisible()
         } else {
-            let storyBoard = UIStoryboard(name: "Main", bundle: nil)
-            let tabBar = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.tabBarController) // swiftlint:disable:this line_length
+            let tabBar = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.tabBarController)
             self.navigationController?.popToRootViewController(animated: false)
 
             appDelegate.window?.rootViewController = UINavigationController(rootViewController: tabBar)
