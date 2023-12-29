@@ -16,11 +16,9 @@ final class PurchaseOfferViewController: UIViewController { // swiftlint:disable
                              ("✔", "Subcategories. Create income and expense strucrure"),
                              ("₴＄€", "Account creation in currencies different from accounting currency"),
                              ("🙈", "Hide accounts and categories"),
-                             //("🤫", "Create multi item transactions"),
                              ("🧾🧾", "Duplicate transactions"),
                              ("🤫", "Export and import of transactions"),
                              ("🔒", "Security")
-//                             ("⚠️", "No ads")
     ]
 
     let titleLabel: UILabel = {
@@ -462,22 +460,22 @@ final class PurchaseOfferViewController: UIViewController { // swiftlint:disable
     @objc func purchaseButtonTapped(_ sender: UIButton) {
         self.disablePurchaseButton()
 
-//        if let tag = activeOfferTag {
-//            if let package = self.offerViews[tag].packageForPurchase {
-//                Purchases.shared.purchasePackage(package) { (_, purchaserInfo, _, userCancelled) in
-//                    if userCancelled {
-//                        self.enablePurchaseButton()
-//                    }
-//                    let isActive = purchaserInfo?.entitlements["pro"]!.isActive
-//                    if isActive == true {
-//                        NotificationCenter.default.post(name: .receivedProAccessData, object: nil)
-//                        self.dismiss(animated: true, completion: nil)
-//                    } else {
-//                        self.enablePurchaseButton()
-//                    }
-//                }
-//            }
-//        }
+        if let tag = activeOfferTag {
+            if let package = self.offerViews[tag].packageForPurchase {
+                Purchases.shared.purchasePackage(package) { (_, purchaserInfo, _, userCancelled) in
+                    if userCancelled {
+                        self.enablePurchaseButton()
+                    }
+                    let isActive = purchaserInfo?.entitlements["pro"]!.isActive
+                    if isActive == true {
+                        NotificationCenter.default.post(name: .receivedProAccessData, object: nil)
+                        self.dismiss(animated: true, completion: nil)
+                    } else {
+                        self.enablePurchaseButton()
+                    }
+                }
+            }
+        }
     }
 
     func disablePurchaseButton() {
