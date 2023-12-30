@@ -9,6 +9,7 @@
 import UIKit
 import Purchases
 import SafariServices
+import FirebaseAnalytics
 
 final class PurchaseOfferViewController: UIViewController { // swiftlint:disable:this type_body_length
 
@@ -187,7 +188,11 @@ final class PurchaseOfferViewController: UIViewController { // swiftlint:disable
 
     override func viewDidLoad() { // swiftlint:disable:this function_body_length
         super.viewDidLoad()
-
+        
+        Analytics.logEvent("show_purchase_offer_view", parameters: [
+          "name": "show_purchase_offer_view" as NSObject,
+          ])
+        
         view.backgroundColor = .systemBackground
         // MARK: - Scroll View
         view.addSubview(scrollView)
@@ -446,6 +451,9 @@ final class PurchaseOfferViewController: UIViewController { // swiftlint:disable
         guard sender != nil else {
             return
         }
+        Analytics.logEvent("dismiss_purchase_button_tapped", parameters: [
+          "name": "dismiss_purchase_button_tapped" as NSObject,
+          ])
         self.dismiss(animated: true, completion: nil)
     }
 
@@ -458,6 +466,11 @@ final class PurchaseOfferViewController: UIViewController { // swiftlint:disable
     }
 
     @objc func purchaseButtonTapped(_ sender: UIButton) {
+        
+        Analytics.logEvent("purchase_button_tapped", parameters: [
+          "name": "purchase_button_tapped" as NSObject,
+          ])
+        
         self.disablePurchaseButton()
 
         if let tag = activeOfferTag {

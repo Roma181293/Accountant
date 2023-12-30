@@ -7,6 +7,8 @@
 
 import UIKit
 import Purchases
+import FirebaseCore
+import FirebaseAnalytics
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -15,10 +17,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool { // swiftlint:disable:this line_length
 
-        // MARK: REVENUECAT initializing
-//        Purchases.logLevel = .debug
         Purchases.configure(withAPIKey: Constants.APIKey.revenueCat)
 
+        FirebaseApp.configure()
+        
         let coreDataStack = CoreDataStack.shared
         coreDataStack.configureContainerFor(.prod)
         coreDataStack.loadPersistentStores()

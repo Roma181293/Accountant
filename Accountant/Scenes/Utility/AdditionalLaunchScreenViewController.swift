@@ -55,18 +55,17 @@ class AdditionalLaunchScreenViewController: UIViewController {
         if !UserProfileService.isAppLaunchedBefore() {
             appDelegate.window?.rootViewController = UINavigationController(rootViewController: WelcomeViewController())
             appDelegate.window?.makeKeyAndVisible()
-        }
-
-        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        if UserProfileService.getUserAuth() == .bioAuth {
-            guard let authVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.bioAuthVC) as? BiometricAuthViewController else {return}  // swiftlint:disable:this line_length
-            appDelegate.window?.rootViewController = authVC
-            appDelegate.window?.makeKeyAndVisible()
         } else {
-            let tabBar = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.tabBarController)
-            self.navigationController?.popToRootViewController(animated: false)
-
-            appDelegate.window?.rootViewController = UINavigationController(rootViewController: tabBar)
+            let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+            if UserProfileService.getUserAuth() == .bioAuth {
+                guard let authVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.bioAuthVC) as? BiometricAuthViewController else {return}  // swiftlint:disable:this line_length
+                appDelegate.window?.rootViewController = authVC
+                appDelegate.window?.makeKeyAndVisible()
+            } else {
+                let tabBar = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.tabBarController)
+                self.navigationController?.popToRootViewController(animated: false)
+                appDelegate.window?.rootViewController = UINavigationController(rootViewController: tabBar)
+            }
         }
     }
 }

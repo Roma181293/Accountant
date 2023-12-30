@@ -8,6 +8,6 @@ target 'Accountant' do
   pod 'Alamofire', '=5.4.4'
   pod 'Purchases', '=3.14.3'
   pod 'SwiftLint'
-  #pod 'Google-Mobile-Ads-SDK'
+  pod 'Firebase/AnalyticsWithoutAdIdSupport', '=10.19.0'
   
 end

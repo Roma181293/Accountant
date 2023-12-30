@@ -210,6 +210,7 @@
 		2BB780B2272EAB9B002D2098 /* GuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BB780B1272EAB9B002D2098 /* GuideView.swift */; };
 		2BC058BD26CDB63E00FE896C /* TransactionItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BC058BC26CDB63E00FE896C /* TransactionItemCell.swift */; };
 		2BCC0BDA26ACD79C00E8680E /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BCC0BD926ACD79C00E8680E /* StoreKit.framework */; };
+		2BCE69F22B406F370086B773 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2BCE69F12B406F360086B773 /* GoogleService-Info.plist */; };
 		2BCFAA852B13434E008E9BE5 /* WelcomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BCFAA842B13434E008E9BE5 /* WelcomeViewModel.swift */; };
 		2BCFAA872B13485D008E9BE5 /* Dynamic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BCFAA862B13485D008E9BE5 /* Dynamic.swift */; };
 		2BCFAA892B134AD9008E9BE5 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BCFAA882B134AD9008E9BE5 /* SettingsViewModel.swift */; };
@@ -507,6 +508,7 @@
 		2BB780B1272EAB9B002D2098 /* GuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuideView.swift; sourceTree = "<group>"; };
 		2BC058BC26CDB63E00FE896C /* TransactionItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionItemCell.swift; sourceTree = "<group>"; };
 		2BCC0BD926ACD79C00E8680E /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		2BCE69F12B406F360086B773 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		2BCFAA842B13434E008E9BE5 /* WelcomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewModel.swift; sourceTree = "<group>"; };
 		2BCFAA862B13485D008E9BE5 /* Dynamic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dynamic.swift; sourceTree = "<group>"; };
 		2BCFAA882B134AD9008E9BE5 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
@@ -1251,6 +1253,7 @@
 				2B949BBC2665B4080033383A /* LaunchScreen.storyboard */,
 				2B949BBA2665B4080033383A /* Assets.xcassets */,
 				2B949BBF2665B4080033383A /* Info.plist */,
+				2BCE69F12B406F360086B773 /* GoogleService-Info.plist */,
 			);
 			path = Accountant;
 			sourceTree = "<group>";
@@ -1492,6 +1495,7 @@
 				2B6C23842810BEB800D84174 /* CurrencyVCLocalizable.strings in Resources */,
 				2B895A452869783500BCF03F /* AccountEditorServiceLocalizable.strings in Resources */,
 				2B75DF442878D3C7004ACCAA /* ArchivinHistoryLocalizable.strings in Resources */,
+				2BCE69F22B406F370086B773 /* GoogleService-Info.plist in Resources */,
 				2B6C238F2817467500D84174 /* AccountNavigationLocalizable.strings in Resources */,
 				2B6C23992818A76100D84174 /* AccountEditorLocalizable.strings in Resources */,
 				2B949BB62665B4040033383A /* Main.storyboard in Resources */,
