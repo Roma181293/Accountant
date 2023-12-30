@@ -211,6 +211,7 @@
 		2BC058BD26CDB63E00FE896C /* TransactionItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BC058BC26CDB63E00FE896C /* TransactionItemCell.swift */; };
 		2BCC0BDA26ACD79C00E8680E /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BCC0BD926ACD79C00E8680E /* StoreKit.framework */; };
 		2BCE69F22B406F370086B773 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2BCE69F12B406F360086B773 /* GoogleService-Info.plist */; };
+		2BCE69F42B4091980086B773 /* RemoteConfigValues.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BCE69F32B4091980086B773 /* RemoteConfigValues.swift */; };
 		2BCFAA852B13434E008E9BE5 /* WelcomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BCFAA842B13434E008E9BE5 /* WelcomeViewModel.swift */; };
 		2BCFAA872B13485D008E9BE5 /* Dynamic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BCFAA862B13485D008E9BE5 /* Dynamic.swift */; };
 		2BCFAA892B134AD9008E9BE5 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BCFAA882B134AD9008E9BE5 /* SettingsViewModel.swift */; };
@@ -509,6 +510,7 @@
 		2BC058BC26CDB63E00FE896C /* TransactionItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionItemCell.swift; sourceTree = "<group>"; };
 		2BCC0BD926ACD79C00E8680E /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		2BCE69F12B406F360086B773 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		2BCE69F32B4091980086B773 /* RemoteConfigValues.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConfigValues.swift; sourceTree = "<group>"; };
 		2BCFAA842B13434E008E9BE5 /* WelcomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewModel.swift; sourceTree = "<group>"; };
 		2BCFAA862B13485D008E9BE5 /* Dynamic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dynamic.swift; sourceTree = "<group>"; };
 		2BCFAA882B134AD9008E9BE5 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
@@ -618,6 +620,7 @@
 				2B1FEB40266D257800BF53BD /* NetworkServices.swift */,
 				2B1FEA3E266BEDD400BF53BD /* UserProfileService.swift */,
 				2B3A260326E95C780033E746 /* AccessManager.swift */,
+				2BCE69F32B4091980086B773 /* RemoteConfigValues.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -1707,6 +1710,7 @@
 				2B75DF3B28761C53004ACCAA /* ArchivingWorker.swift in Sources */,
 				2B1FEBB6266EE45F00BF53BD /* PreTransactionTableViewCell.swift in Sources */,
 				2B70CFA8283ED3050073EFB4 /* MITransactionEditorRouter.swift in Sources */,
+				2BCE69F42B4091980086B773 /* RemoteConfigValues.swift in Sources */,
 				2B205700285D997B002C6F89 /* UserBankProfileHelper.swift in Sources */,
 				2B6C2370280FC93700D84174 /* HolderProvider.swift in Sources */,
 				2BDAB0EF2804BE2300C5AED6 /* BaseEntity.swift in Sources */,

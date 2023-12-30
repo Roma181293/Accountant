@@ -9,5 +9,6 @@ target 'Accountant' do
   pod 'Purchases', '=3.14.3'
   pod 'SwiftLint'
   pod 'Firebase/AnalyticsWithoutAdIdSupport', '=10.19.0'
+  pod 'FirebaseRemoteConfig', '=10.19'
   
 end

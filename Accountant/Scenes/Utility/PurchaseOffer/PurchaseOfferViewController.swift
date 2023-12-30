@@ -305,8 +305,7 @@ final class PurchaseOfferViewController: UIViewController { // swiftlint:disable
     func fetchPurchaseProudcts() {
         Purchases.shared.offerings { (offerings, _) in
             if let offerings = offerings {
-                let activeOffer = "pro_access_all_app"
-                // = RemoteConfigValues.sharedInstance.getActiveOffer(forKey: .activeOffer)
+                let activeOffer = RemoteConfigValues.sharedInstance.getActiveOffer(forKey: .activeOffer)
 
                 guard let packages = offerings.offering(identifier: activeOffer)?.availablePackages else {return}
                 // Add package

@@ -35,6 +35,14 @@ class AdditionalLaunchScreenViewController: UIViewController {
     }
 
     @objc func persistentStoreDidLoad() {
+        if RemoteConfigValues.sharedInstance.fetchComplete {
+            launchApp()
+        }
+
+        RemoteConfigValues.sharedInstance.loadingDoneCallback = launchApp
+    }
+
+    func launchApp() {
         activityIndicator.stopAnimating()
 
         // MARK: Loading exchange rates
