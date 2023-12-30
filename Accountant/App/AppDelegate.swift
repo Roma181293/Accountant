@@ -15,12 +15,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool { // swiftlint:disable:this line_length
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions
+                     launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
         Purchases.configure(withAPIKey: Constants.APIKey.revenueCat)
 
         FirebaseApp.configure()
-        
+
         let coreDataStack = CoreDataStack.shared
         coreDataStack.configureContainerFor(.prod)
         coreDataStack.loadPersistentStores()
