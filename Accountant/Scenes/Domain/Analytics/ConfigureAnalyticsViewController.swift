@@ -199,7 +199,7 @@ class ConfigureAnalyticsViewController: UIViewController { // swiftlint:disable:
         bluredView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         // Main View
         view.addSubview(mainView)
-        mainView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.8).isActive = true
+        mainView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.9).isActive = true
         mainView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 50).isActive = true
         mainView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         // Main Stack View
