@@ -21,8 +21,6 @@ struct Constants {
         static let transactionList = "TransactionListLocalizable"
         static let simpleTransactionEditorVC = "SimpleTransactionEditorVCLocalizable"
         static let mITransactionEditor = "MITransactionEditorLocalizable"
-
-
         static let bankAccountTVC = "BankAccountTVCLocalizable"
         static let userBankProfileListVC = "UserBankProfileListVCLocalizable"
         static let monobankVC = "MonobankVCLocalizable"
@@ -36,6 +34,7 @@ struct Constants {
         static let settingsVC = "SettingsVCLocalizable"
         static let purchaseOfferVC = "PurchaseOfferVCLocalizable"
         static let accountTypeNavigation = "AccountTypeNavigationLocalizable"
+        static let preloaderVC = "PreloaderVCLocalizable"
     }
 
     struct Storyboard {
@@ -83,6 +82,7 @@ struct Constants {
         static let termsOfUse = "https://drive.google.com/file/d/1jGybkl74yTbOfzcFtGSySw8k86GjTP5N/view?usp=sharing"
         static let monoAPIDoc = "https://api.monobank.ua/docs/"
         static let monoToken = "https://api.monobank.ua"
+        static let appStoreProduct = "https://itunes.apple.com/app/id1587650786"
     }
 
     struct Size {

@@ -30,11 +30,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         FindTransactionsWithErrorsJob.execute()
         RecalculateTransactionsTypeJob.execute()
 
-        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        guard let additionalVC = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.additionalLaunchScreenVC) as? AdditionalLaunchScreenViewController else {return true} // swiftlint:disable:this line_length
+        guard let preloaderVC = UIStoryboard(name: "Main", bundle: nil)
+            .instantiateViewController(withIdentifier: Constants.Storyboard.additionalLaunchScreenVC) as? PreloaderViewController else {return true} // swiftlint:disable:this line_length
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.makeKeyAndVisible()
-        window?.rootViewController = additionalVC
+        window?.rootViewController = preloaderVC
 
         return true
     }

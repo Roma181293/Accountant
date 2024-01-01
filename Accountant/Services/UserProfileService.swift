@@ -123,6 +123,26 @@ class UserProfileService {
         return UserDefaults.standard.object(forKey: "FindTransactionsWithErrorsJobExecuted") as? Date
     }
 
+    // MARK: - APP NEED UPDATE COUNTERS
+
+    static func increaseShowUpdateAppCount() {
+        var count = 0
+        if let storedCount = UserDefaults.standard.object(forKey: "ShowNeedUpdateCount") as? Int {
+            count = storedCount
+        }
+        UserDefaults.standard.set(count + 1, forKey: "ShowNeedUpdateCount")
+    }
+
+    static func resetNeedUpdate() {
+        UserDefaults.standard.set(0, forKey: "ShowNeedUpdateCount")
+    }
+
+    static func isRequiredUpdate() -> Bool {
+        guard let showNeedUpdateCount = UserDefaults.standard.object(forKey: "ShowNeedUpdateCount") as? Int
+        else {return false}
+        return showNeedUpdateCount > 3
+    }
+
     // MARK: - ADD AND OFFER COUNTERS
     enum AppViews: String {
         case transactionEditor
