@@ -308,9 +308,9 @@ class SeedDataService {
                                            debit: salaryCard!,
                                            credit: capital!,
                                            debitAmount: 20000,
-                                           debitAmountInAccountingCurrency: 2000,
-                                           creditAmount: 2000,
-                                           creditAmountInAccountingCurrency: 2000,
+                                           debitAmountInAccountingCurrency: 20000,
+                                           creditAmount: 20000,
+                                           creditAmountInAccountingCurrency: 20000,
                                            context: context)
         TransactionHelper.createSimpleTran(date: calendar.date(byAdding: .day, value: -59, to: Date())!,
                                            debit: food!,
