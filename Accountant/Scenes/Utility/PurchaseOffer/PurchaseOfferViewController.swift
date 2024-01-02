@@ -54,32 +54,55 @@ final class PurchaseOfferViewController: UIViewController { // swiftlint:disable
         return titleLabel
     }()
 
-    let termsLabel: UILabel = {
-        let titleLabel = UILabel()
-        titleLabel.textAlignment = .center
-        titleLabel.text = NSLocalizedString("Terms of use",
+    let iHavePaidAcccessActivityIndicator: UIActivityIndicatorView = {
+        let view = UIActivityIndicatorView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.color = UIColor.darkGray
+        view.alpha = 0
+        view.startAnimating()
+        return view
+    }()
+
+    let iHavePaidAcccessLabel: UILabel = {
+        let label = UILabel()
+        label.textAlignment = .center
+        label.text = NSLocalizedString("Already have a \"PRO\" subscription?",
                                             tableName: Constants.Localizable.purchaseOfferVC,
                                             comment: "")
-        titleLabel.textColor = UIColor.systemBlue
-        titleLabel.font = UIFont.systemFont(ofSize: 12.0)
-        titleLabel.lineBreakMode = .byWordWrapping
-        titleLabel.numberOfLines = 0
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        return titleLabel
+        label.textColor = UIColor.systemBlue
+        label.font = UIFont.systemFont(ofSize: 16.0, weight: .medium)
+        label.lineBreakMode = .byWordWrapping
+        label.numberOfLines = 0
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+
+    let termsLabel: UILabel = {
+        let label = UILabel()
+        label.textAlignment = .center
+        label.text = NSLocalizedString("Terms of use",
+                                            tableName: Constants.Localizable.purchaseOfferVC,
+                                            comment: "")
+        label.textColor = UIColor.systemBlue
+        label.font = UIFont.systemFont(ofSize: 12.0)
+        label.lineBreakMode = .byWordWrapping
+        label.numberOfLines = 0
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
     }()
 
     let policyLabel: UILabel = {
-        let titleLabel = UILabel()
-        titleLabel.textAlignment = .center
-        titleLabel.text = NSLocalizedString("Privacy policy",
+        let label = UILabel()
+        label.textAlignment = .center
+        label.text = NSLocalizedString("Privacy policy",
                                             tableName: Constants.Localizable.purchaseOfferVC,
                                             comment: "")
-        titleLabel.textColor = UIColor.systemBlue
-        titleLabel.font = UIFont.systemFont(ofSize: 12.0)
-        titleLabel.lineBreakMode = .byWordWrapping
-        titleLabel.numberOfLines = 0
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        return titleLabel
+        label.textColor = UIColor.systemBlue
+        label.font = UIFont.systemFont(ofSize: 12.0)
+        label.lineBreakMode = .byWordWrapping
+        label.numberOfLines = 0
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
     }()
 
     let proBadgeView: BadgeView = {
@@ -140,21 +163,21 @@ final class PurchaseOfferViewController: UIViewController { // swiftlint:disable
     }()
 
     let purchaseButtonActivityIndicatorImageView: UIActivityIndicatorView = {
-        let activityIV = UIActivityIndicatorView()
-        activityIV.translatesAutoresizingMaskIntoConstraints = false
-        activityIV.color = UIColor.white
-        activityIV.alpha = 0
-        activityIV.startAnimating()
-        return activityIV
+        let view = UIActivityIndicatorView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.color = UIColor.white
+        view.alpha = 0
+        view.startAnimating()
+        return view
     }()
 
-    let activityIndicatorImageView: UIActivityIndicatorView = {
-        let activityIV = UIActivityIndicatorView()
-        activityIV.translatesAutoresizingMaskIntoConstraints = false
-        activityIV.color = UIColor.white
-        activityIV.alpha = 0
-        activityIV.startAnimating()
-        return activityIV
+    let activityIndicator: UIActivityIndicatorView = {
+        let view = UIActivityIndicatorView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.color = UIColor.white
+        view.alpha = 0
+        view.startAnimating()
+        return view
     }()
 
     let loaderView: UIView = {
@@ -188,11 +211,11 @@ final class PurchaseOfferViewController: UIViewController { // swiftlint:disable
 
     override func viewDidLoad() { // swiftlint:disable:this function_body_length
         super.viewDidLoad()
-        
+
         Analytics.logEvent("show_purchase_offer_view", parameters: [
           "name": "show_purchase_offer_view" as NSObject,
           ])
-        
+
         view.backgroundColor = .systemBackground
         // MARK: - Scroll View
         view.addSubview(scrollView)
@@ -246,11 +269,11 @@ final class PurchaseOfferViewController: UIViewController { // swiftlint:disable
         mainStackView.addArrangedSubview(loaderView)
         loaderView.heightAnchor.constraint(equalToConstant: 386).isActive = true
         // MARK: - Activity Indicator Image View
-        loaderView.addSubview(activityIndicatorImageView)
-        activityIndicatorImageView.centerXAnchor.constraint(equalTo: loaderView.centerXAnchor).isActive = true
-        activityIndicatorImageView.centerYAnchor.constraint(equalTo: loaderView.centerYAnchor,
+        loaderView.addSubview(activityIndicator)
+        activityIndicator.centerXAnchor.constraint(equalTo: loaderView.centerXAnchor).isActive = true
+        activityIndicator.centerYAnchor.constraint(equalTo: loaderView.centerYAnchor,
                                                             constant: -386/4).isActive = true
-        activityIndicatorImageView.alpha = 1
+        activityIndicator.alpha = 1
         // MARK: - Fetching Purchase Products
         fetchPurchaseProudcts()
     }
@@ -347,8 +370,8 @@ final class PurchaseOfferViewController: UIViewController { // swiftlint:disable
                             self.purchaseButon.setTitle(offerView.purchaseButonTitle.uppercased(), for: .normal)
                         }
                     }
-                    self.activityIndicatorImageView.stopAnimating()
-                    self.activityIndicatorImageView.alpha = 0
+                    self.activityIndicator.stopAnimating()
+                    self.activityIndicator.alpha = 0
                     self.loaderView.removeFromSuperview()
                     self.mainStackView.setCustomSpacing(40, after: self.offerStackView)
 
@@ -398,10 +421,16 @@ final class PurchaseOfferViewController: UIViewController { // swiftlint:disable
     }
 
     func addBottomDescription() {
+        mainStackView.addArrangedSubview(iHavePaidAcccessActivityIndicator)
+        mainStackView.addArrangedSubview(iHavePaidAcccessLabel)
         mainStackView.addArrangedSubview(subscriptionLabel)
         mainStackView.addArrangedSubview(termsLabel)
         mainStackView.setCustomSpacing(10, after: termsLabel)
         mainStackView.addArrangedSubview(policyLabel)
+
+        let iHavePaidAcccessTap = UITapGestureRecognizer(target: self, action: #selector(self.restorePurchases))
+        iHavePaidAcccessLabel.isUserInteractionEnabled = true
+        iHavePaidAcccessLabel.addGestureRecognizer(iHavePaidAcccessTap)
 
         let termsTap = UITapGestureRecognizer(target: self, action: #selector(self.termsLabelTapped(_:)))
         termsLabel.isUserInteractionEnabled = true
@@ -487,6 +516,37 @@ final class PurchaseOfferViewController: UIViewController { // swiftlint:disable
                     }
                 }
             }
+        }
+    }
+
+    @objc func restorePurchases() {
+        self.iHavePaidAcccessActivityIndicator.startAnimating()
+        self.iHavePaidAcccessActivityIndicator.alpha = 1
+
+        var message = ""
+
+        Purchases.shared.restoreTransactions {[weak self] (purchaserInfo, error) in
+
+            if purchaserInfo?.entitlements.all["pro"]?.isActive == true {
+                message = NSLocalizedString("We found active subscriptions. We wish you a pleasant use",
+                                            tableName: Constants.Localizable.purchaseOfferVC,
+                                            comment: "")
+            } else {
+                message = NSLocalizedString("We found no active subscriptions",
+                                            tableName: Constants.Localizable.purchaseOfferVC,
+                                            comment: "")
+            }
+
+            NotificationCenter.default.post(name: .receivedProAccessData, object: nil)
+
+            let alert = UIAlertController(title: message, message: nil, preferredStyle: UIAlertController.Style.alert)
+            let cancelAction = UIAlertAction(title: "ОК", style: .default, handler: nil)
+
+            alert.addAction(cancelAction)
+            self?.present(alert, animated: true)
+
+            self?.iHavePaidAcccessActivityIndicator.alpha = 0
+            self?.iHavePaidAcccessActivityIndicator.stopAnimating()
         }
     }
 
