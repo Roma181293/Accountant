@@ -40,11 +40,11 @@ class SeedTransactionItemAmountInAccountingCurrency {
                                 item.amountInAccountingCurrency = round(item.amount * rate * 100) / 100
                             } else {
                                 item.amountInAccountingCurrency = item.amount
-                                
-                                let needAmountsReviewComment = "Need amounts review"
-                                if (item.transaction?.comment ?? "") != needAmountsReviewComment {
-                                    item.transaction?.comment = (item.transaction?.comment ?? "") + needAmountsReviewComment
-                                }
+                            }
+                            
+                            let needAmountsReviewComment = "Need amounts review"
+                            if (item.transaction?.comment ?? "") != needAmountsReviewComment {
+                                item.transaction?.comment = (item.transaction?.comment ?? "") + needAmountsReviewComment
                             }
                         }
                     }
