@@ -159,6 +159,7 @@ class TransactionHelper {
                                 type: .debit,
                                 account: account,
                                 amount: statment.getAmount(),
+                                amountInAccountingCurrency: statment.getAmount(),
                                 createdByUser: createdByUser,
                                 createDate: createDate,
                                 context: context)
@@ -169,6 +170,7 @@ class TransactionHelper {
                                     type: .credit,
                                     account: creditAccount,
                                     amount: statment.getAmount(),
+                                    amountInAccountingCurrency: statment.getAmount(),
                                     createdByUser: createdByUser,
                                     createDate: createDate,
                                     context: context)
@@ -178,6 +180,7 @@ class TransactionHelper {
                                 type: .credit,
                                 account: account,
                                 amount: statment.getAmount(),
+                                amountInAccountingCurrency: statment.getAmount(),
                                 createdByUser: createdByUser,
                                 createDate: createDate,
                                 context: context)
@@ -188,6 +191,7 @@ class TransactionHelper {
                                     type: .debit,
                                     account: debitAccount,
                                     amount: statment.getAmount(),
+                                    amountInAccountingCurrency: statment.getAmount(),
                                     createdByUser: createdByUser,
                                     createDate: createDate,
                                     context: context)
