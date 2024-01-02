@@ -32,11 +32,7 @@ struct MBStatement: Codable, StatementProtocol {
     }
 
     func getType() -> StatmentType {
-        if amount > 0 {
-            return .to
-        } else {
-            return .from
-        }
+        return amount > 0 ? .to : .from
     }
 
     func getDate() -> Date {
