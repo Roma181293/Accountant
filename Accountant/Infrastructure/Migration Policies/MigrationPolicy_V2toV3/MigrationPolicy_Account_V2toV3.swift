@@ -12,12 +12,12 @@ import CoreData
 class MigrationPolicy_Account_V2toV3: NSEntityMigrationPolicy { // swiftlint:disable:this type_name
 
     private let rootAccountToTypeMapping: [(accountName: String, accountTypeName: AccountType.NameEnum)] =
-    [(LocalisationManager.getLocalizedName(.money), .moneyConsolidation),
-     (LocalisationManager.getLocalizedName(.debtors), .debtorsConsolidation),
-     (LocalisationManager.getLocalizedName(.credits), .creditorsConsolidation),
-     (LocalisationManager.getLocalizedName(.expense), .expenseConsolidation),
-     (LocalisationManager.getLocalizedName(.income), .incomeConsolidation),
-     (LocalisationManager.getLocalizedName(.capital), .capitalConsolidation)]
+    [(LocalizationManager.getLocalizedName(.money), .moneyConsolidation),
+     (LocalizationManager.getLocalizedName(.debtors), .debtorsConsolidation),
+     (LocalizationManager.getLocalizedName(.credits), .creditorsConsolidation),
+     (LocalizationManager.getLocalizedName(.expense), .expenseConsolidation),
+     (LocalizationManager.getLocalizedName(.income), .incomeConsolidation),
+     (LocalizationManager.getLocalizedName(.capital), .capitalConsolidation)]
 
     override func begin(_ mapping: NSEntityMapping, with manager: NSMigrationManager) throws {
         try super.begin(mapping, with: manager)
@@ -45,7 +45,7 @@ class MigrationPolicy_Account_V2toV3: NSEntityMigrationPolicy { // swiftlint:dis
                 if let parentName = sourceParent.value(forKey: "name") as? String,
                    let oldType = sourceParent.value(forKey: "type") as? Int16 {
 
-                    if parentName == LocalisationManager.getLocalizedName(.money),
+                    if parentName == LocalizationManager.getLocalizedName(.money),
                        let subType = sInstance.value(forKey: "subType") as? Int16 {
                         switch subType {
                         case 1: destAccount.setValue(getAccountTypeBy(.cash, context: manager.destinationContext), forKey: "type")
@@ -53,9 +53,9 @@ class MigrationPolicy_Account_V2toV3: NSEntityMigrationPolicy { // swiftlint:dis
                         case 3: destAccount.setValue(getAccountTypeBy(.creditCard, context: manager.destinationContext), forKey: "type")
                         default: break
                         }
-                    } else if parentName == LocalisationManager.getLocalizedName(.debtors) {
+                    } else if parentName == LocalizationManager.getLocalizedName(.debtors) {
                         destAccount.setValue(getAccountTypeBy(.debtor, context: manager.destinationContext), forKey: "type")
-                    } else if parentName == LocalisationManager.getLocalizedName(.credits) {
+                    } else if parentName == LocalizationManager.getLocalizedName(.credits) {
                         destAccount.setValue(getAccountTypeBy(.creditor, context: manager.destinationContext), forKey: "type")
                     } else if oldType == 0 {
                         destAccount.setValue(getAccountTypeBy(.liabilitiesCategory, context: manager.destinationContext), forKey: "type")
@@ -78,12 +78,12 @@ class MigrationPolicy_Account_V2toV3: NSEntityMigrationPolicy { // swiftlint:dis
             if let accountName = account.value(forKey: "name") as? String,
                let accountPath = account.value(forKey: "path") as? String {
 
-                if accountName == LocalisationManager.getLocalizedName(.expense),
+                if accountName == LocalizationManager.getLocalizedName(.expense),
                    let currency = account.value(forKey: "currency") as? NSManagedObject {
-                    let beforeAccountingPeriod = try getOrCreateAccount(name: LocalisationManager.getLocalizedName(.beforeAccountingPeriod),
+                    let beforeAccountingPeriod = try getOrCreateAccount(name: LocalizationManager.getLocalizedName(.beforeAccountingPeriod),
                                                                     context: manager.destinationContext)
 
-                    beforeAccountingPeriod.setValue(accountPath+":"+LocalisationManager.getLocalizedName(.beforeAccountingPeriod),
+                    beforeAccountingPeriod.setValue(accountPath+":"+LocalizationManager.getLocalizedName(.beforeAccountingPeriod),
                                                     forKey: "path")
                     beforeAccountingPeriod.setValue(currency, forKey: "currency")
                     beforeAccountingPeriod.setValue(getAccountTypeBy(.expenseBeforeAccountingPeriod,
@@ -105,8 +105,8 @@ class MigrationPolicy_Account_V2toV3: NSEntityMigrationPolicy { // swiftlint:dis
         }
 
         let type = getAccountTypeBy(.accounting, context: manager.destinationContext)
-        LocalisationManager.createLocalizedAccountName(.accounts)
-        let name = LocalisationManager.getLocalizedName(.accounts)
+        LocalizationManager.createLocalizedAccountName(.accounts)
+        let name = LocalizationManager.getLocalizedName(.accounts)
         let root = try getOrCreateAccount(name: name, context: manager.destinationContext)
         root.setValue(type, forKey: "type")
 
@@ -126,7 +126,7 @@ class MigrationPolicy_Account_V2toV3: NSEntityMigrationPolicy { // swiftlint:dis
         let results = try destContext.fetch(fetchRequest)
         for account in results {
 //            print(account.value(forKey: "path") as? String)
-            if account.value(forKey: "parent") == nil && account.value(forKey: "name") as? String != LocalisationManager.getLocalizedName(.accounts) {
+            if account.value(forKey: "parent") == nil && account.value(forKey: "name") as? String != LocalizationManager.getLocalizedName(.accounts) {
                 throw MigrationError.acountHasNoParent
             }
 

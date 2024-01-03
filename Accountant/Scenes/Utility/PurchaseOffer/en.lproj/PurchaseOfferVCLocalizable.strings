@@ -16,9 +16,12 @@
 "Export and import of transactions" = "Export and import of transactions";
 "Security" = "Security";
 "No ads" = "No ads";
+"Already have a \"PRO\" subscription?" = "Already have a \"PRO\" subscription?";
 "Terms of use" = "Terms of use";
 "Privacy policy" = "Privacy policy";
 "Subscribe" = "Subscribe";
+"We found no active subscriptions" = "We found no active subscriptions";
+"We found active subscriptions. We wish you a pleasant use" = "We found active subscriptions. We wish you a pleasant use";
 
 //OfferView
 "per 3 days" = "per 3 days";

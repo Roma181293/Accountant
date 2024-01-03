@@ -17,12 +17,14 @@ class TransactionHelper {
         return try? context.fetch(request).first
     }
 
-    private class func getDataAboutTransactionItems(transaction: Transaction, type: TransactionItem.TypeEnum,
-                                                    amount: inout Double, currency: inout Currency?,
+    private class func getDataAboutTransactionItems(transaction: Transaction,
+                                                    type: TransactionItem.TypeEnum,
+                                                    amountInAccountingCurrency: inout Double,
+                                                    currency: inout Currency?,
                                                     itemsCount: inout Int) throws {
         for item in transaction.itemsList.filter({$0.type == type}) {
             itemsCount += 1
-            amount += item.amount
+            amountInAccountingCurrency += item.amountInAccountingCurrency
             if let account = item.account {
                 if let cur = account.currency {
                     if currency != cur {
@@ -32,7 +34,7 @@ class TransactionHelper {
                     throw HelperError.multicurrencyAccount(name: account.path)
                 }
 
-                if item.amount <= 0 {
+                if item.amountInAccountingCurrency <= 0 || item.amount <= 0 {
                     switch type {
                     case .debit:
                         throw HelperError.invalidAmountInDebitTransactioItem(path: account.path)
@@ -65,9 +67,9 @@ class TransactionHelper {
         var creditCurrency: Currency? = transaction.itemsList.filter({$0.type == .credit}).first?.account?.currency
         var debitCurrency: Currency? = transaction.itemsList.filter({$0.type == .debit}).first?.account?.currency
 
-        try getDataAboutTransactionItems(transaction: transaction, type: .credit, amount: &creditAmount,
+        try getDataAboutTransactionItems(transaction: transaction, type: .credit, amountInAccountingCurrency: &creditAmount,
                                          currency: &creditCurrency, itemsCount: &creditItemsCount)
-        try getDataAboutTransactionItems(transaction: transaction, type: .debit, amount: &debitAmount,
+        try getDataAboutTransactionItems(transaction: transaction, type: .debit, amountInAccountingCurrency: &debitAmount,
                                          currency: &debitCurrency, itemsCount: &debitItemsCount)
         // Check ability to save transaction
 
@@ -77,16 +79,23 @@ class TransactionHelper {
         if creditItemsCount == 0 {
             throw TransactionHelper.HelperError.noCreditTransactionItem
         }
-        if debitCurrency == creditCurrency {
-            if round(debitAmount*100) != round(creditAmount*100) {
-                throw TransactionHelper.HelperError.differentAmountInSingleCurrecyTran
+        // if debitCurrency == creditCurrency {
+            if round(debitAmount * 100) != round(creditAmount * 100) {
+                throw TransactionHelper.HelperError.differentAmounts
             }
-        }
+        // }
     }
 
-    class func createAndGetSimpleTran(date: Date, debit: Account, credit: Account, debitAmount: Double = 0,
-                                      creditAmount: Double = 0, comment: String? = nil,
-                                      createdByUser: Bool = true, context: NSManagedObjectContext) -> Transaction {
+    class func createAndGetSimpleTran(date: Date,
+                                      debit: Account,
+                                      credit: Account,
+                                      debitAmount: Double = 0,
+                                      debitAmountInAccountingCurrency: Double = 0,
+                                      creditAmount: Double = 0,
+                                      creditAmountInAccountingCurrency: Double = 0,
+                                      comment: String? = nil,
+                                      createdByUser: Bool = true,
+                                      context: NSManagedObjectContext) -> Transaction {
         let createDate = Date()
         let transaction = Transaction(date: date, comment: comment, createdByUser: createdByUser,
                                       createDate: createDate, context: context)
@@ -96,17 +105,31 @@ class TransactionHelper {
             transaction.status = .approved
         }
         _ = TransactionItem(transaction: transaction, type: .credit, account: credit, amount: creditAmount,
-                            createdByUser: createdByUser, createDate: createDate, context: context)
+                            amountInAccountingCurrency: creditAmountInAccountingCurrency, createdByUser: createdByUser,
+                            createDate: createDate, context: context)
         _ = TransactionItem(transaction: transaction, type: .debit, account: debit, amount: debitAmount,
-                            createdByUser: createdByUser, createDate: createDate, context: context)
+                            amountInAccountingCurrency: debitAmountInAccountingCurrency, createdByUser: createdByUser,
+                            createDate: createDate, context: context)
         transaction.calculateType()
         return transaction
     }
 
-    class func createSimpleTran(date: Date, debit: Account, credit: Account, debitAmount: Double = 0,
-                                creditAmount: Double = 0, comment: String? = nil,
-                                createdByUser: Bool = true, context: NSManagedObjectContext) {
-        _ = createAndGetSimpleTran(date: date, debit: debit, credit: credit, debitAmount: debitAmount, creditAmount: creditAmount, comment: comment, createdByUser: createdByUser, context: context)
+    class func createSimpleTran(date: Date,
+                                debit: Account,
+                                credit: Account,
+                                debitAmount: Double = 0,
+                                debitAmountInAccountingCurrency: Double = 0,
+                                creditAmount: Double = 0,
+                                creditAmountInAccountingCurrency: Double = 0,
+                                comment: String? = nil,
+                                createdByUser: Bool = true,
+                                context: NSManagedObjectContext) {
+        _ = createAndGetSimpleTran(date: date, debit: debit, credit: credit,
+                                   debitAmount: debitAmount,
+                                   debitAmountInAccountingCurrency: debitAmountInAccountingCurrency,
+                                   creditAmount: creditAmount,
+                                   creditAmountInAccountingCurrency: creditAmountInAccountingCurrency,
+                                   comment: comment, createdByUser: createdByUser, context: context)
     }
 
     class func duplicateTransaction(_ original: Transaction, createdByUser: Bool = true, createDate: Date = Date(),
@@ -118,7 +141,8 @@ class TransactionHelper {
         transaction.type = original.type
         for item in original.itemsList {
             _ = TransactionItem(transaction: transaction, type: item.type, account: item.account!,
-                                amount: item.amount, context: context)
+                                amount: item.amount, amountInAccountingCurrency: item.amountInAccountingCurrency,
+                                context: context)
         }
     }
 
@@ -135,6 +159,7 @@ class TransactionHelper {
                                 type: .debit,
                                 account: account,
                                 amount: statment.getAmount(),
+                                amountInAccountingCurrency: statment.getAmount(),
                                 createdByUser: createdByUser,
                                 createDate: createDate,
                                 context: context)
@@ -145,6 +170,7 @@ class TransactionHelper {
                                     type: .credit,
                                     account: creditAccount,
                                     amount: statment.getAmount(),
+                                    amountInAccountingCurrency: statment.getAmount(),
                                     createdByUser: createdByUser,
                                     createDate: createDate,
                                     context: context)
@@ -154,6 +180,7 @@ class TransactionHelper {
                                 type: .credit,
                                 account: account,
                                 amount: statment.getAmount(),
+                                amountInAccountingCurrency: statment.getAmount(),
                                 createdByUser: createdByUser,
                                 createDate: createDate,
                                 context: context)
@@ -164,6 +191,7 @@ class TransactionHelper {
                                     type: .debit,
                                     account: debitAccount,
                                     amount: statment.getAmount(),
+                                    amountInAccountingCurrency: statment.getAmount(),
                                     createdByUser: createdByUser,
                                     createDate: createDate,
                                     context: context)
@@ -239,7 +267,7 @@ class TransactionHelper {
                                              "\(Transaction.Status.preDraft.rawValue)")
         do {
             let storedTransactions = try context.fetch(fetchRequest)
-            var export: String = "Trnsaction Id,Transaction Date,Transaction Status,Transaction Item Type,Account,Amount,Comment"
+            var export: String = "Trnsaction Id,Transaction Date,Transaction Status,Transaction Item Type,Account,Amount,Amount in accounting currency,Comment"
             let formatter = DateFormatter()
             formatter.dateFormat = "yyyy-MM-dd hh:mm:ss z"
             for transaction in storedTransactions {
@@ -254,6 +282,7 @@ class TransactionHelper {
                     case .approved: export += "Approved,"
                     case .applied: export += "Applied,"
                     case .archived: export += "Archived,"
+                    case .error: export += "Error,"
                     }
 
                     switch item.type {
@@ -262,6 +291,7 @@ class TransactionHelper {
                     }
                     export +=  String(describing: item.account?.path ?? "NULL") + ","
                     export +=  String(describing: item.amount) + ","
+                    export +=  String(describing: item.amountInAccountingCurrency) + ","
                     export +=  "\(transaction.comment ?? "")"
                 }
             }
@@ -285,24 +315,9 @@ class TransactionHelper {
         return try? context.fetch(fetchRequest).first?.date
     }
 
-    /// This method is usefull after data migration to avoid complex calculation of type during migration
-    /// - Parameter context: context there this changes should be performed
-    class func recalculateTransactionsType(context: NSManagedObjectContext) {
-        context.perform({
-            let request = Transaction.fetchRequest()
-            request.sortDescriptors = [NSSortDescriptor(key: Schema.Transaction.date.rawValue, ascending: true)]
-            request.predicate = NSPredicate(format: "\(Schema.Transaction.type) = %@", argumentArray: [Transaction.TypeEnum.other.rawValue])
-            guard let trasactions = try? context.fetch(request) else {return}
-            trasactions.forEach({
-                $0.calculateType()
-            })
-            try? context.save()
-        })
-    }
-
     enum HelperError: AppError {
         case periodHasUnAppliedTransactions
-        case differentAmountInSingleCurrecyTran
+        case differentAmounts
         case noDebitTransactionItem
         case noCreditTransactionItem
         case debitTransactionItemWOAccount
@@ -323,9 +338,8 @@ extension TransactionHelper.HelperError: LocalizedError {
         switch self {
         case .periodHasUnAppliedTransactions:
             return NSLocalizedString("There is an unapplied transaction before this date", tableName: tableName, comment: "")
-        case .differentAmountInSingleCurrecyTran:
-            return NSLocalizedString("You have a transaction in the same currency, but amounts in From:Account and " +
-                                     "To:Account are not matching", tableName: tableName, comment: "")
+        case .differentAmounts:
+            return NSLocalizedString("Amounts in From:Account and To:Account is not equal", tableName: tableName, comment: "")
         case .noDebitTransactionItem:
             return NSLocalizedString("Please add To:Account", tableName: tableName, comment: "")
         case .noCreditTransactionItem:

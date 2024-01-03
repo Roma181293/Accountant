@@ -244,6 +244,9 @@ class TransactionCell: UITableViewCell { // swiftlint:disable:this type_body_len
         case .archived:
             statusImage.image = UIImage(systemName: "archivebox")
             statusImage.tintColor = .systemBrown
+        case .error:
+            statusImage.image = UIImage(systemName: "exclamationmark.octagon.fill")
+            statusImage.tintColor = .systemRed
         }
 
         switch transaction.type {

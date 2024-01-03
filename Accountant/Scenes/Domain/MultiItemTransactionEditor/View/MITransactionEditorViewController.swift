@@ -23,16 +23,22 @@ class MITransactionEditorViewController: UIViewController, AccountNavigationDele
     }
 
     override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
-        if output?.isNewTransaction == true {
-            self.navigationItem.title = NSLocalizedString("Add transaction",
-                                                          tableName: Constants.Localizable.mITransactionEditor,
-                                                          comment: "")
-        } else {
-            self.navigationItem.title = NSLocalizedString("Edit transaction",
-                                                          tableName: Constants.Localizable.mITransactionEditor,
-                                                          comment: "")
-        }
+        super.viewWillAppear(animated)
+
+        self.navigationItem.title = output?.isNewTransaction == true
+        ? NSLocalizedString("Add transaction",
+                            tableName: Constants.Localizable.mITransactionEditor,
+                            comment: "")
+        : NSLocalizedString("Edit transaction",
+                            tableName: Constants.Localizable.mITransactionEditor,
+                            comment: "")
+
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: NSLocalizedString("Save",
+                                                                                          tableName: Constants.Localizable.mITransactionEditor,
+                                                                                          comment: ""),
+                                                                 style: .plain,
+                                                                 target: self,
+                                                                 action: #selector(self.confirm))
 
         output?.viewWillAppear()
 
@@ -55,6 +61,10 @@ class MITransactionEditorViewController: UIViewController, AccountNavigationDele
             output?.willMoveToParent()
         }
     }
+
+    @objc func confirm() {
+        output?.confirm()
+    }
 }
 
 // MARK: - MITransactionEditorViewDelegate
@@ -70,10 +80,6 @@ extension MITransactionEditorViewController: MITransactionEditorViewDelegate {
 
     func creditAddButtonDidClick() {
         output?.addCreditTransactionItem()
-    }
-
-    func confirm() {
-        output?.confirm()
     }
 }
 
@@ -145,7 +151,7 @@ extension MITransactionEditorViewController: MITransactionEditorViewInput {
         mainView.commentTextField.isUserInteractionEnabled = isUserInteractionEnabled
         mainView.debitAddButton.isHidden = true
         mainView.creditAddButton.isHidden = true
-        mainView.confirmButton.isHidden = true
+        self.tabBarController?.navigationItem.rightBarButtonItem = nil
     }
 }
 
@@ -156,9 +162,9 @@ extension MITransactionEditorViewController: TransactionItemCellDelegate {
         output?.accountRequestingForTransactionItem(id: id)
     }
 
-    func setAmount(forTrasactionItem id: UUID, amount: Double) {
+    func setAmount(forTrasactionItem id: UUID, amount: Double, amountInAccountingCurrency: Double) {
 
-        output?.setAmount(forTrasactionItem: id, amount: amount)
+        output?.setAmount(forTrasactionItem: id, amount: amount, amountInAccountingCurrency: amountInAccountingCurrency)
     }
 }
 
@@ -181,11 +187,15 @@ extension MITransactionEditorViewController: UITableViewDataSource {
         guard let output = output else { return cell }
         switch tableView {
         case mainView.debitTableView:
-            cell.configureCell(for: output.debitTransactionItems[indexPath.row], with: self,
-                                  isUserInteractionEnabled: isUserInteractionEnabled)
+            cell.configureCell(for: output.debitTransactionItems[indexPath.row],
+                               with: self,
+                               accountingCurrencyCode: output.accountingCurrencyCode,
+                               isUserInteractionEnabled: isUserInteractionEnabled)
         case mainView.creditTableView:
-            cell.configureCell(for: output.creditTransactionItems[indexPath.row], with: self,
-                                  isUserInteractionEnabled: isUserInteractionEnabled)
+            cell.configureCell(for: output.creditTransactionItems[indexPath.row],
+                               with: self,
+                               accountingCurrencyCode: output.accountingCurrencyCode,
+                               isUserInteractionEnabled: isUserInteractionEnabled)
         default: break
         }
         return cell

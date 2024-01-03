@@ -11,5 +11,4 @@ protocol MITransactionEditorViewDelegate: AnyObject {
     func changeDate(_ date: Date)
     func debitAddButtonDidClick()
     func creditAddButtonDidClick()
-    func confirm()
 }

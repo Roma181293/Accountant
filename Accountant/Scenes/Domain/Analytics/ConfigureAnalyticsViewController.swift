@@ -7,11 +7,10 @@
 //
 
 import UIKit
-//import Purchases
 
 class ConfigureAnalyticsViewController: UIViewController { // swiftlint:disable:this type_body_length
 
-    var isUserHasPaidAccess = true
+    var isUserHasPaidAccess = false
     var isPurchaseOfferDidShow: Bool = false
 
     weak var analyticsViewController: AnalyticsViewController!
@@ -200,7 +199,7 @@ class ConfigureAnalyticsViewController: UIViewController { // swiftlint:disable:
         bluredView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         // Main View
         view.addSubview(mainView)
-        mainView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.8).isActive = true
+        mainView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.9).isActive = true
         mainView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 50).isActive = true
         mainView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         // Main Stack View
@@ -291,7 +290,7 @@ class ConfigureAnalyticsViewController: UIViewController { // swiftlint:disable:
                 analyticsViewController.transferedDateInterval = dateInterval
                 analyticsViewController.sortCategoryBy = sortCategoryBy
                 analyticsViewController.dateComponent = dateComponent
-                analyticsViewController.setValueToDateInterval()
+                analyticsViewController.setDateIntervalInitialValue()
             } else {
                 analyticsViewController.navigationController?.present(PurchaseOfferViewController(),
                                                                       animated: true,
@@ -300,7 +299,7 @@ class ConfigureAnalyticsViewController: UIViewController { // swiftlint:disable:
                 analyticsViewController.transferedDateInterval = dateInterval
                 analyticsViewController.sortCategoryBy = sortCategoryBy
                 analyticsViewController.dateComponent = dateComponent
-                analyticsViewController.setValueToDateInterval()
+                analyticsViewController.setDateIntervalInitialValue()
                 self.dismiss(animated: true, completion: nil)
                 return
             }
@@ -356,12 +355,6 @@ class ConfigureAnalyticsViewController: UIViewController { // swiftlint:disable:
     }
 
     @objc private func reloadProAccessData() {
-//        Purchases.shared.purchaserInfo { (purchaserInfo, _) in
-//            if purchaserInfo?.entitlements.all["pro"]?.isActive == true {
-//                self.isUserHasPaidAccess = true
-//            } else if purchaserInfo?.entitlements.all["pro"]?.isActive == false {
-//                self.isUserHasPaidAccess = false
-//            }
-//        }
+      
     }
 }

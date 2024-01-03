@@ -16,9 +16,12 @@
 "Export and import of transactions" = "Експорт та імпорт транзакцій";
 "Security" = "Безпека";
 "No ads" = "Ні рекламі";
+"Already have a \"PRO\" subscription?" = "Вже є \"PRO\" підписка?";
 "Terms of use" = "Умови використання";
 "Privacy policy" = "Політика конфіденційності";
 "Subscribe" = "Оформити підписку";
+"We found no active subscriptions" = "Ми не знайшли підписок з активною предплатою";
+"We found active subscriptions. We wish you a pleasant use" = "Ми знайшли активні підписки. Бажаємо приємного використання";
 
 //OfferView
 "per 3 days" = "за 3 дня";

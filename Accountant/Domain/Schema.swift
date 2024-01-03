@@ -168,6 +168,7 @@ enum Schema {
         case modifyDate
         case modifiedByUser
         case amount
+        case amountInAccountingCurrency
         case type
         // Relationships
         case account

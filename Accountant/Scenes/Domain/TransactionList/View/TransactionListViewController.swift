@@ -37,26 +37,10 @@ class TransactionListViewController: UIViewController {
         return controller
     }()
 
-    private let createTransactionButton: UIButton = {
-        let addButton = UIButton()
-        addButton.backgroundColor = Colors.Main.confirmButton
-        addButton.layer.cornerRadius = 34
-        addButton.layer.shadowColor = UIColor.gray.cgColor
-        addButton.layer.shadowOffset = CGSize(width: 2, height: 2)
-        addButton.layer.shadowOpacity = 0.5
-        addButton.layer.shadowRadius = 3
-        addButton.layer.masksToBounds =  false
-        addButton.setImage(UIImage(systemName: "plus"), for: .normal)
-        addButton.translatesAutoresizingMaskIntoConstraints = false
-        return addButton
-    }()
-
     override func viewDidLoad() {
         super.viewDidLoad()
 
         searchController.searchResultsUpdater = self
-
-        configureCreateTransactionButton()
 
         tableView.register(TransactionCell.self, forCellReuseIdentifier: Constants.Cell.complexTransactionCell)
 
@@ -71,14 +55,18 @@ class TransactionListViewController: UIViewController {
 
         self.tabBarController?.navigationItem.searchController = searchController
         self.tabBarController?.navigationItem.hidesSearchBarWhenScrolling = true
-
+        
         output?.viewWillAppear()
-
-        let title = NSLocalizedString("Transactions",
-                                      tableName: Constants.Localizable.transactionList,
-                                      comment: "")
-        self.tabBarController?.navigationItem.title = title
-
+        
+        self.tabBarController?.navigationItem.title = NSLocalizedString("Transactions",
+                                                                        tableName: Constants.Localizable.transactionList,
+                                                                        comment: "")
+        
+        self.tabBarController?.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "plus"),
+                                                                                   style: .plain,
+                                                                                   target: self,
+                                                                                   action: #selector(self.addTransaction))
+        
         needHideSearchBar = true
     }
 
@@ -94,20 +82,6 @@ class TransactionListViewController: UIViewController {
         needHideSearchBar = false
         output?.createTransaction()
     }
-
-    private func configureCreateTransactionButton() {
-        let standardSpacing: CGFloat = -40.0
-        view.addSubview(createTransactionButton)
-        createTransactionButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor,
-                                                        constant: standardSpacing).isActive = true
-        createTransactionButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor,
-                                                          constant: standardSpacing).isActive = true
-        createTransactionButton.widthAnchor.constraint(equalToConstant: 68).isActive = true
-        createTransactionButton.heightAnchor.constraint(equalToConstant: 68).isActive = true
-
-        createTransactionButton.addTarget(self, action: #selector(addTransaction),
-                                          for: .touchUpInside)
-    }
 }
 
 // MARK: - TransactionListViewInput
@@ -121,17 +95,17 @@ extension TransactionListViewController: TransactionListViewInput {
     }
 
     func drawProAccessButton(isHidden: Bool) {
-        if isHidden {
+//        if isHidden {
             self.tabBarController?.navigationItem.rightBarButtonItem = nil
-        } else {
-            let item = UIBarButtonItem(title: NSLocalizedString("Get PRO",
-                                                                tableName: Constants.Localizable.transactionList,
-                                                                comment: ""),
-                                       style: .plain,
-                                       target: self,
-                                       action: #selector(self.proAcceessButtonDidClick))
-            self.tabBarController?.navigationItem.rightBarButtonItem = item
-        }
+//        } else {
+//            let item = UIBarButtonItem(title: NSLocalizedString("Get PRO",
+//                                                                tableName: Constants.Localizable.transactionList,
+//                                                                comment: ""),
+//                                       style: .plain,
+//                                       target: self,
+//                                       action: #selector(self.proAcceessButtonDidClick))
+//            self.tabBarController?.navigationItem.rightBarButtonItem = item
+//        }
     }
 
     @objc func proAcceessButtonDidClick() {
@@ -162,7 +136,9 @@ extension TransactionListViewController: TransactionListViewInput {
             if isHidden {
                 item.badgeValue = nil
             } else {
-                item.badgeValue = "Test"
+                item.badgeValue = NSLocalizedString("Test",
+                                                    tableName: Constants.Localizable.transactionList,
+                                                    comment: "")
             }
         }
     }

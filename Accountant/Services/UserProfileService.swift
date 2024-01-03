@@ -64,19 +64,6 @@ class UserProfileService {
         return false
     }
 
-    static func useMultiItemTransaction(_ value: Bool, environment: Environment) {
-        let defaults = UserDefaults.standard
-        defaults.set(value, forKey: "useMultiItemTransaction\(environment.rawValue)")
-    }
-
-    static func isUseMultiItemTransaction(environment: Environment) -> Bool {
-        if let value = UserDefaults.standard.object(forKey: "useMultiItemTransaction\(environment.rawValue)") as? Bool {
-            return value
-        } else {
-            return false
-        }
-    }
-
     static func setUserAuth(_ authType: AuthType) {
         let defaults = UserDefaults.standard
         defaults.set(authType.rawValue, forKey: "userAuthType")
@@ -120,15 +107,40 @@ class UserProfileService {
         return date
     }
 
-    static func autoCreateBudgetsMethodDidWorked() {
-        UserDefaults.standard.set(Date(), forKey: "autoCreateBudgetsMethodDidWorked")
+    static func setSeedTransactionItemAmountInAccountingCurrencyJobExecuted() {
+        UserDefaults.standard.set(true, forKey: "SeedTransItemAmountInAccCurrJobExecuted")
     }
 
-    static func lastGereratedBudgetsDate() -> Date? {
-        if let date = UserDefaults.standard.object(forKey: "autoCreateBudgetsMethodDidWorked") as? Date {
-            return date
+    static func isSeedTransactionItemAmountInAccountingCurrencyJobExecuted() -> Bool {
+        return (UserDefaults.standard.object(forKey: "SeedTransItemAmountInAccCurrJobExecuted") as? Bool) ?? false
+    }
+
+    static func setFindTransactionsWithErrorsJobExecuted() {
+        UserDefaults.standard.set(Date(), forKey: "FindTransactionsWithErrorsJobExecuted")
+    }
+
+    static func getFindTransactionsWithErrorsJobExecutedLastTime() -> Date? {
+        return UserDefaults.standard.object(forKey: "FindTransactionsWithErrorsJobExecuted") as? Date
+    }
+
+    // MARK: - APP NEED UPDATE COUNTERS
+
+    static func increaseShowUpdateAppCount() {
+        var count = 0
+        if let storedCount = UserDefaults.standard.object(forKey: "ShowNeedUpdateCount") as? Int {
+            count = storedCount
         }
-        return nil
+        UserDefaults.standard.set(count + 1, forKey: "ShowNeedUpdateCount")
+    }
+
+    static func resetNeedUpdate() {
+        UserDefaults.standard.set(0, forKey: "ShowNeedUpdateCount")
+    }
+
+    static func isRequiredUpdate() -> Bool {
+        guard let showNeedUpdateCount = UserDefaults.standard.object(forKey: "ShowNeedUpdateCount") as? Int
+        else {return false}
+        return showNeedUpdateCount > 3
     }
 
     // MARK: - ADD AND OFFER COUNTERS

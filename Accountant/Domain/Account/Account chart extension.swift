@@ -11,15 +11,11 @@ import Charts
 
 // MARK: - method for charts
 extension Account {
-    func prepareDataToShow(dateInterval: DateInterval, selectedCurrency: Currency, currencyHistoricalData: CurrencyHistoricalData? = nil, dateComponent: Calendar.Component, isListForAnalytic: Bool, sortTableDataBy: SortCategoryType) throws -> PresentingData {  // swiftlint:disable:this cyclomatic_complexity function_body_length function_parameter_count line_length
+    func prepareDataToShow(dateInterval: DateInterval, selectedCurrency: Currency, dateComponent: Calendar.Component, sortTableDataBy: SortCategoryType) throws -> PresentingData {  // swiftlint:disable:this cyclomatic_complexity function_body_length function_parameter_count line_length
 
         var accountsToShow: [Account] = directChildrenList
         if type.balanceCalcFullTime == false {
             accountsToShow.append(self)
-        }
-
-        if isListForAnalytic == false {
-            accountsToShow = accountsToShow.filter({$0.active})
         }
 
         var accountsData: [AccountData] = []
@@ -43,12 +39,14 @@ extension Account {
                 title = account.name
                 arrayOfResultsForTmpAccount = account.balance(dateInterval: dateInterval,
                                                               dateComponent: dateComponent,
-                                                              calcIncludedAccountsBalances: true)
+                                                              calcIncludedAccountsBalances: true,
+                                                              inAccountingCurrency: true)
             } else {
-                title = LocalisationManager.getLocalizedName(.other)
+                title = LocalizationManager.getLocalizedName(.other)
                 arrayOfResultsForTmpAccount = account.balance(dateInterval: dateInterval,
                                                               dateComponent: dateComponent,
-                                                              calcIncludedAccountsBalances: false)
+                                                              calcIncludedAccountsBalances: false,
+                                                              inAccountingCurrency: true)
             }
 
             // convert (date: Date, value: Double) to ChartDataEntry(x:Double, y: Double)
@@ -72,41 +70,16 @@ extension Account {
             set.fillAlpha = 1
             set.drawCircleHoleEnabled = false
 
-            var amountInAccountCurrency: Double {
-                if arrayOfResultsForTmpAccount.isEmpty == false {
-                    return arrayOfResultsForTmpAccount.last!.value
-                }
-                return 0
-            }
-
-            var amountInSelectedCurrency: Double {
-                if selectedCurrency == account.currency {
-                    return amountInAccountCurrency
-                } else if amountInAccountCurrency != 0,
-                          let currencyHistoricalData = currencyHistoricalData,
-                          let accountCurrency = account.currency {
-
-                    var exchangeRate: Double = 1
-                    if let rate =  currencyHistoricalData.exchangeRate(pay: selectedCurrency.code,
-                                                                       forOne: accountCurrency.code) {
-                        exchangeRate = rate
-                    }
-                    return round(amountInAccountCurrency * exchangeRate * 100) / 100
-                }
-                return 0
-            }
             tempData.append((lineChartDataSet: set,
                              account: account,
                              title: title,
-                             amountInAccountCurrency: amountInAccountCurrency,
-                             amountInSelectedCurrency: amountInSelectedCurrency,
+                             amountInAccountCurrency: account.balance(for: {dateInterval.contains($0.transaction!.date)}, inAccountingCurrency: false),
+                             amountInSelectedCurrency: account.balance(for: {dateInterval.contains($0.transaction!.date)}, inAccountingCurrency: true),
                              checkSum: checkSum))
         }
 
         // filtered and ordered items
-        if isListForAnalytic {
-            tempData = tempData.filter({$0.checkSum != 0})
-        }
+        tempData = tempData.filter({$0.checkSum != 0})
         tempData.sort(by: {$0.amountInSelectedCurrency >= $1.amountInSelectedCurrency})
 
         // Coloring

@@ -11,10 +11,11 @@ protocol MITransactionEditorViewOutput: AnyObject {
     var isNewTransaction: Bool { get }
     var debitTransactionItems: [TransactionItemSimpleViewModel] { get }
     var creditTransactionItems: [TransactionItemSimpleViewModel] { get }
+    var accountingCurrencyCode: String { get }
     func viewDidLoad()
     func viewWillAppear()
     func accountRequestingForTransactionItem(id: UUID)
-    func setAmount(forTrasactionItem id: UUID, amount: Double)
+    func setAmount(forTrasactionItem id: UUID, amount: Double, amountInAccountingCurrency: Double)
     func setComment(_ comment: String?)
     func addDebitTransactionItem()
     func addCreditTransactionItem()

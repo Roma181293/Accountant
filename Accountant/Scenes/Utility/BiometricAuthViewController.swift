@@ -54,7 +54,7 @@ class BiometricAuthViewController: UIViewController {
         if context.canEvaluatePolicy(.deviceOwnerAuthentication, error: &error) {
             biometryAuthButton.isHidden = true
             let reason = NSLocalizedString("to activate", comment: "")
-            context.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: reason ) { success, error in
+            context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason ) { success, error in
                 if success {
                     DispatchQueue.main.async { [unowned self] in
                         self.state = .loggedin

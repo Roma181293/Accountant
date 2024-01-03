@@ -7,7 +7,7 @@
 
 import UIKit
 import CoreData
-//import Purchases
+import Purchases
 
 protocol AccountRequestor {
     func setAccount(_ account: Account)
@@ -29,14 +29,14 @@ class AccountNavigationViewController: UITableViewController {
 
     private let localizedTableName: String = Constants.Localizable.accountNavigation
 
-    private var isUserHasPaidAccess = true
+    private var isUserHasPaidAccess = false
     private lazy var accountListWorker: AccountListWorker = {
         let accountProvider = AccountListWorker(with: CoreDataStack.shared.persistentContainer)
         accountProvider.fetchedResultsControllerDelegate = self
         if let parentAccount = parentAccount {
             accountProvider.parent = parentAccount
         } else {
-            accountProvider.parent = AccountHelper.getAccountWithPath(LocalisationManager.getLocalizedName(.accounts),
+            accountProvider.parent = AccountHelper.getAccountWithPath(LocalizationManager.getLocalizedName(.accounts),
                                                                       context: CoreDataStack.shared.persistentContainer.viewContext)
             self.parentAccount = accountProvider.parent
         }
@@ -101,11 +101,10 @@ class AccountNavigationViewController: UITableViewController {
 extension AccountNavigationViewController {
     private func createAddButton() {
         if accountListWorker.isSwipeAvailable && accountListWorker.canModifyAccountStructure {
-            let addButton = UIBarButtonItem(title: "+",
+            let addButton = UIBarButtonItem(image: UIImage(systemName: "plus"),
                                             style: .plain,
                                             target: self,
                                             action: #selector(self.addCategoryOrAccount))
-            addButton.image = UIImage(systemName: "plus")
             self.navigationItem.rightBarButtonItem = addButton
         } else {
             self.navigationItem.rightBarButtonItem = nil
@@ -161,13 +160,13 @@ extension AccountNavigationViewController {
     }
 
     @objc func reloadProAccessData() {
-//        Purchases.shared.purchaserInfo { (purchaserInfo, _) in
-//            if purchaserInfo?.entitlements.all["pro"]?.isActive == true {
-//                self.isUserHasPaidAccess = true
-//            } else if purchaserInfo?.entitlements.all["pro"]?.isActive == false {
-//                self.isUserHasPaidAccess = false
-//            }
-//        }
+        Purchases.shared.purchaserInfo { (purchaserInfo, _) in
+            if purchaserInfo?.entitlements.all["pro"]?.isActive == true {
+                self.isUserHasPaidAccess = true
+            } else if purchaserInfo?.entitlements.all["pro"]?.isActive == false {
+                self.isUserHasPaidAccess = false
+            }
+        }
     }
 }
 
@@ -257,7 +256,7 @@ extension AccountNavigationViewController {
                                                                                     tableName: self.localizedTableName,
                                                                                     comment: ""),
                                                            message: String(format: NSLocalizedString("Category \"%@\" contains transactions. All these thansactions will be automatically moved to the \"%@\" subcategory", tableName: self.localizedTableName, comment: ""), // swiftlint:disable:this line_length
-                                                                           account.name, LocalisationManager.getLocalizedName(.other1)), // swiftlint:disable:this line_length
+                                                                           account.name, LocalizationManager.getLocalizedName(.other1)), // swiftlint:disable:this line_length
                                                            preferredStyle: .alert)
                             alert1.addAction(UIAlertAction(title: NSLocalizedString("Create and Move",
                                                                                     tableName: self.localizedTableName,

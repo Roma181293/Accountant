@@ -19,6 +19,7 @@ protocol AccountEditorWorkerDelegate: AnyObject {
     func errorHandler(_ error: Error)
 }
 
+// swiftlint:disable all
 class AccountEditorWorker {
 
     enum Mode {
@@ -99,11 +100,11 @@ class AccountEditorWorker {
         guard let accountingCurrency = CurrencyHelper.getAccountingCurrency(context: context)
         else {fatalError("accounting currency should exists")}
 
-        guard let capitalRoot = AccountHelper.getAccountWithPath(LocalisationManager.getLocalizedName(.capital),
+        guard let capitalRoot = AccountHelper.getAccountWithPath(LocalizationManager.getLocalizedName(.capital),
                                                                  context: context),
-              let expenseRoot = AccountHelper.getAccountWithPath(LocalisationManager.getLocalizedName(.expense),
+              let expenseRoot = AccountHelper.getAccountWithPath(LocalizationManager.getLocalizedName(.expense),
                                                                  context: context),
-              let expenseBeforeAccountingPeriod = expenseRoot.getSubAccountWith(name: LocalisationManager.getLocalizedName(.beforeAccountingPeriod))
+              let expenseBeforeAccountingPeriod = expenseRoot.getSubAccountWith(name: LocalizationManager.getLocalizedName(.beforeAccountingPeriod))
         else {fatalError("default accounts should exists")}
 
         self.capitalRoot = capitalRoot
@@ -132,11 +133,11 @@ class AccountEditorWorker {
         guard let accountingCurrency = CurrencyHelper.getAccountingCurrency(context: context)
         else {fatalError("accounting currency should exists")}
 
-        guard let capitalRoot = AccountHelper.getAccountWithPath(LocalisationManager.getLocalizedName(.capital),
+        guard let capitalRoot = AccountHelper.getAccountWithPath(LocalizationManager.getLocalizedName(.capital),
                                                                  context: context),
-              let expenseRoot = AccountHelper.getAccountWithPath(LocalisationManager.getLocalizedName(.expense),
+              let expenseRoot = AccountHelper.getAccountWithPath(LocalizationManager.getLocalizedName(.expense),
                                                                  context: context),
-              let expenseBeforeAccountingPeriod = expenseRoot.getSubAccountWith(name: LocalisationManager.getLocalizedName(.beforeAccountingPeriod))
+              let expenseBeforeAccountingPeriod = expenseRoot.getSubAccountWith(name: LocalizationManager.getLocalizedName(.beforeAccountingPeriod))
         else {fatalError("default accounts should exists")}
 
         self.capitalRoot = capitalRoot
@@ -428,40 +429,71 @@ class AccountEditorWorker {
             createLiabilityAccountTransactions()
         }
     }
-
-    // swiftlint:disable all
+    
+    
     private func createTransactionsForAccountAndLinkedAccount() {
         guard let linkedAccount = account.linkedAccount, let rate = rate else {return}
         let comment = NSLocalizedString("Initial balance for", tableName: Constants.Localizable.accountEditorService, comment: "") + " " + (account.path) + " " + NSLocalizedString("and", tableName: Constants.Localizable.accountEditorService, comment: "") + " " + (account.linkedAccount?.path ?? "")
         if balance - linkedAccountBalance > 0 {
-            let tran1 = TransactionHelper.createAndGetSimpleTran(date: date, debit: account, credit: capitalRoot,
-                                                                 debitAmount: round((balance - linkedAccountBalance)*100)/100,
-                                                                 creditAmount: round(round((balance - linkedAccountBalance)*100)/100 * rate*100)/100,
-                                                                 comment: comment, createdByUser: true, context: context)
+            let tran1 = TransactionHelper.createAndGetSimpleTran(date: date,
+                                                                 debit: account,
+                                                                 credit: capitalRoot,
+                                                                 debitAmount: roundAmount(balance - linkedAccountBalance),
+                                                                 debitAmountInAccountingCurrency: roundAmount((balance - linkedAccountBalance) * rate),
+                                                                 creditAmount: roundAmount(balance - linkedAccountBalance),
+                                                                 creditAmountInAccountingCurrency: roundAmount((balance - linkedAccountBalance) * rate),
+                                                                 comment: comment,
+                                                                 createdByUser: true,
+                                                                 context: context)
             tran1.type = .initialBalance
 
-            let tran2 = TransactionHelper.createAndGetSimpleTran(date: date, debit: account, credit: linkedAccount,
-                                                                 debitAmount: round(linkedAccountBalance*100)/100,
-                                                                 creditAmount: round(linkedAccountBalance*100)/100,
-                                                                 comment: comment, createdByUser: true, context: context)
+            let tran2 = TransactionHelper.createAndGetSimpleTran(date: date,
+                                                                 debit: account,
+                                                                 credit: linkedAccount,
+                                                                 debitAmount: roundAmount(linkedAccountBalance),
+                                                                 debitAmountInAccountingCurrency: roundAmount(linkedAccountBalance * rate),
+                                                                 creditAmount: roundAmount(linkedAccountBalance),
+                                                                 creditAmountInAccountingCurrency: roundAmount(linkedAccountBalance * rate),
+                                                                 comment: comment,
+                                                                 createdByUser: true,
+                                                                 context: context)
             tran2.type = .initialBalance
         } else if balance - linkedAccountBalance == 0 && balance != 0 {
-            let tran = TransactionHelper.createAndGetSimpleTran(date: date, debit: account, credit: linkedAccount,
-                                                                debitAmount: round(balance*100)/100,
-                                                                creditAmount: round(balance*100)/100,
-                                                                comment: comment, createdByUser: true, context: context)
+            let tran = TransactionHelper.createAndGetSimpleTran(date: date,
+                                                                debit: account,
+                                                                credit: linkedAccount,
+                                                                debitAmount: roundAmount(balance),
+                                                                debitAmountInAccountingCurrency: roundAmount(balance * rate),
+                                                                creditAmount: roundAmount(balance),
+                                                                creditAmountInAccountingCurrency: roundAmount(balance * rate),
+                                                                comment: comment,
+                                                                createdByUser: true,
+                                                                context: context)
             tran.type = .initialBalance
         } else if balance - linkedAccountBalance < 0 {
-            let tran1 = TransactionHelper.createAndGetSimpleTran(date: date, debit: expenseBeforeAccountingPeriod, credit: account,
-                                                                 debitAmount: round(round((linkedAccountBalance - balance)*100)/100 * rate*100)/100,
-                                                                 creditAmount: round((linkedAccountBalance - balance)*100)/100,
-                                                                 comment: comment, createdByUser: true, context: context)
+            let amountInAccountingCurrency = roundAmount(linkedAccountBalance - balance)
+            let tran1 = TransactionHelper.createAndGetSimpleTran(date: date,
+                                                                 debit: expenseBeforeAccountingPeriod,
+                                                                 credit: account,
+                                                                 debitAmount: roundAmount(linkedAccountBalance - balance),
+                                                                 debitAmountInAccountingCurrency: roundAmount((linkedAccountBalance - balance) * rate),
+                                                                 creditAmount: roundAmount(linkedAccountBalance - balance),
+                                                                 creditAmountInAccountingCurrency: roundAmount((linkedAccountBalance - balance) * rate),
+                                                                 comment: comment,
+                                                                 createdByUser: true,
+                                                                 context: context)
             tran1.type = .initialBalance
-
-            let tran2 = TransactionHelper.createAndGetSimpleTran(date: date, debit: account, credit: linkedAccount,
-                                                                 debitAmount: round(linkedAccountBalance*100)/100,
-                                                                 creditAmount: round(linkedAccountBalance*100)/100,
-                                                                 comment: comment, createdByUser: true, context: context)
+            
+            let tran2 = TransactionHelper.createAndGetSimpleTran(date: date,
+                                                                 debit: account,
+                                                                 credit: linkedAccount,
+                                                                 debitAmount: roundAmount(linkedAccountBalance),
+                                                                 debitAmountInAccountingCurrency: roundAmount(linkedAccountBalance * rate),
+                                                                 creditAmount: roundAmount(linkedAccountBalance),
+                                                                 creditAmountInAccountingCurrency: roundAmount(linkedAccountBalance * rate),
+                                                                 comment: comment,
+                                                                 createdByUser: true,
+                                                                 context: context)
             tran2.type = .initialBalance
         }
     }
@@ -469,21 +501,37 @@ class AccountEditorWorker {
     private func createAssetsAccountTransactions() {
         guard let rate = rate else {return}
         let comment = NSLocalizedString("Initial balance for", tableName: Constants.Localizable.accountEditorService, comment: "") + " " + (account.path)
-        let tran1 = TransactionHelper.createAndGetSimpleTran(date: date, debit: account, credit: capitalRoot,
-                                                             debitAmount: round(balance*100)/100,
-                                                             creditAmount: round(round(balance*100)/100 * rate*100)/100,
-                                                             comment: comment, createdByUser: true, context: context)
+        let tran1 = TransactionHelper.createAndGetSimpleTran(date: date,
+                                                             debit: account,
+                                                             credit: capitalRoot,
+                                                             debitAmount: roundAmount(balance),
+                                                             debitAmountInAccountingCurrency: roundAmount(balance * rate),
+                                                             creditAmount: roundAmount(balance * rate),
+                                                             creditAmountInAccountingCurrency: roundAmount(balance * rate),
+                                                             comment: comment,
+                                                             createdByUser: true,
+                                                             context: context)
         tran1.type = .initialBalance
     }
 
     private func createLiabilityAccountTransactions() {
         guard let rate = rate else {return}
         let comment = NSLocalizedString("Initial balance for", tableName: Constants.Localizable.accountEditorService, comment: "") + " " + (account.path)
-        let tran1 = TransactionHelper.createAndGetSimpleTran(date: date, debit: expenseBeforeAccountingPeriod, credit: account,
-                                                             debitAmount: (balance * rate*100)/100,
+        let tran1 = TransactionHelper.createAndGetSimpleTran(date: date,
+                                                             debit: expenseBeforeAccountingPeriod,
+                                                             credit: account,
+                                                             debitAmount: roundAmount(balance * rate),
+                                                             debitAmountInAccountingCurrency: roundAmount(balance * rate),
                                                              creditAmount: balance,
-                                                             comment: comment, createdByUser: true, context: context)
+                                                             creditAmountInAccountingCurrency: roundAmount(balance * rate),
+                                                             comment: comment,
+                                                             createdByUser: true,
+                                                             context: context)
         tran1.type = .initialBalance
+    }
+    
+    private func roundAmount(_ value: Double) -> Double {
+        return (value * 100) / 100
     }
     // swiftlint:enable all
 }

@@ -1,0 +1,12 @@
+/* 
+  PreloaderVCLocalizable.strings
+  Accountant
+
+  Created by Roman Topchii on 01.01.2024.
+  
+*/
+
+"New app version" = "New app version";
+"Please update app to the latest version" = "Please update app to the latest version";
+"Update" = "Update";
+"Cancel" = "Cancel";

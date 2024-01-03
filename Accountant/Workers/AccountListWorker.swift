@@ -53,7 +53,7 @@ class AccountListWorker {
                                     + "NOT (SELF IN %@) && "
                                     +  "(\(Schema.Account.active.rawValue) = true "
                                     + "|| \(Schema.Account.active.rawValue) != %@)",
-                                    argumentArray: [LocalisationManager.getLocalizedName(.accounts), excludeAccountList, showHiddenAccounts])
+                                    argumentArray: [LocalizationManager.getLocalizedName(.accounts), excludeAccountList, showHiddenAccounts])
         }
         fetchRequest.predicate = predicate
 
@@ -99,10 +99,10 @@ class AccountListWorker {
             // Adding "Other" account for cases when parent containts transactions
             if parent.isFreeFromTransactionItems == false,
                AccountHelper.isReservedAccountName(name) == false {
-                var otherAccount = parent.getSubAccountWith(name: LocalisationManager.getLocalizedName(.other1))
+                var otherAccount = parent.getSubAccountWith(name: LocalizationManager.getLocalizedName(.other1))
                 if otherAccount == nil {
                     otherAccount = Account(parent: parent,
-                                         name: LocalisationManager.getLocalizedName(.other1),
+                                         name: LocalizationManager.getLocalizedName(.other1),
                                          context: backgroundContext)
                 }
                 if let otherAccount = otherAccount {
@@ -312,7 +312,7 @@ class AccountListWorker {
                                     + "NOT (SELF IN %@) && "
                                     +  "(\(Schema.Account.active.rawValue) = true "
                                     + "|| \(Schema.Account.active.rawValue) != %@)",
-                                    argumentArray: [LocalisationManager.getLocalizedName(.accounts), excludeAccountList, showHiddenAccounts])
+                                    argumentArray: [LocalizationManager.getLocalizedName(.accounts), excludeAccountList, showHiddenAccounts])
         }
         fetchedResultsController.fetchRequest.predicate = predicate
     }
@@ -321,7 +321,7 @@ class AccountListWorker {
         if text.count != 0 {
             var prdct = NSPredicate()
             if let parent = parent {
-                if parent.name == LocalisationManager.getLocalizedName(.accounts) {
+                if parent.name == LocalizationManager.getLocalizedName(.accounts) {
                     prdct = NSPredicate(format: "SELF != %@ && NOT (SELF IN %@)"
                                         + "&& \(Schema.Account.path.rawValue) CONTAINS[c] %@ "
                                         + "&& (\(Schema.Account.active.rawValue) = true "

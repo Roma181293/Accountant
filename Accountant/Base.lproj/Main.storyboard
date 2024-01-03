@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="gmG-ob-mZ7">
-    <device id="retina6_1" orientation="portrait" appearance="light"/>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="gmG-ob-mZ7">
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
         <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -15,11 +13,11 @@
             <objects>
                 <viewController storyboardIdentifier="TransactionListVC_ID" id="xRa-eE-QKN" customClass="TransactionListViewController" customModule="Accountant" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="BJT-QN-IoE">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="HVd-WN-TxD">
-                                <rect key="frame" x="0.0" y="88" width="414" height="725"/>
+                                <rect key="frame" x="0.0" y="44" width="600" height="507"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <connections>
                                     <outlet property="dataSource" destination="xRa-eE-QKN" id="u84-mg-tcT"/>
@@ -57,7 +55,7 @@
             <objects>
                 <navigationController id="gmG-ob-mZ7" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="EW2-ff-saO">
-                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <rect key="frame" x="0.0" y="48" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
@@ -80,7 +78,6 @@
                     </tabBar>
                     <connections>
                         <segue destination="xRa-eE-QKN" kind="relationship" relationship="viewControllers" id="Qeu-9O-znX"/>
-                        <segue destination="cG4-t1-4hJ" kind="relationship" relationship="viewControllers" id="oIY-Rn-HXF"/>
                         <segue destination="iUb-tQ-GKn" kind="relationship" relationship="viewControllers" id="ICj-Hx-8KB"/>
                         <segue destination="wC1-ZT-jvo" kind="relationship" relationship="viewControllers" id="SMP-gR-l6t"/>
                     </connections>
@@ -112,14 +109,14 @@
             <objects>
                 <viewController storyboardIdentifier="AccountListVC_ID" id="cG4-t1-4hJ" customClass="AccountListViewController" customModule="Accountant" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Z76-aL-6fa">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8rl-2V-0Em">
-                                <rect key="frame" x="0.0" y="448" width="414" height="26"/>
+                                <rect key="frame" x="0.0" y="300" width="600" height="26"/>
                                 <subviews>
                                     <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="2" translatesAutoresizingMaskIntoConstraints="NO" id="8GV-uh-bhl">
-                                        <rect key="frame" x="28" y="1" width="358" height="24"/>
+                                        <rect key="frame" x="28" y="1" width="544" height="24"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="24" id="Qd9-EP-jSq"/>
                                         </constraints>
@@ -127,7 +124,7 @@
                                         <color key="currentPageIndicatorTintColor" systemColor="scrollViewTexturedBackgroundColor"/>
                                     </pageControl>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BhX-Sv-RHM">
-                                        <rect key="frame" x="406" y="13" width="0.0" height="0.0"/>
+                                        <rect key="frame" x="592" y="13" width="0.0" height="0.0"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
@@ -151,13 +148,13 @@
                                 <viewLayoutGuide key="frameLayoutGuide" id="cOK-WO-ZM7"/>
                             </scrollView>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Vq5-It-EGY">
-                                <rect key="frame" x="0.0" y="473" width="414" height="340"/>
+                                <rect key="frame" x="0.0" y="325" width="600" height="226"/>
                                 <connections>
                                     <segue destination="sUx-Aq-9MD" kind="embed" identifier="goToMoneyAccountListTVC_ID" id="zwP-mr-pPH"/>
                                 </connections>
                             </containerView>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="08D-Cc-lzg">
-                                <rect key="frame" x="92" y="101" width="230" height="32"/>
+                                <rect key="frame" x="185" y="13" width="230" height="32"/>
                                 <segments>
                                     <segment title="Money"/>
                                     <segment title="Debtors"/>
@@ -168,7 +165,7 @@
                                 </connections>
                             </segmentedControl>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="q4g-u3-3ig">
-                                <rect key="frame" x="368" y="105" width="46" height="22"/>
+                                <rect key="frame" x="554" y="17" width="46" height="22"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="46" id="NOf-iJ-rlv"/>
                                     <constraint firstAttribute="height" constant="22" id="T0v-4E-b8o"/>
@@ -220,7 +217,7 @@
             <objects>
                 <viewController storyboardIdentifier="InstructionVC_ID" id="Dck-8V-TBm" customClass="InstructionViewController" customModule="Accountant" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="dEU-oS-jA6">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="3cQ-Bs-fu3"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -235,7 +232,7 @@
             <objects>
                 <viewController storyboardIdentifier="SettingsVC_ID" id="wC1-ZT-jvo" customClass="SettingsViewController" customModule="Accountant" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="GEb-kv-c9n">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="7dg-EV-TCH"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -251,7 +248,7 @@
             <objects>
                 <viewController storyboardIdentifier="AnalyticsVC_ID" id="iUb-tQ-GKn" customClass="AnalyticsViewController" customModule="Accountant" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="0VD-KM-e01">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9Qx-ZA-Ve2">
@@ -262,32 +259,20 @@
                                 <viewLayoutGuide key="contentLayoutGuide" id="ZYQ-wt-znZ"/>
                                 <viewLayoutGuide key="frameLayoutGuide" id="2vN-aQ-IqO"/>
                             </scrollView>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="1" translatesAutoresizingMaskIntoConstraints="NO" id="waj-9n-cEF">
-                                <rect key="frame" x="135.5" y="101" width="143" height="32"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="31" id="yw9-YD-9Yq"/>
-                                </constraints>
-                                <segments>
-                                    <segment title="Income"/>
-                                    <segment title="Expense"/>
-                                </segments>
-                                <connections>
-                                    <action selector="chooseAccount:" destination="iUb-tQ-GKn" eventType="valueChanged" id="4SK-qA-lGE"/>
-                                </connections>
-                            </segmentedControl>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="W51-r5-jlS">
-                                <rect key="frame" x="368" y="105" width="46" height="22"/>
+                                <rect key="frame" x="554" y="48" width="46" height="34"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="46" id="0mn-aH-ifw"/>
-                                    <constraint firstAttribute="height" constant="22" id="jiu-TH-JMT"/>
+                                    <constraint firstAttribute="height" constant="34" id="jiu-TH-JMT"/>
                                 </constraints>
-                                <state key="normal" image="gear" catalog="system"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" image="slider.horizontal.3" catalog="system"/>
                                 <connections>
                                     <segue destination="Ifm-65-ZPx" kind="presentation" identifier="goToConfigurationVC_ID" modalPresentationStyle="overCurrentContext" modalTransitionStyle="crossDissolve" id="1ge-G3-u05"/>
                                 </connections>
                             </button>
-                            <containerView opaque="NO" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Xvl-gp-9RB">
-                                <rect key="frame" x="0.0" y="451" width="414" height="100"/>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Xvl-gp-9RB">
+                                <rect key="frame" x="0.0" y="451" width="600" height="100"/>
                                 <constraints>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="100" id="Obl-0y-if3"/>
                                     <constraint firstAttribute="height" relation="lessThanOrEqual" priority="999" constant="240" id="XwJ-Ie-Tod"/>
@@ -296,7 +281,7 @@
                                     <segue destination="jL2-au-Yzq" kind="embed" identifier="goToAnalyticsTVC_ID" id="BbH-1e-sdP"/>
                                 </connections>
                             </containerView>
-                            <pageControl opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="Swn-e2-1Tk">
+                            <pageControl opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="Swn-e2-1Tk">
                                 <rect key="frame" x="146" y="546" width="122.99999999999997" height="28"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="24" id="zpl-5u-Ody"/>
@@ -304,6 +289,14 @@
                                 <color key="pageIndicatorTintColor" systemColor="opaqueSeparatorColor"/>
                                 <color key="currentPageIndicatorTintColor" red="0.43587079639999998" green="0.4447874725" blue="0.4716951251" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </pageControl>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CR0-N1-IBg">
+                                <rect key="frame" x="262.66666666666669" y="48" width="75" height="34.666666666666657"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="gray" title="Button"/>
+                                <connections>
+                                    <action selector="onRootAccountButoonClick:" destination="iUb-tQ-GKn" eventType="touchUpInside" id="llX-oP-s5A"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="RgN-ca-hXf"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -312,23 +305,23 @@
                             <constraint firstItem="9Qx-ZA-Ve2" firstAttribute="leading" secondItem="RgN-ca-hXf" secondAttribute="leading" id="55W-rv-oTd"/>
                             <constraint firstItem="RgN-ca-hXf" firstAttribute="trailing" secondItem="W51-r5-jlS" secondAttribute="trailing" id="Eug-f7-dom"/>
                             <constraint firstItem="9Qx-ZA-Ve2" firstAttribute="top" secondItem="RgN-ca-hXf" secondAttribute="top" id="Eyw-wn-QgR"/>
-                            <constraint firstItem="W51-r5-jlS" firstAttribute="top" secondItem="RgN-ca-hXf" secondAttribute="top" constant="17" id="QkA-v0-X33"/>
-                            <constraint firstItem="waj-9n-cEF" firstAttribute="centerX" secondItem="0VD-KM-e01" secondAttribute="centerX" id="Wpn-zS-Wjd"/>
+                            <constraint firstItem="W51-r5-jlS" firstAttribute="top" secondItem="RgN-ca-hXf" secondAttribute="top" constant="4" id="QkA-v0-X33"/>
                             <constraint firstItem="Xvl-gp-9RB" firstAttribute="trailing" secondItem="RgN-ca-hXf" secondAttribute="trailing" id="cTd-pr-V9z"/>
-                            <constraint firstItem="waj-9n-cEF" firstAttribute="top" secondItem="RgN-ca-hXf" secondAttribute="top" constant="13" id="eQZ-qQ-Ns6"/>
                             <constraint firstItem="Xvl-gp-9RB" firstAttribute="top" secondItem="Swn-e2-1Tk" secondAttribute="bottom" constant="2" id="mxy-AD-flY"/>
+                            <constraint firstItem="CR0-N1-IBg" firstAttribute="top" secondItem="RgN-ca-hXf" secondAttribute="top" constant="4" id="myQ-kS-th4"/>
                             <constraint firstItem="Xvl-gp-9RB" firstAttribute="leading" secondItem="RgN-ca-hXf" secondAttribute="leading" id="sAq-BR-Gi7"/>
                             <constraint firstItem="Xvl-gp-9RB" firstAttribute="top" secondItem="9Qx-ZA-Ve2" secondAttribute="bottom" constant="30" id="u6Y-CA-FXe"/>
                             <constraint firstItem="Swn-e2-1Tk" firstAttribute="centerX" secondItem="0VD-KM-e01" secondAttribute="centerX" id="vPK-7z-7Ll"/>
                             <constraint firstItem="9Qx-ZA-Ve2" firstAttribute="trailing" secondItem="RgN-ca-hXf" secondAttribute="trailing" id="ygL-jT-49q"/>
+                            <constraint firstItem="CR0-N1-IBg" firstAttribute="centerX" secondItem="0VD-KM-e01" secondAttribute="centerX" id="zgr-qA-zSd"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Analytics" image="chart.pie" catalog="system" id="6TN-tW-nfr"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="pageControl" destination="Swn-e2-1Tk" id="FZJ-TT-SCE"/>
+                        <outlet property="rootAccountButton" destination="CR0-N1-IBg" id="lyT-gk-vRr"/>
                         <outlet property="scrollView" destination="9Qx-ZA-Ve2" id="suf-pC-gyf"/>
-                        <outlet property="segmentedControl" destination="waj-9n-cEF" id="iVp-ZL-3Ge"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qpz-e8-Azp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -358,7 +351,7 @@
             <objects>
                 <viewController storyboardIdentifier="ConfigureAnalyticsVC_ID" id="Ifm-65-ZPx" customClass="ConfigureAnalyticsViewController" customModule="Accountant" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="zYe-Wv-IaC">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="sh4-nD-uIe"/>
                         <color key="backgroundColor" white="1" alpha="0.72964348590000006" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -373,17 +366,17 @@
             <objects>
                 <viewController storyboardIdentifier="BioAuthVC_ID" id="lXa-lN-w01" customClass="BiometricAuthViewController" customModule="Accountant" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="WeL-D3-piz">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="MyBudget" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sfm-lf-YZn">
-                                <rect key="frame" x="111.5" y="422" width="191" height="52"/>
+                                <rect key="frame" x="204.66666666666663" y="274" width="191" height="52"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="43"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XWr-qX-5fL">
-                                <rect key="frame" x="158" y="674" width="98" height="98"/>
+                                <rect key="frame" x="251" y="412" width="98" height="98"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="98" id="EMI-1F-NtZ"/>
                                     <constraint firstAttribute="height" constant="98" id="ZdY-mJ-qVE"/>
@@ -413,25 +406,25 @@
             </objects>
             <point key="canvasLocation" x="-5209" y="1892"/>
         </scene>
-        <!--Additional Launch Screen View Controller-->
+        <!--Preloader View Controller-->
         <scene sceneID="ExB-Vw-UeS">
             <objects>
-                <viewController storyboardIdentifier="AdditionalLaunchScreenVC_ID" id="89z-ck-eOH" customClass="AdditionalLaunchScreenViewController" customModule="Accountant" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="AdditionalLaunchScreenVC_ID" id="89z-ck-eOH" customClass="PreloaderViewController" customModule="Accountant" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="umX-Mb-DRW">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="MyBudget" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pIi-0a-mGv">
-                                <rect key="frame" x="111.5" y="422" width="191" height="52"/>
+                                <rect key="frame" x="204.66666666666663" y="274" width="191" height="52"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="43"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VWw-im-zws">
-                                <rect key="frame" x="0.0" y="474" width="414" height="388"/>
+                                <rect key="frame" x="0.0" y="326" width="600" height="274"/>
                                 <subviews>
                                     <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="phc-O7-2od">
-                                        <rect key="frame" x="188.5" y="175.5" width="37" height="37"/>
+                                        <rect key="frame" x="281.66666666666669" y="118.66666666666669" width="37" height="37"/>
                                     </activityIndicatorView>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -462,11 +455,12 @@
         </scene>
     </scenes>
     <resources>
-        <image name="chart.pie" catalog="system" width="128" height="121"/>
+        <image name="chart.pie" catalog="system" width="128" height="123"/>
         <image name="creditcard" catalog="system" width="128" height="88"/>
-        <image name="dollarsign.circle" catalog="system" width="128" height="121"/>
-        <image name="gear" catalog="system" width="128" height="119"/>
+        <image name="dollarsign.circle" catalog="system" width="128" height="123"/>
+        <image name="gear" catalog="system" width="128" height="122"/>
         <image name="list.dash" catalog="system" width="128" height="85"/>
+        <image name="slider.horizontal.3" catalog="system" width="128" height="99"/>
         <image name="touchid" catalog="system" width="128" height="122"/>
         <systemColor name="opaqueSeparatorColor">
             <color red="0.77647058823529413" green="0.77647058823529413" blue="0.78431372549019607" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

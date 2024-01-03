@@ -39,39 +39,107 @@ class TransactionItemCell: UITableViewCell {
         return textField
     }()
 
-    func configureCell(for transactionItem: TransactionItemSimpleViewModel, with delegate: TransactionItemCellDelegate, isUserInteractionEnabled: Bool) {
+    private let amountInAccountingCurrencyTextField: UITextField = {
+        let textField = UITextField()
+        textField.placeholder = NSLocalizedString("Amount in",
+                                                  tableName: Constants.Localizable.mITransactionEditor,
+                                                  comment: "")
+        textField.keyboardType = .decimalPad
+        textField.returnKeyType = UIReturnKeyType.done
+        textField.autocorrectionType = UITextAutocorrectionType.no
+        textField.font = UIFont.systemFont(ofSize: 13)
+        textField.borderStyle = UITextField.BorderStyle.roundedRect
+        textField.clearButtonMode = UITextField.ViewMode.whileEditing
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        textField.tag = 2
+        return textField
+    }()
+
+    func configureCell(for transactionItem: TransactionItemSimpleViewModel, with delegate: TransactionItemCellDelegate,
+                       accountingCurrencyCode: String, isUserInteractionEnabled: Bool) {
 
         accountButton.isUserInteractionEnabled = isUserInteractionEnabled
         amountTextField.isUserInteractionEnabled = isUserInteractionEnabled
-        
+        amountInAccountingCurrencyTextField.isUserInteractionEnabled = isUserInteractionEnabled
+
         self.transactionItem = transactionItem
         self.delegate = delegate
         amountTextField.delegate = self
+        amountInAccountingCurrencyTextField.delegate = self
         addDoneButtonOnDecimalKeyboard()
 
         accountButton.setTitle(transactionItem.path, for: .normal)
         amountTextField.text = (transactionItem.amount == 0) ? "" : String(transactionItem.amount)
+        amountTextField.placeholder = transactionItem.currency
+        amountInAccountingCurrencyTextField.text = (transactionItem.amountInAccountingCurrency == 0)
+        ? ""
+        : String(transactionItem.amountInAccountingCurrency)
+        amountInAccountingCurrencyTextField.placeholder = accountingCurrencyCode
 
         accountButton.addTarget(self, action: #selector(TransactionItemCell.selectAccount),
                                 for: .touchUpInside)
 
-        contentView.addSubview(amountTextField)
-        amountTextField.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -5).isActive = true
-        amountTextField.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
-        amountTextField.widthAnchor.constraint(equalToConstant: 100).isActive = true
+        if transactionItem.isAccountingCurrency {
+            contentView.addSubview(amountTextField)
+            amountTextField.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -5).isActive = true
+            amountTextField.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
+            amountTextField.widthAnchor.constraint(equalToConstant: 100).isActive = true
 
-        contentView.addSubview(accountButton)
-        accountButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 5).isActive = true
-        accountButton.trailingAnchor.constraint(equalTo: amountTextField.leadingAnchor, constant: -5).isActive = true
-        accountButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
+            contentView.addSubview(accountButton)
+            accountButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 5).isActive = true
+            accountButton.trailingAnchor.constraint(equalTo: amountTextField.leadingAnchor, constant: -5).isActive = true
+            accountButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
+        } else {
+            contentView.addSubview(amountInAccountingCurrencyTextField)
+            amountInAccountingCurrencyTextField.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -5).isActive = true
+            amountInAccountingCurrencyTextField.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
+            amountInAccountingCurrencyTextField.widthAnchor.constraint(equalToConstant: 100).isActive = true
+
+            contentView.addSubview(amountTextField)
+            amountTextField.trailingAnchor.constraint(equalTo: amountInAccountingCurrencyTextField.leadingAnchor, constant: -5).isActive = true
+            amountTextField.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
+            amountTextField.widthAnchor.constraint(equalToConstant: 100).isActive = true
+
+            contentView.addSubview(accountButton)
+            accountButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 5).isActive = true
+            accountButton.trailingAnchor.constraint(equalTo: amountTextField.leadingAnchor, constant: -5).isActive = true
+            accountButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
+        }
     }
 
     func textFieldDidEndEditing(_ textField: UITextField) {
-        if textField.tag == 1, let text = textField.text,
-           let amount = Double(text.replacingOccurrences(of: ",", with: ".")) {
-            delegate.setAmount(forTrasactionItem: transactionItem.id, amount: amount)
+        if transactionItem.isAccountingCurrency {
+            amountInAccountingCurrencyTextField.text = amountTextField.text
+        }
+
+        if let amountText = amountTextField.text,
+           let amount = Double(amountText.replacingOccurrences(of: ",", with: ".")),
+           let amountInAccountingCurrencyText = amountInAccountingCurrencyTextField.text,
+           let amountInAccountingCurrency = Double(amountInAccountingCurrencyText.replacingOccurrences(of: ",", with: ".")) {
+
+            delegate.setAmount(forTrasactionItem: transactionItem.id,
+                               amount: amount,
+                               amountInAccountingCurrency: amountInAccountingCurrency)
+        } else  if let amountText = amountTextField.text,
+                   let amount = Double(amountText.replacingOccurrences(of: ",", with: ".")),
+                   (amountInAccountingCurrencyTextField.text == nil || (
+                    amountInAccountingCurrencyTextField.text != nil &&
+                    Double(amountInAccountingCurrencyTextField.text!.replacingOccurrences(of: ",", with: ".")) == nil)) {
+
+            delegate.setAmount(forTrasactionItem: transactionItem.id,
+                               amount: amount,
+                               amountInAccountingCurrency: 0)
+        } else  if let amountInAccountingCurrencyText = amountInAccountingCurrencyTextField.text,
+                   let amountInAccountingCurrency = Double(amountInAccountingCurrencyText.replacingOccurrences(of: ",", with: ".")),
+                    (amountTextField.text == nil || (
+                        amountTextField.text != nil &&
+                        Double(amountTextField.text!.replacingOccurrences(of: ",", with: ".")) == nil)) {
+
+            delegate.setAmount(forTrasactionItem: transactionItem.id,
+                               amount: 0,
+                               amountInAccountingCurrency: amountInAccountingCurrency)
         } else {
-            delegate.setAmount(forTrasactionItem: transactionItem.id, amount: 0)
+            delegate.setAmount(forTrasactionItem: transactionItem.id, amount: 0, amountInAccountingCurrency: 0)
         }
     }
 
@@ -93,9 +161,11 @@ class TransactionItemCell: UITableViewCell {
         doneToolbar.items = [flexSpace, done]
         doneToolbar.sizeToFit()
         amountTextField.inputAccessoryView = doneToolbar
+        amountInAccountingCurrencyTextField.inputAccessoryView = doneToolbar
     }
 
     @objc private func doneButtonAction() {
         amountTextField.resignFirstResponder()
+        amountInAccountingCurrencyTextField.resignFirstResponder()
     }
 }

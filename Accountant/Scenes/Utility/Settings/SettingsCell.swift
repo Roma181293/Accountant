@@ -1,5 +1,5 @@
 //
-//  SettingsTableViewCell.swift
+//  SettingsCell.swift
 //  Accountant
 //
 //  Created by Roman Topchii on 10.09.2021.
@@ -10,8 +10,8 @@ import LocalAuthentication
 
 class SettingsCell: UITableViewCell {
 
-    private var dataItem: SettingsViewController.DataSource!
-    private var delegate: SettingsViewController!
+    private var dataItem: SettingsViewModel.SettingsItem!
+    private weak var delegate: SettingsItemSwitcherDelegate?
 
     private let iconImangeView: UIImageView = {
         let imageView  = UIImageView()
@@ -63,7 +63,7 @@ class SettingsCell: UITableViewCell {
         accessoryType = .none
     }
 
-    func configureCell(for dataItem: SettingsViewController.DataSource, with delegate: SettingsViewController) { // swiftlint:disable:this cyclomatic_complexity function_body_length line_length
+    func configureCell(for dataItem: SettingsViewModel.SettingsItem, with delegate: SettingsItemSwitcherDelegate) { // swiftlint:disable:this cyclomatic_complexity function_body_length line_length
         self.delegate = delegate
         self.dataItem = dataItem
 
@@ -77,35 +77,36 @@ class SettingsCell: UITableViewCell {
                                             tableName: Constants.Localizable.settingsVC,
                                             comment: "")
         switch dataItem {
-//        case .offer:
-//            if delegate.isUserHasPaidAccess {
-//                titleLabel.text = NSLocalizedString("PRO access",
-//                                                    tableName: Constants.Localizable.settingsVC,
-//                                                    comment: "")
-//            } else {
-//                titleLabel.text = NSLocalizedString("Get PRO access",
-//                                                    tableName: Constants.Localizable.settingsVC,
-//                                                    comment: "")
-//            }
-//            if delegate.isUserHasPaidAccess && delegate.proAccessExpirationDate != nil {
-//                let formatter = DateFormatter()
-//                formatter.dateStyle = .short
-//                formatter.timeStyle = .none
-//                formatter.locale = Locale(identifier: "\(Bundle.main.localizations.first ?? "en")_\(Locale.current.regionCode ?? "US")") // swiftlint:disable:this line_length
-//                detailLabel.text = NSLocalizedString("till", comment: "") + " " + formatter.string(from: delegate.proAccessExpirationDate!) // swiftlint:disable:this line_length
-//            }
-//            badgeView.proBadge()
-//            badgeView.isHidden = false
-//            iconImangeView.isHidden = true
+        case .offer:
+            if delegate.isUserHasPaidAccess {
+                titleLabel.text = NSLocalizedString("PRO access",
+                                                    tableName: Constants.Localizable.settingsVC,
+                                                    comment: "")
+                if delegate.paidAccessExpirationDate != nil {
+                    let formatter = DateFormatter()
+                    formatter.dateStyle = .short
+                    formatter.timeStyle = .none
+                    formatter.locale = Locale(identifier: "\(Bundle.main.localizations.first ?? "en")_\(Locale.current.regionCode ?? "US")") // swiftlint:disable:this line_length
+                    detailLabel.text = NSLocalizedString("till", comment: "") + " " + formatter.string(from: delegate.paidAccessExpirationDate!) // swiftlint:disable:this line_length
+                }
+            } else {
+                titleLabel.text = NSLocalizedString("Get PRO access",
+                                                    tableName: Constants.Localizable.settingsVC,
+                                                    comment: "")
+            }
+
+            badgeView.proBadge()
+            badgeView.isHidden = false
+            iconImangeView.isHidden = true
         case .auth:
             switcher.isHidden = false
             let context = LAContext()
-            if context.canEvaluatePolicy(.deviceOwnerAuthentication, error: nil) {
+            if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: nil) {
                 if context.biometryType == .faceID {
-                    titleLabel.text = "FaceID"
+                    titleLabel.text = "Face ID"
                     iconImangeView.image = UIImage(systemName: "faceid")
                 } else if context.biometryType == .touchID {
-                    titleLabel.text = "TouchID"
+                    titleLabel.text = "Touch ID"
                     iconImangeView.image = UIImage(systemName: "touchid")
                 } else if context.biometryType == .none {
                     titleLabel.text = NSLocalizedString("Pin code",
@@ -132,11 +133,7 @@ class SettingsCell: UITableViewCell {
             iconImangeView.image = UIImage(systemName: "gamecontroller")
             iconImangeView.tintColor = .systemYellow
         case .accountingCurrency:
-            if let currency = CurrencyHelper.getAccountingCurrency(context: delegate.context) {
-                detailLabel.text = currency.code
-            } else {
-                detailLabel.text = "No currency"
-            }
+            detailLabel.text = delegate.acountungCurrency
             iconImangeView.image = UIImage(systemName: "dollarsign.circle")
             iconImangeView.tintColor = .systemGreen
         case .archive:
@@ -218,15 +215,11 @@ class SettingsCell: UITableViewCell {
 
     @objc private func switching(_ sender: UISwitch) {
         if dataItem == .auth {
-            if sender.isOn {
-                UserProfileService.setUserAuth(.bioAuth)
-            } else {
-                UserProfileService.setUserAuth(.none)
-            }
+            delegate?.switchFor(dataItem, isOn: sender.isOn)
         } else if dataItem == .envirement {
             activityIndicator.startAnimating()
             self.activityIndicator.isHidden = false
-            delegate.setEnvironmentToTest(sender.isOn)
+            delegate?.switchFor(dataItem, isOn: sender.isOn)
             self.activityIndicator.stopAnimating()
             self.activityIndicator.isHidden = true
         }

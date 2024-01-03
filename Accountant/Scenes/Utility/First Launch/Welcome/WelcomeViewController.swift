@@ -10,30 +10,28 @@ import UIKit
 class WelcomeViewController: UIViewController {
 
     private lazy var mainView: WelcomeView = {return WelcomeView(controller: self)}()
+    private lazy var viewModel = WelcomeViewModel()
 
     override func viewDidLoad() {
         super.viewDidLoad()
     }
 
     override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
-        mainView.startAccountingButton.isUserInteractionEnabled = true
-        mainView.testButton.isUserInteractionEnabled = true
+        super.viewWillAppear(animated)
+        switchIsUserInteractionEnabled(to: true)
     }
 
     @objc func startAccounting(_ sender: UIButton) {
-        mainView.startAccountingButton.isUserInteractionEnabled = false
-        mainView.testButton.isUserInteractionEnabled = false
+        switchIsUserInteractionEnabled(to: false)
         self.navigationController?.pushViewController(StartAccountingViewController(), animated: true)
     }
 
     @objc func tryFunctionality(_ sender: UIButton) {
-        mainView.startAccountingButton.isUserInteractionEnabled = false
-        mainView.testButton.isUserInteractionEnabled = false
-        CoreDataStack.shared.switchPersistentStore(.test)
+        switchIsUserInteractionEnabled(to: false)
+
         do {
-            try CoreDataStack.shared.restorePersistentStore(.test)
-            try SeedDataService.addTestData(persistentContainer: CoreDataStack.shared.persistentContainer)
+            try viewModel.switchToTestData()
+
             let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
             let tabBar = storyBoard.instantiateViewController(withIdentifier: Constants.Storyboard.tabBarController)
             self.navigationController?.popToRootViewController(animated: false)
@@ -45,7 +43,12 @@ class WelcomeViewController: UIViewController {
         }
     }
 
-    func errorHandler(error: Error) {
+    private func switchIsUserInteractionEnabled(to value: Bool) {
+        mainView.startAccountingButton.isUserInteractionEnabled = value
+        mainView.testButton.isUserInteractionEnabled = value
+    }
+
+    private func errorHandler(error: Error) {
         let alert = UIAlertController(title: NSLocalizedString("Error",
                                                                tableName: Constants.Localizable.welcome,
                                                                comment: ""),

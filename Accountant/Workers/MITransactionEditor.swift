@@ -17,6 +17,7 @@ protocol MITransactionEditorDelegate: AnyObject {
 
 protocol MITransactionEditorInput: AnyObject {
     var isNewTransaction: Bool { get }
+    var accountingCurrencyCode: String { get }
     var transactionDate: Date { get }
     func setDate(_ date: Date) throws
     var transactionStatus: Transaction.Status { get }
@@ -25,7 +26,7 @@ protocol MITransactionEditorInput: AnyObject {
     func addEmptyTransactionItem(type: TransactionItem.TypeEnum)
     func deleteTransactionItem(id: UUID)
     func setAccount(_ account: Account, forTransactionItem id: UUID)
-    func setAmount(forTrasactionItem id: UUID, amount: Double)
+    func setAmount(forTrasactionItem id: UUID, amount: Double, amountInAccountingCurrency: Double)
     func setComment(_ comment: String?)
     func usedAccountList() -> [Account]
     func rootAccountFor(transactionItemId: UUID) -> Account?
@@ -38,12 +39,13 @@ class MITransactionEditor: MITransactionEditorInput {
     weak var delegate: MITransactionEditorDelegate?
 
     private(set) var isNewTransaction: Bool = true
+    var accountingCurrencyCode: String {
+        return CurrencyHelper.getAccountingCurrency(context: context)?.code ?? ""
+    }
     private(set) var transaction: Transaction
     let archivedPeriodDate: Date?
     var transactionDate: Date {
-        get {
-            return transaction.date
-        }
+        return transaction.date
     }
 
     var transactionStatus: Transaction.Status {
@@ -69,11 +71,18 @@ class MITransactionEditor: MITransactionEditorInput {
     }
 
     func addEmptyTransactionItem(type: TransactionItem.TypeEnum = .credit) {
-        if transaction.itemsList.count == 1 {
-            _ = TransactionItem(transaction: transaction, type: type, amount: transaction.itemsList.first!.amount,
+        if transaction.itemsList.count == 1 && transaction.itemsList.first!.account?.currency?.isAccounting == true {
+            _ = TransactionItem(transaction: transaction,
+                                type: type,
+                                amount: transaction.itemsList.first!.amount,
+                                amountInAccountingCurrency: transaction.itemsList.first!.amountInAccountingCurrency,
                                 context: context)
         } else {
-            _ = TransactionItem(transaction: transaction, type: type, amount: 0, context: context)
+            _ = TransactionItem(transaction: transaction,
+                                type: type,
+                                amount: 0,
+                                amountInAccountingCurrency: 0,
+                                context: context)
         }
         delegate?.fetched(transactionItems: transaction.itemsList)
     }
@@ -116,9 +125,10 @@ class MITransactionEditor: MITransactionEditorInput {
          */
     }
 
-    func setAmount(forTrasactionItem id: UUID, amount: Double) {
+    func setAmount(forTrasactionItem id: UUID, amount: Double, amountInAccountingCurrency: Double) {
         let item = getTransactionItemWithId(id)
         item?.amount = amount
+        item?.amountInAccountingCurrency = amountInAccountingCurrency
         item?.modifyDate = Date()
         item?.modifiedByUser = true
         delegate?.fetched(transactionItems: self.transaction.itemsList)
@@ -161,16 +171,17 @@ class MITransactionEditor: MITransactionEditorInput {
         } else {
             transaction.status = .approved
         }
+        let modifyDate = Date()
         if isNewTransaction {
-            let date = Date()
-            transaction.createDate = date
-            transaction.modifyDate = date
+            transaction.createDate = modifyDate
+            transaction.modifyDate = modifyDate
             transaction.itemsList.forEach({
-                $0.createDate = date
-                $0.modifyDate = date
+                $0.createDate = modifyDate
+                $0.modifyDate = modifyDate
             })
             context.save(with: .addMultiItemTransaction)
         } else {
+            transaction.modifyDate = modifyDate
             context.save(with: .editMultiItemTransaction)
         }
     }

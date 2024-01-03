@@ -16,9 +16,12 @@
 "Export and import of transactions" = "Экспорт и импорт транзакций";
 "Security" = "Безопасность";
 "No ads" = "Нет рекламе";
+"Already have a \"PRO\" subscription?" = "Уже есть \"PRO\" подписка?";
 "Terms of use" = "Условия использования";
 "Privacy policy" = "Политика конфиденциальности";
 "Subscribe" = "Оформить подписку";
+"We found no active subscriptions" = "Ми не нашли подписок з активной предоплатой";
+"We found active subscriptions. We wish you a pleasant use" = "Мы нашли активные подписки. Желаем вам приятного использования";
 
 //OfferView
 "per 3 days" = "за 3 дня";
